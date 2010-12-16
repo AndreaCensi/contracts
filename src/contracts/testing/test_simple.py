@@ -1,109 +1,31 @@
-from contracts.main import parse_contract_string
-from contracts.testing.utils import check_contract_single_fail, \
-    check_contract_single_ok
+from contracts.main import parse_contract_string 
+from contracts.interface import ContractSemanticError, ContractNotRespected
+from contracts.testing.utils import check_contracts_ok, check_syntax_fail, \
+    check_contracts_fail
+from contracts.test_registrar import (good_examples, semantic_fail_examples,
+                                      syntax_fail_examples, contract_fail_examples)
 
-good_examples = []
-fail_examples = []
-def good_example(a, b): good_examples.append((a, b))
-def fail_example(a, b): fail_examples.append((a, b))
+from . import test_multiple #@UnusedImport
 
-# dummy
-good_example('*', 0)
-good_example('*', [1])
-good_example('*', None)
-
-
-# Basic comparisons
-good_example('=0', 0)
-good_example('==0', 0)
-fail_example('=0', 1)
-fail_example('==0', 1)
-fail_example('=0', [0])
-good_example('!=0', 1)
-fail_example('!=0', 0)
-good_example('>0', 1)
-fail_example('>0', 0)
-fail_example('>0', -1)
-good_example('>=0', 1)
-good_example('>=0', 0)
-fail_example('>=0', -1)
-good_example('<0', -1)
-fail_example('<0', 0)
-fail_example('<0', +1)
-good_example('<=0', -1)
-good_example('<=0', 0)
-fail_example('<=0', +1)
-
-# wrong types
-fail_example('>0', [])
-# big letters can only bind to numbers
-good_example('N,N>0', 1)
-fail_example('N,N>0', 0)
-fail_example('N', [])
-
-
-# AND
-fail_example('=0,=1', 0)
-good_example('=0,>=0', 0)
-
-# OR
-good_example('=0|=1', 0)
-good_example('=0|=1', 1)
-fail_example('=0|=1', 2)
-
-
-# TODO: error if N matches something except a number. x,y,z 
-
-good_example('int', 1)
-fail_example('int', None)
-fail_example('int', 2.0)
-good_example('float', 1.1)
-fail_example('float', None)
-fail_example('float', 2)
-
-
-good_example('list', [])
-fail_example('list', 'ciao')
-good_example('list[*]', [])
-good_example('list[*]', [1])
-good_example('list[*](*)', [1])
-good_example('list[*](float)', [1.0])
-fail_example('list[*](float)', [1])
-
-good_example('=1', 1)
-fail_example('=1', [1])
-good_example('list[=1]', [0])
-good_example('list[=2]', [0, 1])
-fail_example('list[=2]', [0])
-good_example('list[1]', [0]) # shortcut
-good_example('list[2]', [0, 1])
-fail_example('list[2]', [0])
-good_example('list(int)', [])
-good_example('list(int)', [0, 1])
-fail_example('list(int)', [0, 'a'])
-fail_example('list(int)', [0, 'a'])
-good_example('list(int,>0)', [2, 1])
-fail_example('list(int,>0)', [0, 1])
-good_example('list(int,=0)', [0, 0])
-
-# with parametric lengths 
-good_example('list[N]', [])
-good_example('list[N],N>0', [1])
-good_example('list[N],N=1', [1])
-good_example('list[N],N>0,N<2', [1])
-fail_example('list[N],N>0', [])
-
-   
-def test_simple_expressions_ok():
+def test_good():
     for contract, value in good_examples:
-        yield check_contract_single_ok, contract, value
+        yield check_contracts_ok, contract, value
 
-def test_simple_expressions_fail():
-    for contract, value in fail_examples:
-        yield check_contract_single_fail, contract, value
+def test_syntax_fail():
+    for s in syntax_fail_examples:
+        yield check_syntax_fail, s
+    
+def test_semantic_fail():
+    for contract, value in semantic_fail_examples:
+        yield check_contracts_fail, contract, value, ContractSemanticError
+
+def test_contract_fail():
+    for contract, value in contract_fail_examples:
+        yield check_contracts_fail, contract, value, ContractNotRespected
+
         
 if False:
-    for contract, value in (good_examples + fail_examples):
+    for contract, value in (good_examples + semantic_fail_examples):
         parsed = parse_contract_string(contract)
         if str(parsed) == contract:
             mark = ' '

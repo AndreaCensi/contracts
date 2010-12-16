@@ -8,13 +8,13 @@ def check_contracts(contracts, values):
         Checks that the values respect the contract. 
         
         :param contracts: List of contracts.
-        :type contracts:  list(N,str),N>0
+        :type contracts:  list[N](str),N>0
         
         :param values: Values that should match the contracts.
-        :type values: list(N)
+        :type values: list[N]
     
         :return: a Context variable 
-        :rtype: Context
+        :rtype: type(Context)
         
         :raise: ContractError
     '''
@@ -22,6 +22,8 @@ def check_contracts(contracts, values):
     
     C = []
     for x in contracts:
+        if not isinstance(x, str):
+            raise ValueError('I expect arguments to be strings, not %r. ' % x)
         C.append(parse_contract_string(x))
 
     context = Context()

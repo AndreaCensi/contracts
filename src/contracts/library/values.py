@@ -4,27 +4,6 @@ from contracts.syntax import W, add_contract, rvalues
 from pyparsing import Literal
 from contracts.library.variables import variables
 from contracts.library.lists import O
-##
-#class CheckEquality(Contract):
-#    
-#    def __init__(self, where, expected_value):
-#        Contract.__init__(self, where)
-#        self.expected_value = expected_value
-#    
-#    def check_contract(self, context, value):
-#        expected = context.eval(self.expected_value)
-#        if not (value == expected):
-#            error = 'Expected %r, got %r.' % (self.expected_value, value)
-#            raise ContractNotRespected(
-#                    contract=self,
-#                    error=error,
-#                    value=value,
-#                    context=context)
-#    
-#    @staticmethod
-#    def parse_action(s, loc, tokens):
-#        expected = tokens['expected']
-#        return CheckEquality(W(s, loc), expected)
 
 class CheckOrder(Contract):
     

@@ -1,39 +1,42 @@
 from contracts import check_contracts
-from contracts.interface import ContractNotRespected, ContractSemanticError
+from contracts.interface import ContractNotRespected, ContractSemanticError, \
+    ContractSyntaxError
 from contracts.main import parse_contract_string
 
-def check_contract_single_ok(contract, value):
-    check_contracts([contract], [value])
+def check_contracts_ok(contract, value):
+    if isinstance(contract, str):
+        contract = [contract]
+        value = [value]
+    check_contracts(contract, value)
             
-def check_contract_single_fail(contract, value):
+def check_contracts_fail(contract, value, error):
+    if isinstance(contract, str):
+        contract = [contract]
+        value = [value]
+        
     try:
-        context = check_contracts([contract], [value])
+        context = check_contracts(contract, value)
         
         msg = ('I was expecting that %r would not satisfy %r.\n' % 
                (value, contract))
-        parsed_contract = parse_contract_string(contract)
-        msg += ' contract:         %s\n' % parsed_contract
         msg += ' matched context:  %s\n' % context
+        for c in contract:
+            parsed_contract = parse_contract_string(c)
+            msg += ' contract:         %s\n' % parsed_contract
         raise Exception(msg)
     
-    except (ContractNotRespected, ContractSemanticError) as e:
+    except error as e:
         pass
 
-
-
-def check_contracts_ok(contracts, values):
-    check_contracts(contracts, values)
-            
-def check_contracts_fail(contracts, values):
+def check_syntax_fail(string):
+    assert isinstance(string, str)
+    
     try:
-        context = check_contracts(contracts, values)
-        
-        msg = ('I was expecting that %r would not satisfy %r.\n' % 
-               (values, contracts))
-#        parsed_contract = parse_contract_string(contract)
-#        msg += ' contract:         %s\n' % parsed_contract
-#        msg += ' matched context:  %s\n' % context
+        parsed_contract = parse_contract_string(string)
+        msg = 'I would not expect to parse %r.' % string
+        msg += ' contract:         %s\n' % parsed_contract
         raise Exception(msg)
     
-    except (ContractNotRespected, ContractSemanticError) as e:
+    except ContractSyntaxError:
         pass
+    

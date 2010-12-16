@@ -19,3 +19,4 @@ dist
 *.pyc
 *.pyo
 *.tmp*
+src/.noseids
