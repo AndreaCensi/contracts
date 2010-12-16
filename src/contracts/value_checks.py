@@ -1,14 +1,10 @@
 
-'array(HxWx3,'
-
-
 aliases = {
     'rgb': 'array(HxWx3,uint8)',
     'grayscale': 'array(HxW,uint8)',
                       
     'finite': '!anynan !anyinf',
 }
-
 
 # tests:
 tests = [
@@ -26,10 +22,7 @@ tests = [
     'array()',
     'array(3x3)',
     'finite'
-]
-
-4
-
+] 
 
 
 

@@ -1,66 +1,106 @@
+from procgraph.core.exceptions import add_prefix
+from copy import deepcopy
 
 class ContractException(Exception):
     pass
 
-#class Where:
-#    ''' Represents a position in the stream. '''
-    
-
-class ParsingError(ContractException):
-    ''' Raised when we couldn't parse an expression. '''
-    def __init__(self, error, where):
+class ContractSyntaxError(ContractException):
+    ''' A syntactic error by who wrote the model spec.'''
+    def __init__(self, error, where=None):
         self.error = error
         self.where = where
-
+        
     def __str__(self):
-        return self.error
+        s = self.error
+        s += "\n\n" + add_prefix(self.where.__str__(), ' ')
+        return s 
+
     
-class ContractNotRespected(Exception):
+class ContractNotRespected(ContractException):
     
-    def __init__(self, contract, error, value, expected, context):
+    def __init__(self, contract, error, value, context):
         self.contract = contract
         self.error = error
         self.value = value
-        self.expected = expected
         self.context = context
         
     def __str__(self):
-        return self.error
-
-def check_contracts(contracts, values):
-    ''' 
-        Checks that the values respect the contract. 
-        
-        :param contracts: List of contracts.
-        :type contracts:  list(N,str),N>0
-        
-        :param values: Values that should match the contracts.
-        :type values: list(N)
+        msg = 'Contract breach: ' + str(self.error) + '\n'
+        msg += '- context: %r\n' % self.context
+        msg += '- contract: %r\n' % self.contract
+        return msg
     
-        :return: True if everything matches.
-        :rtype: bool
+class ContractSemanticError(ContractException):
+    
+    def __init__(self, contract, error, context):
+        self.contract = contract
+        self.error = error
+        self.context = context
         
-        :raise: ContractError
-    '''
-    pass
+    def __str__(self):
+        msg = 'Contract semantic error: ' + str(self.error) + '\n'
+        msg += '- context: %r\n' % self.context
+        msg += '- contract: %r\n' % self.contract
+        return msg
+        
+class BoundVariable:
+    def __init__(self, value, description, origin):
+        self.value = value
+        self.description = description
+        self.origin = origin
+        
+    def __repr__(self):
+        return "%r" % self.value
 
-
-def add_contract_type(ctype):
-    pass
+class VariableRef:
+    def __init__(self, where, variable):
+        self.variable = variable
+        self.where = where
+    def __repr__(self):
+        return self.variable
 
 class Context:
     ''' Class that represents the context for checking an expression. '''
-    
-    def __init__(self):
-        self.variables = {}
         
-    def add_variable(self, name, desc, origin, value):
-        pass
+    def __init__(self):
+        self._variables = {}
+        
+    def has_variable(self, name):
+        return name in self._variables
+    
+    def get_variable(self, name):
+        assert self.has_variable(name)
+        return self._variables[name].value
+    
+    def set_variable(self, name, value, description=None, origin=None):
+        assert not self.has_variable(name)
+        self._variables[name] = BoundVariable(value, description, origin)
+    
+    def eval(self, value, contract_ref=None):
+        if isinstance(value, VariableRef):
+            var = value.variable
+            if not var in self._variables:
+                msg = ('Unknown variable %r. I know %s.' % 
+                       (var, self._variables.keys()))
+                raise ContractSemanticError(contract_ref, msg, self)
+            else:
+                return self._variables[var].value
+        else:
+            return value
 
+    def copy(self):
+        ''' Returns a copy of this context. '''
+        return deepcopy(self)
+    
+    def __repr__(self):
+        return 'Context(%r)' % self._variables
+        
 class Contract:
     
-    def __init__(self, expression):
-        pass
+    def __init__(self, where):
+        from procgraph.core.parsing_elements import Where
+        assert isinstance(where, Where)
+        self.where = where
     
     def check_contract(self, context, value):
         ''' 
@@ -68,13 +108,6 @@ class Contract:
             context. 
         '''
         pass
-    
-    
-    def get_syntax(self):
-        ''' Returns the pyparsing syntax that matches this contract. '''
-    
-        pass
-    
     
     
     
