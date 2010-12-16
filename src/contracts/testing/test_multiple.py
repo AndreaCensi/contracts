@@ -46,3 +46,8 @@ fail(['list(type(x))', 'list(type(x))'], [ [1, 2], [3.0, 4]])
 good(['list(type(x))', 'list(type(y)), x=y'], [ [1, 2], [3, 4]])
 fail(['list(type(x))', 'list(type(y)), x=y'], [ [1, 2], [3.0, 4]])
 
+# a list with at most two types
+good('list(type(x|y))', [1, 2, 3, 4.0])
+fail('list(type(x|y))', [1, 2, 'ciao', 4.0])
+
+

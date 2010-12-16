@@ -1,9 +1,9 @@
+import numbers
+
 from contracts.interface import Contract, ContractNotRespected, VariableRef, \
     ContractSemanticError
-from contracts.syntax import W, add_contract, rvalues
-from pyparsing import Literal
-from contracts.library.variables import variables
-from contracts.library.lists import O
+from contracts.syntax import W, add_contract, rvalues, O, Literal
+from contracts.library.variables import int_variables, misc_variables
 
 class CheckOrder(Contract):
     
@@ -24,25 +24,39 @@ class CheckOrder(Contract):
             val1 = value
         else:
             val1 = context.eval(self.expr1, self)
-            
-        number = (int, float)
-            
+                    
         val2 = context.eval(self.expr2, self)
 
-        for val in [val1, val2]:
-            if not isinstance(val, number):
-                msg = ('I can only compare numbers, not %r.' % 
-                       val.__class__.__name__) 
+        isnumber = lambda x: isinstance(x, numbers.Number)
+        
+        # Check if we only need to check equality
+        # in that case, we don't care for the type
+        if (self.smaller, self.equal, self.larger) == (False, True, False):
+            # but we want them to be either numbers or same type
+            if (not (isnumber(val1) and isnumber(val2))) and \
+                type(val1) != type(val2):
+                msg = ("I won't let you compare two different types if they "
+                       "are not numbers (%s,%s)" % (type(val1), type(val2))) 
                 raise ContractSemanticError(self, msg, context)
         
-        if val1 < val2:
-            ok = self.smaller
-        elif val1 > val2:
-            ok = self.larger
+            ok = (val1 == val2)
         else:
-            assert val1 == val2
-            ok = self.equal
-        
+            # We potentially want < or >. They must be numbers.
+    
+            for val in [val1, val2]:
+                if not isinstance(val, numbers.Number):
+                    msg = ('I can only compare the order of numbers, not %r.' % 
+                           val.__class__.__name__) 
+                    raise ContractSemanticError(self, msg, context)
+            
+            if val1 < val2:
+                ok = self.smaller
+            elif val1 > val2:
+                ok = self.larger
+            else:
+                assert val1 == val2
+                ok = self.equal
+            
         if not ok:
             error = ('Condition %s %s %s not respected' % 
                     (val1, self.glyph, val2))
@@ -68,11 +82,13 @@ class CheckOrder(Contract):
             return CheckOrder(where, expr1, expr2, smaller, equal, larger)
         return parse 
 
-variable_ref = variables.copy()
 
 def create_var_ref(s, loc, tokens):
     where = W(s, loc)
     return VariableRef(where, tokens[0])
+
+variable_ref = (int_variables.copy() ^ misc_variables.copy())
+#variable_ref = (int_variables.copy())
 
 variable_ref.setParseAction(create_var_ref)
 

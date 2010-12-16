@@ -1,8 +1,5 @@
-from pyparsing import Optional, Suppress
-from ..syntax import add_contract
 from ..interface import Contract, ContractNotRespected
-from ..syntax import W, contract, integer
-from .dummy import DummyContract
+from ..syntax import add_contract, W, contract, integer, O, S
 
 class List(Contract):
     
@@ -21,8 +18,10 @@ class List(Contract):
             self.length_contract.check_contract(context, len(value))
         
         if self.elements_contract is not None:
-            for i, element in enumerate(value):
-                context2 = context.copy()
+            for i, element in enumerate(value): #@UnusedVariable
+                # context2 = context.copy()
+                # We should use the same context; perhaps we are breaking sthg?
+                context2 = context
                 self.elements_contract.check_contract(context2, element)
     
     def __repr__(self):
@@ -35,18 +34,9 @@ class List(Contract):
             
     @staticmethod
     def parse_action(s, loc, tokens):
-        from .values import CheckOrder
-
-        
         where = W(s, loc)
-        
         if 'length_contract' in tokens:
-            assert not 'length' in tokens
             length_contract = tokens['length_contract']
-        elif 'length' in tokens:
-            assert not 'length_contract' in tokens
-            expected = tokens['length']
-            length_contract = CheckOrder(where, None, expected, False, True, False)
         else:
             length_contract = None
             
@@ -55,17 +45,12 @@ class List(Contract):
         else: 
             elements_contract = None
         
-        return  List(where,
-                     length_contract=length_contract,
-                     elements_contract=elements_contract)
-
-
-O = Optional
-S = Suppress
+        return List(where, length_contract, elements_contract)
+ 
 
 list_contract = (S('list') + 
                  # allow shortcut: list[1] instead of list[=1]
-                 O(S('[') + (integer('length') ^ contract('length_contract')) + S(']')) + 
+                 O(S('[') + contract('length_contract') + S(']')) + 
                  O(S('(') + contract('elements_contract') + S(')')))
 list_contract.setParseAction(List.parse_action)
 

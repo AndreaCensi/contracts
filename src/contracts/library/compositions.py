@@ -1,6 +1,6 @@
 from pyparsing import delimitedList, OneOrMore, Suppress
-from .syntax import simple_contract, W
-from .interface import Contract, ContractNotRespected
+from ..syntax import simple_contract, W
+from ..interface import Contract, ContractNotRespected
 
 
 class OR(Contract):

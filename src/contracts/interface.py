@@ -74,6 +74,7 @@ class Context:
     
     def set_variable(self, name, value, description=None, origin=None):
         assert not self.has_variable(name)
+        # print 'Set %s = %r' % (name, value)
         self._variables[name] = BoundVariable(value, description, origin)
     
     def eval(self, value, contract_ref=None):
