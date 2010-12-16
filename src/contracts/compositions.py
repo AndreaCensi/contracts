@@ -1,7 +1,6 @@
 from pyparsing import delimitedList, OneOrMore, Suppress
-from contracts.syntax import simple_contract, W
-from contracts.interface import Contract, ContractNotRespected
-from imaplib import Literal
+from .syntax import simple_contract, W
+from .interface import Contract, ContractNotRespected
 
 
 class OR(Contract):
@@ -60,8 +59,7 @@ class And(Contract):
         return s
 
 
-def at_least_2_delim_list(what, delim):
-    #return (what + OneOrMore(Suppress(delim) + what))('elements')
+def at_least_2_delim_list(what, delim): 
     return (what + OneOrMore(Suppress(delim) + what))
 
 and_op = at_least_2_delim_list(simple_contract, ',') 

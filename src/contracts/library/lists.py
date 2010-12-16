@@ -1,9 +1,8 @@
-import sys
 from pyparsing import Optional, Suppress
 from ..syntax import add_contract
-from contracts.interface import Contract, ContractNotRespected
-from contracts.syntax import W, DummyContract, contract, integer
-
+from ..interface import Contract, ContractNotRespected
+from ..syntax import W, contract, integer
+from .dummy import DummyContract
 
 class List(Contract):
     

@@ -32,12 +32,6 @@ simple_contract = Forward()
 def add_contract(x):
     ParsingTmp.contract_types.append(x)
 
-class DummyContract(Contract):
-    ''' Always true. '''
-
-    def __repr__(self):
-        return '*'
-    
 
 from . import library
 from .compositions import composite_contract

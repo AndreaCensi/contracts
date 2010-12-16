@@ -8,6 +8,11 @@ fail_examples = []
 def good_example(a, b): good_examples.append((a, b))
 def fail_example(a, b): fail_examples.append((a, b))
 
+# dummy
+good_example('*', 0)
+good_example('*', [1])
+good_example('*', None)
+
 
 # Basic comparisons
 good_example('=0', 0)
@@ -50,6 +55,12 @@ fail_example('float', 2)
 
 good_example('list', [])
 fail_example('list', 'ciao')
+good_example('list[*]', [])
+good_example('list[*]', [1])
+good_example('list[*](*)', [1])
+good_example('list[*](float)', [1.0])
+fail_example('list[*](float)', [1])
+
 good_example('=1', 1)
 fail_example('=1', [1])
 good_example('list[=1]', [0])

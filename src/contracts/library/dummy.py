@@ -1,0 +1,17 @@
+from contracts.interface import Contract
+from contracts.syntax import add_contract, W
+from pyparsing import Literal
+
+
+class DummyContract(Contract):
+    ''' Always true. '''
+
+    def __repr__(self):
+        return '*'
+    
+    @staticmethod
+    def parse_action(s, loc, tokens): #@UnusedVariable
+        return DummyContract(W(s, loc))
+
+
+add_contract(Literal('*').setParseAction(DummyContract.parse_action))

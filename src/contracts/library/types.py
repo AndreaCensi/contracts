@@ -11,7 +11,7 @@ class CheckType(Contract):
     def check_contract(self, context, value):
         val = context.eval(value)
         if not isinstance(val, self.types):
-            error = 'Expected type %r, got %r.' % (str(self.types),
+            error = 'Expected type %r, got %r.' % (self.types.__name__,
                                                    value.__class__.__name__)
             raise ContractNotRespected(
                     contract=self,
