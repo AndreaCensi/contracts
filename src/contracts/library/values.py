@@ -1,4 +1,5 @@
-from contracts.interface import Contract, ContractNotRespected, VariableRef
+from contracts.interface import Contract, ContractNotRespected, VariableRef, \
+    ContractSemanticError
 from contracts.syntax import W, add_contract, rvalues
 from pyparsing import Literal
 from contracts.library.variables import variables
@@ -44,7 +45,16 @@ class CheckOrder(Contract):
             val1 = value
         else:
             val1 = context.eval(self.expr1, self)
+            
+        number = (int, float)
+            
         val2 = context.eval(self.expr2, self)
+
+        for val in [val1, val2]:
+            if not isinstance(val, number):
+                msg = ('I can only compare numbers, not %r.' % 
+                       val.__class__.__name__) 
+                raise ContractSemanticError(self, msg, context)
         
         if val1 < val2:
             ok = self.smaller
