@@ -1,10 +1,7 @@
-import numbers
-
-from contracts.interface import Contract, ContractNotRespected, VariableRef, \
-    ContractSemanticError
-from contracts.syntax import W, add_contract, rvalues, O, Literal
-from contracts.library.variables import int_variables, misc_variables
-
+from contracts.interface import Contract, ContractNotRespected, \
+    ContractSemanticError, RValue
+from contracts.syntax import W, add_contract, O, Literal, isnumber, rvalue
+ 
 class CheckOrder(Contract):
     
     def __init__(self, where, expr1, expr2, smaller, equal, larger):
@@ -19,6 +16,9 @@ class CheckOrder(Contract):
         assert isinstance(smaller, bool)
         self.glyph = glyphs[(smaller, equal, larger)]
         
+        for s in [expr1, expr2]:
+            assert s is None or isnumber(s) or isinstance(s, RValue)  
+        
     def check_contract(self, context, value):
         if self.expr1 is None:
             val1 = value
@@ -26,9 +26,7 @@ class CheckOrder(Contract):
             val1 = context.eval(self.expr1, self)
                     
         val2 = context.eval(self.expr2, self)
-
-        isnumber = lambda x: isinstance(x, numbers.Number)
-        
+ 
         # Check if we only need to check equality
         # in that case, we don't care for the type
         if (self.smaller, self.equal, self.larger) == (False, True, False):
@@ -44,7 +42,7 @@ class CheckOrder(Contract):
             # We potentially want < or >. They must be numbers.
     
             for val in [val1, val2]:
-                if not isinstance(val, numbers.Number):
+                if not isnumber(val):
                     msg = ('I can only compare the order of numbers, not %r.' % 
                            val.__class__.__name__) 
                     raise ContractSemanticError(self, msg, context)
@@ -64,11 +62,14 @@ class CheckOrder(Contract):
             raise ContractNotRespected(contract=self, error=error,
                                        value=value, context=context)
     
-    def __repr__(self):
+    def __str__(self):
         if self.expr1:
             return '%s%s%s' % (self.expr1, self.glyph, self.expr2)
         else:
             return '%s%s' % (self.glyph, self.expr2)
+        
+    def __repr__(self):
+        return 'CheckOrder(%r,%r,%r)' % (self.expr1, self.glyph, self.expr2)
     
     @staticmethod
     def parse_action(smaller, equal, larger):
@@ -83,17 +84,6 @@ class CheckOrder(Contract):
         return parse 
 
 
-def create_var_ref(s, loc, tokens):
-    where = W(s, loc)
-    return VariableRef(where, tokens[0])
-
-variable_ref = (int_variables.copy() ^ misc_variables.copy())
-#variable_ref = (int_variables.copy())
-
-variable_ref.setParseAction(create_var_ref)
-
-comparable = rvalues ^ variable_ref 
-
 glyphs = {
     (False, True, False): '=',
     (True, False, True): '!=',
@@ -106,7 +96,7 @@ glyphs = {
 combinations = list(glyphs.items()) + [((False, True, False), '==')]
 
 for condition, glyph in combinations:
-    expr = O(comparable('expr1')) + Literal(glyph) + comparable('expr2')
+    expr = O(rvalue('expr1')) + Literal(glyph) + rvalue('expr2')
     expr.setParseAction(CheckOrder.parse_action(condition[0],
                                                 condition[1],
                                                 condition[2]))

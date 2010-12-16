@@ -29,6 +29,7 @@ def check_contracts(contracts, values):
     context = Context()
     for i in range(len(contracts)):
         C[i].check_contract(context, values[i])
+        # print '%s  %r  (%s) ' % (C[i], C[i], C[i].__class__)
     
     return context
 

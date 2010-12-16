@@ -23,6 +23,6 @@ class CheckEqual(Contract):
         value = tokens[0]
         return CheckEqual(where, value)
 
-simple = integer ^ floatnumber
+#simple = integer ^ floatnumber
 
-add_contract(simple.setParseAction(CheckEqual.parse_action))
+#add_contract(simple.setParseAction(CheckEqual.parse_action))

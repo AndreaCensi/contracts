@@ -17,31 +17,30 @@ if False:
 from contracts.test_registrar import syntax_fail, good, fail
 
    
-#### Tuples
-good('tuple', ())
-good('tuple', (1,))
-# tuples and lists are different
-fail('tuple', [])
-fail('list', ())
-# tuples can have the length
-good('tuple[*]', (2, 2))
-good('tuple[1]', (1,))
-# you cannot specify every element
-good('tuple(*)', (1,))
-good('tuple(*,*)', (1, 2))
-fail('tuple(*,*)', (1, 2, 3))
-good('tuple(int,int)', (1, 2))
-good('tuple(int,float)', (1, 2.0))
-fail('tuple(float,float)', (1, 2.0))
-good('tuple(type(x),type(x))', (1, 2))
-# something complicated: nested tuples
-good('tuple(x, tuple(*,*,x))', (1, (2, 3, 1)))
-fail('tuple(x, tuple(*,*,x))', (1, (2, 3, 2)))
-good('tuple(type(x), tuple(*,*,type(x)))', (1, (2.1, 3.0, 3)))
-fail('tuple(type(x), tuple(*,*,type(x)))', (1, (2.1, 3.0, 3.1)))
-# cannot specify both, even if coherent
-syntax_fail('tuple[*](*,*)')
- 
+
+#syntax_fail('=1+')
+#syntax_fail('=1-')
+#syntax_fail('=1*')
+
+good('=2', 2)
+good('2', 2)
+fail('=2', 1)
+
+good('=1+1', 2)
+good('=1+1', 2)
+
+good('1+1', 2)
+good('=1-1', 0)
+good('1-1', 0)
+
+#
+good(['N', 'N-1'], [1, 0])
+good(['N', 'N+1'], [1, 2])
+#
+good(['N', 'N-1'], [1, 0])
+good(['N', 'N*4'], [1, 4])
+good(['N', 'Y, N == Y + 1'], [5, 4])
+
 
 
 def test_good():

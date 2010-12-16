@@ -25,6 +25,9 @@ from . import comparison_test
 from . import compositions
 from . import compositions_test
 
+from . import arithmetic
+from . import arithmetic_test
+
 try: 
     import numpy
     from . import array

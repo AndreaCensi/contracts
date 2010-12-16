@@ -1,5 +1,4 @@
-from pyparsing import delimitedList, OneOrMore, Suppress
-from ..syntax import simple_contract, W
+from ..syntax import simple_contract, W, OneOrMore, Suppress
 from ..interface import Contract, ContractNotRespected
 
 

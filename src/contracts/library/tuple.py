@@ -1,7 +1,5 @@
 from ..interface import Contract, ContractNotRespected
-from ..syntax import add_contract, W, contract, O, S, OneOrMore
-from pyparsing import ZeroOrMore
-from contracts.syntax import simple_contract
+from ..syntax import add_contract, W, contract, O, S, ZeroOrMore, simple_contract
 
 class Tuple(Contract):
     

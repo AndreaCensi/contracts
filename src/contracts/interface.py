@@ -52,10 +52,22 @@ class BoundVariable:
     def __repr__(self):
         return "%r" % self.value
 
-class VariableRef:
+class RValue:
+    def eval(self, context):
+        pass
+    
+class VariableRef(RValue):
     def __init__(self, where, variable):
         self.variable = variable
         self.where = where
+        
+    def eval(self, context):
+        var = self.variable
+        if not context.has_variable(var):
+            msg = 'Unknown variable %r.' % var
+            raise ContractSemanticError(None, msg, context)
+        return context.get_variable(var)
+
     def __repr__(self):
         return self.variable
 
@@ -77,15 +89,9 @@ class Context:
         # print 'Set %s = %r' % (name, value)
         self._variables[name] = BoundVariable(value, description, origin)
     
-    def eval(self, value, contract_ref=None):
-        if isinstance(value, VariableRef):
-            var = value.variable
-            if not var in self._variables:
-                msg = ('Unknown variable %r. I know %s.' % 
-                       (var, self._variables.keys()))
-                raise ContractSemanticError(contract_ref, msg, self)
-            else:
-                return self._variables[var].value
+    def eval(self, value, contract_ref=None): # XXX:
+        if isinstance(value, RValue):
+            return value.eval(self)
         else:
             return value
 

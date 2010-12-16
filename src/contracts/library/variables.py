@@ -1,7 +1,7 @@
 from pyparsing import oneOf
 from contracts.interface import Contract, ContractNotRespected, \
-    ContractSemanticError
-from contracts.syntax import W, add_contract
+    ContractSemanticError, VariableRef
+from contracts.syntax import W, add_contract, add_rvalue
 
 class BindVariable(Contract):
     
@@ -46,6 +46,12 @@ alphabet = 'A B C D E F G H I J K L M N O P Q R S T U W V X Y Z'
 int_variables = oneOf(alphabet)
 misc_variables = oneOf(alphabet.lower())
 
-
 add_contract(int_variables.copy().setParseAction(BindVariable.parse_action(int)))
 add_contract(misc_variables.copy().setParseAction(BindVariable.parse_action(object)))
+
+def create_var_ref(s, loc, tokens):
+    where = W(s, loc)
+    return VariableRef(where, tokens[0])
+
+add_rvalue(int_variables.copy().setParseAction(create_var_ref))
+add_rvalue(misc_variables.copy().setParseAction(create_var_ref))

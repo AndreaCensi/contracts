@@ -1,6 +1,5 @@
 from contracts.interface import Contract
-from contracts.syntax import add_contract, W
-from pyparsing import Literal
+from contracts.syntax import add_contract, W, Literal
 
 
 class DummyContract(Contract):

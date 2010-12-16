@@ -32,8 +32,7 @@ class Type(Contract):
         Contract.__init__(self, where)
         self.type_constraint = type_constraint
         
-    def check_contract(self, context, value):
-        val = context.eval(value)
+    def check_contract(self, context, value): 
         self.type_constraint.check_contract(context, type(value))
     
     def __repr__(self):
