@@ -28,6 +28,12 @@ good_example('<=0', -1)
 good_example('<=0', 0)
 fail_example('<=0', +1)
 
+# OR
+good_example('=0|=1', 0)
+good_example('=0|=1', 1)
+fail_example('=0|=1', 2)
+
+
 # TODO: error if N matches something except a number. x,y,z 
 
 good_example('int', 1)
