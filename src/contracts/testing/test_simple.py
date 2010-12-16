@@ -28,6 +28,10 @@ good_example('<=0', -1)
 good_example('<=0', 0)
 fail_example('<=0', +1)
 
+# AND
+fail_example('=0,=1', 0)
+good_example('=0,>=0', 0)
+
 # OR
 good_example('=0|=1', 0)
 good_example('=0|=1', 1)

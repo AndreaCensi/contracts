@@ -15,7 +15,7 @@ class OR(Contract):
         for c in self.clauses:
             try:
                 # try with fake context
-                c.check_contract(context.child(), value)
+                c.check_contract(context.copy(), value)
                 # if ok, do with main context
                 c.check_contract(context, value)
                 return
@@ -23,7 +23,7 @@ class OR(Contract):
                 exceptions.append((c, e))
 
         msg = 'No clause could be satisfied. Details:'
-        for c, e in self.exceptions:
+        for c, e in exceptions:
             msg += '\n- %20s: %s' % (c, e)
         raise ContractNotRespected(contract=self, error=msg,
                     value=value, context=context)
@@ -65,14 +65,9 @@ def at_least_2_delim_list(what, delim):
     return (what + OneOrMore(Suppress(delim) + what))
 
 and_op = at_least_2_delim_list(simple_contract, ',') 
-or_op = at_least_2_delim_list(simple_contract, '|') 
-
-    
-#and_op = (delimitedList(simple_contract, delim=',')('clauses') ^ 
-#          delimitedList(simple_contract, delim='&')('clauses'))
 and_op.setParseAction(And.parse_action)
 
-#or_op = delimitedList(simple_contract, delim='|')('clauses')
-#or_op.setParseAction(OR.parse_action)
+or_op = at_least_2_delim_list(simple_contract, '|') 
+or_op.setParseAction(OR.parse_action)
 
 composite_contract = or_op ^ and_op
