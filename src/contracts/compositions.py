@@ -35,6 +35,10 @@ class OR(Contract):
             clauses.append(c)
         return OR(W(string, location), clauses)
 
+    def __repr__(self):
+        s = '|'.join(x.__repr__() for x in self.clauses)
+        return s
+
 # AND operator
 class And(Contract):
     def __init__(self, where, clauses):
@@ -55,7 +59,7 @@ class And(Contract):
         return And(W(string, location), clauses)
 
     def __repr__(self):
-        s = ', '.join(x.__repr__() for x in self.clauses)
+        s = ','.join(x.__repr__() for x in self.clauses)
         return s
 
 

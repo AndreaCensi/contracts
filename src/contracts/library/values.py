@@ -73,7 +73,7 @@ class CheckOrder(Contract):
     
     def __repr__(self):
         if self.expr1:
-            return '%s %s %s' % (self.expr1, self.glyph, self.expr2)
+            return '%s%s%s' % (self.expr1, self.glyph, self.expr2)
         else:
             return '%s%s' % (self.glyph, self.expr2)
     

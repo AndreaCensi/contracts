@@ -6,7 +6,7 @@ from .dummy import DummyContract
 
 class List(Contract):
     
-    def __init__(self, where, length_contract, elements_contract):
+    def __init__(self, where, length_contract=None, elements_contract=None):
         Contract.__init__(self, where)
         self.length_contract = length_contract
         self.elements_contract = elements_contract
@@ -17,14 +17,21 @@ class List(Contract):
             raise ContractNotRespected(contract=self, error=error,
                                        value=value, context=context)
        
-        self.length_contract.check_contract(context, len(value))
+        if self.length_contract is not None:
+            self.length_contract.check_contract(context, len(value))
         
-        for i, element in enumerate(value):
-            context2 = context.copy()
-            self.elements_contract.check_contract(context2, element)
+        if self.elements_contract is not None:
+            for i, element in enumerate(value):
+                context2 = context.copy()
+                self.elements_contract.check_contract(context2, element)
     
     def __repr__(self):
-        return 'list[%r](%r)' % (self.length_contract, self.elements_contract)
+        s = 'list'
+        if self.length_contract is not None:
+            s += '[%r]' % self.length_contract
+        if self.elements_contract is not None:
+            s += '(%r)' % self.elements_contract
+        return s
             
     @staticmethod
     def parse_action(s, loc, tokens):
@@ -41,12 +48,12 @@ class List(Contract):
             expected = tokens['length']
             length_contract = CheckOrder(where, None, expected, False, True, False)
         else:
-            length_contract = DummyContract(where)
+            length_contract = None
             
         if 'elements_contract' in tokens:
             elements_contract = tokens['elements_contract']
         else: 
-            elements_contract = DummyContract(where)
+            elements_contract = None
         
         return  List(where,
                      length_contract=length_contract,

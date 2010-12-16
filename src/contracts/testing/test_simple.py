@@ -1,4 +1,5 @@
 from contracts.testing.utils import check_contract_ok, check_contract_fail
+from contracts.main import parse_contract_string
 
 #from .utils import ContractTestCase
 
@@ -81,9 +82,9 @@ good_example('list(int)', [])
 good_example('list(int)', [0, 1])
 fail_example('list(int)', [0, 'a'])
 fail_example('list(int)', [0, 'a'])
-good_example('list(int, >0)', [2, 1])
-fail_example('list(int, >0)', [0, 1])
-good_example('list(int, =0)', [0, 0])
+good_example('list(int,>0)', [2, 1])
+fail_example('list(int,>0)', [0, 1])
+good_example('list(int,=0)', [0, 0])
 
 # with parametric lengths 
 good_example('list[N]', [])
@@ -102,9 +103,7 @@ Syntax for lists:
     
     size: integer or variables
 
-'''
- 
-#class SimpleTests(ContractTestCase):
+''' 
    
 def test_simple_expressions_ok():
     for contract, value in good_examples:
@@ -113,3 +112,13 @@ def test_simple_expressions_ok():
 def test_simple_expressions_fail():
     for contract, value in fail_examples:
         yield check_contract_fail, contract, value
+        
+for contract, value in (good_examples + fail_examples):
+    parsed = parse_contract_string(contract)
+    if str(parsed) == contract:
+        mark = ' '
+    else:
+        mark = '~'
+        
+    print '{0:>20} {1:>20}  {2}'.format(contract, parsed, mark)
+
