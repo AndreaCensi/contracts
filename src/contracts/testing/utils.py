@@ -22,7 +22,7 @@ def check_contracts_fail(contract, value, error):
         msg += ' matched context:  %s\n' % context
         for c in contract:
             parsed_contract = parse_contract_string(c)
-            msg += ' contract:         %s\n' % parsed_contract
+            msg += ' contract:     %20s  %r\n' % (parsed_contract, parsed_contract)
         raise Exception(msg)
     
     except error as e:

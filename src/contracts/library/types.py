@@ -14,8 +14,11 @@ class CheckType(Contract):
             raise ContractNotRespected(contract=self, error=error,
                                        value=value, context=context)
     
-    def __repr__(self):
+    def __str__(self):
         return self.types.__name__
+    
+    def __repr__(self):
+        return 'CheckType(%r)' % (self.types)
 
     @staticmethod
     def parse_action(types):

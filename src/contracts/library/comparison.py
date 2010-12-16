@@ -29,6 +29,8 @@ class CheckOrder(Contract):
  
         # Check if we only need to check equality
         # in that case, we don't care for the type
+        
+        # FIXME: add support for != here
         if (self.smaller, self.equal, self.larger) == (False, True, False):
             # but we want them to be either numbers or same type
             if (not (isnumber(val1) and isnumber(val2))) and \

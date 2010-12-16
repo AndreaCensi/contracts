@@ -34,6 +34,7 @@ class DoArithmetic(RValue):
         return s
     
 
+
 def parse_arithmetic_rvalue(operation, glyph):
     def parse_arithmetic_rvalue2(s, loc, tokens):
         where = W(s, loc)
@@ -55,12 +56,12 @@ def parse_arithmetic_as_contract(operation, glyph):
     return parse_arithmetic2 
 
 # TODO: precedence
-
-operations = {
-    '+': lambda x, y: x + y,
-    '-': lambda x, y: x - y,
-    '*': lambda x, y: x * y,
-}
+#
+#operations = {
+#    '+': lambda x, y: x + y,
+#    '-': lambda x, y: x - y,
+#    '*': lambda x, y: x * y,
+#}
 #
 #expr = operatorPrecedence(rvalue,
 #    [
@@ -68,12 +69,12 @@ operations = {
 #     ('+', 2, opAssoc.LEFT), ]
 #    )
 #add_rvalue(expr)
-
-
-for glyph, operation in operations.items():
-    expr = rvalue('expr1') + S(Literal(glyph)) + rvalue('expr2')
-    as_rvalue = expr.copy().setParseAction(parse_arithmetic_rvalue(operation, glyph)) 
-    #add_rvalue(as_rvalue) 
-    as_contract = expr.copy().setParseAction(parse_arithmetic_as_contract(operation, glyph)) 
-    #add_contract(as_contract) 
+#
+#
+#for glyph, operation in operations.items():
+#    expr = rvalue('expr1') + S(Literal(glyph)) + rvalue('expr2')
+#    as_rvalue = expr.copy().setParseAction(parse_arithmetic_rvalue(operation, glyph)) 
+#    #add_rvalue(as_rvalue) 
+#    as_contract = expr.copy().setParseAction(parse_arithmetic_as_contract(operation, glyph)) 
+#    #add_contract(as_contract) 
         

@@ -114,7 +114,8 @@ class Contract:
             Checks that value is ok with this contract in the specific 
             context. 
         '''
-        pass
+        raise ValueError('You did not implement check_contract() for %s.' % 
+                         self.__class__.__name__)
     
     
     

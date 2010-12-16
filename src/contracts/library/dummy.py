@@ -8,6 +8,9 @@ class DummyContract(Contract):
     def __repr__(self):
         return '*'
     
+    def check_contract(self, context, value):
+        pass
+    
     @staticmethod
     def parse_action(s, loc, tokens): #@UnusedVariable
         return DummyContract(W(s, loc))

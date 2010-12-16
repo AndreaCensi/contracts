@@ -14,32 +14,35 @@ if False:
     semantic_fail_examples[:] = []
     contract_fail_examples[:] = []
 
-from contracts.test_registrar import syntax_fail, good, fail
+good('dict', {})
+syntax_fail('dict[]')
+syntax_fail('dict[]()')
+syntax_fail('dict()')
+good('dict[1]', {1:2})
+good('dict[N],N<2', {1:2})
+fail('dict[N],N<2', {1:2, 3:4})
+good('dict(int:int)', {1:2})
+fail('dict(int:int)', {'a':2})
+good('dict(*:int)', {1:2})
+good('dict(*:int)', {'a':2})
 
-   
+# dictionary of string -> tuple, with tuple of two elements with different type
+good('dict(str:tuple)', {'a':(2, 1.1)})
+good('dict(str:tuple(type(x),type(y))),x!=y', {'a':(2, 1.1)})
+fail('dict(str:tuple(type(x),type(y))),x!=y', {'a':(2, 1)})
 
-#syntax_fail('=1+')
-#syntax_fail('=1-')
-#syntax_fail('=1*')
 
-good('=2', 2)
-good('2', 2)
-fail('=2', 1)
-
-good('=1+1', 2)
-good('=1+1', 2)
-
-good('1+1', 2)
-good('=1-1', 0)
-good('1-1', 0)
-
+## dictionary of string -> tuple, with tuple of two elements with different type
+## In this case, each value should have the same two types
+#good('dict(str:tuple(type(x),type(y)),x!=y', {'a':(2, 1.1)})
+#fail('dict(str:tuple(type(x),type(y)),x!=y', {'a':(2, 1)})
 #
-good(['N', 'N-1'], [1, 0])
-good(['N', 'N+1'], [1, 2])
+## This fails because we have x=int,y=float followed by float,int
+#fail('dict(str:tuple(type(x),type(y)),x!=y', {'a':(2, 1.1), 'b': (1.1, 2)})
 #
-good(['N', 'N-1'], [1, 0])
-good(['N', 'N*4'], [1, 4])
-good(['N', 'Y, N == Y + 1'], [5, 4])
+## Here we force the context to not match using $(...) 
+#good('dict(str:$(tuple(type(x),type(y)),x!=y))', {'a':(2, 1.1), 'b': (1.1, 2)})
+#fail('dict(str:$(tuple(type(x),type(y)),x!=y))', {'a':(2, 1)})
 
 
 

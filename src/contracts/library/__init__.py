@@ -13,6 +13,9 @@ from . import lists_test
 from . import tuple
 from . import tuple_test
 
+from . import dicts
+from . import dicts_test
+
 from . import variables
 from . import variables_test
 
