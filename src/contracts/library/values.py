@@ -108,7 +108,9 @@ glyphs = {
     (True, True, False): '<='          
 }
 
-for condition, glyph in glyphs.items():
+combinations = list(glyphs.items()) + [((False, True, False), '==')]
+
+for condition, glyph in combinations:
     expr = O(comparable('expr1')) + Literal(glyph) + comparable('expr2')
     expr.setParseAction(CheckOrder.parse_action(condition[0],
                                                 condition[1],

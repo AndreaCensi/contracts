@@ -13,7 +13,7 @@ class BindVariable(Contract):
     
     def check_contract(self, context, value):
         if context.has_variable(self.variable):
-            expected = context.set_variable(self.variable)
+            expected = context.get_variable(self.variable)
             if not (expected == value):
                 # TODO: add where it was bound
                 error = ('Expected that %r = %r, got %r.' % 

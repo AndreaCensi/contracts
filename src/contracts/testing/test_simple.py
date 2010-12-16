@@ -1,9 +1,7 @@
-from contracts.testing.utils import check_contract_ok, check_contract_fail
 from contracts.main import parse_contract_string
+from contracts.testing.utils import check_contract_single_fail, \
+    check_contract_single_ok
 
-#from .utils import ContractTestCase
-
-# list(N,tuple(str, value))
 good_examples = []
 fail_examples = []
 def good_example(a, b): good_examples.append((a, b))
@@ -17,7 +15,9 @@ good_example('*', None)
 
 # Basic comparisons
 good_example('=0', 0)
+good_example('==0', 0)
 fail_example('=0', 1)
+fail_example('==0', 1)
 fail_example('=0', [0])
 good_example('!=0', 1)
 fail_example('!=0', 0)
@@ -93,32 +93,22 @@ good_example('list[N],N=1', [1])
 good_example('list[N],N>0,N<2', [1])
 fail_example('list[N],N>0', [])
 
-
-''' 
-
-Syntax for lists:
-
-    list( element_spec, element_spec, ... )
-    list( size, element_spec, element_spec, ... )
-    
-    size: integer or variables
-
-''' 
    
 def test_simple_expressions_ok():
     for contract, value in good_examples:
-        yield check_contract_ok, contract, value
+        yield check_contract_single_ok, contract, value
 
 def test_simple_expressions_fail():
     for contract, value in fail_examples:
-        yield check_contract_fail, contract, value
+        yield check_contract_single_fail, contract, value
         
-for contract, value in (good_examples + fail_examples):
-    parsed = parse_contract_string(contract)
-    if str(parsed) == contract:
-        mark = ' '
-    else:
-        mark = '~'
-        
-    print '{0:>20} {1:>20}  {2}'.format(contract, parsed, mark)
+if False:
+    for contract, value in (good_examples + fail_examples):
+        parsed = parse_contract_string(contract)
+        if str(parsed) == contract:
+            mark = ' '
+        else:
+            mark = '~'
+            
+        print '{0:>20} {1:>20}  {2}'.format(contract, parsed, mark)
 
