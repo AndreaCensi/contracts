@@ -1,5 +1,5 @@
 from contracts import check_contracts, ContractException
-from contracts.interface import ContractNotRespected
+from contracts.interface import ContractNotRespected, ContractSemanticError
 from contracts.main import parse_contract_string
 
 def check_contract_ok(contract, value):
@@ -15,5 +15,5 @@ def check_contract_fail(contract, value):
         msg += ' contract:         %s\n' % parsed_contract
         msg += ' matched context:  %s\n' % context
         raise Exception(msg)
-    except ContractNotRespected as e:
+    except (ContractNotRespected, ContractSemanticError) as e:
         pass

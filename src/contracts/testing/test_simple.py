@@ -33,6 +33,14 @@ good_example('<=0', -1)
 good_example('<=0', 0)
 fail_example('<=0', +1)
 
+# wrong types
+fail_example('>0', [])
+# big letters can only bind to numbers
+good_example('N,N>0', 1)
+fail_example('N,N>0', 0)
+fail_example('N', [])
+
+
 # AND
 fail_example('=0,=1', 0)
 good_example('=0,>=0', 0)
@@ -81,6 +89,7 @@ good_example('list(int, =0)', [0, 0])
 good_example('list[N]', [])
 good_example('list[N],N>0', [1])
 good_example('list[N],N=1', [1])
+good_example('list[N],N>0,N<2', [1])
 fail_example('list[N],N>0', [])
 
 
