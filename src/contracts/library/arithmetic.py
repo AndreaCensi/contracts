@@ -35,6 +35,7 @@ def parse_arithmetic_rvalue(operation, glyph):
     def parse_arithmetic_rvalue2(s, loc, tokens):
         where = W(s, loc)
         expr1 = tokens[0][0]
+        # glyph = tokens[0][1]
         expr2 = tokens[0][2]
         for e in [expr1, expr2]:
             assert isnumber(e) or isinstance(e, RValue)
@@ -48,7 +49,8 @@ def parse_unary_minus(s, loc, tokens):
     expr1 = 0
     glyph = tokens[0][0]
     expr2 = tokens[0][1]
-    #assert tokens[0][1] == '-'
+    assert glyph in ['+', '-']
+    #operation = 
     for e in [expr1, expr2]:
         assert isnumber(e) or isinstance(e, RValue)
     return DoArithmetic(where, expr1, expr2, lambda x, y:x - y, '-')

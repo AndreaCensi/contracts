@@ -5,7 +5,7 @@ import numpy
 a = numpy.zeros((3, 4))
 
 ### Strings
-good('array', a)
+#good('array', a)
 
 
 rgb1 = numpy.zeros((10, 10, 3), 'uint8')
