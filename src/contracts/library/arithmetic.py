@@ -31,48 +31,32 @@ class DoArithmetic(RValue):
         s = '%s%s%s' % (self.expr1, self.glyph, self.expr2)
         return s
     
-
-
 def parse_arithmetic_rvalue(operation, glyph):
     def parse_arithmetic_rvalue2(s, loc, tokens):
         where = W(s, loc)
         expr1 = tokens[0][0]
         expr2 = tokens[0][2]
-        #expr1 = tokens['expr1']
-        #expr2 = tokens['expr2']
         for e in [expr1, expr2]:
             assert isnumber(e) or isinstance(e, RValue)
         return DoArithmetic(where, expr1, expr2, operation, glyph)
     
     return parse_arithmetic_rvalue2
 
-def parse_arithmetic_as_contract(operation, glyph):
-    def parse_arithmetic2(s, loc, tokens):
-        where = W(s, loc)
-        rvalue = parse_arithmetic_rvalue(operation, glyph)(s, loc, tokens)
-        return CheckOrder(where, None, rvalue, False, True, False)
-    return parse_arithmetic2 
-
-# TODO: precedence
+def parse_unary_minus(s, loc, tokens):
+    where = W(s, loc)
+    print tokens
+    expr1 = 0
+    glyph = tokens[0][0]
+    expr2 = tokens[0][1]
+    #assert tokens[0][1] == '-'
+    for e in [expr1, expr2]:
+        assert isnumber(e) or isinstance(e, RValue)
+    return DoArithmetic(where, expr1, expr2, lambda x, y:x - y, '-')
+    
 #
-#operations = {
-#    '+': lambda x, y: x + y,
-#    '-': lambda x, y: x - y,
-#    '*': lambda x, y: x * y,
-#}
-#
-#expr = operatorPrecedence(rvalue,
-#    [
-#     ('*', 2, opAssoc.LEFT),
-#     ('+', 2, opAssoc.LEFT), ]
-#    )
-#add_rvalue(expr)
-#
-#
-#for glyph, operation in operations.items():
-#    expr = rvalue('expr1') + S(Literal(glyph)) + rvalue('expr2')
-#    as_rvalue = expr.copy().setParseAction(parse_arithmetic_rvalue(operation, glyph)) 
-#    #add_rvalue(as_rvalue) 
-#    as_contract = expr.copy().setParseAction(parse_arithmetic_as_contract(operation, glyph)) 
-#    #add_contract(as_contract) 
-        
+#def parse_arithmetic_as_contract(operation, glyph):
+#    def parse_arithmetic2(s, loc, tokens):
+#        where = W(s, loc)
+#        rvalue = parse_arithmetic_rvalue(operation, glyph)(s, loc, tokens)
+#        return CheckOrder(where, None, rvalue, False, True, False)
+#    return parse_arithmetic2 

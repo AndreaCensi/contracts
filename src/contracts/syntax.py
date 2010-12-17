@@ -55,14 +55,15 @@ def get_or(l):
         tmp = tmp.__or__(l[i])
     return tmp
 
-#add_rvalue(integer | floatnumber) 
-#rvalue <<  get_xor(ParsingTmp.rvalues_types)
-from contracts.library.arithmetic import parse_arithmetic_rvalue
+
+from contracts.library.arithmetic import parse_arithmetic_rvalue, \
+    parse_unary_minus
 
 operand = (floatnumber | integer) | get_or(ParsingTmp.rvalues_types)
 
 expr = operatorPrecedence(operand,
     [
+     ('-', 1, opAssoc.RIGHT, parse_unary_minus),
      ('*', 2, opAssoc.LEFT, parse_arithmetic_rvalue(lambda x, y:x * y, '*')),
      ('-', 2, opAssoc.LEFT, parse_arithmetic_rvalue(lambda x, y:x - y, '-')),
      ('+', 2, opAssoc.LEFT, parse_arithmetic_rvalue(lambda x, y:x + y, '+')),
