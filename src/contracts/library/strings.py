@@ -18,7 +18,7 @@ class String(Contract):
             self.length.check_contract(context, len(value))
             
     def __repr__(self):
-        return 'String[%r]' % self.length
+        return 'String(%r)' % self.length
     
     def __str__(self):
         s = 'str'

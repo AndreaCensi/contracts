@@ -35,7 +35,8 @@ class BindVariable(Contract):
         return self.variable
         
     def __repr__(self):
-        return 'BindVariable(%r,%s)' % (self.variable, self.allowed_types)
+        # XXX: invalid if tuple
+        return 'BindVariable(%r,%s)' % (self.variable, self.allowed_types.__name__)
         
     @staticmethod
     def parse_action(allowed_types):

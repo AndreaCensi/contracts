@@ -1,7 +1,6 @@
-from contracts.interface import Contract, ContractNotRespected, \
+from ..interface import Contract, ContractNotRespected, \
     ContractSemanticError, RValue
-from contracts.syntax import W, add_contract, O, Literal, isnumber, rvalue
-from pyparsing import operatorPrecedence
+from ..syntax import W, add_contract, O, Literal, isnumber, rvalue
  
 class CheckOrder(Contract):
     

@@ -1,6 +1,7 @@
 from contracts.interface import Contract, ContractNotRespected
 from contracts.syntax import W, add_contract, contract, S
 from pyparsing import Literal
+import numbers
 
 class CheckType(Contract):
     def __init__(self, where, types):
@@ -18,15 +19,16 @@ class CheckType(Contract):
         return self.types.__name__
     
     def __repr__(self):
-        return 'CheckType(%r)' % (self.types)
+        return 'CheckType(%s)' % (self.types.__name__)
 
     @staticmethod
     def parse_action(types):
         return lambda s, loc, tokens: CheckType(W(s, loc), types) #@UnusedVariable
 
 add_contract(Literal('int').setParseAction(CheckType.parse_action(int)))
-
 add_contract(Literal('float').setParseAction(CheckType.parse_action(float)))
+add_contract(Literal('bool').setParseAction(CheckType.parse_action(bool)))
+add_contract(Literal('number').setParseAction(CheckType.parse_action(numbers.Number)))
 
 
 

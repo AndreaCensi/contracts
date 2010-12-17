@@ -1,7 +1,6 @@
 from ..interface import Contract, ContractNotRespected
-from ..syntax import  W, contract, O, S
-from contracts.syntax import add_contract
-import sys
+from ..syntax import  W, contract, O, S, add_contract
+
 
 class Dict(Contract):
     

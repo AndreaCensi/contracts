@@ -16,60 +16,6 @@ if False:
 
 
 
-# Basic comparisons, unitary syntax
-good('=0', 0)
-good('==0', 0)
-fail('=0', 1)
-fail('==0', 1)
-good('!=0', 1)
-fail('!=0', 0)
-good('>0', 1)
-fail('>0', 0)
-fail('>0', -1)
-good('>=0', 1)
-good('>=0', 0)
-fail('>=0', -1)
-good('<0', -1)
-fail('<0', 0)
-fail('<0', +1)
-good('<=0', -1)
-good('<=0', 0)
-fail('<=0', +1)
-
-# wrong types
-good('=1', 1)
-semantic_fail('=1', [1])
-semantic_fail('=0', [0])
-
-semantic_fail('>0', [])
-
-# binary syntax
-good('1>0', None)
-fail('1>1', None)
-good('0<1', None)
-fail('1<1', None)
-good('1>=0', None)
-fail('1>=2', None)
-good('0<=1', None)
-fail('2<=1', None)
-good('1=1', None)
-fail('1=0', None)
-good('1==1', None)
-fail('1==0', None)
-good('0!=1', None)
-fail('0!=0', None)
-
-
-good('1+1>=0', None)
-fail('0>=1+1', None)
-good('1-1=0', None)
-fail('1-1=1', None)
-good('-1<=1-1', None)
-good('3*2>=2*1', None)
-
-
-
-
 def test_good():
     for contract, value in good_examples:
         yield check_contracts_ok, contract, value
@@ -87,7 +33,7 @@ def test_contract_fail():
         yield check_contracts_fail, contract, value, ContractNotRespected
 
         
-if True:
+if False:
     for contract, value in (good_examples + semantic_fail_examples):
         if isinstance(contract, str):
             contract = [contract]
@@ -103,3 +49,48 @@ if True:
                                                        "%s" % parsed,
                                                       "%r" % parsed)
 
+
+def test_repr():
+    ''' Checks that we can eval() the __repr__() value and we get
+        an equivalent object. '''
+    for contract, value in (good_examples + semantic_fail_examples):
+        if isinstance(contract, list):
+            for c in contract:
+                yield check_good_repr, c
+        else:
+            yield check_good_repr, contract
+
+def test_reconversion():
+    ''' Checks that we can reconvert the __str__() value and we get
+        the same. '''
+    for contract, value in (good_examples + semantic_fail_examples):
+        if isinstance(contract, list):
+            for c in contract:
+                yield check_recoversion, c
+        else:
+            yield check_recoversion, contract
+        
+def check_good_repr(s):
+    ''' Checks that we can eval() the __repr__() value and we get
+        an equivalent object. '''
+    parsed = parse_contract_string(c)
+    repr = parsed.__repr__()
+    
+    reeval = eval(repr)
+    assert reeval == parsed, '%r != %r' % (parsed, reeval)
+    
+def check_recoversion(s):
+    ''' Checks that we can eval() the __repr__() value and we get
+        an equivalent object. '''
+    parsed = parse_contract_string(s)
+    s2 = parsed.__str__()
+    reconv = parse_contract_string(s2)
+    assert reconv == parsed, '%r != %r' % (parsed, reconv)
+    
+    # warn if the string is not exactly the same
+    
+    if s2 != s: 
+        mark = '~'
+        print('{0} {1:>30} {2:>30}'.format(mark, s, s2))
+        print(' parsed the first time as: %r' % parsed)
+        print('              and then as: %r' % reconv)

@@ -1,10 +1,9 @@
 import numpy
-from contracts.main import contracts
+from contracts.main import contracts, contracts_decorate
 from contracts.interface import ContractNotRespected
 import unittest
 
-#@contracts
-def blend(image1, image2, bug=False):
+def blend_function(image1, image2, bug=False):
     ''' 
         Blends two RGB or RGBA images together. 
     
@@ -38,34 +37,38 @@ rgb_large = numpy.zeros((20, 20, 3), dtype='uint8')
 rgba_small = numpy.zeros((10, 10, 3), dtype='uint8')
 rgba_large = numpy.zeros((20, 20, 3), dtype='uint8')
 
-if 0:
-    class ArrayTest(unittest.TestCase):
-        
-        def test_correct_behavior(self):
-            blend(rgb_small, rgb_small)
-            blend(rgb_small, rgba_small)
-            blend(rgba_small, rgb_small)
-            blend(rgb_large, rgba_large)
-            blend(rgba_large, rgb_large)
+
+class ArrayTest(unittest.TestCase):
     
-        def test_incorrect1(self):
-            self.assertRaises(ContractNotRespected, blend, None, None)
+    def setUp(self):
+        self.blend = contracts_decorate(blend_function)
         
-        def test_incorrect2(self):
-            self.assertRaises(ContractNotRespected, blend, None, rgb_small)
-        
-        def test_incorrect3(self):
-            self.assertRaises(ContractNotRespected, blend, rgb_small, None)
-        
-        def test_incorrect4(self):
-            self.assertRaises(ContractNotRespected, blend, rgb_small, rgb_large)
-        
-        def test_incorrect5(self):
-            self.assertRaises(ContractNotRespected, blend, rgb_small, rgb_large)
-        
-        def test_incorrect6(self):
-            # check that rtype checking works, introduce a bug
-            self.assertRaises(ContractNotRespected, blend, rgb_small, rgb_small, bug=True)
+    def test_correct_behavior(self):
+        self.blend(rgb_small, rgb_small)
+        self.blend(rgb_small, rgba_small)
+        self.blend(rgba_small, rgb_small)
+        self.blend(rgb_large, rgba_large)
+        self.blend(rgba_large, rgb_large)
+
+    def test_incorrect1(self):
+        self.assertRaises(ContractNotRespected, self.blend, None, None)
+    
+    def test_incorrect2(self):
+        self.assertRaises(ContractNotRespected, self.blend, None, rgb_small)
+    
+    def test_incorrect3(self):
+        self.assertRaises(ContractNotRespected, self.blend, rgb_small, None)
+    
+    def test_incorrect4(self):
+        self.assertRaises(ContractNotRespected, self.blend, rgb_small, rgb_large)
+    
+    def test_incorrect5(self):
+        self.assertRaises(ContractNotRespected, self.blend, rgb_small, rgb_large)
+    
+    def test_incorrect6(self):
+        # check that rtype checking works, introduce a bug
+        self.assertRaises(ContractNotRespected, self.blend, rgb_small,
+                          rgb_small, bug=True)
 
 
 

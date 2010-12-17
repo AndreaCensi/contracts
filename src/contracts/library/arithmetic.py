@@ -24,7 +24,7 @@ class DoArithmetic(RValue):
         return self.operation(val1, val2)
         
     def __repr__(self):
-        s = 'DoArithmetic(%r,%s,%r)' % (self.expr1, self.glyph, self.expr2)
+        s = 'DoArithmetic(%r,%r,%r)' % (self.expr1, self.glyph, self.expr2)
         return s
     
     def __str__(self):
