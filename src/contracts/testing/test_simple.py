@@ -16,7 +16,12 @@ if select:
     semantic_fail_examples[:] = []
     contract_fail_examples[:] = []
 
-good('-1<=1-1', None)
+# Checking precedence
+good('1+2*3', 7)
+good('2*3+1', 7)
+# Now with parentheses
+good('=1+1*3', 4)
+good('=(1+1)*3', 6)
 
 def test_good():
     for contract, value in good_examples:

@@ -19,7 +19,7 @@ good(['N', 'N+1'], [1, 2])
 
 good(['N', 'N-1'], [1, 0])
 good(['N', 'N*4'], [1, 4])
-good(['N', 'Y, N == Y + 1'], [5, 4])
+good(['N', 'Y,N==Y+1'], [5, 4])
 
 # Checking precedence
 good('1+2*3', 7)

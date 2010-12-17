@@ -4,17 +4,22 @@ from ..syntax import W, add_contract, O, Literal, isnumber, rvalue
  
 class CheckOrder(Contract):
     
-    def __init__(self, where, expr1, expr2, smaller, equal, larger):
+    conditions = {
+        '=': (False, True, False),
+        '==': (False, True, False),
+        '!=': (True, False, True),
+        '>': (False, False, True),
+        '>=': (False, True, True),
+        '<': (True, False, False),
+        '<=': (True, True, False)           
+    }
+    
+    def __init__(self, where, expr1, glyph, expr2):
         Contract.__init__(self, where)
         self.expr1 = expr1
+        self.glyph = glyph 
         self.expr2 = expr2
-        self.larger = larger
-        self.equal = equal
-        self.smaller = smaller
-        assert isinstance(larger, bool)
-        assert isinstance(equal, bool)
-        assert isinstance(smaller, bool)
-        self.glyph = glyphs[(smaller, equal, larger)]
+        self.smaller, self.equal, self.larger = CheckOrder.conditions[glyph]
         
         for s in [expr1, expr2]:
             assert s is None or isnumber(s) or isinstance(s, RValue)  
@@ -79,34 +84,20 @@ class CheckOrder(Contract):
         return 'CheckOrder(%r,%r,%r)' % (self.expr1, self.glyph, self.expr2)
     
     @staticmethod
-    def parse_action(smaller, equal, larger):
-        def parse(s, loc, tokens):
-            if 'expr1' in tokens:
-                expr1 = tokens['expr1']
-            else:
-                expr1 = None
-            expr2 = tokens['expr2']
-            where = W(s, loc)
-            return CheckOrder(where, expr1, expr2, smaller, equal, larger)
-        return parse 
+    def parse_action(s, loc, tokens):
+        if 'expr1' in tokens:
+            expr1 = tokens['expr1']
+        else:
+            expr1 = None
+        glyph = tokens['glyph']
+        expr2 = tokens['expr2']
+        where = W(s, loc)
+        return CheckOrder(where, expr1, glyph, expr2)
+ 
 
-
-glyphs = {
-    (False, True, False): '=',
-    (True, False, True): '!=',
-    (False, False, True): '>',
-    (False, True, True): '>=',
-    (True, False, False): '<',
-    (True, True, False): '<='          
-}
-
-combinations = list(glyphs.items()) + [((False, True, False), '==')]
-
-for condition, glyph in combinations:
-    expr = O(rvalue('expr1')) + Literal(glyph) + rvalue('expr2')
-    expr.setParseAction(CheckOrder.parse_action(condition[0],
-                                                condition[1],
-                                                condition[2]))
+for glyph in CheckOrder.conditions:
+    expr = O(rvalue('expr1')) + Literal(glyph)('glyph') + rvalue('expr2')
+    expr.setParseAction(CheckOrder.parse_action)
     add_contract(expr)
 
 

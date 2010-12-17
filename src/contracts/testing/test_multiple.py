@@ -18,14 +18,14 @@ good(['list[N]', 'list,N>0'], [ [1], [3]])
 fail(['list[N]', 'list,N>0'], [ [], [3]])
 
 # Lists of different length
-good(['list[N]', 'list[M], M!=N'], [ [4], [3, 2]])
-good(['list[N]', 'list[M], M!=N'], [ [4, 3 ], [3]])
-fail(['list[N]', 'list[M], M!=N'], [ [3], [3]])
+good(['list[N]', 'list[M],M!=N'], [ [4], [3, 2]])
+good(['list[N]', 'list[M],M!=N'], [ [4, 3 ], [3]])
+fail(['list[N]', 'list[M],M!=N'], [ [3], [3]])
 
 # One list shorter than the other
-good(['list[N]', 'list[M], M<N'], [ [4, 3], [3]])
-good(['list[N]', 'list[M], N>M'], [ [4, 3], [3]])
-fail(['list[N]', 'list[M], N>M'], [ [3], [3]])
+good(['list[N]', 'list[M],M<N'], [ [4, 3], [3]])
+good(['list[N]', 'list[M],N>M'], [ [4, 3], [3]])
+fail(['list[N]', 'list[M],N>M'], [ [3], [3]])
 
 # Values of the same type
 good(['type(x)', 'type(x)'], [0, 1])
@@ -43,8 +43,8 @@ fail(['list(type(x))'], [ [0, None, 2] ])
 good(['list(type(x))', 'list(type(x))'], [ [1, 2], [3, 4]])
 fail(['list(type(x))', 'list(type(x))'], [ [1, 2], [3.0, 4]])
 # Using different variables and then imposing they are equal
-good(['list(type(x))', 'list(type(y)), x=y'], [ [1, 2], [3, 4]])
-fail(['list(type(x))', 'list(type(y)), x=y'], [ [1, 2], [3.0, 4]])
+good(['list(type(x))', 'list(type(y)),x=y'], [ [1, 2], [3, 4]])
+fail(['list(type(x))', 'list(type(y)),x=y'], [ [1, 2], [3.0, 4]])
 
 # a list with at most two types
 good('list(type(x|y))', [1, 2, 3, 4.0])

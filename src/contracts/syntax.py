@@ -1,4 +1,5 @@
 from pyparsing import ParserElement
+from contracts.interface import Contract, ContractNotRespected
 ParserElement.enablePackrat()
 
 from pyparsing import delimitedList, Forward, Literal, stringEnd, nums, Word, \
@@ -56,18 +57,16 @@ def get_or(l):
     return tmp
 
 
-from contracts.library.arithmetic import parse_arithmetic_rvalue, \
-    parse_unary_minus, parse_arithmetic_rvalue_simpler
+from contracts.library.arithmetic import Unary, Binary
 
-#operand = (floatnumber | integer) | get_or(ParsingTmp.rvalues_types)
 operand = (integer | floatnumber) | get_or(ParsingTmp.rvalues_types)
 
 expr = operatorPrecedence(operand,
     [
-     ('-', 1, opAssoc.RIGHT, parse_unary_minus),
-     ('*', 2, opAssoc.LEFT, parse_arithmetic_rvalue_simpler),
-     ('-', 2, opAssoc.LEFT, parse_arithmetic_rvalue_simpler),
-     ('+', 2, opAssoc.LEFT, parse_arithmetic_rvalue_simpler),
+     ('-', 1, opAssoc.RIGHT, Unary.parse_action),
+     ('*', 2, opAssoc.LEFT, Binary.parse_action),
+     ('-', 2, opAssoc.LEFT, Binary.parse_action),
+     ('+', 2, opAssoc.LEFT, Binary.parse_action),
     ]
     
     )
@@ -76,12 +75,30 @@ rvalue << expr
 
 from contracts.library.comparison import CheckOrder
 
-def parse_as_contract(s, loc, tokens):
-    where = W(s, loc)
-    rvalue = tokens[0]
-    return CheckOrder(where, None, rvalue, False, True, False)
+class EqualTo(Contract):
+    def __init__(self, rvalue, where=None):
+        Contract.__init__(self, where)
+        self.rvalue = rvalue
+        
+    def check_contract(self, context, value):
+        val = context.eval(self.rvalue, self)
+        if not(val == value):
+            error = ('Condition %s == %s not respected.' % (val, value))
+            raise ContractNotRespected(contract=self, error=error,
+                                       value=value, context=context)    
+    def __str__(self):
+        return "%s" % self.rvalue
+        
+    def __repr__(self):
+        return 'EqualTo(%r)' % self.rvalue
+    
+    @staticmethod
+    def parse_action(s, loc, tokens):
+        where = W(s, loc)
+        rvalue = tokens[0]
+        return EqualTo(rvalue, where)
 
-add_contract(rvalue.copy().setParseAction(parse_as_contract))
+add_contract(rvalue.copy().setParseAction(EqualTo.parse_action))
 
 simple_contract << get_xor(ParsingTmp.contract_types)
 

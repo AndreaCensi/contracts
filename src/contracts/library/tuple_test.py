@@ -19,10 +19,10 @@ good('tuple(int,float)', (1, 2.0))
 fail('tuple(float,float)', (1, 2.0))
 good('tuple(type(x),type(x))', (1, 2))
 # something complicated: nested tuples
-good('tuple(x, tuple(*,*,x))', (1, (2, 3, 1)))
-fail('tuple(x, tuple(*,*,x))', (1, (2, 3, 2)))
-good('tuple(type(x), tuple(*,*,type(x)))', (1, (2.1, 3.0, 3)))
-fail('tuple(type(x), tuple(*,*,type(x)))', (1, (2.1, 3.0, 3.1)))
+good('tuple(x,tuple(*,*,x))', (1, (2, 3, 1)))
+fail('tuple(x,tuple(*,*,x))', (1, (2, 3, 2)))
+good('tuple(type(x),tuple(*,*,type(x)))', (1, (2.1, 3.0, 3)))
+fail('tuple(type(x),tuple(*,*,type(x)))', (1, (2.1, 3.0, 3.1)))
 # cannot specify both, even if coherent
 syntax_fail('tuple[*](*,*)')
  
