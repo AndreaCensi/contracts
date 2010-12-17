@@ -46,6 +46,7 @@ class BindVariable(Contract):
             return BindVariable(where, variable, allowed_types)
         return parse
 
+
 alphabet = 'A B C D E F G H I J K L M N O P Q R S T U W V X Y Z'
 int_variables = oneOf(alphabet)
 misc_variables = oneOf(alphabet.lower())

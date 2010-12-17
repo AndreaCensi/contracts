@@ -52,9 +52,34 @@ class BoundVariable:
     def __repr__(self):
         return "%r" % self.value
 
+
 class RValue:
+    
     def eval(self, context):
         pass
+#    
+#    def __eq__(self, other):
+#        members = self.__dict__.keys()
+#        members.remove('where')
+#        for m in members:
+#            if not(getattr(self, m) == getattr(other, m)):
+#                return False
+#        return True
+
+    def __eq__(self, other):
+        members = self.__dict__.keys()
+        members.remove('where')
+        for m in members:
+            mine = getattr(self, m)
+            his = getattr(other, m)
+            if not(mine == his): # NOTE: different than (mine != his)
+                print('In %s: Failed on member %r:\n- %r (%s) vs\n- %r (%s)' % 
+                      (self.__class__.__name__,
+                       m, mine, mine.__class__.__name__,
+                       his, his.__class__.__name__))
+                return False
+        return True
+
     
 class VariableRef(RValue):
     def __init__(self, where, variable):
@@ -105,6 +130,7 @@ class Context:
 class Contract:
     
     def __init__(self, where):
+        # XXX
         from procgraph.core.parsing_elements import Where
         assert isinstance(where, Where)
         self.where = where
@@ -117,8 +143,19 @@ class Contract:
         raise ValueError('You did not implement check_contract() for %s.' % 
                          self.__class__.__name__)
     
-    
-    
-    
-    
+    def __eq__(self, other):
+        members = self.__dict__.keys()
+        members.remove('where')
+        for m in members:
+            mine = getattr(self, m)
+            his = getattr(other, m)
+            if not(mine == his): # NOTE: different than (mine != his)
+                print('In %s: Failed on member %r:\n- %r (%s) vs\n- %r (%s)' % 
+                      (self.__class__.__name__,
+                       m, mine, mine.__class__.__name__,
+                       his, his.__class__.__name__))
+                return False
+        return True
+        
+        
     

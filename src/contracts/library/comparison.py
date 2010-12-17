@@ -70,7 +70,7 @@ class CheckOrder(Contract):
                                        value=value, context=context)
     
     def __str__(self):
-        if self.expr1:
+        if self.expr1 is not None:
             return '%s%s%s' % (self.expr1, self.glyph, self.expr2)
         else:
             return '%s%s' % (self.glyph, self.expr2)

@@ -36,7 +36,7 @@ from . import arithmetic_test
 
 try: 
     import numpy
-    from . import array
-    from . import array_test
+    #from . import array
+    #from . import array_examples
 except:
     pass
