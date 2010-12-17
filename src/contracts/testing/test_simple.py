@@ -8,7 +8,7 @@ from contracts.test_registrar import (good_examples, semantic_fail_examples,
 
 from . import test_multiple #@UnusedImport
 
-if True:
+if False:
     good_examples[:] = []
     syntax_fail_examples[:] = []
     semantic_fail_examples[:] = []

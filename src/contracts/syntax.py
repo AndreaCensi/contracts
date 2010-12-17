@@ -1,8 +1,11 @@
+from pyparsing import ParserElement
+ParserElement.enablePackrat()
+
 from pyparsing import delimitedList, Forward, Literal, stringEnd, nums, Word, \
-    CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc
+    CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, \
+    operatorPrecedence
 from procgraph.core.parsing_elements import Where 
 import numbers
-from pyparsing import operatorPrecedence
 
 class ParsingTmp:
     current_filename = 'unknown' 
