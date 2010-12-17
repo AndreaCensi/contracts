@@ -18,9 +18,12 @@ class String(Contract):
             self.length.check_contract(context, len(value))
             
     def __repr__(self):
+        return 'String[%r]' % self.length
+    
+    def __str__(self):
         s = 'str'
         if self.length is not None:
-            s += '[%r]' % self.length
+            s += '[%s]' % self.length
         return s
             
     @staticmethod
@@ -34,6 +37,6 @@ class String(Contract):
         return String(where, length)
  
 
-string_contract = S('str') + O(S('[') + contract('length') + S(']')) 
+string_contract = 'str' + O('[' + contract('length') + ']') 
 
 add_contract(string_contract.setParseAction(String.parse_action))

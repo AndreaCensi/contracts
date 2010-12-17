@@ -29,7 +29,7 @@ class Dict(Contract):
     def __str__(self):
         s = 'dict'
         if self.length is not None:
-            s += '[%r]' % self.length
+            s += '[%s]' % self.length
         if self.key_c is not None:
             k = str(self.key_c)
         else:

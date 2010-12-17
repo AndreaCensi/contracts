@@ -32,11 +32,14 @@ class Tuple(Contract):
                 self.elements[i].check_contract(context, value[i])
     
     def __repr__(self):
+        return 'Tuple(%r,%r)' % (self.length, self.elements)
+    
+    def __str__(self):
         s = 'tuple'
         if self.length is not None:
-            s += '[%r]' % self.length
+            s += '[%s]' % self.length
         if self.elements is not None:
-            s += '(%s)' % ",".join(x.__repr__() for x in self.elements)
+            s += '(%s)' % ",".join("%s" % x for x in self.elements)
         return s
             
     @staticmethod

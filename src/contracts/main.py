@@ -47,7 +47,8 @@ def parse_contract_string(string, filename=None):
         msg = 'Error in parsing string: %s' % e
         raise ContractSyntaxError(msg, where=where)
     
-        
+# TODO: add decorator-specific exception
+
 def contracts(accepts=None, returns=None):
     ''' Decorator for turning functions into simple blocks. '''        
     # OK, this is black magic. You are not expected to understand this.
@@ -148,6 +149,5 @@ def parse_contracts_from_docstring(function):
     accepts = []
     for a in args:
         accepts.append(name2type[a])
-        
         
     return accepts, returns

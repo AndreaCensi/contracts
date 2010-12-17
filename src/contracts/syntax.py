@@ -59,7 +59,8 @@ def get_or(l):
 from contracts.library.arithmetic import parse_arithmetic_rvalue, \
     parse_unary_minus
 
-operand = (floatnumber | integer) | get_or(ParsingTmp.rvalues_types)
+#operand = (floatnumber | integer) | get_or(ParsingTmp.rvalues_types)
+operand = (integer | floatnumber) | get_or(ParsingTmp.rvalues_types)
 
 expr = operatorPrecedence(operand,
     [

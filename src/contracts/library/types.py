@@ -38,8 +38,11 @@ class Type(Contract):
     def check_contract(self, context, value): 
         self.type_constraint.check_contract(context, type(value))
     
+    def __str__(self):
+        return 'type(%s)' % self.type_constraint
+
     def __repr__(self):
-        return 'type(%r)' % self.type_constraint
+        return 'Type(%r)' % self.type_constraint
 
     @staticmethod
     def parse_action(s, loc, tokens):

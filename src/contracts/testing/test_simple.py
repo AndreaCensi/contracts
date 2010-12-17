@@ -87,13 +87,19 @@ def test_contract_fail():
         yield check_contracts_fail, contract, value, ContractNotRespected
 
         
-if False:
+if True:
     for contract, value in (good_examples + semantic_fail_examples):
-        parsed = parse_contract_string(contract)
-        if str(parsed) == contract:
-            mark = ' '
-        else:
-            mark = '~'
-            
-        print '{0:>20} {1:>20}  {2}'.format(contract, parsed, mark)
+        if isinstance(contract, str):
+            contract = [contract]
+        
+        for c in contract:
+            parsed = parse_contract_string(c)
+            if str(parsed) == c:
+                mark = ' '
+            else:
+                mark = '~'
+                
+            print '{0} {1:>30} {2:>30} {3:>80}'.format(mark, c,
+                                                       "%s" % parsed,
+                                                      "%r" % parsed)
 

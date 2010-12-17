@@ -24,12 +24,16 @@ class List(Contract):
                 context2 = context
                 self.elements_contract.check_contract(context2, element)
     
-    def __repr__(self):
+    def __str__(self):
         s = 'list'
         if self.length_contract is not None:
-            s += '[%r]' % self.length_contract
+            s += '[%s]' % self.length_contract
         if self.elements_contract is not None:
-            s += '(%r)' % self.elements_contract
+            s += '(%s)' % self.elements_contract
+        return s
+    
+    def __repr__(self):
+        s = 'List(%r,%r)' % (self.length_contract, self.elements_contract)
         return s
             
     @staticmethod

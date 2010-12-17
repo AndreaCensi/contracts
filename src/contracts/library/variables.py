@@ -31,8 +31,11 @@ class BindVariable(Contract):
             
             context.set_variable(self.variable, value, origin=self)
             
-    def __repr__(self):
+    def __str__(self):
         return self.variable
+        
+    def __repr__(self):
+        return 'BindVariable(%r,%s)' % (self.variable, self.allowed_types)
         
     @staticmethod
     def parse_action(allowed_types):
