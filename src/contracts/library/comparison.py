@@ -1,6 +1,7 @@
 from contracts.interface import Contract, ContractNotRespected, \
     ContractSemanticError, RValue
 from contracts.syntax import W, add_contract, O, Literal, isnumber, rvalue
+from pyparsing import operatorPrecedence
  
 class CheckOrder(Contract):
     
@@ -31,7 +32,12 @@ class CheckOrder(Contract):
         # in that case, we don't care for the type
         
         # FIXME: add support for != here
-        if (self.smaller, self.equal, self.larger) == (False, True, False):
+        pure_equality = (
+            (self.smaller, self.equal, self.larger) == (False, True, False) 
+            or 
+            (self.smaller, self.equal, self.larger) == (True, False, True)) 
+         
+        if pure_equality:
             # but we want them to be either numbers or same type
             if (not (isnumber(val1) and isnumber(val2))) and \
                 type(val1) != type(val2):
@@ -39,7 +45,7 @@ class CheckOrder(Contract):
                        "are not numbers (%s,%s)" % (type(val1), type(val2))) 
                 raise ContractSemanticError(self, msg, context)
         
-            ok = (val1 == val2)
+            ok = (val1 == val2) ^ (not self.equal)
         else:
             # We potentially want < or >. They must be numbers.
     
@@ -106,4 +112,14 @@ for condition, glyph in combinations:
 
 
 
-
+#
+#comparison = operatorPrecedence(rvalue,
+#    [
+#     ('>', 2, opAssoc.LEFT, parse_arithmetic_rvalue(lambda x, y:x * y, '*')),
+#     ('>', 2, opAssoc.LEFT, parse_arithmetic_rvalue(lambda x, y:x - y, '-')),
+#     ('+', 2, opAssoc.LEFT, parse_arithmetic_rvalue(lambda x, y:x + y, '+')),
+#    ]
+#    
+#    )
+#
+#add_contract(comparison)

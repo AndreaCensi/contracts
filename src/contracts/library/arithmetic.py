@@ -1,8 +1,6 @@
-from contracts.interface import Contract, ContractSemanticError, RValue
-from contracts.syntax import isnumber, W, add_rvalue, add_contract, rvalue, Literal, \
-    S
+from contracts.interface import ContractSemanticError, RValue
+from contracts.syntax import (isnumber, W)
 from contracts.library.comparison import CheckOrder
-from pyparsing import operatorPrecedence, opAssoc
 
 class DoArithmetic(RValue):
     

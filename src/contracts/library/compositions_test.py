@@ -1,4 +1,4 @@
-from contracts.test_registrar import syntax_fail, good, fail
+from contracts.test_registrar import good, fail
 
 # AND
 fail('=0,=1', 0)

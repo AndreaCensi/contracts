@@ -8,41 +8,65 @@ from contracts.test_registrar import (good_examples, semantic_fail_examples,
 
 from . import test_multiple #@UnusedImport
 
-if False:
+if True:
     good_examples[:] = []
     syntax_fail_examples[:] = []
     semantic_fail_examples[:] = []
     contract_fail_examples[:] = []
 
-good('dict', {})
-syntax_fail('dict[]')
-syntax_fail('dict[]()')
-syntax_fail('dict()')
-good('dict[1]', {1:2})
-good('dict[N],N<2', {1:2})
-fail('dict[N],N<2', {1:2, 3:4})
-good('dict(int:int)', {1:2})
-fail('dict(int:int)', {'a':2})
-good('dict(*:int)', {1:2})
-good('dict(*:int)', {'a':2})
-
-# dictionary of string -> tuple, with tuple of two elements with different type
-good('dict(str:tuple)', {'a':(2, 1.1)})
-good('dict(str:tuple(type(x),type(y))),x!=y', {'a':(2, 1.1)})
-fail('dict(str:tuple(type(x),type(y))),x!=y', {'a':(2, 1)})
 
 
-## dictionary of string -> tuple, with tuple of two elements with different type
-## In this case, each value should have the same two types
-#good('dict(str:tuple(type(x),type(y)),x!=y', {'a':(2, 1.1)})
-#fail('dict(str:tuple(type(x),type(y)),x!=y', {'a':(2, 1)})
-#
-## This fails because we have x=int,y=float followed by float,int
-#fail('dict(str:tuple(type(x),type(y)),x!=y', {'a':(2, 1.1), 'b': (1.1, 2)})
-#
-## Here we force the context to not match using $(...) 
-#good('dict(str:$(tuple(type(x),type(y)),x!=y))', {'a':(2, 1.1), 'b': (1.1, 2)})
-#fail('dict(str:$(tuple(type(x),type(y)),x!=y))', {'a':(2, 1)})
+# Basic comparisons, unitary syntax
+good('=0', 0)
+good('==0', 0)
+fail('=0', 1)
+fail('==0', 1)
+good('!=0', 1)
+fail('!=0', 0)
+good('>0', 1)
+fail('>0', 0)
+fail('>0', -1)
+good('>=0', 1)
+good('>=0', 0)
+fail('>=0', -1)
+good('<0', -1)
+fail('<0', 0)
+fail('<0', +1)
+good('<=0', -1)
+good('<=0', 0)
+fail('<=0', +1)
+
+# wrong types
+good('=1', 1)
+semantic_fail('=1', [1])
+semantic_fail('=0', [0])
+
+semantic_fail('>0', [])
+
+# binary syntax
+good('1>0', None)
+fail('1>1', None)
+good('0<1', None)
+fail('1<1', None)
+good('1>=0', None)
+fail('1>=2', None)
+good('0<=1', None)
+fail('2<=1', None)
+good('1=1', None)
+fail('1=0', None)
+good('1==1', None)
+fail('1==0', None)
+good('0!=1', None)
+fail('0!=0', None)
+
+
+good('1+1>=0', None)
+fail('0>=1+1', None)
+good('1-1=0', None)
+fail('1-1=1', None)
+good('-1<=1-1', None)
+good('3*2>=2*1', None)
+
 
 
 
