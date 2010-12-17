@@ -45,7 +45,6 @@ def parse_arithmetic_rvalue(operation, glyph):
 
 def parse_unary_minus(s, loc, tokens):
     where = W(s, loc)
-    print tokens
     expr1 = 0
     glyph = tokens[0][0]
     expr2 = tokens[0][1]
