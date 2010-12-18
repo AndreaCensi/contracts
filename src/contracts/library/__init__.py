@@ -40,7 +40,6 @@ try:
 except:
     use_numpy = False
 
-use_numpy = False
 if use_numpy:
     from . import array_examples
     from . import array

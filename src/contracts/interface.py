@@ -149,6 +149,8 @@ class Contract:
                          self.__class__.__name__)
     
     def __eq__(self, other):
+        if not isinstance(other, type(self)):
+            return False
         members = self.__dict__.keys()
         members.remove('where')
         for m in members:

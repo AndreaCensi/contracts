@@ -83,4 +83,4 @@ and_op.setParseAction(And.parse_action)
 or_op = at_least_2_delim_list(simple_contract, '|') 
 or_op.setParseAction(OR.parse_action)
 
-composite_contract = or_op ^ and_op
+composite_contract = or_op ^ and_op # FIXME: Are you sure? parenthesis/precedence 

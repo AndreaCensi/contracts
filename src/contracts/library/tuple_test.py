@@ -25,4 +25,3 @@ good('tuple(type(x),tuple(*,*,type(x)))', (1, (2.1, 3.0, 3)))
 fail('tuple(type(x),tuple(*,*,type(x)))', (1, (2.1, 3.0, 3.1)))
 # cannot specify both, even if coherent
 syntax_fail('tuple[*](*,*)')
- 

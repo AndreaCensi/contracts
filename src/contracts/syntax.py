@@ -16,6 +16,18 @@ class ParsingTmp:
 def W(string, location):
     return Where(ParsingTmp.current_filename, string, location)
 
+def get_xor(l):
+    tmp = l[0]
+    for i in range(1, len(l)):
+        tmp = tmp.__xor__(l[i])
+    return tmp
+
+def get_or(l):
+    tmp = l[0]
+    for i in range(1, len(l)):
+        tmp = tmp.__or__(l[i])
+    return tmp
+
 O = Optional
 S = Suppress
 
@@ -42,18 +54,6 @@ def add_rvalue(x):
 from . import library #@UnusedImport
 from library.compositions import composite_contract
 
-
-# Finally define the simple contract
-def get_xor(l):
-    tmp = l[0]
-    for i in range(1, len(l)):
-        tmp = tmp.__xor__(l[i])
-    return tmp
-def get_or(l):
-    tmp = l[0]
-    for i in range(1, len(l)):
-        tmp = tmp.__or__(l[i])
-    return tmp
 
 
 from contracts.library.arithmetic import Unary, Binary

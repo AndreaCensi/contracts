@@ -13,15 +13,12 @@ good('array', a_f64)
 good('ndarray', a_f32)
 good('ndarray', a_f64)
 fail('array', [0, 1])
-# can be converted to an array
-good('as_array', [0, 1])
-fail('as_array', None)
-# types
+# dtypes
 good('array(uint8)', a_u8)
 good('array(float32)', a_f32)
 good('array(float64)', a_f64)
-fail('array(float64)', a_f64)
-fail('array(float32)', a_f32)
+fail('array(float64)', a_f32)
+fail('array(float32)', a_f64)
 fail('array(uint8)', a_f32)
 fail('array(float32)', a_u8)
 
@@ -101,14 +98,19 @@ good('array(<=2)', A)
 good('array(=0)', zeros((10)))
 good('array(=1)', ones((10)))
 
-# Shortcuts for images
-rgb1 = numpy.zeros((10, 10, 3), 'uint8')
-rgb2 = numpy.zeros((20, 20, 3), 'uint8')
-rgba1 = numpy.zeros((10, 10, 4), 'uint8')
-good(['rgb', 'rgb'], [rgb1, rgb2]) 
-fail('rgba', rgb1)
-fail('rgb', rgba1)
-good('rgb|rgba', rgb1) 
-good('rgb|rgba', rgba1)
+## Shortcuts for images
+#rgb1 = numpy.zeros((10, 10, 3), 'uint8')
+#rgb2 = numpy.zeros((20, 20, 3), 'uint8')
+#rgba1 = numpy.zeros((10, 10, 4), 'uint8')
+#good(['rgb', 'rgb'], [rgb1, rgb2]) 
+#fail('rgba', rgb1)
+#fail('rgb', rgba1)
+#good('rgb|rgba', rgb1) 
+#good('rgb|rgba', rgba1)
+
+# TODO
+# can be converted to an array
+#good('as_array', [0, 1])
+#fail('as_array', None)
 
 # TODO: finite, notnan, etc.

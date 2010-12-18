@@ -1,4 +1,4 @@
-from contracts.test_registrar import syntax_fail, good, fail, semantic_fail
+from contracts.test_registrar import syntax_fail, good, fail
 
 good('dict', {})
 fail('dict', 1)
