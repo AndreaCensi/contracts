@@ -36,7 +36,10 @@ fail('shape[>0]', a0d)
 fail('shape[<1]', a1d)
 fail('shape[>2]', a2d)
 fail('shape[<3]', a3d)
-semantic_fail('shape[x]', a3d)
+good(['shape[x]', 'shape[y],x=y'], [a3d, a3d])
+good(['shape[x]', 'shape[y],x=y'], [a2d, a2d])
+good(['shape[x]', 'shape[y],x=y'], [a1d, a1d])
+good(['shape[x]', 'shape[y],x=y'], [a0d, a0d])
 
 good('shape(2,4)', a2d)
 fail('shape(2,4)', a3d)
@@ -45,7 +48,7 @@ good('shape(2,4,...)', a2d)
 good('shape(2,4,...)', a3d)
 # if we really want more, use:
 good('shape[>2](2,4,...)', a3d)
-fail('shape[>2](2,4,...)', a3d)
+fail('shape[>2](2,4,...)', a2d)
 
 # Try some binding:
 good('shape(X,Y,...),X=2,Y=4', a3d)
@@ -60,7 +63,7 @@ good('shape(2x4x...)', a2d)
 good('shape(2x4x...)', a3d)
 # if we really want more, use:
 good('shape[>2](2x4x...)', a3d)
-fail('shape[>2](2x4x...)', a3d)
+fail('shape[>2](2x4x...)', a2d)
 
 # We don't do in between yet
 syntax_fail('shape(2x...x3)')
@@ -88,7 +91,8 @@ good('array[shape[2]]', a2d)
 good('array[shape[3]]', a3d)
 
 good('array[1x2]', zeros((1, 2)))
-syntax_fail('array[1,2]')
+good('array[1,2]', zeros((1, 2)))
+
 
 # Now: special comparisons for arrays
 A = numpy.array([0, 1, 2])

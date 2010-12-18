@@ -2,7 +2,7 @@ from ..interface import Contract, ContractNotRespected
 from ..syntax import add_contract, W, contract, O, S
 from numpy  import ndarray
 from contracts.syntax import S, isnumber, rvalue, get_or, simple_contract
-from pyparsing import ZeroOrMore, Literal
+from pyparsing import ZeroOrMore, Literal, Group
 import numpy
 from contracts.interface import RValue
 from pyparsing import stringEnd
@@ -47,29 +47,33 @@ class Array(Contract):
 
 
 class ShapeContract(Contract):
-    def __init__(self, dimensions, ellipsis, where=None):
+    def __init__(self, dimensions, ellipsis=False, where=None):
+        assert isinstance(dimensions, list)
+        assert isinstance(ellipsis, bool)
         Contract.__init__(self, where)
         self.dimensions = dimensions
         self.ellipsis = ellipsis
     
     def check_contract(self, context, value):
         if not isinstance(value, tuple):
-            assert False, 'Expected a tuple got %r.' % value.__class__.__name__
+            assert False, 'Expected a tuple, got %r.' % value.__class__.__name__
 
+        #print('In ShapeContract, checking %r with %s = %r' % (value, self, self))
         expected = len(self.dimensions)
         ndim = len(value)
+    
         if ndim < expected:
             error = 'Expected %d dimensions, got %d.' % (expected, ndim)
             raise ContractNotRespected(contract=self, error=error,
                                        value=value, context=context)
-        if ndim > expected and not ellipsis:
+        if ndim > expected and not self.ellipsis:
             error = 'Expected %d dimensions, got %d.' % (expected, ndim) 
             raise ContractNotRespected(contract=self, error=error,
                                        value=value, context=context)
         
         for i in range(expected):
-            self.dimensions.check_contract(context, value[i])
-    
+            self.dimensions[i].check_contract(context, value[i])
+        
     def __str__(self):
         s = 'x'.join("%s" % x for x in self.dimensions)
         if self.ellipsis:
@@ -77,17 +81,31 @@ class ShapeContract(Contract):
         return s
     
     def __repr__(self):
-        s = 'ShapeContract(%r,%r)' % (self.dimensions, self.ellipsis)
+        if self.ellipsis:
+            s = 'ShapeContract(%r,%r)' % (self.dimensions, self.ellipsis)
+        else:
+            s = 'ShapeContract(%r)' % self.dimensions
         return s
     
     @staticmethod 
     def parse_action(s, loc, tokens):
         where = W(s, loc)
-        dimensions = list(tokens.get('dimensions'))
-        ellipsis = 'ellipsis' in tokens
-        sc = ShapeContract(dimensions, ellipsis, where=where)
-        print "Parsed %r" % sc
-        return sc
+        #print "In ShapeContract: Looking at tokens: :%r " % tokens
+        # workaround for some bugs
+        ellipsis = False
+        dimensions = []
+        for t in tokens:
+            if t == '...':
+                ellipsis = True
+            #print 'Got token %r ' % t
+            else:
+                assert isinstance(t, Contract), 'Wrong token %r' % t
+                dimensions.append(t)
+#        ellipsis = False
+#        dimensions = list(tokens.get('dimensions'))
+#        ellipsis = 'ellipsis' in tokens
+        return ShapeContract(dimensions, ellipsis, where=where)
+        #print "Parsed %r" % sc
 
 class Shape(Contract):
     def __init__(self, length, contract, where=None):
@@ -100,10 +118,14 @@ class Shape(Contract):
             assert False, 'Expected an array, got %r.' % value.__class__.__name__
         if isinstance(value, ndarray):
             value = value.shape
+            
+        #print 'In Shape, checking %r against %s = %r' % (str(value), self, self)
+        
         if self.length is not None:
             self.length.check_contract(context, len(value))
             
         if self.contract is not None:
+            #print 'In Shape, calling %s = %r' % (self.contract, self.contract)
             self.contract.check_contract(context, value)
     
     def __str__(self):
@@ -121,12 +143,29 @@ class Shape(Contract):
     @staticmethod 
     def parse_action(s, loc, tokens):
         where = W(s, loc)
+        #print "In Shape: Looking at tokens: :%r " % tokens
+        assert 0 <= len(tokens) <= 2
 #        print "Got tokens: ", tokens
-        length = tokens.get('length', None)
-        contract = tokens.get('contract', None)
+#        length = tokens.get('length', None)
+#        contract = tokens.get('contract', None)
+        # Workaround about some bugs
+        if 'length' in tokens:
+            length = tokens[0]
+            if len(tokens) == 2:
+                contract = tokens[1]
+            else:
+                contract = None
+        else:
+            length = None
+            if len(tokens) == 1:
+                contract = tokens[0]
+            else:
+                contract = None
 #        print "found length = %r" % length
 #        print "found contract = %r" % contract
-        return Shape(length, contract, where)
+        s = Shape(length, contract, where) 
+        #print 'Parsed %r' % s
+        return s
     
     
 class DType(Contract):
@@ -240,17 +279,17 @@ for x in ['uint8', 'int8', 'float32', 'float64']:
  
 ndarray_contract = get_or(dtype_checks) | get_or(array_constraints)
 
-def my_delim_list(what, delim): 
+def my_delim_list2(what, delim): 
     return (what + ZeroOrMore(S(delim) + what))
 
 ellipsis = Literal('...')
 delim = Literal('x') ^ Literal(',')
-shape_contract = my_delim_list(simple_contract, delim)('dimensions') + \
-    O(S(delim) + ellipsis('ellipsis')) #+ stringEnd 
+shape_contract = my_delim_list2(simple_contract, delim) \
+ + O(S(delim) + ellipsis('ellipsis')) #+ stringEnd 
 shape_contract.setParseAction(ShapeContract.parse_action)
 
 shape = S('shape') + O(S('[') + contract('length') + S(']')) + \
-            O(S('(') + shape_contract('contract') + S(')'))  
+            O(S('(') + shape_contract + S(')')) # bug pyparsing, do not give name  
 shape.setParseAction(Shape.parse_action)
 add_contract(shape)
 

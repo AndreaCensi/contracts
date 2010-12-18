@@ -29,10 +29,8 @@ from contracts.library.array import ShapeContract, Shape, Array, ArrayConstraint
 import numpy
 from numpy import dtype
 
-Array(None, DType(dtype('float32')))
-
 select = False
-select = True
+#select = True
 if select:
     good_examples[:] = []
     syntax_fail_examples[:] = []
@@ -55,15 +53,15 @@ a3d = numpy.zeros((2, 4, 8))
 #fail('shape[>2]', a2d)
 #fail('shape[<3]', a3d)
 #semantic_fail('shape[x]', a3d)
-
-good('shape(2,4)', a2d)
+#
+#good('shape(2,4)', a2d)
 #fail('shape(2,4)', a3d)
 ## ellipsis to mean 0 or more dimensions 
 #good('shape(2,4,...)', a2d)
 #good('shape(2,4,...)', a3d)
 ## if we really want more, use:
 #good('shape[>2](2,4,...)', a3d)
-#fail('shape[>2](2,4,...)', a3d)
+#fail('shape[>2](2,4,...)', a2d)
 #
 ## Try some binding:
 #good('shape(X,Y,...),X=2,Y=4', a3d)
@@ -78,14 +76,13 @@ good('shape(2,4)', a2d)
 #good('shape(2x4x...)', a3d)
 ## if we really want more, use:
 #good('shape[>2](2x4x...)', a3d)
-#fail('shape[>2](2x4x...)', a3d)
+#fail('shape[>2](2x4x...)', a2d)
 #
 ## We don't do in between yet
 #syntax_fail('shape(2x...x3)')
 ## Try some binding:
 #good('shape(XxY,...),X=2,Y=4', a2d)
 #good('shape(XxY,...),X=2,Y=4', a3d)
-
 
 
 
