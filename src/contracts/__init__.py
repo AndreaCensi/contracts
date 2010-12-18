@@ -5,5 +5,4 @@ from interface import *
 
 from . import syntax
 
-
 from main import *

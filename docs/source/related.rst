@@ -1,7 +1,7 @@
-Pycontracts
+PyContracts
 ===========
 
-Pycontracts is a Python package that allows to declare constraints on function parameters
+PyContracts is a Python package that allows to declare constraints on function parameters
 and return values. It supports a basic type system, variables binding, 
 arithmetic constraints, and has several specialized contracts (notably for Numpy arrays). 
 Pycontracts can parse the contracts specified in RST docstrings (using the standard ``:type:`` and ``:rtype`` constructs);
@@ -15,7 +15,7 @@ For example, "I need a list of at least 3 positive numbers" can be expressed as 
 
 **Installation** Install pycontracts using: ::
 
-	$ pip install pycontracts
+	$ pip install contracts
 	
 or from github (project page):
 
@@ -23,6 +23,10 @@ or from github (project page):
 	$ cd contracts
 	$ python setup.py develop
 	$ nosetests -w src         # run the extensive test suite
+
+The beautiful library pyparsing_ is required.
+
+.. _pyparsing: 
 
 XXX: read-only?
 
