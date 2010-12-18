@@ -39,16 +39,8 @@ class List(Contract):
     @staticmethod
     def parse_action(s, loc, tokens):
         where = W(s, loc)
-        if 'length_contract' in tokens:
-            length_contract = tokens['length_contract']
-        else:
-            length_contract = None
-            
-        if 'elements_contract' in tokens:
-            elements_contract = tokens['elements_contract']
-        else: 
-            elements_contract = None
-        
+        length_contract = tokens.get('length_contract', None)
+        elements_contract = tokens.get('elements_contract', None)
         return List(length_contract, elements_contract, where=where)
  
 

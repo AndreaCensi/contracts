@@ -85,10 +85,7 @@ class CheckOrder(Contract):
     
     @staticmethod
     def parse_action(s, loc, tokens):
-        if 'expr1' in tokens:
-            expr1 = tokens['expr1']
-        else:
-            expr1 = None
+        expr1 = tokens.get('expr1', None)
         glyph = tokens['glyph']
         expr2 = tokens['expr2']
         where = W(s, loc)

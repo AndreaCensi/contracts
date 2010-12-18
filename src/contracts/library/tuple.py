@@ -45,11 +45,7 @@ class Tuple(Contract):
     @staticmethod
     def parse_action(s, loc, tokens): 
         where = W(s, loc)
-        if 'length' in tokens:
-            length = tokens['length']
-        else:
-            length = None
-            
+        length = tokens.get('length', None)
         if 'elements' in tokens:
             elements = list(tokens['elements'])
         else: 

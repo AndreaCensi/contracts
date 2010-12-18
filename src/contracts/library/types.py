@@ -58,8 +58,8 @@ class Type(Contract):
 
     @staticmethod
     def parse_action(s, loc, tokens):
-        type_constraint = tokens['type_constraint']
         where = W(s, loc)
+        type_constraint = tokens['type_constraint']
         return Type(type_constraint, where) #@UnusedVariable
 
 

@@ -36,8 +36,7 @@ simple_contract = Forward()
 
 def add_contract(x):
     ParsingTmp.contract_types.append(x)
-def add_rvalue(x): 
-    #print 'Adding', x
+def add_rvalue(x):  
     ParsingTmp.rvalues_types.append(x)
 
 from . import library #@UnusedImport

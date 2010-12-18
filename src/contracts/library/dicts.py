@@ -48,21 +48,9 @@ class Dict(Contract):
     @staticmethod
     def parse_action(s, loc, tokens):
         where = W(s, loc)
-        if 'length' in tokens:
-            length = tokens['length']
-        else:
-            length = None
-            
-        if 'key' in tokens:
-            key = tokens['key']
-        else: 
-            key = None
-        
-        if 'value' in tokens:
-            value = tokens['value']
-        else: 
-            value = None
-
+        length = tokens.get('length', None)
+        key = tokens.get('key', None)
+        value = tokens.get('value', None)
         return Dict(length, key, value, where=where)
  
 
