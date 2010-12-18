@@ -2,9 +2,9 @@ from pyparsing import ParserElement
 from contracts.interface import Contract, ContractNotRespected
 ParserElement.enablePackrat()
 
-from pyparsing import delimitedList, Forward, Literal, stringEnd, nums, Word, \
-    CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, \
-    operatorPrecedence
+from pyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
+    CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport
+    operatorPrecedence)
 from procgraph.core.parsing_elements import Where 
 import numbers
 
@@ -73,7 +73,6 @@ expr = operatorPrecedence(operand,
 
 rvalue << expr 
 
-from contracts.library.comparison import CheckOrder
 
 class EqualTo(Contract):
     def __init__(self, rvalue, where=None):

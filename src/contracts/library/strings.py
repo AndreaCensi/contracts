@@ -1,5 +1,5 @@
 from ..interface import Contract, ContractNotRespected
-from ..syntax import add_contract, W, contract, O, S, OneOrMore
+from ..syntax import add_contract, W, contract, O
 
 class String(Contract):
     

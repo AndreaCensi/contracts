@@ -1,5 +1,5 @@
 from contracts.interface import Contract, ContractNotRespected
-from contracts.syntax import integer, floatnumber, W, add_contract
+from contracts.syntax import W
 
 class CheckEqual(Contract):
     
@@ -22,7 +22,4 @@ class CheckEqual(Contract):
         where = W(s, loc)
         value = tokens[0]
         return CheckEqual(where, value)
-
-#simple = integer ^ floatnumber
-
-#add_contract(simple.setParseAction(CheckEqual.parse_action))
+ 

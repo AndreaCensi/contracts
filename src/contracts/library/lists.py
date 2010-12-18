@@ -1,5 +1,5 @@
 from ..interface import Contract, ContractNotRespected
-from ..syntax import add_contract, W, contract, integer, O, S
+from ..syntax import add_contract, W, contract, O, S
 
 class List(Contract):
     
@@ -49,7 +49,7 @@ class List(Contract):
         else: 
             elements_contract = None
         
-        return List(length_contract, elements_contract, where=None)
+        return List(length_contract, elements_contract, where=where)
  
 
 list_contract = (S('list') + 

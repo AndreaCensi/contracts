@@ -1,5 +1,5 @@
 import numpy
-from contracts.main import contracts, contracts_decorate
+from contracts.main import contracts_decorate
 from contracts.interface import ContractNotRespected
 import unittest
 
@@ -26,7 +26,8 @@ def blend_function(image1, image2, bug=False):
     result = numpy.zeros((H, W, 3), 'uint8')
 
     # put here the actual function
-        
+    image2 
+    
     return result
 
 
@@ -69,8 +70,4 @@ if 0:
             # check that rtype checking works, introduce a bug
             self.assertRaises(ContractNotRespected, self.blend, rgb_small,
                               rgb_small, bug=True)
-    
-    
-
-
 

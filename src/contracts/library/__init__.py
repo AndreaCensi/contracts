@@ -36,7 +36,11 @@ from . import arithmetic_test
 
 try: 
     import numpy
-    #from . import array
-    #from . import array_examples
+    use_numpy = True
 except:
-    pass
+    use_numpy = False
+
+if use_numpy:
+    from . import array_examples
+    from . import array
+    

@@ -1,13 +1,16 @@
-from contracts.main import parse_contract_string 
-from contracts.interface import ContractSemanticError, ContractNotRespected, \
-    VariableRef
-from contracts.testing.utils import check_contracts_ok, check_syntax_fail, \
-    check_contracts_fail
-from contracts.test_registrar import (good_examples, semantic_fail_examples,
-                                      syntax_fail_examples, contract_fail_examples,
-    fail, good, syntax_fail, semantic_fail)
+import traceback
+from numbers import Number
+
+from ..main import parse_contract_string 
+from ..interface import ContractSemanticError, ContractNotRespected, VariableRef
+from ..test_registrar import (good_examples, semantic_fail_examples,
+                              syntax_fail_examples, contract_fail_examples,
+                              fail, good, syntax_fail, semantic_fail)
+from .utils import check_contracts_ok, check_syntax_fail, check_contracts_fail
 
 from . import test_multiple #@UnusedImport
+
+# TODO: remove all of these
 from contracts.library.arithmetic import Binary, Unary
 from contracts.library.simple_values import CheckEqual
 from contracts.library.variables import BindVariable
@@ -20,9 +23,9 @@ from contracts.library.tuple import Tuple
 from contracts.library.dummy import Any
 from contracts.library.dicts import Dict
 from contracts.library.strings import String
-from numbers import Number
-import traceback
+
 from contracts.library.separate_context import SeparateContext
+
 select = False
 #select = True
 if select:
@@ -48,28 +51,10 @@ def test_contract_fail():
     for contract, value in contract_fail_examples:
         yield check_contracts_fail, contract, value, ContractNotRespected
 
-#        
-#if False:
-#    for contract, value in (good_examples + semantic_fail_examples):
-#        if isinstance(contract, str):
-#            contract = [contract]
-#        
-#        for c in contract:
-#            parsed = parse_contract_string(c)
-#            if str(parsed) == c:
-#                mark = ' '
-#            else:
-#                mark = '~'
-#                
-#            print '{0} {1:>30} {2:>30} {3:>80}'.format(mark, c,
-#                                                       "%s" % parsed,
-#                                                      "%r" % parsed)
-
-
 def test_repr():
 #    ''' Checks that we can eval() the __repr__() value and we get
 #        an equivalent object. '''
-    for contract, value in (good_examples + semantic_fail_examples):
+    for contract, value in (good_examples + semantic_fail_examples): #@UnusedVariable
         if isinstance(contract, list):
             for c in contract:
                 yield check_good_repr, c
@@ -79,7 +64,7 @@ def test_repr():
 def test_reconversion():
 #    ''' Checks that we can reconvert the __str__() value and we get
 #        the same. '''
-    for contract, value in (good_examples + semantic_fail_examples):
+    for contract, value in (good_examples + semantic_fail_examples): #@UnusedVariable
         if isinstance(contract, list):
             for c in contract:
                 yield check_recoversion, c
@@ -122,7 +107,6 @@ def check_recoversion(s):
     # warn if the string is not exactly the same
     
     if s2 != s: 
-        mark = '~'
         print('Slight different regenerated strings:')
         print('   original: %s' % s)
         print('  generated: %s' % s2)

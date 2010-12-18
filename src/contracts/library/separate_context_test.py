@@ -1,4 +1,4 @@
-from contracts.test_registrar import syntax_fail, good, fail, semantic_fail
+from contracts.test_registrar import good, fail
 
 # dictionary of string -> tuple, with tuple of two elements with different type
 # In this case, each value should have the same two types
