@@ -1,5 +1,6 @@
 from contracts.main import parse_contract_string 
-from contracts.interface import ContractSemanticError, ContractNotRespected
+from contracts.interface import ContractSemanticError, ContractNotRespected, \
+    VariableRef
 from contracts.testing.utils import check_contracts_ok, check_syntax_fail, \
     check_contracts_fail
 from contracts.test_registrar import (good_examples, semantic_fail_examples,
@@ -7,7 +8,21 @@ from contracts.test_registrar import (good_examples, semantic_fail_examples,
     fail, good, syntax_fail, semantic_fail)
 
 from . import test_multiple #@UnusedImport
-
+from contracts.library.arithmetic import Binary, Unary
+from contracts.library.simple_values import CheckEqual
+from contracts.library.variables import BindVariable
+from contracts.library.comparison import CheckOrder
+from contracts.library.types import Type, CheckType
+from contracts.library.compositions import OR, And
+from contracts.syntax import EqualTo
+from contracts.library.lists import List
+from contracts.library.tuple import Tuple
+from contracts.library.dummy import Any
+from contracts.library.dicts import Dict
+from contracts.library.strings import String
+from numbers import Number
+import traceback
+from contracts.library.separate_context import SeparateContext
 select = False
 #select = True
 if select:
@@ -16,12 +31,6 @@ if select:
     semantic_fail_examples[:] = []
     contract_fail_examples[:] = []
 
-# Checking precedence
-good('1+2*3', 7)
-good('2*3+1', 7)
-# Now with parentheses
-good('=1+1*3', 4)
-good('=(1+1)*3', 6)
 
 def test_good():
     for contract, value in good_examples:
@@ -39,33 +48,33 @@ def test_contract_fail():
     for contract, value in contract_fail_examples:
         yield check_contracts_fail, contract, value, ContractNotRespected
 
-        
-if False:
-    for contract, value in (good_examples + semantic_fail_examples):
-        if isinstance(contract, str):
-            contract = [contract]
-        
-        for c in contract:
-            parsed = parse_contract_string(c)
-            if str(parsed) == c:
-                mark = ' '
-            else:
-                mark = '~'
-                
-            print '{0} {1:>30} {2:>30} {3:>80}'.format(mark, c,
-                                                       "%s" % parsed,
-                                                      "%r" % parsed)
+#        
+#if False:
+#    for contract, value in (good_examples + semantic_fail_examples):
+#        if isinstance(contract, str):
+#            contract = [contract]
+#        
+#        for c in contract:
+#            parsed = parse_contract_string(c)
+#            if str(parsed) == c:
+#                mark = ' '
+#            else:
+#                mark = '~'
+#                
+#            print '{0} {1:>30} {2:>30} {3:>80}'.format(mark, c,
+#                                                       "%s" % parsed,
+#                                                      "%r" % parsed)
 
 
-#def test_repr():
+def test_repr():
 #    ''' Checks that we can eval() the __repr__() value and we get
 #        an equivalent object. '''
-#    for contract, value in (good_examples + semantic_fail_examples):
-#        if isinstance(contract, list):
-#            for c in contract:
-#                yield check_good_repr, c
-#        else:
-#            yield check_good_repr, contract
+    for contract, value in (good_examples + semantic_fail_examples):
+        if isinstance(contract, list):
+            for c in contract:
+                yield check_good_repr, c
+        else:
+            yield check_good_repr, contract
 
 def test_reconversion():
 #    ''' Checks that we can reconvert the __str__() value and we get
@@ -87,7 +96,12 @@ def check_good_repr(c):
     
     repr = parsed.__repr__()
     
-    reeval = eval(repr)
+    try:
+        reeval = eval(repr)
+    except Exception as e:
+        traceback.print_exc()
+        raise Exception('Could not evaluate expression %r: %s' % (repr, e))
+        
     assert reeval == parsed, 'Repr gives different object:\n  %r !=\n  %r' % (parsed, reeval)
     
 def check_recoversion(s):

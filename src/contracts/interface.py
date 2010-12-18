@@ -1,5 +1,6 @@
 from procgraph.core.exceptions import add_prefix
 from copy import deepcopy
+from types import NoneType
 
 class ContractException(Exception):
     pass
@@ -82,9 +83,10 @@ class RValue:
 
     
 class VariableRef(RValue):
-    def __init__(self, where, variable):
-        self.variable = variable
+    def __init__(self, variable, where=None):
+        assert isinstance(variable, str)
         self.where = where
+        self.variable = variable
         
     def eval(self, context):
         var = self.variable
@@ -94,7 +96,10 @@ class VariableRef(RValue):
         return context.get_variable(var)
 
     def __repr__(self):
-        return self.variable
+        return "VariableRef(%r)" % self.variable
+    
+    def __str__(self):
+        return "%s" % self.variable
 
 class Context:
     ''' Class that represents the context for checking an expression. '''
@@ -132,7 +137,7 @@ class Contract:
     def __init__(self, where):
         # XXX
         from procgraph.core.parsing_elements import Where
-        assert isinstance(where, Where)
+        assert isinstance(where, (NoneType, Where)), 'Wrong type %s' % where
         self.where = where
     
     def check_contract(self, context, value):

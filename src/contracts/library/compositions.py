@@ -3,8 +3,8 @@ from ..interface import Contract, ContractNotRespected
 
 
 class OR(Contract):
-    def __init__(self, where, clauses):
-        assert len(clauses) > 0
+    def __init__(self, clauses, where=None):
+        assert isinstance(clauses, list) and len(clauses) >= 2
         Contract.__init__(self, where)
         self.clauses = clauses
     
@@ -26,26 +26,28 @@ class OR(Contract):
         raise ContractNotRespected(contract=self, error=msg,
                     value=value, context=context)
 
+    def __str__(self):
+        s = '|'.join("%s" % x for x in self.clauses)
+        return s
+
+    def __repr__(self):
+        #s = 'OR(%s)' % ",".join("%r" % x for x in self.clauses)
+        s = 'OR(%r)' % self.clauses
+        return s
+
     @staticmethod
     def parse_action(string, location, tokens):
         clauses = []
         for c in tokens:
             assert isinstance(c, Contract), 'Wrong class %r' % c
             clauses.append(c)
-        return OR(W(string, location), clauses)
-
-    def __str__(self):
-        s = '|'.join("%s" % x for x in self.clauses)
-        return s
-
-    def __repr__(self):
-        s = 'OR(%s)' % ",".join("%r" % x for x in self.clauses)
-        return s
-    
+        where = W(string, location)
+        return OR(clauses, where=where)
+        
 # AND operator
 class And(Contract):
-    def __init__(self, where, clauses):
-        assert len(clauses) >= 2
+    def __init__(self, clauses, where=None):
+        assert isinstance(clauses, list) and len(clauses) >= 2
         Contract.__init__(self, where)
         self.clauses = clauses
     
@@ -53,21 +55,23 @@ class And(Contract):
         for c in self.clauses:
             c.check_contract(context, value)
 
+    def __str__(self):
+        s = ','.join("%s" % x for x in self.clauses)
+        return s
+
+    def __repr__(self):
+        #s = 'And(%s)' % ",".join("%r" % x for x in self.clauses)
+        s = 'And(%r)' % self.clauses
+        return s
+
     @staticmethod
     def parse_action(string, location, tokens):
         clauses = []
         for c in tokens:
             assert isinstance(c, Contract), 'Wrong class %r' % c
             clauses.append(c)
-        return And(W(string, location), clauses)
-
-    def __str__(self):
-        s = ','.join("%s" % x for x in self.clauses)
-        return s
-
-    def __repr__(self):
-        s = 'And(%s)' % ",".join("%r" % x for x in self.clauses)
-        return s
+        where = W(string, location)
+        return And(clauses, where=where)
 
 
 def at_least_2_delim_list(what, delim): 

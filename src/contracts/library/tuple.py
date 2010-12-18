@@ -3,7 +3,7 @@ from ..syntax import add_contract, W, contract, O, S, ZeroOrMore, simple_contrac
 
 class Tuple(Contract):
     
-    def __init__(self, where, length=None, elements=None):
+    def __init__(self, length=None, elements=None, where=None):
         Contract.__init__(self, where)
         self.length = length
         self.elements = elements
@@ -55,7 +55,7 @@ class Tuple(Contract):
         else: 
             elements = None
         assert elements is None or length is None
-        return Tuple(where, length, elements)
+        return Tuple(length, elements, where=where)
  
 
 # if you use contract instead of simple_contract, it will be matched as And

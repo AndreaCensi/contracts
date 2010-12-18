@@ -13,7 +13,7 @@ class Binary(RValue):
         '-': 0,
         '*': 1,
     }
-    def __init__(self, where, expr1, expr2, glyph):
+    def __init__(self, expr1, glyph, expr2, where=None):
         self.where = where
         self.expr1 = expr1
         self.expr2 = expr2 
@@ -55,7 +55,7 @@ class Binary(RValue):
         expr2 = tokens[0][2]
         for e in [expr1, expr2]:
             assert isnumber(e) or isinstance(e, RValue)
-        return Binary(where, expr1, expr2, glyph)
+        return Binary(expr1, glyph, expr2, where=where)
 
 
 class Unary(RValue):
@@ -67,7 +67,6 @@ class Unary(RValue):
         self.expr = expr
         self.glyph = glyph
         self.operation = Unary.operations[glyph]
-        #self.precedence = DoArithmetic.precedence[glyph]
         
     def eval(self, context):
         val = context.eval(self.expr, self)
@@ -83,7 +82,7 @@ class Unary(RValue):
         return s
     
     def __str__(self): 
-        # XXX
+        # XXX: precedence
         return '%s%s' % (self.glyph, self.expr)
     
     @staticmethod
@@ -91,5 +90,5 @@ class Unary(RValue):
         where = W(s, loc)
         glyph = tokens[0][0]
         expr = tokens[0][1]
-        return Unary(glyph, expr, where)
+        return Unary(glyph, expr, where=where)
     

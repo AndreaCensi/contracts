@@ -4,7 +4,10 @@ from contracts.syntax import add_contract, W, Literal
 
 class Any(Contract):
     ''' Always true. '''
-
+    
+    def __init__(self, where=None):
+        Contract.__init__(self, where)
+        
     def __repr__(self):
         return 'Any()'
 

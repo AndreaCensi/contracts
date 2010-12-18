@@ -4,7 +4,7 @@ from ..syntax import  W, contract, O, S, add_contract
 
 class Dict(Contract):
     
-    def __init__(self, where, length=None, key_c=None, value_c=None):
+    def __init__(self, length=None, key_c=None, value_c=None, where=None):
         Contract.__init__(self, where)
         self.length = length
         self.key_c = key_c
@@ -63,7 +63,7 @@ class Dict(Contract):
         else: 
             value = None
 
-        return Dict(where, length, key, value)
+        return Dict(length, key, value, where=where)
  
 
 length_spec = S('[') + contract('length') + S(']')

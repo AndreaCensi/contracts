@@ -5,7 +5,7 @@ from contracts.syntax import W, add_contract, add_rvalue
 
 class BindVariable(Contract):
     
-    def __init__(self, where, variable, allowed_types):
+    def __init__(self, variable, allowed_types, where=None):
         assert isinstance(variable, str) and len(variable) == 1
         Contract.__init__(self, where)
         self.variable = variable
@@ -43,7 +43,7 @@ class BindVariable(Contract):
         def parse(s, loc, tokens):
             where = W(s, loc)
             variable = tokens[0]
-            return BindVariable(where, variable, allowed_types)
+            return BindVariable(variable, allowed_types, where=where)
         return parse
 
 
@@ -56,7 +56,7 @@ add_contract(misc_variables.copy().setParseAction(BindVariable.parse_action(obje
 
 def create_var_ref(s, loc, tokens):
     where = W(s, loc)
-    return VariableRef(where, tokens[0])
+    return VariableRef(tokens[0], where=where)
 
 add_rvalue(int_variables.copy().setParseAction(create_var_ref))
 add_rvalue(misc_variables.copy().setParseAction(create_var_ref))

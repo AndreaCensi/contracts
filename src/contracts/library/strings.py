@@ -3,7 +3,7 @@ from ..syntax import add_contract, W, contract, O, S, OneOrMore
 
 class String(Contract):
     
-    def __init__(self, where, length=None):
+    def __init__(self, length=None, where=None):
         Contract.__init__(self, where)
         self.length = length
         assert length is None or isinstance(length, Contract)
@@ -34,7 +34,7 @@ class String(Contract):
         else:
             length = None
             
-        return String(where, length)
+        return String(length, where=where)
  
 
 string_contract = 'str' + O('[' + contract('length') + ']') 

@@ -3,7 +3,7 @@ from ..syntax import add_contract, W, contract, integer, O, S
 
 class List(Contract):
     
-    def __init__(self, where, length_contract=None, elements_contract=None):
+    def __init__(self, length_contract=None, elements_contract=None, where=None):
         Contract.__init__(self, where)
         self.length_contract = length_contract
         self.elements_contract = elements_contract
@@ -49,7 +49,7 @@ class List(Contract):
         else: 
             elements_contract = None
         
-        return List(where, length_contract, elements_contract)
+        return List(length_contract, elements_contract, where=None)
  
 
 list_contract = (S('list') + 

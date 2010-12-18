@@ -14,7 +14,7 @@ class CheckOrder(Contract):
         '<=': (True, True, False)           
     }
     
-    def __init__(self, where, expr1, glyph, expr2):
+    def __init__(self, expr1, glyph, expr2, where=None):
         Contract.__init__(self, where)
         self.expr1 = expr1
         self.glyph = glyph 
@@ -92,7 +92,7 @@ class CheckOrder(Contract):
         glyph = tokens['glyph']
         expr2 = tokens['expr2']
         where = W(s, loc)
-        return CheckOrder(where, expr1, glyph, expr2)
+        return CheckOrder(expr1, glyph, expr2, where=where)
  
 
 for glyph in CheckOrder.conditions:

@@ -4,7 +4,7 @@ from pyparsing import Literal
 import numbers
 
 class CheckType(Contract):
-    def __init__(self, where, types, type_string=None):
+    def __init__(self, types, type_string=None, where=None):
         Contract.__init__(self, where)
         self.types = types
         if type_string is None:
@@ -23,12 +23,16 @@ class CheckType(Contract):
         return self.type_string
     
     def __repr__(self):
-        return 'CheckType(%s)' % (self.types.__name__)
-
+        if self.types.__name__ == self.type_string:
+            return 'CheckType(%s)' % (self.types.__name__)
+        else:
+            return 'CheckType(%s,%r)' % (self.types.__name__, self.type_string)
+        
     @staticmethod
     def parse_action(types):
         def parse(s, loc, tokens):
-            return CheckType(W(s, loc), types, tokens[0]) #@UnusedVariable
+            where = W(s, loc)
+            return CheckType(types, tokens[0], where=where) #@UnusedVariable
         return parse
 
 add_contract(Literal('int').setParseAction(CheckType.parse_action(int)))
@@ -39,7 +43,7 @@ add_contract(Literal('number').setParseAction(CheckType.parse_action(numbers.Num
 
 
 class Type(Contract):
-    def __init__(self, where, type_constraint):
+    def __init__(self, type_constraint, where=None):
         Contract.__init__(self, where)
         self.type_constraint = type_constraint
         
@@ -55,7 +59,8 @@ class Type(Contract):
     @staticmethod
     def parse_action(s, loc, tokens):
         type_constraint = tokens['type_constraint']
-        return Type(W(s, loc), type_constraint) #@UnusedVariable
+        where = W(s, loc)
+        return Type(type_constraint, where) #@UnusedVariable
 
 
 type_contract = S('type') + S('(') + contract('type_constraint') + S(')')

@@ -3,7 +3,7 @@ from ..syntax import add_contract, W, contract, Literal
 
 class SeparateContext(Contract):
     
-    def __init__(self, where, contract):
+    def __init__(self, contract, where=None):
         assert isinstance(contract, Contract)
         Contract.__init__(self, where)
         self.contract = contract
@@ -21,7 +21,7 @@ class SeparateContext(Contract):
     @staticmethod
     def parse_action(s, loc, tokens):
         where = W(s, loc)
-        return SeparateContext(where, tokens['child'])
+        return SeparateContext(tokens['child'], where=where)
  
 
 sepcon = Literal('$') + Literal('(') + contract('child') + Literal(')')
