@@ -1,6 +1,8 @@
 import traceback
 from numbers import Number
 
+from types import NoneType
+
 from ..main import parse_contract_string 
 from ..interface import ContractSemanticError, ContractNotRespected, VariableRef
 from ..test_registrar import (good_examples, semantic_fail_examples,
@@ -15,7 +17,7 @@ from contracts.library.arithmetic import Binary, Unary
 from contracts.library.simple_values import CheckEqual
 from contracts.library.variables import BindVariable
 from contracts.library.comparison import CheckOrder
-from contracts.library.types import Type, CheckType
+from contracts.library.types_misc import Type, CheckType
 from contracts.library.compositions import OR, And
 from contracts.syntax import EqualTo
 from contracts.library.lists import List

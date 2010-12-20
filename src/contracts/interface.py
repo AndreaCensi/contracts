@@ -1,6 +1,8 @@
-from procgraph.core.exceptions import add_prefix
 from copy import deepcopy
 from types import NoneType
+
+# XXX: remove
+from procgraph.core.exceptions import add_prefix
 
 class ContractException(Exception):
     pass
@@ -18,17 +20,32 @@ class ContractSyntaxError(ContractException):
 
     
 class ContractNotRespected(ContractException):
-    
     def __init__(self, contract, error, value, context):
         self.contract = contract
         self.error = error
         self.value = value
         self.context = context
+        self.stack = []
         
     def __str__(self):
         msg = 'Contract breach: ' + str(self.error) + '\n'
-        msg += '- context: %r\n' % self.context
-        msg += '- contract: %r\n' % self.contract
+        msg += '-    value:  %s \n' % describe_value(self.value)
+        W = 80
+        cs = "%s" % self.contract
+        cons = "%s" % self.context
+        if cons:
+            cons = '(context: %s)' % cons
+        cons = cons.rjust(W - len(cs))
+        msg += '- contract:  %s  %s\n' % (cs, cons)
+        
+        for (contract, context, value) in self.stack:
+            if contract == self.contract: continue
+            
+            contexts = "%s" % context
+            if contexts:
+                contexts = ('(context: %s)' % contexts)
+            msg += ('\n (checking %s %s for value  %s' % 
+                           (contract, contexts, describe_value(value)))
         return msg
     
 class ContractSemanticError(ContractException):
@@ -131,6 +148,9 @@ class Context:
     
     def __repr__(self):
         return 'Context(%r)' % self._variables
+    
+    def __str__(self):
+        return ", ".join("%s=%s" % (k, v) for (k, v) in self._variables.items())
         
 class Contract:
     
@@ -148,21 +168,59 @@ class Contract:
         raise ValueError('You did not implement check_contract() for %s.' % 
                          self.__class__.__name__)
     
+    def _check_contract(self, context, value):
+        ''' Recursively checks the contracts; it calls check_contract,
+            but the error is wrapped recursively. '''
+        contextc = context.copy()
+        try: 
+            self.check_contract(context, value)
+        except ContractNotRespected as e:
+            e.stack.append((self, contextc, value))
+            raise
+    
+    
     def __eq__(self, other):
         if not isinstance(other, type(self)):
             return False
         members = self.__dict__.keys()
         members.remove('where')
+        
+        hismembers = other.__dict__.keys()
+        hismembers.remove('where')
+        if len(members) != len(hismembers):
+            return False
+        
         for m in members:
             mine = getattr(self, m)
+            if not hasattr(other, m):
+                return False
             his = getattr(other, m)
             if not(mine == his): # NOTE: different than (mine != his)
-                print('In %s: Failed on member %r:\n- %r (%s) vs\n- %r (%s)' % 
-                      (self.__class__.__name__,
-                       m, mine, mine.__class__.__name__,
-                       his, his.__class__.__name__))
+#                print('In %s: Failed on member %r:\n- %r (%s) vs\n- %r (%s)' % 
+#                      (self.__class__.__name__,
+#                       m, mine, mine.__class__.__name__,
+#                       his, his.__class__.__name__))
                 return False
         return True
         
+def describe_value(x):
+    ''' Describes an object, for use in the error messages. '''
+    if hasattr(x, 'shape') and hasattr(x, 'dtype'):
+        return 'ndarray with shape %s, dtype %s' % (x.shape, x.dtype)
+    else:
+        if isinstance(x, tuple):
+            s = x.__repr__() # XXX: use format()
+        else:
+            s = "%r" % x
+        if len(s) > 20:
+            s = "%s... [clip]" % s[:20]
+#        else:
+#            s = '%r' % s
+        return 'Instance of %s: %s' % (x.__class__.__name__, s)
         
+        
+         
+    
+    
+    
     

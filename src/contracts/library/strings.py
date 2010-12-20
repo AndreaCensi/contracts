@@ -1,5 +1,6 @@
 from ..interface import Contract, ContractNotRespected
 from ..syntax import add_contract, W, contract, O
+from pyparsing import Literal
 
 class String(Contract):
     
@@ -15,7 +16,7 @@ class String(Contract):
                                        value=value, context=context)
        
         if self.length is not None:
-            self.length.check_contract(context, len(value))
+            self.length._check_contract(context, len(value))
             
     def __repr__(self):
         return 'String(%r)' % self.length
@@ -33,6 +34,6 @@ class String(Contract):
         return String(length, where=where)
  
 
-string_contract = 'str' + O('[' + contract('length') + ']') 
+string_contract = (Literal('str') | Literal('string')) + O('[' + contract('length') + ']') 
 
 add_contract(string_contract.setParseAction(String.parse_action))

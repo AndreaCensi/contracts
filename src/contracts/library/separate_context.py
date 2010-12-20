@@ -10,7 +10,7 @@ class SeparateContext(Contract):
         
     def check_contract(self, context, value):
         copy = context.copy()
-        self.contract.check_contract(copy, value)
+        self.contract._check_contract(copy, value)
     
     def __str__(self):
         return '$(%s)' % self.contract 

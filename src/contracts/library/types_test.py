@@ -20,6 +20,10 @@ fail('bool', 0)
 
 # type contract
 
+good('None', None)
+good('NoneType', None)
+fail('None', 1)
+fail('NoneType', 1)
 
 syntax_fail('type')
 syntax_fail('type()')

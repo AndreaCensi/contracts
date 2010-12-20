@@ -15,14 +15,14 @@ class List(Contract):
                                        value=value, context=context)
        
         if self.length_contract is not None:
-            self.length_contract.check_contract(context, len(value))
+            self.length_contract._check_contract(context, len(value))
         
         if self.elements_contract is not None:
             for i, element in enumerate(value): #@UnusedVariable
                 # context2 = context.copy()
                 # We should use the same context; perhaps we are breaking sthg?
                 context2 = context
-                self.elements_contract.check_contract(context2, element)
+                self.elements_contract._check_contract(context2, element)
     
     def __str__(self):
         s = 'list'

@@ -2,6 +2,7 @@ from contracts.interface import Contract, ContractNotRespected
 from contracts.syntax import W, add_contract, contract, S
 from pyparsing import Literal
 import numbers
+from types import NoneType
 
 class CheckType(Contract):
     def __init__(self, types, type_string=None, where=None):
@@ -40,6 +41,8 @@ add_contract(Literal('float').setParseAction(CheckType.parse_action(float)))
 add_contract(Literal('bool').setParseAction(CheckType.parse_action(bool)))
 add_contract(Literal('number').setParseAction(CheckType.parse_action(numbers.Number)))
 
+add_contract(Literal('None').setParseAction(CheckType.parse_action(NoneType)))
+add_contract(Literal('NoneType').setParseAction(CheckType.parse_action(NoneType)))
 
 
 class Type(Contract):
@@ -48,7 +51,7 @@ class Type(Contract):
         self.type_constraint = type_constraint
         
     def check_contract(self, context, value): 
-        self.type_constraint.check_contract(context, type(value))
+        self.type_constraint._check_contract(context, type(value))
     
     def __str__(self):
         return 'type(%s)' % self.type_constraint

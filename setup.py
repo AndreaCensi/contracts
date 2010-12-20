@@ -13,8 +13,8 @@ setup(name='PyContracts',
 
       description = ("A rich type/value checking system for Python functions. "
                      "Contracts are specified with a rich DSL syntax, "
-                     " directly in docstrings with the "
-                     " `:type:' and `:rtype:' annotations. "),
+                     "possibly directly in docstrings with the "
+                     "`:type:' and `:rtype:' annotations. "),
       
       classifiers=[
         'Development Status :: 4 - Beta',
@@ -37,8 +37,3 @@ setup(name='PyContracts',
       entry_points={},
 )
 
-#  Intended Audience :: Science/Research
-#  Topic :: Scientific/Engineering
-#  Topic :: System :: Clustering
-# Topic :: System :: Distributed Computing
-# Topic :: System :: Hardware :: Symmetric Multi-processing

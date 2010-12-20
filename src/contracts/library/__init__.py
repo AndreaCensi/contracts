@@ -4,7 +4,7 @@ from . import separate_context_test
 from . import dummy
 from . import dummy_test
 
-from . import types
+from . import types_misc
 from . import types_test
 
 from . import strings

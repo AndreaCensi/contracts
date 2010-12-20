@@ -22,6 +22,8 @@ def check_contracts(contracts, values):
         
         :raise: ContractError
     '''
+    assert isinstance(contracts, list)
+    assert isinstance(contracts, list)
     assert len(contracts) == len(values)
     
     C = []
@@ -32,7 +34,7 @@ def check_contracts(contracts, values):
 
     context = Context()
     for i in range(len(contracts)):
-        C[i].check_contract(context, values[i])
+        C[i]._check_contract(context, values[i])
         # print '%s  %r  (%s) ' % (C[i], C[i], C[i].__class__)
     
     return context
@@ -100,12 +102,12 @@ def contracts_decorate(function, accepts=None, returns=None):
                                        'not %d.' % (len(args), len(pargs)))
         context = Context()
         for i in range(len(pargs)):
-            accepts_parsed[i].check_contract(context, pargs[i])
+            accepts_parsed[i]._check_contract(context, pargs[i])
         
         #print('Arguments %r passed %r.' % (pargs, accepts_parsed))    
         result = function(*pargs)
         
-        returns_parsed.check_contract(context, result)
+        returns_parsed._check_contract(context, result)
         
         #print(' return %r passed %r.' % (pargs, accepts_parsed))
         
@@ -151,3 +153,27 @@ def parse_contracts_from_docstring(function):
         accepts.append(name2type[a])
         
     return accepts, returns
+
+# utilities/friendly
+def check(contract, object, desc=None):
+    if not isinstance(contract, str):
+        raise ValueError('I expect a string (contract spec) as the first '
+                         'argument, not a %s.' % type(contract))
+    try:
+        return check_contracts([contract], [object])
+    except ContractNotRespected as e:
+        if desc is not None:
+            e.error = '%s\n\nDetails:\n%s' % (desc, e.error)
+        raise
+
+def check_multiple(couples, desc=None):
+    check('list[>0](tuple(*, str))', couples,
+          'I expect a non-empty list of (object, string) tuples.')
+    contracts = [x[1] for x in couples]
+    values = [x[0] for x in couples]
+    try:
+        return check_contracts(contracts, values)
+    except ContractNotRespected as e:
+        if desc is not None:
+            e.error = '%s\n\nDetails:\n%s' % (desc, e.error)
+        raise    

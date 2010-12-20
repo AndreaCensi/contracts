@@ -19,7 +19,7 @@ class Tuple(Contract):
                                        value=value, context=context)
        
         if self.length is not None:
-            self.length.check_contract(context, len(value))
+            self.length._check_contract(context, len(value))
         
         if self.elements is not None:
             if len(value) != len(self.elements):
@@ -29,7 +29,7 @@ class Tuple(Contract):
                                            value=value, context=context)
        
             for i in range(len(value)):
-                self.elements[i].check_contract(context, value[i])
+                self.elements[i]._check_contract(context, value[i])
     
     def __repr__(self):
         return 'Tuple(%r,%r)' % (self.length, self.elements)

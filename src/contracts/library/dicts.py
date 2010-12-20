@@ -17,13 +17,13 @@ class Dict(Contract):
                                        value=value, context=context)
         
         if self.length is not None:
-            self.length.check_contract(context, len(value))
+            self.length._check_contract(context, len(value))
         
         for k, v in value.items():
             if self.key_c is not None:
-                self.key_c.check_contract(context, k)
+                self.key_c._check_contract(context, k)
             if self.value_c is not None:
-                self.value_c.check_contract(context, v)
+                self.value_c._check_contract(context, v)
     
     def __str__(self):
         s = 'dict'

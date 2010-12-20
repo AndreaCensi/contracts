@@ -13,9 +13,9 @@ class OR(Contract):
         for c in self.clauses:
             try:
                 # try with fake context
-                c.check_contract(context.copy(), value)
+                c._check_contract(context.copy(), value)
                 # if ok, do with main context
-                c.check_contract(context, value)
+                c._check_contract(context, value)
                 return
             except ContractNotRespected as e:
                 exceptions.append((c, e))
@@ -52,7 +52,7 @@ class And(Contract):
     
     def check_contract(self, context, value):
         for c in self.clauses:
-            c.check_contract(context, value)
+            c._check_contract(context, value)
 
     def __str__(self):
         s = ','.join("%s" % x for x in self.clauses)
