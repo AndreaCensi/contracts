@@ -31,7 +31,6 @@ class OR(Contract):
         return s
 
     def __repr__(self):
-        #s = 'OR(%s)' % ",".join("%r" % x for x in self.clauses)
         s = 'OR(%r)' % self.clauses
         return s
 
@@ -44,7 +43,7 @@ class OR(Contract):
         where = W(string, location)
         return OR(clauses, where=where)
         
-# AND operator
+
 class And(Contract):
     def __init__(self, clauses, where=None):
         assert isinstance(clauses, list) and len(clauses) >= 2
@@ -60,7 +59,6 @@ class And(Contract):
         return s
 
     def __repr__(self):
-        #s = 'And(%s)' % ",".join("%r" % x for x in self.clauses)
         s = 'And(%r)' % self.clauses
         return s
 
