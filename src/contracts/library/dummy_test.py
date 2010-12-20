@@ -6,3 +6,8 @@ from contracts.test_registrar import syntax_fail, good, fail
 good('*', 0)
 good('*', [1])
 good('*', None)
+
+fail('#', None)
+
+good('*|#', None)
+fail('*,#', None)

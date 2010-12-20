@@ -22,7 +22,7 @@ from contracts.library.compositions import OR, And
 from contracts.syntax import EqualTo
 from contracts.library.lists import List
 from contracts.library.tuple import Tuple
-from contracts.library.dummy import Any
+from contracts.library.dummy import Any, Never
 from contracts.library.dicts import Dict
 from contracts.library.strings import String
 
