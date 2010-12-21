@@ -72,17 +72,8 @@ class BoundVariable:
 
 
 class RValue:
-    
     def eval(self, context):
-        pass
-#    
-#    def __eq__(self, other):
-#        members = self.__dict__.keys()
-#        members.remove('where')
-#        for m in members:
-#            if not(getattr(self, m) == getattr(other, m)):
-#                return False
-#        return True
+        pass 
 
     def __eq__(self, other):
         members = self.__dict__.keys()
@@ -98,6 +89,20 @@ class RValue:
                 return False
         return True
 
+class SimpleRValue(RValue):
+    def __init__(self, value, where=None):
+        self.value = value
+        self.where = where
+        
+    def __str__(self):
+        return "%s" % self.value
+    
+    def __repr__(self):
+        return "SimpleRValue(%r)" % self.value
+    
+    def eval(self, context): #@UnusedVariable
+        return self.value
+                   
     
 class VariableRef(RValue):
     def __init__(self, variable, where=None):
@@ -137,11 +142,9 @@ class Context:
         self._variables[name] = BoundVariable(value, description, origin)
     
     def eval(self, value, contract_ref=None): # XXX:
-        if isinstance(value, RValue):
-            return value.eval(self)
-        else:
-            return value
-
+        assert isinstance(value, RValue)    
+        return value.eval(self)
+    
     def copy(self):
         ''' Returns a copy of this context. '''
         return deepcopy(self)

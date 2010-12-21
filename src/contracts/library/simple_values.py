@@ -1,11 +1,11 @@
-from contracts.interface import Contract, ContractNotRespected
-from contracts.syntax import W
+from ..interface import Contract, ContractNotRespected, RValue
+from ..syntax import W
 
 
 class EqualTo(Contract):
     def __init__(self, rvalue, where=None):
         Contract.__init__(self, where)
-        #assert isinstance(rvalue)
+        assert isinstance(rvalue, RValue)
         self.rvalue = rvalue
         
     def check_contract(self, context, value):

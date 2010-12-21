@@ -2,9 +2,8 @@ import numpy
 from numpy  import ndarray, dtype #@UnusedImport
 
 from ..interface import Contract, ContractNotRespected, RValue
-from ..syntax import (add_contract, W, contract, O, S, isnumber, rvalue,
+from ..syntax import (add_contract, W, contract, O, S, rvalue,
                       get_or, simple_contract, ZeroOrMore, Literal)
-
 
 class Array(Contract):
     
@@ -205,13 +204,12 @@ class ArrayConstraint(Contract):
     }
     
     def __init__(self, glyph, rvalue, where=None):
+        assert isinstance(rvalue, RValue)  
         Contract.__init__(self, where)
         self.glyph = glyph 
         self.rvalue = rvalue
         self.op = ArrayConstraint.constraints[glyph]
         
-        # TODO: make numbers into RValues
-        assert isnumber(rvalue) or isinstance(rvalue, RValue)  
         
     def check_contract(self, context, value):
         assert isinstance(value, ndarray)

@@ -1,4 +1,5 @@
 from pyparsing import ParserElement
+from contracts.interface import SimpleRValue
 ParserElement.enablePackrat()
 
 from pyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
@@ -36,8 +37,8 @@ e = CaselessLiteral('E')
 plusorminus = Literal('+') | Literal('-')
 integer = Combine(O(plusorminus) + number)
 floatnumber = Combine(integer + O(point + O(number)) + O(e + integer))
-integer.setParseAction(lambda tokens: int(tokens[0]))
-floatnumber.setParseAction(lambda tokens: float(tokens[0]))
+integer.setParseAction(lambda tokens: SimpleRValue(int(tokens[0])))
+floatnumber.setParseAction(lambda tokens: SimpleRValue(float(tokens[0])))
 
 isnumber = lambda x: isinstance(x, numbers.Number)
 
@@ -56,18 +57,12 @@ from library.compositions import composite_contract
 
 operand = (integer | floatnumber) | get_or(ParsingTmp.rvalues_types)
 
-expr = operatorPrecedence(operand,
-    [
-     ('-', 1, opAssoc.RIGHT, Unary.parse_action),
-     ('*', 2, opAssoc.LEFT, Binary.parse_action),
-     ('-', 2, opAssoc.LEFT, Binary.parse_action),
-     ('+', 2, opAssoc.LEFT, Binary.parse_action),
-    ]
-    
-    )
-
-rvalue << expr 
-
+rvalue << operatorPrecedence(operand, [
+             ('-', 1, opAssoc.RIGHT, Unary.parse_action),
+             ('*', 2, opAssoc.LEFT, Binary.parse_action),
+             ('-', 2, opAssoc.LEFT, Binary.parse_action),
+             ('+', 2, opAssoc.LEFT, Binary.parse_action),
+          ])
 
 add_contract(rvalue.copy().setParseAction(EqualTo.parse_action))
 

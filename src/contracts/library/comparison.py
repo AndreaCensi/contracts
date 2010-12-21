@@ -1,6 +1,7 @@
 from ..interface import Contract, ContractNotRespected, \
     ContractSemanticError, RValue
 from ..syntax import W, add_contract, O, Literal, isnumber, rvalue
+from types import NoneType
  
 class CheckOrder(Contract):
     
@@ -16,13 +17,13 @@ class CheckOrder(Contract):
     
     def __init__(self, expr1, glyph, expr2, where=None):
         Contract.__init__(self, where)
+        assert isinstance(expr1, (RValue, NoneType))
+        assert isinstance(expr2, RValue)
+
         self.expr1 = expr1
         self.glyph = glyph 
         self.expr2 = expr2
         self.smaller, self.equal, self.larger = CheckOrder.conditions[glyph]
-        
-        for s in [expr1, expr2]:
-            assert s is None or isnumber(s) or isinstance(s, RValue)  
         
     def check_contract(self, context, value):
         if self.expr1 is None:

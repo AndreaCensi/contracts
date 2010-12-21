@@ -9,10 +9,10 @@ from .utils import check_contracts_ok, check_syntax_fail, check_contracts_fail
 from . import test_multiple #@UnusedImport
 
 # TODO: remove all of these
-from contracts.syntax import EqualTo
+from contracts.syntax import SimpleRValue #@UnusedImport
 
 # Import all the symbols needed to eval() the __repr__() output.
-from contracts.library import *
+from contracts.library import * #@UnusedWildImport
 
 select = False
 #select = True

@@ -4,7 +4,6 @@ from numbers import Number
 from ..interface import Contract, ContractNotRespected
 from ..syntax import W, add_contract, contract, S, Literal
 
-
 class CheckType(Contract):
     def __init__(self, types, type_string=None, where=None):
         Contract.__init__(self, where)

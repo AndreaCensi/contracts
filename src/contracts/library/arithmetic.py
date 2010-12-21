@@ -16,6 +16,8 @@ class Binary(RValue):
     def __init__(self, exprs, glyph, where=None):
         self.where = where
         self.exprs = exprs 
+        for e in self.exprs:
+            assert isinstance(e, RValue)
         self.glyph = glyph
         self.operation = Binary.operations[glyph]
         self.precedence = Binary.precedence[glyph]
@@ -53,7 +55,7 @@ class Binary(RValue):
         while l:
             glyph = l.pop(0)
             expr = l.pop(0)
-            assert isnumber(expr) or isinstance(expr, RValue)
+            assert isinstance(expr, RValue)
             exprs.append(expr)
 
         return Binary(exprs, glyph, where=where)
@@ -64,6 +66,8 @@ class Unary(RValue):
         '-': lambda x:-x,
     }
     def __init__(self, glyph, expr, where=None):
+        assert isinstance(expr, RValue)
+
         self.where = where
         self.expr = expr
         self.glyph = glyph
