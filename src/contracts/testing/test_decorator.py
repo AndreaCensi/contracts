@@ -17,6 +17,18 @@ class DecoratorTests(unittest.TestCase):
             pass
         
         self.assertRaises(ContractException, contracts_decorate, f)
+    
+    def test_malformed2(self):
+        def f():
+            ''' 
+                Wrong syntax 
+            
+                :rtype: okok
+            '''
+            pass
+        
+        self.assertRaises(ContractException, contracts_decorate, f)
+    
         
     def test_not_specified1(self):
         ''' No docstring specified '''

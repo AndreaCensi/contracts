@@ -124,10 +124,11 @@ def contracts_decorate(function, accepts=None, returns=None):
 
 
 def parse_contracts_from_docstring(function):
-    try:
-        annotations = parse_docstring_annotations(function.__doc__)
-    except Exception as e:
-        raise ContractException('Could not parse docstring: %s' % e)
+    #try:
+    # FIXME: Note: this never fails; at best it ignores unclosed things. 
+    annotations = parse_docstring_annotations(function.__doc__)
+    #except Exception as e:
+    #    raise ContractException('Could not parse docstring: %s' % e)
     
     if len(annotations.returns) > 1:
         raise ContractException('More than one return type specified.')

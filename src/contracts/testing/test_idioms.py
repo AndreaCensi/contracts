@@ -1,4 +1,5 @@
 import unittest
+from contracts.interface import ContractNotRespected
 
 class TestIdioms(unittest.TestCase):
     
@@ -9,6 +10,11 @@ class TestIdioms(unittest.TestCase):
         
         assert isinstance(res, Context)
   
+    def test_check_1a(self):
+        from contracts import check
+  
+        self.assertRaises(ValueError, check, 1, 2)
+    
     def test_parse_1(self):
         from contracts import parse, Contract, ContractNotRespected
   
@@ -76,17 +82,25 @@ class TestIdioms(unittest.TestCase):
         row_labels = ['first season', 'second season']
         col_labels = ['Team1', 'Team2', 'Team3']
         
-        check_multiple([('list[C](str),C>0', col_labels),
-                        ('list[R](str),R>0', row_labels),
-                        ('list[R](list[C])', data) ])
+        spec = [('list[C](str),C>0', col_labels),
+                ('list[R](str),R>0', row_labels),
+                ('list[R](list[C])', data) ]
+        check_multiple(spec)
         
         # now with description 
-        check_multiple([('list[C](str),C>0', col_labels),
-                        ('list[R](str),R>0', row_labels),
-                        ('list[R](list[C])', data) ],
+        check_multiple(spec,
                         'I expect col_labels, row_labels, data to '
                         'have coherent dimensions.')  
-                    
+
+        data = [[1, 2, 3], [1, 2]]
+        spec = [('list[C](str),C>0', col_labels),
+                ('list[R](str),R>0', row_labels),
+                ('list[R](list[C])', data) ]
+
+        self.assertRaises(ContractNotRespected, check_multiple, spec)
+        self.assertRaises(ContractNotRespected, check_multiple, spec, 'my message')
+    
+        
     def test_symbols(self):
         from contracts import contract_expression #@UnusedImport
         # TODO: type
