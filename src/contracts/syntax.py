@@ -68,5 +68,6 @@ add_contract(rvalue.copy().setParseAction(EqualTo.parse_action))
 
 simple_contract << get_xor(ParsingTmp.contract_types)
 
-contract << ((composite_contract | simple_contract)) # Parentheses before << !!
+par = S('(') + contract + S(')') 
+contract << ((par ^ composite_contract ^ simple_contract)) # Parentheses before << !!
 

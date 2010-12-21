@@ -27,8 +27,8 @@ fail('list(0|1)', [0, 1, 2])
 # & has more precedence than |
 
 good('*|#', None)
-good('*|(#,*)', None)
-good('*|(*,#)', None)
+good('*|(#,*)', None, exact=False)
+good('*|(*,#)', None, exact=False)
 good('*|*,#', None)
 fail('(*|*),#', None)
 good('*,*|#', None)

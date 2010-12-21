@@ -76,24 +76,26 @@ class ContractNotRespected(ContractException):
         self.stack = []
         
     def __str__(self):
-        msg = 'Contract breach: ' + str(self.error) + '\n'
-        msg += '-    value:  %s \n' % describe_value(self.value)
-        W = 80
-        cs = "%s" % self.contract
-        cons = "%s" % self.context
-        if cons:
-            cons = '(context: %s)' % cons
-        cons = cons.rjust(W - len(cs))
-        msg += '- contract:  %s  %s' % (cs, cons)
-        
+        msg = str(self.error)# + '\n'
+#        msg += '-    value:  %s \n' % describe_value(self.value)
+#        W = 80
+#        cs = "%s" % self.contract
+#        cons = "%s" % self.context
+#        if cons:
+#            cons = '(context: %s)' % cons
+#        cons = cons.rjust(W - len(cs))
+#        msg += '- contract:  %s  %s' % (cs, cons)
+#        
         for (contract, context, value) in self.stack:
-            if contract == self.contract: continue
+        #    if contract == self.contract: continue
             
             contexts = "%s" % context
             if contexts:
                 contexts = ('(context: %s)' % contexts)
-            msg += ('\n (checking %s %s for value  %s)' % 
-                           (contract, contexts, describe_value(value)))
+                
+            cons = ("%s %s" % (contract, contexts)).ljust(30)
+            msg += ('\n context: checking: %s  for value: %s' % 
+                           (cons, describe_value(value)))
         return msg
 
 class BoundVariable:
@@ -118,10 +120,10 @@ class RValue:
             mine = getattr(self, m)
             his = getattr(other, m)
             if not(mine == his): # NOTE: different than (mine != his)
-                print('In %s: Failed on member %r:\n- %r (%s) vs\n- %r (%s)' % 
-                      (self.__class__.__name__,
-                       m, mine, mine.__class__.__name__,
-                       his, his.__class__.__name__))
+#                print('In %s: Failed on member %r:\n- %r (%s) vs\n- %r (%s)' % 
+#                      (self.__class__.__name__,
+#                       m, mine, mine.__class__.__name__,
+#                       his, his.__class__.__name__))
                 return False
         return True
 
@@ -246,10 +248,10 @@ class Contract:
                 return False
             his = getattr(other, m)
             if not(mine == his): # NOTE: different than (mine != his)
-                print('In %s: Failed on member %r:\n- %r (%s) vs\n- %r (%s)' % 
-                      (self.__class__.__name__,
-                       m, mine, mine.__class__.__name__,
-                       his, his.__class__.__name__))
+#                print('In %s: Failed on member %r:\n- %r (%s) vs\n- %r (%s)' % 
+#                      (self.__class__.__name__,
+#                       m, mine, mine.__class__.__name__,
+#                       his, his.__class__.__name__))
                 return False
         return True
         
@@ -269,9 +271,5 @@ def describe_value(x):
 
         return 'Instance of %s: %s' % (x.__class__.__name__, s)
         
-        
          
-    
-    
-    
     

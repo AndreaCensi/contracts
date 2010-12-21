@@ -11,7 +11,7 @@ class String(Contract):
         
     def check_contract(self, context, value): 
         if not isinstance(value, str):
-            error = 'Expected a str, got %r.' % value.__class__.__name__
+            error = 'Expected a string, got %r.' % value.__class__.__name__
             raise ContractNotRespected(contract=self, error=error,
                                        value=value, context=context)
        

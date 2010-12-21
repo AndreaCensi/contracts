@@ -55,8 +55,7 @@ the result value is of compatible dimensions as well. ::
     
     @contracts
     def matrix_multiply(a,b):
-        '''
-            Multiplies two matrices together.
+        ''' Multiplies two matrices together.
         
             :param a: The first matrix. Must be a 2D array.
              :type a: array[MxN],M>0,N>0
@@ -65,7 +64,6 @@ the result value is of compatible dimensions as well. ::
              :type b: array[NxP],P>0
 
               :rtype: array[MxP]
-            
         '''
         return numpy.dot(a, b)
 
@@ -78,15 +76,13 @@ complexity of the code.
 ..
     @contracts
     def get_larger(players):
-        '''
-            Find the best player in the league.
+        ''' Find the best player in the league.
             
             :param players: Dictionary name -> (team, score)
             :type players: dict(str: tuple(str, number))
             
             :return: Returns the name and the score.
             :rtype: tuple(str, number)
-            
         '''
         ...
         
@@ -96,13 +92,11 @@ and 2) the returned list has the correct size. ::
     
     @contracts
     def cat(a, b):
-        '''
-            Concatenate two lists together.
+        ''' Concatenate two lists together.
             
             :type a: list[N](type(x))
             :type b: list[M](type(x))
             :rtype: list[M+N](type(x))
-            
         '''
         return a + b
 

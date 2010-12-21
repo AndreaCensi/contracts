@@ -12,8 +12,8 @@ a_f64 = numpy.zeros((3, 4), dtype='float64')
 good('array', a_f32)
 good('array', a_f64)
 # synonims
-good('ndarray', a_f32)
-good('ndarray', a_f64)
+good('ndarray', a_f32, exact=False) # will be canonicalized to "array"
+good('ndarray', a_f64, exact=False) # same
 fail('array', [0, 1])
 # dtypes
 good('array(uint8)', a_u8)
@@ -47,7 +47,7 @@ good('array[2x4]', a2d)
 fail('array[2x4]', a3d)
 
 good('array[HxW],H=2,W>3', a2d)
-good('array[(=2)x(>3)]', a2d)
+good('array[(=2)x(>3)]', a2d, exact=False) # Parenthesis are unnecessary
 
 # ellipsis to mean 0 or more dimensions 
 good('array[2x4x...]', a2d)

@@ -1,6 +1,8 @@
 from ..syntax import simple_contract, W, operatorPrecedence, opAssoc
 from ..interface import Contract, ContractNotRespected
 from contracts.interface import add_prefix
+from contracts.syntax import contract
+from pyparsing import OneOrMore
 
 class Logical():
     def __init__(self, glyph, precedence):
@@ -60,6 +62,7 @@ class OR(Logical, Contract):
         clauses = [l.pop(0)]
         while l:
             glyph = l.pop(0) #@UnusedVariable
+            assert glyph == '|'
             operand = l.pop(0)
             clauses.append(operand)
         where = W(string, location)
@@ -87,6 +90,7 @@ class And(Logical, Contract):
         clauses = [l.pop(0)]
         while l:
             glyph = l.pop(0) #@UnusedVariable
+            assert glyph == ','
             operand = l.pop(0)
             clauses.append(operand)
         where = W(string, location)
@@ -97,3 +101,7 @@ composite_contract = operatorPrecedence(simple_contract, [
                          (',', 2, opAssoc.LEFT, And.parse_action),
                          ('|', 2, opAssoc.LEFT, OR.parse_action),
                     ])
+or_contract = operatorPrecedence(simple_contract, [
+                         ('|', 2, opAssoc.LEFT, OR.parse_action),
+                    ])
+ 

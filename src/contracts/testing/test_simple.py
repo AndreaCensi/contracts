@@ -28,14 +28,10 @@ if select:
     
     # Add the ones you want to do here:
     from ..test_registrar import  fail, good, syntax_fail, semantic_fail #@UnusedImport
-    # good('#|*,(#|*)', None)
-    syntax_fail('shape(xx)')
-    # should be an unknown
-    import numpy
-    good('shape(x)', numpy.zeros((2, 2)))
+
 
 def test_good():
-    for contract, value in good_examples:
+    for contract, value, exact in good_examples: #@UnusedVariable
         yield check_contracts_ok, contract, value
 
 def test_syntax_fail():
@@ -43,16 +39,17 @@ def test_syntax_fail():
         yield check_syntax_fail, s
     
 def test_semantic_fail():
-    for contract, value in semantic_fail_examples:
+    for contract, value, exact in semantic_fail_examples: #@UnusedVariable
         yield check_contracts_fail, contract, value, ContractNotRespected #ContractSemanticError
 
 def test_contract_fail():
-    for contract, value in contract_fail_examples:
+    for contract, value, exact in contract_fail_examples: #@UnusedVariable
         yield check_contracts_fail, contract, value, ContractNotRespected
 
 # Checks that we can eval() the __repr__() value and we get an equivalent object. 
 def test_repr():
-    for contract, value in (good_examples + semantic_fail_examples): #@UnusedVariable
+    all = (good_examples + semantic_fail_examples + contract_fail_examples)
+    for contract, value, exact in all: #@UnusedVariable
         if isinstance(contract, list):
             for c in contract:
                 yield check_good_repr, c
@@ -61,12 +58,13 @@ def test_repr():
 
 #  Checks that we can reconvert the __str__() value and we get the same. 
 def test_reconversion():
-    for contract, value in (good_examples + semantic_fail_examples): #@UnusedVariable
+    all = (good_examples + semantic_fail_examples + contract_fail_examples)
+    for contract, value, exact in all: #@UnusedVariable
         if isinstance(contract, list):
             for c in contract:
-                yield check_recoversion, c
+                yield check_recoversion, c, exact
         else:
-            yield check_recoversion, contract
+            yield check_recoversion, contract, exact
         
 def check_good_repr(c):
     ''' Checks that we can eval() the __repr__() value and we get
@@ -87,7 +85,7 @@ def check_good_repr(c):
     assert reeval == parsed, \
             'Repr gives different object:\n  %r !=\n  %r' % (parsed, reeval)
     
-def check_recoversion(s):
+def check_recoversion(s, exact):
     ''' Checks that we can eval() the __repr__() value and we get
         an equivalent object. '''
     parsed = parse_contract_string(s)
@@ -102,10 +100,16 @@ def check_recoversion(s):
     
     assert reconv == parsed, msg
     
-    # Warn if the string is not exactly the same.
-    if s2 != s: 
-        print('Slight different regenerated strings:')
-        print('   original: %s' % s)
-        print('  generated: %s' % s2)
-        print('   parsed the first time as: %r' % parsed)
-        print('                and then as: %r' % reconv)
+    if exact:
+        # Warn if the string is not exactly the same.
+        if s2 != s: 
+            msg = ('Slight different regenerated strings:\n')
+            msg += ('   original: %s\n' % s)
+            msg += ('  generated: %s\n' % s2)
+            msg += ('   parsed the first time as: %r\n' % parsed)
+            msg += ('                and then as: %r' % reconv)
+            assert s2 == s, msg
+            
+        
+        
+        

@@ -60,8 +60,8 @@ class TestIdioms(unittest.TestCase):
 
         contract = parse(' list[N](int), N > 0')     
 
-        print("%s" % contract)   # => 'list[N](int),N>0'
-        print("%r" % contract)   # => And([List(BindVariable('N',int),...
+        ("%s" % contract)   # => 'list[N](int),N>0'
+        ("%r" % contract)   # => And([List(BindVariable('N',int),...
 
     def test_binding(self):
         from contracts import check

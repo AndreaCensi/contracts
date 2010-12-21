@@ -168,7 +168,7 @@ def check(contract, object, desc=None):
         return check_contracts([contract], [object])
     except ContractNotRespected as e:
         if desc is not None:
-            e.error = '%s\n\nDetails:\n%s' % (desc, e.error)
+            e.error = '%s\nDetails of PyContracts error:\n%s' % (desc, e.error)
         raise
 
 def check_multiple(couples, desc=None):

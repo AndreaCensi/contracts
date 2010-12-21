@@ -1,5 +1,6 @@
 from ..interface import Contract, ContractNotRespected
 from ..syntax import add_contract, W, contract, O, S, ZeroOrMore, simple_contract
+from contracts.library.compositions import or_contract
 
 
 class Tuple(Contract):
@@ -39,8 +40,16 @@ class Tuple(Contract):
         s = 'tuple'
         if self.length is not None:
             s += '[%s]' % self.length
+            
+        def rep(x):
+            from .compositions import And
+            if isinstance(x, And):
+                return "(%s)" % x
+            else:
+                return "%s" % x
+            
         if self.elements is not None:
-            s += '(%s)' % ",".join("%s" % x for x in self.elements)
+            s += '(%s)' % ",".join(rep(x) for x in self.elements)
         return s
             
     @staticmethod
@@ -52,13 +61,19 @@ class Tuple(Contract):
         else: 
             elements = None
         assert elements is None or length is None
+        assert length is None or isinstance(length, Contract), "Wrong type %r" % length
+
+        if elements:
+            for e in elements:
+                assert isinstance(e, Contract), "Wrong type %s (%r)" % (type(e), e)
         return Tuple(length, elements, where=where)
  
 
 # if you use contract instead of simple_contract, it will be matched as And
-elements = (S('(') + 
-             simple_contract + ZeroOrMore(S(',') + simple_contract)
-              + S(')'))('elements')
+
+
+inside = (S('(') + contract + S(')')) ^ or_contract ^ simple_contract 
+elements = (S('(') + inside + ZeroOrMore(S(',') + inside) + S(')'))('elements')
 length = S('[') + contract('length') + S(']')
 
 tuple_contract = S('tuple') + O(length | elements) 

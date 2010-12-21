@@ -29,7 +29,10 @@ def check_contracts_fail(contract, value, error):
 
         raise Exception(msg)
     
-    except error:
+    except error as e:
+        # Try generation of strings:
+        s = "%r" % e #@UnusedVariable
+        s = "%s" % e #@UnusedVariable
         pass
 
 def check_syntax_fail(string):
@@ -41,6 +44,9 @@ def check_syntax_fail(string):
         msg += ' contract:         %s\n' % parsed_contract
         raise Exception(msg)
     
-    except ContractSyntaxError:
+    except ContractSyntaxError as e:
+        # Try generation of strings:
+        s = "%r" % e #@UnusedVariable
+        s = "%s" % e #@UnusedVariable
         pass
     
