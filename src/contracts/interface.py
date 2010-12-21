@@ -187,6 +187,12 @@ class Context:
         ''' Returns a copy of this context. '''
         return deepcopy(self)
     
+    # dict interface
+    def __contains__(self, key):
+        return self.has_variable(key)
+    def __getitem__(self, key):
+        return self.get_variable(key)
+                       
     def __repr__(self):
         return 'Context(%r)' % self._variables
     

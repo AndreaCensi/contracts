@@ -26,15 +26,22 @@ Manual API
 
 Basic check(): ::
 
-  from contracts import check
+    from contracts import check
   
-  # May raise: ContractSyntaxError if there are parsing errors.
-  #        or: ContractNotRespected if the contract is not respected.
-  # both are ContractException
-  check('tuple(int,int)', (2,2) )
+    # May raise: ContractSyntaxError if there are parsing errors.
+    #        or: ContractNotRespected if the contract is not respected.
+    # both are ContractException
+    check('tuple(int,int)', (2,2) )
   
-  # the results of parsing are cached internally, there is no performance
-  # penalty.
+The results of parsing are cached internally, there is no performance
+penalty of using check() often.
+  
+You can add a third argument to specify a message that will be included
+in the error, if one is thrown. ::
+ 
+    score = (2, None)
+    check('tuple(int,int)', score, 'Player score must be a tuple of 2 int.' )
+   
 
 If you wish, you can also separate the parsing and checking phases.
 The function ``parse`` will return a Contract object with a "check()" function. ::
@@ -53,10 +60,20 @@ Checking multiple values
   
 Use check_multiple: ::
 
-    def 
-        check_multiple([('list[C](str|None),C>0', cols),
-                        ('list[R](str|None),R>0', rows),
-                        ('list[R](list[C])', data) ])
+    from contracts import check_multiple
+
+    data = [[1,2,3],
+            [4,5,6]]
+    row_labels = ['first season', 'second season']
+    col_labels = ['Team1', 'Team2', 'Team3']
+    
+    # Checks that sizes are coherent and we have the 
+    # right types.
+    check_multiple([('list[C](str),C>0', col_labels),
+                    ('list[R](str),R>0', row_labels),
+                    ('list[R](list[C](numbers))', data) ],
+                   'I expect col_labels, row_labels, and data to '
+                   'have coherent dimensions.=)
                     
 
 
@@ -82,7 +99,7 @@ what variables were bound using the return values.
 The functions ``check()`` and ``Contract.check()`` will return
 a Context object.  ::
 
-      context = check('list[N](int), N>0', ['a','b','c'])
+      context = check('list[N](str), N>0', ['a','b','c'])
       print context['N'] # => 3
 
 
@@ -95,7 +112,11 @@ Creating new contracts
 Using PyContracts in your own PyParsing-based language
 ------------------------------------------------------
 
-  from contracts import contract_expression
+You can use ``contract_expression`` to add a contract expression
+to your PyParsing-based grammar: ::
 
-  from pyparsing import Literal, 
-  my_grammar = ... + Optional(Literal('respects') + contract_expression)
+      from contracts import contract_expression
+
+      from pyparsing import Literal, Optional
+      
+      my_grammar = ... + Optional(Literal('respects') + contract_expression)

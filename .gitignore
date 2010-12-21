@@ -20,3 +20,4 @@ dist
 *.pyo
 *.tmp*
 src/.noseids
+*coverage*
