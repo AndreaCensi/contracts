@@ -44,6 +44,8 @@ def add_prefix(s, prefix):
     result = ""
     for l in s.split('\n'):
         result += prefix + l + '\n'
+    # chop last newline
+    result = result[:-1]
     return result
 
 class ContractException(Exception):
@@ -82,7 +84,7 @@ class ContractNotRespected(ContractException):
         if cons:
             cons = '(context: %s)' % cons
         cons = cons.rjust(W - len(cs))
-        msg += '- contract:  %s  %s\n' % (cs, cons)
+        msg += '- contract:  %s  %s' % (cs, cons)
         
         for (contract, context, value) in self.stack:
             if contract == self.contract: continue
@@ -90,7 +92,7 @@ class ContractNotRespected(ContractException):
             contexts = "%s" % context
             if contexts:
                 contexts = ('(context: %s)' % contexts)
-            msg += ('\n (checking %s %s for value  %s' % 
+            msg += ('\n (checking %s %s for value  %s)' % 
                            (contract, contexts, describe_value(value)))
         return msg
 
@@ -101,7 +103,7 @@ class BoundVariable:
         self.origin = origin
         
     def __repr__(self):
-        return "%r" % self.value
+        return "{0!r}".format(self.value)
 
 
 class RValue:
@@ -129,10 +131,10 @@ class SimpleRValue(RValue):
         self.where = where
         
     def __str__(self):
-        return "%s" % self.value
+        return "{0!s}".format(self.value)
     
     def __repr__(self):
-        return "SimpleRValue(%r)" % self.value
+        return "SimpleRValue({0!r})".format(self.value)
     
     def eval(self, context): #@UnusedVariable
         return self.value

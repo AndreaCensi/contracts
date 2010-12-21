@@ -38,10 +38,16 @@ def check_contracts(contracts, values):
     
     return context
 
+class Storage:
+    string2contract = {}
+
 def parse_contract_string(string, filename=None):
+    if string in Storage.string2contract:
+        return Storage.string2contract[string]
     try:
         c = contract.parseString(string, parseAll=True)[0] 
         assert isinstance(c, Contract), 'Want Contract, not %r' % c
+        Storage.string2contract[string] = c
         return c
     except ParseException as e:
         where = Where(filename, string, line=e.lineno, column=e.col)

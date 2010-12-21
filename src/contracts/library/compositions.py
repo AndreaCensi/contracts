@@ -1,5 +1,6 @@
 from ..syntax import simple_contract, W, operatorPrecedence, opAssoc
 from ..interface import Contract, ContractNotRespected
+from contracts.interface import add_prefix
 
 class Logical():
     def __init__(self, glyph, precedence):
@@ -38,9 +39,14 @@ class OR(Logical, Contract):
             except ContractNotRespected as e:
                 exceptions.append((c, e))
 
-        msg = 'No clause could be satisfied. Details:'
-        for c, e in exceptions:
-            msg += '\n- %20s: %s' % (c, e)
+        msg = 'Could not satisfy any of the %d clauses.' % len(self.clauses)
+        
+        for i, ex in enumerate(exceptions):
+            c, e = ex
+            msg += '\n---- Clause #%d: ----\n' % i 
+            msg += add_prefix('%s' % e, '| ')
+
+        msg += '\n------- (end clauses) -------'
         raise ContractNotRespected(contract=self, error=msg,
                     value=value, context=context)
 
