@@ -1,37 +1,39 @@
-from . import separate_context
+from .separate_context import SeparateContext
 from . import separate_context_test
+ 
+#from contracts.syntax import EqualTo
 
-from . import dummy
+from .dummy import Any, Never
 from . import dummy_test
 
-from . import types_misc
+from .types_misc import Type, CheckType, Number, NoneType
 from . import types_test
 
-from . import strings
+from .strings import String
 from . import strings_test
 
-from . import lists
+from .lists import List
 from . import lists_test
 
-from . import tuple
+from .tuple import Tuple
 from . import tuple_test
 
-from . import dicts
+from .dicts import Dict
 from . import dicts_test
 
-from . import variables
+from .variables import BindVariable
 from . import variables_test
 
-from . import simple_values
+from .simple_values import CheckEqual
 from . import simple_values_test
 
-from . import comparison
+from .comparison import CheckOrder
 from . import comparison_test
 
-from . import compositions
+from .compositions import OR, And
 from . import compositions_test
 
-from . import arithmetic
+from .arithmetic import Binary, Unary
 from . import arithmetic_test
 
 try: 
@@ -41,6 +43,6 @@ except:
     use_numpy = False
 
 if use_numpy:
+    from .array import ShapeContract, Shape, Array, ArrayConstraint, DType, dtype
     from . import array_examples
-    from . import array
     

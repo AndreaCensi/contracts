@@ -1,5 +1,5 @@
 import numpy
-from numpy  import ndarray
+from numpy  import ndarray, dtype #@UnusedImport
 
 from ..interface import Contract, ContractNotRespected, RValue
 from ..syntax import (add_contract, W, contract, O, S, isnumber, rvalue,

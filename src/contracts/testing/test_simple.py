@@ -1,35 +1,18 @@
 import traceback
-from numbers import Number
-
-from types import NoneType
 
 from ..main import parse_contract_string 
 from ..interface import ContractSemanticError, ContractNotRespected, VariableRef
 from ..test_registrar import (good_examples, semantic_fail_examples,
-                              syntax_fail_examples, contract_fail_examples,
-                              fail, good, syntax_fail, semantic_fail)
+                              syntax_fail_examples, contract_fail_examples)
 from .utils import check_contracts_ok, check_syntax_fail, check_contracts_fail
 
 from . import test_multiple #@UnusedImport
 
 # TODO: remove all of these
-from contracts.library.arithmetic import Binary, Unary
-from contracts.library.simple_values import CheckEqual
-from contracts.library.variables import BindVariable
-from contracts.library.comparison import CheckOrder
-from contracts.library.types_misc import Type, CheckType
-from contracts.library.compositions import OR, And
 from contracts.syntax import EqualTo
-from contracts.library.lists import List
-from contracts.library.tuple import Tuple
-from contracts.library.dummy import Any, Never
-from contracts.library.dicts import Dict
-from contracts.library.strings import String
 
-from contracts.library.separate_context import SeparateContext
-from contracts.library.array import ShapeContract, Shape, Array, ArrayConstraint, DType
-import numpy
-from numpy import dtype
+# Import all the symbols needed to eval() the __repr__() output.
+from contracts.library import *
 
 select = False
 #select = True
@@ -38,8 +21,8 @@ if select:
     syntax_fail_examples[:] = []
     semantic_fail_examples[:] = []
     contract_fail_examples[:] = []
+    from ..test_registrar import  fail, good, syntax_fail, semantic_fail
 
-    
     good('#|*,(#|*)', None)
     
     good('1+2*(3+4)', 15)
@@ -66,9 +49,8 @@ def test_contract_fail():
     for contract, value in contract_fail_examples:
         yield check_contracts_fail, contract, value, ContractNotRespected
 
+# Checks that we can eval() the __repr__() value and we get an equivalent object. 
 def test_repr():
-#    ''' Checks that we can eval() the __repr__() value and we get
-#        an equivalent object. '''
     for contract, value in (good_examples + semantic_fail_examples): #@UnusedVariable
         if isinstance(contract, list):
             for c in contract:
@@ -76,9 +58,8 @@ def test_repr():
         else:
             yield check_good_repr, contract
 
+#  Checks that we can reconvert the __str__() value and we get the same. 
 def test_reconversion():
-#    ''' Checks that we can reconvert the __str__() value and we get
-#        the same. '''
     for contract, value in (good_examples + semantic_fail_examples): #@UnusedVariable
         if isinstance(contract, list):
             for c in contract:
