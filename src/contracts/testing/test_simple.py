@@ -70,7 +70,6 @@ def check_good_repr(c):
     ''' Checks that we can eval() the __repr__() value and we get
         an equivalent object. '''
     parsed = parse_contract_string(c)
-    
     # Check that it compares true with itself
     assert parsed.__eq__(parsed), 'Repr does not know itself: %r' % parsed
     
@@ -89,6 +88,8 @@ def check_recoversion(s, exact):
     ''' Checks that we can eval() the __repr__() value and we get
         an equivalent object. '''
     parsed = parse_contract_string(s)
+    
+    
     s2 = parsed.__str__()
     reconv = parse_contract_string(s2)
     

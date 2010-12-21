@@ -4,7 +4,7 @@ from numpy  import ndarray, dtype #@UnusedImport
 from ..interface import Contract, ContractNotRespected, RValue
 from ..syntax import (add_contract, W, contract, O, S, rvalue,
                       get_or, simple_contract, ZeroOrMore, Literal)
-from pyparsing import OneOrMore
+
 
 class Array(Contract):
     
@@ -57,16 +57,18 @@ class ShapeContract(Contract):
         self.ellipsis = ellipsis
     
     def check_contract(self, context, value):
-        if not isinstance(value, tuple):
-            assert False, 'Expected a tuple, got %r.' % value.__class__.__name__
+        # Guaranteed by construction
+        assert isinstance(value, tuple), \
+                'Expected a tuple, got %r.' % value.__class__.__name__
 
         expected = len(self.dimensions)
         ndim = len(value)
     
-        if ndim < expected:
+        if ndim < expected: # TODO: write clearer message
             error = 'Expected %d dimensions, got %d.' % (expected, ndim)
             raise ContractNotRespected(contract=self, error=error,
                                        value=value, context=context)
+        
         if ndim > expected and not self.ellipsis:
             error = 'Expected %d dimensions, got %d.' % (expected, ndim) 
             raise ContractNotRespected(contract=self, error=error,
@@ -111,8 +113,11 @@ class Shape(Contract):
         self.length = length
     
     def check_contract(self, context, value):
-        if not isinstance(value, (ndarray, tuple)):
-            assert False, 'Expected an array, got %r.' % value.__class__.__name__
+        if not isinstance(value, ndarray):
+            error = 'Expected an array, got %r.' % value.__class__.__name__
+            raise ContractNotRespected(contract=self, error=error,
+                                       value=value, context=context)       
+        
         if isinstance(value, ndarray):
             value = value.shape
             
@@ -154,8 +159,10 @@ class DType(Contract):
         self.dtype_string = dtype_string
     
     def check_contract(self, context, value):
-        if not isinstance(value, ndarray):
-            assert False, 'Expected an array, got %r.' % value.__class__.__name__
+        # Guaranteed by construction
+        assert isinstance(value, ndarray), \
+                'Expected an array, got %r.' % value.__class__.__name__
+        
         if not (value.dtype == self.dtype):
             error = ('Expected array with dtype %r, got %r.' % 
                      (self.dtype, value.dtype)) 
@@ -246,7 +253,7 @@ for glyph in ArrayConstraint.constraints:
     array_constraints.append(expr)
 
 dtype_checks = []
-for x in ['uint8', 'int8', 'float32', 'float64']:
+for x in ['u1', 'i1', 'uint8', 'int8', 'float32', 'float64']:
     d = numpy.dtype(x)
     expr = Literal(x).setParseAction(DType.parse_action(d))  
     dtype_checks.append(expr)

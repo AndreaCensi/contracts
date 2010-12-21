@@ -65,7 +65,7 @@ class ContractSyntaxError(ContractException):
     
 class ContractNotRespected(ContractException):
     def __init__(self, contract, error, value, context):
-        assert isinstance(contract, Contract)
+        assert isinstance(contract, Contract), contract
         assert isinstance(context, Context)
         assert isinstance(error, str)
         
@@ -109,7 +109,7 @@ class BoundVariable:
 
 
 class RValue:
-    def eval(self, context):
+    def eval(self, context, contract):
         ''' Can raise ValueError; will be wrapped in ContractNotRespected. '''
         raise ValueError('Not implemented in %r' % self.__class__) 
 
@@ -138,7 +138,7 @@ class SimpleRValue(RValue):
     def __repr__(self):
         return "SimpleRValue({0!r})".format(self.value)
     
-    def eval(self, context): #@UnusedVariable
+    def eval(self, context, contract): #@UnusedVariable
         return self.value
                    
     
@@ -148,7 +148,7 @@ class VariableRef(RValue):
         self.where = where
         self.variable = variable
         
-    def eval(self, context):
+    def eval(self, context, contract):
         var = self.variable
         if not context.has_variable(var):
             raise ValueError('Unknown variable %r.' % var)
@@ -180,8 +180,9 @@ class Context:
     
     def eval(self, value, contract): # XXX:
         assert isinstance(value, RValue)
+        assert isinstance(contract, Contract)
         try:    
-            return value.eval(self)
+            return value.eval(self, contract)
         except ValueError as e:
             return ContractNotRespected(contract, "%s" % e, value, self)
     

@@ -1,4 +1,4 @@
-from ..test_registrar import syntax_fail, good
+from ..test_registrar import syntax_fail, good, fail
 
 syntax_fail('=1+')
 syntax_fail('=1-')
@@ -31,3 +31,10 @@ good('=(1+1)*3', 6)
 good('1+1+1', 3)
 good('2*2*2', 8)
 good('2-1-1', 0)
+
+# Wrong math
+fail('x,x+1=0', 'ciao')
+fail('x,-x=0', 'ciao')
+
+# Binding to non-existing variable
+fail('N+1=0', 1)

@@ -1,9 +1,6 @@
 import unittest
 
-
-
 class TestIdioms(unittest.TestCase):
-    
     
     def test_check_1(self):
         from contracts import check, Context
@@ -92,5 +89,25 @@ class TestIdioms(unittest.TestCase):
                     
     def test_symbols(self):
         from contracts import contract_expression #@UnusedImport
-
-      
+        # TODO: type
+        
+    def test_equality_contract(self):
+        from contracts import parse
+        c1 = parse('list[C](str),C>0')
+        c2 = parse('list[C](str),C>0')
+        c3 = parse('list[R](str),R>0')
+        self.assertEqual(c1, c2)
+        self.assertNotEqual(c1, c3)
+    
+    def test_equality_rvalue(self):
+        from contracts import parse
+        c1 = parse('N+1')
+        c2 = parse('N+2')
+        c3 = parse('P+1')
+        self.assertEqual(c1, c1)
+        self.assertEqual(c2, c2)
+        self.assertEqual(c3, c3)
+        self.assertNotEqual(c1, c2)
+        self.assertNotEqual(c1, c3)
+        self.assertNotEqual(c2, c3)
+        
