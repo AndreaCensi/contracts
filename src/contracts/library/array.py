@@ -4,6 +4,7 @@ from numpy  import ndarray, dtype #@UnusedImport
 from ..interface import Contract, ContractNotRespected, RValue
 from ..syntax import (add_contract, W, contract, O, S, rvalue,
                       get_or, simple_contract, ZeroOrMore, Literal)
+from pyparsing import OneOrMore
 
 class Array(Contract):
     
@@ -39,8 +40,11 @@ class Array(Contract):
     @staticmethod
     def parse_action(s, loc, tokens):
         where = W(s, loc)
-        shape_contract = tokens.get('shape_contract', None)
-        elements_contract = tokens.get('elements_contract', None)
+        shape_contract = tokens.get('shape_contract', [None])[0]
+        elements_contract = tokens.get('elements_contract', [None])[0]
+        
+        assert shape_contract is None or isinstance(shape_contract, ShapeContract)
+        assert elements_contract is None or isinstance(elements_contract, Contract)
         return Array(shape_contract, elements_contract, where=where)
 
 
@@ -87,6 +91,7 @@ class ShapeContract(Contract):
     @staticmethod 
     def parse_action(s, loc, tokens):
         where = W(s, loc)
+        #print "in tokens: " % tokens
         # workaround for some bugs
         ellipsis = False
         dimensions = []
@@ -133,19 +138,8 @@ class Shape(Contract):
     def parse_action(s, loc, tokens):
         where = W(s, loc)
         assert 0 <= len(tokens) <= 2
-        # Workaround about some bugs
-        if 'length' in tokens:
-            length = tokens[0]
-            if len(tokens) == 2:
-                contract = tokens[1]
-            else:
-                contract = None
-        else:
-            length = None
-            if len(tokens) == 1:
-                contract = tokens[0]
-            else:
-                contract = None
+        length = tokens.get('length', [None])[0]
+        contract = tokens.get('other', [None])[0]
         return Shape(length, contract, where) 
     
     
@@ -263,23 +257,27 @@ def my_delim_list2(what, delim):
     return (what + ZeroOrMore(S(delim) + what))
 
 ellipsis = Literal('...')
-delim = Literal('x') ^ Literal(',')
-shape_contract = my_delim_list2(simple_contract, delim) \
- + O(S(delim) + ellipsis('ellipsis'))  
+
+inside = simple_contract ^ (S('(') + simple_contract + S(')'))
+shape_contract = (my_delim_list2(inside, S('x')) + O(S('x') + ellipsis))
 shape_contract.setParseAction(ShapeContract.parse_action)
 
-shape = S('shape') + O(S('[') + contract('length') + S(']')) + \
-            O(S('(') + shape_contract + S(')')) # bug pyparsing, do not give name  
-shape.setParseAction(Shape.parse_action)
-add_contract(shape)
 
-array_contract = ((S('array') | S('ndarray')) + 
-                 O(S('[') + (shape | shape_contract)('shape_contract') + S(']')) + 
-                 O(S('(') + ndarray_contract('elements_contract') + S(')')))
+name = S('array') | S('ndarray')
+optional_shape = (S('[') + shape_contract + S(']'))('shape_contract')
+optional_elements = (S('(') + ndarray_contract + S(')'))('elements_contract')
+array_contract = name + O(optional_shape) + O(optional_elements)
+                   
 array_contract.setParseAction(Array.parse_action)
 add_contract(array_contract)
 
 
+optional_length = (S('[') + contract + S(']'))('length')
+optional_other = (S('(') + contract + S(')'))('other')
+shape = S('shape') + O(optional_length) + O(optional_other)
+                                            
+shape.setParseAction(Shape.parse_action)
+add_contract(shape)
 
 #add_alias('rgb', 'array[HxWx3](uint8),H>0,W>0')
 #add_alias('rgba', 'array[HxWx4](uint8),H>0,W>0')

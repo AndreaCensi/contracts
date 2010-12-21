@@ -1,5 +1,6 @@
-from ..interface import ContractSyntaxError
+from ..interface import ContractSyntaxError, describe_value
 from ..main import parse_contract_string, check_contracts
+
 
 def check_contracts_ok(contract, value):
     if isinstance(contract, str):
@@ -15,15 +16,20 @@ def check_contracts_fail(contract, value, error):
     try:
         context = check_contracts(contract, value)
         
-        msg = ('I was expecting that %r would not satisfy %r.\n' % 
-               (value, contract))
-        msg += ' matched context:  %s\n' % context
+        msg = 'I was expecting that the values would not not satisfy the contract.\n'
+        
+        for v in value:
+            msg += '      value: %s\n' % describe_value(v) 
+        
         for c in contract:
-            parsed_contract = parse_contract_string(c)
-            msg += ' contract:     %20s  %r\n' % (parsed_contract, parsed_contract)
+            cp = parse_contract_string(c)
+            msg += '   contract: %r, parsed as %r (%s)\n' % (c, cp, cp)
+               
+        msg += '    context:  %r\n' % context
+
         raise Exception(msg)
     
-    except error as e:
+    except error:
         pass
 
 def check_syntax_fail(string):

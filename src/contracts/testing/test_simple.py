@@ -15,6 +15,7 @@ from ..syntax import SimpleRValue #@UnusedImport
 from ..interface import VariableRef #@UnusedImport
 
 
+
 # If you want to try only some tests, set select to True, and add them below.
 select = False
 #select = True
@@ -28,8 +29,10 @@ if select:
     # Add the ones you want to do here:
     from ..test_registrar import  fail, good, syntax_fail, semantic_fail #@UnusedImport
     # good('#|*,(#|*)', None)
-
-
+    syntax_fail('shape(xx)')
+    # should be an unknown
+    import numpy
+    good('shape(x)', numpy.zeros((2, 2)))
 
 def test_good():
     for contract, value in good_examples:

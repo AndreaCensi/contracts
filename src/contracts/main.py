@@ -166,10 +166,10 @@ def check(contract, object, desc=None):
         raise
 
 def check_multiple(couples, desc=None):
-    check('list[>0](tuple(*, str))', couples,
+    check('list[>0](tuple(str, *))', couples,
           'I expect a non-empty list of (object, string) tuples.')
-    contracts = [x[1] for x in couples]
-    values = [x[0] for x in couples]
+    contracts = [x[0] for x in couples]
+    values = [x[1] for x in couples]
     try:
         return check_contracts(contracts, values)
     except ContractNotRespected as e:

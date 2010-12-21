@@ -249,8 +249,10 @@ def describe_value(x):
             s = x.__repr__() # XXX: use format()
         else:
             s = "%r" % x
-        if len(s) > 20:
-            s = "%s... [clip]" % s[:20]
+            
+        clip = 50
+        if len(s) > clip:
+            s = "%s... [clip]" % s[:clip]
 
         return 'Instance of %s: %s' % (x.__class__.__name__, s)
         
