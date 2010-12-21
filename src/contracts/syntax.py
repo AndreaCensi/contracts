@@ -1,5 +1,4 @@
 from pyparsing import ParserElement
-from contracts.interface import Contract, ContractNotRespected
 ParserElement.enablePackrat()
 
 from pyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
@@ -51,12 +50,9 @@ def add_contract(x):
 def add_rvalue(x):  
     ParsingTmp.rvalues_types.append(x)
 
-from . import library #@UnusedImport
+from .library import EqualTo, Unary, Binary
 from library.compositions import composite_contract
 
-
-
-from contracts.library.arithmetic import Unary, Binary
 
 operand = (integer | floatnumber) | get_or(ParsingTmp.rvalues_types)
 
@@ -72,29 +68,6 @@ expr = operatorPrecedence(operand,
 
 rvalue << expr 
 
-
-class EqualTo(Contract):
-    def __init__(self, rvalue, where=None):
-        Contract.__init__(self, where)
-        self.rvalue = rvalue
-        
-    def check_contract(self, context, value):
-        val = context.eval(self.rvalue, self)
-        if not(val == value):
-            error = ('Condition %s == %s not respected.' % (val, value))
-            raise ContractNotRespected(contract=self, error=error,
-                                       value=value, context=context)    
-    def __str__(self):
-        return "%s" % self.rvalue
-        
-    def __repr__(self):
-        return 'EqualTo(%r)' % self.rvalue
-    
-    @staticmethod
-    def parse_action(s, loc, tokens):
-        where = W(s, loc)
-        rvalue = tokens[0]
-        return EqualTo(rvalue, where)
 
 add_contract(rvalue.copy().setParseAction(EqualTo.parse_action))
 

@@ -24,7 +24,7 @@ from . import dicts_test
 from .variables import BindVariable
 from . import variables_test
 
-from .simple_values import CheckEqual
+from .simple_values import EqualTo
 from . import simple_values_test
 
 from .comparison import CheckOrder
