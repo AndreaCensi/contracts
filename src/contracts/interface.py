@@ -199,6 +199,11 @@ class Contract:
         assert isinstance(where, (NoneType, Where)), 'Wrong type %s' % where
         self.where = where
     
+    def check(self, value):
+        ''' Public function -- initializes an empty context. '''
+        context = Context()
+        return self.check_contract(context, value)
+        
     def check_contract(self, context, value):
         ''' 
             Checks that value is ok with this contract in the specific 

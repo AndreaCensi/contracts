@@ -1,0 +1,101 @@
+
+.. _api:
+
+PyContracts API
+=====================
+
+Specifying contracts using decorators and docstrings
+------------------------------------------------------------
+
+|towrite|
+
+Specifying contracts using decorators with explicit contracts.
+--------------------------------------------------------------------
+
+|towrite|
+
+
+Decorate a function explicitly
+-------------------------------------------------
+
+|towrite|
+
+
+Manual API
+-------------------------------------------------
+
+Basic check(): ::
+
+  from contracts import check
+  
+  # May raise: ContractSyntaxError if there are parsing errors.
+  #        or: ContractNotRespected if the contract is not respected.
+  # both are ContractException
+  check('tuple(int,int)', (2,2) )
+  
+  # the results of parsing are cached internally, there is no performance
+  # penalty.
+
+If you wish, you can also separate the parsing and checking phases.
+The function ``parse`` will return a Contract object with a "check()" function. ::
+
+  from contracts import parse
+  
+  # May raise MalformedContract
+  contract = parse('>0')
+  
+  # May raise ContractNotRespected
+  contract.check(2)
+  
+
+Checking multiple values
+^^^^^^^^^^^^^^^^^^^^^^^^
+  
+Use check_multiple: ::
+
+    def 
+        check_multiple([('list[C](str|None),C>0', cols),
+                        ('list[R](str|None),R>0', rows),
+                        ('list[R](list[C])', data) ])
+                    
+
+
+Examining the Contract objects
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you want to examine the contract object, use __repr__() for eval()uable expression,
+or __str__()  to get back a representation using |pycontracts|' language. ::
+
+    from contracts import parse
+
+    contract = parse(' list[N](int), N > 0')     
+
+    print("%s" % contract)   # => 'list[N](int),N>0'
+    print("%r" % contract)   # => And([List(BindVariable('N',int),CheckType(int)), CheckOrder(VariableRef('N'),'>',SimpleRValue(0))])
+
+
+Examining bound variables
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you are using binding expression, you can examine 
+what variables were bound using the return values.
+The functions ``check()`` and ``Contract.check()`` will return
+a Context object.  ::
+
+      context = check('list[N](int), N>0', ['a','b','c'])
+      print context['N'] # => 3
+
+
+Creating new contracts
+-------------------------------------------------
+
+|towrite|
+
+
+Using PyContracts in your own PyParsing-based language
+------------------------------------------------------
+
+  from contracts import contract_expression
+
+  from pyparsing import Literal, 
+  my_grammar = ... + Optional(Literal('respects') + contract_expression)

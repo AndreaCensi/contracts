@@ -1,0 +1,67 @@
+
+.. _reference:
+
+Reference for included contracts 
+================================
+
+Simple types
+------------
+
+    dict, list, tuple, float, int, number, array, bool
+
+    *
+    
+    
+Equality
+------------------
+
+Just saying a value will match that value
+
+
+Variables
+---------
+
+Integer variables::
+
+    A B C D E F G H I J K L M N O P Q R S T U W V X Y Z
+
+General-purpose variables::
+
+    a b c d e f g h i j k l m n o p q r s t u w v x y z
+
+
+Arithmetic and comparison
+-------------------------
+
+
+Lists
+------------------
+
+Tuples
+------------------
+
+Dictionaries
+------------------
+
+Numpy arrays
+------------------
+
+
+Advanced features
+------------------
+
+Context isolate
+^^^^^^^^^^^^^^^ 
+
+|towrite|
+
+Binding/non binding
+^^^^^^^^^^^^^^^^^^^
+
+|towrite|
+
+
+Other aliases
+^^^^^^^^^^^^^
+
+rgb, rgba
