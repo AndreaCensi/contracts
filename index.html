@@ -207,9 +207,14 @@ sizes and shapes. Moreover, <span class="brand">PyContracts</span> can do arithm
 <span class="c">#        or: ContractNotRespected if the contract is not respected.</span>
 <span class="c"># both are ContractException</span>
 <span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple(int,int)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="p">)</span>
-
-<span class="c"># the results of parsing are cached internally, there is no performance</span>
-<span class="c"># penalty.</span>
+</pre></div>
+</div>
+<p>The results of parsing are cached internally, there is no performance
+penalty of using check() often.</p>
+<p>You can add a third argument to specify a message that will be included
+in the error, if one is thrown.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+<span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple(int,int)&#39;</span><span class="p">,</span> <span class="n">score</span><span class="p">,</span> <span class="s">&#39;Player score must be a tuple of 2 int.&#39;</span> <span class="p">)</span>
 </pre></div>
 </div>
 <p>If you wish, you can also separate the parsing and checking phases.
@@ -226,10 +231,20 @@ The function <tt class="docutils literal"><span class="pre">parse</span></tt> wi
 <div class="section" id="checking-multiple-values">
 <h3>Checking multiple values<a class="headerlink" href="#checking-multiple-values" title="Permalink to this headline">¶</a></h3>
 <p>Use check_multiple:</p>
-<div class="highlight-python"><pre>def
-    check_multiple([('list[C](str|None),C&gt;0', cols),
-                    ('list[R](str|None),R&gt;0', rows),
-                    ('list[R](list[C])', data) ])</pre>
+<div class="highlight-python"><pre>from contracts import check_multiple
+
+data = [[1,2,3],
+        [4,5,6]]
+row_labels = ['first season', 'second season']
+col_labels = ['Team1', 'Team2', 'Team3']
+
+# Checks that sizes are coherent and we have the
+# right types.
+check_multiple([('list[C](str),C&gt;0', col_labels),
+                ('list[R](str),R&gt;0', row_labels),
+                ('list[R](list[C](numbers))', data) ],
+               'I expect col_labels, row_labels, and data to '
+               'have coherent dimensions.=)</pre>
 </div>
 </div>
 <div class="section" id="examining-the-contract-objects">
@@ -251,7 +266,7 @@ or __str__()  to get back a representation using <span class="brand">PyContracts
 what variables were bound using the return values.
 The functions <tt class="docutils literal"><span class="pre">check()</span></tt> and <tt class="docutils literal"><span class="pre">Contract.check()</span></tt> will return
 a Context object.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">context</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s">&#39;list[N](int), N&gt;0&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="s">&#39;b&#39;</span><span class="p">,</span><span class="s">&#39;c&#39;</span><span class="p">])</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">context</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s">&#39;list[N](str), N&gt;0&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="s">&#39;b&#39;</span><span class="p">,</span><span class="s">&#39;c&#39;</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">context</span><span class="p">[</span><span class="s">&#39;N&#39;</span><span class="p">]</span> <span class="c"># =&gt; 3</span>
 </pre></div>
 </div>
@@ -263,11 +278,15 @@ a Context object.</p>
 </div>
 <div class="section" id="using-pycontracts-in-your-own-pyparsing-based-language">
 <h2>Using PyContracts in your own PyParsing-based language<a class="headerlink" href="#using-pycontracts-in-your-own-pyparsing-based-language" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<p>from contracts import contract_expression</p>
-<p>from pyparsing import Literal,
-my_grammar = ... + Optional(Literal(&#8216;respects&#8217;) + contract_expression)</p>
-</blockquote>
+<p>You can use <tt class="docutils literal"><span class="pre">contract_expression</span></tt> to add a contract expression
+to your PyParsing-based grammar:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contract_expression</span>
+
+<span class="kn">from</span> <span class="nn">pyparsing</span> <span class="kn">import</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="n">my_grammar</span> <span class="o">=</span> <span class="o">...</span> <span class="o">+</span> <span class="n">Optional</span><span class="p">(</span><span class="n">Literal</span><span class="p">(</span><span class="s">&#39;respects&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">contract_expression</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="reference-for-included-contracts">
