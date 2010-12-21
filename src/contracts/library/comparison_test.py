@@ -1,4 +1,4 @@
-from contracts.test_registrar import good, fail, semantic_fail
+from ..test_registrar import good, fail, semantic_fail
 
 # Basic comparisons, unitary syntax
 good('=0', 0)

@@ -1,6 +1,6 @@
 ''' Other testing examples '''
 
-from contracts.test_registrar import good, fail
+from ..test_registrar import good, fail
  
 # dummy
 good(['*'], [0])

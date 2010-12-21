@@ -1,6 +1,7 @@
 from ..interface import Contract, ContractNotRespected, VariableRef
 from ..syntax import W, add_contract, add_rvalue, oneOf
 
+
 class BindVariable(Contract):
     
     def __init__(self, variable, allowed_types, where=None):

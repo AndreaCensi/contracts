@@ -1,7 +1,9 @@
 import numpy
-from contracts.main import contracts_decorate
-from contracts.interface import ContractNotRespected
 import unittest
+
+from ..main import contracts_decorate
+from ..interface import ContractNotRespected
+
 
 def blend_function(image1, image2, bug=False):
     ''' 

@@ -1,6 +1,5 @@
-from contracts import check_contracts
 from ..interface import ContractSyntaxError
-from ..main import parse_contract_string
+from ..main import parse_contract_string, check_contracts
 
 def check_contracts_ok(contract, value):
     if isinstance(contract, str):

@@ -1,6 +1,7 @@
 from ..interface import Contract, ContractNotRespected
 from ..syntax import add_contract, W, contract, O, S, ZeroOrMore, simple_contract
 
+
 class Tuple(Contract):
     
     def __init__(self, length=None, elements=None, where=None):

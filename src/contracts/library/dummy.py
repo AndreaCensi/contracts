@@ -1,5 +1,5 @@
-from contracts.interface import Contract, ContractNotRespected
-from contracts.syntax import add_contract, W, Literal
+from ..interface import Contract, ContractNotRespected
+from ..syntax import add_contract, W, Literal
 
 
 class Any(Contract):

@@ -1,37 +1,35 @@
 import traceback
 
 from ..main import parse_contract_string 
-from ..interface import ContractNotRespected, VariableRef
+from ..interface import ContractNotRespected
 from ..test_registrar import (good_examples, semantic_fail_examples,
                               syntax_fail_examples, contract_fail_examples)
 from .utils import check_contracts_ok, check_syntax_fail, check_contracts_fail
 
+# Import the other tests
 from . import test_multiple #@UnusedImport
 
-# TODO: remove all of these
-from contracts.syntax import SimpleRValue #@UnusedImport
-
 # Import all the symbols needed to eval() the __repr__() output.
-from contracts.library import * #@UnusedWildImport
+from ..library import * #@UnusedWildImport
+from ..syntax import SimpleRValue #@UnusedImport
+from ..interface import VariableRef #@UnusedImport
 
+
+# If you want to try only some tests, set select to True, and add them below.
 select = False
 #select = True
 if select:
+    # Remove the other tests
     good_examples[:] = []
     syntax_fail_examples[:] = []
     semantic_fail_examples[:] = []
     contract_fail_examples[:] = []
-#    from ..test_registrar import  fail, good, syntax_fail, semantic_fail #@UnusedImport
-#
-#    good('#|*,(#|*)', None)
-#    
-#    good('1+2*(3+4)', 15)
-#    good('1+1*(2+2)', 5)
-#    good('1*(1+2+2)', 5)
-#    
-#    good('1+1+1', 3)
-#    good('2*2*2', 8)
-#    good('2-1-1', 0)
+    
+    # Add the ones you want to do here:
+    from ..test_registrar import  fail, good, syntax_fail, semantic_fail #@UnusedImport
+    # good('#|*,(#|*)', None)
+
+
 
 def test_good():
     for contract, value in good_examples:
@@ -83,7 +81,8 @@ def check_good_repr(c):
         traceback.print_exc()
         raise Exception('Could not evaluate expression %r: %s' % (repr, e))
         
-    assert reeval == parsed, 'Repr gives different object:\n  %r !=\n  %r' % (parsed, reeval)
+    assert reeval == parsed, \
+            'Repr gives different object:\n  %r !=\n  %r' % (parsed, reeval)
     
 def check_recoversion(s):
     ''' Checks that we can eval() the __repr__() value and we get
@@ -100,8 +99,7 @@ def check_recoversion(s):
     
     assert reconv == parsed, msg
     
-    # warn if the string is not exactly the same
-    
+    # Warn if the string is not exactly the same.
     if s2 != s: 
         print('Slight different regenerated strings:')
         print('   original: %s' % s)

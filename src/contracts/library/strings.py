@@ -1,6 +1,6 @@
 from ..interface import Contract, ContractNotRespected
-from ..syntax import add_contract, W, contract, O
-from pyparsing import Literal
+from ..syntax import add_contract, W, contract, O, Literal
+
 
 class String(Contract):
     

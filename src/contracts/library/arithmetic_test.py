@@ -1,4 +1,4 @@
-from contracts.test_registrar import syntax_fail, good
+from ..test_registrar import syntax_fail, good
 
 syntax_fail('=1+')
 syntax_fail('=1-')

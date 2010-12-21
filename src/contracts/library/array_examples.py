@@ -1,6 +1,8 @@
 from numpy import zeros, ones
 import numpy
-from contracts.test_registrar import syntax_fail, good, fail
+
+from ..test_registrar import syntax_fail, good, fail
+
 
 a_u8 = numpy.zeros((3, 4), dtype='uint8')
 a_f32 = numpy.zeros((3, 4), dtype='float32')

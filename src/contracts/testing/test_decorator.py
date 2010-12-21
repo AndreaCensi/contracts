@@ -1,6 +1,7 @@
 import unittest
-from contracts.main import contracts_decorate, contracts
-from contracts.interface import ContractException, ContractNotRespected
+
+from ..main import contracts_decorate, contracts
+from ..interface import ContractException, ContractNotRespected
 
 
 class DecoratorTests(unittest.TestCase):

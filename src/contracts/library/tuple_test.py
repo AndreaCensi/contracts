@@ -1,4 +1,4 @@
-from contracts.test_registrar import syntax_fail, good, fail
+from ..test_registrar import syntax_fail, good, fail
 
    
 #### Tuples
