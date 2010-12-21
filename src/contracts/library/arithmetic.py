@@ -13,28 +13,26 @@ class Binary(RValue):
         '-': 0,
         '*': 1,
     }
-    def __init__(self, expr1, glyph, expr2, where=None):
+    def __init__(self, exprs, glyph, where=None):
         self.where = where
-        self.expr1 = expr1
-        self.expr2 = expr2 
+        self.exprs = exprs 
         self.glyph = glyph
         self.operation = Binary.operations[glyph]
         self.precedence = Binary.precedence[glyph]
         
     def eval(self, context):
-        val1 = context.eval(self.expr1, self)            
-        val2 = context.eval(self.expr2, self)
-
-        for val in [val1, val2]:
+        vals = []
+        for expr in self.exprs:
+            val = context.eval(expr, self)
             if not isnumber(val):
                 msg = ('I can only do math with numbers, not %r.' % 
                        val.__class__.__name__) 
                 raise ContractSemanticError(self, msg, context)
-        
-        return self.operation(val1, val2)
+            vals.append(val)
+        return reduce(self.operation, vals)
         
     def __repr__(self):
-        s = 'Binary(%r,%r,%r)' % (self.expr1, self.glyph, self.expr2)
+        s = 'Binary(%r,%r)' % (self.exprs, self.glyph)
         return s
     
     def __str__(self):
@@ -44,18 +42,21 @@ class Binary(RValue):
             else:
                 return '%s' % x
         
-        s = '%s%s%s' % (convert(self.expr1), self.glyph, convert(self.expr2))
+        s = self.glyph.join(convert(x) for x in self.exprs)
         return s
 
     @staticmethod
     def parse_action(s, loc, tokens):
         where = W(s, loc)
-        expr1 = tokens[0][0]
-        glyph = tokens[0][1]
-        expr2 = tokens[0][2]
-        for e in [expr1, expr2]:
-            assert isnumber(e) or isinstance(e, RValue)
-        return Binary(expr1, glyph, expr2, where=where)
+        l = list(tokens[0])
+        exprs = [l.pop(0)]
+        while l:
+            glyph = l.pop(0)
+            expr = l.pop(0)
+            assert isnumber(expr) or isinstance(expr, RValue)
+            exprs.append(expr)
+
+        return Binary(exprs, glyph, where=where)
 
 
 class Unary(RValue):

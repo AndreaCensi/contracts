@@ -39,55 +39,16 @@ if select:
     semantic_fail_examples[:] = []
     contract_fail_examples[:] = []
 
-
-# shapes
-a0d = numpy.zeros((), dtype='float32')
-a1d = numpy.zeros((2,))
-a2d = numpy.zeros((2, 4,))
-a3d = numpy.zeros((2, 4, 8))
-#
-#good('shape[0]', a0d)
-#good('shape[1]', a1d)
-#good('shape[2]', a2d)
-#good('shape[3]', a3d)
-#fail('shape[>0]', a0d)
-#fail('shape[<1]', a1d)
-#fail('shape[>2]', a2d)
-#fail('shape[<3]', a3d)
-#semantic_fail('shape[x]', a3d)
-#
-#good('shape(2,4)', a2d)
-#fail('shape(2,4)', a3d)
-## ellipsis to mean 0 or more dimensions 
-#good('shape(2,4,...)', a2d)
-#good('shape(2,4,...)', a3d)
-## if we really want more, use:
-#good('shape[>2](2,4,...)', a3d)
-#fail('shape[>2](2,4,...)', a2d)
-#
-## Try some binding:
-#good('shape(X,Y,...),X=2,Y=4', a3d)
-#
-## We don't do in between yet
-#syntax_fail('shape(2,...,3)')
-#
-#good('shape(2x4)', a2d)
-#fail('shape(2x4)', a3d)
-## ellipsis to mean 0 or more dimensions 
-#good('shape(2x4x...)', a2d)
-#good('shape(2x4x...)', a3d)
-## if we really want more, use:
-#good('shape[>2](2x4x...)', a3d)
-#fail('shape[>2](2x4x...)', a2d)
-#
-## We don't do in between yet
-#syntax_fail('shape(2x...x3)')
-## Try some binding:
-#good('shape(XxY,...),X=2,Y=4', a2d)
-#good('shape(XxY,...),X=2,Y=4', a3d)
-
-
-
+    
+    good('#|*,(#|*)', None)
+    
+    good('1+2*(3+4)', 15)
+    good('1+1*(2+2)', 5)
+    good('1*(1+2+2)', 5)
+    
+    good('1+1+1', 3)
+    good('2*2*2', 8)
+    good('2-1-1', 0)
 
 def test_good():
     for contract, value in good_examples:

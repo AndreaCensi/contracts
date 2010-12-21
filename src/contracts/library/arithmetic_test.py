@@ -27,3 +27,7 @@ good('2*3+1', 7)
 # Now with parentheses
 good('=1+1*3', 4)
 good('=(1+1)*3', 6)
+
+good('1+1+1', 3)
+good('2*2*2', 8)
+good('2-1-1', 0)
