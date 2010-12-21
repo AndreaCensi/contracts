@@ -1,11 +1,10 @@
-from pyparsing import ParseException
-from .syntax import contract
-from .interface import Context, Contract, ContractSyntaxError
-from procgraph.core.parsing_elements import Where
 import types
-from contracts.interface import ContractException, ContractNotRespected
-from procgraph.core.docstring_parsing import parse_docstring_annotations
 import inspect
+
+from .syntax import contract, ParseException
+from .interface import (Context, Contract, ContractSyntaxError, Where,
+                        ContractException, ContractNotRespected)
+from .docstring_parsing import parse_docstring_annotations
 
 def check_contracts(contracts, values):
     ''' 

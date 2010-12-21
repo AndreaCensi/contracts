@@ -1,8 +1,50 @@
 from copy import deepcopy
 from types import NoneType
+from pyparsing import lineno, col
 
-# XXX: remove
-from procgraph.core.exceptions import add_prefix
+class Where:
+    ''' An object of this class represents a place in a file. 
+    
+    All parsed elements contain a reference to a :py:class:`Where` object
+    so that we can output pretty error messages.
+    '''
+    def __init__(self, filename, string,
+                 character=None, line=None, column=None):
+        self.filename = filename
+        self.string = string
+        if character is None:
+            assert line is not None and column is not None
+            self.line = line
+            self.col = column
+            self.character = None
+        else:
+            assert line is None and column is None
+            self.character = character
+            self.line = lineno(character, string)
+            self.col = col(character, string)
+
+    def __str__(self):
+        s = ''
+        s += 'In file %s:\n' % self.filename
+        context = 3;
+        lines = self.string.split('\n')
+        start = max(0, self.line - context)
+        pattern = 'line %2d >'
+        for i in range(start, self.line):
+            s += ("%s%s\n" % (pattern % (i + 1), lines[i]))
+            
+        fill = len(pattern % (i + 1))
+        space = ' ' * fill + ' ' * (self.col - 1) 
+        s += space + '^\n'
+        s += space + '|\n'
+        s += space + 'here or nearby'
+        return s
+    
+def add_prefix(s, prefix):
+    result = ""
+    for l in s.split('\n'):
+        result += prefix + l + '\n'
+    return result
 
 class ContractException(Exception):
     pass
@@ -152,8 +194,6 @@ class Context:
 class Contract:
     
     def __init__(self, where):
-        # XXX
-        from procgraph.core.parsing_elements import Where
         assert isinstance(where, (NoneType, Where)), 'Wrong type %s' % where
         self.where = where
     

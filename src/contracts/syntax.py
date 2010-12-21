@@ -1,13 +1,12 @@
-from pyparsing import ParserElement
-from contracts.interface import SimpleRValue
-ParserElement.enablePackrat()
-
+from numbers import Number
+# All the imports from pyparsing go here
 from pyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
     CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport
-    operatorPrecedence, oneOf) #@UnusedImport
+    operatorPrecedence, oneOf, ParseException, ParserElement) #@UnusedImport
+ParserElement.enablePackrat()
 
-from procgraph.core.parsing_elements import Where # FIXME: 
-import numbers
+from .interface import SimpleRValue, Where
+
 
 class ParsingTmp:
     current_filename = 'unknown' 
@@ -41,7 +40,7 @@ floatnumber = Combine(integer + O(point + O(number)) + O(e + integer))
 integer.setParseAction(lambda tokens: SimpleRValue(int(tokens[0])))
 floatnumber.setParseAction(lambda tokens: SimpleRValue(float(tokens[0])))
 
-isnumber = lambda x: isinstance(x, numbers.Number)
+isnumber = lambda x: isinstance(x, Number)
 
 rvalue = Forward()
 contract = Forward()
