@@ -1,7 +1,6 @@
 from contracts import check_contracts
-from contracts.interface import ContractNotRespected, ContractSemanticError, \
-    ContractSyntaxError
-from contracts.main import parse_contract_string
+from ..interface import ContractSyntaxError
+from ..main import parse_contract_string
 
 def check_contracts_ok(contract, value):
     if isinstance(contract, str):

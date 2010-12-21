@@ -1,5 +1,5 @@
-from contracts.interface import ContractSemanticError, RValue
-from contracts.syntax import (isnumber, W)
+from ..interface import  RValue
+from ..syntax import isnumber, W
 
 class Binary(RValue):
     operations = {
@@ -27,9 +27,8 @@ class Binary(RValue):
         for expr in self.exprs:
             val = context.eval(expr, self)
             if not isnumber(val):
-                msg = ('I can only do math with numbers, not %r.' % 
-                       val.__class__.__name__) 
-                raise ContractSemanticError(self, msg, context)
+                raise ValueError('I can only do math with numbers, not %r.' % 
+                                 val.__class__.__name__) 
             vals.append(val)
         return reduce(self.operation, vals)
         
@@ -76,10 +75,9 @@ class Unary(RValue):
     def eval(self, context):
         val = context.eval(self.expr, self)
         if not isnumber(val):
-            msg = ('I can only do math with numbers, not %r.' % 
+            raise ValueError('I can only do math with numbers, not with %r.' % 
                    val.__class__.__name__) 
-            raise ContractSemanticError(self, msg, context)
-        
+
         return self.operation(val)
         
     def __repr__(self):

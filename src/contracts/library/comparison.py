@@ -1,7 +1,8 @@
-from ..interface import Contract, ContractNotRespected, \
-    ContractSemanticError, RValue
-from ..syntax import W, add_contract, O, Literal, isnumber, rvalue
 from types import NoneType
+
+from ..interface import Contract, ContractNotRespected, RValue
+from ..syntax import W, add_contract, O, Literal, isnumber, rvalue
+
  
 class CheckOrder(Contract):
     
@@ -48,7 +49,7 @@ class CheckOrder(Contract):
                 type(val1) != type(val2):
                 msg = ("I won't let you compare two different types if they "
                        "are not numbers (%s,%s)" % (type(val1), type(val2))) 
-                raise ContractSemanticError(self, msg, context)
+                raise ContractNotRespected(self, msg, (val1, val2), context)
         
             ok = (val1 == val2) ^ (not self.equal)
         else:
@@ -58,7 +59,7 @@ class CheckOrder(Contract):
                 if not isnumber(val):
                     msg = ('I can only compare the order of numbers, not %r.' % 
                            val.__class__.__name__) 
-                    raise ContractSemanticError(self, msg, context)
+                    raise ContractNotRespected(self, msg, (val1, val2), context)
             
             if val1 < val2:
                 ok = self.smaller

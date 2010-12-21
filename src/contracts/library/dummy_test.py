@@ -1,6 +1,4 @@
-from contracts.test_registrar import syntax_fail, good, fail
-
-
+from contracts.test_registrar import good, fail
 
 # dummy
 good('*', 0)

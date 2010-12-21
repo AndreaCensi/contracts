@@ -21,6 +21,10 @@ class ContractSyntaxError(ContractException):
     
 class ContractNotRespected(ContractException):
     def __init__(self, contract, error, value, context):
+        assert isinstance(contract, Contract)
+        assert isinstance(context, Context)
+        assert isinstance(error, str)
+        
         self.contract = contract
         self.error = error
         self.value = value
@@ -47,20 +51,7 @@ class ContractNotRespected(ContractException):
             msg += ('\n (checking %s %s for value  %s' % 
                            (contract, contexts, describe_value(value)))
         return msg
-    
-class ContractSemanticError(ContractException):
-    
-    def __init__(self, contract, error, context):
-        self.contract = contract
-        self.error = error
-        self.context = context
-        
-    def __str__(self):
-        msg = 'Contract semantic error: ' + str(self.error) + '\n'
-        msg += '- context: %r\n' % self.context
-        msg += '- contract: %r\n' % self.contract
-        return msg
-        
+
 class BoundVariable:
     def __init__(self, value, description, origin):
         self.value = value
@@ -73,7 +64,8 @@ class BoundVariable:
 
 class RValue:
     def eval(self, context):
-        pass 
+        ''' Can raise ValueError; will be wrapped in ContractNotRespected. '''
+        raise ValueError('Not implemented in %r' % self.__class__) 
 
     def __eq__(self, other):
         members = self.__dict__.keys()
@@ -113,8 +105,7 @@ class VariableRef(RValue):
     def eval(self, context):
         var = self.variable
         if not context.has_variable(var):
-            msg = 'Unknown variable %r.' % var
-            raise ContractSemanticError(None, msg, context)
+            raise ValueError('Unknown variable %r.' % var)
         return context.get_variable(var)
 
     def __repr__(self):
@@ -141,9 +132,12 @@ class Context:
         # print 'Set %s = %r' % (name, value)
         self._variables[name] = BoundVariable(value, description, origin)
     
-    def eval(self, value, contract_ref=None): # XXX:
-        assert isinstance(value, RValue)    
-        return value.eval(self)
+    def eval(self, value, contract): # XXX:
+        assert isinstance(value, RValue)
+        try:    
+            return value.eval(self)
+        except ValueError as e:
+            return ContractNotRespected(contract, "%s" % e, value, self)
     
     def copy(self):
         ''' Returns a copy of this context. '''
@@ -199,10 +193,10 @@ class Contract:
                 return False
             his = getattr(other, m)
             if not(mine == his): # NOTE: different than (mine != his)
-#                print('In %s: Failed on member %r:\n- %r (%s) vs\n- %r (%s)' % 
-#                      (self.__class__.__name__,
-#                       m, mine, mine.__class__.__name__,
-#                       his, his.__class__.__name__))
+                print('In %s: Failed on member %r:\n- %r (%s) vs\n- %r (%s)' % 
+                      (self.__class__.__name__,
+                       m, mine, mine.__class__.__name__,
+                       his, his.__class__.__name__))
                 return False
         return True
         
@@ -217,8 +211,7 @@ def describe_value(x):
             s = "%r" % x
         if len(s) > 20:
             s = "%s... [clip]" % s[:20]
-#        else:
-#            s = '%r' % s
+
         return 'Instance of %s: %s' % (x.__class__.__name__, s)
         
         

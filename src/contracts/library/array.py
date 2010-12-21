@@ -98,6 +98,7 @@ class ShapeContract(Contract):
                 dimensions.append(t)
         return ShapeContract(dimensions, ellipsis, where=where)
 
+
 class Shape(Contract):
     def __init__(self, length, contract, where=None):
         Contract.__init__(self, where)

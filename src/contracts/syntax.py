@@ -4,8 +4,9 @@ ParserElement.enablePackrat()
 
 from pyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
     CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport
-    operatorPrecedence)
-from procgraph.core.parsing_elements import Where 
+    operatorPrecedence, oneOf) #@UnusedImport
+
+from procgraph.core.parsing_elements import Where # FIXME: 
 import numbers
 
 class ParsingTmp:

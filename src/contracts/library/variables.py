@@ -1,7 +1,5 @@
-from pyparsing import oneOf
-from contracts.interface import Contract, ContractNotRespected, \
-    ContractSemanticError, VariableRef
-from contracts.syntax import W, add_contract, add_rvalue
+from ..interface import Contract, ContractNotRespected, VariableRef
+from ..syntax import W, add_contract, add_rvalue, oneOf
 
 class BindVariable(Contract):
     
@@ -27,7 +25,7 @@ class BindVariable(Contract):
                 error = ('Variable %r can only bind to %r, not %r.' % 
                          (self.variable, self.allowed_types,
                           value.__class__.__name__))
-                raise ContractSemanticError(self, error, context)
+                raise ContractNotRespected(self, error, value, context)
             
             context.set_variable(self.variable, value, origin=self)
             
