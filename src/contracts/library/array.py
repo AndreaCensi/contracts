@@ -57,9 +57,7 @@ class ShapeContract(Contract):
         self.ellipsis = ellipsis
     
     def check_contract(self, context, value):
-        # Guaranteed by construction
-        assert isinstance(value, tuple), \
-                'Expected a tuple, got %r.' % value.__class__.__name__
+        assert isinstance(value, tuple) # Guaranteed by construction
 
         expected = len(self.dimensions)
         ndim = len(value)
@@ -159,9 +157,7 @@ class DType(Contract):
         self.dtype_string = dtype_string
     
     def check_contract(self, context, value):
-        # Guaranteed by construction
-        assert isinstance(value, ndarray), \
-                'Expected an array, got %r.' % value.__class__.__name__
+        assert isinstance(value, ndarray) # Guaranteed by construction
         
         if not (value.dtype == self.dtype):
             error = ('Expected array with dtype %r, got %r.' % 

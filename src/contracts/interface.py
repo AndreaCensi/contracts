@@ -76,19 +76,8 @@ class ContractNotRespected(ContractException):
         self.stack = []
         
     def __str__(self):
-        msg = str(self.error)# + '\n'
-#        msg += '-    value:  %s \n' % describe_value(self.value)
-#        W = 80
-#        cs = "%s" % self.contract
-#        cons = "%s" % self.context
-#        if cons:
-#            cons = '(context: %s)' % cons
-#        cons = cons.rjust(W - len(cs))
-#        msg += '- contract:  %s  %s' % (cs, cons)
-#        
+        msg = str(self.error) 
         for (contract, context, value) in self.stack:
-        #    if contract == self.contract: continue
-            
             contexts = "%s" % context
             if contexts:
                 contexts = ('(context: %s)' % contexts)
@@ -109,23 +98,24 @@ class BoundVariable:
 
 
 class RValue:
-    def eval(self, context, contract):
+    
+    def eval(self, context, contract): #@UnusedVariable
         ''' Can raise ValueError; will be wrapped in ContractNotRespected. '''
-        raise ValueError('Not implemented in %r' % self.__class__) 
+        assert False, 'Not implemented in %r' % self.__class__  # pragma: no cover 
 
     def __eq__(self, other):
-        members = list(self.__dict__.keys())
-        members.remove('where')
-        for m in members:
-            mine = getattr(self, m)
-            his = getattr(other, m)
-            if not(mine == his): # NOTE: different than (mine != his)
-#                print('In %s: Failed on member %r:\n- %r (%s) vs\n- %r (%s)' % 
-#                      (self.__class__.__name__,
-#                       m, mine, mine.__class__.__name__,
-#                       his, his.__class__.__name__))
-                return False
-        return True
+        return (self.__class__ == other.__class__ and 
+                self.__repr__() == other.__repr__())
+        
+        
+    def __repr__(self):
+        ''' Same constraints as :py:func:`Contract.__repr__()`. '''
+        assert False, 'Not implemented in %r' % self.__class__  # pragma: no cover
+
+    def __str__(self):
+        ''' Same constraints as :py:func:`Contract.__str__()`. '''
+        assert False, 'Not implemented in %r' % self.__class__  # pragma: no cover
+        
 
 class SimpleRValue(RValue):
     def __init__(self, value, where=None):
@@ -148,7 +138,7 @@ class VariableRef(RValue):
         self.where = where
         self.variable = variable
         
-    def eval(self, context, contract):
+    def eval(self, context, contract): # XXX
         var = self.variable
         if not context.has_variable(var):
             raise ValueError('Unknown variable %r.' % var)
@@ -221,7 +211,7 @@ class Contract:
             :param context: The context in which expressions are evaluated.
             :type context: class(Contract)
         '''
-        assert False, 'Not implemented in %r' % self.__class__.__name__
+        assert False, 'Not implemented in %r' % self.__class__ # pragma: no cover
     
     def _check_contract(self, context, value):
         ''' Recursively checks the contracts; it calls check_contract,
@@ -246,7 +236,7 @@ class Contract:
             (This is checked in the unit-tests.)
 
         '''
-        assert False, 'Not implemented in %r' % self.__class__.__name__
+        assert False, 'Not implemented in %r' % self.__class__  # pragma: no cover
 
     def __str__(self):
         ''' Returns a string representation of a contract that can be 
@@ -258,32 +248,12 @@ class Contract:
     
             (This is checked in the unit-tests.)
         '''
-        assert False, 'Not implemented in %r' % self.__class__.__name__
+        assert False, 'Not implemented in %r' % self.__class__ # pragma: no cover
 
-    
-    def __eq__(self, other): # TODO: make it simpler
-        if not isinstance(other, type(self)):
-            return False
-        members = list(self.__dict__.keys())
-        members.remove('where')
-        
-        hismembers = list(other.__dict__.keys())
-        hismembers.remove('where')
-        if len(members) != len(hismembers):
-            return False
-        
-        for m in members:
-            mine = getattr(self, m)
-            if not hasattr(other, m):
-                return False
-            his = getattr(other, m)
-            if not(mine == his): # NOTE: different than (mine != his)
-#                print('In %s: Failed on member %r:\n- %r (%s) vs\n- %r (%s)' % 
-#                      (self.__class__.__name__,
-#                       m, mine, mine.__class__.__name__,
-#                       his, his.__class__.__name__))
-                return False
-        return True
+    def __eq__(self, other):
+        return (self.__class__ == other.__class__ and 
+                self.__repr__() == other.__repr__())
+
         
 def describe_value(x):
     ''' Describes an object, for use in the error messages. '''

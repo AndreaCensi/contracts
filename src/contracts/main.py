@@ -6,10 +6,12 @@ from .interface import (Context, Contract, ContractSyntaxError, Where,
                         ContractException, ContractNotRespected)
 from .docstring_parsing import parse_docstring_annotations
 from contracts.backported import getcallargs
+from contracts.interface import describe_value
 
 def check_contracts(contracts, values):
     ''' 
         Checks that the values respect the contract. 
+        Not a public function -- no friendly messages.
         
         :param contracts: List of contracts.
         :type contracts:  list[N](str),N>0
@@ -20,7 +22,9 @@ def check_contracts(contracts, values):
         :return: a Context variable 
         :rtype: type(Context)
         
-        :raise: ContractError
+        :raise: ContractSyntaxError
+        :raise: ContractNotRespected
+        :raise: ValueError
     '''
     assert isinstance(contracts, list)
     assert isinstance(contracts, list)
@@ -28,14 +32,12 @@ def check_contracts(contracts, values):
     
     C = []
     for x in contracts:
-        if not isinstance(x, str):
-            raise ValueError('I expect arguments to be strings, not %r.' % type(x))
+        assert isinstance(x, str)
         C.append(parse_contract_string(x))
 
     context = Context()
     for i in range(len(contracts)):
         C[i]._check_contract(context, values[i])
-        # print '%s  %r  (%s) ' % (C[i], C[i], C[i].__class__)
     
     return context
 
@@ -176,15 +178,11 @@ def parse_contracts_from_docstring(function):
                    ' in my list of arguments (%s)' % (name, ", ".join(all_args)))
             raise ContractException(msg)
         
-    if len(name2type) != len(all_args):
-        msg = 'Found %d contracts for %d variables.' % (len(name2type), len(args))
+    if len(name2type) != len(all_args): # pragma: no cover
+        pass
         # TODO: warn?
-    
-#    accepts = []
-#    for a in args:
-#        accepts.append(name2type[a])
+        # msg = 'Found %d contracts for %d variables.' % (len(name2type), len(args))
         
-#    return accepts, returns
     return name2type, returns
 
 
@@ -200,7 +198,7 @@ def check(contract, object, desc=None):
     '''
     if not isinstance(contract, str):
         raise ValueError('I expect a string (contract spec) as the first '
-                         'argument, not a %s.' % type(contract))
+                         'argument, not a %s.' % contract.__class__)
     try:
         return check_contracts([contract], [object])
     except ContractNotRespected as e:

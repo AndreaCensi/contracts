@@ -38,11 +38,8 @@ from . import arithmetic_test
 
 try: 
     import numpy
-    use_numpy = True
-except:
-    use_numpy = False
-
-if use_numpy:
     from .array import ShapeContract, Shape, Array, ArrayConstraint, DType, dtype
     from . import array_examples
-    
+except: # pragma: no cover
+    pass  
+

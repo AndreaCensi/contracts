@@ -3,7 +3,7 @@ import sys
 
 # Backported from Python 2.7 to work in 2.6
 
-def getcallargs(func, *positional, **named):
+def getcallargs(func, *positional, **named): # pragma: no cover
     """Get the mapping of arguments to values.
 
     A dict is returned, with keys the function argument names (including the

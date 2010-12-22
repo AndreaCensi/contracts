@@ -1,4 +1,4 @@
-from ..interface import ContractSyntaxError, describe_value
+from ..interface import ContractSyntaxError, describe_value, Context
 from ..main import parse_contract_string, check_contracts
 
 
@@ -6,7 +6,11 @@ def check_contracts_ok(contract, value):
     if isinstance(contract, str):
         contract = [contract]
         value = [value]
-    check_contracts(contract, value)
+    context = check_contracts(contract, value)
+    
+    assert isinstance(context, Context)
+    "%s" % context 
+    "%r" % context
             
 def check_contracts_fail(contract, value, error):
     if isinstance(contract, str):
