@@ -50,10 +50,12 @@ def add_prefix(s, prefix):
     return result
 
 class ContractException(Exception):
+    ''' The base class for the exceptions thrown by this module. '''
     pass
 
 class ContractSyntaxError(ContractException):
-    ''' A syntactic error by who wrote the model spec.'''
+    ''' Exception thrown when there is a syntax error in the contracts. '''
+    
     def __init__(self, error, where=None):
         self.error = error
         self.where = where
@@ -65,6 +67,8 @@ class ContractSyntaxError(ContractException):
 
     
 class ContractNotRespected(ContractException):
+    ''' Exception thrown when a value does not respect a contract. '''
+    
     def __init__(self, contract, error, value, context):
         assert isinstance(contract, Contract), contract
         assert isinstance(context, Context), context
@@ -89,14 +93,6 @@ class ContractNotRespected(ContractException):
             msg += '\n                    %r ' % contract
         return msg
 
-class BoundVariable(object):
-    def __init__(self, value, description, origin):
-        self.value = value
-        self.description = description
-        self.origin = origin
-        
-    def __repr__(self):
-        return "{0!r}".format(self.value)
 
 
 class RValue(object):
@@ -120,8 +116,21 @@ class RValue(object):
 
 
 class Context(object):
-    ''' Class that represents the context for checking an expression. '''
-        
+    ''' Class that represents the context for checking an expression. 
+    
+        For now it is mostly a glorified dictionary, but perhaps in the
+        future it will be something more.
+    '''
+    class BoundVariable(object):
+        def __init__(self, value, description, origin):
+            self.value = value
+            self.description = description
+            self.origin = origin
+            
+        def __repr__(self):
+            return "{0!r}".format(self.value)
+
+
     def __init__(self):
         self._variables = {}
         
@@ -134,7 +143,7 @@ class Context(object):
     
     def set_variable(self, name, value, description=None, origin=None):
         assert not self.has_variable(name)
-        self._variables[name] = BoundVariable(value, description, origin)
+        self._variables[name] = Context.BoundVariable(value, description, origin)
     
     def eval(self, value, contract):
         assert isinstance(value, RValue)
@@ -168,9 +177,30 @@ class Contract(object):
         self.where = where
     
     def check(self, value):
-        ''' Checks that the value satisfies this contract. '''
+        ''' Checks that the value satisfies this contract. 
+        
+            :raise: ContractNotRespected
+        '''
         context = Context()
         return self.check_contract(context, value)
+    
+    def fail(self, value):
+        ''' Checks that the value **does not** respect this contract.
+            Raises an exception if it does. 
+           
+           :raise: ValueError 
+        '''    
+        try:
+            context = self.check(value)
+        except ContractNotRespected:
+            pass
+        else:
+            msg = 'I did not expect that this value would satisfy this contract.\n'
+            msg += '-    value: %s\n' % describe_value(value)
+            msg += '- contract: %s\n' % self
+            msg += '-  context: %r' % context
+            raise ValueError('I did not expect that %s would be')
+        
         
     def check_contract(self, context, value): #@UnusedVariable
         ''' 
@@ -178,7 +208,7 @@ class Contract(object):
             context. This is the function that subclasses must implement.
             
             :param context: The context in which expressions are evaluated.
-            :type context: class(Contract)
+            :type context: ``class(Contract)``
         '''
         assert False, 'Not implemented in %r' % self.__class__ # pragma: no cover
     
@@ -199,12 +229,8 @@ class Contract(object):
         ''' Returns a string representation of a contract that can be 
             evaluated by Python's :py:func:`eval()`.
 
-            It must hold that: ::
-            
-                eval(contract.__repr__()) == contract
-    
-            (This is checked in the unit-tests.)
-
+            It must hold that: ``eval(contract.__repr__()) == contract``.
+            This is checked in the unit-tests.
         '''
         assert False, 'Not implemented in %r' % self.__class__  # pragma: no cover
 
@@ -212,11 +238,8 @@ class Contract(object):
         ''' Returns a string representation of a contract that can be 
             reparsed by :py:func:`contracts.parse()`.
             
-            It must hold that: ::
-            
-                parse(str(contract)) == contract
-    
-            (This is checked in the unit-tests.)
+            It must hold that: ``parse(str(contract)) == contract``.
+            This is checked in the unit-tests.
         '''
         assert False, 'Not implemented in %r' % self.__class__ # pragma: no cover
 

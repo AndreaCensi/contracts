@@ -16,10 +16,10 @@ def check_contracts(contracts, values):
         Not a public function -- no friendly messages.
         
         :param contracts: List of contracts.
-        :type contracts:  list[N](str),N>0
+        :type contracts:  ``list[N](str),N>0``
         
         :param values: Values that should match the contracts.
-        :type values: list[N]
+        :type values: ``list[N]``
     
         :return: a Context variable 
         :rtype: type(Context)
@@ -67,7 +67,43 @@ def parse_contract_string(string, filename=None):
 # TODO: add decorator-specific exception
 
 def contracts(accepts=None, returns=None):
-    ''' Decorator for turning functions into simple blocks. '''        
+    ''' Decorator for adding contracts check of arguments and return values.
+    
+        It is smart enough to support functions with variable number of arguments
+        and keyword arguments.
+        
+        - If neither ``accepts`` or ``returns`` is passed, the contracts
+          are read from the function's docstring, using the ``rtype`` and 
+          ``:type:`` tags.   
+          
+          Note that, by convention, those annotations must be parseable as
+          RestructuredText. This is relevant if you are using Sphinx.
+          If the contract string has special RST characters in it, like ``*``,
+          you can include it in double ticks. |pycontracts| will remove
+          the double ticks before interpreting the string.
+          
+          For example, the two annotations in this docstring are equivalent
+          for |pycontracts|, but the latter is better for Sphinx: ::
+          
+              """ My function 
+              
+                  :param a: First parameter
+                  :type a: list(tuple(str,*))
+                  
+                  :param b: First parameter
+                  :type b: ``list(tuple(str,*))``
+              """
+    
+        - If ``accepts`` is passed, it must be a list of strings specifying
+          the contracts for the argument (in order).
+          
+        - If ``returns`` is passed, it must be a string, indicating the
+          contract for the return value. It is evaluated in the same context
+          as the contracts in ``accepts``. 
+        
+        :raise: ContractException, if arguments are not coherent with the function
+        :raise: ContractSyntaxError
+    '''        
     # OK, this is black magic. You are not expected to understand this.
     if isinstance(accepts, types.FunctionType):
         # We were called without parameters
@@ -82,7 +118,9 @@ def contracts(accepts=None, returns=None):
         return wrap
 
 def contracts_decorate(function, accepts=None, returns=None):
-    ''' An explicit way to decorate a given function. '''
+    ''' An explicit way to decorate a given function.
+        The decorator :py:func:`decorate` calls this function internally. 
+    '''
     args, varargs, varkw, defaults = inspect.getargspec(function) #@UnusedVariable
     all_args = [x for x in  args + [varargs, varkw] if x]
 
@@ -179,11 +217,15 @@ def check(contract, object, desc=None):
     ''' 
         Checks that ``object`` satisfies the contract described by ``contract``.
     
-        :type contract: str
+        :param contract: The contract string.
+        :type contract:  str
         
+        :param object: Any object.
+        :type object: ``*``
+
         :param desc: An optional description of the error. If given, 
                      it is included in the error message.
-        :type desc: None|str
+        :type desc: ``None|str``
     '''
     if not isinstance(contract, str):
         raise ValueError('I expect a string (contract spec) as the first '
@@ -232,18 +274,25 @@ def new_contract(identifier, condition):
           for that expression. 
           
         - If it is a callable, it must accept one parameter, and either:
-          * return True or None, to signify it accepts 
-          * return False or raise ValueError
-          If ValueError is raised, its message is used in the error. 
-    
+          
+          * return True or None, to signify it accepts.
+          
+          * return False or raise ValueError, to signify it doesn't.
+          
+          If ValueError is raised, its message is used in the error.
+          
+        This function returns a :py:class:`Contract` object. It might be
+        useful to check right away if the declaration is what you meant,
+        using :py:func:`Contract.check` and :py:func:`Contract.fail`.  
+        
         :param identifier: The identifier must be a string not already in use
                           (you cannot redefine ``list``, ``tuple``, etc.).
         :type identifier: str 
         
         :param condition: Definition of the new contract.
-        :type condition: callable|str
+        :type condition: ``callable|str``
         
-        :return:
+        :return: The equivalent contract -- might be useful for debugging.
         :rtype: Contract
     '''
     

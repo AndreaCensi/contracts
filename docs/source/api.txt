@@ -32,7 +32,7 @@ Manual API
 
 .. py:currentmodule:: contracts
 
-In addition to the :py:func:contracts.contracts decorator, |pycontracts| offers
+In addition to the :py:func:`contracts` decorator, |pycontracts| offers
 an interface for checking expressions explicitly. 
 
 The :py:func:`check()` function  allows you to check 
@@ -202,10 +202,57 @@ a :py:class:`Context` object.  ::
 
 
 
-Creating new contracts
+Extending |PyContracts| with new contracts
 -------------------------------------------------
 
-|towrite|
+Defines a new contract type. The second parameter can be either
+a string or a callable function. 
+
+- If it is a string, it is interpreted as contract expression; 
+  the given identifier will become an alias
+  for that expression. 
+  
+- If it is a callable, it must accept one parameter, and either:
+  
+  * return True or None, to signify it accepts.
+  
+  * return False or raise ValueError, to signify it doesn't.
+  
+  If ValueError is raised, its message is used in the error.
+  
+This function returns a :py:class:`Contract` object. It might be
+useful to check right away if the declaration is what you meant,
+using :py:func:`Contract.check` and :py:func:`Contract.fail`.  
+
+For example, suppose that you are writing a graphical application
+and that many of your functions need arguments representing colors.
+It might be a good idea to declare once and for all what is a color,
+and then reuse that definition. For example: ::
+
+    color = new_contract('color', 'list[3](number,>=0,<=1)')
+    # Make sure we got it right
+    color.check([0,0,0])
+    color.check([0,0,1])
+    color.fail([0,0])
+    color.fail([0,0,2])
+    
+    # Now use ``color`` in other contracts.
+    @contracts
+    def fill_area(inside, border):
+        """ Fill the area inside the current figure.
+        
+            :type border: color
+            :type inside: color
+        """
+        pass
+        
+    @contracts
+    def fill_gradient(colors):
+        """ Use a gradient to fill the area.
+        
+            :type colors: list(color)
+        """
+        pass
 
 
 
@@ -246,7 +293,7 @@ Decorating a function
 
 .. autofunction:: contracts
 
-.. autofunction:: contracts_decorate
+.. autofunction:: decorate
 
 
 Exceptions
@@ -274,6 +321,8 @@ Manually checking values
 
    .. automethod:: check
 
+   .. automethod:: fail
+
    .. automethod:: __repr__()
 
    .. automethod:: __str__()
@@ -283,5 +332,9 @@ Manually checking values
    .. automethod:: __contains__()
    
    .. automethod:: __getitem__()
+    
+.. py:data:: contract_expression
+
+   A PyParsing expression that can be used to include
+   contracts expression in your own PyParsing grammar.
    
- 

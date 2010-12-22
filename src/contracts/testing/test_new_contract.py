@@ -4,6 +4,7 @@ from contracts import new_contract, check, ContractSyntaxError, ContractNotRespe
 from contracts.library.extensions import identifier_expression
 from contracts.interface import Contract
 from contracts.testing.utils import check_contracts_fail
+from contracts.main import contracts
 
 # The different patterns
 
@@ -147,3 +148,31 @@ if 1:
         
         def test_lambda_invalid2(self):
             self.assertRaises(ValueError, new_contract, 'my18', lambda: True)
+
+        def test_idioms(self):
+            color = new_contract('color', 'list[3](number,>=0,<=1)')
+            # Make sure we got it right
+            color.check([0, 0, 0])
+            color.check([0, 0, 1])
+            color.fail([0, 0])
+            color.fail([0, 0, 2])
+            
+            self.assertRaises(ValueError, color.fail, [0, 0, 1])
+            
+            # Now use ``color`` in other contracts.
+            @contracts
+            def fill_area(inside, border):
+                """ Fill the area inside the current figure.
+                
+                    :type border: color
+                    :type inside: color
+                """
+                pass
+                
+            @contracts
+            def fill_gradient(colors):
+                """ Use a gradient to fill the area.
+                
+                    :type colors: list(color)
+                """
+                pass

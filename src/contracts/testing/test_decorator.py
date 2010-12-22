@@ -1,6 +1,6 @@
 import unittest
 
-from contracts import contracts_decorate, contracts
+from contracts import decorate, contracts
 from ..interface import ContractException, ContractNotRespected
 
 class DecoratorTests(unittest.TestCase):
@@ -15,7 +15,7 @@ class DecoratorTests(unittest.TestCase):
             '''
             pass
         
-        self.assertRaises(ContractException, contracts_decorate, f)
+        self.assertRaises(ContractException, decorate, f)
     
     def test_malformed2(self):
         def f():
@@ -26,7 +26,7 @@ class DecoratorTests(unittest.TestCase):
             '''
             pass
         
-        self.assertRaises(ContractException, contracts_decorate, f)
+        self.assertRaises(ContractException, decorate, f)
     
         
     def test_not_specified1(self):
@@ -34,14 +34,14 @@ class DecoratorTests(unittest.TestCase):
         def f():
             pass
         
-        self.assertRaises(ContractException, contracts_decorate, f)
+        self.assertRaises(ContractException, decorate, f)
 
     def test_not_specified2(self):
         def f():
             ''' No types specified in the docstring '''
             pass
         
-        self.assertRaises(ContractException, contracts_decorate, f)
+        self.assertRaises(ContractException, decorate, f)
 
 
     def test_too_many(self):
@@ -53,7 +53,7 @@ class DecoratorTests(unittest.TestCase):
             '''
             pass
         
-        self.assertRaises(ContractException, contracts_decorate, f)
+        self.assertRaises(ContractException, decorate, f)
 
     def test_invalid1(self):
         def f(a):
@@ -63,7 +63,7 @@ class DecoratorTests(unittest.TestCase):
             '''
             pass
         
-        self.assertRaises(ContractException, contracts_decorate, f)
+        self.assertRaises(ContractException, decorate, f)
 
     def test_parse_error1(self):
         def f(a, b):
@@ -73,7 +73,7 @@ class DecoratorTests(unittest.TestCase):
             '''
             pass
         
-        self.assertRaises(ContractException, contracts_decorate, f)
+        self.assertRaises(ContractException, decorate, f)
 
     def test_parse_error2(self):
         def f(a, b):
@@ -84,7 +84,7 @@ class DecoratorTests(unittest.TestCase):
             '''
             pass
         
-        self.assertRaises(ContractException, contracts_decorate, f)
+        self.assertRaises(ContractException, decorate, f)
 
     def not_supported1(self):
         ''' Cannot do with *args ''' 
@@ -95,7 +95,7 @@ class DecoratorTests(unittest.TestCase):
             '''
             pass
         
-        self.assertRaises(ContractException, contracts_decorate, f)
+        self.assertRaises(ContractException, decorate, f)
 
     def not_supported2(self):
         ''' Cannot do with **args ''' 
@@ -106,7 +106,7 @@ class DecoratorTests(unittest.TestCase):
             '''
             pass
         
-        self.assertRaises(ContractException, contracts_decorate, f)
+        self.assertRaises(ContractException, decorate, f)
 
 
     def test_ok1(self):
@@ -171,7 +171,7 @@ class DecoratorTests(unittest.TestCase):
             '''
             return a + b
         
-        f2 = contracts_decorate(f)
+        f2 = decorate(f)
         self.assertEqual(f.__doc__, f2.__doc__)
     
 
@@ -186,7 +186,7 @@ class DecoratorTests(unittest.TestCase):
                 raise Exception()
 
         
-        f2 = contracts_decorate(f)
+        f2 = decorate(f)
         f2(0, 7)
         f2(0, 5, 5)
         self.assertRaises(Exception, f2, 0, 5, 4)
@@ -202,7 +202,7 @@ class DecoratorTests(unittest.TestCase):
             assert c == (a, b)
 
         
-        f2 = contracts_decorate(f)
+        f2 = decorate(f)
         f2(0, 7, 0, 7)
 
     def test_keywords(self):
@@ -216,7 +216,7 @@ class DecoratorTests(unittest.TestCase):
             assert c['b'] == B
             
         
-        f2 = contracts_decorate(f)
+        f2 = decorate(f)
         f(0, 7, a=0, b=7)
         f2(0, 7, a=0, b=7)
         
