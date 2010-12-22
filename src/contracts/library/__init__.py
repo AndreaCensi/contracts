@@ -1,7 +1,5 @@
 from .separate_context import SeparateContext
 from . import separate_context_test
- 
-#from contracts.syntax import EqualTo
 
 from .dummy import Any, Never
 from . import dummy_test
@@ -30,7 +28,7 @@ from . import simple_values_test
 from .comparison import CheckOrder
 from . import comparison_test
 
-from .compositions import OR, And
+from .compositions import OR, And, composite_contract, or_contract
 from . import compositions_test
 
 from .arithmetic import Binary, Unary

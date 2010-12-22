@@ -13,6 +13,12 @@ class ParsingTmp:
     contract_types = []
     rvalues_types = []
 
+def add_contract(x):
+    ParsingTmp.contract_types.append(x)
+    
+def add_rvalue(x):  
+    ParsingTmp.rvalues_types.append(x)
+
 def W(string, location):
     return Where(ParsingTmp.current_filename, string, location)
 
@@ -46,16 +52,12 @@ rvalue = Forward()
 contract = Forward()
 simple_contract = Forward()
 
-def add_contract(x):
-    ParsingTmp.contract_types.append(x)
-def add_rvalue(x):  
-    ParsingTmp.rvalues_types.append(x)
 
-from .library import EqualTo, Unary, Binary
-from library.compositions import composite_contract
+# Import all expressions -- they will call add_contract() and add_rvalue()
+from .library import EqualTo, Unary, Binary, composite_contract
 
 
-operand = (integer | floatnumber) | get_or(ParsingTmp.rvalues_types)
+operand = integer | floatnumber | get_or(ParsingTmp.rvalues_types)
 
 rvalue << operatorPrecedence(operand, [
              ('-', 1, opAssoc.RIGHT, Unary.parse_action),

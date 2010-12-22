@@ -62,9 +62,11 @@ class Binary(RValue):
 
 
 class Unary(RValue):
+    
     operations = {
         '-': lambda x:-x,
     }
+    
     def __init__(self, glyph, expr, where=None):
         assert isinstance(expr, RValue)
 

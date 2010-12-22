@@ -178,7 +178,6 @@ class Context:
         ''' Returns a copy of this context. '''
         return deepcopy(self)
     
-    # dict interface
     def __contains__(self, key):
         return self.has_variable(key)
     
@@ -254,7 +253,7 @@ class Contract:
                 self.__repr__() == other.__repr__())
 
         
-def describe_value(x):
+def describe_value(x, clip=50):
     ''' Describes an object, for use in the error messages. '''
     if hasattr(x, 'shape') and hasattr(x, 'dtype'):
         return 'ndarray with shape %s, dtype %s' % (x.shape, x.dtype)
@@ -264,7 +263,6 @@ def describe_value(x):
         else:
             s = "%r" % x
             
-        clip = 50
         if len(s) > clip:
             s = "%s... [clip]" % s[:clip]
 
