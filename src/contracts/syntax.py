@@ -9,7 +9,7 @@ from pyparsing import Or, MatchFirst
 # Enable memoization (much faster!)
 ParserElement.enablePackrat()
 
-from .interface import SimpleRValue, Where
+from .interface import Where
 
 
 class ParsingTmp:
@@ -53,7 +53,7 @@ simple_contract = Forward()
 from .library import (EqualTo, Unary, Binary, composite_contract,
                       identifier_contract, misc_variables_contract,
                       int_variables_contract, int_variables_ref,
-                      misc_variables_ref)
+                      misc_variables_ref, SimpleRValue)
 
 
 operand = integer | floatnumber | MatchFirst(ParsingTmp.rvalues_types)

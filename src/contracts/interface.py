@@ -118,22 +118,6 @@ class RValue(object):
         assert False, 'Not implemented in %r' % self.__class__  # pragma: no cover
         
 
-class SimpleRValue(RValue):
-    def __init__(self, value, where=None):
-        self.value = value
-        self.where = where
-        
-    def __str__(self):
-        return "{0!s}".format(self.value)
-    
-    def __repr__(self):
-        return "SimpleRValue({0!r})".format(self.value)
-    
-    def eval(self, context): #@UnusedVariable
-        return self.value
-                   
-    
-
 
 class Context(object):
     ''' Class that represents the context for checking an expression. '''

@@ -35,7 +35,7 @@ from .variables import (BindVariable, VariableRef, misc_variables_contract,
                         int_variables_ref)
 from . import variables_test
 
-from .simple_values import EqualTo
+from .simple_values import EqualTo, SimpleRValue
 from . import simple_values_test
 
 
