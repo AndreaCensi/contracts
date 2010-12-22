@@ -51,8 +51,9 @@ class Type(Contract):
         self.type_constraint = type_constraint
         
     def check_contract(self, context, value): 
-        self.type_constraint._check_contract(context, type(value))
-    
+#        self.type_constraint._check_contract(context, type(value))
+         self.type_constraint._check_contract(context, value.__class__)
+         
     def __str__(self):
         return 'type(%s)' % self.type_constraint
 

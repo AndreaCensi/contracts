@@ -6,6 +6,10 @@ from .interface import (Context, Contract, ContractSyntaxError, Where,
                         ContractException, ContractNotRespected)
 from .docstring_parsing import parse_docstring_annotations
 from .backported import getcallargs
+from contracts.interface import describe_value
+from contracts.library.extensions import identifier_expression, Extension, \
+    CheckCallable
+from contracts.library.separate_context import SeparateContext
 
 
 def check_contracts(contracts, values):
@@ -217,7 +221,7 @@ def check_multiple(couples, desc=None):
         raise    
 
 
-def new_contract(identifier, contract):
+def new_contract(identifier, condition):
     ''' Defines a new contract type. The second parameter can be either
         a string or a callable function. 
         
@@ -234,11 +238,100 @@ def new_contract(identifier, contract):
                           (you cannot redefine ``list``, ``tuple``, etc.).
         :type identifier: str 
         
-        :param contract: Definition of the new contract.
-        :type contract: callable|str
+        :param condition: Definition of the new contract.
+        :type condition: callable|str
         
+        :return:
+        :rtype: Contract
     '''
-    pass
     
+    # Be friendly
+    if not isinstance(identifier, str):
+        raise ValueError('I expect the identifier to be a string; received %s.' % 
+                         describe_value(identifier))
+    
+    # Make sure it is not already an expression that we know.
+    #  (exception: allow redundant definitions. To this purpose,
+    #   skip this test if the identifier is already known, and catch
+    #   later if the condition changed.)
+    if identifier in Extension.registrar:
+        # already known as identifier; check later if the condition 
+        # remained the same.
+        pass
+    else:
+        # check it does not redefine list, tuple, etc.
+        try:
+            c = parse_contract_string(identifier)
+            raise ValueError('Invalid identifier %r; it overwrites an already known '
+                             'expression. In fact, I can parse it as %s (%r).' % 
+                             (identifier, c, c))
+        except ContractSyntaxError:
+            pass
+        
+    # Make sure it corresponds to our idea of identifier
+    try:
+        c = identifier_expression.parseString(identifier, parseAll=True)
+    except ParseException as e:
+        where = Where(None, identifier, line=e.lineno, column=e.col)
+        #msg = 'Error in parsing string: %s' % e    
+        raise ValueError('The given identifier %r does not correspond to my idea '
+                         'of what an identifier should look like;\n%s\n%s' 
+                         % (identifier, e, where))
+    
+    # Now let's check the condition
+    if isinstance(condition, str):
+        # We assume it is a condition that should parse cleanly
+        try:
+            bare_contract = parse_contract_string(condition)
+        except ContractSyntaxError as e:
+            raise ValueError('The given condition %r does not parse cleanly: %s' % 
+                             (condition, e))
+    elif callable(condition):
+        # Check that the signature is right
+        if not can_accept_exactly_one_argument(condition):
+            raise ValueError('The given callable %r should be able to accept '
+                             'exactly one argument.' % condition)
+        bare_contract = CheckCallable(condition)
+    else:
+        raise ValueError('I need either a string or a callable for the '
+                         'condition; found %s.' % describe_value(condition))
+    
+    # Separate the context
+    contract = SeparateContext(bare_contract)
+    
+    # It's okay if we define the same thing twice
+    if identifier in Extension.registrar:
+        old = Extension.registrar[identifier]
+        if not(contract == old):
+            msg = ('Tried to redefine %r with a definition that looks '
+                   'different to me.\n' % identifier)
+            msg += ' - old: %r\n' % old
+            msg += ' - new: %r\n' % contract
+            raise ValueError(msg)
+    else:
+        Extension.registrar[identifier] = contract
+        
+    return bare_contract
+
+def can_accept_exactly_one_argument(callable_thing):
+    ''' Checks that a callable can accept exactly one argument
+        using introspection.
+    '''
+    if inspect.ismethod(callable_thing): # bound method
+        f = callable_thing.__func__
+        args = (callable_thing.__self__, 'test',)
+    else:
+        if not inspect.isfunction(callable_thing):
+            f = callable_thing.__call__
+        else:
+            f = callable_thing
+        args = ('test',)
+    try:
+        getcallargs(f, *args)
+    except (TypeError, ValueError) as e: #@UnusedVariable
+#        print 'Get call args exception (f=%r,args=%r): %s ' % (f, args, e)
+        return False
+    else:
+        return True
     
     

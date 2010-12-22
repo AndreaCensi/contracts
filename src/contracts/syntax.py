@@ -2,14 +2,15 @@ from numbers import Number
 # All the imports from pyparsing go here
 from pyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
     CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport
-    operatorPrecedence, oneOf, ParseException, ParserElement) #@UnusedImport
+    operatorPrecedence, oneOf, ParseException, ParserElement, alphas, alphanums) #@UnusedImport
+
 ParserElement.enablePackrat()
 
 from .interface import SimpleRValue, Where
 
 
 class ParsingTmp:
-    current_filename = 'unknown' 
+    current_filename = None 
     contract_types = []
     rvalues_types = []
 
@@ -54,7 +55,7 @@ simple_contract = Forward()
 
 
 # Import all expressions -- they will call add_contract() and add_rvalue()
-from .library import EqualTo, Unary, Binary, composite_contract
+from .library import EqualTo, Unary, Binary, composite_contract, identifier_contract
 
 
 operand = integer | floatnumber | get_or(ParsingTmp.rvalues_types)
@@ -68,7 +69,11 @@ rvalue << operatorPrecedence(operand, [
 
 add_contract(rvalue.copy().setParseAction(EqualTo.parse_action))
 
-simple_contract << get_xor(ParsingTmp.contract_types)
+# Try to parse the string normally; then try identifiers
+#add_contract(identifier_contract)
+#simple_contract << get_xor(ParsingTmp.contract_types)
+
+simple_contract << (get_xor(ParsingTmp.contract_types) | identifier_contract)
 
 par = S('(') + contract + S(')') 
 contract << ((par ^ composite_contract ^ simple_contract)) # Parentheses before << !!

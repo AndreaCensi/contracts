@@ -1,4 +1,5 @@
-from ..interface import ContractSyntaxError, describe_value, Context
+from ..interface import (ContractSyntaxError, describe_value, Context,
+                         ContractNotRespected)
 from ..main import parse_contract_string, check_contracts
 
 
@@ -12,7 +13,7 @@ def check_contracts_ok(contract, value):
     "%s" % context 
     "%r" % context
             
-def check_contracts_fail(contract, value, error):
+def check_contracts_fail(contract, value, error=ContractNotRespected):
     if isinstance(contract, str):
         contract = [contract]
         value = [value]

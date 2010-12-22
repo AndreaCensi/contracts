@@ -2,7 +2,7 @@ from copy import deepcopy
 from types import NoneType
 from pyparsing import lineno, col
 
-class Where:
+class Where(object):
     ''' An object of this class represents a place in a file. 
     
     All parsed elements contain a reference to a :py:class:`Where` object
@@ -67,8 +67,8 @@ class ContractSyntaxError(ContractException):
 class ContractNotRespected(ContractException):
     def __init__(self, contract, error, value, context):
         assert isinstance(contract, Contract), contract
-        assert isinstance(context, Context)
-        assert isinstance(error, str)
+        assert isinstance(context, Context), context
+        assert isinstance(error, str), error
         
         self.contract = contract
         self.error = error
@@ -88,7 +88,7 @@ class ContractNotRespected(ContractException):
                            (cons, describe_value(value)))
         return msg
 
-class BoundVariable:
+class BoundVariable(object):
     def __init__(self, value, description, origin):
         self.value = value
         self.description = description
@@ -98,7 +98,7 @@ class BoundVariable:
         return "{0!r}".format(self.value)
 
 
-class RValue:
+class RValue(object):
     
     def eval(self, context): #@UnusedVariable
         ''' Can raise ValueError; will be wrapped in ContractNotRespected. '''
@@ -150,7 +150,7 @@ class VariableRef(RValue):
     def __str__(self):
         return "%s" % self.variable
 
-class Context:
+class Context(object):
     ''' Class that represents the context for checking an expression. '''
         
     def __init__(self):
@@ -191,7 +191,7 @@ class Context:
     def __str__(self):
         return ", ".join("%s=%s" % (k, v) for (k, v) in list(self._variables.items()))
         
-class Contract:
+class Contract(object):
     
     def __init__(self, where):
         assert isinstance(where, (NoneType, Where)), 'Wrong type %s' % where
@@ -217,6 +217,7 @@ class Contract:
             but the error is wrapped recursively. This is the function
             that subclasses must call when checking their sub-contracts. 
         '''
+        assert isinstance(context, Context), context
         contextc = context.copy()
         try: 
             self.check_contract(context, value)

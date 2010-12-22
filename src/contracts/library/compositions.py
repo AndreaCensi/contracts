@@ -1,7 +1,7 @@
 from ..syntax import simple_contract, W, operatorPrecedence, opAssoc
 from ..interface import Contract, ContractNotRespected, add_prefix
 
-class Logical():
+class Logical(object):
     def __init__(self, glyph, precedence):
         self.glyph = glyph
         self.precedence = precedence
