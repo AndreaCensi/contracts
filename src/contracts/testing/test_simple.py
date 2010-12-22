@@ -11,9 +11,7 @@ from . import test_multiple #@UnusedImport
 
 # Import all the symbols needed to eval() the __repr__() output.
 from ..library import * #@UnusedWildImport
-from ..syntax import SimpleRValue #@UnusedImport
-from ..interface import VariableRef #@UnusedImport
-
+from ..syntax import SimpleRValue #@UnusedImport # XXX
 
 
 # If you want to try only some tests, set select to True, and add them below.

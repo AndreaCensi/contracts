@@ -30,7 +30,9 @@ from . import compositions_test
 
 # These do not add contracts
 
-from .variables import BindVariable, misc_variables_contract, int_variables_contract
+from .variables import (BindVariable, VariableRef, misc_variables_contract,
+                        int_variables_contract, misc_variables_ref,
+                        int_variables_ref)
 from . import variables_test
 
 from .simple_values import EqualTo

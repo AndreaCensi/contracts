@@ -133,23 +133,7 @@ class SimpleRValue(RValue):
         return self.value
                    
     
-class VariableRef(RValue):
-    def __init__(self, variable, where=None):
-        assert isinstance(variable, str)
-        self.where = where
-        self.variable = variable
-        
-    def eval(self, context): # XXX
-        var = self.variable
-        if not context.has_variable(var):
-            raise ValueError('Unknown variable %r.' % var)
-        return context.get_variable(var)
 
-    def __repr__(self):
-        return "VariableRef(%r)" % self.variable
-    
-    def __str__(self):
-        return "%s" % self.variable
 
 class Context(object):
     ''' Class that represents the context for checking an expression. '''

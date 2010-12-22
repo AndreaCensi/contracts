@@ -52,10 +52,14 @@ simple_contract = Forward()
 # Import all expressions -- they will call add_contract() and add_rvalue()
 from .library import (EqualTo, Unary, Binary, composite_contract,
                       identifier_contract, misc_variables_contract,
-                      int_variables_contract)
+                      int_variables_contract, int_variables_ref,
+                      misc_variables_ref)
 
 
 operand = integer | floatnumber | MatchFirst(ParsingTmp.rvalues_types)
+
+add_rvalue(int_variables_ref)
+add_rvalue(misc_variables_ref)
 
 rvalue << operatorPrecedence(operand, [
              ('-', 1, opAssoc.RIGHT, Unary.parse_action),
@@ -65,7 +69,7 @@ rvalue << operatorPrecedence(operand, [
           ])
 
 # I want 
-# - BindVariable to have precedence to EqualTo
+# - BindVariable to have precedence to EqualTo(VariableRef)
 # but I also want:
 # - Arithmetic to have precedence w.r.t BindVariable 
 # last is variables

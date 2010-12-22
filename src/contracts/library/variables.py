@@ -1,5 +1,5 @@
-from ..interface import Contract, ContractNotRespected, VariableRef
-from ..syntax import W, add_contract, add_rvalue, oneOf, FollowedBy, NotAny
+from ..interface import Contract, ContractNotRespected, RValue
+from ..syntax import W, oneOf, FollowedBy, NotAny
 
 
 class BindVariable(Contract):
@@ -49,6 +49,30 @@ class BindVariable(Contract):
         return parse
 
 
+class VariableRef(RValue):
+    def __init__(self, variable, where=None):
+        assert isinstance(variable, str)
+        self.where = where
+        self.variable = variable
+        
+    def eval(self, context): # XXX
+        var = self.variable
+        if not context.has_variable(var):
+            raise ValueError('Unknown variable %r.' % var)
+        return context.get_variable(var)
+
+    def __repr__(self):
+        return "VariableRef(%r)" % self.variable
+    
+    def __str__(self):
+        return "%s" % self.variable
+    
+    @staticmethod
+    def parse_action(s, loc, tokens):
+        where = W(s, loc)
+        return VariableRef(tokens[0], where=where)
+    
+    
 alphabetu = 'A B C D E F G H I J K L M N O P Q R S T U W V X Y Z'
 alphabetl = 'a b c d e f g h i j k l m n o p q r s t u w v x y z'
 int_variables = oneOf(alphabetu.split()) 
@@ -59,9 +83,7 @@ misc_variables = oneOf(alphabetl.split()) + FollowedBy(NotAny(oneOf(alphabetl.sp
 int_variables_contract = int_variables.copy().setParseAction(BindVariable.parse_action(int))
 misc_variables_contract = misc_variables.copy().setParseAction(BindVariable.parse_action(object))  
 
-def create_var_ref(s, loc, tokens):
-    where = W(s, loc)
-    return VariableRef(tokens[0], where=where)
 
-add_rvalue(int_variables.copy().setParseAction(create_var_ref))
-add_rvalue(misc_variables.copy().setParseAction(create_var_ref))
+int_variables_ref = int_variables.copy().setParseAction(VariableRef.parse_action)
+misc_variables_ref = misc_variables.copy().setParseAction(VariableRef.parse_action) 
+
