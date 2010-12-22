@@ -3,7 +3,9 @@ from numbers import Number
 from pyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
     CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport
     operatorPrecedence, oneOf, ParseException, ParserElement, alphas, alphanums) #@UnusedImport
+from pyparsing import Or, MatchFirst
 
+# Enable memoization (much faster!)
 ParserElement.enablePackrat()
 
 from .interface import SimpleRValue, Where
@@ -11,6 +13,7 @@ from .interface import SimpleRValue, Where
 
 class ParsingTmp:
     current_filename = None 
+    # TODO: FIXME: decide on an order, if we do the opposite it doesn't work.
     contract_types = []
     rvalues_types = []
 
@@ -23,17 +26,8 @@ def add_rvalue(x):
 def W(string, location):
     return Where(ParsingTmp.current_filename, string, location)
 
-def get_xor(l):
-    tmp = l[0]
-    for i in range(1, len(l)):
-        tmp = tmp.__xor__(l[i])
-    return tmp
 
-def get_or(l):
-    tmp = l[0]
-    for i in range(1, len(l)):
-        tmp = tmp.__or__(l[i])
-    return tmp
+
 
 O = Optional
 S = Suppress
@@ -58,7 +52,7 @@ simple_contract = Forward()
 from .library import EqualTo, Unary, Binary, composite_contract, identifier_contract
 
 
-operand = integer | floatnumber | get_or(ParsingTmp.rvalues_types)
+operand = integer | floatnumber | MatchFirst(ParsingTmp.rvalues_types)
 
 rvalue << operatorPrecedence(operand, [
              ('-', 1, opAssoc.RIGHT, Unary.parse_action),
@@ -73,7 +67,8 @@ add_contract(rvalue.copy().setParseAction(EqualTo.parse_action))
 #add_contract(identifier_contract)
 #simple_contract << get_xor(ParsingTmp.contract_types)
 
-simple_contract << (get_xor(ParsingTmp.contract_types) | identifier_contract)
+simple_contract << (Or(ParsingTmp.contract_types) | identifier_contract)
+#simple_contract << (Or(ParsingTmp.contract_types))
 
 par = S('(') + contract + S(')') 
 contract << ((par ^ composite_contract ^ simple_contract)) # Parentheses before << !!

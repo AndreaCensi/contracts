@@ -3,7 +3,7 @@ from numpy  import ndarray, dtype #@UnusedImport
 
 from ..interface import Contract, ContractNotRespected, RValue
 from ..syntax import (add_contract, W, contract, O, S, rvalue,
-                      get_or, simple_contract, ZeroOrMore, Literal)
+                       simple_contract, ZeroOrMore, Literal, MatchFirst)
 
 
 class Array(Contract):
@@ -254,7 +254,7 @@ for x in ['u1', 'i1', 'uint8', 'int8', 'float32', 'float64']:
     expr = Literal(x).setParseAction(DType.parse_action(d))  
     dtype_checks.append(expr)
  
-ndarray_contract = get_or(dtype_checks) | get_or(array_constraints)
+ndarray_contract = MatchFirst(dtype_checks) | MatchFirst(array_constraints)
 
 def my_delim_list2(what, delim): 
     return (what + ZeroOrMore(S(delim) + what))

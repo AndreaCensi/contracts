@@ -30,8 +30,8 @@ class Extension(Contract):
             msg = 'Invalid expression identifier %r.\n' % identifier
             msg += 'I know: %r.\n' % (list(Extension.registrar.keys()))
             msg += str(where)
-            print msg
-            raise ParseException(msg)
+            # print msg
+            raise ParseFatalException(msg)
         
         return Extension(identifier, where)
 
@@ -70,7 +70,7 @@ class CheckCallable(Contract):
     
 
 #identifier_expression = Combine(oneOf(alphas) + Word('_' + alphanums))
-lowercase = alphas.lower()
+#lowercase = alphas.lower()
 identifier_expression = Combine(oneOf(list(alphas)) + Word('_' + alphanums))
 
 identifier_contract = identifier_expression.copy().setParseAction(Extension.parse_action)

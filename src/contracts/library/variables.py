@@ -1,5 +1,6 @@
 from ..interface import Contract, ContractNotRespected, VariableRef
 from ..syntax import W, add_contract, add_rvalue, oneOf
+from pyparsing import Keyword, FollowedBy, White, NotAny, alphanums
 
 
 class BindVariable(Contract):
@@ -42,13 +43,19 @@ class BindVariable(Contract):
         def parse(s, loc, tokens):
             where = W(s, loc)
             variable = tokens[0]
+            assert len(variable) == 1, \
+                    'Wrong syntax, matched %r as variable in %r.' % (variable, s)
+            # print ('Matched %r as variable in %r.' % (variable, s))
             return BindVariable(variable, allowed_types, where=where)
         return parse
 
 
-alphabet = 'A B C D E F G H I J K L M N O P Q R S T U W V X Y Z'
-int_variables = oneOf(alphabet)
-misc_variables = oneOf(alphabet.lower())
+alphabetu = 'A B C D E F G H I J K L M N O P Q R S T U W V X Y Z'
+alphabetl = 'a b c d e f g h i j k l m n o p q r s t u w v x y z'
+int_variables = oneOf(alphabetu.split()) 
+# These must be followed by whitespace; punctuation
+#misc_variables = oneOf(alphabet.lower()) + FollowedBy(White()) 
+misc_variables = oneOf(alphabetl.split()) + FollowedBy(NotAny(oneOf(alphabetl.split())))
 
 add_contract(int_variables.copy().setParseAction(BindVariable.parse_action(int)))
 add_contract(misc_variables.copy().setParseAction(BindVariable.parse_action(object)))

@@ -10,6 +10,7 @@ from contracts.interface import describe_value
 from contracts.library.extensions import identifier_expression, Extension, \
     CheckCallable
 from contracts.library.separate_context import SeparateContext
+from pyparsing import ParseFatalException
 
 
 def check_contracts(contracts, values):
@@ -58,6 +59,10 @@ def parse_contract_string(string, filename=None):
         Storage.string2contract[string] = c
         return c
     except ParseException as e:
+        where = Where(filename, string, line=e.lineno, column=e.col)
+        msg = 'Error in parsing string: %s' % e
+        raise ContractSyntaxError(msg, where=where)
+    except ParseFatalException as e:
         where = Where(filename, string, line=e.lineno, column=e.col)
         msg = 'Error in parsing string: %s' % e
         raise ContractSyntaxError(msg, where=where)
@@ -286,7 +291,7 @@ def new_contract(identifier, condition):
         except ContractSyntaxError as e:
             raise ValueError('The given condition %r does not parse cleanly: %s' % 
                              (condition, e))
-    elif callable(condition):
+    elif hasattr(condition, '__call__'):
         # Check that the signature is right
         if not can_accept_exactly_one_argument(condition):
             raise ValueError('The given callable %r should be able to accept '
@@ -311,6 +316,15 @@ def new_contract(identifier, condition):
     else:
         Extension.registrar[identifier] = contract
         
+    # Check that we can parse it now
+    try:
+        c = parse_contract_string(identifier)
+        expected = Extension(identifier)
+        assert c == expected, \
+              'Expected %r, got %r.' % (c, expected) # pragma: no cover
+    except ContractSyntaxError as e: # pragma: no cover
+        assert False, 'Cannot parse %r: %s' % (identifier, e)
+        
     return bare_contract
 
 def can_accept_exactly_one_argument(callable_thing):
@@ -326,6 +340,7 @@ def can_accept_exactly_one_argument(callable_thing):
         else:
             f = callable_thing
         args = ('test',)
+    
     try:
         getcallargs(f, *args)
     except (TypeError, ValueError) as e: #@UnusedVariable
