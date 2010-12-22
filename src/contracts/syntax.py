@@ -65,11 +65,9 @@ rvalue << operatorPrecedence(operand, [
 add_contract(rvalue.copy().setParseAction(EqualTo.parse_action))
 
 # Try to parse the string normally; then try identifiers
-#add_contract(identifier_contract)
-#simple_contract << get_xor(ParsingTmp.contract_types)
 
-simple_contract << (MatchFirst(ParsingTmp.contract_types) | identifier_contract)
-#simple_contract << (Or(ParsingTmp.contract_types))
+#simple_contract << (MatchFirst(ParsingTmp.contract_types) | identifier_contract)
+simple_contract << (Or(ParsingTmp.contract_types) | identifier_contract)
 
 par = S('(') + contract + S(')') 
 contract << ((par ^ composite_contract ^ simple_contract)) # Parentheses before << !!
