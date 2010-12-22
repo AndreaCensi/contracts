@@ -11,18 +11,14 @@ class List(Contract):
     def check_contract(self, context, value): 
         if not isinstance(value, list):
             error = 'Expected a list, got %r.' % value.__class__.__name__
-            raise ContractNotRespected(contract=self, error=error,
-                                       value=value, context=context)
+            raise ContractNotRespected(self, error, value, context)
        
         if self.length_contract is not None:
             self.length_contract._check_contract(context, len(value))
         
         if self.elements_contract is not None:
-            for i, element in enumerate(value): #@UnusedVariable
-                # context2 = context.copy()
-                # We should use the same context; perhaps we are breaking sthg?
-                context2 = context
-                self.elements_contract._check_contract(context2, element)
+            for element in value:
+                self.elements_contract._check_contract(context, element)
     
     def __str__(self):
         s = 'list'
@@ -45,7 +41,6 @@ class List(Contract):
  
 
 list_contract = (S('list') + 
-                 # allow shortcut: list[1] instead of list[=1]
                  O(S('[') + contract('length_contract') + S(']')) + 
                  O(S('(') + contract('elements_contract') + S(')')))
 list_contract.setParseAction(List.parse_action)

@@ -99,14 +99,13 @@ class BoundVariable:
 
 class RValue:
     
-    def eval(self, context, contract): #@UnusedVariable
+    def eval(self, context): #@UnusedVariable
         ''' Can raise ValueError; will be wrapped in ContractNotRespected. '''
         assert False, 'Not implemented in %r' % self.__class__  # pragma: no cover 
 
     def __eq__(self, other):
         return (self.__class__ == other.__class__ and 
                 self.__repr__() == other.__repr__())
-        
         
     def __repr__(self):
         ''' Same constraints as :py:func:`Contract.__repr__()`. '''
@@ -128,7 +127,7 @@ class SimpleRValue(RValue):
     def __repr__(self):
         return "SimpleRValue({0!r})".format(self.value)
     
-    def eval(self, context, contract): #@UnusedVariable
+    def eval(self, context): #@UnusedVariable
         return self.value
                    
     
@@ -138,7 +137,7 @@ class VariableRef(RValue):
         self.where = where
         self.variable = variable
         
-    def eval(self, context, contract): # XXX
+    def eval(self, context): # XXX
         var = self.variable
         if not context.has_variable(var):
             raise ValueError('Unknown variable %r.' % var)
@@ -171,7 +170,7 @@ class Context:
         assert isinstance(value, RValue)
         assert isinstance(contract, Contract)
         try:    
-            return value.eval(self, contract)
+            return value.eval(self)
         except ValueError as e:
             return ContractNotRespected(contract, "%s" % e, value, self)
     

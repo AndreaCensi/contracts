@@ -22,10 +22,10 @@ class Binary(RValue):
         self.operation = Binary.operations[glyph]
         self.precedence = Binary.precedence[glyph]
         
-    def eval(self, context, contract):
+    def eval(self, context):
         vals = []
         for expr in self.exprs:
-            val = context.eval(expr, contract)
+            val = expr.eval(context)
             if not isnumber(val):
                 raise ValueError('I can only do math with numbers, not %r.' % 
                                  val.__class__.__name__) 
@@ -73,8 +73,8 @@ class Unary(RValue):
         self.glyph = glyph
         self.operation = Unary.operations[glyph]
         
-    def eval(self, context, contract):
-        val = context.eval(self.expr, contract)
+    def eval(self, context):
+        val = self.expr.eval(context)
         if not isnumber(val):
             raise ValueError('I can only do math with numbers, not with %r.' % 
                    val.__class__.__name__) 
