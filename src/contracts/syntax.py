@@ -55,11 +55,20 @@ from .library import (EqualTo, Unary, Binary, composite_contract,
                       int_variables_contract, int_variables_ref,
                       misc_variables_ref, SimpleRValue)
 
+#operand_no_var_ref = integer | floatnumber | MatchFirst(ParsingTmp.rvalues_types)
+#rvalue_no_var_ref = operatorPrecedence(operand_no_var_ref, [
+#             ('-', 1, opAssoc.RIGHT, Unary.parse_action),
+#             ('*', 2, opAssoc.LEFT, Binary.parse_action),
+#             ('-', 2, opAssoc.LEFT, Binary.parse_action),
+#             ('+', 2, opAssoc.LEFT, Binary.parse_action),
+#          ])
 
-operand = integer | floatnumber | MatchFirst(ParsingTmp.rvalues_types)
 
 add_rvalue(int_variables_ref)
 add_rvalue(misc_variables_ref)
+
+operand = integer | floatnumber | MatchFirst(ParsingTmp.rvalues_types)
+
 
 rvalue << operatorPrecedence(operand, [
              ('-', 1, opAssoc.RIGHT, Unary.parse_action),
@@ -73,15 +82,15 @@ rvalue << operatorPrecedence(operand, [
 # but I also want:
 # - Arithmetic to have precedence w.r.t BindVariable 
 # last is variables
+#add_contract(rvalue_no_var_ref.copy().setParseAction(EqualTo.parse_action))
 add_contract(misc_variables_contract)
 add_contract(int_variables_contract)
 add_contract(rvalue.copy().setParseAction(EqualTo.parse_action))
-# Try to parse the string normally; then try identifiers
 
- 
+# Try to parse the string normally; then try identifiers
 #simple_contract << (MatchFirst(ParsingTmp.contract_types) | identifier_contract)
 simple_contract << (Or(ParsingTmp.contract_types) | identifier_contract)
 
 par = S('(') + contract + S(')') 
-contract << ((par ^ composite_contract ^ simple_contract)) # Parentheses before << !!
+contract << ((composite_contract | par | simple_contract)) # Parentheses before << !!
 
