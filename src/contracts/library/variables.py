@@ -1,6 +1,5 @@
 from ..interface import Contract, ContractNotRespected, VariableRef
-from ..syntax import W, add_contract, add_rvalue, oneOf
-from pyparsing import Keyword, FollowedBy, White, NotAny, alphanums
+from ..syntax import W, add_contract, add_rvalue, oneOf, FollowedBy, NotAny
 
 
 class BindVariable(Contract):

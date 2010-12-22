@@ -1,6 +1,6 @@
 from ..interface import Contract, ContractNotRespected, describe_value
-from ..syntax import Combine, Word, W, alphas, alphanums, oneOf, add_contract
-from pyparsing import ParseFatalException, ParseException
+from ..syntax import (Combine, Word, W, alphas, alphanums, oneOf,
+                      ParseFatalException)
 
 class Extension(Contract):
     

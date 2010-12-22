@@ -42,5 +42,6 @@ else:
     from .array import ShapeContract, Shape, Array, ArrayConstraint, DType, dtype
     from . import array_examples
 
-from .extensions import identifier_expression, identifier_contract, Extension
+from .extensions import (identifier_expression, identifier_contract,
+                         Extension, CheckCallable)
 

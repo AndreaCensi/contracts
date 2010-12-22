@@ -2,7 +2,8 @@ from numbers import Number
 # All the imports from pyparsing go here
 from pyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
     CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport
-    operatorPrecedence, oneOf, ParseException, ParserElement, alphas, alphanums) #@UnusedImport
+    operatorPrecedence, oneOf, ParseException, ParserElement, alphas, alphanums, #@UnusedImport
+    ParseFatalException, FollowedBy, NotAny) #@UnusedImport
 from pyparsing import Or, MatchFirst
 
 # Enable memoization (much faster!)

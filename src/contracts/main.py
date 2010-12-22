@@ -1,16 +1,13 @@
 import types
 import inspect
 
-from .syntax import contract, ParseException
+from .syntax import contract, ParseException, ParseFatalException
 from .interface import (Context, Contract, ContractSyntaxError, Where,
-                        ContractException, ContractNotRespected)
+                        ContractException, ContractNotRespected, describe_value)
 from .docstring_parsing import parse_docstring_annotations
 from .backported import getcallargs
-from contracts.interface import describe_value
-from contracts.library.extensions import identifier_expression, Extension, \
-    CheckCallable
-from contracts.library.separate_context import SeparateContext
-from pyparsing import ParseFatalException
+from .library import (identifier_expression, Extension,
+                      CheckCallable, SeparateContext) 
 
 
 def check_contracts(contracts, values):
@@ -72,7 +69,7 @@ def parse_contract_string(string, filename=None):
 def contracts(accepts=None, returns=None):
     ''' Decorator for turning functions into simple blocks. '''        
     # OK, this is black magic. You are not expected to understand this.
-    if type(accepts) is types.FunctionType:
+    if isinstance(accepts, types.FunctionType):
         # We were called without parameters
         function = accepts
         accepts = None
@@ -344,7 +341,7 @@ def can_accept_exactly_one_argument(callable_thing):
     try:
         getcallargs(f, *args)
     except (TypeError, ValueError) as e: #@UnusedVariable
-#        print 'Get call args exception (f=%r,args=%r): %s ' % (f, args, e)
+        # print 'Get call args exception (f=%r,args=%r): %s ' % (f, args, e)
         return False
     else:
         return True
