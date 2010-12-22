@@ -86,6 +86,7 @@ class ContractNotRespected(ContractException):
             cons = ("%s %s" % (contract, contexts)).ljust(30)
             msg += ('\n context: checking: %s  for value: %s' % 
                            (cons, describe_value(value)))
+            msg += '\n                    %r ' % contract
         return msg
 
 class BoundVariable(object):
@@ -173,7 +174,8 @@ class Context(object):
         try:    
             return value.eval(self)
         except ValueError as e:
-            return ContractNotRespected(contract, "%s" % e, value, self)
+            msg = 'Error while evaluating RValue %r: %s' % (value, e)
+            raise ContractNotRespected(contract, msg, value, self)
     
     def copy(self):
         ''' Returns a copy of this context. '''

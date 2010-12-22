@@ -11,7 +11,7 @@ class EqualTo(Contract):
     def check_contract(self, context, value):
         val = context.eval(self.rvalue, self)
         if not(val == value):
-            error = ('Condition %s == %s not respected.' % (val, value))
+            error = ('EqualTo: Condition %s == %s not respected.' % (val, value))
             raise ContractNotRespected(contract=self, error=error,
                                        value=value, context=context)    
     def __str__(self):

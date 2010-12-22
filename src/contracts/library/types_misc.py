@@ -3,6 +3,7 @@ from numbers import Number
 
 from ..interface import Contract, ContractNotRespected
 from ..syntax import W, add_contract, contract, S, Literal
+from pyparsing import Keyword
 
 class CheckType(Contract):
     def __init__(self, types, type_string=None, where=None):
@@ -36,13 +37,12 @@ class CheckType(Contract):
             return CheckType(types, tokens[0], where=where) #@UnusedVariable
         return parse
 
-add_contract(Literal('int').setParseAction(CheckType.parse_action(int)))
-add_contract(Literal('float').setParseAction(CheckType.parse_action(float)))
-add_contract(Literal('bool').setParseAction(CheckType.parse_action(bool)))
-add_contract(Literal('number').setParseAction(CheckType.parse_action(Number)))
-
-add_contract(Literal('None').setParseAction(CheckType.parse_action(NoneType)))
-add_contract(Literal('NoneType').setParseAction(CheckType.parse_action(NoneType)))
+add_contract(Keyword('int').setParseAction(CheckType.parse_action(int)))
+add_contract(Keyword('float').setParseAction(CheckType.parse_action(float)))
+add_contract(Keyword('bool').setParseAction(CheckType.parse_action(bool)))
+add_contract(Keyword('number').setParseAction(CheckType.parse_action(Number)))
+add_contract(Keyword('None').setParseAction(CheckType.parse_action(NoneType)))
+add_contract(Keyword('NoneType').setParseAction(CheckType.parse_action(NoneType)))
 
 
 class Type(Contract):
@@ -51,8 +51,8 @@ class Type(Contract):
         self.type_constraint = type_constraint
         
     def check_contract(self, context, value): 
-#        self.type_constraint._check_contract(context, type(value))
-         self.type_constraint._check_contract(context, value.__class__)
+        #  self.type_constraint._check_contract(context, type(value))
+        self.type_constraint._check_contract(context, value.__class__)
          
     def __str__(self):
         return 'type(%s)' % self.type_constraint

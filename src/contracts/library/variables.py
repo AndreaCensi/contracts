@@ -56,8 +56,8 @@ int_variables = oneOf(alphabetu.split())
 #misc_variables = oneOf(alphabet.lower()) + FollowedBy(White()) 
 misc_variables = oneOf(alphabetl.split()) + FollowedBy(NotAny(oneOf(alphabetl.split())))
 
-add_contract(int_variables.copy().setParseAction(BindVariable.parse_action(int)))
-add_contract(misc_variables.copy().setParseAction(BindVariable.parse_action(object)))
+int_variables_contract = int_variables.copy().setParseAction(BindVariable.parse_action(int))
+misc_variables_contract = misc_variables.copy().setParseAction(BindVariable.parse_action(object))  
 
 def create_var_ref(s, loc, tokens):
     where = W(s, loc)

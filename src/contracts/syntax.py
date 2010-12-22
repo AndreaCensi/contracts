@@ -50,7 +50,9 @@ simple_contract = Forward()
 
 
 # Import all expressions -- they will call add_contract() and add_rvalue()
-from .library import EqualTo, Unary, Binary, composite_contract, identifier_contract
+from .library import (EqualTo, Unary, Binary, composite_contract,
+                      identifier_contract, misc_variables_contract,
+                      int_variables_contract)
 
 
 operand = integer | floatnumber | MatchFirst(ParsingTmp.rvalues_types)
@@ -62,10 +64,17 @@ rvalue << operatorPrecedence(operand, [
              ('+', 2, opAssoc.LEFT, Binary.parse_action),
           ])
 
+# I want 
+# - BindVariable to have precedence to EqualTo
+# but I also want:
+# - Arithmetic to have precedence w.r.t BindVariable 
+# last is variables
+add_contract(misc_variables_contract)
+add_contract(int_variables_contract)
 add_contract(rvalue.copy().setParseAction(EqualTo.parse_action))
-
 # Try to parse the string normally; then try identifiers
 
+ 
 #simple_contract << (MatchFirst(ParsingTmp.contract_types) | identifier_contract)
 simple_contract << (Or(ParsingTmp.contract_types) | identifier_contract)
 

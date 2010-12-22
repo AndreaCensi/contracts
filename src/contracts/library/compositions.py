@@ -32,20 +32,20 @@ class OR(Logical, Contract):
                 c._check_contract(context.copy(), value)
                 # if ok, do with main context
                 c._check_contract(context, value)
-                return
+                break
             except ContractNotRespected as e:
                 exceptions.append((c, e))
-
-        msg = 'Could not satisfy any of the %d clauses.' % len(self.clauses)
-        
-        for i, ex in enumerate(exceptions):
-            c, e = ex
-            msg += '\n---- Clause #%d: ----\n' % i 
-            msg += add_prefix('%s' % e, '| ')
-
-        msg += '\n------- (end clauses) -------'
-        raise ContractNotRespected(contract=self, error=msg,
-                    value=value, context=context)
+        else:
+            msg = 'Could not satisfy any of the %d clauses.' % len(self.clauses)
+            
+            for i, ex in enumerate(exceptions):
+                c, e = ex
+                msg += '\n---- Clause #%d: ----\n' % i 
+                msg += add_prefix('%s' % e, '| ')
+    
+            msg += '\n------- (end clauses) -------'
+            raise ContractNotRespected(contract=self, error=msg,
+                        value=value, context=context)
 
     def __repr__(self):
         s = 'OR(%r)' % self.clauses

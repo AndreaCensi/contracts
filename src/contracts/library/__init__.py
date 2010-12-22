@@ -19,20 +19,24 @@ from . import tuple_test
 from .dicts import Dict
 from . import dicts_test
 
-from .variables import BindVariable
+from .comparison import CheckOrder
+from . import comparison_test
+
+from .arithmetic import Binary, Unary
+from . import arithmetic_test
+
+from .compositions import OR, And, composite_contract, or_contract
+from . import compositions_test
+
+# These do not add contracts
+
+from .variables import BindVariable, misc_variables_contract, int_variables_contract
 from . import variables_test
 
 from .simple_values import EqualTo
 from . import simple_values_test
 
-from .comparison import CheckOrder
-from . import comparison_test
 
-from .compositions import OR, And, composite_contract, or_contract
-from . import compositions_test
-
-from .arithmetic import Binary, Unary
-from . import arithmetic_test
 
 try: 
     import numpy
