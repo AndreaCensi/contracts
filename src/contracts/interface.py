@@ -175,10 +175,9 @@ class Context:
     
     def set_variable(self, name, value, description=None, origin=None):
         assert not self.has_variable(name)
-        # print 'Set %s = %r' % (name, value)
         self._variables[name] = BoundVariable(value, description, origin)
     
-    def eval(self, value, contract): # XXX:
+    def eval(self, value, contract):
         assert isinstance(value, RValue)
         assert isinstance(contract, Contract)
         try:    
@@ -193,6 +192,7 @@ class Context:
     # dict interface
     def __contains__(self, key):
         return self.has_variable(key)
+    
     def __getitem__(self, key):
         return self.get_variable(key)
                        
@@ -217,6 +217,9 @@ class Contract:
         ''' 
             Checks that value is ok with this contract in the specific 
             context. This is the function that subclasses must implement.
+            
+            :param context: The context in which expressions are evaluated.
+            :type context: class(Contract)
         '''
         assert False, 'Not implemented in %r' % self.__class__.__name__
     

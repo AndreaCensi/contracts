@@ -65,25 +65,25 @@ class DecoratorTests(unittest.TestCase):
         
         self.assertRaises(ContractException, contracts_decorate, f)
 
-    def test_not_enough1(self):
-        def f(a, b, c):
-            ''' No c?
-                :type a: int
-                :type b: int
-            '''
-            pass
-        
-        self.assertRaises(ContractException, contracts_decorate, f)
-
-    def test_not_enough2(self):
-        def f(a, b, c=True):
-            ''' Same with optional
-                :type a: int
-                :type b: int
-            '''
-            pass
-        
-        self.assertRaises(ContractException, contracts_decorate, f)
+#    def test_not_enough1(self):
+#        def f(a, b, c):
+#            ''' No c?
+#                :type a: int
+#                :type b: int
+#            '''
+#            pass
+#        
+#        self.assertRaises(ContractException, contracts_decorate, f)
+#
+#    def test_not_enough2(self):
+#        def f(a, b, c=True):
+#            ''' Same with optional
+#                :type a: int
+#                :type b: int
+#            '''
+#            pass
+#        
+#        self.assertRaises(ContractException, contracts_decorate, f)
 
     def test_parse_error1(self):
         def f(a, b):
@@ -194,3 +194,52 @@ class DecoratorTests(unittest.TestCase):
         f2 = contracts_decorate(f)
         self.assertEqual(f.__doc__, f2.__doc__)
     
+
+    def test_kwargs(self):
+        def f(a, b, c=7):
+            ''' Same with optional
+                :type a: int
+                :type b: int
+                :type c: int
+            '''
+            if c != b:
+                raise Exception()
+
+        
+        f2 = contracts_decorate(f)
+        f2(0, 7)
+        f2(0, 5, 5)
+        self.assertRaises(Exception, f2, 0, 5, 4)
+        self.assertRaises(Exception, f2, 0, 5)
+
+    def test_varargs(self):
+        def f(a, b, *c):
+            ''' Same with optional
+                :type a: int
+                :type b: int
+                :type c: tuple
+            '''
+            assert c == (a, b)
+
+        
+        f2 = contracts_decorate(f)
+        f2(0, 7, 0, 7)
+
+    def test_keywords(self):
+        def f(A, B, **c):
+            ''' Same with optional
+                :type A: int
+                :type B: int
+                :type c: dict
+            '''
+            assert c['a'] == A
+            assert c['b'] == B
+            
+        
+        f2 = contracts_decorate(f)
+        f(0, 7, a=0, b=7)
+        f2(0, 7, a=0, b=7)
+        
+        self.assertRaises(Exception, f2, 0, 5, 0, 6)
+        
+

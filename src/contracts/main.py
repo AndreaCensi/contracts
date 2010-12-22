@@ -5,6 +5,7 @@ from .syntax import contract, ParseException
 from .interface import (Context, Contract, ContractSyntaxError, Where,
                         ContractException, ContractNotRespected)
 from .docstring_parsing import parse_docstring_annotations
+from contracts.backported import getcallargs
 
 def check_contracts(contracts, values):
     ''' 
@@ -76,10 +77,12 @@ def contracts_decorate(function, accepts=None, returns=None):
     ''' An explicit way to decorate a given function. '''
     args, varargs, varkw, defaults = inspect.getargspec(function) #@UnusedVariable
 
-    if varargs is not None:
-        raise ContractException('Sorry! contracts does not work with varargs.')
-    if varkw is not None:
-        raise ContractException('Sorry! contracts does not work with kwargs.')
+    all_args = filter(None, args + [varargs, varkw])
+
+#    if varargs is not None:
+#        raise ContractException('Sorry! contracts does not work with varargs.')
+#    if varkw is not None:
+#        raise ContractException('Sorry! contracts does not work with kwargs.')
     
     if accepts is None and returns is None:
         # Get types from documentation string.
@@ -88,32 +91,41 @@ def contracts_decorate(function, accepts=None, returns=None):
             raise ContractException('You did not specify a contract, nor I can '
                                     'find a docstring for %r.' % function)
         
-        accepts, returns = parse_contracts_from_docstring(function)
+        accepts_dict, returns = parse_contracts_from_docstring(function)
         
-        if not accepts and not returns:
+        if not accepts_dict and not returns:
             raise ContractException('No contract specified in docstring.')
-    else:
-    
-        if len(accepts) != len(args):
-            raise ContractException('Found only %d specs for %d parameters.' % 
-                            (len(accepts), len(args)))
+    else: 
+        if len(accepts) > len(all_args):
+            raise ContractException('Found  %d specs for %d arguments.' % 
+                                    (len(accepts), len(args)))
+        
+        accepts_dict = {}
+        for i in range(len(accepts)):
+            accepts_dict[all_args[i]] = accepts[i] 
     
     if returns is None:
         returns = '*'
         
-    accepts_parsed = [parse_contract_string(x) for x in accepts]
+    accepts_parsed = dict([ (x, parse_contract_string(accepts_dict[x])) 
+                            for x in accepts_dict])
     returns_parsed = parse_contract_string(returns)
     
-    def wrapper(*pargs):
-        if len(pargs) != len(args):
-            raise ContractNotRespected('This function accepts %d parameters, '
-                                       'not %d.' % (len(args), len(pargs)))
+    # I like this meta-meta stuff :-)
+    def wrapper(*args, **kwargs):
+        bound = getcallargs(function, *args, **kwargs)
+        
+#        if len(pargs) != len(args):
+#            raise ContractNotRespected('This function accepts %d parameters, '
+#                                       'not %d.' % (len(args), len(pargs)))
+
         context = Context()
-        for i in range(len(pargs)):
-            accepts_parsed[i]._check_contract(context, pargs[i])
+        for arg in all_args:
+            if arg in accepts_parsed:
+                accepts_parsed[arg]._check_contract(context, bound[arg])
         
         #print('Arguments %r passed %r.' % (pargs, accepts_parsed))    
-        result = function(*pargs)
+        result = function(*args, **kwargs)
         
         returns_parsed._check_contract(context, result)
         
@@ -155,22 +167,25 @@ def parse_contracts_from_docstring(function):
     
     # Let's look at the parameters:
     args, varargs, varkw, defaults = inspect.getargspec(function) #@UnusedVariable
+    all_args = filter(None, args + [varargs, varkw])
     
     # Check we don't have extra:
     for name in name2type:
-        if not name in args:
-            msg = 'Specified contract for param %r not found in %r.' % (name, args)
+        if not name in all_args:
+            msg = ('A contract was specified for argument %r which I cannot find'
+                   ' in my list of arguments (%s)' % (name, ", ".join(all_args)))
             raise ContractException(msg)
         
-    if len(name2type) != len(args):
+    if len(name2type) != len(all_args):
         msg = 'Found %d contracts for %d variables.' % (len(name2type), len(args))
-        raise ContractException(msg)
+        # TODO: warn?
     
-    accepts = []
-    for a in args:
-        accepts.append(name2type[a])
+#    accepts = []
+#    for a in args:
+#        accepts.append(name2type[a])
         
-    return accepts, returns
+#    return accepts, returns
+    return name2type, returns
 
 
 def check(contract, object, desc=None):
