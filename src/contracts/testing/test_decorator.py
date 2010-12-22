@@ -1,8 +1,7 @@
 import unittest
 
-from ..main import contracts_decorate, contracts
+from contracts import contracts_decorate, contracts
 from ..interface import ContractException, ContractNotRespected
-
 
 class DecoratorTests(unittest.TestCase):
     
@@ -137,6 +136,17 @@ class DecoratorTests(unittest.TestCase):
                 :type a: int
                 :type b: int
                 :rtype: int
+            '''
+            pass
+
+    def test_ok3(self):
+        ''' Trying the quoting thing. '''
+        @contracts
+        def f(a, b):
+            ''' This is good
+                :type a: ``int``
+                :type b: ``int``
+                :rtype: ``int``
             '''
             pass
 

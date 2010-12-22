@@ -3,6 +3,8 @@
 
 .. include:: definitions.txt
 
+.. py:currentmodule:: contracts
+
 PyContracts
 ===========
 

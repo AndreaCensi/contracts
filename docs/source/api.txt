@@ -7,6 +7,11 @@ PyContracts API
 Specifying contracts using decorators and docstrings
 ------------------------------------------------------------
 
+
+Using quotes.
+
+:type couples: ``list[>0](tuple(str, *))``
+        
 |towrite|
 
 
@@ -25,26 +30,28 @@ Decorate a function explicitly
 Manual API
 -------------------------------------------------
 
-In addition to the ``@contracts`` decorator, |pycontracts| offers
+.. py:currentmodule:: contracts
+
+In addition to the :py:func:contracts.contracts decorator, |pycontracts| offers
 an interface for checking expressions explicitly. 
 
-The function ``check(contract, value)`` allows you to check 
-that some value respect a given contract. :
+The :py:func:`check()` function  allows you to check 
+that some value respect a given contract. ::
 
     from contracts import check
   
     check('tuple(int,int)', (2,2) )
 
-``check()`` might raise:
+:py:func:`check()` might raise:
 
-``ContractSyntaxError``
+:py:class:`ContractSyntaxError`
   If there are parsing errors.
 
-``ContractNotRespected``
+:py:class:`ContractNotRespected`
   If the value does not respect the contract constraints.
   
-Both exceptions are instances of ``ContractException``. 
-Usually you want to use ``check()`` as a better ``assert()``, so you
+Both exceptions are instances of :py:class:`ContractException`.
+Usually you want to use :py:func:`check()` as a better ``assert()``, so you
 don't want to catch those exceptions. The error message should
 be descriptive enough.
 
@@ -116,10 +123,11 @@ Explicit parsing and checking
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The results of parsing are cached internally, there is no performance
-penalty in using ``check()`` often.
+penalty in using :py:func:`check()`  often.
 
 If you wish, you can also separate the parsing and checking phases.
-The function ``parse`` will return a Contract object with a "check()" function. ::
+The function :py:func:`parse()` will return a :py:class:`Contract` object,
+which in turn has a :py:func:`Contract.check()` function you can call. ::
 
   from contracts import parse
   
@@ -133,9 +141,9 @@ Checking multiple values
 The most interesting uses of |pycontracts| are when it is used
 to check that multiple objects respect mutual constraints.
 
-You can use ``check_multiple()`` to check that a series of values
+You can use :py:func:`check_multiple()` to check that a series of values
 respect a series of contracts, that might reference each other's variables.
-The argument to ``check_multiple`` must be a list of tuples with two elements 
+The argument to  :py:func:`check_multiple()` must be a list of tuples with two elements 
 (contract, value).
 
 In the next example, we are defining a table. We want ``data``
@@ -162,8 +170,9 @@ to do all this checks with a remarkably clear, concise, and readable notation. :
 Examining the Contract objects
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you want to examine the contract object, use __repr__() for eval()uable expression,
-or __str__()  to get back a representation using |pycontracts|' language. ::
+If you want to examine the contract object, use :py:func:`Contract.__repr__()` 
+for eval()uable expression,
+or :py:func:`Contract.__str__()`  to get back a representation using |pycontracts|' language. ::
 
     from contracts import parse
 
@@ -183,8 +192,8 @@ Examining bound variables
 
 If you are using binding expression, you can examine 
 what variables were bound using the return values.
-The functions ``check()`` and ``Contract.check()`` will return
-a Context object.  ::
+The functions :py:func:`check()` and :py:func:`Contract.check()` will return
+a :py:class:`Context` object.  ::
 
       context = check('list[N](str), N>0', ['a','b','c'])
       
@@ -210,7 +219,7 @@ Developer notes
 Using PyContracts in your own PyParsing-based language
 ------------------------------------------------------
 
-You can use ``contract_expression`` to add a contract expression
+You can use :py:data:`contract_expression` to add a contract expression
 to your PyParsing-based grammar: ::
 
       from contracts import contract_expression
@@ -218,3 +227,61 @@ to your PyParsing-based grammar: ::
       from pyparsing import Literal, Optional
       
       my_grammar = ... + Optional(Literal('respects') + contract_expression)
+
+
+
+PyContracts public API reference
+================================
+
+
+|towrite|
+
+TODO: add link to pydoctor output
+
+
+.. py:module:: contracts
+
+Decorating a function
+---------------------
+
+.. autofunction:: contracts
+
+.. autofunction:: contracts_decorate
+
+
+Exceptions
+----------
+
+.. autoclass:: ContractException
+
+.. autoclass:: ContractSyntaxError
+
+.. autoclass:: ContractNotRespected
+
+
+Manually checking values
+------------------------
+
+.. autofunction:: check
+
+.. autofunction:: check_multiple
+
+.. autofunction:: parse
+
+.. autofunction:: new_contract
+
+.. autoclass:: Contract
+
+   .. automethod:: check
+
+   .. automethod:: __repr__()
+
+   .. automethod:: __str__()
+
+.. autoclass:: Context
+
+   .. automethod:: __contains__()
+   
+   .. automethod:: __getitem__()
+   
+ 

@@ -42,7 +42,7 @@ class Storage:
     string2contract = {}
 
 def parse_contract_string(string, filename=None):
-    assert isinstance(string, str), string
+    assert isinstance(string, str), type(string)
     if string in Storage.string2contract:
         return Storage.string2contract[string]
     try:
@@ -73,6 +73,7 @@ def contracts(accepts=None, returns=None):
         return wrap
 
 def contracts_decorate(function, accepts=None, returns=None):
+    ''' An explicit way to decorate a given function. '''
     args, varargs, varkw, defaults = inspect.getargspec(function) #@UnusedVariable
 
     if varargs is not None:
@@ -83,6 +84,7 @@ def contracts_decorate(function, accepts=None, returns=None):
     if accepts is None and returns is None:
         # Get types from documentation string.
         if function.__doc__ is None:
+            # XXX: change name
             raise ContractException('You did not specify a contract, nor I can '
                                     'find a docstring for %r.' % function)
         
@@ -134,14 +136,22 @@ def parse_contracts_from_docstring(function):
     if len(annotations.returns) > 1:
         raise ContractException('More than one return type specified.')
     
+    def remove_quotes(x):
+        ''' Removes the double back-tick quotes if present. '''
+        if x.startswith('``') and x.endswith('``') and len(x) > 3:
+            return x[2:-2]
+        else:
+            return x
+    
     if len(annotations.returns) == 0:
         returns = None
     else:
-        returns = annotations.returns[0].type
+        returns = remove_quotes(annotations.returns[0].type)
         
     # These are the annotations
     params = annotations.params
-    name2type = dict([ (name, params[name].type) for name in params])
+    name2type = dict([ (name, remove_quotes(params[name].type)) 
+                       for name in params])
     
     # Let's look at the parameters:
     args, varargs, varkw, defaults = inspect.getargspec(function) #@UnusedVariable
@@ -162,8 +172,17 @@ def parse_contracts_from_docstring(function):
         
     return accepts, returns
 
-# utilities/friendly
+
 def check(contract, object, desc=None):
+    ''' 
+        Checks that ``object`` satisfies the contract described by ``contract``.
+    
+        :type contract: str
+        
+        :param desc: An optional description of the error. If given, 
+                     it is included in the error message.
+        :type desc: None|str
+    '''
     if not isinstance(contract, str):
         raise ValueError('I expect a string (contract spec) as the first '
                          'argument, not a %s.' % type(contract))
@@ -175,6 +194,20 @@ def check(contract, object, desc=None):
         raise
 
 def check_multiple(couples, desc=None):
+    ''' 
+        Checks multiple couples of (contract, value) in the same context. 
+        
+        This means that the variables in each contract are shared with 
+        the others. 
+        
+        :param couples: A list of tuple (contract, value) to check.
+        :type couples: ``list[>0](tuple(str, *))``
+        
+        :param desc: An optional description of the error. If given, 
+                     it is included in the error message.
+        :type desc: ``None|str``
+    ''' 
+    
     check('list[>0](tuple(str, *))', couples,
           'I expect a non-empty list of (object, string) tuples.')
     contracts = [x[0] for x in couples]
@@ -185,3 +218,28 @@ def check_multiple(couples, desc=None):
         if desc is not None:
             e.error = '%s\n\nDetails:\n%s' % (desc, e.error)
         raise    
+
+
+def new_contract(identifier, contract):
+    ''' Defines a new contract type. The second parameter can be either
+        a string or a callable function. 
+        
+        - If it is a string, it is interpreted as contract expression; 
+          the given identifier will become an alias
+          for that expression. 
+          
+        - If it is a callable, it must accept one parameter, and return 
+          either True or False. 
+    
+        :param identifier: The identifier must be a string not already in use
+                          (you cannot redefine ``list``, ``tuple``, etc.).
+        :type identifier: str 
+        
+        :param contract: Definition of the new contract.
+        :type contract: callable|str
+        
+    '''
+    pass
+    
+    
+    

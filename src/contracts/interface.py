@@ -209,21 +209,22 @@ class Contract:
         self.where = where
     
     def check(self, value):
-        ''' Public function -- initializes an empty context. '''
+        ''' Checks that the value satisfies this contract. '''
         context = Context()
         return self.check_contract(context, value)
         
-    def check_contract(self, context, value):
+    def check_contract(self, context, value): #@UnusedVariable
         ''' 
             Checks that value is ok with this contract in the specific 
-            context. 
+            context. This is the function that subclasses must implement.
         '''
-        raise ValueError('You did not implement check_contract() for %s.' % 
-                         self.__class__.__name__)
+        assert False, 'Not implemented in %r' % self.__class__.__name__
     
     def _check_contract(self, context, value):
         ''' Recursively checks the contracts; it calls check_contract,
-            but the error is wrapped recursively. '''
+            but the error is wrapped recursively. This is the function
+            that subclasses must call when checking their sub-contracts. 
+        '''
         contextc = context.copy()
         try: 
             self.check_contract(context, value)
@@ -231,8 +232,33 @@ class Contract:
             e.stack.append((self, contextc, value))
             raise
     
+    def __repr__(self):
+        ''' Returns a string representation of a contract that can be 
+            evaluated by Python's :py:func:`eval()`.
+
+            It must hold that: ::
+            
+                eval(contract.__repr__()) == contract
     
-    def __eq__(self, other):
+            (This is checked in the unit-tests.)
+
+        '''
+        assert False, 'Not implemented in %r' % self.__class__.__name__
+
+    def __str__(self):
+        ''' Returns a string representation of a contract that can be 
+            reparsed by :py:func:`contracts.parse()`.
+            
+            It must hold that: ::
+            
+                parse(str(contract)) == contract
+    
+            (This is checked in the unit-tests.)
+        '''
+        assert False, 'Not implemented in %r' % self.__class__.__name__
+
+    
+    def __eq__(self, other): # TODO: make it simpler
         if not isinstance(other, type(self)):
             return False
         members = list(self.__dict__.keys())
