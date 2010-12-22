@@ -69,10 +69,8 @@ class CheckCallable(Contract):
         return '@check_callable(%s)' % self.callable
     
 
-#identifier_expression = Combine(oneOf(alphas) + Word('_' + alphanums))
 #lowercase = alphas.lower()
 identifier_expression = Combine(oneOf(list(alphas)) + Word('_' + alphanums))
 
 identifier_contract = identifier_expression.copy().setParseAction(Extension.parse_action)
-#add_contract(identifier_contract)
 

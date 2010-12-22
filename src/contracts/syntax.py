@@ -12,8 +12,7 @@ ParserElement.enablePackrat()
 from .interface import Where
 
 
-class ParsingTmp:
-    current_filename = None 
+class ParsingTmp: 
     # TODO: FIXME: decide on an order, if we do the opposite it doesn't work.
     contract_types = []
     rvalues_types = []
@@ -24,10 +23,7 @@ def add_contract(x):
 def add_rvalue(x):  
     ParsingTmp.rvalues_types.append(x)
 
-def W(string, location):
-    return Where(ParsingTmp.current_filename, string, location)
-
-
+W = Where
 
 
 O = Optional

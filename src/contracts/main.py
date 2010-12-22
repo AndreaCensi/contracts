@@ -46,7 +46,7 @@ def check_contracts(contracts, values):
 class Storage:
     string2contract = {}
 
-def parse_contract_string(string, filename=None):
+def parse_contract_string(string):
     assert isinstance(string, str), type(string)
     if string in Storage.string2contract:
         return Storage.string2contract[string]
@@ -56,11 +56,11 @@ def parse_contract_string(string, filename=None):
         Storage.string2contract[string] = c
         return c
     except ParseException as e:
-        where = Where(filename, string, line=e.lineno, column=e.col)
+        where = Where(string, line=e.lineno, column=e.col)
         msg = 'Error in parsing string: %s' % e
         raise ContractSyntaxError(msg, where=where)
     except ParseFatalException as e:
-        where = Where(filename, string, line=e.lineno, column=e.col)
+        where = Where(string, line=e.lineno, column=e.col)
         msg = 'Error in parsing string: %s' % e
         raise ContractSyntaxError(msg, where=where)
     
@@ -323,7 +323,7 @@ def new_contract(identifier, condition):
     try:
         c = identifier_expression.parseString(identifier, parseAll=True)
     except ParseException as e:
-        where = Where(None, identifier, line=e.lineno, column=e.col)
+        where = Where(identifier, line=e.lineno, column=e.col)
         #msg = 'Error in parsing string: %s' % e    
         raise ValueError('The given identifier %r does not correspond to my idea '
                          'of what an identifier should look like;\n%s\n%s' 

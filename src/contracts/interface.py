@@ -8,9 +8,8 @@ class Where(object):
     All parsed elements contain a reference to a :py:class:`Where` object
     so that we can output pretty error messages.
     '''
-    def __init__(self, filename, string,
+    def __init__(self, string,
                  character=None, line=None, column=None):
-        self.filename = filename
         self.string = string
         if character is None:
             assert line is not None and column is not None
@@ -25,8 +24,6 @@ class Where(object):
 
     def __str__(self):
         s = ''
-        if self.filename is not None:
-            s += 'In file %s:\n' % self.filename
         context = 3
         lines = self.string.split('\n')
         start = max(0, self.line - context)
@@ -129,7 +126,6 @@ class Context(object):
             
         def __repr__(self):
             return "{0!r}".format(self.value)
-
 
     def __init__(self):
         self._variables = {}

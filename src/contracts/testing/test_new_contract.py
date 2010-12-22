@@ -49,7 +49,6 @@ if 1:
                 self.assertRaises(ValueError, new_contract, x, 'list')
                 self.assertRaises(ValueError, new_contract, x.lower(), 'list')
             self.assertRaises(ValueError, new_contract, 'list', 'list[N]')
-            
             self.assertRaises(ValueError, new_contract, '2acdca', 'list[N]')
             self.assertRaises(ValueError, new_contract, '_', 'list[N]')
         
