@@ -1,8 +1,5 @@
 from ..syntax import simple_contract, W, operatorPrecedence, opAssoc
-from ..interface import Contract, ContractNotRespected
-from contracts.interface import add_prefix
-from contracts.syntax import contract
-from pyparsing import OneOrMore
+from ..interface import Contract, ContractNotRespected, add_prefix
 
 class Logical():
     def __init__(self, glyph, precedence):
@@ -19,8 +16,6 @@ class Logical():
         s = self.glyph.join(convert(x) for x in self.clauses)
         return s
 
-#    def str_logical(self, environment_precedence=1):
-#        pass
 
 class OR(Logical, Contract):
     def __init__(self, clauses, where=None):

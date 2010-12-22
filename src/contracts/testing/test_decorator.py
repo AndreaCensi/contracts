@@ -65,26 +65,6 @@ class DecoratorTests(unittest.TestCase):
         
         self.assertRaises(ContractException, contracts_decorate, f)
 
-#    def test_not_enough1(self):
-#        def f(a, b, c):
-#            ''' No c?
-#                :type a: int
-#                :type b: int
-#            '''
-#            pass
-#        
-#        self.assertRaises(ContractException, contracts_decorate, f)
-#
-#    def test_not_enough2(self):
-#        def f(a, b, c=True):
-#            ''' Same with optional
-#                :type a: int
-#                :type b: int
-#            '''
-#            pass
-#        
-#        self.assertRaises(ContractException, contracts_decorate, f)
-
     def test_parse_error1(self):
         def f(a, b):
             ''' Same with optional
@@ -196,7 +176,7 @@ class DecoratorTests(unittest.TestCase):
     
 
     def test_kwargs(self):
-        def f(a, b, c=7):
+        def f(a, b, c=7): #@UnusedVariable
             ''' Same with optional
                 :type a: int
                 :type b: int

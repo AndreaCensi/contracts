@@ -47,5 +47,3 @@ class DocStringTest(unittest.TestCase):
             result = examples[string]
             self.assertEqual(result, parsed)
                 
-        
-        

@@ -36,8 +36,9 @@ from . import arithmetic_test
 
 try: 
     import numpy
+except ImportError: # pragma: no cover
+    pass  
+else:
     from .array import ShapeContract, Shape, Array, ArrayConstraint, DType, dtype
     from . import array_examples
-except: # pragma: no cover
-    pass  
 

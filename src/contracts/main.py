@@ -5,8 +5,8 @@ from .syntax import contract, ParseException
 from .interface import (Context, Contract, ContractSyntaxError, Where,
                         ContractException, ContractNotRespected)
 from .docstring_parsing import parse_docstring_annotations
-from contracts.backported import getcallargs
-from contracts.interface import describe_value
+from .backported import getcallargs
+
 
 def check_contracts(contracts, values):
     ''' 
@@ -189,6 +189,7 @@ def check(contract, object, desc=None):
             e.error = '%s\nDetails of PyContracts error:\n%s' % (desc, e.error)
         raise
 
+
 def check_multiple(couples, desc=None):
     ''' 
         Checks multiple couples of (contract, value) in the same context. 
@@ -224,8 +225,10 @@ def new_contract(identifier, contract):
           the given identifier will become an alias
           for that expression. 
           
-        - If it is a callable, it must accept one parameter, and return 
-          either True or False. 
+        - If it is a callable, it must accept one parameter, and either:
+          * return True or None, to signify it accepts 
+          * return False or raise ValueError
+          If ValueError is raised, its message is used in the error. 
     
         :param identifier: The identifier must be a string not already in use
                           (you cannot redefine ``list``, ``tuple``, etc.).

@@ -25,8 +25,9 @@ class Where:
 
     def __str__(self):
         s = ''
-        s += 'In file %s:\n' % self.filename
-        context = 3;
+        if self.filename is not None:
+            s += 'In file %s:\n' % self.filename
+        context = 3
         lines = self.string.split('\n')
         start = max(0, self.line - context)
         pattern = 'line %2d >'
