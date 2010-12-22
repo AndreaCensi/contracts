@@ -40,11 +40,11 @@ examples = { """
 class DocStringTest(unittest.TestCase):
     
     def test_parsing(self):
-        for string, result in examples.items():
+        for string in examples:
             parsed = parse_docstring_annotations(string)
             "%s" % parsed
             "%r" % parsed
-            # print result
+            result = examples[string]
             self.assertEqual(result, parsed)
                 
         

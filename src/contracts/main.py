@@ -78,14 +78,8 @@ def contracts(accepts=None, returns=None):
 def contracts_decorate(function, accepts=None, returns=None):
     ''' An explicit way to decorate a given function. '''
     args, varargs, varkw, defaults = inspect.getargspec(function) #@UnusedVariable
+    all_args = [x for x in  args + [varargs, varkw] if x]
 
-    all_args = filter(None, args + [varargs, varkw])
-
-#    if varargs is not None:
-#        raise ContractException('Sorry! contracts does not work with varargs.')
-#    if varkw is not None:
-#        raise ContractException('Sorry! contracts does not work with kwargs.')
-    
     if accepts is None and returns is None:
         # Get types from documentation string.
         if function.__doc__ is None:
@@ -117,35 +111,24 @@ def contracts_decorate(function, accepts=None, returns=None):
     def wrapper(*args, **kwargs):
         bound = getcallargs(function, *args, **kwargs)
         
-#        if len(pargs) != len(args):
-#            raise ContractNotRespected('This function accepts %d parameters, '
-#                                       'not %d.' % (len(args), len(pargs)))
-
         context = Context()
         for arg in all_args:
             if arg in accepts_parsed:
                 accepts_parsed[arg]._check_contract(context, bound[arg])
         
-        #print('Arguments %r passed %r.' % (pargs, accepts_parsed))    
         result = function(*args, **kwargs)
         
         returns_parsed._check_contract(context, result)
         
-        #print(' return %r passed %r.' % (pargs, accepts_parsed))
-        
         return result
     
     wrapper.__doc__ = function.__doc__
-    # TODO: create a docstring from specified accepts/returns if one is missing?
+    
     return wrapper
 
 
 def parse_contracts_from_docstring(function):
-    #try:
-    # FIXME: Note: this never fails; at best it ignores unclosed things. 
     annotations = parse_docstring_annotations(function.__doc__)
-    #except Exception as e:
-    #    raise ContractException('Could not parse docstring: %s' % e)
     
     if len(annotations.returns) > 1:
         raise ContractException('More than one return type specified.')
@@ -169,7 +152,7 @@ def parse_contracts_from_docstring(function):
     
     # Let's look at the parameters:
     args, varargs, varkw, defaults = inspect.getargspec(function) #@UnusedVariable
-    all_args = filter(None, args + [varargs, varkw])
+    all_args = [x for x in  args + [varargs, varkw] if x]
     
     # Check we don't have extra:
     for name in name2type:
