@@ -114,7 +114,7 @@ class RValue:
         raise ValueError('Not implemented in %r' % self.__class__) 
 
     def __eq__(self, other):
-        members = self.__dict__.keys()
+        members = list(self.__dict__.keys())
         members.remove('where')
         for m in members:
             mine = getattr(self, m)
@@ -200,7 +200,7 @@ class Context:
         return 'Context(%r)' % self._variables
     
     def __str__(self):
-        return ", ".join("%s=%s" % (k, v) for (k, v) in self._variables.items())
+        return ", ".join("%s=%s" % (k, v) for (k, v) in list(self._variables.items()))
         
 class Contract:
     
@@ -235,10 +235,10 @@ class Contract:
     def __eq__(self, other):
         if not isinstance(other, type(self)):
             return False
-        members = self.__dict__.keys()
+        members = list(self.__dict__.keys())
         members.remove('where')
         
-        hismembers = other.__dict__.keys()
+        hismembers = list(other.__dict__.keys())
         hismembers.remove('where')
         if len(members) != len(hismembers):
             return False

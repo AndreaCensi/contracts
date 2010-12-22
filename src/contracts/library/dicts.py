@@ -19,11 +19,11 @@ class Dict(Contract):
         if self.length is not None:
             self.length._check_contract(context, len(value))
         
-        for k, v in value.items():
+        for k in value: 
             if self.key_c is not None:
                 self.key_c._check_contract(context, k)
             if self.value_c is not None:
-                self.value_c._check_contract(context, v)
+                self.value_c._check_contract(context, value[k])
     
     def __str__(self):
         s = 'dict'

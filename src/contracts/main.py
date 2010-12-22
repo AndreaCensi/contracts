@@ -42,6 +42,7 @@ class Storage:
     string2contract = {}
 
 def parse_contract_string(string, filename=None):
+    assert isinstance(string, str), string
     if string in Storage.string2contract:
         return Storage.string2contract[string]
     try:
@@ -139,7 +140,8 @@ def parse_contracts_from_docstring(function):
         returns = annotations.returns[0].type
         
     # These are the annotations
-    name2type = dict([ (name, v.type) for (name, v) in annotations.params.items()])
+    params = annotations.params
+    name2type = dict([ (name, params[name].type) for name in params])
     
     # Let's look at the parameters:
     args, varargs, varkw, defaults = inspect.getargspec(function) #@UnusedVariable

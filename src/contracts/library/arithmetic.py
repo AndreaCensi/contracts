@@ -93,7 +93,7 @@ class Unary(RValue):
     def parse_action(s, loc, tokens):
         where = W(s, loc)
         glyph = tokens[0][0]
-        assert isinstance(glyph)
+        assert isinstance(glyph, str)
         expr = tokens[0][1]
         assert isinstance(expr, RValue)
         return Unary(glyph, expr, where=where)
