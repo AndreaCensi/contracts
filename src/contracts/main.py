@@ -1,5 +1,6 @@
 import types
 import inspect
+import sys
 
 from .syntax import contract, ParseException, ParseFatalException
 from .interface import (Context, Contract, ContractSyntaxError, Where,
@@ -122,20 +123,35 @@ def contracts_decorate(function, accepts=None, returns=None):
     ''' An explicit way to decorate a given function.
         The decorator :py:func:`decorate` calls this function internally. 
     '''
-    args, varargs, varkw, defaults = inspect.getargspec(function) #@UnusedVariable
-    all_args = [x for x in  args + [varargs, varkw] if x]
+    # args, varargs, varkw, defaults = inspect.getargspec(function) #@UnusedVariable
+    # all_args = [x for x in  args + [varargs, varkw] if x]
+
+    all_args = get_all_arg_names(function)
 
     if accepts is None and returns is None:
-        # Get types from documentation string.
-        if function.__doc__ is None:
-            # XXX: change name
-            raise ContractException('You did not specify a contract, nor I can '
-                                    'find a docstring for %r.' % function)
+        # Py3k: check if there are annotations
+        annotations = get_annotations(function)
         
-        accepts_dict, returns = parse_contracts_from_docstring(function)
+        if annotations:
+            print(annotations)
+            if 'return' in annotations:
+                returns = annotations['return']
+                del annotations['return']
+            else:
+                returns = None
+                
+            accepts_dict = annotations
+        else:
+            # Last resort: get types from documentation string.
+            if function.__doc__ is None:
+                # XXX: change name
+                raise ContractException('You did not specify a contract, nor I can '
+                                        'find a docstring for %r.' % function)
         
-        if not accepts_dict and not returns:
-            raise ContractException('No contract specified in docstring.')
+            accepts_dict, returns = parse_contracts_from_docstring(function)
+        
+            if not accepts_dict and not returns:
+                raise ContractException('No contract specified in docstring.')
     else: 
         if len(accepts) > len(all_args):
             raise ContractException('Found  %d specs for %d arguments.' % 
@@ -148,9 +164,9 @@ def contracts_decorate(function, accepts=None, returns=None):
     if returns is None:
         returns = '*'
         
-    accepts_parsed = dict([ (x, parse_contract_string(accepts_dict[x])) 
+    accepts_parsed = dict([ (x, parse_flexible_spec(accepts_dict[x])) 
                             for x in accepts_dict])
-    returns_parsed = parse_contract_string(returns)
+    returns_parsed = parse_flexible_spec(returns)
     
     # I like this meta-meta stuff :-)
     def wrapper(*args, **kwargs):
@@ -171,6 +187,16 @@ def contracts_decorate(function, accepts=None, returns=None):
     
     return wrapper
 
+def parse_flexible_spec(spec):
+    ''' spec can be either a type or a contract string. 
+        In the latter case, the usual parsing takes place'''
+    if isinstance(spec, str):
+        return parse_contract_string(spec)
+    elif isinstance(spec, type):
+        from .library import CheckType
+        return CheckType(spec)
+    else:
+        raise ContractException('I want either a string or a type, not %s.' % describe_value(spec))
 
 def parse_contracts_from_docstring(function):
     annotations = parse_docstring_annotations(function.__doc__)
@@ -182,7 +208,9 @@ def parse_contracts_from_docstring(function):
         ''' Removes the double back-tick quotes if present. '''
         if x.startswith('``') and x.endswith('``') and len(x) > 3:
             return x[2:-2]
-        else:
+        elif x.startswith('``') or x.endswith('``'):
+            raise ContractException('Malformed quoting in string %r.' % x)
+        else:            
             return x
     
     if len(annotations.returns) == 0:
@@ -196,8 +224,10 @@ def parse_contracts_from_docstring(function):
                        for name in params])
     
     # Let's look at the parameters:
-    args, varargs, varkw, defaults = inspect.getargspec(function) #@UnusedVariable
-    all_args = [x for x in  args + [varargs, varkw] if x]
+    # args, varargs, varkw, defaults = inspect.getargspec(function) #@UnusedVariable
+    #     all_args = [x for x in  args + [varargs, varkw] if x]
+    #     
+    all_args = get_all_arg_names(function)
     
     # Check we don't have extra:
     for name in name2type:
@@ -213,6 +243,26 @@ def parse_contracts_from_docstring(function):
         
     return name2type, returns
 
+inPy3k = sys.version_info[0] == 3
+
+def get_annotations(function):
+    if inPy3k:
+        spec = inspect.getfullargspec(function)
+        return spec.annotations
+    else:
+        return {}
+        
+def get_all_arg_names(function):
+    if inPy3k:
+        spec = inspect.getfullargspec(function)
+        possible = spec.args +  [spec.varargs, spec.varkw] + spec.kwonlyargs
+        all_args = [x for x in possible if x]
+        return all_args
+    else:
+        spec = inspect.getargspec(function) 
+        all_args = [x for x in spec.args + [spec.varargs, spec.varkw] if x]
+        return all_args
+    
 
 def check(contract, object, desc=None):
     ''' 
@@ -340,9 +390,10 @@ def new_contract(identifier, condition):
                              (condition, e))
     elif hasattr(condition, '__call__'):
         # Check that the signature is right
-        if not can_accept_exactly_one_argument(condition):
+        can, error = can_accept_exactly_one_argument(condition)
+        if not can:
             raise ValueError('The given callable %r should be able to accept '
-                             'exactly one argument.' % condition)
+                             'exactly one argument. Error: %s ' % (condition, error))
         bare_contract = CheckCallable(condition)
     else:
         raise ValueError('I need either a string or a callable for the '
@@ -392,8 +443,8 @@ def can_accept_exactly_one_argument(callable_thing):
         getcallargs(f, *args)
     except (TypeError, ValueError) as e: #@UnusedVariable
         # print 'Get call args exception (f=%r,args=%r): %s ' % (f, args, e)
-        return False
+        return False, str(e)
     else:
-        return True
+        return True, None
     
     

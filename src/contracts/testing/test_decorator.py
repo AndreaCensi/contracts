@@ -87,21 +87,23 @@ class DecoratorTests(unittest.TestCase):
         self.assertRaises(ContractException, decorate, f)
 
     def not_supported1(self):
-        ''' Cannot do with *args ''' 
+        ''' Support of *args ''' 
         def f(a, *b):
             ''' 
                 :type a: int
+                :type b: tuple(int)
                 :rtype: int
             '''
             pass
         
-        self.assertRaises(ContractException, decorate, f)
+            decorate(f)
 
     def not_supported2(self):
-        ''' Cannot do with **args ''' 
+        ''' Support of **args ''' 
         def f(a, **b):
             ''' 
                 :type a: int
+                :type b: dict(int:int)
                 :rtype: int
             '''
             pass
@@ -130,6 +132,28 @@ class DecoratorTests(unittest.TestCase):
             '''
             pass
 
+    def test_bad_quoting(self):
+        def f(a, b):
+            ''' 
+                :type a: ``int``
+                :type b: ``int``
+                :rtype: ``int`
+            '''
+            pass
+
+        self.assertRaises(ContractException, decorate, f)
+
+    def test_bad_quoting2(self):
+        def f(a, b):
+            ''' 
+                :type a: ``int``
+                :type b: `int``
+                :rtype: ``int``
+            '''
+            pass
+
+        self.assertRaises(ContractException, decorate, f)
+
     def test_ok2(self):
         @contracts(accepts=['int', 'int'], returns='int')
         def f(a, b):
@@ -149,6 +173,15 @@ class DecoratorTests(unittest.TestCase):
         self.assertRaises(ContractNotRespected, f, 1.0, 2)
         self.assertRaises(ContractNotRespected, f, 1, 2.0)
 
+    # def test_module_as_decorator(self):
+    #     import contracts as contract_module
+    # 
+    #     @contract_module
+    #     def f(a, b): #@UnusedVariable
+    #         return a + b
+    #     f(1, 2)
+    #     self.assertRaises(ContractNotRespected, f, 1.0, 2)
+        
     def test_check_it_works3(self):
         @contracts
         def f(a, b):
