@@ -2,8 +2,6 @@ import collections
 
 from ..main import new_contract
 
-# - add 'set' class
-# - specialize with length:
 def ist(C):
     def f(x):
         f.func_name = 'instanceof_%s' % C.__name__
