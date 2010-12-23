@@ -4,6 +4,8 @@ from numpy  import ndarray, dtype #@UnusedImport
 from ..interface import Contract, ContractNotRespected, RValue
 from ..syntax import (add_contract, W, contract, O, S, rvalue,
                        simple_contract, ZeroOrMore, Literal, MatchFirst)
+from contracts.library.compositions import And, OR
+from pyparsing import operatorPrecedence, opAssoc
 
 
 class Array(Contract):
@@ -256,6 +258,14 @@ for x in ['u1', 'i1', 'uint8', 'int8', 'float32', 'float64']:
  
 ndarray_contract = MatchFirst(dtype_checks) | MatchFirst(array_constraints)
 
+
+ndarray_composite_contract = operatorPrecedence(ndarray_contract, [
+                         (',', 2, opAssoc.LEFT, And.parse_action),
+                         ('|', 2, opAssoc.LEFT, OR.parse_action),
+                    ])
+ 
+
+
 def my_delim_list2(what, delim): 
     return (what + ZeroOrMore(S(delim) + what))
 
@@ -268,7 +278,7 @@ shape_contract.setParseAction(ShapeContract.parse_action)
 
 name = S('array') | S('ndarray')
 optional_shape = (S('[') + shape_contract + S(']'))('shape_contract')
-optional_elements = (S('(') + ndarray_contract + S(')'))('elements_contract')
+optional_elements = (S('(') + ndarray_composite_contract + S(')'))('elements_contract')
 array_contract = name + O(optional_shape) + O(optional_elements)
                    
 array_contract.setParseAction(Array.parse_action)

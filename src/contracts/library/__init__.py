@@ -39,7 +39,6 @@ from .simple_values import EqualTo, SimpleRValue
 from . import simple_values_test
 
 
-
 try: 
     import numpy
 except ImportError: # pragma: no cover
@@ -50,4 +49,3 @@ else:
 
 from .extensions import (identifier_expression, identifier_contract,
                          Extension, CheckCallable)
-

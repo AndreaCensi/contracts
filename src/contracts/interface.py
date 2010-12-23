@@ -86,7 +86,8 @@ class ContractNotRespected(ContractException):
             cons = ("%s %s" % (contract, contexts)).ljust(30)
             msg += ('\n context: checking: %s  for value: %s' % 
                            (cons, describe_value(value)))
-            msg += '\n                    %r ' % contract
+            # TODO: add config for more verbose messages?
+            # msg += '\n                    %r ' % contract
         return msg
 
 
