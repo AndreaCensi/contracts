@@ -1,5 +1,6 @@
 from ..interface import Contract, ContractNotRespected, RValue
 from ..syntax import W, oneOf, FollowedBy, NotAny
+from pyparsing import Keyword, MatchFirst, Literal, Or
 
 
 class BindVariable(Contract):
@@ -75,7 +76,13 @@ class VariableRef(RValue):
     
 alphabetu = 'A B C D E F G H I J K L M N O P Q R S T U W V X Y Z'
 alphabetl = 'a b c d e f g h i j k l m n o p q r s t u w v x y z'
-int_variables = oneOf(alphabetu.split()) 
+
+#intvar = lambda s : (Literal(s) + FollowedBy('x')) ^ Keyword(s)
+#int_variables = Or([intvar(x) for x in alphabetu.split()])
+nofollow = 'a b c d e f g h i j k l m n o p q r s t u w v   y z'
+int_variables = oneOf(alphabetu.split()) + FollowedBy(NotAny(oneOf(nofollow.split())))
+# Special case: allow an expression like AxBxC
+ 
 # These must be followed by whitespace; punctuation
 #misc_variables = oneOf(alphabet.lower()) + FollowedBy(White()) 
 misc_variables = oneOf(alphabetl.split()) + FollowedBy(NotAny(oneOf(alphabetl.split())))

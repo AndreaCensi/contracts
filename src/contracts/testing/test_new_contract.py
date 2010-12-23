@@ -53,7 +53,8 @@ if 1:
             self.assertRaises(ValueError, new_contract, '_', 'list[N]')
         
         def test_valid_identifiers(self):
-            examples = ['aa', 'a_', 'a2', 'a_2']
+            examples = ['aa', 'a_', 'a2', 'a_2', 'list2', 'dict2', 'int2',
+                        'float2', 'A2', 'array2']
             
             def check_valid_identifier(e):
                 c = identifier_expression.parseString(e, parseAll=True)
@@ -61,6 +62,9 @@ if 1:
                 
             for e in examples:
                 yield check_valid_identifier, e
+            
+            for e in examples:
+                yield new_contract, e, '*'
                 
         def test_valid(self):
             c = new_contract('my_list', 'list[2]')

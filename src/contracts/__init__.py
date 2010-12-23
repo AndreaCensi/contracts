@@ -11,3 +11,7 @@ from .main import contracts_decorate as decorate
 from . import syntax 
 
 contract_expression = syntax.contract
+
+
+# After everything is loaded, load aliases
+from .library import miscellaneous_aliases 
