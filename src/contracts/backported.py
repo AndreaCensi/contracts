@@ -1,10 +1,12 @@
 import sys
 
 # Backport inspect.getcallargs from Python 2.7 to 2.6
-if sys.version_info[:2] != (2, 6) and sys.version_info[0] != 3: # pragma: no cover
+if sys.version_info[:2] == (2, 7): # pragma: no cover
     from inspect import getcallargs #@UnresolvedImport @UnusedImport
     
 else: # pragma: no cover
+    inPy3k = sys.version_info[0] == 3
+
     from inspect import getargspec, ismethod
     
     def getcallargs(func, *positional, **named):
@@ -42,9 +44,15 @@ else: # pragma: no cover
             if isinstance(arg, str):
                 return arg in arg2value
             return arg in assigned_tuple_params
-        if ismethod(func) and func.im_self is not None:
+
+        if not inPy3k:
+            im_self = getattr(func, 'im_self', None)
+        else:
+            im_self = getattr(func, '__self__', None)
+
+        if ismethod(func) and im_self is not None:
             # implicit 'self' (or 'cls' for classmethods) argument
-            positional = (func.im_self,) + positional
+            positional = (im_self,) + positional
         num_pos = len(positional)
         num_total = num_pos + len(named)
         num_args = len(args)
