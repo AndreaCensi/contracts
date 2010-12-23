@@ -6,10 +6,9 @@ from .syntax import contract, ParseException, ParseFatalException
 from .interface import (Context, Contract, ContractSyntaxError, Where,
                         ContractException, ContractNotRespected, describe_value)
 from .docstring_parsing import parse_docstring_annotations
-from .backported import getcallargs
+from .backported import getcallargs, getfullargspec
 from .library import (identifier_expression, Extension,
                       CheckCallable, SeparateContext) 
-
 
 
 def check_contracts(contracts, values):
@@ -224,9 +223,6 @@ def parse_contracts_from_docstring(function):
                        for name in params])
     
     # Let's look at the parameters:
-    # args, varargs, varkw, defaults = inspect.getargspec(function) #@UnusedVariable
-    #     all_args = [x for x in  args + [varargs, varkw] if x]
-    #     
     all_args = get_all_arg_names(function)
     
     # Check we don't have extra:
@@ -246,22 +242,13 @@ def parse_contracts_from_docstring(function):
 inPy3k = sys.version_info[0] == 3
 
 def get_annotations(function):
-    if inPy3k:
-        spec = inspect.getfullargspec(function)
-        return spec.annotations
-    else:
-        return {}
+    return getfullargspec(function).annotations
         
 def get_all_arg_names(function):
-    if inPy3k:
-        spec = inspect.getfullargspec(function)
-        possible = spec.args +  [spec.varargs, spec.varkw] + spec.kwonlyargs
-        all_args = [x for x in possible if x]
-        return all_args
-    else:
-        spec = inspect.getargspec(function) 
-        all_args = [x for x in spec.args + [spec.varargs, spec.varkw] if x]
-        return all_args
+    spec = getfullargspec(function)
+    possible = spec.args +  [spec.varargs, spec.varkw] + spec.kwonlyargs
+    all_args = [x for x in possible if x]
+    return all_args
     
 
 def check(contract, object, desc=None):
