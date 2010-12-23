@@ -2,7 +2,7 @@ import sys
 
 inPy3k = sys.version_info[0] == 3
 
-if inPy3k:
+if inPy3k: # FIXME: how can I not parse this with python2?
     import unittest
     from contracts import decorate, ContractException, contracts, ContractNotRespected
     
@@ -120,4 +120,12 @@ if inPy3k:
         
             self.assertRaises(Exception, f2, 0, 5, 0, 6)
             
-            
+    # from unittest.case import SkipTest
+
+    # class KnownFailuresTest(SkipTest):
+    #     def test_kwonly_1(self):
+    #         @contracts
+    #         def f(a: int, b: int, *, c: int = 2) -> int:
+    #             return (a + b + c)  
+    # 
+    #             self.assertRaises(ContractNotRespected, f, 1, 2, 3)
