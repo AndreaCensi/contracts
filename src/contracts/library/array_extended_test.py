@@ -1,4 +1,3 @@
-
 try:
     import numpy
 except ImportError:
@@ -7,18 +6,20 @@ else:
     
     import unittest
 
-    from ..main import contracts_decorate
-    from ..interface import ContractNotRespected
+    from contracts import decorate, new_contract, ContractNotRespected
 
+
+    new_contract('rgb', 'array[HxWx3],H>0,W>0')
+    new_contract('rgba', 'array[HxWx4],H>0,W>0')
 
     def blend_function(image1, image2, bug=False):
         ''' 
             Blends two RGB or RGBA images together. 
     
              :param image1: The first image to blend.
-             :type image1: rgb|rgba,shape(HxWx*)
+             :type image1: (rgb|rgba),shape(HxWx*)
              :param image2: The second image to blend.
-             :type image2: rgb|rgba,shape(HxWx*)
+             :type image2: (rgb|rgba),shape(HxWx*)
              :param bug: Introduce a bug to check the contracts.
              :type bug: bool
     
@@ -49,7 +50,7 @@ else:
     class ArrayTest(unittest.TestCase):
     
         def setUp(self):
-            self.blend = contracts_decorate(blend_function)
+            self.blend = decorate(blend_function)
         
         def test_correct_behavior(self):
             self.blend(rgb_small, rgb_small)

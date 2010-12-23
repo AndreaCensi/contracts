@@ -3,9 +3,9 @@ from numpy  import ndarray, dtype #@UnusedImport
 
 from ..interface import Contract, ContractNotRespected, RValue
 from ..syntax import (add_contract, W, contract, O, S, rvalue,
-                       simple_contract, ZeroOrMore, Literal, MatchFirst)
-from contracts.library.compositions import And, OR
-from pyparsing import operatorPrecedence, opAssoc
+                       simple_contract, ZeroOrMore, Literal, MatchFirst,
+                       operatorPrecedence, opAssoc)
+from .compositions import And, OR
 
 
 class Array(Contract):
@@ -286,7 +286,7 @@ add_contract(array_contract)
 
 
 optional_length = (S('[') + contract + S(']'))('length')
-optional_other = (S('(') + contract + S(')'))('other')
+optional_other = (S('(') + (contract ^ shape_contract) + S(')'))('other')
 shape = S('shape') + O(optional_length) + O(optional_other)
                                             
 shape.setParseAction(Shape.parse_action)
