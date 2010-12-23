@@ -1,4 +1,3 @@
-from types import NoneType
 from numbers import Number
 
 from ..interface import Contract, ContractNotRespected
@@ -41,8 +40,9 @@ add_contract(Keyword('int').setParseAction(CheckType.parse_action(int)))
 add_contract(Keyword('float').setParseAction(CheckType.parse_action(float)))
 add_contract(Keyword('bool').setParseAction(CheckType.parse_action(bool)))
 add_contract(Keyword('number').setParseAction(CheckType.parse_action(Number)))
-add_contract(Keyword('None').setParseAction(CheckType.parse_action(NoneType)))
-add_contract(Keyword('NoneType').setParseAction(CheckType.parse_action(NoneType)))
+
+#add_contract(Keyword('None').setParseAction(CheckType.parse_action(NoneType)))
+#add_contract(Keyword('NoneType').setParseAction(CheckType.parse_action(NoneType)))
 
 
 class Type(Contract):

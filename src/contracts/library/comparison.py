@@ -1,5 +1,3 @@
-from types import NoneType
-
 from ..interface import Contract, ContractNotRespected, RValue
 from ..syntax import W, add_contract, O, Literal, isnumber, rvalue
 
@@ -18,7 +16,7 @@ class CheckOrder(Contract):
     
     def __init__(self, expr1, glyph, expr2, where=None):
         Contract.__init__(self, where)
-        assert isinstance(expr1, (RValue, NoneType))
+        assert isinstance(expr1, RValue) or expr1 is None
         assert isinstance(expr2, RValue)
 
         self.expr1 = expr1

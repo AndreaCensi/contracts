@@ -1,5 +1,4 @@
 from copy import deepcopy
-from types import NoneType
 from pyparsing import lineno, col
 
 class Where(object):
@@ -170,7 +169,7 @@ class Context(object):
 class Contract(object):
     
     def __init__(self, where):
-        assert isinstance(where, (NoneType, Where)), 'Wrong type %s' % where
+        assert where is None or isinstance(where, Where), 'Wrong type %s' % where
         self.where = where
     
     def check(self, value):

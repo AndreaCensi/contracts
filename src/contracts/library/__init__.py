@@ -4,7 +4,7 @@ from . import separate_context_test
 from .dummy import Any, Never
 from . import dummy_test
 
-from .types_misc import Type, CheckType, Number, NoneType
+from .types_misc import Type, CheckType, Number
 from . import types_test
 
 from .strings import String

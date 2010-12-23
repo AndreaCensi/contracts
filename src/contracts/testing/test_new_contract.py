@@ -111,7 +111,7 @@ if 1:
             self.assertRaises(ValueError, check, 'list(my10)', [0])
                 
         def test_other_pass(self):
-            class Ex1:
+            class Ex1(Exception):
                 pass
             def invalid(x):
                 raise Ex1()
