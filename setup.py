@@ -30,7 +30,7 @@ setup(name='PyContracts',
         'Topic :: Software Development :: Testing'
       ],
       
-      long_description = read('README.txt'),
+      long_description = read('README.rst'),
       keywords = "type checking, value checking, contracts",
       license = "LGPL",
 
