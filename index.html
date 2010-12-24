@@ -114,7 +114,8 @@ in your Sphinx documentation:</p>
 <p><strong>Status:</strong> <span class="brand">PyContracts</span> is very well tested and documented, however I&#8217;m keeping
 the version to 0.9, as some slight variations of the syntax are likely to be made
 based on users feedback and suggestions.</p>
-<p><strong>Index</strong></p>
+<p><strong>Support</strong>: use the GitHub issue <a class="reference external" href="http://github.com/AndreaCensi/contracts/issues">tracker</a> or email <a class="reference external" href="http://www.cds.caltech.edu/~andrea/">me</a>.</p>
+<p><strong>Documentation index</strong></p>
 <ul class="simple">
 <li><a class="reference internal" href="#installation"><em>Installation</em></a></li>
 <li><a class="reference internal" href="#quick-tour"><em>Quick tour</em></a></li>
@@ -122,7 +123,6 @@ based on users feedback and suggestions.</p>
 <li><a class="reference internal" href="#contracts-language-reference"><em>Language reference</em></a></li>
 <li><a class="reference internal" href="#api-reference"><em>PyContracts public API reference</em></a></li>
 </ul>
-<p>Support use the GitHub <a class="reference external" href="http://github.com/AndreaCensi/contracts/issues">issue_tracker</a> or email <a class="reference external" href="http://www.cds.caltech.edu/~andrea/">me</a>.</p>
 <div class="section" id="installation">
 <span id="id1"></span><h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>Install <span class="brand">PyContracts</span> using:</p>
@@ -132,7 +132,7 @@ based on users feedback and suggestions.</p>
 <div class="highlight-python"><pre>$ git clone git://github.com:AndreaCensi/contracts.git
 $ cd contracts
 $ python setup.py develop
-$ nosetests -w src        # run the extensive test suite</pre>
+$ nosetests -w src         # run the extensive test suite</pre>
 </div>
 <p>The beautiful library <a class="reference external" href="http://pyparsing.wikispaces.com">pyparsing</a> is required.</p>
 </div>
@@ -692,10 +692,15 @@ else:
 </div>
 <div class="section" id="equality">
 <h2>Equality<a class="headerlink" href="#equality" title="Permalink to this headline">¶</a></h2>
-<p>Just saying a value will match that value</p>
+<p><span style="font-weight:bold">This section must still be written.</span></p>
 </div>
 <div class="section" id="arithmetic-and-comparison">
 <h2>Arithmetic and comparison<a class="headerlink" href="#arithmetic-and-comparison" title="Permalink to this headline">¶</a></h2>
+<p><span style="font-weight:bold">This section must still be written.</span></p>
+</div>
+<div class="section" id="details-of-variable-binding">
+<h2>Details of variable binding<a class="headerlink" href="#details-of-variable-binding" title="Permalink to this headline">¶</a></h2>
+<p><span style="font-weight:bold">This section must still be written.</span></p>
 </div>
 <div class="section" id="lists">
 <h2>Lists<a class="headerlink" href="#lists" title="Permalink to this headline">¶</a></h2>
@@ -930,9 +935,7 @@ Right now, we support:</p>
 <dl class="docutils">
 <dt>Datatype contracts</dt>
 <dd><p class="first">These specify the datatype of the array. Available:</p>
-<div class="last highlight-python"><pre>uint8 uint16 uint32 uint64
- int8  int16  int32  int64
- float32 float64</pre>
+<div class="last highlight-python"><pre>uint8 uint16 uint32 uint64 int8 int16 int32  int64 float32 float64</pre>
 </div>
 </dd>
 <dt>Arithmetic comparisons</dt>
@@ -1371,6 +1374,7 @@ contracts expression in your own PyParsing grammar.</p>
 <li><a class="reference internal" href="#logical-expressions">Logical expressions</a></li>
 <li><a class="reference internal" href="#equality">Equality</a></li>
 <li><a class="reference internal" href="#arithmetic-and-comparison">Arithmetic and comparison</a></li>
+<li><a class="reference internal" href="#details-of-variable-binding">Details of variable binding</a></li>
 <li><a class="reference internal" href="#lists">Lists</a></li>
 <li><a class="reference internal" href="#tuples">Tuples</a></li>
 <li><a class="reference internal" href="#dictionaries">Dictionaries</a></li>
