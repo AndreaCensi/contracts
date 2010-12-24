@@ -109,13 +109,19 @@ is evaluated the same as ::
 Equality
 ------------------
 
-Just saying a value will match that value
+|towrite|
 
 
 Arithmetic and comparison
 -------------------------
 
+|towrite|
 
+
+Details of variable binding
+---------------------------
+
+|towrite|
 
 
 
@@ -342,9 +348,7 @@ Right now, we support:
 Datatype contracts
   These specify the datatype of the array. Available: ::
       
-      uint8 uint16 uint32 uint64
-       int8  int16  int32  int64
-       float32 float64
+      uint8 uint16 uint32 uint64 int8 int16 int32  int64 float32 float64
       
 Arithmetic comparisons
   These have the semantics that **all** elements must satisfy the contract.
