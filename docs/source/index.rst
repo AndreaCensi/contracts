@@ -61,20 +61,27 @@ as well as hooks to extend |pycontracts| with new contracts types: ::
     check('dict(int: (valid_name, int))', employees)
 
 
-.. _typecheck: http://oakwinter.com/code/typecheck/
-.. _Haskell: http://www.haskell.org/
 
 **Status:** |pycontracts| is very well tested and documented, however I'm keeping
 the version to 0.9, as some slight variations of the syntax are likely to be made
 based on users feedback and suggestions.
 
-**Index**
+**Support**: use the GitHub issue tracker_ or email me_.
+
+
+**Documentation index**
 
 - :ref:`installation`
 - :ref:`quick_tour`
 - :ref:`api`
 - :ref:`contracts_language_reference`
 - :ref:`api_reference`
+
+.. _typecheck: http://oakwinter.com/code/typecheck/
+.. _Haskell: http://www.haskell.org/
+.. _tracker: http://github.com/AndreaCensi/contracts/issues
+
+.. _me: http://www.cds.caltech.edu/~andrea/
 
 
 .. _installation:
@@ -84,14 +91,14 @@ Installation
 
 Install |pycontracts| using: ::
 
-    $ pip install contracts
+    $ pip install PyContracts
     
 or from GitHub: ::
 
     $ git clone git://github.com:AndreaCensi/contracts.git
     $ cd contracts
     $ python setup.py develop
-    $ nosetests -w src        # run the extensive test suite
+    $ nosetests -w src         # run the extensive test suite
 
 The beautiful library pyparsing_ is required.
 
