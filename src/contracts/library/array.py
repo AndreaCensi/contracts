@@ -264,8 +264,6 @@ ndarray_composite_contract = operatorPrecedence(ndarray_contract, [
                          ('|', 2, opAssoc.LEFT, OR.parse_action),
                     ])
  
-
-
 def my_delim_list2(what, delim): 
     return (what + ZeroOrMore(S(delim) + what))
 
@@ -291,10 +289,3 @@ shape = S('shape') + O(optional_length) + O(optional_other)
                                             
 shape.setParseAction(Shape.parse_action)
 add_contract(shape)
-
-#add_alias('rgb', 'array[HxWx3](uint8),H>0,W>0')
-#add_alias('rgba', 'array[HxWx4](uint8),H>0,W>0')
-#
-#add_alias('correlation', 'array[NxN]((float32|float64),>=-1,<=1),diagonal(=1),posdef')
-
-

@@ -2,7 +2,7 @@ import sys
 
 # Backport inspect.getcallargs from Python 2.7 to 2.6
 if sys.version_info[0] == 3: # pragma: no cover
-    from inspect import getfullargspec 
+    from inspect import getfullargspec #@UnresolvedImport
     
 else: # pragma: no cover
     from collections import namedtuple
@@ -10,8 +10,8 @@ else: # pragma: no cover
     from inspect import getargspec
     def getfullargspec(function):
         spec = getargspec(function)
-        fullspec= FullArgSpec(args=spec.args,varargs=spec.varargs,varkw=spec.keywords,
-                            defaults=spec.defaults, kwonlyargs=[],kwonlydefaults=None,
+        fullspec = FullArgSpec(args=spec.args, varargs=spec.varargs, varkw=spec.keywords,
+                            defaults=spec.defaults, kwonlyargs=[], kwonlydefaults=None,
                             annotations={})
         return fullspec
 
@@ -31,7 +31,8 @@ else: # pragma: no cover
         A dict is returned, with keys the function argument names (including the
         names of the * and ** arguments, if any), and values the respective bound
         values from 'positional' and 'named'."""
-        args, varargs, varkw, defaults, kwonlyargs, kwonlydefaults, annotations = getfullargspec(func)
+        args, varargs, varkw, defaults, \
+            kwonlyargs, kwonlydefaults, annotations = getfullargspec(func) #@UnusedVariable
         
         if kwonlyargs:
             raise ValueError("I'm sorry, I don't have the logic to use kwonlyargs. "
@@ -118,6 +119,5 @@ else: # pragma: no cover
                 f_name, 'at least' if defaults else 'exactly', num_required,
                 'arguments' if num_required > 1 else 'argument', num_total))
         return arg2value
-    
         
 

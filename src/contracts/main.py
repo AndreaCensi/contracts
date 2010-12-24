@@ -67,24 +67,61 @@ def parse_contract_string(string):
     
 # TODO: add decorator-specific exception
 
-def contracts(accepts=None, returns=None):
+def contracts(*arg, **kwargs):
     ''' Decorator for adding contracts check of arguments and return values.
     
         It is smart enough to support functions with variable number of arguments
         and keyword arguments.
         
-        - If neither ``accepts`` or ``returns`` is passed, the contracts
-          are read from the function's docstring, using the ``rtype`` and 
-          ``:type:`` tags.   
+        There are three ways to specify the contracts. In order of precedence:
+        
+        - As arguments to this decorator. For example: ::
+        
+              @contracts(a='int,>0',b='list[N],N>0',returns='list[N]')
+              def my_function(a, b):
+                  # ...
+                  pass
+        
+        - As annotations (supported only in Python 3):
+        
+              @contracts
+              def my_function(a:'int,>0', b:'list[N],N>0') -> 'list[N]': 
+                  # ...
+                  pass
+        
+        - Using ``:type:`` and ``:rtype:`` tags in the function's docstring:
+        
+              @contracts
+              def my_function(a, b): 
+                  """ Function description.
+                      :type a: int,>0
+                      :type b: list[N],N>0
+                      :rtype: list[N]
+                  """
+                  pass
+                 
+         
+         Contracts evaluations
+         ^^^^^^^^^^^^^^^^^^^^^
+         
+         Note that all contracts for the arguments and the return values
+         are evaluated in the same context. This make it possible to use
+         common variables in the contract expression. For example, in the example
+         above, the return value is constrained to be a list of the same 
+         length (``N``) as the parameter ``b``. 
+        
+    
+         Using docstrings
+         ^^^^^^^^^^^^^^^^
+           
+         Note that, by convention, those annotations must be parseable as
+         RestructuredText. This is relevant if you are using Sphinx.
+         If the contract string has special RST characters in it, like ``*``,
+         you can include it in double ticks. |pycontracts| will remove
+         the double ticks before interpreting the string.
           
-          Note that, by convention, those annotations must be parseable as
-          RestructuredText. This is relevant if you are using Sphinx.
-          If the contract string has special RST characters in it, like ``*``,
-          you can include it in double ticks. |pycontracts| will remove
-          the double ticks before interpreting the string.
-          
-          For example, the two annotations in this docstring are equivalent
-          for |pycontracts|, but the latter is better for Sphinx: ::
+         For example, the two annotations in this docstring are equivalent
+         for |pycontracts|, but the latter is better for Sphinx: ::
           
               """ My function 
               
@@ -95,39 +132,43 @@ def contracts(accepts=None, returns=None):
                   :type b: ``list(tuple(str,*))``
               """
     
-        - If ``accepts`` is passed, it must be a list of strings specifying
-          the contracts for the argument (in order).
-          
-        - If ``returns`` is passed, it must be a string, indicating the
-          contract for the return value. It is evaluated in the same context
-          as the contracts in ``accepts``. 
-        
         :raise: ContractException, if arguments are not coherent with the function
         :raise: ContractSyntaxError
     '''        
     # OK, this is black magic. You are not expected to understand this.
-    if isinstance(accepts, types.FunctionType):
-        # We were called without parameters
-        function = accepts
-        accepts = None
-        returns = None
-        return contracts_decorate(function, accepts, returns)
+    if arg:
+        if isinstance(arg[0], types.FunctionType):
+            # We were called without parameters
+            function = arg[0]
+            return contracts_decorate(function, **kwargs)
+        else:
+            raise ContractException('I expect that  contracts() is called with '
+                                    'only keyword arguments (passed: %r)' % arg)
     else:
         # We were called *with* parameters.
         def wrap(function):
-            return contracts_decorate(function, accepts, returns)
+            return contracts_decorate(function, **kwargs)
         return wrap
 
-def contracts_decorate(function, accepts=None, returns=None):
+def contracts_decorate(function, **kwargs):
     ''' An explicit way to decorate a given function.
         The decorator :py:func:`decorate` calls this function internally. 
     '''
-    # args, varargs, varkw, defaults = inspect.getargspec(function) #@UnusedVariable
-    # all_args = [x for x in  args + [varargs, varkw] if x]
 
     all_args = get_all_arg_names(function)
 
-    if accepts is None and returns is None:
+    if kwargs:
+
+        returns = kwargs.pop('returns', None)
+
+        for kw in kwargs:
+            if not kw in all_args:
+                raise ContractException('Uknown parameter %r; I know %r.' % 
+                                        (kw, all_args))
+            
+        accepts_dict = kwargs 
+        
+    else:
         # Py3k: check if there are annotations
         annotations = get_annotations(function)
         
@@ -151,14 +192,7 @@ def contracts_decorate(function, accepts=None, returns=None):
         
             if not accepts_dict and not returns:
                 raise ContractException('No contract specified in docstring.')
-    else: 
-        if len(accepts) > len(all_args):
-            raise ContractException('Found  %d specs for %d arguments.' % 
-                                    (len(accepts), len(args)))
-        
-        accepts_dict = {}
-        for i in range(len(accepts)):
-            accepts_dict[all_args[i]] = accepts[i] 
+    
     
     if returns is None:
         returns = '*'
@@ -246,7 +280,7 @@ def get_annotations(function):
         
 def get_all_arg_names(function):
     spec = getfullargspec(function)
-    possible = spec.args +  [spec.varargs, spec.varkw] + spec.kwonlyargs
+    possible = spec.args + [spec.varargs, spec.varkw] + spec.kwonlyargs
     all_args = [x for x in possible if x]
     return all_args
     

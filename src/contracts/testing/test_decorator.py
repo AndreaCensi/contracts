@@ -155,24 +155,58 @@ class DecoratorTests(unittest.TestCase):
         self.assertRaises(ContractException, decorate, f)
 
     def test_ok2(self):
-        @contracts(accepts=['int', 'int'], returns='int')
+        @contracts(a='int', returns='int')
         def f(a, b):
             pass
 
+    def test_invalid_args(self):
+        def f():
+            @contracts(1)
+            def g(a, b): 
+                return int(a + b)
+        self.assertRaises(ContractException, f)
+    
+    def test_invalid_args2(self):
+        ''' unknown parameter '''
+        def f():
+            @contracts(c=2)
+            def g(a, b): 
+                return int(a + b)
+        self.assertRaises(ContractException, f)
+        
     def test_check_it_works1(self):
-        @contracts(accepts=['int', 'int'], returns='int')
+        @contracts(a='int', b='int', returns='int')
         def f(a, b): #@UnusedVariable
             return 2.0
         self.assertRaises(ContractNotRespected, f, 1, 2)
 
     def test_check_it_works2(self):
-        @contracts(accepts=['int', 'int'], returns='int')
+        @contracts(a='int', b='int', returns='int')
         def f(a, b): #@UnusedVariable
             return a + b
         f(1, 2)
         self.assertRaises(ContractNotRespected, f, 1.0, 2)
         self.assertRaises(ContractNotRespected, f, 1, 2.0)
 
+    def test_check_it_works2b(self):
+        ''' Nothing for b '''
+        @contracts(a='int', returns='int')
+        def f(a, b): #@UnusedVariable
+            return int(a + b)
+        f(1, 2)
+        f(1, 2.0)
+
+    def test_check_it_works2c(self):
+        ''' Nothing for b '''
+        def f1(a, b): #@UnusedVariable
+            return int(a + b)
+        
+        f = decorate(f1, a='int', returns='int')
+        
+        f(1, 2)
+        f(1, 2.0)
+        self.assertRaises(ContractNotRespected, f, 1.0, 2)
+        
     # def test_module_as_decorator(self):
     #     import contracts as contract_module
     # 
