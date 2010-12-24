@@ -68,7 +68,7 @@ def parse_contract_string(string):
 # TODO: add decorator-specific exception
 
 def contracts(*arg, **kwargs):
-    ''' Decorator for adding contracts check of arguments and return values.
+    ''' Decorator for adding contracts to functions.
     
         It is smart enough to support functions with variable number of arguments
         and keyword arguments.
@@ -82,14 +82,14 @@ def contracts(*arg, **kwargs):
                   # ...
                   pass
         
-        - As annotations (supported only in Python 3):
+        - As annotations (supported only in Python 3): ::
         
               @contracts
               def my_function(a:'int,>0', b:'list[N],N>0') -> 'list[N]': 
                   # ...
                   pass
         
-        - Using ``:type:`` and ``:rtype:`` tags in the function's docstring:
+        - Using ``:type:`` and ``:rtype:`` tags in the function's docstring: ::
         
               @contracts
               def my_function(a, b): 
@@ -100,21 +100,13 @@ def contracts(*arg, **kwargs):
                   """
                   pass
                  
-         
-         Contracts evaluations
-         ^^^^^^^^^^^^^^^^^^^^^
-         
-         Note that all contracts for the arguments and the return values
+         **Contracts evaluation**: Note that all contracts for the arguments and the return values
          are evaluated in the same context. This make it possible to use
          common variables in the contract expression. For example, in the example
          above, the return value is constrained to be a list of the same 
          length (``N``) as the parameter ``b``. 
         
-    
-         Using docstrings
-         ^^^^^^^^^^^^^^^^
-           
-         Note that, by convention, those annotations must be parseable as
+         **Using docstrings** Note that, by convention, those annotations must be parseable as
          RestructuredText. This is relevant if you are using Sphinx.
          If the contract string has special RST characters in it, like ``*``,
          you can include it in double ticks. |pycontracts| will remove

@@ -2,30 +2,140 @@
 .. _api:
 
 PyContracts API
-=====================
+===============
 
-Specifying contracts using decorators and docstrings
-------------------------------------------------------------
+This is a discussion of the |pycontracts| API. 
 
+- See :py:mod:`contracts` for a detailed list of this module's public interface.
 
-Using quotes.
-
-:type couples: ``list[>0](tuple(str, *))``
-        
-|towrite|
+- See :ref:`contracts_language_reference` for a description of the domain specific language
+  used to describe the contracts.
 
 
-Specifying contracts using decorators with explicit contracts.
---------------------------------------------------------------------
 
-|towrite|
+Using the ``@contracts`` decorator.
+----------------------------------------------------
+
+The decorator :py:func:`contracts` is considered the main way to 
+define constraints. It is quite flexible, and it is smart enough 
+to support functions with variable number of arguments and keyword arguments.
+
+There are three ways to specify the contracts. In order of precedence:
+
+- As arguments to this decorator. 
+- As Python 3 function annotations.
+- Using ``:type:`` and ``:rtype:`` tags in the function's docstring.
+
+|pycontracts| will try these options in order. Note that, in any case,
+only one of these options are chosen. For example, you cannot
+use both annotations and docstring for the same function: if annotations
+are found, the docstring is not considered.
 
 
-Decorate a function explicitly
--------------------------------------------------
+Using decorator arguments
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
-|towrite|
+:py:func:`contracts` accepts a list of keyword arguments.
+Each keyword should correspond to one function argument, plus
+the special name ``returns`` is reserved for describing the return value.
+An example use would be: ::
 
+    from contracts import contracts
+
+    @contracts(a='int,>0', b='list[N],N>0', returns='list[N]')
+    def my_function(a, b):
+        ...
+      
+
+The values can be either:
+
+- Strings using |pycontracts|' DSL language (see :ref:`contracts_language_reference`)
+
+- Python types --- in this case |pycontracts| will do a simple :py:func:`isinstance` check.
+  This is slightly more clear if the contract is simple: ::
+
+      @contracts(a=int, b=float, returns=float)
+      def my_function(a, b):
+          return a + b
+
+
+Using Python annotations
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+The same rules apply. In this case the syntax would look like this: ::
+
+    from contracts import contracts
+
+    @contracts
+    def my_function(a:'int,>0', b:'list[N],N>0') -> 'list[N]': 
+        ...
+      
+
+
+Using functions docstrings
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Python standard library seems to have standardized on the ``:param:``, ``:type:``,
+``:return:``, ``:rtype:`` tags to document functions, and tools like Sphinx
+can interpret those tags to produce pretty documentation.
+
+|pycontracts| can read contracts declared using the ``:type:`` and ``:rtype:`` tags.
+In this way, your function becomes automatically more robust and better documented. 
+
+Here is an example use: ::
+
+    from contracts import contracts
+    
+    @contracts
+    def my_function(a, b): 
+      """ Function description.
+  
+          :param a: first number
+          :type a: int,>0
+          :param b: description of b
+          :type b: list[N],N>0
+      
+          :return: a list
+          :rtype: list[N]               """
+      ...
+          
+          
+.. note:: By convention, those annotations must be parsable as
+    reStructuredText. 
+    If the contract string has special RST characters in it, like ``*``,
+    you can include it in double ticks. |pycontracts| will remove
+    the double ticks before interpreting the string.
+
+    For example, the two annotations in this docstring are equivalent
+    for |pycontracts|, but the latter is better for Sphinx: ::
+
+      """ My function 
+  
+          :param a: First parameter
+          :type a: list(tuple(str,*))
+      
+          :param b: First parameter
+          :type b: ``list(tuple(str,*))``
+      """
+
+
+Decorating a function explicitly
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The public interface of |pycontracts| contains a function :py:func:`decorate`
+that can be used to decorate functions after they are defined.
+For example: ::
+
+    from contracts import decorate
+    
+    def f(a):
+        a.pop()
+        return a
+            
+    f2 = decorate(f, a='list[N],N>1', returns='list[N-1]')
+
+    f2([]) # raises exception before pop() is executed
+    
 
 Manual API
 -------------------------------------------------
@@ -40,7 +150,7 @@ that some value respect a given contract. ::
 
     from contracts import check
   
-    check('tuple(int,int)', (2,2) )
+    check('tuple(int,int)', (2, 2) )
 
 :py:func:`check()` might raise:
 
@@ -98,7 +208,7 @@ then checks that ``list[N]`` describes the second list. Now, however,
 |pycontracts| tries hard to give you a readable message even with complicated contracts. 
 For example, consider the complicated expression: ::
 
-    check('int|str|tuple(str,int)', ('a', 1))
+    check('int|str|tuple(str,int)', ('a', 'b'))
     
 Because there is an OR (``|``), |pycontracts| will have to explain to you why 
 none of the three OR clauses was satisfied. ::
@@ -242,26 +352,17 @@ and then reuse that definition. For example: ::
         """ Fill the area inside the current figure.
         
             :type border: color
-            :type inside: color
-        """
-        pass
+            :type inside: color              """
+        ...
         
     @contracts
     def fill_gradient(colors):
         """ Use a gradient to fill the area.
         
-            :type colors: list(color)
-        """
-        pass
+            :type colors: list[>=2](color)     """
+        ...
 
-
-
-Developer notes
--------------------------------------------------
-
-|towrite|
-
-
+ 
 
 Using PyContracts in your own PyParsing-based language
 ------------------------------------------------------
@@ -276,65 +377,3 @@ to your PyParsing-based grammar: ::
       my_grammar = ... + Optional(Literal('respects') + contract_expression)
 
 
-
-PyContracts public API reference
-================================
-
-
-|towrite|
-
-TODO: add link to pydoctor output
-
-
-.. py:module:: contracts
-
-Decorating a function
----------------------
-
-.. autofunction:: contracts
-
-.. autofunction:: decorate
-
-
-Exceptions
-----------
-
-.. autoclass:: ContractException
-
-.. autoclass:: ContractSyntaxError
-
-.. autoclass:: ContractNotRespected
-
-
-Manually checking values
-------------------------
-
-.. autofunction:: check
-
-.. autofunction:: check_multiple
-
-.. autofunction:: parse
-
-.. autofunction:: new_contract
-
-.. autoclass:: Contract
-
-   .. automethod:: check
-
-   .. automethod:: fail
-
-   .. automethod:: __repr__()
-
-   .. automethod:: __str__()
-
-.. autoclass:: Context
-
-   .. automethod:: __contains__()
-   
-   .. automethod:: __getitem__()
-    
-.. py:data:: contract_expression
-
-   A PyParsing expression that can be used to include
-   contracts expression in your own PyParsing grammar.
-   

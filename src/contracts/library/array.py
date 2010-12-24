@@ -250,8 +250,12 @@ for glyph in ArrayConstraint.constraints:
     expr.setParseAction(ArrayConstraint.parse_action)
     array_constraints.append(expr)
 
+
+supported = ("uint8 uint16 uint32 uint64 int8 int16 int32 int64 float32 float64"
+             " u1 i1")
+       
 dtype_checks = []
-for x in ['u1', 'i1', 'uint8', 'int8', 'float32', 'float64']:
+for x in supported.split():
     d = numpy.dtype(x)
     expr = Literal(x).setParseAction(DType.parse_action(d))  
     dtype_checks.append(expr)
