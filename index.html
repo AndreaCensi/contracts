@@ -48,17 +48,69 @@
 <h1>PyContracts<a class="headerlink" href="#pycontracts" title="Permalink to this headline">¶</a></h1>
 <p><span class="brand">PyContracts</span> is a Python package that allows to declare constraints on function parameters and
 return values. It supports a basic type system, variables binding, arithmetic constraints, and
-has several specialized contracts (notably for Numpy arrays). <span class="brand">PyContracts</span> can parse the
-contracts specified in RST docstrings (using the standard <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype</span></tt> constructs);
-that way, your code is automatically documented.</p>
-<p>The purpose of <span class="brand">PyContracts</span> is <strong>not</strong> to turn Python into a statically-typed language (albeit
-you can be as strict as you wish), but, rather, to avoid the time-consuming and obfuscating
-checking of various preconditions. In fact, more than the type constraints, I found useful the
-ability to impose value and size constraints. For example, &#8220;I need a list of at least 3 positive
-numbers&#8221; can be expressed as <tt class="docutils literal"><span class="pre">list[&gt;=3](number,</span> <span class="pre">&gt;0))</span></tt>.</p>
-<p><strong>Alternatives:</strong> If you find that <span class="brand">PyContracts</span> is overkill for you, you might want to try a simpler alternative, such as <a class="reference external" href="http://oakwinter.com/code/typecheck/">typecheck</a>. If you find that <span class="brand">PyContracts</span> is not <em>enough</em> for you, you probably want to be using <a class="reference external" href="http://www.haskell.org/">Haskell</a> instead of Python.</p>
+has several specialized contracts (notably for Numpy arrays).</p>
+<p><strong>Why</strong>: The purpose of <span class="brand">PyContracts</span> is <strong>not</strong> to turn Python into a statically-typed language
+(albeit you can be as strict as you wish), but, rather, to avoid the time-consuming and
+obfuscating checking of various preconditions. In fact, more than the type constraints, I found
+useful the ability to impose value and size constraints. For example, &#8220;I need a list of at least
+3 positive numbers&#8221; can be expressed as <tt class="docutils literal"><span class="pre">list[&gt;=3](number,</span> <span class="pre">&gt;0))</span></tt>. If you find that
+<span class="brand">PyContracts</span> is overkill for you, you might want to try a simpler alternative, such as
+<a class="reference external" href="http://oakwinter.com/code/typecheck/">typecheck</a>. If you find that <span class="brand">PyContracts</span> is not <em>enough</em> for you, you probably want to be
+using <a class="reference external" href="http://www.haskell.org/">Haskell</a> instead of Python.</p>
+<p>Contracts can be specified in three ways:</p>
+<ul>
+<li><p class="first">Using annotations (for Python 3) &#8212;this is perhaps the most
+intuitive way:</p>
+<div class="highlight-python"><pre>@contracts
+def my_function(a : 'int,&gt;0', b : 'list[N],N&gt;0') -&gt; 'list[N]':
+     # Requires b to be a nonempty list, and the return
+     # value to have the same length.
+     ...</pre>
+</div>
+</li>
+<li><p class="first">Using <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags in docstrings. In this way, they will be included
+in your Sphinx documentation:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contracts</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Function description.</span>
+<span class="sd">        :type a: int,&gt;0</span>
+<span class="sd">        :type b: list[N],N&gt;0</span>
+<span class="sd">        :rtype: list[N]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Using arguments to the decorators; the least intrusive way:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contracts</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int,&gt;0&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;0&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Moreover, there are utility functions for manual checking of values:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">check</span><span class="p">(</span><span class="s">&#39;array[HxWx3](uint8),H&gt;10,W&gt;10&#39;</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>as well as hooks to extend <span class="brand">PyContracts</span> with new contracts types:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;valid_name&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">check</span><span class="p">(</span><span class="s">&#39;dict(int: (valid_name, int))&#39;</span><span class="p">,</span> <span class="n">employees</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Status:</strong> <span class="brand">PyContracts</span> is very well tested and documented, however I&#8217;m keeping
+the version to 0.9, as some slight variations of the syntax are likely to be made
+based on users feedback and suggestions.</p>
+<p><strong>Index</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="#installation"><em>Installation</em></a></li>
+<li><a class="reference internal" href="#quick-tour"><em>Quick tour</em></a></li>
+<li><a class="reference internal" href="#api"><em>PyContracts API</em></a></li>
+<li><a class="reference internal" href="#contracts-language-reference"><em>Language reference</em></a></li>
+<li><a class="reference internal" href="#api-reference"><em>PyContracts public API reference</em></a></li>
+</ul>
 <div class="section" id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>Install <span class="brand">PyContracts</span> using:</p>
 <div class="highlight-python"><pre>$ pip install contracts</pre>
 </div>
@@ -66,12 +118,12 @@ numbers&#8221; can be expressed as <tt class="docutils literal"><span class="pre
 <div class="highlight-python"><pre>$ git clone git://github.com:AndreaCensi/contracts.git
 $ cd contracts
 $ python setup.py develop
-$ python setup.py nosetests    # run the extensive test suite</pre>
+$ nosetests -w src        # run the extensive test suite</pre>
 </div>
 <p>The beautiful library <a class="reference external" href="http://pyparsing.wikispaces.com">pyparsing</a> is required.</p>
 </div>
-<div class="section" id="usage-examples">
-<h2>Usage examples<a class="headerlink" href="#usage-examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="quick-tour">
+<span id="id2"></span><h2>Quick tour<a class="headerlink" href="#quick-tour" title="Permalink to this headline">¶</a></h2>
 <p>The contracts are specified using the <tt class="docutils literal"><span class="pre">type</span></tt> clause of RST-style
 docstrings (now accepted as standard in the python libraries); or, they can be passed explicitly
 to the <tt class="docutils literal"><span class="pre">&#64;contracts</span></tt> decorator. In this example, <span class="brand">PyContracts</span> is smart enough to check that
@@ -81,7 +133,7 @@ the result value is of compatible dimensions as well.</p>
 <span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contracts</span>
 
 <span class="nd">@contracts</span>
-<span class="k">def</span> <span class="nf">matrix_multiply</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">matrix_multiply</span><span class="p">(</span><span class="n">a</span><span class="p">,</span>  <span class="n">b</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39; Multiplies two matrices together.</span>
 
 <span class="sd">        :param a: The first matrix. Must be a 2D array.</span>
@@ -99,20 +151,21 @@ the result value is of compatible dimensions as well.</p>
 that could be one-liners if you are sure of the types of
 the parameters, but doing all the checking adds to the
 complexity of the code.</p>
-<p>In the next example we check that 1) the two lists have elements
-of the same type (indicated by the variable <tt class="docutils literal"><span class="pre">x</span></tt>);
-and 2) the returned list has the correct size.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contracts</span>
-<span class="k">def</span> <span class="nf">cat</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Concatenate two lists together.</span>
-
-<span class="sd">        :type a: list[N](type(x))</span>
-<span class="sd">        :type b: list[M](type(x))</span>
-<span class="sd">        :rtype: list[M+N](type(x))</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<p>In the next example we check that:</p>
+<ul>
+<li><p class="first">The two lists have elements of the same type (indicated by the variable <tt class="docutils literal"><span class="pre">x</span></tt>);</p>
+</li>
+<li><p class="first">The returned list has the correct size (the sum of the two lengths).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contracts</span><span class="p">(</span>      <span class="n">a</span><span class="o">=</span><span class="s">&#39;list[ M ](type(x))&#39;</span><span class="p">,</span>
+                 <span class="n">b</span><span class="o">=</span><span class="s">&#39;list[ N ](type(x))&#39;</span><span class="p">,</span>
+           <span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[M+N](type(x))&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_cat_equal</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Concatenate two lists together. &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
 </pre></div>
 </div>
+</li>
+</ul>
 <p>The philosophy is to make the simple cases easy, and the difficult
 possible, while still retaining readability.</p>
 <p>For example, we can either ask for a simple list,
@@ -181,31 +234,131 @@ sizes and shapes. Moreover, <span class="brand">PyContracts</span> can do arithm
 </tr>
 </tbody>
 </table>
-<p>For the complete reference to the available contract expressions, see <a class="reference internal" href="#reference"><em>Reference for included contracts</em></a>.</p>
+<p>For the complete reference to the available contract expressions, see <a class="reference internal" href="#contracts-language-reference"><em>Language reference</em></a>.</p>
 </div>
 </div>
 <div class="section" id="pycontracts-api">
 <span id="api"></span><h1>PyContracts API<a class="headerlink" href="#pycontracts-api" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="specifying-contracts-using-decorators-and-docstrings">
-<h2>Specifying contracts using decorators and docstrings<a class="headerlink" href="#specifying-contracts-using-decorators-and-docstrings" title="Permalink to this headline">¶</a></h2>
-<p>Using quotes.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name">type couples:</th><td class="field-body"><tt class="docutils literal"><span class="pre">list[&gt;0](tuple(str,</span> <span class="pre">*))</span></tt></td>
-</tr>
-</tbody>
-</table>
-<p><span style="font-weight:bold">This section must still be written.</span></p>
+<p>This is a discussion of the <span class="brand">PyContracts</span> API.</p>
+<ul class="simple">
+<li>See <a class="reference internal" href="#module-contracts" title="contracts"><tt class="xref py py-mod docutils literal"><span class="pre">contracts</span></tt></a> for a detailed list of this module&#8217;s public interface.</li>
+<li>See <a class="reference internal" href="#contracts-language-reference"><em>Language reference</em></a> for a description of the domain specific language
+used to describe the contracts.</li>
+</ul>
+<div class="section" id="using-the-contracts-decorator">
+<h2>Using the <tt class="docutils literal"><span class="pre">&#64;contracts</span></tt> decorator.<a class="headerlink" href="#using-the-contracts-decorator" title="Permalink to this headline">¶</a></h2>
+<p>The decorator <a class="reference internal" href="#module-contracts" title="contracts"><tt class="xref py py-func docutils literal"><span class="pre">contracts()</span></tt></a> is considered the main way to
+define constraints. It is quite flexible, and it is smart enough
+to support functions with variable number of arguments and keyword arguments.</p>
+<p>There are three ways to specify the contracts. In order of precedence:</p>
+<ul class="simple">
+<li>As arguments to this decorator.</li>
+<li>As Python 3 function annotations.</li>
+<li>Using <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags in the function&#8217;s docstring.</li>
+</ul>
+<p><span class="brand">PyContracts</span> will try these options in order. Note that, in any case,
+only one of these options are chosen. For example, you cannot
+use both annotations and docstring for the same function: if annotations
+are found, the docstring is not considered.</p>
+<div class="section" id="using-decorator-arguments">
+<h3>Using decorator arguments<a class="headerlink" href="#using-decorator-arguments" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="#module-contracts" title="contracts"><tt class="xref py py-func docutils literal"><span class="pre">contracts()</span></tt></a> accepts a list of keyword arguments.
+Each keyword should correspond to one function argument, plus
+the special name <tt class="docutils literal"><span class="pre">returns</span></tt> is reserved for describing the return value.
+An example use would be:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contracts</span>
+
+<span class="nd">@contracts</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int,&gt;0&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;0&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
 </div>
-<div class="section" id="specifying-contracts-using-decorators-with-explicit-contracts">
-<h2>Specifying contracts using decorators with explicit contracts.<a class="headerlink" href="#specifying-contracts-using-decorators-with-explicit-contracts" title="Permalink to this headline">¶</a></h2>
-<p><span style="font-weight:bold">This section must still be written.</span></p>
+<p>The values can be either:</p>
+<ul>
+<li><p class="first">Strings using <span class="brand">PyContracts</span>&#8216; DSL language (see <a class="reference internal" href="#contracts-language-reference"><em>Language reference</em></a>)</p>
+</li>
+<li><p class="first">Python types &#8212; in this case <span class="brand">PyContracts</span> will do a simple <a class="reference external" href="http://docs.python.org/library/functions.html#isinstance" title="(in Python v2.7)"><tt class="xref py py-func docutils literal"><span class="pre">isinstance()</span></tt></a> check.
+This is slightly more clear if the contract is simple:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contracts</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</pre></div>
 </div>
-<div class="section" id="decorate-a-function-explicitly">
-<h2>Decorate a function explicitly<a class="headerlink" href="#decorate-a-function-explicitly" title="Permalink to this headline">¶</a></h2>
-<p><span style="font-weight:bold">This section must still be written.</span></p>
+</li>
+</ul>
+</div>
+<div class="section" id="using-python-annotations">
+<h3>Using Python annotations<a class="headerlink" href="#using-python-annotations" title="Permalink to this headline">¶</a></h3>
+<p>The same rules apply. In this case the syntax would look like this:</p>
+<div class="highlight-python"><pre>from contracts import contracts
+
+@contracts
+def my_function(a:'int,&gt;0', b:'list[N],N&gt;0') -&gt; 'list[N]':
+    ...</pre>
+</div>
+</div>
+<div class="section" id="using-functions-docstrings">
+<h3>Using functions docstrings<a class="headerlink" href="#using-functions-docstrings" title="Permalink to this headline">¶</a></h3>
+<p>The Python standard library seems to have standardized on the <tt class="docutils literal"><span class="pre">:param:</span></tt>, <tt class="docutils literal"><span class="pre">:type:</span></tt>,
+<tt class="docutils literal"><span class="pre">:return:</span></tt>, <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags to document functions, and tools like Sphinx
+can interpret those tags to produce pretty documentation.</p>
+<p><span class="brand">PyContracts</span> can read contracts declared using the <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags.
+In this way, your function becomes automatically more robust and better documented.</p>
+<p>Here is an example use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contracts</span>
+
+<span class="nd">@contracts</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot; Function description.</span>
+
+<span class="sd">      :param a: first number</span>
+<span class="sd">      :type a: int,&gt;0</span>
+<span class="sd">      :param b: description of b</span>
+<span class="sd">      :type b: list[N],N&gt;0</span>
+
+<span class="sd">      :return: a list</span>
+<span class="sd">      :rtype: list[N]               &quot;&quot;&quot;</span>
+  <span class="o">...</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>By convention, those annotations must be parsable as
+reStructuredText.
+If the contract string has special RST characters in it, like <tt class="docutils literal"><span class="pre">*</span></tt>,
+you can include it in double ticks. <span class="brand">PyContracts</span> will remove
+the double ticks before interpreting the string.</p>
+<p>For example, the two annotations in this docstring are equivalent
+for <span class="brand">PyContracts</span>, but the latter is better for Sphinx:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot; My function</span>
+
+<span class="sd">    :param a: First parameter</span>
+<span class="sd">    :type a: list(tuple(str,*))</span>
+
+<span class="sd">    :param b: First parameter</span>
+<span class="sd">    :type b: ``list(tuple(str,*))``</span>
+<span class="sd">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="decorating-a-function-explicitly">
+<h3>Decorating a function explicitly<a class="headerlink" href="#decorating-a-function-explicitly" title="Permalink to this headline">¶</a></h3>
+<p>The public interface of <span class="brand">PyContracts</span> contains a function <a class="reference internal" href="#contracts.decorate" title="contracts.decorate"><tt class="xref py py-func docutils literal"><span class="pre">decorate()</span></tt></a>
+that can be used to decorate functions after they are defined.
+For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">decorate</span>
+
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">a</span>
+
+<span class="n">f2</span> <span class="o">=</span> <span class="n">decorate</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;1&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N-1]&#39;</span><span class="p">)</span>
+
+<span class="n">f2</span><span class="p">([])</span> <span class="c"># raises exception before pop() is executed</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="manual-api">
 <h2>Manual API<a class="headerlink" href="#manual-api" title="Permalink to this headline">¶</a></h2>
@@ -215,7 +368,7 @@ an interface for checking expressions explicitly.</p>
 that some value respect a given contract.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">check</span>
 
-<span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple(int,int)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="p">)</span>
+<span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple(int,int)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="p">)</span>
 </pre></div>
 </div>
 <p><a class="reference internal" href="#contracts.check" title="contracts.check"><tt class="xref py py-func docutils literal"><span class="pre">check()</span></tt></a> might raise:</p>
@@ -267,7 +420,7 @@ then checks that <tt class="docutils literal"><span class="pre">list[N]</span></
 </div>
 <p><span class="brand">PyContracts</span> tries hard to give you a readable message even with complicated contracts.
 For example, consider the complicated expression:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">check</span><span class="p">(</span><span class="s">&#39;int|str|tuple(str,int)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">check</span><span class="p">(</span><span class="s">&#39;int|str|tuple(str,int)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Because there is an OR (<tt class="docutils literal"><span class="pre">|</span></tt>), <span class="brand">PyContracts</span> will have to explain to you why
@@ -398,23 +551,17 @@ and then reuse that definition. For example:</p>
     <span class="sd">&quot;&quot;&quot; Fill the area inside the current figure.</span>
 
 <span class="sd">        :type border: color</span>
-<span class="sd">        :type inside: color</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span>
+<span class="sd">        :type inside: color              &quot;&quot;&quot;</span>
+    <span class="o">...</span>
 
 <span class="nd">@contracts</span>
 <span class="k">def</span> <span class="nf">fill_gradient</span><span class="p">(</span><span class="n">colors</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Use a gradient to fill the area.</span>
 
-<span class="sd">        :type colors: list(color)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span>
+<span class="sd">        :type colors: list[&gt;=2](color)     &quot;&quot;&quot;</span>
+    <span class="o">...</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="developer-notes">
-<h2>Developer notes<a class="headerlink" href="#developer-notes" title="Permalink to this headline">¶</a></h2>
-<p><span style="font-weight:bold">This section must still be written.</span></p>
 </div>
 <div class="section" id="using-pycontracts-in-your-own-pyparsing-based-language">
 <h2>Using PyContracts in your own PyParsing-based language<a class="headerlink" href="#using-pycontracts-in-your-own-pyparsing-based-language" title="Permalink to this headline">¶</a></h2>
@@ -429,23 +576,515 @@ to your PyParsing-based grammar:</p>
 </div>
 </div>
 </div>
+<div class="section" id="language-reference">
+<span id="contracts-language-reference"></span><h1>Language reference<a class="headerlink" href="#language-reference" title="Permalink to this headline">¶</a></h1>
+<p>This section describes <span class="brand">PyContracts</span>&#8216; language for specifying contracts.</p>
+<ul class="simple">
+<li>See <a class="reference internal" href="#quick-tour"><em>Quick tour</em></a> for a summary of the available features.</li>
+<li>See <a class="reference internal" href="#api"><em>PyContracts API</em></a> for a description of the API.</li>
+</ul>
+<div class="section" id="simple-types">
+<h2>Simple types<a class="headerlink" href="#simple-types" title="Permalink to this headline">¶</a></h2>
+<p>The simplest kind of contract consists in declaring the type
+of a value. These are the supported primitive types:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="bp">None</span>
+</pre></div>
+</div>
+<p>Moreover, there are two kinds of wild-cards:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">*</span></tt></dt>
+<dd>Matches any object.</dd>
+<dt><tt class="docutils literal"><span class="pre">#</span></tt></dt>
+<dd>Never matches anything &#8212; useful for debugging.</dd>
+</dl>
+</div>
+<div class="section" id="variables">
+<h2>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h2>
+<p><span class="brand">PyContracts</span> allows to use variables to bind to sub-expressions
+and reuse later (it is simpler than it sounds).</p>
+<p>There are two kinds of variables. The first kind is denoted
+by an uppercase letter, and it is constrained to bind to integer values.</p>
+<div class="highlight-python"><pre>A B C D E F G H I J K L M N O P Q R S T U W V X Y Z</pre>
+</div>
+<p>Lower-case letters denote general-purpose variables that can bind to any type:</p>
+<div class="highlight-python"><pre>a b c d e f g h i j k l m n o p q r s t u w v x y z</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The reason for having specialized variables for integers is
+to encourage a writing style in which uppercase letters denote
+lengths, shapes, etc. Moreover, an error will be thrown if they do not
+bind to integers, which helps in catching mistakes.</p>
+</div>
+</div>
+<div class="section" id="logical-expressions">
+<h2>Logical expressions<a class="headerlink" href="#logical-expressions" title="Permalink to this headline">¶</a></h2>
+<p>Two logical operators are supported:</p>
+<dl class="docutils">
+<dt>AND</dt>
+<dd><p class="first">Expressed with a comma (<tt class="docutils literal"><span class="pre">,</span></tt>).</p>
+<p>For example, the expression</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">check</span><span class="p">(</span><span class="s">&quot;contract1,contract2&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>is roughly equivalent to</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">check</span><span class="p">(</span><span class="s">&quot;contract1&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">and</span> <span class="n">check</span><span class="p">(</span><span class="s">&quot;contract2&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="last">except that variables in the contracts are evaluated in the same context.</p>
+</dd>
+<dt>OR</dt>
+<dd><p class="first">Expressed with a pipe symbol (<tt class="docutils literal"><span class="pre">|</span></tt>).</p>
+<p>The semantic is that the first matching expression is chosen.</p>
+<p>The expression:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">check</span><span class="p">(</span><span class="s">&quot;contract1|contract2&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>is roughly equivalent to:</p>
+<div class="last highlight-python"><pre>if value respects "contract1":
+   return True
+elif value respects "contract2":
+   return True
+else:
+   return False</pre>
+</div>
+</dd>
+</dl>
+<p>The AND has precedence over OR. For example, the expression</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="o">|</span><span class="n">c</span>
+</pre></div>
+</div>
+<p>is evaluated the same as</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">|</span> <span class="n">c</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<caption>Examples of contracts with logical operators</caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Contract expression</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">None|int</span></tt></td>
+<td>Either None or an integer.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="equality">
+<h2>Equality<a class="headerlink" href="#equality" title="Permalink to this headline">¶</a></h2>
+<p>Just saying a value will match that value</p>
+</div>
+<div class="section" id="arithmetic-and-comparison">
+<h2>Arithmetic and comparison<a class="headerlink" href="#arithmetic-and-comparison" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="lists">
+<h2>Lists<a class="headerlink" href="#lists" title="Permalink to this headline">¶</a></h2>
+<p>You can specify that the value must be a list, and
+specify optional constraints for its length and for its elements.</p>
+<p>The general syntax is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">list</span>
+<span class="nb">list</span><span class="p">[</span><span class="n">length_contract</span><span class="p">]</span>
+<span class="nb">list</span><span class="p">(</span><span class="n">elements_contract</span><span class="p">)</span>
+<span class="nb">list</span><span class="p">[</span><span class="n">length_contract</span><span class="p">](</span><span class="n">elements_contract</span><span class="p">)</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<caption>Examples of <tt class="docutils literal"><span class="pre">list</span></tt> contracts</caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Contract expression</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">list</span></tt></td>
+<td>An instance of <tt class="docutils literal"><span class="pre">list</span></tt>.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">list[2]</span></tt></td>
+<td>A list of two elements.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">list(int)</span></tt></td>
+<td>A list of integers.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">list(number)</span></tt></td>
+<td>A list of numbers.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">list[3](number)</span></tt></td>
+<td>A list of exactly three numbers.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">list[&gt;=3](number)</span></tt></td>
+<td>A list of at least three numbers.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">list[&gt;=3](number,</span> <span class="pre">&gt;0)</span></tt></td>
+<td>A list of at least three numbers, greater than 0.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">tuple(list[N],</span> <span class="pre">list[N])</span></tt></td>
+<td>A tuple of two lists of the same length.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="tuples">
+<h2>Tuples<a class="headerlink" href="#tuples" title="Permalink to this headline">¶</a></h2>
+<p>You can either specify a length (with square brackets),
+or specify a contract for each element:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">tuple</span>
+
+<span class="nb">tuple</span><span class="p">[</span><span class="n">length</span><span class="p">]</span>
+
+<span class="nb">tuple</span><span class="p">(</span><span class="n">element1</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="n">elementN</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the latter case, you are also specifying implicitly the number of elements.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The syntax for tuples is somewhat a special case.
+While <tt class="docutils literal"><span class="pre">list(int,&gt;0)</span></tt> signifies a list
+of positive integers (or empty list), <tt class="docutils literal"><span class="pre">tuple(int,</span> <span class="pre">&gt;0)</span></tt>
+means a tuple with exactly 2 elements, the first of which
+should be an integer, and the second must be positive (but not necessarily integer.)</p>
+</div>
+<table border="1" class="docutils">
+<caption>Examples of <tt class="docutils literal"><span class="pre">tuple</span></tt> contracts</caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Contract expression</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">tuple</span></tt></td>
+<td>A tuple.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">tuple[2]</span></tt></td>
+<td>A tuple with two elements.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">tuple(*,*)</span></tt></td>
+<td>A tuple with two elements.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">tuple(int)</span></tt></td>
+<td>A tuple with one integer element.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">tuple(int,</span> <span class="pre">int)</span></tt></td>
+<td>A tuple with two integer elements.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">tuple[&gt;=2]</span></tt></td>
+<td>A tuple with at least two elements.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="dictionaries">
+<h2>Dictionaries<a class="headerlink" href="#dictionaries" title="Permalink to this headline">¶</a></h2>
+<p>For dictionary, you can specify a length contract, as well as a contract
+for its keys and values:</p>
+<div class="highlight-python"><pre>dict
+
+dict[length_contract]
+
+dict(key_contract: value_contract)
+
+dict[length_contract](key_contract: value_contract)</pre>
+</div>
+<table border="1" class="docutils">
+<caption>Examples of <tt class="docutils literal"><span class="pre">dict</span></tt> contracts</caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Contract expression</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">dict</span></tt></td>
+<td>Any dictionary.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">dict[2]</span></tt></td>
+<td>A dictionary with two elements.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">dict(*:</span> <span class="pre">*)</span></tt></td>
+<td>Any dictionary.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">dict(*:</span> <span class="pre">int)</span></tt></td>
+<td>A dictionary whose values are integers.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">dict(str:</span> <span class="pre">*)</span></tt></td>
+<td>A dictionary whose keys are strings</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">dict(str:</span> <span class="pre">tuple(type(x),type(y))</span> <span class="pre">),</span> <span class="pre">x!=y</span></tt></td>
+<td>A dictionary whose keys are strings, and whose values
+are tuples with two elements, of two different types <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="numpy-arrays">
+<h2>Numpy arrays<a class="headerlink" href="#numpy-arrays" title="Permalink to this headline">¶</a></h2>
+<p>The support for Numpy arrays was one of the motivations for me to develop <span class="brand">PyContracts</span>.
+<a class="reference external" href="http://numpy.scipy.org/">Numpy</a> is one of the best and most useful Python packages around. It supports
+the <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html">ndarray</a> datatype which allows for operations with <a class="reference external" href="http://en.wikipedia.org/wiki/Tensor">tensors</a> of arbitrary dimensions.</p>
+<p>All of that is very powerful, but it might be a bit confusing, especially
+because Numpy tends to be very liberal when it gets to operations between arrays.
+For example, the operation <tt class="docutils literal"><span class="pre">A</span> <span class="pre">*</span> <span class="pre">B</span></tt>, if <tt class="docutils literal"><span class="pre">A</span></tt> is a 2D matrix, is well defined
+when <tt class="docutils literal"><span class="pre">B</span></tt> is a scalar, a vector, or a matrix. Sometimes you want to be certain
+of your assumptions, otherwise you risk of ignoring powerful bugs.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Researchers tend to be a bit paranoid, because often
+you don&#8217;t know what to expect out of your algorithms. A stupid
+bug can lead to an exciting (false) discovery!</p>
+</div>
+<p>So <span class="brand">PyContracts</span> offers several shortcuts for Numpy arrays, and
+the error messages tend to be more descriptive.</p>
+<p>The general syntax looks like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">array</span>
+
+<span class="n">array</span><span class="p">[</span><span class="n">shape_contract</span><span class="p">]</span>
+
+<span class="n">array</span><span class="p">(</span><span class="n">numpy_contract</span><span class="p">)</span>
+
+<span class="n">array</span><span class="p">[</span><span class="n">shape_contract</span><span class="p">](</span><span class="n">numpy_contract</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="shape-contracts">
+<h3>Shape contracts<a class="headerlink" href="#shape-contracts" title="Permalink to this headline">¶</a></h3>
+<p>A <em>shape contract</em> is specified using a special syntax of the kind:</p>
+<blockquote>
+<p>dimension1 x dimension2 x dimension3</p>
+<p>dimension1 x dimension2 x dimension3 x ...</p>
+</blockquote>
+<p>The ellipsis is part of the syntax and specifies that more dimensions are allowed.</p>
+<p>Each dimension can be specified as a number, with variables, or as a contract.</p>
+<table border="1" class="docutils">
+<caption>Examples of <tt class="docutils literal"><span class="pre">array</span></tt> shape contracts</caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Contract expression</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">array</span></tt></td>
+<td>Any array.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">array[3]</span></tt></td>
+<td>A 1D array with 3 elements (<tt class="docutils literal"><span class="pre">shape=(3,)</span></tt>).</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">array[3x2]</span></tt></td>
+<td>A 2D array with 3 rows and 2 columns (<tt class="docutils literal"><span class="pre">shape=(3,2)</span></tt>).</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">array[3</span> <span class="pre">x</span> <span class="pre">...]</span></tt></td>
+<td>A nD array with 3 rows and arbitrary other dimensions.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">array[3xN],</span> <span class="pre">N&gt;=2</span></tt></td>
+<td>A 2D array with 3 rows and at least 2 columns.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">array[NxN],</span> <span class="pre">N&gt;0</span></tt></td>
+<td>A square matrix.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">array[NxNx...],</span> <span class="pre">N&gt;0</span></tt></td>
+<td>A tensor with the first two dimensions of equal size.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">list(array[NxN]),</span> <span class="pre">N&gt;0</span></tt></td>
+<td>A list of square matrices of the same size.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="numpy-specific-contracts">
+<h3>Numpy-specific contracts<a class="headerlink" href="#numpy-specific-contracts" title="Permalink to this headline">¶</a></h3>
+<p>A <em>numpy contract</em> is special and implemented separately
+from the other <span class="brand">PyContracts</span> contract.
+Right now, we support:</p>
+<dl class="docutils">
+<dt>Datatype contracts</dt>
+<dd><p class="first">These specify the datatype of the array. Available:</p>
+<div class="last highlight-python"><pre>uint8 uint16 uint32 uint64
+ int8  int16  int32  int64
+ float32 float64</pre>
+</div>
+</dd>
+<dt>Arithmetic comparisons</dt>
+<dd><p class="first">These have the semantics that <strong>all</strong> elements must satisfy the contract.
+They appear similar to the normal <span class="brand">PyContracts</span> comparison:</p>
+<div class="last highlight-python"><pre>&gt;0   &lt;0   &lt;=1   =0</pre>
+</div>
+</dd>
+</dl>
+<table border="1" class="docutils">
+<caption>Examples of <tt class="docutils literal"><span class="pre">array</span></tt> elements contracts</caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Contract expression</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">array</span></tt></td>
+<td>Any array.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">array(&gt;=0)</span></tt></td>
+<td>An array with nonnegative elements.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">array(int8,&gt;=0)</span></tt></td>
+<td>An array with nonnegative integer elements.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">array[NxN](float,&gt;=0,&lt;=1)</span></tt></td>
+<td>A square matrix with float elements in the interval [0,1].</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">array[NxN](uint8,(=0</span> <span class="pre">|</span> <span class="pre">=1))</span></tt></td>
+<td>A square matrix with unsigned elements that can be either 0 or 1.
+(this might represent a binary relation.)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="other-examples">
+<h3>Other examples<a class="headerlink" href="#other-examples" title="Permalink to this headline">¶</a></h3>
+<p>Here is an example that first uses <a class="reference internal" href="#contracts.new_contract" title="contracts.new_contract"><tt class="xref py py-func docutils literal"><span class="pre">new_contract()</span></tt></a> to specify
+a domain-specific array type (<tt class="docutils literal"><span class="pre">rgb</span></tt>, <tt class="docutils literal"><span class="pre">rgba</span></tt>), then uses <span class="brand">PyContracts</span>
+to be sure that the two given images and the result values have coherent dimensions.
+Notice how the contracts serve very well as documentation.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contracts</span><span class="p">,</span> <span class="n">new_contract</span>
+
+<span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;rgb&#39;</span><span class="p">,</span>  <span class="s">&#39;array[HxWx3](uint8),H&gt;0,W&gt;0&#39;</span><span class="p">)</span>
+<span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;rgba&#39;</span><span class="p">,</span> <span class="s">&#39;array[HxWx4](uint8),H&gt;0,W&gt;0&#39;</span><span class="p">)</span>
+
+<span class="nd">@contracts</span>
+<span class="k">def</span> <span class="nf">blend_images</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">image2</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">         Blends two images together.</span>
+
+<span class="sd">         :param image1: The first image to blend.</span>
+<span class="sd">         :type image1: rgb,shape(HxWx*)</span>
+
+<span class="sd">         :param image2: The second image to blend. Can have an alpha layer.</span>
+<span class="sd">         :type image2: (rgb|rgba),shape(HxWx*)</span>
+
+<span class="sd">         :return: The blended image.</span>
+<span class="sd">         :rtype: rgb,shape(HxWx3)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>If you want to have a function that accepts a list of images, you would write:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contracts</span>
+<span class="k">def</span> <span class="nf">blend_images</span><span class="p">(</span><span class="n">images</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">         Blends a series of images together.</span>
+
+<span class="sd">         :type images: list[N](rgb,shape(HxWx*)), N&gt;=2</span>
+
+<span class="sd">         :rtype: rgb,shape(HxWx3)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="advanced-topic-the-context-isolate-operator">
+<h2>Advanced topic: the context isolate operator<a class="headerlink" href="#advanced-topic-the-context-isolate-operator" title="Permalink to this headline">¶</a></h2>
+<p><span class="brand">PyContracts</span> has a special construct <tt class="docutils literal"><span class="pre">$(...)</span></tt> used to separate the context
+of variables. The semantics is that the variables assigned inside <tt class="docutils literal"><span class="pre">$(...)</span></tt>
+are not propagated outside.</p>
+<table border="1" class="docutils">
+<caption>Examples of <tt class="docutils literal"><span class="pre">$()</span></tt> contracts</caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Contract expression</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">list(tuple(type(x),type(y)),x!=y)</span></tt></td>
+<td>A list whose elements
+are tuples with two elements, of two different types <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt>
+(<tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> are common among the list elements ).</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">list(</span> <span class="pre">$(</span> <span class="pre">tuple(type(x),type(y)),x!=y)</span> <span class="pre">)</span></tt></td>
+<td>A list whose elements
+are tuples with two elements, of two different types <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt>.
+(<tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> are not joined among the list elements ).</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="section" id="pycontracts-public-api-reference">
-<h1>PyContracts public API reference<a class="headerlink" href="#pycontracts-public-api-reference" title="Permalink to this headline">¶</a></h1>
-<p><span style="font-weight:bold">This section must still be written.</span></p>
-<p>TODO: add link to pydoctor output</p>
+<span id="api-reference"></span><h1>PyContracts public API reference<a class="headerlink" href="#pycontracts-public-api-reference" title="Permalink to this headline">¶</a></h1>
+<p>This section provides a reference to <span class="brand">PyContracts</span>&#8216; public interface.</p>
+<ul class="simple">
+<li>See <a class="reference internal" href="#api"><em>PyContracts API</em></a> for a more friendly discussion.</li>
+<li>See <a class="reference internal" href="#contracts-language-reference"><em>Language reference</em></a> for a reference on the domain-specific language.</li>
+</ul>
 <span class="target" id="module-contracts"></span><div class="section" id="decorating-a-function">
 <h2>Decorating a function<a class="headerlink" href="#decorating-a-function" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="contracts.contracts">
-<tt class="descclassname">contracts.</tt><tt class="descname">contracts</tt><big>(</big><em>accepts=None</em>, <em>returns=None</em><big>)</big><a class="headerlink" href="#contracts.contracts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Decorator for adding contracts check of arguments and return values.</p>
+<tt class="descclassname">contracts.</tt><tt class="descname">contracts</tt><big>(</big><em>*arg</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#contracts.contracts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator for adding contracts to functions.</p>
 <p>It is smart enough to support functions with variable number of arguments
 and keyword arguments.</p>
+<p>There are three ways to specify the contracts. In order of precedence:</p>
 <ul>
-<li><p class="first">If neither <tt class="docutils literal"><span class="pre">accepts</span></tt> or <tt class="docutils literal"><span class="pre">returns</span></tt> is passed, the contracts
-are read from the function&#8217;s docstring, using the <tt class="docutils literal"><span class="pre">rtype</span></tt> and 
-<tt class="docutils literal"><span class="pre">:type:</span></tt> tags.</p>
-<p>Note that, by convention, those annotations must be parseable as
+<li><p class="first">As arguments to this decorator. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contracts</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int,&gt;0&#39;</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;0&#39;</span><span class="p">,</span><span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="c"># ...</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">As annotations (supported only in Python 3):</p>
+<div class="highlight-python"><pre>@contracts
+def my_function(a:'int,&gt;0', b:'list[N],N&gt;0') -&gt; 'list[N]': 
+    # ...
+    pass</pre>
+</div>
+</li>
+<li><p class="first">Using <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags in the function&#8217;s docstring:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contracts</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span> 
+    <span class="sd">&quot;&quot;&quot; Function description.</span>
+<span class="sd">        :type a: int,&gt;0</span>
+<span class="sd">        :type b: list[N],N&gt;0</span>
+<span class="sd">        :rtype: list[N]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<blockquote>
+<p><strong>Contracts evaluation</strong>: Note that all contracts for the arguments and the return values
+are evaluated in the same context. This make it possible to use
+common variables in the contract expression. For example, in the example
+above, the return value is constrained to be a list of the same 
+length (<tt class="docutils literal"><span class="pre">N</span></tt>) as the parameter <tt class="docutils literal"><span class="pre">b</span></tt>.</p>
+<p><strong>Using docstrings</strong> Note that, by convention, those annotations must be parseable as
 RestructuredText. This is relevant if you are using Sphinx.
 If the contract string has special RST characters in it, like <tt class="docutils literal"><span class="pre">*</span></tt>,
 you can include it in double ticks. <span class="brand">PyContracts</span> will remove
@@ -462,15 +1101,7 @@ for <span class="brand">PyContracts</span>, but the latter is better for Sphinx:
 <span class="sd">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
-</li>
-<li><p class="first">If <tt class="docutils literal"><span class="pre">accepts</span></tt> is passed, it must be a list of strings specifying
-the contracts for the argument (in order).</p>
-</li>
-<li><p class="first">If <tt class="docutils literal"><span class="pre">returns</span></tt> is passed, it must be a string, indicating the
-contract for the return value. It is evaluated in the same context
-as the contracts in <tt class="docutils literal"><span class="pre">accepts</span></tt>.</p>
-</li>
-</ul>
+</blockquote>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -485,7 +1116,7 @@ as the contracts in <tt class="docutils literal"><span class="pre">accepts</span
 
 <dl class="function">
 <dt id="contracts.decorate">
-<tt class="descclassname">contracts.</tt><tt class="descname">decorate</tt><big>(</big><em>function</em>, <em>accepts=None</em>, <em>returns=None</em><big>)</big><a class="headerlink" href="#contracts.decorate" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">contracts.</tt><tt class="descname">decorate</tt><big>(</big><em>function</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#contracts.decorate" title="Permalink to this definition">¶</a></dt>
 <dd><p>An explicit way to decorate a given function.
 The decorator <a class="reference internal" href="#contracts.decorate" title="contracts.decorate"><tt class="xref py py-func docutils literal"><span class="pre">decorate()</span></tt></a> calls this function internally.</p>
 </dd></dl>
@@ -674,6 +1305,9 @@ future it will be something more.</p>
 
 </dd></dl>
 
+</div>
+<div class="section" id="miscellaneous">
+<h2>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h2>
 <dl class="data">
 <dt id="contracts.contract_expression">
 <tt class="descclassname">contracts.</tt><tt class="descname">contract_expression</tt><a class="headerlink" href="#contracts.contract_expression" title="Permalink to this definition">¶</a></dt>
@@ -681,61 +1315,6 @@ future it will be something more.</p>
 contracts expression in your own PyParsing grammar.</p>
 </dd></dl>
 
-</div>
-</div>
-<div class="section" id="reference-for-included-contracts">
-<span id="reference"></span><h1>Reference for included contracts<a class="headerlink" href="#reference-for-included-contracts" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="simple-types">
-<h2>Simple types<a class="headerlink" href="#simple-types" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<p>dict, list, tuple, float, int, number, array, bool</p>
-<ul class="simple">
-<li></li>
-</ul>
-</blockquote>
-</div>
-<div class="section" id="equality">
-<h2>Equality<a class="headerlink" href="#equality" title="Permalink to this headline">¶</a></h2>
-<p>Just saying a value will match that value</p>
-</div>
-<div class="section" id="variables">
-<h2>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h2>
-<p>Integer variables:</p>
-<div class="highlight-python"><pre>A B C D E F G H I J K L M N O P Q R S T U W V X Y Z</pre>
-</div>
-<p>General-purpose variables:</p>
-<div class="highlight-python"><pre>a b c d e f g h i j k l m n o p q r s t u w v x y z</pre>
-</div>
-</div>
-<div class="section" id="arithmetic-and-comparison">
-<h2>Arithmetic and comparison<a class="headerlink" href="#arithmetic-and-comparison" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="lists">
-<h2>Lists<a class="headerlink" href="#lists" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="tuples">
-<h2>Tuples<a class="headerlink" href="#tuples" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="dictionaries">
-<h2>Dictionaries<a class="headerlink" href="#dictionaries" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="numpy-arrays">
-<h2>Numpy arrays<a class="headerlink" href="#numpy-arrays" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="advanced-features">
-<h2>Advanced features<a class="headerlink" href="#advanced-features" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="context-isolate">
-<h3>Context isolate<a class="headerlink" href="#context-isolate" title="Permalink to this headline">¶</a></h3>
-<p><span style="font-weight:bold">This section must still be written.</span></p>
-</div>
-<div class="section" id="binding-non-binding">
-<h3>Binding/non binding<a class="headerlink" href="#binding-non-binding" title="Permalink to this headline">¶</a></h3>
-<p><span style="font-weight:bold">This section must still be written.</span></p>
-</div>
-<div class="section" id="other-aliases">
-<h3>Other aliases<a class="headerlink" href="#other-aliases" title="Permalink to this headline">¶</a></h3>
-<p>rgb, rgba</p>
-</div>
 </div>
 </div>
 
@@ -749,13 +1328,17 @@ contracts expression in your own PyParsing grammar.</p>
   <ul>
 <li><a class="reference internal" href="#">PyContracts</a><ul>
 <li><a class="reference internal" href="#installation">Installation</a></li>
-<li><a class="reference internal" href="#usage-examples">Usage examples</a></li>
+<li><a class="reference internal" href="#quick-tour">Quick tour</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#pycontracts-api">PyContracts API</a><ul>
-<li><a class="reference internal" href="#specifying-contracts-using-decorators-and-docstrings">Specifying contracts using decorators and docstrings</a></li>
-<li><a class="reference internal" href="#specifying-contracts-using-decorators-with-explicit-contracts">Specifying contracts using decorators with explicit contracts.</a></li>
-<li><a class="reference internal" href="#decorate-a-function-explicitly">Decorate a function explicitly</a></li>
+<li><a class="reference internal" href="#using-the-contracts-decorator">Using the <tt class="docutils literal"><span class="pre">&#64;contracts</span></tt> decorator.</a><ul>
+<li><a class="reference internal" href="#using-decorator-arguments">Using decorator arguments</a></li>
+<li><a class="reference internal" href="#using-python-annotations">Using Python annotations</a></li>
+<li><a class="reference internal" href="#using-functions-docstrings">Using functions docstrings</a></li>
+<li><a class="reference internal" href="#decorating-a-function-explicitly">Decorating a function explicitly</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#manual-api">Manual API</a><ul>
 <li><a class="reference internal" href="#interpreting-error-messages">Interpreting error messages</a></li>
 <li><a class="reference internal" href="#explicit-parsing-and-checking">Explicit parsing and checking</a></li>
@@ -765,31 +1348,32 @@ contracts expression in your own PyParsing grammar.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#extending-pycontracts-with-new-contracts">Extending <span class="brand">PyContracts</span> with new contracts</a></li>
-<li><a class="reference internal" href="#developer-notes">Developer notes</a></li>
 <li><a class="reference internal" href="#using-pycontracts-in-your-own-pyparsing-based-language">Using PyContracts in your own PyParsing-based language</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#language-reference">Language reference</a><ul>
+<li><a class="reference internal" href="#simple-types">Simple types</a></li>
+<li><a class="reference internal" href="#variables">Variables</a></li>
+<li><a class="reference internal" href="#logical-expressions">Logical expressions</a></li>
+<li><a class="reference internal" href="#equality">Equality</a></li>
+<li><a class="reference internal" href="#arithmetic-and-comparison">Arithmetic and comparison</a></li>
+<li><a class="reference internal" href="#lists">Lists</a></li>
+<li><a class="reference internal" href="#tuples">Tuples</a></li>
+<li><a class="reference internal" href="#dictionaries">Dictionaries</a></li>
+<li><a class="reference internal" href="#numpy-arrays">Numpy arrays</a><ul>
+<li><a class="reference internal" href="#shape-contracts">Shape contracts</a></li>
+<li><a class="reference internal" href="#numpy-specific-contracts">Numpy-specific contracts</a></li>
+<li><a class="reference internal" href="#other-examples">Other examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#advanced-topic-the-context-isolate-operator">Advanced topic: the context isolate operator</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#pycontracts-public-api-reference">PyContracts public API reference</a><ul>
 <li><a class="reference internal" href="#decorating-a-function">Decorating a function</a></li>
 <li><a class="reference internal" href="#exceptions">Exceptions</a></li>
 <li><a class="reference internal" href="#manually-checking-values">Manually checking values</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#reference-for-included-contracts">Reference for included contracts</a><ul>
-<li><a class="reference internal" href="#simple-types">Simple types</a></li>
-<li><a class="reference internal" href="#equality">Equality</a></li>
-<li><a class="reference internal" href="#variables">Variables</a></li>
-<li><a class="reference internal" href="#arithmetic-and-comparison">Arithmetic and comparison</a></li>
-<li><a class="reference internal" href="#lists">Lists</a></li>
-<li><a class="reference internal" href="#tuples">Tuples</a></li>
-<li><a class="reference internal" href="#dictionaries">Dictionaries</a></li>
-<li><a class="reference internal" href="#numpy-arrays">Numpy arrays</a></li>
-<li><a class="reference internal" href="#advanced-features">Advanced features</a><ul>
-<li><a class="reference internal" href="#context-isolate">Context isolate</a></li>
-<li><a class="reference internal" href="#binding-non-binding">Binding/non binding</a></li>
-<li><a class="reference internal" href="#other-aliases">Other aliases</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#miscellaneous">Miscellaneous</a></li>
 </ul>
 </li>
 </ul>
