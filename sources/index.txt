@@ -76,6 +76,11 @@ based on users feedback and suggestions.
 - :ref:`contracts_language_reference`
 - :ref:`api_reference`
 
+Support use the GitHub issue_tracker_ or email me_.
+
+.. _issue_tracker: http://github.com/AndreaCensi/contracts/issues
+
+.. _me: http://www.cds.caltech.edu/~andrea/
 
 .. _installation:
 
@@ -84,7 +89,7 @@ Installation
 
 Install |pycontracts| using: ::
 
-    $ pip install contracts
+    $ pip install PyContracts
     
 or from GitHub: ::
 
