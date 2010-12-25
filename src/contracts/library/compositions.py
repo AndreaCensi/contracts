@@ -1,5 +1,9 @@
 from ..syntax import simple_contract, W, operatorPrecedence, opAssoc
 from ..interface import Contract, ContractNotRespected, add_prefix
+from contracts.pyparsing_utils import myOperatorPrecedence
+from contracts.library.suggester import create_suggester
+from contracts.syntax import ParsingTmp
+from contracts.library.extensions import Extension
 
 class Logical(object):
     def __init__(self, glyph, precedence):
@@ -19,7 +23,8 @@ class Logical(object):
 
 class OR(Logical, Contract):
     def __init__(self, clauses, where=None):
-        assert isinstance(clauses, list) and len(clauses) >= 2
+        assert isinstance(clauses, list) 
+        assert len(clauses) >= 2
         Contract.__init__(self, where)
         Logical.__init__(self, '|', 1)
         self.clauses = clauses
@@ -66,7 +71,8 @@ class OR(Logical, Contract):
 
 class And(Logical, Contract):
     def __init__(self, clauses, where=None):
-        assert isinstance(clauses, list) and len(clauses) >= 2
+        assert isinstance(clauses, list) 
+        assert len(clauses) >= 2, clauses
         Contract.__init__(self, where)
         Logical.__init__(self, ',', 2)
         self.clauses = clauses
@@ -92,11 +98,19 @@ class And(Logical, Contract):
         return And(clauses, where=where)
 
 
-composite_contract = operatorPrecedence(simple_contract, [
+suggester = create_suggester(get_options=lambda: ParsingTmp.keywords + 
+                             list(Extension.registrar.keys()))
+baseExpr = simple_contract | suggester
+baseExpr.setName('Simple contract (recovering)')
+
+composite_contract = myOperatorPrecedence(baseExpr, [
                          (',', 2, opAssoc.LEFT, And.parse_action),
                          ('|', 2, opAssoc.LEFT, OR.parse_action),
                     ])
-or_contract = operatorPrecedence(simple_contract, [
+composite_contract.setName('OR/AND contract')
+
+or_contract = myOperatorPrecedence(baseExpr, [
                          ('|', 2, opAssoc.LEFT, OR.parse_action),
                     ])
- 
+or_contract.setName('OR contract')
+

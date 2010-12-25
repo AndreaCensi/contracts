@@ -1,8 +1,10 @@
-from .separate_context import SeparateContext
-from . import separate_context_test
+from .suggester import create_suggester
 
 from .dummy import Any, Never
 from . import dummy_test
+
+from .separate_context import SeparateContext
+from . import separate_context_test
 
 from .types_misc import Type, CheckType, Number
 from . import types_test

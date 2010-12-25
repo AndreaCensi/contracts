@@ -1,6 +1,7 @@
 from ..interface import Contract, ContractNotRespected, describe_value
 from ..syntax import (Combine, Word, W, alphas, alphanums, oneOf,
-                      ParseFatalException)
+                      ParseException)
+ 
 
 class Extension(Contract):
     
@@ -24,33 +25,29 @@ class Extension(Contract):
     def parse_action(s, loc, tokens):
         identifier = tokens[0]
         
-        where = W(s, loc)
-        
         if not identifier in Extension.registrar:
-            msg = 'Invalid expression identifier %r.\n' % identifier
-            msg += 'I know: %r.\n' % (list(Extension.registrar.keys()))
-            msg += str(where)
-            # print msg
-            raise ParseFatalException(msg)
+            raise ParseException('Not matching %r' % identifier)
         
+        where = W(s, loc)
         return Extension(identifier, where)
-
 
 class CheckCallable(Contract):
     def __init__(self, callable):
         self.callable = callable
         
     def check_contract(self, context, value):
+        allowed = (ValueError, AssertionError)
         try:
             result = self.callable(value)
-        except ValueError as e: # failed
+        except allowed as e: # failed
             raise ContractNotRespected(self, str(e), value, context)
             
         if result in [None, True]: 
             # passed
             pass
         elif result == False:
-            msg = 'Value does not pass criteria of %r.' % self.callable
+            msg = ('Value does not pass criteria of %s() (module: %s).' % 
+                   (self.callable.__name__, self.callable.__module__))
             raise ContractNotRespected(self, msg, value, context)
         else:
             msg = ('I expect that %r returns either True, False, None; or '
@@ -66,7 +63,7 @@ class CheckCallable(Contract):
     def __str__(self):
         ''' Note: this contract is not representable, but anyway it is only used
             by Extension, which serializes using the identifier. '''
-        return '@check_callable(%s)' % self.callable
+        return 'function %s()' % self.callable.__name__
     
 
 #lowercase = alphas.lower()

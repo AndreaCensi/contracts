@@ -14,12 +14,13 @@ short = ('PyContracts is a Python package that allows to declare '
          ' arithmetic constraints, and has several specialized '
          ' contracts (notably for Numpy arrays), as well as an extension API.') 
     
+version = "0.9"
 setup(name='PyContracts',
       author="Andrea Censi",
       author_email="andrea@cds.caltech.edu",
       url='http://andreacensi.github.com/contracts/',
-
-      description = short,
+      
+      description=short,
       
       classifiers=[
         'Development Status :: 4 - Beta',
@@ -30,11 +31,13 @@ setup(name='PyContracts',
         'Topic :: Software Development :: Testing'
       ],
       
-      long_description = read('README.rst'),
-      keywords = "type checking, value checking, contracts",
-      license = "LGPL",
+      long_description=read('README.rst'),
+      keywords="type checking, value checking, contracts",
+      license="LGPL",
 
-	  version="0.9",
+	  version=version,
+      download_url='http://github.com/AndreaCensi/contracts/tarball/%s' % version,
+      
       package_dir={'':'src'},
       packages=['contracts'],
       install_requires=['pyparsing'],

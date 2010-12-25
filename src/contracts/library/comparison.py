@@ -86,14 +86,22 @@ class CheckOrder(Contract):
     @staticmethod
     def parse_action(s, loc, tokens):
         expr1 = tokens.get('expr1', None)
-        glyph = tokens['glyph']
+#        glyph = tokens['glyph']
+        glyph = "".join(tokens['glyph'])
         expr2 = tokens['expr2']
         where = W(s, loc)
         return CheckOrder(expr1, glyph, expr2, where=where)
  
 
 for glyph in CheckOrder.conditions:
-    expr = O(rvalue('expr1')) + Literal(glyph)('glyph') + rvalue('expr2')
+    if glyph == '!=':
+        # special case: ! must be followed by =
+        glyph_expression = Literal('!') - Literal('=')
+        glyph_expression.setName('!=')
+    else:
+        glyph_expression = Literal(glyph)
+    
+    expr = O(rvalue('expr1')) + glyph_expression('glyph') - rvalue('expr2')
     expr.setParseAction(CheckOrder.parse_action)
     add_contract(expr)
 

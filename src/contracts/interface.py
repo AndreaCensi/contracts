@@ -1,5 +1,5 @@
 from copy import deepcopy
-from pyparsing import lineno, col
+from .syntax import lineno, col
 
 class Where(object):
     ''' An object of this class represents a place in a file. 
@@ -195,8 +195,7 @@ class Contract(object):
             msg += '-    value: %s\n' % describe_value(value)
             msg += '- contract: %s\n' % self
             msg += '-  context: %r' % context
-            raise ValueError('I did not expect that %s would be')
-        
+            raise ValueError(msg)
         
     def check_contract(self, context, value): #@UnusedVariable
         ''' 

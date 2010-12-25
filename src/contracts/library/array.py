@@ -4,8 +4,11 @@ from numpy  import ndarray, dtype #@UnusedImport
 from ..interface import Contract, ContractNotRespected, RValue
 from ..syntax import (add_contract, W, contract, O, S, rvalue,
                        simple_contract, ZeroOrMore, Literal, MatchFirst,
-                       operatorPrecedence, opAssoc)
+                        opAssoc, FollowedBy, NotAny, Keyword,
+                       add_keyword, Word)
 from .compositions import And, OR
+from .suggester import create_suggester
+from ..pyparsing_utils import myOperatorPrecedence
 
 
 class Array(Contract):
@@ -239,17 +242,25 @@ class ArrayConstraint(Contract):
     @staticmethod
     def parse_action(s, loc, tokens):
         where = W(s, loc)
-        glyph = tokens['glyph']
+        glyph = "".join(tokens['glyph'])
         rvalue = tokens['rvalue']
         return ArrayConstraint(glyph, rvalue, where)
  
 
+
+
 array_constraints = []
 for glyph in ArrayConstraint.constraints:
-    expr = Literal(glyph)('glyph') + rvalue('rvalue')
+    if glyph == '!=':
+        # special case: ! must be followed by =
+        glyph_expression = Literal('!') - Literal('=')
+        glyph_expression.setName('!=')
+    else:
+        glyph_expression = Literal(glyph)
+    
+    expr = glyph_expression('glyph') - rvalue('rvalue')
     expr.setParseAction(ArrayConstraint.parse_action)
     array_constraints.append(expr)
-
 
 supported = ("uint8 uint16 uint32 uint64 int8 int16 int32 int64 float32 float64"
              " u1 i1")
@@ -257,39 +268,51 @@ supported = ("uint8 uint16 uint32 uint64 int8 int16 int32 int64 float32 float64"
 dtype_checks = []
 for x in supported.split():
     d = numpy.dtype(x)
-    expr = Literal(x).setParseAction(DType.parse_action(d))  
+    expr = Keyword(x).setParseAction(DType.parse_action(d))  
     dtype_checks.append(expr)
- 
-ndarray_contract = MatchFirst(dtype_checks) | MatchFirst(array_constraints)
+
+ndarray_simple_contract = MatchFirst(dtype_checks + array_constraints)
+ndarray_simple_contract.setName('numpy element contract')
 
 
-ndarray_composite_contract = operatorPrecedence(ndarray_contract, [
-                         (',', 2, opAssoc.LEFT, And.parse_action),
+suggester = create_suggester(get_options=lambda:supported.split())
+baseExpr = ndarray_simple_contract | suggester
+baseExpr.setName('numpy contract (with recovery)')
+
+operatorPrecedence = myOperatorPrecedence
+ndarray_composite_contract = operatorPrecedence(baseExpr, [
+                        (',', 2, opAssoc.LEFT, And.parse_action),
                          ('|', 2, opAssoc.LEFT, OR.parse_action),
                     ])
- 
-def my_delim_list2(what, delim): 
-    return (what + ZeroOrMore(S(delim) + what))
 
+
+def my_delim_list2(what, delim): 
+    return (what + ZeroOrMore(S(delim) + FollowedBy(NotAny(ellipsis)) - what))
 ellipsis = Literal('...')
 
-inside = simple_contract ^ (S('(') + simple_contract + S(')'))
-shape_contract = (my_delim_list2(inside, S('x')) + O(S('x') + ellipsis))
-shape_contract.setParseAction(ShapeContract.parse_action)
+shape_suggester = create_suggester(get_options=lambda:['...'],
+                                   pattern=Word('.'))
 
+inside_inside = simple_contract | shape_suggester
+inside = (S('(') - inside_inside - S(')')) | inside_inside # XXX: ^ and use or_contract?
+shape_contract = my_delim_list2(inside, S('x')) + O(S('x') + ellipsis)
+shape_contract.setParseAction(ShapeContract.parse_action)
+shape_contract.setName('array shape contract')
 
 name = S('array') | S('ndarray')
-optional_shape = (S('[') + shape_contract + S(']'))('shape_contract')
-optional_elements = (S('(') + ndarray_composite_contract + S(')'))('elements_contract')
+optional_shape = (S('[') - shape_contract - S(']'))('shape_contract')
+optional_elements = (S('(') - ndarray_composite_contract - S(')'))('elements_contract')
 array_contract = name + O(optional_shape) + O(optional_elements)
-                   
 array_contract.setParseAction(Array.parse_action)
+array_contract.setName('array() contract')
 add_contract(array_contract)
+add_keyword('array')
+add_keyword('ndarray')
 
-
-optional_length = (S('[') + contract + S(']'))('length')
-optional_other = (S('(') + (contract ^ shape_contract) + S(')'))('other')
+optional_length = (S('[') - contract - S(']'))('length')
+optional_other = (S('(') - contract - S(')'))('other')
 shape = S('shape') + O(optional_length) + O(optional_other)
-                                            
+shape.setName('shape() contract')
 shape.setParseAction(Shape.parse_action)
 add_contract(shape)
+add_keyword('shape')

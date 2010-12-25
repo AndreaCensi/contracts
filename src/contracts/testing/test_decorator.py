@@ -2,6 +2,7 @@ import unittest
 
 from contracts import decorate, contracts
 from ..interface import ContractException, ContractNotRespected
+from contracts.main import parse_contract_string
 
 class DecoratorTests(unittest.TestCase):
     
@@ -88,7 +89,7 @@ class DecoratorTests(unittest.TestCase):
 
     def not_supported1(self):
         ''' Support of *args ''' 
-        def f(a, *b):
+        def f(a, *b): #@UnusedVariable
             ''' 
                 :type a: int
                 :type b: tuple(int)
@@ -240,7 +241,15 @@ class DecoratorTests(unittest.TestCase):
         
         f2 = decorate(f)
         self.assertEqual(f.__doc__, f2.__doc__)
-    
+        self.assertEqual(f.__name__, f2.__name__)
+        self.assertEqual(f.__module__, f2.__module__)
+
+        f = parse_contract_string
+        f3 = decorate(f, string='str')
+        self.assertEqual(f.__doc__, f3.__doc__)
+        self.assertEqual(f.__name__, f3.__name__)
+        self.assertEqual(f.__module__, f3.__module__)
+
 
     def test_kwargs(self):
         def f(a, b, c=7): #@UnusedVariable
