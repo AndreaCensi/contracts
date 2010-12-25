@@ -4,7 +4,7 @@ from contracts import new_contract, check
 from contracts.library.extensions import identifier_expression
 from contracts.interface import Contract
 from contracts.testing.utils import check_contracts_fail
-from contracts.main import contracts
+from contracts.main import contracts, fail
 
 # The different patterns
 
@@ -54,7 +54,7 @@ class TestNewContract(unittest.TestCase):
     
     def test_valid_identifiers(self):
         examples = ['aa', 'a_', 'a2', 'a_2', 'list2', 'dict2', 'int2',
-                    'float2', 'A2', 'array2']
+                    'float2', 'A2', 'array2', 'unit_length']
         
         def check_valid_identifier(e):
             c = identifier_expression.parseString(e, parseAll=True)
@@ -179,3 +179,27 @@ class TestNewContract(unittest.TestCase):
                 :type colors: list(color)
             """
             pass
+
+    def test_as_decorator(self):
+        @new_contract
+        def even(x):
+            return x % 2 == 0
+        from contracts import parse
+        p = parse('even')
+        p.check(2)
+        p.check(4)
+        p.fail(3)
+        p.check(2.0)
+
+    def test_as_decorator_multiple(self):
+        @new_contract
+        @contracts(x='int')
+        def even2(x):
+            return x % 2 == 0
+
+        from contracts import parse
+        p = parse('even2')
+        p.check(2)
+        p.fail(3)
+        p.fail(2.0) # now fails 
+

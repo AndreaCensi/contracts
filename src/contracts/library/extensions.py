@@ -41,16 +41,18 @@ class CheckCallable(Contract):
         self.callable = callable
         
     def check_contract(self, context, value):
+        allowed = (ValueError, AssertionError)
         try:
             result = self.callable(value)
-        except ValueError as e: # failed
+        except allowed as e: # failed
             raise ContractNotRespected(self, str(e), value, context)
             
         if result in [None, True]: 
             # passed
             pass
         elif result == False:
-            msg = 'Value does not pass criteria of %r.' % self.callable
+            msg = ('Value does not pass criteria of %s() (module: %s).' % 
+                   (self.callable.__name__, self.callable.__module__))
             raise ContractNotRespected(self, msg, value, context)
         else:
             msg = ('I expect that %r returns either True, False, None; or '
@@ -66,7 +68,7 @@ class CheckCallable(Contract):
     def __str__(self):
         ''' Note: this contract is not representable, but anyway it is only used
             by Extension, which serializes using the identifier. '''
-        return '@check_callable(%s)' % self.callable
+        return 'function %s()' % self.callable.__name__
     
 
 #lowercase = alphas.lower()

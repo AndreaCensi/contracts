@@ -195,8 +195,7 @@ class Contract(object):
             msg += '-    value: %s\n' % describe_value(value)
             msg += '- contract: %s\n' % self
             msg += '-  context: %r' % context
-            raise ValueError('I did not expect that %s would be')
-        
+            raise ValueError(msg)
         
     def check_contract(self, context, value): #@UnusedVariable
         ''' 

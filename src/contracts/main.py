@@ -141,6 +141,8 @@ def contracts(*arg, **kwargs):
         def wrap(function):
             return contracts_decorate(function, **kwargs)
         return wrap
+    
+    
 
 def contracts_decorate(function, **kwargs):
     ''' An explicit way to decorate a given function.
@@ -208,7 +210,10 @@ def contracts_decorate(function, **kwargs):
         
         return result
     
+    # TODO: add rtype statements if missing
     wrapper.__doc__ = function.__doc__
+    wrapper.__name__ = function.__name__
+    wrapper.__module__ = function.__module__
     
     return wrapper
 
@@ -300,6 +305,25 @@ def check(contract, object, desc=None):
         if desc is not None:
             e.error = '%s\nDetails of PyContracts error:\n%s' % (desc, e.error)
         raise
+  
+def fail(contract, value):
+    ''' Checks that the value **does not** respect this contract.
+        Raises an exception if it does. 
+       
+       :raise: ValueError 
+    '''    
+    try:
+        c = parse_contract_string(contract)
+        context = c.check(value)
+    except ContractNotRespected:
+        pass
+    else:
+        msg = 'I did not expect that this value would satisfy this contract.\n'
+        msg += '-    value: %s\n' % describe_value(value)
+        msg += '- contract: %s\n' % c
+        msg += '-  context: %r' % context
+        raise ValueError(msg)
+
 
 
 def check_multiple(couples, desc=None):
@@ -327,12 +351,19 @@ def check_multiple(couples, desc=None):
         if desc is not None:
             e.error = '%s\n\nDetails:\n%s' % (desc, e.error)
         raise    
+ 
 
-
-def new_contract(identifier, condition):
-    ''' Defines a new contract type. The second parameter can be either
-        a string or a callable function. 
+def new_contract(*args):
+    ''' Defines a new contract type. Used both as a decorator and as 
+        a function.
+    
+        **1) Use as a function.** The first parameter must be a string. 
+        The second parameter can be either
+        a string or a callable function.  ::
         
+            new_contract('new_contract_name', 'list[N]') 
+            new_contract('new_contract_name', lambda x: isinstance(x, list) )
+            
         - If it is a string, it is interpreted as contract expression; 
           the given identifier will become an alias
           for that expression. 
@@ -341,9 +372,20 @@ def new_contract(identifier, condition):
           
           * return True or None, to signify it accepts.
           
-          * return False or raise ValueError, to signify it doesn't.
+          * return False or raise ValueError or AssertionError, 
+            to signify it doesn't.
           
           If ValueError is raised, its message is used in the error.
+
+        **2) Use as a decorator.**
+
+        Or, it can be used as a decorator (without arguments).
+        The function name is used as the identifier.
+        
+            @new_contract
+            def new_contract_name():
+                return isinstance(x, list)
+        
           
         This function returns a :py:class:`Contract` object. It might be
         useful to check right away if the declaration is what you meant,
@@ -359,7 +401,15 @@ def new_contract(identifier, condition):
         :return: The equivalent contract -- might be useful for debugging.
         :rtype: Contract
     '''
+    if args and len(args) == 1 and isinstance(args[0], types.FunctionType):
+        # We were called without parameters
+        function = args[0]
+        identifier = function.__name__
+        return new_contract_impl(identifier, function)
+    else:
+        return new_contract_impl(*args)
     
+def new_contract_impl(identifier, condition):
     # Be friendly
     if not isinstance(identifier, str):
         raise ValueError('I expect the identifier to be a string; received %s.' % 
