@@ -102,21 +102,21 @@ def contracts(*arg, **kwargs):
                   """
                   pass
                  
-         **Contracts evaluation**: Note that all contracts for the arguments and the return values
-         are evaluated in the same context. This make it possible to use
-         common variables in the contract expression. For example, in the example
-         above, the return value is constrained to be a list of the same 
-         length (``N``) as the parameter ``b``. 
+        **Contracts evaluation**: Note that all contracts for the arguments and the return values
+        are evaluated in the same context. This make it possible to use
+        common variables in the contract expression. For example, in the example
+        above, the return value is constrained to be a list of the same 
+        length (``N``) as the parameter ``b``. 
         
-         **Using docstrings** Note that, by convention, those annotations must be parseable as
-         RestructuredText. This is relevant if you are using Sphinx.
-         If the contract string has special RST characters in it, like ``*``,
-         you can include it in double ticks. |pycontracts| will remove
-         the double ticks before interpreting the string.
+        **Using docstrings** Note that, by convention, those annotations must be parseable as
+        RestructuredText. This is relevant if you are using Sphinx.
+        If the contract string has special RST characters in it, like ``*``,
+        you can include it in double ticks. |pycontracts| will remove
+        the double ticks before interpreting the string.
           
-         For example, the two annotations in this docstring are equivalent
-         for |pycontracts|, but the latter is better for Sphinx: ::
-          
+        For example, the two annotations in this docstring are equivalent
+        for |pycontracts|, but the latter is better for Sphinx: ::
+           
               """ My function 
               
                   :param a: First parameter
@@ -382,7 +382,7 @@ def new_contract(*args):
         **2) Use as a decorator.**
 
         Or, it can be used as a decorator (without arguments).
-        The function name is used as the identifier.
+        The function name is used as the identifier. ::
         
             @new_contract
             def new_contract_name():
