@@ -10,7 +10,7 @@ def find_longest_match(s, options):
 
 def longest_match(a, b):
     lengths = range(min(len(a), len(b)) + 1)
-    lengths.reverse()
+    lengths = list(reversed(lengths))
     for i in lengths:
         if a[:i] == b[:i]:
             return i
