@@ -401,13 +401,13 @@ Notice how the contracts serve very well as documentation. ::
              Blends two images together. 
     
              :param image1: The first image to blend.
-             :type image1: rgb,shape(HxWx*)
+             :type image1: rgb,array[HxWx*]
              
              :param image2: The second image to blend. Can have an alpha layer.
-             :type image2: (rgb|rgba),shape(HxWx*)
+             :type image2: (rgb|rgba),array[HxWx*]
              
              :return: The blended image.
-             :rtype: rgb,shape(HxWx3)
+             :rtype: rgb,array[HxWx3]
         '''
         ...
 
@@ -418,9 +418,9 @@ If you want to have a function that accepts a list of images, you would write: :
         '''  
              Blends a series of images together.
     
-             :type images: list[N](rgb,shape(HxWx*)), N>=2
+             :type images: list[N](rgb,array[HxWx*]), N>=2
 
-             :rtype: rgb,shape(HxWx3)
+             :rtype: rgb,array[HxWx3]
         '''
         ...
 

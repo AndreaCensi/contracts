@@ -17,14 +17,14 @@ else:
             Blends two RGB or RGBA images together. 
     
              :param image1: The first image to blend.
-             :type image1: (rgb|rgba),shape(HxWx*)
+             :type image1: (rgb|rgba),array[HxWx*]
              :param image2: The second image to blend.
-             :type image2: (rgb|rgba),shape(HxWx*)
+             :type image2: (rgb|rgba),array[HxWx*]
              :param bug: Introduce a bug to check the contracts.
              :type bug: bool
     
              :return: The blended image.
-             :rtype: rgb,shape(HxWx3)
+             :rtype: rgb,array[HxWx3]
         '''
         H, W = image1.shape[0], image1.shape[1]
 

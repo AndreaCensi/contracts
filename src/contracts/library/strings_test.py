@@ -3,6 +3,7 @@ from ..test_registrar import syntax_fail, good, fail
 
 ### Strings
 good('str', 'ciao')
+good('string', 'ciao', exact=False)
 fail('str', list('ciao')) # sequences of chars are not str
 # Can specify the length
 good('str[N]', '')
