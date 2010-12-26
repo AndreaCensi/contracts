@@ -1,6 +1,9 @@
 from ..syntax import simple_contract, W, operatorPrecedence, opAssoc
 from ..interface import Contract, ContractNotRespected, add_prefix
 from contracts.pyparsing_utils import myOperatorPrecedence
+from contracts.library.suggester import create_suggester
+from contracts.syntax import ParsingTmp
+from contracts.library.extensions import Extension
 
 class Logical(object):
     def __init__(self, glyph, precedence):
@@ -94,15 +97,19 @@ class And(Logical, Contract):
         where = W(string, location)
         return And(clauses, where=where)
 
- 
+
+suggester = create_suggester(get_options=lambda: ParsingTmp.keywords + 
+                             list(Extension.registrar.keys()))
+baseExpr = simple_contract | suggester
+baseExpr.setName('Simple contract (recovering)')
 operatorPrecedence = myOperatorPrecedence
-composite_contract = operatorPrecedence(simple_contract, [
+composite_contract = operatorPrecedence(baseExpr, [
                          (',', 2, opAssoc.LEFT, And.parse_action),
                          ('|', 2, opAssoc.LEFT, OR.parse_action),
                     ])
 composite_contract.setName('OR/AND contract')
 
-or_contract = operatorPrecedence(simple_contract, [
+or_contract = operatorPrecedence(baseExpr, [
                          ('|', 2, opAssoc.LEFT, OR.parse_action),
                     ])
 or_contract.setName('OR contract')

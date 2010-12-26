@@ -4,10 +4,10 @@ from numpy  import ndarray, dtype #@UnusedImport
 from ..interface import Contract, ContractNotRespected, RValue
 from ..syntax import (add_contract, W, contract, O, S, rvalue,
                        simple_contract, ZeroOrMore, Literal, MatchFirst,
-                       operatorPrecedence, opAssoc, FollowedBy, NotAny, Keyword)
+                       operatorPrecedence, opAssoc, FollowedBy, NotAny, Keyword,
+                       add_keyword)
 from .compositions import And, OR
-from contracts.syntax import add_keyword
-from contracts.library.suggester import create_suggester
+from .suggester import create_suggester
 
 
 class Array(Contract):
@@ -261,10 +261,10 @@ for x in supported.split():
     d = numpy.dtype(x)
     expr = Keyword(x).setParseAction(DType.parse_action(d))  
     dtype_checks.append(expr)
- 
-ndarray_simple_contract = MatchFirst(dtype_checks + array_constraints)
-ndarray_simple_contract.setName('numpy element contract')
+suggester = create_suggester(get_options=lambda:supported.split())
 
+ndarray_simple_contract = MatchFirst(dtype_checks + array_constraints + [suggester])
+ndarray_simple_contract.setName('numpy element contract')
 
 ndarray_composite_contract = operatorPrecedence(ndarray_simple_contract, [
                          (',', 2, opAssoc.LEFT, And.parse_action),
@@ -272,9 +272,7 @@ ndarray_composite_contract = operatorPrecedence(ndarray_simple_contract, [
                     ])
 
 
-suggester = create_suggester(get_options=lambda:supported.split())
-
-ndarray_contract = ndarray_composite_contract | suggester 
+#ndarray_contract = ndarray_composite_contract | suggester 
 
  
 def my_delim_list2(what, delim): 
@@ -289,7 +287,7 @@ shape_contract.setName('array shape contract')
 
 name = S('array') | S('ndarray')
 optional_shape = (S('[') - shape_contract - S(']'))('shape_contract')
-optional_elements = (S('(') - ndarray_contract - S(')'))('elements_contract')
+optional_elements = (S('(') - ndarray_composite_contract - S(')'))('elements_contract')
 array_contract = name + O(optional_shape) + O(optional_elements)
 array_contract.setParseAction(Array.parse_action)
 array_contract.setName('array() contract')
