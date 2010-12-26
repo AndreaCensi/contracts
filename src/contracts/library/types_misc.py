@@ -70,6 +70,6 @@ class Type(Contract):
 type_contract = S('type') - S('(') - contract('type_constraint') - S(')')
 
 add_contract(type_contract.setParseAction(Type.parse_action))
-
+add_keyword('type')
 
 

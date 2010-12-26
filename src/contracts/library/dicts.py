@@ -1,5 +1,5 @@
 from ..interface import Contract, ContractNotRespected
-from ..syntax import  W, contract, O, S, add_contract
+from ..syntax import  W, contract, O, S, add_contract, add_keyword
 
 
 class Dict(Contract):
@@ -61,4 +61,4 @@ dict_contract = 'dict' + O(length_spec) + O(kv_spec)
 dict_contract.setParseAction(Dict.parse_action)
 
 add_contract(dict_contract)
-
+add_keyword('dict')

@@ -4,11 +4,11 @@ from numpy  import ndarray, dtype #@UnusedImport
 from ..interface import Contract, ContractNotRespected, RValue
 from ..syntax import (add_contract, W, contract, O, S, rvalue,
                        simple_contract, ZeroOrMore, Literal, MatchFirst,
-                       operatorPrecedence, opAssoc, FollowedBy, NotAny, Keyword,
-                       add_keyword)
+                        opAssoc, FollowedBy, NotAny, Keyword,
+                       add_keyword, Combine, oneOf, alphas, Word, alphanums)
 from .compositions import And, OR
 from .suggester import create_suggester
-from contracts.pyparsing_utils import myOperatorPrecedence
+from ..pyparsing_utils import myOperatorPrecedence
 
 
 class Array(Contract):
@@ -267,21 +267,27 @@ for x in supported.split():
 ndarray_simple_contract = MatchFirst(dtype_checks + array_constraints)
 ndarray_simple_contract.setName('numpy element contract')
 
+
 suggester = create_suggester(get_options=lambda:supported.split())
 baseExpr = ndarray_simple_contract | suggester
 baseExpr.setName('numpy contract (with recovery)')
 
 operatorPrecedence = myOperatorPrecedence
 ndarray_composite_contract = operatorPrecedence(baseExpr, [
-                         (',', 2, opAssoc.LEFT, And.parse_action),
+                        (',', 2, opAssoc.LEFT, And.parse_action),
                          ('|', 2, opAssoc.LEFT, OR.parse_action),
                     ])
 
- 
+
 def my_delim_list2(what, delim): 
     return (what + ZeroOrMore(S(delim) + FollowedBy(NotAny(ellipsis)) - what))
 ellipsis = Literal('...')
-inside = simple_contract ^ (S('(') - simple_contract - S(')')) # XXX: ^ and use or_contract?
+
+shape_suggester = create_suggester(get_options=lambda:['...'],
+                                   pattern=Word('.'))
+
+inside_inside = simple_contract | shape_suggester
+inside = (S('(') - inside_inside - S(')')) | inside_inside # XXX: ^ and use or_contract?
 shape_contract = my_delim_list2(inside, S('x')) + O(S('x') + ellipsis)
 shape_contract.setParseAction(ShapeContract.parse_action)
 shape_contract.setName('array shape contract')

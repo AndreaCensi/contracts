@@ -82,7 +82,7 @@ elements = Group(S('(') - inside - ZeroOrMore(S(',') - inside) - S(')'))('elemen
 elements.setName('Tuple elements contract.')
 
 
-length = Group(S('[') + contract + S(']'))('length') 
+length = Group(S('[') - contract - S(']'))('length') 
 length.setName('Tuple length contract.')
 
 tuple_contract = S('tuple') - O(length | elements) 

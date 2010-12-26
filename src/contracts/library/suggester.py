@@ -17,14 +17,55 @@ def longest_match(a, b):
     assert False
 
 assert ('float64', 6) == find_longest_match('float6', ['float32', 'float64'])
+assert 2 == find_longest_match('fl6', ['float32', 'float64'])[1]
+                  
+# http://hetland.org/coding/python/levenshtein.py
+def levenshtein(a, b):
+    "Calculates the Levenshtein distance between a and b."
+    n, m = len(a), len(b)
+    if n > m:
+        # Make sure n <= m, to use O(min(n,m)) space
+        a, b = b, a
+        n, m = m, n
+        
+    current = range(n + 1)
+    for i in range(1, m + 1):
+        previous, current = current, [i] + [0] * n
+        for j in range(1, n + 1):
+            add, delete = previous[j] + 1, current[j - 1] + 1
+            change = previous[j - 1]
+            if a[j - 1] != b[i - 1]:
+                change = change + 1
+            current[j] = min(add, delete, change)
+            
+    return current[n]       
+
+def find_best_match(s, options):
+    matches = [(x, levenshtein(s[:len(x)], x) - len(x)) for x in options]
+    best = min(matches, key=operator.itemgetter(1))
+    #lambda x: x[1] * 1.0 / len(x[0]))
+    return best
+                         
                                             
 def default_message(identifier):
     return 'Unknown identifier %r. ' % identifier
 
-def create_suggester(get_options, get_message=default_message):
-
-    patterns = Combine(oneOf(list(alphas)) + Word('_' + alphanums))
-
+def create_suggester(get_options, get_message=default_message,
+                     pattern=Combine(oneOf(list(alphas)) + Word('_' + alphanums))):
+    pattern = pattern.copy()
+    def find_match(identifier, options, local_string):
+        match, length = find_longest_match(identifier, options)
+        if length >= 2:
+            return True, match, length
+#        
+        match, distance = find_best_match(local_string, options)
+        
+        if distance < len(match):
+            length = longest_match(local_string, match)
+            return True, match, length
+        
+        return False, "(bug)", 0 
+           
     def parse_action(s, loc, tokens):
         identifier = tokens[0]
         options = get_options()
@@ -33,15 +74,16 @@ def create_suggester(get_options, get_message=default_message):
         msg = get_message(identifier)
 
         if options:
-            match, length = find_longest_match(identifier, options)
-            if length > 1:
+            local_string = s[loc:]
+            confident, match, length = find_match(identifier, options, local_string)
+            if confident:
                 msg += 'Did you mean %r?' % match
                 loc += length
             else:
                 msg += '\nI know: %r.\n' % (options)
-        pe = ParseException(s, loc, msg, patterns) 
+        pe = ParseException(s, loc, msg, pattern) 
         raise ParseSyntaxException(pe) 
     
-    patterns.setParseAction(parse_action)
+    pattern.setParseAction(parse_action)
     
-    return patterns
+    return pattern
