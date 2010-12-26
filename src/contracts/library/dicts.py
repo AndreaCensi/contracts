@@ -54,8 +54,8 @@ class Dict(Contract):
         return Dict(length, key, value, where=where)
  
 
-length_spec = S('[') + contract('length') + S(']')
-kv_spec = '(' + O(contract('key')) + ':' + O(contract('value')) + ')'
+length_spec = S('[') - contract('length') - S(']')
+kv_spec = '(' - O(contract('key')) + ':' + O(contract('value')) - ')'
 dict_contract = 'dict' + O(length_spec) + O(kv_spec)
 
 dict_contract.setParseAction(Dict.parse_action)
