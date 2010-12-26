@@ -103,11 +103,6 @@ hardwired.setName('Predefined contract expression')
 simple_contract << (hardwired | identifier_contract)
 simple_contract.setName('simple contract expression')
 
-par = (S('(') - (contract - S(')'))) 
-
-par.setName('contract in parenthesis')
-composite_contract.setName('composite contract')
-
 any_contract = (composite_contract | simple_contract)
 any_contract.setName('Any simple or composite contract')
 contract << (any_contract) # Parentheses before << !!

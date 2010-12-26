@@ -26,8 +26,12 @@ def myOperatorPrecedence(baseExpr, opList, option=True):
               parse action tuple member may be omitted)
     """
     ret = Forward()
-    ret.setName('operatorSystem(%s)' % ",".join([x[0] for x in opList]))
-    lastExpr = baseExpr | (Suppress('(') - ret - Suppress(')'))
+    opnames = ",".join([x[0] for x in opList])
+    ret.setName('operatorSystem(%s)' % opnames)
+    parenthesis = (Suppress('(') + ret + Suppress(')'))
+#    lastExpr = baseExpr | parenthesis.setName('parenthesis(%s)' % opnames)
+    lastExpr = parenthesis.setName('parenthesis(%s)' % opnames) | baseExpr 
+    lastExpr.setName('Base operand (%s) or parenthesis' % baseExpr.name)
     for i, operDef in enumerate(opList):
         opExpr, arity, rightLeftAssoc, pa = (operDef + (None,))[:4]
         if arity == 3:
