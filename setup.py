@@ -14,7 +14,8 @@ short = ('PyContracts is a Python package that allows to declare '
          ' arithmetic constraints, and has several specialized '
          ' contracts (notably for Numpy arrays), as well as an extension API.') 
     
-version = "0.9"
+version = "0.9.1"
+
 setup(name='PyContracts',
       author="Andrea Censi",
       author_email="andrea@cds.caltech.edu",
