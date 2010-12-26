@@ -1,5 +1,6 @@
 from ..syntax import simple_contract, W, operatorPrecedence, opAssoc
 from ..interface import Contract, ContractNotRespected, add_prefix
+from contracts.pyparsing_utils import myOperatorPrecedence
 
 class Logical(object):
     def __init__(self, glyph, precedence):
@@ -91,7 +92,10 @@ class And(Logical, Contract):
         where = W(string, location)
         return And(clauses, where=where)
 
+ 
 
+
+operatorPrecedence = myOperatorPrecedence
 composite_contract = operatorPrecedence(simple_contract, [
                          (',', 2, opAssoc.LEFT, And.parse_action),
                          ('|', 2, opAssoc.LEFT, OR.parse_action),
@@ -99,4 +103,4 @@ composite_contract = operatorPrecedence(simple_contract, [
 or_contract = operatorPrecedence(simple_contract, [
                          ('|', 2, opAssoc.LEFT, OR.parse_action),
                     ])
- 
+

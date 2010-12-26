@@ -3,6 +3,7 @@ from numbers import Number
 from ..interface import Contract, ContractNotRespected
 from ..syntax import W, add_contract, contract, S, Literal
 from pyparsing import Keyword
+from contracts.syntax import add_keyword
 
 class CheckType(Contract):
     def __init__(self, types, type_string=None, where=None):
@@ -37,12 +38,12 @@ class CheckType(Contract):
         return parse
 
 add_contract(Keyword('int').setParseAction(CheckType.parse_action(int)))
+add_keyword('int')
 add_contract(Keyword('float').setParseAction(CheckType.parse_action(float)))
+add_keyword('float')
 add_contract(Keyword('bool').setParseAction(CheckType.parse_action(bool)))
+add_keyword('number')
 add_contract(Keyword('number').setParseAction(CheckType.parse_action(Number)))
-
-#add_contract(Keyword('None').setParseAction(CheckType.parse_action(NoneType)))
-#add_contract(Keyword('NoneType').setParseAction(CheckType.parse_action(NoneType)))
 
 
 class Type(Contract):

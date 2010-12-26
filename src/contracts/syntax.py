@@ -5,23 +5,33 @@ from pyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #
     operatorPrecedence, oneOf, ParseException, ParserElement, alphas, alphanums, #@UnusedImport
     ParseFatalException, FollowedBy, NotAny) #@UnusedImport
 from pyparsing import Or, MatchFirst
+from contracts.pyparsing_utils import myOperatorPrecedence
 
 # Enable memoization (much faster!)
 ParserElement.enablePackrat()
 
 from .interface import Where
 
-
 class ParsingTmp: 
     # TODO: FIXME: decide on an order, if we do the opposite it doesn't work.
     contract_types = []
     rvalues_types = []
+    keywords = []
 
 def add_contract(x):
     ParsingTmp.contract_types.append(x)
     
 def add_rvalue(x):  
     ParsingTmp.rvalues_types.append(x)
+
+def add_keyword(x):
+    ''' Declares that x is a keyword --- this is useful to have more
+        clear messages. "keywords" are not parsed by Extension.
+        (see extensions.py) and allows to have "deep" error indications.
+        See http://pyparsing.wikispaces.com/message/view/home/620225
+        and the discussion of the "-" operator in the docs.
+    '''
+    ParsingTmp.keywords.append(x)
 
 W = Where
 
@@ -65,7 +75,7 @@ add_rvalue(misc_variables_ref)
 
 operand = integer | floatnumber | MatchFirst(ParsingTmp.rvalues_types)
 
-
+operatorPrecedence = myOperatorPrecedence
 rvalue << operatorPrecedence(operand, [
              ('-', 1, opAssoc.RIGHT, Unary.parse_action),
              ('*', 2, opAssoc.LEFT, Binary.parse_action),
@@ -87,6 +97,6 @@ add_contract(rvalue.copy().setParseAction(EqualTo.parse_action))
 #simple_contract << (MatchFirst(ParsingTmp.contract_types) | identifier_contract)
 simple_contract << (Or(ParsingTmp.contract_types) | identifier_contract)
 
-par = S('(') + contract + S(')') 
+par = (S('(') - contract - S(')')) 
 contract << ((composite_contract | par | simple_contract)) # Parentheses before << !!
 

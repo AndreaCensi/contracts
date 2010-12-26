@@ -1,6 +1,8 @@
 from ..interface import Contract, ContractNotRespected
 from ..syntax import add_contract, W, contract, O, S, ZeroOrMore, simple_contract
 from contracts.library.compositions import or_contract
+from pyparsing import Group
+from contracts.syntax import add_keyword
 
 
 class Tuple(Contract):
@@ -55,7 +57,9 @@ class Tuple(Contract):
     @staticmethod
     def parse_action(s, loc, tokens): 
         where = W(s, loc)
-        length = tokens.get('length', None)
+        length = tokens.get('length', [None])[0]
+#        elements = tokens.get('elements', [None])[0]
+        
         if 'elements' in tokens:
             elements = list(tokens['elements'])
         else: 
@@ -72,10 +76,12 @@ class Tuple(Contract):
 # if you use contract instead of simple_contract, it will be matched as And
 
 
-inside = (S('(') + contract + S(')')) ^ or_contract ^ simple_contract 
-elements = (S('(') + inside + ZeroOrMore(S(',') + inside) + S(')'))('elements')
-length = S('[') + contract('length') + S(']')
+inside = (S('(') - contract - S(')')) ^ or_contract ^ simple_contract 
+elements = Group(S('(') - inside - ZeroOrMore(S(',') - inside) - S(')'))('elements')
+length = Group(S('[') + contract + S(']'))('length') 
 
-tuple_contract = S('tuple') + O(length | elements) 
+tuple_contract = S('tuple') - O(length | elements) 
 
 add_contract(tuple_contract.setParseAction(Tuple.parse_action))
+add_keyword('tuple')
+

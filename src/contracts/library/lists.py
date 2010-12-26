@@ -1,5 +1,6 @@
 from ..interface import Contract, ContractNotRespected
 from ..syntax import add_contract, W, contract, O, S
+from contracts.syntax import add_keyword
 
 class List(Contract):
     
@@ -45,5 +46,5 @@ list_contract = (S('list') +
                  O(S('(') + contract('elements_contract') + S(')')))
 list_contract.setParseAction(List.parse_action)
 
-
+add_keyword('list')
 add_contract(list_contract)

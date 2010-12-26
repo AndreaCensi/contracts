@@ -1,5 +1,7 @@
 from ..interface import Contract, ContractNotRespected
 from ..syntax import add_contract, W, contract, O, Literal
+from contracts.syntax import add_keyword
+from pyparsing import Keyword
 
 
 class String(Contract):
@@ -34,6 +36,8 @@ class String(Contract):
         return String(length, where=where)
  
 
-string_contract = (Literal('str') | Literal('string')) + O('[' + contract('length') + ']') 
+string_contract = (Keyword('str') | Keyword('string')) + O('[' + contract('length') + ']') 
+add_keyword('str')
+add_keyword('string')
 
 add_contract(string_contract.setParseAction(String.parse_action))
