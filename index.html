@@ -7,13 +7,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>PyContracts &mdash; PyContracts v0.9 documentation</title>
+    <title>PyContracts &mdash; PyContracts v0.9.1 documentation</title>
     <link rel="stylesheet" href="static/default.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.9',
+        VERSION:     '0.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,7 +22,7 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="PyContracts v0.9 documentation" href="#" />
+    <link rel="top" title="PyContracts v0.9.1 documentation" href="#" />
 	 
 
 
@@ -47,7 +47,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">PyContracts v0.9 documentation</a> &raquo;</li> 
+        <li><a href="#">PyContracts v0.9.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -993,13 +993,13 @@ Notice how the contracts serve very well as documentation.</p>
 <span class="sd">         Blends two images together.</span>
 
 <span class="sd">         :param image1: The first image to blend.</span>
-<span class="sd">         :type image1: rgb,shape(HxWx*)</span>
+<span class="sd">         :type image1: rgb,array[HxWx*]</span>
 
 <span class="sd">         :param image2: The second image to blend. Can have an alpha layer.</span>
-<span class="sd">         :type image2: (rgb|rgba),shape(HxWx*)</span>
+<span class="sd">         :type image2: (rgb|rgba),array[HxWx*]</span>
 
 <span class="sd">         :return: The blended image.</span>
-<span class="sd">         :rtype: rgb,shape(HxWx3)</span>
+<span class="sd">         :rtype: rgb,array[HxWx3]</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="o">...</span>
 </pre></div>
@@ -1010,9 +1010,9 @@ Notice how the contracts serve very well as documentation.</p>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">         Blends a series of images together.</span>
 
-<span class="sd">         :type images: list[N](rgb,shape(HxWx*)), N&gt;=2</span>
+<span class="sd">         :type images: list[N](rgb,array[HxWx*]), N&gt;=2</span>
 
-<span class="sd">         :rtype: rgb,shape(HxWx3)</span>
+<span class="sd">         :rtype: rgb,array[HxWx3]</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="o">...</span>
 </pre></div>
@@ -1095,7 +1095,6 @@ def my_function(a:'int,&gt;0', b:'list[N],N&gt;0') -&gt; 'list[N]':
 </div>
 </li>
 </ul>
-<blockquote>
 <p><strong>Contracts evaluation</strong>: Note that all contracts for the arguments and the return values
 are evaluated in the same context. This make it possible to use
 common variables in the contract expression. For example, in the example
@@ -1118,7 +1117,6 @@ for <span class="brand">PyContracts</span>, but the latter is better for Sphinx:
 <span class="sd">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
-</blockquote>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1210,9 +1208,16 @@ it is included in the error message.</li>
 
 <dl class="function">
 <dt id="contracts.new_contract">
-<tt class="descclassname">contracts.</tt><tt class="descname">new_contract</tt><big>(</big><em>identifier</em>, <em>condition</em><big>)</big><a class="headerlink" href="#contracts.new_contract" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines a new contract type. The second parameter can be either
+<tt class="descclassname">contracts.</tt><tt class="descname">new_contract</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#contracts.new_contract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a new contract type. Used both as a decorator and as 
+a function.</p>
+<p><strong>1) Use as a function.</strong> The first parameter must be a string. 
+The second parameter can be either
 a string or a callable function.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;new_contract_name&#39;</span><span class="p">,</span> <span class="s">&#39;list[N]&#39;</span><span class="p">)</span> 
+<span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;new_contract_name&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
 <ul>
 <li><p class="first">If it is a string, it is interpreted as contract expression; 
 the given identifier will become an alias
@@ -1221,11 +1226,20 @@ for that expression.</p>
 <li><p class="first">If it is a callable, it must accept one parameter, and either:</p>
 <ul class="simple">
 <li>return True or None, to signify it accepts.</li>
-<li>return False or raise ValueError, to signify it doesn&#8217;t.</li>
+<li>return False or raise ValueError or AssertionError, 
+to signify it doesn&#8217;t.</li>
 </ul>
 <p>If ValueError is raised, its message is used in the error.</p>
 </li>
 </ul>
+<p><strong>2) Use as a decorator.</strong></p>
+<p>Or, it can be used as a decorator (without arguments).
+The function name is used as the identifier.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@new_contract</span>
+<span class="k">def</span> <span class="nf">new_contract_name</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>This function returns a <a class="reference internal" href="#contracts.Contract" title="contracts.Contract"><tt class="xref py py-class docutils literal"><span class="pre">Contract</span></tt></a> object. It might be
 useful to check right away if the declaration is what you meant,
 using <a class="reference internal" href="#contracts.Contract.check" title="contracts.Contract.check"><tt class="xref py py-func docutils literal"><span class="pre">Contract.check()</span></tt></a> and <a class="reference internal" href="#contracts.Contract.fail" title="contracts.Contract.fail"><tt class="xref py py-func docutils literal"><span class="pre">Contract.fail()</span></tt></a>.</p>
@@ -1427,7 +1441,7 @@ contracts expression in your own PyParsing grammar.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">PyContracts v0.9 documentation</a> &raquo;</li> 
+        <li><a href="#">PyContracts v0.9.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
 	
