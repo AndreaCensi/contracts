@@ -102,14 +102,15 @@ def contracts(*arg, **kwargs):
                   """
                   pass
                  
-        **Contracts evaluation**: Note that all contracts for the arguments and the return values
+        **Contracts evaluation**: Note that all contracts for the arguments 
+        and the return values
         are evaluated in the same context. This make it possible to use
         common variables in the contract expression. For example, in the example
         above, the return value is constrained to be a list of the same 
         length (``N``) as the parameter ``b``. 
         
-        **Using docstrings** Note that, by convention, those annotations must be parseable as
-        RestructuredText. This is relevant if you are using Sphinx.
+        **Using docstrings** Note that, by convention, those annotations must 
+        be parseable as RestructuredText. This is relevant if you are using Sphinx.
         If the contract string has special RST characters in it, like ``*``,
         you can include it in double ticks. |pycontracts| will remove
         the double ticks before interpreting the string.
@@ -159,8 +160,8 @@ def contracts_decorate(function, **kwargs):
 
         for kw in kwargs:
             if not kw in all_args:
-                raise ContractException('Uknown parameter %r; I know %r.' % 
-                                        (kw, all_args))
+                msg = 'Unknown parameter %r; I know %r.' %  (kw, all_args)
+                raise ContractException(msg)
             
         accepts_dict = kwargs 
         

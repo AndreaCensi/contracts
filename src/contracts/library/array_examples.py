@@ -120,3 +120,18 @@ good('array[NxN](<=1,float32)', numpy.ones((10, 10), dtype='float32'))
 good('array[NxN](<=1,float32|float64)', numpy.ones((10, 10), dtype='float64'))
 good('array[NxN](<=1,(float32|float64))', numpy.ones((10, 10), dtype='float64'))
 good('array[NxN](<=1,>=1)', numpy.ones((10, 10)))
+
+# more complicated tests
+
+good('array[(2|3)xN]', numpy.ones((2, 10)))
+good('array[(2|3)xN]', numpy.ones((3, 10)))
+fail('array[(2|3)xN]', numpy.ones((4, 10)))
+good('array[(2|3)x...]', numpy.ones((2, 10)))
+good('array[(2|3)x...]', numpy.ones((3, 10)))
+fail('array[(2|3)x...]', numpy.ones((4, 10)))
+
+good('array[(2,*)xN]', numpy.ones((2, 10)))
+fail('array[(2,3)xN]', numpy.ones((4, 10)))
+good('array[(2,*)x...]', numpy.ones((2, 10)))
+fail('array[(2,3)x...]', numpy.ones((4, 10)))
+

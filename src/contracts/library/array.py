@@ -6,9 +6,10 @@ from ..syntax import (add_contract, W, contract, O, S, rvalue,
                        simple_contract, ZeroOrMore, Literal, MatchFirst,
                         opAssoc, FollowedBy, NotAny, Keyword,
                        add_keyword, Word)
+from ..pyparsing_utils import myOperatorPrecedence 
+
 from .compositions import And, OR
 from .suggester import create_suggester
-from ..pyparsing_utils import myOperatorPrecedence
 
 
 class Array(Contract):
@@ -81,7 +82,14 @@ class ShapeContract(Contract):
             self.dimensions[i]._check_contract(context, value[i])
         
     def __str__(self):
-        s = 'x'.join("%s" % x for x in self.dimensions)
+        be_careful = self.ellipsis or len(self.dimensions) > 1
+        def rep(x):
+            if be_careful and isinstance(x, (And, OR)):
+                return "(%s)" % x
+            else:
+                return "%s" % x
+            
+        s = 'x'.join(rep(x) for x in self.dimensions)
         if self.ellipsis:
             s += 'x...'
         return s
@@ -293,8 +301,9 @@ ellipsis = Literal('...')
 shape_suggester = create_suggester(get_options=lambda:['...'],
                                    pattern=Word('.'))
 
-inside_inside = simple_contract | shape_suggester
-inside = (S('(') - inside_inside - S(')')) | inside_inside # XXX: ^ and use or_contract?
+inside_inside1 = simple_contract | shape_suggester
+inside_inside2 = contract | shape_suggester
+inside = (S('(') - inside_inside2 - S(')')) | inside_inside1 # XXX: ^ and use or_contract?
 shape_contract = my_delim_list2(inside, S('x')) + O(S('x') + ellipsis)
 shape_contract.setParseAction(ShapeContract.parse_action)
 shape_contract.setName('array shape contract')

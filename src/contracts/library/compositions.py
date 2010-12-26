@@ -1,9 +1,8 @@
-from ..syntax import simple_contract, W, operatorPrecedence, opAssoc
+from ..syntax import simple_contract, W, ParsingTmp, opAssoc
 from ..interface import Contract, ContractNotRespected, add_prefix
-from contracts.pyparsing_utils import myOperatorPrecedence
-from contracts.library.suggester import create_suggester
-from contracts.syntax import ParsingTmp
-from contracts.library.extensions import Extension
+from ..pyparsing_utils import myOperatorPrecedence
+from .suggester import create_suggester
+from .extensions import Extension
 
 class Logical(object):
     def __init__(self, glyph, precedence):
