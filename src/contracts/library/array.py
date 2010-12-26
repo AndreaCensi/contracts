@@ -251,7 +251,7 @@ class ArrayConstraint(Contract):
 
 array_constraints = []
 for glyph in ArrayConstraint.constraints:
-    expr = Literal(glyph)('glyph') + rvalue('rvalue')
+    expr = Literal(glyph)('glyph') - rvalue('rvalue')
     expr.setParseAction(ArrayConstraint.parse_action)
     array_constraints.append(expr)
 
