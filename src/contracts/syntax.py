@@ -1,8 +1,8 @@
 from numbers import Number
 # All the imports from pyparsing go here
 #from contracts import use_pyparsing
-if False:
-    print('contracts: Warning: using my version of PyParsing.')
+if False: # pragma: no cover
+    print('contracts: Warning: using my private version of PyParsing for testing.')
     from .mypyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
         CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport
         operatorPrecedence, oneOf, ParseException, ParserElement, alphas, alphanums, #@UnusedImport

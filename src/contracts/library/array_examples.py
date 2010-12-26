@@ -115,26 +115,8 @@ good('array(=1)', ones((10)))
 good(['shape(x)', 'shape(x)'], [a2d, a2d])
 fail(['shape(x)', 'shape(x)'], [a2d, a3d])
 
-
 good('array[NxN](<=1)', numpy.ones((10, 10)))
 good('array[NxN](<=1,float32)', numpy.ones((10, 10), dtype='float32'))
 good('array[NxN](<=1,float32|float64)', numpy.ones((10, 10), dtype='float64'))
 good('array[NxN](<=1,(float32|float64))', numpy.ones((10, 10), dtype='float64'))
 good('array[NxN](<=1,>=1)', numpy.ones((10, 10)))
-
-## Shortcuts for images
-#rgb1 = numpy.zeros((10, 10, 3), 'uint8')
-#rgb2 = numpy.zeros((20, 20, 3), 'uint8')
-#rgba1 = numpy.zeros((10, 10, 4), 'uint8')
-#good(['rgb', 'rgb'], [rgb1, rgb2]) 
-#fail('rgba', rgb1)
-#fail('rgb', rgba1)
-#good('rgb|rgba', rgb1) 
-#good('rgb|rgba', rgba1)
-
-# TODO
-# can be converted to an array
-#good('as_array', [0, 1])
-#fail('as_array', None)
-
-# TODO: finite, notnan, etc.
