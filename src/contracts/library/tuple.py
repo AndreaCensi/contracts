@@ -75,7 +75,7 @@ class Tuple(Contract):
 # if you use contract instead of simple_contract, it will be matched as And
 
 
-inside = (S('(') - contract - S(')')) ^ or_contract ^ simple_contract 
+inside = (S('(') - contract - S(')')) | (or_contract ^ simple_contract) 
 inside.setName('Any contract for tuple elements (use parenthesis for AND)')
 
 elements = Group(S('(') - inside - ZeroOrMore(S(',') - inside) - S(')'))('elements')

@@ -1,11 +1,18 @@
 from numbers import Number
 # All the imports from pyparsing go here
 #from contracts import use_pyparsing
-from .mypyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
-    CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport
-    operatorPrecedence, oneOf, ParseException, ParserElement, alphas, alphanums, #@UnusedImport
-    ParseFatalException, FollowedBy, NotAny, Or, MatchFirst, Keyword, Group, White, lineno, col) #@UnusedImport
-
+if False:
+    print('contracts: Warning: using my version of PyParsing.')
+    from .mypyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
+        CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport
+        operatorPrecedence, oneOf, ParseException, ParserElement, alphas, alphanums, #@UnusedImport
+        ParseFatalException, FollowedBy, NotAny, Or, MatchFirst, Keyword, Group, White, lineno, col) #@UnusedImport
+else:
+    from pyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
+        CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport
+        operatorPrecedence, oneOf, ParseException, ParserElement, alphas, alphanums, #@UnusedImport
+        ParseFatalException, FollowedBy, NotAny, Or, MatchFirst, Keyword, Group, White, lineno, col) #@UnusedImport
+    
 from contracts.pyparsing_utils import myOperatorPrecedence
 
 # Enable memoization (much faster!)
@@ -79,7 +86,7 @@ add_rvalue(misc_variables_ref)
 operand = integer | floatnumber | MatchFirst(ParsingTmp.rvalues_types)
 operand.setName('r-value')
 
-operatorPrecedence = lambda x, y: myOperatorPrecedence(x, y, ['-', '*', '-', '+'], False)
+operatorPrecedence = myOperatorPrecedence
 rvalue << operatorPrecedence(operand, [
              ('-', 1, opAssoc.RIGHT, Unary.parse_action),
              ('*', 2, opAssoc.LEFT, Binary.parse_action),
@@ -103,7 +110,7 @@ hardwired.setName('Predefined contract expression')
 simple_contract << (hardwired | identifier_contract)
 simple_contract.setName('simple contract expression')
 
-any_contract = (composite_contract | simple_contract)
+any_contract = composite_contract | simple_contract
 any_contract.setName('Any simple or composite contract')
 contract << (any_contract) # Parentheses before << !!
 

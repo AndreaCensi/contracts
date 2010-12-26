@@ -1,7 +1,7 @@
 from .syntax import Forward, Suppress, FollowedBy, Group, OneOrMore, Optional, \
-    opAssoc, ZeroOrMore, oneOf, NotAny, Literal
+    opAssoc, oneOf, NotAny
 
-def myOperatorPrecedence(baseExpr, opList, allops=[], option=True):
+def myOperatorPrecedence(baseExpr, opList):
     """Helper method for constructing grammars of expressions made up of
        operators working in a precedence hierarchy.  Operators may be unary or
        binary, left- or right-associative.  Parse actions can also be attached
@@ -26,9 +26,10 @@ def myOperatorPrecedence(baseExpr, opList, allops=[], option=True):
               parse action tuple member may be omitted)
     """
     ret = Forward()
+    allops = [x[0] for x in opList]
     opnames = ",".join(str(x) for x in allops)
     ret.setName('operatorSystem(%s)' % opnames)
-    parenthesis = (Suppress('(') + ret + FollowedBy(NotAny(oneOf(allops))) - Suppress(')'))
+    parenthesis = Suppress('(') + ret + FollowedBy(NotAny(oneOf(allops))) - Suppress(')')
     lastExpr = parenthesis.setName('parenthesis(%s)' % opnames) | baseExpr 
     lastExpr.setName('Base operand (%s) or parenthesis' % baseExpr.name)
     for i, operDef in enumerate(opList):
@@ -37,7 +38,7 @@ def myOperatorPrecedence(baseExpr, opList, allops=[], option=True):
             if opExpr is None or len(opExpr) != 2:
                 raise ValueError("if numterms=3, opExpr must be a tuple or list of two expressions")
             opExpr1, opExpr2 = opExpr
-        thisExpr = Forward()#.setName("expr%d" % i)
+        thisExpr = Forward().setName("operation_with(%s)" % opExpr)
         if rightLeftAssoc == opAssoc.LEFT:
             if arity == 1:
                 matchExpr = FollowedBy(lastExpr + opExpr) + Group(lastExpr + OneOrMore(opExpr))
@@ -71,7 +72,7 @@ def myOperatorPrecedence(baseExpr, opList, allops=[], option=True):
             raise ValueError("operator must indicate right or left associativity")
         if pa:
             matchExpr.setParseAction(pa)
-        thisExpr << (matchExpr | lastExpr).setName('operation')
+        thisExpr << (matchExpr | lastExpr).setName('operation with %s' % opExpr)
         lastExpr = thisExpr
     ret << lastExpr
     return ret
