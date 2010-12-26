@@ -29,7 +29,6 @@ def myOperatorPrecedence(baseExpr, opList, allops=[], option=True):
     opnames = ",".join(str(x) for x in allops)
     ret.setName('operatorSystem(%s)' % opnames)
     parenthesis = (Suppress('(') + ret + FollowedBy(NotAny(oneOf(allops))) - Suppress(')'))
-#    lastExpr = baseExpr | parenthesis.setName('parenthesis(%s)' % opnames)
     lastExpr = parenthesis.setName('parenthesis(%s)' % opnames) | baseExpr 
     lastExpr.setName('Base operand (%s) or parenthesis' % baseExpr.name)
     for i, operDef in enumerate(opList):
@@ -44,10 +43,7 @@ def myOperatorPrecedence(baseExpr, opList, allops=[], option=True):
                 matchExpr = FollowedBy(lastExpr + opExpr) + Group(lastExpr + OneOrMore(opExpr))
             elif arity == 2:
                 if opExpr is not None:
-#                    if option:
-#                        matchExpr = FollowedBy(lastExpr + opExpr - lastExpr) - Group(lastExpr + OneOrMore(opExpr - lastExpr))
-#                    else:
-                    matchExpr = Group(lastExpr + FollowedBy(opExpr) + ZeroOrMore(opExpr - lastExpr))                
+                    matchExpr = Group(lastExpr + FollowedBy(opExpr) + OneOrMore(opExpr - lastExpr))                
                 else:
                     matchExpr = FollowedBy(lastExpr + lastExpr) + Group(lastExpr + OneOrMore(lastExpr))
             elif arity == 3:

@@ -1,7 +1,7 @@
 from numbers import Number
 # All the imports from pyparsing go here
 #from contracts import use_pyparsing
-from pyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
+from .mypyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
     CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport
     operatorPrecedence, oneOf, ParseException, ParserElement, alphas, alphanums, #@UnusedImport
     ParseFatalException, FollowedBy, NotAny, Or, MatchFirst, Keyword, Group, White, lineno, col) #@UnusedImport
