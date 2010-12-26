@@ -108,7 +108,7 @@ par = (S('(') - (contract - S(')')))
 par.setName('contract in parenthesis')
 composite_contract.setName('composite contract')
 
-any_contract = (composite_contract | par | simple_contract)
+any_contract = (composite_contract | simple_contract)
 any_contract.setName('Any simple or composite contract')
 contract << (any_contract) # Parentheses before << !!
 
