@@ -52,7 +52,7 @@ point = Literal('.')
 e = CaselessLiteral('E')
 plusorminus = Literal('+') | Literal('-')
 integer = Combine(O(plusorminus) + number)
-floatnumber = Combine(integer + O(point + O(number)) + O(e + integer))
+floatnumber = Combine(integer + (point + O(number)) ^ (e + integer))
 integer.setParseAction(lambda tokens: SimpleRValue(int(tokens[0])))
 floatnumber.setParseAction(lambda tokens: SimpleRValue(float(tokens[0])))
 
@@ -69,17 +69,15 @@ simple_contract.setName('simple_contract')
 from .library import (EqualTo, Unary, Binary, composite_contract,
                       identifier_contract, misc_variables_contract,
                       int_variables_contract, int_variables_ref,
-                      misc_variables_ref, SimpleRValue, create_suggester,
-                      Extension)
+                      misc_variables_ref, SimpleRValue)
 
 add_rvalue(int_variables_ref)
 add_rvalue(misc_variables_ref)
 
-operand = integer | floatnumber | MatchFirst(ParsingTmp.rvalues_types)
+operand = floatnumber | integer | MatchFirst(ParsingTmp.rvalues_types)
 operand.setName('r-value')
 
-operatorPrecedence = myOperatorPrecedence
-rvalue << operatorPrecedence(operand, [
+rvalue << myOperatorPrecedence(operand, [
              ('-', 1, opAssoc.RIGHT, Unary.parse_action),
              ('*', 2, opAssoc.LEFT, Binary.parse_action),
              ('-', 2, opAssoc.LEFT, Binary.parse_action),
@@ -95,11 +93,9 @@ add_contract(misc_variables_contract)
 add_contract(int_variables_contract)
 add_contract(rvalue.copy().setParseAction(EqualTo.parse_action))
 
-# Try to parse the string normally; then try identifiers
 hardwired = MatchFirst(ParsingTmp.contract_types)
-
-
 hardwired.setName('Predefined contract expression')
+
 simple_contract << (hardwired | identifier_contract)
 simple_contract.setName('simple contract expression')
 

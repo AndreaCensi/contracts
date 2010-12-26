@@ -242,7 +242,7 @@ class ArrayConstraint(Contract):
     @staticmethod
     def parse_action(s, loc, tokens):
         where = W(s, loc)
-        glyph = tokens['glyph']
+        glyph = "".join(tokens['glyph'])
         rvalue = tokens['rvalue']
         return ArrayConstraint(glyph, rvalue, where)
  
@@ -251,7 +251,14 @@ class ArrayConstraint(Contract):
 
 array_constraints = []
 for glyph in ArrayConstraint.constraints:
-    expr = Literal(glyph)('glyph') - rvalue('rvalue')
+    if glyph == '!=':
+        # special case: ! must be followed by =
+        glyph_expression = Literal('!') - Literal('=')
+        glyph_expression.setName('!=')
+    else:
+        glyph_expression = Literal(glyph)
+    
+    expr = glyph_expression('glyph') - rvalue('rvalue')
     expr.setParseAction(ArrayConstraint.parse_action)
     array_constraints.append(expr)
 
