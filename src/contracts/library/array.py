@@ -5,7 +5,7 @@ from ..interface import Contract, ContractNotRespected, RValue
 from ..syntax import (add_contract, W, contract, O, S, rvalue,
                        simple_contract, ZeroOrMore, Literal, MatchFirst,
                         opAssoc, FollowedBy, NotAny, Keyword,
-                       add_keyword, Combine, oneOf, alphas, Word, alphanums)
+                       add_keyword, Word)
 from .compositions import And, OR
 from .suggester import create_suggester
 from ..pyparsing_utils import myOperatorPrecedence

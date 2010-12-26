@@ -1,5 +1,5 @@
-from .syntax import Forward, Suppress, FollowedBy, Group, OneOrMore, Optional, \
-    opAssoc, oneOf, NotAny
+from .syntax import (Forward, Suppress, FollowedBy, Group, OneOrMore, Optional,
+                     opAssoc)
 
 def myOperatorPrecedence(baseExpr, opList):
     """Helper method for constructing grammars of expressions made up of
@@ -33,7 +33,7 @@ def myOperatorPrecedence(baseExpr, opList):
     parenthesis = Suppress('(') - ret - Suppress(')')
     lastExpr = parenthesis.setName('parenthesis(%s)' % opnames) | baseExpr 
     lastExpr.setName('Base operand (%s) or parenthesis' % baseExpr.name)
-    for i, operDef in enumerate(opList):
+    for operDef in opList:
         opExpr, arity, rightLeftAssoc, pa = (operDef + (None,))[:4]
         if arity == 3:
             if opExpr is None or len(opExpr) != 2:

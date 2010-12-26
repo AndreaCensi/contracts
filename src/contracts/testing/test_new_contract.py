@@ -4,7 +4,7 @@ from contracts import new_contract, check
 from contracts.library.extensions import identifier_expression
 from contracts.interface import Contract
 from contracts.testing.utils import check_contracts_fail
-from contracts.main import contracts, fail
+from contracts.main import contracts
 
 # The different patterns
 

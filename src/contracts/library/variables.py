@@ -1,6 +1,5 @@
 from ..interface import Contract, ContractNotRespected, RValue
-from ..syntax import (W, oneOf, FollowedBy, NotAny, Keyword, MatchFirst, Literal, Or,
-                      White)                
+from ..syntax import (W, oneOf, FollowedBy, NotAny)
 
 
 class BindVariable(Contract):

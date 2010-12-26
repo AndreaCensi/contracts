@@ -1,4 +1,5 @@
 from numbers import Number
+
 # All the imports from pyparsing go here
 #from contracts import use_pyparsing
 if False: # pragma: no cover
@@ -13,7 +14,7 @@ else:
         operatorPrecedence, oneOf, ParseException, ParserElement, alphas, alphanums, #@UnusedImport
         ParseFatalException, ParseSyntaxException, FollowedBy, NotAny, Or, MatchFirst, Keyword, Group, White, lineno, col) #@UnusedImport
     
-from contracts.pyparsing_utils import myOperatorPrecedence
+from .pyparsing_utils import myOperatorPrecedence
 
 # Enable memoization (much faster!)
 ParserElement.enablePackrat()
@@ -27,10 +28,7 @@ class ParsingTmp:
     keywords = []
 
 def add_contract(x):
-    ParsingTmp.contract_types.append(x)
-    
-def add_rvalue(x):  
-    ParsingTmp.rvalues_types.append(x)
+    ParsingTmp.contract_types.append(x) 
 
 def add_keyword(x):
     ''' Declares that x is a keyword --- this is useful to have more
@@ -65,17 +63,17 @@ contract.setName('contract')
 simple_contract = Forward()
 simple_contract.setName('simple_contract')
 
-# Import all expressions -- they will call add_contract() and add_rvalue()
+# Import all expressions -- they will call add_contract()
 from .library import (EqualTo, Unary, Binary, composite_contract,
                       identifier_contract, misc_variables_contract,
                       int_variables_contract, int_variables_ref,
                       misc_variables_ref, SimpleRValue)
 
-add_rvalue(int_variables_ref)
-add_rvalue(misc_variables_ref)
 
-operand = floatnumber | integer | MatchFirst(ParsingTmp.rvalues_types)
+number = floatnumber | integer
+operand = number | int_variables_ref | misc_variables_ref
 operand.setName('r-value')
+
 
 rvalue << myOperatorPrecedence(operand, [
              ('-', 1, opAssoc.RIGHT, Unary.parse_action),

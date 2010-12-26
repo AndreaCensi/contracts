@@ -9,9 +9,9 @@ from contracts.library.variables import misc_variables_contract, \
 def expression_fails(expression, string, all=True):
     try:
         c = expression.parseString(string, parseAll=all)
-    except ParseException as e:
+    except ParseException:
         pass
-    except ParseFatalException as e:
+    except ParseFatalException:
         pass
     else:
         raise Exception('Expression: %s\nparsed to: %s\n(%r)' % 
@@ -19,7 +19,7 @@ def expression_fails(expression, string, all=True):
         
 def expression_parses(expression, string, all=True):
     try:
-        c = expression.parseString(string, parseAll=all)
+        expression.parseString(string, parseAll=all)
     except ParseException as e:
         where = Where(string, line=e.lineno, column=e.col)
         msg = 'Error in parsing string: %s' % e

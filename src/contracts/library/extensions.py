@@ -1,9 +1,7 @@
 from ..interface import Contract, ContractNotRespected, describe_value
 from ..syntax import (Combine, Word, W, alphas, alphanums, oneOf,
-                      ParseSyntaxException, ParseException)
-
-from contracts.syntax import ParsingTmp
-import operator
+                      ParseException)
+ 
 
 class Extension(Contract):
     

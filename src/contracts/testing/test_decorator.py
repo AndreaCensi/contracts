@@ -89,7 +89,7 @@ class DecoratorTests(unittest.TestCase):
 
     def not_supported1(self):
         ''' Support of *args ''' 
-        def f(a, *b):
+        def f(a, *b): #@UnusedVariable
             ''' 
                 :type a: int
                 :type b: tuple(int)
