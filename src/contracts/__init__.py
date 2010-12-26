@@ -1,5 +1,7 @@
 
-__version__ = '0.9'
+__version__ = '0.9.1'
+
+from . import syntax 
 
 from . import syntax 
 
@@ -18,7 +20,14 @@ contract_expression = syntax.contract
 from .library import miscellaneous_aliases 
 
 
-# 
+# Some old experiments to allow use of the whole module as a decorator. 
+#
+#  import contracts
+#
+#  @contracts
+#  def f():
+#     ...
+#  
 # import types
 # class mod_call(types.ModuleType):
 # 
