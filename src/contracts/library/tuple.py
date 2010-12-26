@@ -76,6 +76,8 @@ class Tuple(Contract):
 
 
 inside = (S('(') - contract - S(')')) ^ or_contract ^ simple_contract 
+inside.setName('Any contract for tuple elements (use parenthesis for AND)')
+
 elements = Group(S('(') - inside - ZeroOrMore(S(',') - inside) - S(')'))('elements')
 elements.setName('Tuple elements contract.')
 
@@ -84,6 +86,7 @@ length = Group(S('[') + contract + S(']'))('length')
 length.setName('Tuple length contract.')
 
 tuple_contract = S('tuple') - O(length | elements) 
+tuple_contract.setName('tuple contract')
 
 add_contract(tuple_contract.setParseAction(Tuple.parse_action))
 add_keyword('tuple')

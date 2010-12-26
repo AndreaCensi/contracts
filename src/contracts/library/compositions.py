@@ -95,9 +95,6 @@ class And(Logical, Contract):
         return And(clauses, where=where)
 
  
-
-
-#operatorPrecedence = lambda x, y: myOperatorPrecedence(x, y, True)
 operatorPrecedence = lambda x, y: myOperatorPrecedence(x, y, [',', '|'], False)
 composite_contract = operatorPrecedence(simple_contract, [
                          (',', 2, opAssoc.LEFT, And.parse_action),

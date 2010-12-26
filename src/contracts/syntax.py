@@ -1,7 +1,7 @@
 from numbers import Number
 # All the imports from pyparsing go here
 #from contracts import use_pyparsing
-from .mypyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
+from pyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
     CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport
     operatorPrecedence, oneOf, ParseException, ParserElement, alphas, alphanums, #@UnusedImport
     ParseFatalException, FollowedBy, NotAny, Or, MatchFirst, Keyword, Group, White, lineno, col) #@UnusedImport
@@ -79,7 +79,7 @@ add_rvalue(misc_variables_ref)
 operand = integer | floatnumber | MatchFirst(ParsingTmp.rvalues_types)
 operand.setName('r-value')
 
-#operatorPrecedence = lambda x, y: myOperatorPrecedence(x, y, False)
+operatorPrecedence = lambda x, y: myOperatorPrecedence(x, y, ['-', '*', '-', '+'], False)
 rvalue << operatorPrecedence(operand, [
              ('-', 1, opAssoc.RIGHT, Unary.parse_action),
              ('*', 2, opAssoc.LEFT, Binary.parse_action),
