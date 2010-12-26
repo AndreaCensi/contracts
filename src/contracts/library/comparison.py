@@ -93,7 +93,7 @@ class CheckOrder(Contract):
  
 
 for glyph in CheckOrder.conditions:
-    expr = O(rvalue('expr1')) + Literal(glyph)('glyph') + rvalue('expr2')
+    expr = O(rvalue('expr1')) + Literal(glyph)('glyph') - rvalue('expr2')
     expr.setParseAction(CheckOrder.parse_action)
     add_contract(expr)
 
