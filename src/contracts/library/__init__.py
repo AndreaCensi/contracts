@@ -1,3 +1,5 @@
+from .suggester import create_suggester
+
 from .dummy import Any, Never
 from . import dummy_test
 

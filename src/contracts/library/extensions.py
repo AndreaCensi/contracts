@@ -1,8 +1,9 @@
 from ..interface import Contract, ContractNotRespected, describe_value
 from ..syntax import (Combine, Word, W, alphas, alphanums, oneOf,
-                      ParseFatalException, ParseException)
+                      ParseSyntaxException, ParseException)
 
 from contracts.syntax import ParsingTmp
+import operator
 
 class Extension(Contract):
     
@@ -26,19 +27,11 @@ class Extension(Contract):
     def parse_action(s, loc, tokens):
         identifier = tokens[0]
         
-        where = W(s, loc)
-        if identifier in ParsingTmp.keywords:
+        if not identifier in Extension.registrar:
             raise ParseException('Not matching %r' % identifier)
         
-        if not identifier in Extension.registrar:
-            msg = 'Invalid expression identifier %r.\n' % identifier
-            msg += 'I know: %r.\n' % (list(Extension.registrar.keys()))
-            msg += str(where)
-            # print msg
-            raise ParseFatalException(msg)
-        
+        where = W(s, loc)
         return Extension(identifier, where)
-
 
 class CheckCallable(Contract):
     def __init__(self, callable):

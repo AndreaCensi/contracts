@@ -6,12 +6,12 @@ if False: # pragma: no cover
     from .mypyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
         CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport
         operatorPrecedence, oneOf, ParseException, ParserElement, alphas, alphanums, #@UnusedImport
-        ParseFatalException, FollowedBy, NotAny, Or, MatchFirst, Keyword, Group, White, lineno, col) #@UnusedImport
+        ParseFatalException, ParseSyntaxException, FollowedBy, NotAny, Or, MatchFirst, Keyword, Group, White, lineno, col) #@UnusedImport
 else:
     from pyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
         CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport
         operatorPrecedence, oneOf, ParseException, ParserElement, alphas, alphanums, #@UnusedImport
-        ParseFatalException, FollowedBy, NotAny, Or, MatchFirst, Keyword, Group, White, lineno, col) #@UnusedImport
+        ParseFatalException, ParseSyntaxException, FollowedBy, NotAny, Or, MatchFirst, Keyword, Group, White, lineno, col) #@UnusedImport
     
 from contracts.pyparsing_utils import myOperatorPrecedence
 
@@ -69,16 +69,8 @@ simple_contract.setName('simple_contract')
 from .library import (EqualTo, Unary, Binary, composite_contract,
                       identifier_contract, misc_variables_contract,
                       int_variables_contract, int_variables_ref,
-                      misc_variables_ref, SimpleRValue)
-
-#operand_no_var_ref = integer | floatnumber | MatchFirst(ParsingTmp.rvalues_types)
-#rvalue_no_var_ref = operatorPrecedence(operand_no_var_ref, [
-#             ('-', 1, opAssoc.RIGHT, Unary.parse_action),
-#             ('*', 2, opAssoc.LEFT, Binary.parse_action),
-#             ('-', 2, opAssoc.LEFT, Binary.parse_action),
-#             ('+', 2, opAssoc.LEFT, Binary.parse_action),
-#          ])
-
+                      misc_variables_ref, SimpleRValue, create_suggester,
+                      Extension)
 
 add_rvalue(int_variables_ref)
 add_rvalue(misc_variables_ref)
@@ -106,8 +98,13 @@ add_contract(rvalue.copy().setParseAction(EqualTo.parse_action))
 # Try to parse the string normally; then try identifiers
 hardwired = MatchFirst(ParsingTmp.contract_types)
 
+
+suggester = create_suggester(get_options=lambda: ParsingTmp.keywords + 
+                             list(Extension.registrar.keys()))
+
+
 hardwired.setName('Predefined contract expression')
-simple_contract << (hardwired | identifier_contract)
+simple_contract << (hardwired | identifier_contract | suggester)
 simple_contract.setName('simple contract expression')
 
 any_contract = composite_contract | simple_contract

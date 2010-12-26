@@ -66,7 +66,7 @@ class Type(Contract):
         return Type(type_constraint, where) #@UnusedVariable
 
 
-type_contract = S('type') + S('(') + contract('type_constraint') + S(')')
+type_contract = S('type') - S('(') - contract('type_constraint') - S(')')
 
 add_contract(type_contract.setParseAction(Type.parse_action))
 

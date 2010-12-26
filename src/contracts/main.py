@@ -58,11 +58,13 @@ def parse_contract_string(string):
         return c
     except ParseException as e:
         where = Where(string, line=e.lineno, column=e.col)
-        msg = 'Error in parsing string: %s' % e
+#        msg = 'Error in parsing string: %s' % e
+        msg = '%s' % e
         raise ContractSyntaxError(msg, where=where)
     except ParseFatalException as e:
         where = Where(string, line=e.lineno, column=e.col)
-        msg = 'Fatal error in parsing string: %s' % e
+#        msg = 'Fatal error in parsing string: %s' % e
+        msg = '%s' % e
         raise ContractSyntaxError(msg, where=where)
     
 # TODO: add decorator-specific exception
