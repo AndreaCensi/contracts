@@ -8,6 +8,7 @@ from ..syntax import (add_contract, W, contract, O, S, rvalue,
                        add_keyword)
 from .compositions import And, OR
 from .suggester import create_suggester
+from contracts.pyparsing_utils import myOperatorPrecedence
 
 
 class Array(Contract):
@@ -246,12 +247,13 @@ class ArrayConstraint(Contract):
         return ArrayConstraint(glyph, rvalue, where)
  
 
+
+
 array_constraints = []
 for glyph in ArrayConstraint.constraints:
     expr = Literal(glyph)('glyph') + rvalue('rvalue')
     expr.setParseAction(ArrayConstraint.parse_action)
     array_constraints.append(expr)
-
 
 supported = ("uint8 uint16 uint32 uint64 int8 int16 int32 int64 float32 float64"
              " u1 i1")
@@ -261,26 +263,25 @@ for x in supported.split():
     d = numpy.dtype(x)
     expr = Keyword(x).setParseAction(DType.parse_action(d))  
     dtype_checks.append(expr)
-suggester = create_suggester(get_options=lambda:supported.split())
 
-ndarray_simple_contract = MatchFirst(dtype_checks + array_constraints + [suggester])
+ndarray_simple_contract = MatchFirst(dtype_checks + array_constraints)
 ndarray_simple_contract.setName('numpy element contract')
 
-ndarray_composite_contract = operatorPrecedence(ndarray_simple_contract, [
+suggester = create_suggester(get_options=lambda:supported.split())
+baseExpr = ndarray_simple_contract | suggester
+baseExpr.setName('numpy contract (with recovery)')
+
+operatorPrecedence = myOperatorPrecedence
+ndarray_composite_contract = operatorPrecedence(baseExpr, [
                          (',', 2, opAssoc.LEFT, And.parse_action),
                          ('|', 2, opAssoc.LEFT, OR.parse_action),
                     ])
 
-
-#ndarray_contract = ndarray_composite_contract | suggester 
-
  
 def my_delim_list2(what, delim): 
     return (what + ZeroOrMore(S(delim) + FollowedBy(NotAny(ellipsis)) - what))
-
 ellipsis = Literal('...')
-
-inside = simple_contract ^ (S('(') - simple_contract - S(')'))
+inside = simple_contract ^ (S('(') - simple_contract - S(')')) # XXX: ^ and use or_contract?
 shape_contract = my_delim_list2(inside, S('x')) + O(S('x') + ellipsis)
 shape_contract.setParseAction(ShapeContract.parse_action)
 shape_contract.setName('array shape contract')

@@ -1,20 +1,23 @@
 import operator
 
-from ..interface import Contract, ContractNotRespected, describe_value
-from ..syntax import (Combine, Word, W, alphas, alphanums, oneOf,
+from ..syntax import (Combine, Word, alphas, alphanums, oneOf,
                       ParseSyntaxException, ParseException)
 
 def find_longest_match(s, options):
     matches = [(x, longest_match(s, x)) for x in options]
-    return max(matches, key=operator.itemgetter(1))
+    best = max(matches, key=operator.itemgetter(1))
+    return best
 
 def longest_match(a, b):
-    lengths = range(min(len(a), len(b)))
-    for i in lengths[::-1]:
+    lengths = range(min(len(a), len(b)) + 1)
+    lengths.reverse()
+    for i in lengths:
         if a[:i] == b[:i]:
             return i
     assert False
 
+assert ('float64', 6) == find_longest_match('float6', ['float32', 'float64'])
+                                            
 def default_message(identifier):
     return 'Unknown identifier %r. ' % identifier
 
@@ -33,7 +36,7 @@ def create_suggester(get_options, get_message=default_message):
             match, length = find_longest_match(identifier, options)
             if length > 1:
                 msg += 'Did you mean %r?' % match
-                loc += length + 1
+                loc += length
             else:
                 msg += '\nI know: %r.\n' % (options)
         pe = ParseException(s, loc, msg, patterns) 

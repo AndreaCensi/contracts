@@ -33,7 +33,7 @@ class String(Contract):
         return String(length, where=where)
  
 
-string_contract = (Keyword('str') | Keyword('string')) + O('[' + contract('length') + ']') 
+string_contract = (Keyword('str') | Keyword('string')) + O('[' - contract('length') - ']') 
 add_keyword('str')
 add_keyword('string')
 

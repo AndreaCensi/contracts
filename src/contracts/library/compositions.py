@@ -101,6 +101,7 @@ class And(Logical, Contract):
 suggester = create_suggester(get_options=lambda: ParsingTmp.keywords + 
                              list(Extension.registrar.keys()))
 baseExpr = simple_contract | suggester
+
 baseExpr.setName('Simple contract (recovering)')
 operatorPrecedence = myOperatorPrecedence
 composite_contract = operatorPrecedence(baseExpr, [

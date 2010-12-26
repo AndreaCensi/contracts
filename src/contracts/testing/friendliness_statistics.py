@@ -58,7 +58,7 @@ def run_joker(examples):
                 assert displacement >= 0
 
                 value = displacement * 1.0 / len(s)
-                if displacement > 5:
+                if displacement > 0:
                     print e
 #                    assert False
                     

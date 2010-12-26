@@ -40,8 +40,9 @@ add_keyword('int')
 add_contract(Keyword('float').setParseAction(CheckType.parse_action(float)))
 add_keyword('float')
 add_contract(Keyword('bool').setParseAction(CheckType.parse_action(bool)))
-add_keyword('number')
+add_keyword('bool')
 add_contract(Keyword('number').setParseAction(CheckType.parse_action(Number)))
+add_keyword('number')
 
 
 class Type(Contract):
