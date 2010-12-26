@@ -1,7 +1,7 @@
 from .syntax import Forward, Suppress, FollowedBy, Group, OneOrMore, Optional, \
-    opAssoc, ZeroOrMore
+    opAssoc, ZeroOrMore, oneOf, NotAny, Literal
 
-def myOperatorPrecedence(baseExpr, opList, option=True):
+def myOperatorPrecedence(baseExpr, opList, allops=[], option=True):
     """Helper method for constructing grammars of expressions made up of
        operators working in a precedence hierarchy.  Operators may be unary or
        binary, left- or right-associative.  Parse actions can also be attached
@@ -26,9 +26,9 @@ def myOperatorPrecedence(baseExpr, opList, option=True):
               parse action tuple member may be omitted)
     """
     ret = Forward()
-    opnames = ",".join([x[0] for x in opList])
+    opnames = ",".join(str(x) for x in allops)
     ret.setName('operatorSystem(%s)' % opnames)
-    parenthesis = (Suppress('(') + ret + Suppress(')'))
+    parenthesis = (Suppress('(') + ret + FollowedBy(NotAny(oneOf(allops))) - Suppress(')'))
 #    lastExpr = baseExpr | parenthesis.setName('parenthesis(%s)' % opnames)
     lastExpr = parenthesis.setName('parenthesis(%s)' % opnames) | baseExpr 
     lastExpr.setName('Base operand (%s) or parenthesis' % baseExpr.name)
@@ -44,10 +44,10 @@ def myOperatorPrecedence(baseExpr, opList, option=True):
                 matchExpr = FollowedBy(lastExpr + opExpr) + Group(lastExpr + OneOrMore(opExpr))
             elif arity == 2:
                 if opExpr is not None:
-                    if option:
-                        matchExpr = FollowedBy(lastExpr + opExpr - lastExpr) - Group(lastExpr + OneOrMore(opExpr - lastExpr))
-                    else:
-                        matchExpr = Group(lastExpr + FollowedBy(opExpr) + ZeroOrMore(opExpr - lastExpr))                
+#                    if option:
+#                        matchExpr = FollowedBy(lastExpr + opExpr - lastExpr) - Group(lastExpr + OneOrMore(opExpr - lastExpr))
+#                    else:
+                    matchExpr = Group(lastExpr + FollowedBy(opExpr) + ZeroOrMore(opExpr - lastExpr))                
                 else:
                     matchExpr = FollowedBy(lastExpr + lastExpr) + Group(lastExpr + OneOrMore(lastExpr))
             elif arity == 3:
