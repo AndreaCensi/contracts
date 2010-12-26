@@ -1,7 +1,7 @@
-from pyparsing import Forward, Suppress, FollowedBy, Group, OneOrMore, Optional, \
-    opAssoc
+from .syntax import Forward, Suppress, FollowedBy, Group, OneOrMore, Optional, \
+    opAssoc, ZeroOrMore
 
-def myOperatorPrecedence(baseExpr, opList):
+def myOperatorPrecedence(baseExpr, opList, option=True):
     """Helper method for constructing grammars of expressions made up of
        operators working in a precedence hierarchy.  Operators may be unary or
        binary, left- or right-associative.  Parse actions can also be attached
@@ -39,7 +39,10 @@ def myOperatorPrecedence(baseExpr, opList):
                 matchExpr = FollowedBy(lastExpr + opExpr) + Group(lastExpr + OneOrMore(opExpr))
             elif arity == 2:
                 if opExpr is not None:
-                    matchExpr = FollowedBy(lastExpr + opExpr - lastExpr) + Group(lastExpr + OneOrMore(opExpr - lastExpr))
+                    if option:
+                        matchExpr = FollowedBy(lastExpr + opExpr - lastExpr) - Group(lastExpr + OneOrMore(opExpr - lastExpr))
+                    else:
+                        matchExpr = Group(lastExpr + FollowedBy(opExpr) + ZeroOrMore(opExpr - lastExpr))                
                 else:
                     matchExpr = FollowedBy(lastExpr + lastExpr) + Group(lastExpr + OneOrMore(lastExpr))
             elif arity == 3:
@@ -52,7 +55,7 @@ def myOperatorPrecedence(baseExpr, opList):
                 # try to avoid LR with this extra test
                 if not isinstance(opExpr, Optional):
                     opExpr = Optional(opExpr) 
-                matchExpr = FollowedBy(opExpr.expr + thisExpr) + Group(opExpr - thisExpr)
+                matchExpr = FollowedBy(opExpr.expr - thisExpr) - Group(opExpr - thisExpr)
             elif arity == 2:
                 if opExpr is not None:
                     matchExpr = FollowedBy(lastExpr + opExpr - thisExpr) + Group(lastExpr + OneOrMore(opExpr - thisExpr))
@@ -67,7 +70,7 @@ def myOperatorPrecedence(baseExpr, opList):
             raise ValueError("operator must indicate right or left associativity")
         if pa:
             matchExpr.setParseAction(pa)
-        thisExpr << (matchExpr | lastExpr)
+        thisExpr << (matchExpr | lastExpr).setName('operation')
         lastExpr = thisExpr
     ret << lastExpr
     return ret

@@ -1,8 +1,7 @@
 from ..interface import Contract, ContractNotRespected
-from ..syntax import add_contract, W, contract, O, S, ZeroOrMore, simple_contract
+from ..syntax import(add_contract, W, contract, O, S, ZeroOrMore, simple_contract,
+                      Group, add_keyword)
 from contracts.library.compositions import or_contract
-from pyparsing import Group
-from contracts.syntax import add_keyword
 
 
 class Tuple(Contract):
@@ -78,7 +77,11 @@ class Tuple(Contract):
 
 inside = (S('(') - contract - S(')')) ^ or_contract ^ simple_contract 
 elements = Group(S('(') - inside - ZeroOrMore(S(',') - inside) - S(')'))('elements')
+elements.setName('Tuple elements contract.')
+
+
 length = Group(S('[') + contract + S(']'))('length') 
+length.setName('Tuple length contract.')
 
 tuple_contract = S('tuple') - O(length | elements) 
 

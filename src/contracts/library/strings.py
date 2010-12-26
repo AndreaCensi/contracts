@@ -1,8 +1,5 @@
 from ..interface import Contract, ContractNotRespected
-from ..syntax import add_contract, W, contract, O, Literal
-from contracts.syntax import add_keyword
-from pyparsing import Keyword
-
+from ..syntax import add_contract, W, contract, O, Literal, add_keyword, Keyword
 
 class String(Contract):
     

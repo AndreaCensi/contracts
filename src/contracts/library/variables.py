@@ -1,12 +1,13 @@
 from ..interface import Contract, ContractNotRespected, RValue
-from ..syntax import W, oneOf, FollowedBy, NotAny
-from pyparsing import Keyword, MatchFirst, Literal, Or
+from ..syntax import (W, oneOf, FollowedBy, NotAny, Keyword, MatchFirst, Literal, Or,
+                      White)                
 
 
 class BindVariable(Contract):
     
     def __init__(self, variable, allowed_types, where=None):
         assert isinstance(variable, str) and len(variable) == 1
+        assert allowed_types, '%r' % allowed_types
         Contract.__init__(self, where)
         self.variable = variable
         self.allowed_types = allowed_types
@@ -74,23 +75,26 @@ class VariableRef(RValue):
         return VariableRef(tokens[0], where=where)
     
     
-alphabetu = 'A B C D E F G H I J K L M N O P Q R S T U W V X Y Z'
-alphabetl = 'a b c d e f g h i j k l m n o p q r s t u w v x y z'
+alphabetu = 'A B C D E F G H I J K L M N O P Q R S T U W V X Y Z '
+alphabetl = 'a b c d e f g h i j k l m n o p q r s t u w v x y z '
 
-#intvar = lambda s : (Literal(s) + FollowedBy('x')) ^ Keyword(s)
-#int_variables = Or([intvar(x) for x in alphabetu.split()])
+# Special case: allow an expression like AxBxC
 nofollow = 'a b c d e f g h i j k l m n o p q r s t u w v   y z'
 int_variables = oneOf(alphabetu.split()) + FollowedBy(NotAny(oneOf(nofollow.split())))
-# Special case: allow an expression like AxBxC
+misc_variables = oneOf(alphabetl.split()) + FollowedBy(NotAny(oneOf(alphabetl.split())))
+int_variables_ref = int_variables.copy().setParseAction(VariableRef.parse_action)
+misc_variables_ref = misc_variables.copy().setParseAction(VariableRef.parse_action) 
+
+#int_variables = oneOf(alphabetu.split()) + FollowedBy(White() ^ 'x')
  
 # These must be followed by whitespace; punctuation
 #misc_variables = oneOf(alphabet.lower()) + FollowedBy(White()) 
-misc_variables = oneOf(alphabetl.split()) + FollowedBy(NotAny(oneOf(alphabetl.split())))
 
-int_variables_contract = int_variables.copy().setParseAction(BindVariable.parse_action(int))
-misc_variables_contract = misc_variables.copy().setParseAction(BindVariable.parse_action(object))  
+nofollow = 'a b c d e f g h i j k l m n o p q r s t u w v   y z'
+nofollow += ' * - + /'
+int_variables2 = oneOf(alphabetu.split()) + FollowedBy(NotAny(oneOf(nofollow.split())))
+misc_variables2 = oneOf(alphabetl.split()) + FollowedBy(NotAny(oneOf(alphabetl.split())))
+int_variables_contract = int_variables2.setParseAction(BindVariable.parse_action(int))
+misc_variables_contract = misc_variables2.setParseAction(BindVariable.parse_action(object))  
 
-
-int_variables_ref = int_variables.copy().setParseAction(VariableRef.parse_action)
-misc_variables_ref = misc_variables.copy().setParseAction(VariableRef.parse_action) 
 

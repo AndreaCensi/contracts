@@ -20,7 +20,8 @@ class Logical(object):
 
 class OR(Logical, Contract):
     def __init__(self, clauses, where=None):
-        assert isinstance(clauses, list) and len(clauses) >= 2
+        assert isinstance(clauses, list) 
+        assert len(clauses) >= 2
         Contract.__init__(self, where)
         Logical.__init__(self, '|', 1)
         self.clauses = clauses
@@ -67,7 +68,8 @@ class OR(Logical, Contract):
 
 class And(Logical, Contract):
     def __init__(self, clauses, where=None):
-        assert isinstance(clauses, list) and len(clauses) >= 2
+        assert isinstance(clauses, list) 
+        assert len(clauses) >= 2, clauses
         Contract.__init__(self, where)
         Logical.__init__(self, ',', 2)
         self.clauses = clauses
@@ -95,7 +97,7 @@ class And(Logical, Contract):
  
 
 
-operatorPrecedence = myOperatorPrecedence
+#operatorPrecedence = lambda x, y: myOperatorPrecedence(x, y, False)
 composite_contract = operatorPrecedence(simple_contract, [
                          (',', 2, opAssoc.LEFT, And.parse_action),
                          ('|', 2, opAssoc.LEFT, OR.parse_action),

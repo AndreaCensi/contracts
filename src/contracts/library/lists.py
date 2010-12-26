@@ -41,10 +41,11 @@ class List(Contract):
         return List(length_contract, elements_contract, where=where)
  
 
-list_contract = (S('list') + 
-                 O(S('[') + contract('length_contract') + S(']')) + 
-                 O(S('(') + contract('elements_contract') + S(')')))
+list_contract = (S('list') - 
+                 O(S('[') - contract('length_contract') - S(']')) + 
+                 O(S('(') - contract('elements_contract') - S(')')))
 list_contract.setParseAction(List.parse_action)
 
+list_contract.setName('List contract')
 add_keyword('list')
 add_contract(list_contract)

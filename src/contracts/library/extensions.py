@@ -1,7 +1,7 @@
 from ..interface import Contract, ContractNotRespected, describe_value
 from ..syntax import (Combine, Word, W, alphas, alphanums, oneOf,
-                      ParseFatalException)
-from pyparsing import ParseException
+                      ParseFatalException, ParseException)
+
 from contracts.syntax import ParsingTmp
 
 class Extension(Contract):
@@ -27,7 +27,6 @@ class Extension(Contract):
         identifier = tokens[0]
         
         where = W(s, loc)
-        
         if identifier in ParsingTmp.keywords:
             raise ParseException('Not matching %r' % identifier)
         

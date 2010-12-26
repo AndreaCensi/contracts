@@ -1,5 +1,5 @@
 from copy import deepcopy
-from pyparsing import lineno, col
+from .syntax import lineno, col
 
 class Where(object):
     ''' An object of this class represents a place in a file. 

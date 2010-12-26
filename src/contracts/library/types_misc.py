@@ -1,9 +1,7 @@
 from numbers import Number
 
 from ..interface import Contract, ContractNotRespected
-from ..syntax import W, add_contract, contract, S, Literal
-from pyparsing import Keyword
-from contracts.syntax import add_keyword
+from ..syntax import W, add_contract, contract, S, Literal, Keyword, add_keyword
 
 class CheckType(Contract):
     def __init__(self, types, type_string=None, where=None):

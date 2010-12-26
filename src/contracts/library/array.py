@@ -288,7 +288,8 @@ add_contract(array_contract)
 
 
 optional_length = (S('[') + contract + S(']'))('length')
-optional_other = (S('(') + (contract ^ shape_contract) + S(')'))('other')
+#optional_other = (S('(') + (contract ^ shape_contract) + S(')'))('other')
+optional_other = (S('(') + (contract) + S(')'))('other')
 shape = S('shape') + O(optional_length) + O(optional_other)
                                             
 shape.setParseAction(Shape.parse_action)
