@@ -282,6 +282,9 @@ class ParseResults(object):
         retobj.__doinit = True
         return retobj
 
+    def __eq__(self, other):
+        return isinstance(other, ParseResults) and other.__toklist == self.__toklist
+    
     # Performance tuning: we construct a *lot* of these, so keep this
     # constructor as small and fast as possible
     def __init__(self, toklist, name=None, asList=True, modal=True, isinstance=isinstance):
@@ -1434,7 +1437,10 @@ class ParserElement(object):
         return self
 
     def __str__(self):
-        return self.name
+        if hasattr(self, 'name'):
+            return self.name
+        else:
+            return '<unnamed %s>' % self.__class__.__name__
 
     def __repr__(self):
         return _ustr(self)
@@ -1477,7 +1483,8 @@ class ParserElement(object):
             self.myException = ret = self.getException();
             return ret;
         else:
-            raise AttributeError("no such attribute " + aname)
+            raise AttributeError("no such attribute %s (class %s)" % 
+                                 (aname, self.__class__.__name__))
 
     def __eq__(self, other):
         if isinstance(other, ParserElement):
@@ -2540,7 +2547,15 @@ class Or(ParseExpression):
                     maxMatchLoc = loc2
                     maxMatchExp = e
                 elif loc2 == maxMatchLoc:
-                    raise ParseSyntaxException('ambiguous')
+                    val1 = e._parse(instring, loc, True)
+                    val2 = maxMatchExp._parse(instring, loc, True)
+                    if not(val1 == val2):
+                        msg = ('Ambiguous syntax, I could match both (and maybe more):\n- %s\n- %s\n.' % 
+                               (get_desc(e), get_desc(maxMatchExp)))
+                        msg += 'Their values are: \n'
+                        msg += '- {0!r}\n'.format(val1)
+                        msg += '- {0!r}\n'.format(val2)
+                        raise ParseFatalException(instring, loc, msg, self)
 
 #        if maxMatchLoc < 0:
 #            if maxException is not None:
@@ -2579,9 +2594,12 @@ class Or(ParseExpression):
 
 def get_desc(x):
     if hasattr(x, 'name'):
-        return "%s (instance of %s, %s)" % (x.name, x.__class__.__name__, hash(x))
+        name = "%r" % x.name
     else:
-        return 'unnamed (instance of %s, %s)' % (x.__class__.__name__, hash(x))
+        name = '<unnamed>'
+        
+    return "%s (instance of %s)" % (name, x.__class__.__name__)
+    
 
 class MatchFirst(ParseExpression):
     """Requires that at least one C{ParseExpression} is found.
@@ -3071,7 +3089,7 @@ class Forward(ParseElementEnhance):
     """
     def __init__(self, other=None):
         super(Forward, self).__init__(other, savelist=False)
-
+        
     def __lshift__(self, other):
         if isinstance(other, basestring):
             other = Literal(other)

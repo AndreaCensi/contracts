@@ -52,9 +52,11 @@ floatnumber.setParseAction(lambda tokens: SimpleRValue(float(tokens[0])))
 isnumber = lambda x: isinstance(x, Number)
 
 rvalue = Forward()
+rvalue.setName('rvalue')
 contract = Forward()
+contract.setName('contract')
 simple_contract = Forward()
-
+simple_contract.setName('simple_contract')
 
 # Import all expressions -- they will call add_contract() and add_rvalue()
 from .library import (EqualTo, Unary, Binary, composite_contract,
@@ -103,11 +105,10 @@ simple_contract.setName('simple contract expression')
 
 par = (S('(') - (contract - S(')'))) 
 
-contract.setName('contract expression')
 par.setName('contract in parenthesis')
 composite_contract.setName('composite contract')
 
 any_contract = (composite_contract | par | simple_contract)
-any_contract.setName('Any contract')
+any_contract.setName('Any simple or composite contract')
 contract << (any_contract) # Parentheses before << !!
 
