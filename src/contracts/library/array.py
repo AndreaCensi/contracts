@@ -4,7 +4,7 @@ from numpy  import ndarray, dtype #@UnusedImport
 from ..interface import Contract, ContractNotRespected, RValue
 from ..syntax import (add_contract, W, contract, O, S, rvalue,
                        simple_contract, ZeroOrMore, Literal, MatchFirst,
-                       operatorPrecedence, opAssoc)
+                       operatorPrecedence, opAssoc, FollowedBy, NotAny)
 from .compositions import And, OR
 
 
@@ -269,27 +269,26 @@ ndarray_composite_contract = operatorPrecedence(ndarray_contract, [
                     ])
  
 def my_delim_list2(what, delim): 
-    return (what + ZeroOrMore(S(delim) + what))
+    return (what + ZeroOrMore(S(delim) + FollowedBy(NotAny(ellipsis)) - what))
 
 ellipsis = Literal('...')
 
-inside = simple_contract ^ (S('(') + simple_contract + S(')'))
-shape_contract = (my_delim_list2(inside, S('x')) + O(S('x') + ellipsis))
+inside = simple_contract ^ (S('(') - simple_contract - S(')'))
+shape_contract = my_delim_list2(inside, S('x')) + O(S('x') + ellipsis)
 shape_contract.setParseAction(ShapeContract.parse_action)
 
 
 name = S('array') | S('ndarray')
-optional_shape = (S('[') + shape_contract + S(']'))('shape_contract')
-optional_elements = (S('(') + ndarray_composite_contract + S(')'))('elements_contract')
+optional_shape = (S('[') - shape_contract - S(']'))('shape_contract')
+optional_elements = (S('(') - ndarray_composite_contract - S(')'))('elements_contract')
 array_contract = name + O(optional_shape) + O(optional_elements)
                    
 array_contract.setParseAction(Array.parse_action)
 add_contract(array_contract)
 
 
-optional_length = (S('[') + contract + S(']'))('length')
-#optional_other = (S('(') + (contract ^ shape_contract) + S(')'))('other')
-optional_other = (S('(') + (contract) + S(')'))('other')
+optional_length = (S('[') - contract - S(']'))('length')
+optional_other = (S('(') - contract - S(')'))('other')
 shape = S('shape') + O(optional_length) + O(optional_other)
                                             
 shape.setParseAction(Shape.parse_action)
