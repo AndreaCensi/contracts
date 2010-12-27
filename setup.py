@@ -1,27 +1,32 @@
 import os
 from setuptools import setup, find_packages
 
-packages = find_packages(where='src')
+version = "0.9.2"
+
+description = (
+'PyContracts is a Python package that allows to declare '
+'constraints on function parameters and return values. '
+'Contracts can be specified using Python3 annotations, '
+'in a decorator, or inside a docstring :type: and :rtype: tags. '
+'PyContracts supports a basic type system, variables binding, '
+'arithmetic constraints, and has several specialized '
+'contracts (notably for Numpy arrays), as well as an extension API.') 
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
-
-short = ('PyContracts is a Python package that allows to declare '
-         ' constraints on function parameters and return values. '
-         'Contracts can be specified using Python3 annotations, '
-         ' or inside a docstring :type: and :rtype: tags. '
-         ' PyContracts supports a basic type system, variables binding, '
-         ' arithmetic constraints, and has several specialized '
-         ' contracts (notably for Numpy arrays), as well as an extension API.') 
     
-version = "0.9.1"
+long_description = read('README.rst')
+    
 
 setup(name='PyContracts',
       author="Andrea Censi",
       author_email="andrea@cds.caltech.edu",
       url='http://andreacensi.github.com/contracts/',
       
-      description=short,
+      description=description,
+      long_description=long_description,
+      keywords="type checking, value checking, contracts",
+      license="LGPL",
       
       classifiers=[
         'Development Status :: 4 - Beta',
@@ -31,10 +36,6 @@ setup(name='PyContracts',
         'Topic :: Software Development :: Documentation',
         'Topic :: Software Development :: Testing'
       ],
-      
-      long_description=read('README.rst'),
-      keywords="type checking, value checking, contracts",
-      license="LGPL",
 
 	  version=version,
       download_url='http://github.com/AndreaCensi/contracts/tarball/%s' % version,
