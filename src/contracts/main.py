@@ -513,6 +513,11 @@ def new_contract_impl(identifier, condition):
         
     return bare_contract
 
+
+inPy2 = sys.version_info[0] == 2    
+if inPy2:
+    from types import ClassType
+ 
 def can_be_used_as_a_type(x):
     ''' Checks that x can be used as a type; specifically,
         we can write isintance(y,x). 
@@ -521,10 +526,9 @@ def can_be_used_as_a_type(x):
     if isinstance(x, type):
         return True
     
-    # python 2:
-    from types import ClassType
-    if isinstance(x, ClassType):
-        return True
+    if inPy2:
+        if isinstance(x, ClassType):
+            return True
     
     return False
 

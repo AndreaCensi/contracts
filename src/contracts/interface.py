@@ -1,3 +1,4 @@
+import sys
 from copy import deepcopy
 from .syntax import lineno, col
 
@@ -301,7 +302,11 @@ class Contract(object):
         return (self.__class__ == other.__class__ and 
                 self.__repr__() == other.__repr__())
 
-        
+
+inPy2 = sys.version_info[0] == 2    
+if inPy2:
+    from types import ClassType
+
 def describe_value(x, clip=50):
     ''' Describes an object, for use in the error messages. '''
     if hasattr(x, 'shape') and hasattr(x, 'dtype'):
@@ -312,9 +317,7 @@ def describe_value(x, clip=50):
         if len(s) > clip:
             s = "%s... [clip]" % s[:clip]
 
-        # python 2
-        from types import ClassType
-        if isinstance(x, ClassType):
+        if inPy2 and isinstance(x, ClassType):
             class_name = '(old-style class type) %s' % x
         else:
             class_name = ' %s' % x.__class__.__name__
