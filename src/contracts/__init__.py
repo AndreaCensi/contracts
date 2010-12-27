@@ -10,7 +10,7 @@ from .interface import (Contract, Context, ContractNotRespected,
 
 from .main import (check, fail, check_multiple, contracts, new_contract)
 
-from .main import parse_contract_string as parse
+from .main import parse_flexible_spec as parse
 from .main import contracts_decorate as decorate
 
 contract_expression = syntax.contract
