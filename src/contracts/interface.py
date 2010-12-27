@@ -166,6 +166,8 @@ class Context(object):
     def __str__(self):
         return ", ".join("%s=%s" % (k, v) for (k, v) in list(self._variables.items()))
         
+        
+        
 class Contract(object):
     
     def __init__(self, where):
