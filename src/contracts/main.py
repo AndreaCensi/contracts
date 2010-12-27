@@ -11,6 +11,7 @@ from .library import (identifier_expression, Extension,
                       CheckCallable, SeparateContext) 
 
 
+
 def check_contracts(contracts, values):
     ''' 
         Checks that the values respect the contract. 
@@ -160,7 +161,7 @@ def contracts_decorate(function, **kwargs):
 
         for kw in kwargs:
             if not kw in all_args:
-                msg = 'Unknown parameter %r; I know %r.' %  (kw, all_args)
+                msg = 'Unknown parameter %r; I know %r.' % (kw, all_args)
                 raise ContractException(msg)
             
         accepts_dict = kwargs 
@@ -225,7 +226,7 @@ def parse_flexible_spec(spec):
         In the latter case, the usual parsing takes place'''
     if isinstance(spec, str):
         return parse_contract_string(spec)
-    elif isinstance(spec, type):
+    elif can_be_used_as_a_type(spec):
         from .library import CheckType
         return CheckType(spec)
     else:
@@ -399,12 +400,13 @@ def new_contract(*args):
         :type identifier: str 
         
         :param condition: Definition of the new contract.
-        :type condition: ``callable|str``
+        :type condition: ``type|callable|str``
         
         :return: The equivalent contract -- might be useful for debugging.
         :rtype: Contract
     '''
     if args and len(args) == 1 and isinstance(args[0], types.FunctionType):
+        # TODO: add here for class decorator
         # We were called without parameters
         function = args[0]
         identifier = function.__name__
@@ -450,10 +452,16 @@ def new_contract_impl(identifier, condition):
     if isinstance(condition, str):
         # We assume it is a condition that should parse cleanly
         try:
+            # could call parse_flexible_spec as well here
             bare_contract = parse_contract_string(condition)
         except ContractSyntaxError as e:
             raise ValueError('The given condition %r does not parse cleanly: %s' % 
                              (condition, e))
+    # Important: types are callable, so check this first.
+    elif can_be_used_as_a_type(condition): 
+        # parse_flexible_spec can take care of types
+        bare_contract = parse_flexible_spec(condition)
+    # Lastly, it should be a callable
     elif hasattr(condition, '__call__'):
         # Check that the signature is right
         can, error = can_accept_exactly_one_argument(condition)
@@ -490,6 +498,22 @@ def new_contract_impl(identifier, condition):
         assert False, 'Cannot parse %r: %s' % (identifier, e)
         
     return bare_contract
+
+def can_be_used_as_a_type(x):
+    ''' Checks that x can be used as a type; specifically,
+        we can write isintance(y,x). 
+        Here we support old-style classes. 
+    '''
+    if isinstance(x, type):
+        return True
+    
+    # python 2:
+    from types import ClassType
+    if isinstance(x, ClassType):
+        return True
+    
+    return False
+
 
 def can_accept_exactly_one_argument(callable_thing):
     ''' Checks that a callable can accept exactly one argument

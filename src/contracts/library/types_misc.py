@@ -1,10 +1,13 @@
 from numbers import Number
 
 from ..interface import Contract, ContractNotRespected
-from ..syntax import W, add_contract, contract, S, Literal, Keyword, add_keyword
+from ..syntax import W, add_contract, contract, S, Keyword, add_keyword
 
 class CheckType(Contract):
+    
     def __init__(self, types, type_string=None, where=None):
+        from ..main import can_be_used_as_a_type # XXX: make it better
+        assert can_be_used_as_a_type(types)
         Contract.__init__(self, where)
         self.types = types
         if type_string is None:

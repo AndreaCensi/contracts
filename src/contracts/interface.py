@@ -248,15 +248,19 @@ def describe_value(x, clip=50):
     if hasattr(x, 'shape') and hasattr(x, 'dtype'):
         return 'ndarray with shape %s, dtype %s' % (x.shape, x.dtype)
     else:
-        if isinstance(x, tuple):
-            s = x.__repr__() # XXX: use format()
-        else:
-            s = "%r" % x
-            
+        s = "{0!r}".format(x)
+        
         if len(s) > clip:
             s = "%s... [clip]" % s[:clip]
 
-        return 'Instance of %s: %s' % (x.__class__.__name__, s)
+        # python 2
+        from types import ClassType
+        if isinstance(x, ClassType):
+            class_name = '(old-style class type) %s' % x
+        else:
+            class_name = ' %s' % x.__class__.__name__
+
+        return 'Instance of %s: %s' % (class_name, s)
         
          
     

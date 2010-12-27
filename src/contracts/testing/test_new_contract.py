@@ -3,8 +3,8 @@ import unittest
 from contracts import new_contract, check
 from contracts.library.extensions import identifier_expression
 from contracts.interface import Contract
-from contracts.testing.utils import check_contracts_fail
-from contracts.main import contracts
+from contracts.testing.utils import check_contracts_fail, check_contracts_ok
+from contracts.main import contracts, can_be_used_as_a_type
 
 # The different patterns
 
@@ -22,10 +22,15 @@ def fail2(x): #@UnusedVariable
 
 def invalid_callable1(x): #@UnusedVariable
     return 'ciao'
+
+# generates a new name:
+def cname():
+    TestNewContract.counter += 1
+    return 'GeneratedContract%d' % TestNewContract.counter 
     
 
 class TestNewContract(unittest.TestCase):
-    
+    counter = 0
     def test_inverted_args(self):
         self.assertRaises(ValueError, new_contract, ok1, 'list')
     
@@ -91,40 +96,85 @@ class TestNewContract(unittest.TestCase):
         new_contract('my8b', 'list[3]')
         
     def test_callable1(self):
-        new_contract('my3', ok1)
-        check('list(my3)', [0])
+        c = cname()
+        new_contract(c, ok2)
+        check('list(%s)' % c, [0])
         
     def test_callable2(self):
-        new_contract('my4', ok2)
-        check('list(my4)', [0])
+        c = cname()
+        new_contract(c, ok2)
+        check('list(%s)' % c, [0])
     
     def test_callable3(self):
-        new_contract('my5', fail1)
-        check_contracts_fail('list(my5)', [0])
+        c = cname()
+        new_contract(c, fail1)
+        check_contracts_fail('list(%s)' % c, [0])
         
     def test_callable4(self):
-        new_contract('my9', fail2)
-        check_contracts_fail('list(my9)', [0])
+        c = cname()
+        new_contract(c, fail2)
+        check_contracts_fail('list(%s)' % c, [0])
         
     def test_invalid_callable2(self):
-        new_contract('my10', invalid_callable1)
-        self.assertRaises(ValueError, check, 'list(my10)', [0])
+        c = cname()
+        new_contract(c, invalid_callable1)
+        self.assertRaises(ValueError, check, 'list(%s)' % c, [0])
             
     def test_other_pass(self):
         class Ex1(Exception):
             pass
         def invalid(x):
             raise Ex1()
-        new_contract('my11', invalid)
-        self.assertRaises(Ex1, check, 'list(my11)', [0])        
+        c = cname() 
+        new_contract(c, invalid)
+        self.assertRaises(Ex1, check, 'list(%s)' % c, [0])        
 
     def test_callable(self):
         class MyTest_ok(object):
-            def __call__(self, x): #@UnusedVariable
+            def __call__(self, x): #@UnusedVariable @ 
                 return True
         o = MyTest_ok()
         assert o('value') == True
-        new_contract('my15a', o)
+        new_contract(cname(), o)
+    
+    def test_callable_old_style(self):
+        class MyTest_ok():
+            def __call__(self, x): #@UnusedVariable @ 
+                return True
+        o = MyTest_ok()
+        assert o('value') == True
+        new_contract(cname(), o)
+    
+    def test_class_as_contract1(self):
+        # This should be interpreted as a type
+        # init(x,y) so it is not mistaken for a valid callable
+        class NewStyleClass(object):
+            def __init__(self, x, y): #@UnusedVariable @ 
+                pass
+        new_contract(cname(), NewStyleClass)
+    
+    def test_class_as_contract2(self):
+        # old sytle class
+        class OldStyleClass():
+            def __init__(self, x, y): #@UnusedVariable @ 
+                pass
+        new_contract(cname(), OldStyleClass)
+        
+    def test_class_as_contract3(self):
+        class NewStyleClass(object):
+            def __init__(self, x, y): #@UnusedVariable @ 
+                pass
+        @contracts(x=NewStyleClass)
+        def f(x):
+            pass
+    
+    def test_class_as_contract4(self):
+        class OldStyleClass():
+            def __init__(self, x, y): #@UnusedVariable @ 
+                pass
+        @contracts(x=OldStyleClass)
+        def f(x):
+            pass
     
     def test_callable_5(self):
         class MyTest_ok(object):
@@ -132,25 +182,25 @@ class TestNewContract(unittest.TestCase):
                 return True
         o = MyTest_ok()
         assert o.f('value') == True
-        new_contract('my15b', o.f)
+        new_contract(cname(), o.f)
     
     def test_callable_invalid(self):
         class MyTest_fail(object):
             def __call__(self, x, y): #@UnusedVariable
                 return True
             
-        self.assertRaises(ValueError, new_contract, 'my16', MyTest_fail())
+        self.assertRaises(ValueError, new_contract, cname(), MyTest_fail())
         
     def test_lambda_2(self):
-        new_contract('my17', lambda x: True) #@UnusedVariable
-        new_contract('my17b', lambda x: None) #@UnusedVariable
+        new_contract(cname(), lambda x: True) #@UnusedVariable
+        new_contract(cname(), lambda x: None) #@UnusedVariable
     
     def test_lambda_invalid(self):
         f = lambda x, y: True #@UnusedVariable
-        self.assertRaises(ValueError, new_contract, 'my18', f)
+        self.assertRaises(ValueError, new_contract, cname(), f)
     
     def test_lambda_invalid2(self):
-        self.assertRaises(ValueError, new_contract, 'my18', lambda: True)
+        self.assertRaises(ValueError, new_contract, cname(), lambda: True)
 
     def test_idioms(self):
         color = new_contract('color', 'list[3](number,>=0,<=1)')
@@ -203,3 +253,29 @@ class TestNewContract(unittest.TestCase):
         p.fail(3)
         p.fail(2.0) # now fails 
 
+    def test_types_as_contracts(self):
+        c = cname()
+        new_contract(c, str)
+        check_contracts_ok(c, '')
+        check_contracts_fail(c, 1)
+        
+    def test_types_as_contracts2(self):
+        c = cname()
+        new_contract(c, int)
+        check_contracts_ok(c, 1)
+        check_contracts_fail(c, '')
+        
+    def test_well_recognized(self):
+        class OldStyleClass():
+            def __init__(self, x, y): #@UnusedVariable @ 
+                pass
+            
+        assert can_be_used_as_a_type(OldStyleClass)
+        
+        class NewStyleClass():
+            def __init__(self, x, y): #@UnusedVariable @ 
+                pass
+        
+        assert can_be_used_as_a_type(NewStyleClass)
+        
+        
