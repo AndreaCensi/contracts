@@ -223,9 +223,24 @@ class Contract(object):
     def __repr__(self):
         ''' Returns a string representation of a contract that can be 
             evaluated by Python's :py:func:`eval()`.
-
+            
             It must hold that: ``eval(contract.__repr__()) == contract``.
             This is checked in the unit-tests.
+
+            Example:
+            
+            >>> from contracts import parse
+            >>> contract = parse('list[N]')
+            >>> contract.__repr__()
+            "List(BindVariable('N',int),None)"
+            
+            All the symbols you need to eval() the expression are in 
+            :py:mod:`contracts.library`.
+            
+            >>> from contracts.library import *
+            >>> contract == eval("%r"%contract)
+            True
+
         '''
         assert False, 'Not implemented in %r' % self.__class__  # pragma: no cover
 
@@ -235,6 +250,26 @@ class Contract(object):
             
             It must hold that: ``parse(str(contract)) == contract``.
             This is checked in the unit-tests.
+            
+            Example:
+            
+            >>> from contracts import parse
+            >>> spec = 'list[N]' 
+            >>> contract = parse(spec)
+            >>> contract
+            List(BindVariable('N',int),None)
+            >>> str(contract) == spec
+            True
+            
+            The only exception is when you have redundant symbols
+            or whitespace in the spec. In that case, they will be normalized:
+            
+            >>> from contracts import parse
+            >>> verbose_spec = 'list[((N))]( int, > 0)' 
+            >>> contract = parse(verbose_spec)
+            >>> str(contract)
+            'list[N](int,>0)'
+            
         '''
         assert False, 'Not implemented in %r' % self.__class__ # pragma: no cover
 

@@ -51,3 +51,13 @@ class TestParticular(unittest.TestCase):
         expression_parses(int_variables_contract, 'A', all=True)
         expression_fails(int_variables_contract, 'A*', all=False)
         
+        
+from contracts.library import * #@UnusedWildImport
+
+class TestBindingVsRef(unittest.TestCase):
+    def test_binding_vs_ref(self):
+        self.assertEqual(parse('list[N]'), List(BindVariable('N', int), None))
+
+    def test_binding_vs_ref2(self):
+        self.assertEqual(parse('N'), BindVariable('N', int))
+        
