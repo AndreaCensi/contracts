@@ -7,13 +7,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>PyContracts &mdash; PyContracts v0.9.1 documentation</title>
+    <title>PyContracts &mdash; PyContracts v0.9.2 documentation</title>
     <link rel="stylesheet" href="static/default.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.9.1',
+        VERSION:     '0.9.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,7 +22,7 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="PyContracts v0.9.1 documentation" href="#" />
+    <link rel="top" title="PyContracts v0.9.2 documentation" href="#" />
 	 
 
 
@@ -47,7 +47,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">PyContracts v0.9.1 documentation</a> &raquo;</li> 
+        <li><a href="#">PyContracts v0.9.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -1095,13 +1095,14 @@ def my_function(a:'int,&gt;0', b:'list[N],N&gt;0') -&gt; 'list[N]':
 </div>
 </li>
 </ul>
-<p><strong>Contracts evaluation</strong>: Note that all contracts for the arguments and the return values
+<p><strong>Contracts evaluation</strong>: Note that all contracts for the arguments 
+and the return values
 are evaluated in the same context. This make it possible to use
 common variables in the contract expression. For example, in the example
 above, the return value is constrained to be a list of the same 
 length (<tt class="docutils literal"><span class="pre">N</span></tt>) as the parameter <tt class="docutils literal"><span class="pre">b</span></tt>.</p>
-<p><strong>Using docstrings</strong> Note that, by convention, those annotations must be parseable as
-RestructuredText. This is relevant if you are using Sphinx.
+<p><strong>Using docstrings</strong> Note that, by convention, those annotations must 
+be parseable as RestructuredText. This is relevant if you are using Sphinx.
 If the contract string has special RST characters in it, like <tt class="docutils literal"><span class="pre">*</span></tt>,
 you can include it in double ticks. <span class="brand">PyContracts</span> will remove
 the double ticks before interpreting the string.</p>
@@ -1203,8 +1204,10 @@ it is included in the error message.</li>
 
 <dl class="function">
 <dt id="contracts.parse">
-<tt class="descclassname">contracts.</tt><tt class="descname">parse</tt><big>(</big><em>string</em><big>)</big><a class="headerlink" href="#contracts.parse" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<tt class="descclassname">contracts.</tt><tt class="descname">parse</tt><big>(</big><em>spec</em><big>)</big><a class="headerlink" href="#contracts.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>spec can be either a type or a contract string. 
+In the latter case, the usual parsing takes place</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="contracts.new_contract">
@@ -1250,7 +1253,7 @@ using <a class="reference internal" href="#contracts.Contract.check" title="cont
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>identifier</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The identifier must be a string not already in use
 (you cannot redefine <tt class="docutils literal"><span class="pre">list</span></tt>, <tt class="docutils literal"><span class="pre">tuple</span></tt>, etc.).</li>
-<li><strong>condition</strong> (<tt class="docutils literal"><span class="pre">callable|str</span></tt>) &#8211; Definition of the new contract.</li>
+<li><strong>condition</strong> (<tt class="docutils literal"><span class="pre">type|callable|str</span></tt>) &#8211; Definition of the new contract.</li>
 </ul>
 </td>
 </tr>
@@ -1305,6 +1308,20 @@ using <a class="reference internal" href="#contracts.Contract.check" title="cont
 evaluated by Python&#8217;s <a class="reference external" href="http://docs.python.org/library/functions.html#eval" title="(in Python v2.7)"><tt class="xref py py-func docutils literal"><span class="pre">eval()</span></tt></a>.</p>
 <p>It must hold that: <tt class="docutils literal"><span class="pre">eval(contract.__repr__())</span> <span class="pre">==</span> <span class="pre">contract</span></tt>.
 This is checked in the unit-tests.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">parse</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span><span class="o">.</span><span class="n">__repr__</span><span class="p">()</span>
+<span class="go">&quot;List(BindVariable(&#39;N&#39;,int),None)&quot;</span>
+</pre></div>
+</div>
+<p>All the symbols you need to eval() the expression are in 
+<tt class="xref py py-mod docutils literal"><span class="pre">contracts.library</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contracts.library</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span> <span class="o">==</span> <span class="nb">eval</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%r</span><span class="s">&quot;</span><span class="o">%</span><span class="n">contract</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -1314,6 +1331,44 @@ This is checked in the unit-tests.</p>
 reparsed by <a class="reference internal" href="#contracts.parse" title="contracts.parse"><tt class="xref py py-func docutils literal"><span class="pre">contracts.parse()</span></tt></a>.</p>
 <p>It must hold that: <tt class="docutils literal"><span class="pre">parse(str(contract))</span> <span class="pre">==</span> <span class="pre">contract</span></tt>.
 This is checked in the unit-tests.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">parse</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span> <span class="o">=</span> <span class="s">&#39;list[N]&#39;</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span>
+<span class="go">List(BindVariable(&#39;N&#39;,int),None)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span> <span class="o">==</span> <span class="n">spec</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>The expressions generated by <a class="reference internal" href="#contracts.Contract.__str__" title="contracts.Contract.__str__"><tt class="xref py py-func docutils literal"><span class="pre">Contract.__str__()</span></tt></a> will be
+exactly the same as what was parsed (this is checked in the 
+unittests as well) if and only if the expression is &#8220;minimal&#8221;. 
+If it isn&#8217;t (there is whitespace or redundant symbols), 
+the returned expression will be an equivalent minimal one.</p>
+<p>Example with extra parenthesis and whitespace:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">parse</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">verbose_spec</span> <span class="o">=</span> <span class="s">&#39;list[((N))]( int, &gt; 0)&#39;</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">verbose_spec</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span>
+<span class="go">&#39;list[N](int,&gt;0)&#39;</span>
+</pre></div>
+</div>
+<p>Example that removes extra parentheses around arithmetic operators:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">verbose_spec</span> <span class="o">=</span> <span class="s">&#39;=1+(1*2)+(2+4)&#39;</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">parse</span><span class="p">(</span><span class="n">verbose_spec</span><span class="p">))</span>
+<span class="go">&#39;=1+1*2+2+4&#39;</span>
+</pre></div>
+</div>
+<p>This is an example with logical operators precedence. The AND
+operator <tt class="docutils literal"><span class="pre">,</span></tt> (comma) has more precedence than the OR (<tt class="docutils literal"><span class="pre">|</span></tt>).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">verbose_spec</span> <span class="o">=</span> <span class="s">&#39;(a|(b,c)),e&#39;</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">parse</span><span class="p">(</span><span class="n">verbose_spec</span><span class="p">))</span>
+<span class="go">&#39;(a|b,c),e&#39;</span>
+</pre></div>
+</div>
+<p>Not that only the outer parenthesis is kept as it is the only one 
+needed.</p>
 </dd></dl>
 
 </dd></dl>
@@ -1441,7 +1496,7 @@ contracts expression in your own PyParsing grammar.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">PyContracts v0.9.1 documentation</a> &raquo;</li> 
+        <li><a href="#">PyContracts v0.9.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
 	
