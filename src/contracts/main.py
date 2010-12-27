@@ -199,18 +199,32 @@ def contracts_decorate(function, **kwargs):
                             for x in accepts_dict])
     returns_parsed = parse_flexible_spec(returns)
     
+    nice_function_display = '%s() (in %s)' % (function.__name__, function.__module__)
+    
     # I like this meta-meta stuff :-)
     def wrapper(*args, **kwargs):
         bound = getcallargs(function, *args, **kwargs)
         
-        context = Context()
-        for arg in all_args:
-            if arg in accepts_parsed:
-                accepts_parsed[arg]._check_contract(context, bound[arg])
+        try:
+            context = Context()
+            for arg in all_args:
+                if arg in accepts_parsed:
+                    accepts_parsed[arg]._check_contract(context, bound[arg])
+        except ContractNotRespected as e:
+            msg = ('Breach for argument %r to %s.\n' 
+                   % (arg, nice_function_display))
+            e.error = msg + e.error
+            raise e
         
         result = function(*args, **kwargs)
         
-        returns_parsed._check_contract(context, result)
+        try:
+            returns_parsed._check_contract(context, result)
+        except ContractNotRespected as e:
+            msg = ('Breach for return value of %s.\n' 
+                   % (nice_function_display))
+            e.error = msg + e.error
+            raise e
         
         return result
     
