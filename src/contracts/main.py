@@ -199,7 +199,15 @@ def contracts_decorate(function, **kwargs):
                             for x in accepts_dict])
     returns_parsed = parse_flexible_spec(returns)
     
+    # TODO: add classname if bound method
     nice_function_display = '%s() (in %s)' % (function.__name__, function.__module__)
+    
+    # XXX: get rid of this?
+    wrap_exceptions = True
+    if wrap_exceptions:
+        capture = ContractNotRespected
+    else:
+        capture = ()
     
     # I like this meta-meta stuff :-)
     def wrapper(*args, **kwargs):
@@ -210,7 +218,7 @@ def contracts_decorate(function, **kwargs):
             for arg in all_args:
                 if arg in accepts_parsed:
                     accepts_parsed[arg]._check_contract(context, bound[arg])
-        except ContractNotRespected as e:
+        except capture as e:
             msg = ('Breach for argument %r to %s.\n' 
                    % (arg, nice_function_display))
             e.error = msg + e.error
@@ -220,7 +228,7 @@ def contracts_decorate(function, **kwargs):
         
         try:
             returns_parsed._check_contract(context, result)
-        except ContractNotRespected as e:
+        except capture as e:
             msg = ('Breach for return value of %s.\n' 
                    % (nice_function_display))
             e.error = msg + e.error
@@ -229,6 +237,8 @@ def contracts_decorate(function, **kwargs):
         return result
     
     # TODO: add rtype statements if missing
+#    print wrapper.__dict__
+    
     wrapper.__doc__ = function.__doc__
     wrapper.__name__ = function.__name__
     wrapper.__module__ = function.__module__
@@ -244,7 +254,8 @@ def parse_flexible_spec(spec):
         from .library import CheckType
         return CheckType(spec)
     else:
-        raise ContractException('I want either a string or a type, not %s.' % describe_value(spec))
+        raise ContractException('I want either a string or a type, not %s.' 
+                                % describe_value(spec))
 
 def parse_contracts_from_docstring(function):
     annotations = parse_docstring_annotations(function.__doc__)
@@ -321,8 +332,8 @@ def check(contract, object, desc=None):
         return check_contracts([contract], [object])
     except ContractNotRespected as e:
         if desc is not None:
-            e.error = '%s\nDetails of PyContracts error:\n%s' % (desc, e.error)
-        raise
+            e.error = '%s\n%s' % (desc, e.error)
+        raise e
   
 def fail(contract, value):
     ''' Checks that the value **does not** respect this contract.
@@ -367,8 +378,8 @@ def check_multiple(couples, desc=None):
         return check_contracts(contracts, values)
     except ContractNotRespected as e:
         if desc is not None:
-            e.error = '%s\n\nDetails:\n%s' % (desc, e.error)
-        raise    
+            e.error = '%s\n%s' % (desc, e.error)
+        raise e
  
 
 def new_contract(*args):

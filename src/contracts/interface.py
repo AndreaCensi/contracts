@@ -86,7 +86,7 @@ class ContractNotRespected(ContractException):
                 
             cons = ("%s %s" % (contract, contexts)).ljust(30)
             msg += ('\n context: checking: %s  for value: %s' % 
-                           (cons, describe_value(value)))
+                           (cons, describe_value(value, clip=70)))
             # TODO: add config for more verbose messages?
             # msg += '\n                    %r ' % contract
         return msg
@@ -307,22 +307,31 @@ inPy2 = sys.version_info[0] == 2
 if inPy2:
     from types import ClassType
 
+def clipped_repr(x, clip):
+    s = "{0!r}".format(x)
+    if len(s) > clip:
+        clip_tag = '... [clip]'
+        cut = clip - len(clip_tag)
+        s = "%s%s" % (s[:cut], clip_tag)
+    return s
+
+# TODO: add checks for these functions
+
 def describe_value(x, clip=50):
     ''' Describes an object, for use in the error messages. '''
     if hasattr(x, 'shape') and hasattr(x, 'dtype'):
-        return 'ndarray with shape %s, dtype %s' % (x.shape, x.dtype)
+        shape_desc = 'x'.join(str(i) for i in x.shape)
+        desc = 'array[%s](%s) ' % (shape_desc, x.dtype)
+        return desc + clipped_repr(x, clip - len(desc))
     else:
-        s = "{0!r}".format(x)
-        
-        if len(s) > clip:
-            s = "%s... [clip]" % s[:clip]
-
         if inPy2 and isinstance(x, ClassType):
             class_name = '(old-style class type) %s' % x
         else:
-            class_name = ' %s' % x.__class__.__name__
+            class_name = '%s' % x.__class__.__name__
 
-        return 'Instance of %s: %s' % (class_name, s)
+        desc = 'Instance of %s: ' % class_name
+        
+        return desc + clipped_repr(x, clip - len(desc)) 
         
          
     
