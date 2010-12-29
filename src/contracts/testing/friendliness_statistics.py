@@ -18,11 +18,11 @@ def main():
     
     differences = run_joker(examples)
     
-    import numpy
-    unfriendliness = numpy.mean(list(differences))
+    diff = list(differences)
+    unfriendliness = sum(diff) / len(diff)
 
     friendliness = 100 - 100 * unfriendliness
-    print "Friendliness: %.2f%% " % friendliness  
+    print("Friendliness: %.2f%% " % friendliness) 
     
 
 def replace_one(s, i, c):
@@ -59,7 +59,7 @@ def run_joker(examples):
 
                 value = displacement * 1.0 / len(s)
                 if displacement > 0:
-                    print e
+                    print(e)
 #                    assert False
                     
                 yield value

@@ -4,7 +4,7 @@ from ..main import new_contract
 
 def ist(C):
     def f(x):
-        f.func_name = 'instanceof_%s' % C.__name__
+        f.__name__ = 'isinstance_of_%s' % C.__name__
         if not isinstance(x, C):
             raise ValueError('Value is not an instance of %s.' % C.__name__)
     return f
