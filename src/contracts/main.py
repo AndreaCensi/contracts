@@ -9,6 +9,7 @@ from .docstring_parsing import parse_docstring_annotations
 from .backported import getcallargs, getfullargspec
 from .library import (identifier_expression, Extension,
                       CheckCallable, SeparateContext) 
+from contracts.enabling import all_disabled
 
 
 
@@ -143,6 +144,7 @@ def contracts(*arg, **kwargs):
     else:
         # We were called *with* parameters.
         def wrap(function):
+            # TODO: wrap exception
             return contracts_decorate(function, **kwargs)
         return wrap
     
@@ -213,26 +215,30 @@ def contracts_decorate(function, **kwargs):
     def wrapper(*args, **kwargs):
         bound = getcallargs(function, *args, **kwargs)
         
-        try:
-            context = Context()
-            for arg in all_args:
-                if arg in accepts_parsed:
-                    accepts_parsed[arg]._check_contract(context, bound[arg])
-        except capture as e:
-            msg = ('Breach for argument %r to %s.\n' 
-                   % (arg, nice_function_display))
-            e.error = msg + e.error
-            raise e
+        do_checks = not all_disabled()
+        
+        if do_checks:
+            try:
+                context = Context()
+                for arg in all_args:
+                    if arg in accepts_parsed:
+                        accepts_parsed[arg]._check_contract(context, bound[arg])
+            except capture as e:
+                msg = ('Breach for argument %r to %s.\n' 
+                       % (arg, nice_function_display))
+                e.error = msg + e.error
+                raise e
         
         result = function(*args, **kwargs)
         
-        try:
-            returns_parsed._check_contract(context, result)
-        except capture as e:
-            msg = ('Breach for return value of %s.\n' 
-                   % (nice_function_display))
-            e.error = msg + e.error
-            raise e
+        if do_checks:    
+            try:
+                returns_parsed._check_contract(context, result)
+            except capture as e:
+                msg = ('Breach for return value of %s.\n' 
+                       % (nice_function_display))
+                e.error = msg + e.error
+                raise e
         
         return result
     

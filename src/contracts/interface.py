@@ -174,6 +174,16 @@ class Contract(object):
     def __init__(self, where):
         assert where is None or isinstance(where, Where), 'Wrong type %s' % where
         self.where = where
+        self.enable()
+        
+    def enable(self):
+        self._enabled = True
+        
+    def disable(self):
+        self._enabled = False
+    
+    def enabled(self):
+        return self._enabled
     
     def check(self, value):
         ''' Checks that the value satisfies this contract. 
@@ -215,6 +225,8 @@ class Contract(object):
             but the error is wrapped recursively. This is the function
             that subclasses must call when checking their sub-contracts. 
         '''
+        if not self.enabled(): return
+        
         assert isinstance(context, Context), context
         contextc = context.copy()
         try: 

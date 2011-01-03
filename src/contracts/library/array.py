@@ -219,8 +219,7 @@ class ArrayConstraint(Contract):
         Contract.__init__(self, where)
         self.glyph = glyph 
         self.rvalue = rvalue
-        self.op = ArrayConstraint.constraints[glyph]
-        
+        self.op = ArrayConstraint.constraints[glyph] 
         
     def check_contract(self, context, value):
         assert isinstance(value, ndarray)
@@ -232,12 +231,20 @@ class ArrayConstraint(Contract):
         
         if not ok:
             # count the number of invalid:
-            num_fail = numpy.sum(1 * value.flatten())
+            resultf = result.flatten()
+            valuef = value.flatten()
+            some, = numpy.nonzero(numpy.logical_not(resultf))
             num = value.size
+            num_fail = len(some)
             perc = 100.0 * num_fail / num
-            error = ('%d/%d (%f%%) of elements do not respect the condition '
+            error = ('In this array, %d/%d (%f%%) of elements do not respect the condition '
                      ' "x %s %s". ' % 
                      (num_fail, num, perc, self.glyph, bound))
+            some_failures = valuef[some]
+            N = 4
+            if len(some_failures) > N:
+                some_failures = some_failures[:N]
+            error += '\nThese are the first %d: %s.' % (len(some_failures), list(some_failures))
             # TODO: display some of those values?
             raise ContractNotRespected(self, error, value, context)
      

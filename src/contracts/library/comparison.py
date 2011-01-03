@@ -1,5 +1,6 @@
 from ..interface import Contract, ContractNotRespected, RValue
 from ..syntax import W, add_contract, O, Literal, isnumber, rvalue
+import math
 
  
 class CheckOrder(Contract):
@@ -58,6 +59,10 @@ class CheckOrder(Contract):
                     msg = ('I can only compare the order of numbers, not %r.' % 
                            val.__class__.__name__) 
                     raise ContractNotRespected(self, msg, (val1, val2), context)
+            
+            if math.isnan(val1) or math.isnan(val2):
+                msg = ('I cannot compare NaN (checking: %s %s %s)' % (val1, self.glyph, val2))
+                raise ContractNotRespected(self, msg, (val1, val2), context)  
             
             if val1 < val2:
                 ok = self.smaller

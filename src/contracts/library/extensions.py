@@ -34,6 +34,7 @@ class Extension(Contract):
 class CheckCallable(Contract):
     def __init__(self, callable):
         self.callable = callable
+        Contract.__init__(self, where=None)    
         
     def check_contract(self, context, value):
         allowed = (ValueError, AssertionError)
