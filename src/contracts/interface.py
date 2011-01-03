@@ -174,7 +174,7 @@ class Contract(object):
     def __init__(self, where):
         assert where is None or isinstance(where, Where), 'Wrong type %s' % where
         self.where = where
-        self.enable()
+        self.enable() 
         
     def enable(self):
         self._enabled = True

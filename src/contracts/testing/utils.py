@@ -14,6 +14,7 @@ def check_contracts_ok(contract, value):
     "%r" % context
             
 def check_contracts_fail(contract, value, error=ContractNotRespected):
+    ''' Returns the exception '''
     if isinstance(contract, str):
         contract = [contract]
         value = [value]
@@ -38,7 +39,7 @@ def check_contracts_fail(contract, value, error=ContractNotRespected):
         # Try generation of strings:
         s = "%r" % e #@UnusedVariable
         s = "%s" % e #@UnusedVariable
-        pass
+        return e
 
 def check_syntax_fail(string):
     assert isinstance(string, str)

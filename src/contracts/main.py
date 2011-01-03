@@ -571,5 +571,5 @@ def can_accept_exactly_one_argument(callable_thing):
         return False, str(e)
     else:
         return True, None
-    
-    
+
+

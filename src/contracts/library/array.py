@@ -215,17 +215,19 @@ class ArrayConstraint(Contract):
     }
     
     def __init__(self, glyph, rvalue, where=None):
+        assert glyph in ArrayConstraint.constraints
         assert isinstance(rvalue, RValue)  
         Contract.__init__(self, where)
         self.glyph = glyph 
         self.rvalue = rvalue
-        self.op = ArrayConstraint.constraints[glyph] 
+         
         
     def check_contract(self, context, value):
         assert isinstance(value, ndarray)
         bound = context.eval(self.rvalue, self)
 
-        result = self.op(value, bound)
+        operation = ArrayConstraint.constraints[self.glyph]
+        result = operation(value, bound)
         
         ok = numpy.all(result)
         
