@@ -135,3 +135,20 @@ fail('array[(2,3)xN]', numpy.ones((4, 10)))
 good('array[(2,*)x...]', numpy.ones((2, 10)))
 fail('array[(2,3)x...]', numpy.ones((4, 10)))
 
+arr01 = numpy.array([0, 1, 0, 1])
+arr012 = numpy.array([0, 1, 0, 2])
+arr124 = numpy.array([ 1, 2, 4])
+arr125 = numpy.array([ 1, 2, 5])
+
+good('array(=0|=1|=2)', arr01)
+good('array(=0|=1|=2)', arr012)
+good('array(=0|=1)', arr01)
+fail('array(=0|=1)', arr012)
+
+good('array(=4|>=0,<=2)', arr124)
+good('array(=4|>=0,<=2)', arr125)
+fail('array(=4|>=2,<=0)', arr124)
+
+
+
+

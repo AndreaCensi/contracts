@@ -220,7 +220,6 @@ class ArrayConstraint(Contract):
         Contract.__init__(self, where)
         self.glyph = glyph 
         self.rvalue = rvalue
-         
         
     def check_contract(self, context, value):
         assert isinstance(value, ndarray)
@@ -239,15 +238,16 @@ class ArrayConstraint(Contract):
             num = value.size
             num_fail = len(some)
             perc = 100.0 * num_fail / num
-            error = ('In this array, %d/%d (%f%%) of elements do not respect the condition '
-                     ' "x %s %s". ' % 
-                     (num_fail, num, perc, self.glyph, bound))
+            condition = "x %s %s" % self.glyph, bound
+            error = ("In this array, %d/%d (%f%%) of elements do not respect "
+                     "the condition %s." % (num_fail, num, perc, condition))
             some_failures = valuef[some]
-            N = 4
-            if len(some_failures) > N:
-                some_failures = some_failures[:N]
-            error += '\nThese are the first %d: %s.' % (len(some_failures), list(some_failures))
-            # TODO: display some of those values?
+            MAX_N = 4
+            if len(some_failures) > MAX_N:
+                some_failures = some_failures[:MAX_N]
+            failures = list(some_failures)
+            N = len(failures)
+            error += '\nThese are the first %d: %s.' % (N, failures)
             raise ContractNotRespected(self, error, value, context)
      
     def __str__(self):
@@ -263,8 +263,6 @@ class ArrayConstraint(Contract):
         rvalue = tokens['rvalue']
         return ArrayConstraint(glyph, rvalue, where)
  
-
-
 
 array_constraints = []
 for glyph in ArrayConstraint.constraints:
