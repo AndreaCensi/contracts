@@ -33,7 +33,10 @@ class SimpleRValue(RValue):
         self.value = value
         self.where = where
         self.representation = representation
-
+#
+#    def __eq__(self, other):
+#        return (self.__class__ == other.__class__ and 
+#                self.value == other.value)
         
     def __str__(self):
         if self.representation is None:

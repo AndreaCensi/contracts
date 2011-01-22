@@ -110,16 +110,3 @@ for glyph in CheckOrder.conditions:
     expr.setParseAction(CheckOrder.parse_action)
     add_contract(expr)
 
-
-
-#
-#comparison = operatorPrecedence(rvalue,
-#    [
-#     ('>', 2, opAssoc.LEFT, parse_arithmetic_rvalue(lambda x, y:x * y, '*')),
-#     ('>', 2, opAssoc.LEFT, parse_arithmetic_rvalue(lambda x, y:x - y, '-')),
-#     ('+', 2, opAssoc.LEFT, parse_arithmetic_rvalue(lambda x, y:x + y, '+')),
-#    ]
-#    
-#    )
-#
-#add_contract(comparison)

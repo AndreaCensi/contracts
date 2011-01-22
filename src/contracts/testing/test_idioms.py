@@ -2,11 +2,11 @@ import unittest
 
 from contracts import (check, Context, ContractNotRespected, Contract, parse,
                        check_multiple, ContractSyntaxError)
+from contracts.main import fail
 
 class TestIdioms(unittest.TestCase):
     
     def test_check_1(self):
-  
         res = check('tuple(int,int)', (2, 2))
         
         assert isinstance(res, Context)
@@ -101,4 +101,17 @@ class TestIdioms(unittest.TestCase):
         self.assertNotEqual(c1, c2)
         self.assertNotEqual(c1, c3)
         self.assertNotEqual(c2, c3)
+
+    def test_check_context(self):
+        check('N', 1, N=1)
+        fail('N', 1, N=2)
         
+        self.assertRaises(ContractNotRespected, check, 'N', 1, N=2)
+        
+        self.assertRaises(ValueError, fail, 'N', 1, N=1)
+        
+    def test_check_context2(self):
+        ''' Variable names must have only one letter. '''
+        self.assertRaises(ValueError, check, 'N', 1, NN=2)
+        self.assertRaises(ValueError, check, 'N', 1, nn=2)
+

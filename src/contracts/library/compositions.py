@@ -40,14 +40,14 @@ class OR(Logical, Contract):
             except ContractNotRespected as e:
                 exceptions.append((c, e))
         else:
-            msg = 'Could not satisfy any of the %d clauses.' % len(self.clauses)
+            msg = 'Could not satisfy any of the %d clauses in %s.' % (len(self.clauses), self)
             
             for i, ex in enumerate(exceptions):
                 c, e = ex
-                msg += '\n---- Clause #%d: ----\n' % i 
-                msg += add_prefix('%s' % e, '| ')
+                msg += '\n ---- Clause #%d:   %s\n' % (i + 1, c) 
+                msg += add_prefix('%s' % e, ' | ')
     
-            msg += '\n------- (end clauses) -------'
+            msg += '\n ------- (end clauses) -------'
             raise ContractNotRespected(contract=self, error=msg,
                         value=value, context=context)
 

@@ -79,19 +79,35 @@ class ContractNotRespected(ContractException):
         
     def __str__(self):
         msg = str(self.error) 
+        
+        align = []
         for (contract, context, value) in self.stack:
             contexts = "%s" % context
             if contexts:
-                contexts = ('(context: %s)' % contexts)
+                contexts = ('(%s)' % contexts)
                 
-            cons = ("%s %s" % (contract, contexts)).ljust(30)
-            msg += ('\n context: checking: %s  for value: %s' % 
-                           (cons, describe_value(value, clip=70)))
-            # TODO: add config for more verbose messages?
-            # msg += '\n                    %r ' % contract
+            #cons = ("%s %s" % (contract, contexts)).ljust(30)
+            row = ['checking: %s' % contract,
+                      contexts,
+                    'for value: %s' % describe_value(value, clip=70)]
+            align.append(row)
+            
+        
+        msg += format_table(align, colspacing=3)    
+        
         return msg
 
-
+def format_table(rows, colspacing=1):
+    sizes = []
+    for i in range(len(rows[0])):
+        sizes.append(max(len(row[i]) for row in rows))
+    s = ''
+    for row in rows:
+        s += '\n'
+        for size, cell in zip(sizes, row):  
+            s += cell.ljust(size) 
+            s += ' ' * colspacing
+    return s
 
 class RValue(object):
     
@@ -120,7 +136,7 @@ class Context(object):
         future it will be something more.
     '''
     class BoundVariable(object):
-        def __init__(self, value, description, origin):
+        def __init__(self, value, description=None, origin=None):
             self.value = value
             self.description = description
             self.origin = origin
@@ -128,15 +144,20 @@ class Context(object):
         def __repr__(self):
             return "{0!r}".format(self.value)
 
-    def __init__(self):
+    def __init__(self, variables={}):
         self._variables = {}
+        
+        for k in variables:
+            var = Context.BoundVariable(variables[k], origin='Outside context.')
+            self._variables[k] = var
         
     def has_variable(self, name):
         return name in self._variables
     
     def get_variable(self, name):
         assert self.has_variable(name)
-        return self._variables[name].value
+        value = self._variables[name].value
+        return value
     
     def set_variable(self, name, value, description=None, origin=None):
         assert not self.has_variable(name)
@@ -329,12 +350,16 @@ def clipped_repr(x, clip):
 
 # TODO: add checks for these functions
 
+def remove_newlines(s):
+    return s.replace('\n', ' ')
+
 def describe_value(x, clip=50):
     ''' Describes an object, for use in the error messages. '''
     if hasattr(x, 'shape') and hasattr(x, 'dtype'):
         shape_desc = 'x'.join(str(i) for i in x.shape)
         desc = 'array[%s](%s) ' % (shape_desc, x.dtype)
-        return desc + clipped_repr(x, clip - len(desc))
+        final = desc + clipped_repr(x, clip - len(desc))
+        return remove_newlines(final)
     else:
         if inPy2 and isinstance(x, ClassType):
             class_name = '(old-style class type) %s' % x
@@ -343,6 +368,7 @@ def describe_value(x, clip=50):
 
         desc = 'Instance of %s: ' % class_name
         
-        return desc + clipped_repr(x, clip - len(desc)) 
+        final = desc + clipped_repr(x, clip - len(desc))
+        return remove_newlines(final) 
 
     
