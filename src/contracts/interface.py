@@ -344,6 +344,5 @@ def describe_value(x, clip=50):
         desc = 'Instance of %s: ' % class_name
         
         return desc + clipped_repr(x, clip - len(desc)) 
-        
-         
+
     

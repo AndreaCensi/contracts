@@ -375,11 +375,6 @@ Arithmetic comparisons
 
    * - ``array[NxN](float,>=0,<=1)``
      - A square matrix with float elements in the interval [0,1].
-     
-   * - ``array[NxN](uint8,(=0 | =1))``
-     - A square matrix with unsigned elements that can be either 0 or 1.
-       (this might represent a binary relation.)
-
 
 
 Other examples

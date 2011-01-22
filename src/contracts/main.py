@@ -2,7 +2,7 @@ import types
 import inspect
 import sys
 
-from .syntax import contract, ParseException, ParseFatalException
+from .syntax import contract_expression, ParseException, ParseFatalException
 from .interface import (Context, Contract, ContractSyntaxError, Where,
                         ContractException, ContractNotRespected, describe_value)
 from .docstring_parsing import parse_docstring_annotations
@@ -10,6 +10,7 @@ from .backported import getcallargs, getfullargspec
 from .library import (identifier_expression, Extension,
                       CheckCallable, SeparateContext) 
 from contracts.enabling import all_disabled
+
 
 
 
@@ -54,7 +55,7 @@ def parse_contract_string(string):
     if string in Storage.string2contract:
         return Storage.string2contract[string]
     try:
-        c = contract.parseString(string, parseAll=True)[0] 
+        c = contract_expression.parseString(string, parseAll=True)[0] 
         assert isinstance(c, Contract), 'Want Contract, not %r' % c
         Storage.string2contract[string] = c
         return c
@@ -68,6 +69,7 @@ def parse_contract_string(string):
         raise ContractSyntaxError(msg, where=where)
     
 # TODO: add decorator-specific exception
+
 
 def contracts(*arg, **kwargs):
     ''' Decorator for adding contracts to functions.
@@ -209,7 +211,7 @@ def contracts_decorate(function, **kwargs):
         capture = ()
     
     # I like this meta-meta stuff :-)
-    def wrapper(*args, **kwargs):
+    def contracts_checker(unused, *args, **kwargs):
         bound = getcallargs(function, *args, **kwargs)
         
         do_checks = not all_disabled()
@@ -235,13 +237,15 @@ def contracts_decorate(function, **kwargs):
                 msg = ('Breach for return value of %s.\n' 
                        % (nice_function_display))
                 e.error = msg + e.error
-                raise e
+                raise e 
         
         return result
     
     # TODO: add rtype statements if missing
-#    print wrapper.__dict__
-    
+
+    from decorator import decorator #@UnresolvedImport
+    wrapper = decorator(contracts_checker, function)
+        
     wrapper.__doc__ = function.__doc__
     wrapper.__name__ = function.__name__
     wrapper.__module__ = function.__module__

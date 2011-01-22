@@ -58,8 +58,8 @@ isnumber = lambda x: isinstance(x, Number)
 
 rvalue = Forward()
 rvalue.setName('rvalue')
-contract = Forward()
-contract.setName('contract')
+contract_expression = Forward()
+contract_expression.setName('contract')
 simple_contract = Forward()
 simple_contract.setName('simple_contract')
 
@@ -99,5 +99,5 @@ simple_contract.setName('simple contract expression')
 
 any_contract = composite_contract | simple_contract
 any_contract.setName('Any simple or composite contract')
-contract << (any_contract) # Parentheses before << !!
+contract_expression << (any_contract) # Parentheses before << !!
 

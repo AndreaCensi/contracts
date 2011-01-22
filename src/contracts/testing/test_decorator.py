@@ -298,4 +298,15 @@ class DecoratorTests(unittest.TestCase):
         
         self.assertRaises(Exception, f2, 0, 5, 0, 6)
         
+    def test_same_signature(self):
+        from inspect import getargspec
+        
+        def f(a):
+            return a
+        
+        @contracts(a='int')
+        def f2(a):
+            return a
+
+        self.assertEqual(getargspec(f2), getargspec(f))
 
