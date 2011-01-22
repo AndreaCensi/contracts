@@ -70,6 +70,7 @@ def parse_contract_string(string):
     
 # TODO: add decorator-specific exception
 
+
 def contracts(*arg, **kwargs):
     ''' Decorator for adding contracts to functions.
     
@@ -202,7 +203,7 @@ def contracts_decorate(function, **kwargs):
     nice_function_display = '%s() (in %s)' % (function.__name__, function.__module__)
     
     # I like this meta-meta stuff :-)
-    def wrapper(*args, **kwargs):
+    def contracts_checker(unused, *args, **kwargs):
         bound = getcallargs(function, *args, **kwargs)
         
         try:
@@ -229,6 +230,10 @@ def contracts_decorate(function, **kwargs):
         return result
     
     # TODO: add rtype statements if missing
+
+    from decorator import decorator
+    wrapper = decorator(contracts_checker, function)
+        
     wrapper.__doc__ = function.__doc__
     wrapper.__name__ = function.__name__
     wrapper.__module__ = function.__module__

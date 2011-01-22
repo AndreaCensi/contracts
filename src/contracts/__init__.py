@@ -11,6 +11,7 @@ from .main import (check, fail, check_multiple, contracts, new_contract)
 from .main import parse_flexible_spec as parse
 from .main import contracts_decorate as decorate
 
+contract = contracts
 
 # After everything is loaded, load aliases
 from .library import miscellaneous_aliases 
