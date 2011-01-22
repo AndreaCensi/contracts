@@ -1,4 +1,5 @@
 from numbers import Number
+import math
 
 # All the imports from pyparsing go here
 #from contracts import use_pyparsing
@@ -53,7 +54,7 @@ integer = Combine(O(plusorminus) + number)
 floatnumber = Combine(integer + (point + O(number)) ^ (e + integer))
 integer.setParseAction(lambda tokens: SimpleRValue(int(tokens[0])))
 floatnumber.setParseAction(lambda tokens: SimpleRValue(float(tokens[0])))
-
+pi = Keyword('pi').setParseAction(lambda tokens: SimpleRValue(math.pi, 'pi')) #@UnusedVariable
 isnumber = lambda x: isinstance(x, Number)
 
 rvalue = Forward()
@@ -70,7 +71,7 @@ from .library import (EqualTo, Unary, Binary, composite_contract,
                       misc_variables_ref, SimpleRValue)
 
 
-number = floatnumber | integer
+number = pi | floatnumber | integer
 operand = number | int_variables_ref | misc_variables_ref
 operand.setName('r-value')
 
