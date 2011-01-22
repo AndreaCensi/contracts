@@ -1,4 +1,4 @@
-from ..test_registrar import good, fail
+from . import good, fail
 
 
 good('0', 0)

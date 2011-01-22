@@ -2,7 +2,7 @@ import numpy
 from numpy  import ndarray, dtype #@UnusedImport
 
 from ..interface import Contract, ContractNotRespected, RValue
-from ..syntax import (add_contract, W, contract, O, S, rvalue,
+from ..syntax import (add_contract, W, contract_expression, O, S, rvalue,
                        simple_contract, ZeroOrMore, Literal, MatchFirst,
                         opAssoc, FollowedBy, NotAny, Keyword,
                        add_keyword, Word)
@@ -302,7 +302,7 @@ shape_suggester = create_suggester(get_options=lambda:['...'],
                                    pattern=Word('.'))
 
 inside_inside1 = simple_contract | shape_suggester
-inside_inside2 = contract | shape_suggester
+inside_inside2 = contract_expression | shape_suggester
 inside = (S('(') - inside_inside2 - S(')')) | inside_inside1 # XXX: ^ and use or_contract?
 shape_contract = my_delim_list2(inside, S('x')) + O(S('x') + ellipsis)
 shape_contract.setParseAction(ShapeContract.parse_action)
@@ -318,8 +318,8 @@ add_contract(array_contract)
 add_keyword('array')
 add_keyword('ndarray')
 
-optional_length = (S('[') - contract - S(']'))('length')
-optional_other = (S('(') - contract - S(')'))('other')
+optional_length = (S('[') - contract_expression - S(']'))('length')
+optional_other = (S('(') - contract_expression - S(')'))('other')
 shape = S('shape') + O(optional_length) + O(optional_other)
 shape.setName('shape() contract')
 shape.setParseAction(Shape.parse_action)

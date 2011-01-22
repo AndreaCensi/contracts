@@ -1,8 +1,8 @@
 
-__version__ = '0.9.2'
+__version__ = '0.9.3'
 
 from . import syntax 
-contract_expression = syntax.contract
+contract_expression = syntax.contract_expression
 
 from .interface import (Contract, Context, ContractNotRespected,
                         ContractSyntaxError, ContractException)

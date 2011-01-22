@@ -1,4 +1,4 @@
-from ..test_registrar import syntax_fail, good, fail, semantic_fail
+from . import syntax_fail, good, fail, semantic_fail
 
 # only single letters
 syntax_fail('NN')

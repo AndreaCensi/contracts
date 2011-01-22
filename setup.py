@@ -42,7 +42,7 @@ setup(name='PyContracts',
       
       package_dir={'':'src'},
       packages=['contracts'],
-      install_requires=['pyparsing'],
+      install_requires=['pyparsing', 'decorator'],
       tests_require=['nose'],
       entry_points={},
 )

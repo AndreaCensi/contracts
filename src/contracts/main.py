@@ -2,7 +2,7 @@ import types
 import inspect
 import sys
 
-from .syntax import contract, ParseException, ParseFatalException
+from .syntax import contract_expression, ParseException, ParseFatalException
 from .interface import (Context, Contract, ContractSyntaxError, Where,
                         ContractException, ContractNotRespected, describe_value)
 from .docstring_parsing import parse_docstring_annotations
@@ -53,7 +53,7 @@ def parse_contract_string(string):
     if string in Storage.string2contract:
         return Storage.string2contract[string]
     try:
-        c = contract.parseString(string, parseAll=True)[0] 
+        c = contract_expression.parseString(string, parseAll=True)[0] 
         assert isinstance(c, Contract), 'Want Contract, not %r' % c
         Storage.string2contract[string] = c
         return c

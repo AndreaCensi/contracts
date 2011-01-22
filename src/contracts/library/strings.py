@@ -1,5 +1,5 @@
 from ..interface import Contract, ContractNotRespected
-from ..syntax import add_contract, W, contract, O, add_keyword, Keyword
+from ..syntax import add_contract, W, contract_expression, O, add_keyword, Keyword
 
 class String(Contract):
     
@@ -33,7 +33,8 @@ class String(Contract):
         return String(length, where=where)
  
 
-string_contract = (Keyword('str') | Keyword('string')) + O('[' - contract('length') - ']') 
+string_contract = (Keyword('str') | Keyword('string')) + \
+                  O('[' - contract_expression('length') - ']') 
 add_keyword('str')
 add_keyword('string')
 

@@ -1,7 +1,7 @@
 from numpy import zeros, ones
 import numpy
 
-from ..test_registrar import syntax_fail, good, fail
+from . import syntax_fail, good, fail
 
 a_u8 = numpy.zeros((3, 4), dtype='uint8')
 a_i8 = numpy.zeros((3, 4), dtype='int8')
