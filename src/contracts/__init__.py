@@ -1,7 +1,4 @@
-
-__version__ = '0.9.1'
-
-from . import syntax 
+__version__ = '0.9.3'
 
 from . import syntax 
 
@@ -15,6 +12,7 @@ from .main import contracts_decorate as decorate
 
 contract_expression = syntax.contract
 
+contract = contracts   
 
 # After everything is loaded, load aliases
 from .library import miscellaneous_aliases 

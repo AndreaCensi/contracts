@@ -146,7 +146,6 @@ def contracts(*arg, **kwargs):
             return contracts_decorate(function, **kwargs)
         return wrap
     
-    
 
 def contracts_decorate(function, **kwargs):
     ''' An explicit way to decorate a given function.

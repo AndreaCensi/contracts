@@ -238,7 +238,7 @@ class ArrayConstraint(Contract):
             num = value.size
             num_fail = len(some)
             perc = 100.0 * num_fail / num
-            condition = "x %s %s" % self.glyph, bound
+            condition = "x %s %s" % (self.glyph, bound)
             error = ("In this array, %d/%d (%f%%) of elements do not respect "
                      "the condition %s." % (num_fail, num, perc, condition))
             some_failures = valuef[some]
