@@ -28,15 +28,28 @@ class EqualTo(Contract):
 
 
 class SimpleRValue(RValue):
-    def __init__(self, value, where=None):
+    def __init__(self, value, representation=None, where=None):
+        assert representation is None or isinstance(representation, str)
         self.value = value
         self.where = where
+        self.representation = representation
+#
+#    def __eq__(self, other):
+#        return (self.__class__ == other.__class__ and 
+#                self.value == other.value)
         
     def __str__(self):
-        return "{0!s}".format(self.value)
-    
+        if self.representation is None:
+            return "{0!s}".format(self.value)
+        else:
+            return self.representation
+            
     def __repr__(self):
-        return "SimpleRValue({0!r})".format(self.value)
+        if self.representation is None:
+            return "SimpleRValue({0!r})".format(self.value)
+        else:
+            return "SimpleRValue({0!r},{1!r})".format(self.value, self.representation)
+        
     
     def eval(self, context): #@UnusedVariable
         return self.value

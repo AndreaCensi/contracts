@@ -1,5 +1,5 @@
 from ..interface import Contract
-from ..syntax import add_contract, W, contract, Literal, Group
+from ..syntax import add_contract, W, contract_expression, Literal, Group
 
 
 class SeparateContext(Contract):
@@ -25,7 +25,7 @@ class SeparateContext(Contract):
         return SeparateContext(tokens[0]['child'], where=where)
  
 
-sepcon = Group(Literal('$') - Literal('(') - contract('child') - Literal(')'))
+sepcon = Group(Literal('$') - Literal('(') - contract_expression('child') - Literal(')'))
 sepcon.setParseAction(SeparateContext.parse_action)
 sepcon.setName('Context separation construct')
 add_contract(sepcon)

@@ -79,19 +79,35 @@ class ContractNotRespected(ContractException):
         
     def __str__(self):
         msg = str(self.error) 
+        
+        align = []
         for (contract, context, value) in self.stack:
             contexts = "%s" % context
             if contexts:
-                contexts = ('(context: %s)' % contexts)
+                contexts = ('(%s)' % contexts)
                 
-            cons = ("%s %s" % (contract, contexts)).ljust(30)
-            msg += ('\n context: checking: %s  for value: %s' % 
-                           (cons, describe_value(value)))
-            # TODO: add config for more verbose messages?
-            # msg += '\n                    %r ' % contract
+            #cons = ("%s %s" % (contract, contexts)).ljust(30)
+            row = ['checking: %s' % contract,
+                      contexts,
+                    'for value: %s' % describe_value(value, clip=70)]
+            align.append(row)
+            
+        
+        msg += format_table(align, colspacing=3)    
+        
         return msg
 
-
+def format_table(rows, colspacing=1):
+    sizes = []
+    for i in range(len(rows[0])):
+        sizes.append(max(len(row[i]) for row in rows))
+    s = ''
+    for row in rows:
+        s += '\n'
+        for size, cell in zip(sizes, row):  
+            s += cell.ljust(size) 
+            s += ' ' * colspacing
+    return s
 
 class RValue(object):
     
@@ -120,7 +136,7 @@ class Context(object):
         future it will be something more.
     '''
     class BoundVariable(object):
-        def __init__(self, value, description, origin):
+        def __init__(self, value, description=None, origin=None):
             self.value = value
             self.description = description
             self.origin = origin
@@ -128,15 +144,20 @@ class Context(object):
         def __repr__(self):
             return "{0!r}".format(self.value)
 
-    def __init__(self):
+    def __init__(self, variables={}):
         self._variables = {}
+        
+        for k in variables:
+            var = Context.BoundVariable(variables[k], origin='Outside context.')
+            self._variables[k] = var
         
     def has_variable(self, name):
         return name in self._variables
     
     def get_variable(self, name):
         assert self.has_variable(name)
-        return self._variables[name].value
+        value = self._variables[name].value
+        return value
     
     def set_variable(self, name, value, description=None, origin=None):
         assert not self.has_variable(name)
@@ -174,6 +195,16 @@ class Contract(object):
     def __init__(self, where):
         assert where is None or isinstance(where, Where), 'Wrong type %s' % where
         self.where = where
+        self.enable() 
+        
+    def enable(self):
+        self._enabled = True
+        
+    def disable(self):
+        self._enabled = False
+    
+    def enabled(self):
+        return self._enabled
     
     def check(self, value):
         ''' Checks that the value satisfies this contract. 
@@ -215,6 +246,8 @@ class Contract(object):
             but the error is wrapped recursively. This is the function
             that subclasses must call when checking their sub-contracts. 
         '''
+        if not self.enabled(): return
+        
         assert isinstance(context, Context), context
         contextc = context.copy()
         try: 
@@ -307,22 +340,35 @@ inPy2 = sys.version_info[0] == 2
 if inPy2:
     from types import ClassType
 
+def clipped_repr(x, clip):
+    s = "{0!r}".format(x)
+    if len(s) > clip:
+        clip_tag = '... [clip]'
+        cut = clip - len(clip_tag)
+        s = "%s%s" % (s[:cut], clip_tag)
+    return s
+
+# TODO: add checks for these functions
+
+def remove_newlines(s):
+    return s.replace('\n', ' ')
+
 def describe_value(x, clip=50):
     ''' Describes an object, for use in the error messages. '''
     if hasattr(x, 'shape') and hasattr(x, 'dtype'):
-        return 'ndarray with shape %s, dtype %s' % (x.shape, x.dtype)
+        shape_desc = 'x'.join(str(i) for i in x.shape)
+        desc = 'array[%s](%s) ' % (shape_desc, x.dtype)
+        final = desc + clipped_repr(x, clip - len(desc))
+        return remove_newlines(final)
     else:
-        s = "{0!r}".format(x)
-        
-        if len(s) > clip:
-            s = "%s... [clip]" % s[:clip]
-
         if inPy2 and isinstance(x, ClassType):
             class_name = '(old-style class type) %s' % x
         else:
-            class_name = ' %s' % x.__class__.__name__
+            class_name = '%s' % x.__class__.__name__
 
-        return 'Instance of %s: %s' % (class_name, s)
+        desc = 'Instance of %s: ' % class_name
         
-         
+        final = desc + clipped_repr(x, clip - len(desc))
+        return remove_newlines(final) 
+
     

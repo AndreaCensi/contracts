@@ -1,18 +1,15 @@
 from numbers import Number
+import math
 
 # All the imports from pyparsing go here
-#from contracts import use_pyparsing
-if False: # pragma: no cover
-    print('contracts: Warning: using my private version of PyParsing for testing.')
-    from .mypyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
-        CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport
-        operatorPrecedence, oneOf, ParseException, ParserElement, alphas, alphanums, #@UnusedImport
-        ParseFatalException, ParseSyntaxException, FollowedBy, NotAny, Or, MatchFirst, Keyword, Group, White, lineno, col) #@UnusedImport
-else:
-    from pyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
-        CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport
-        operatorPrecedence, oneOf, ParseException, ParserElement, alphas, alphanums, #@UnusedImport
-        ParseFatalException, ParseSyntaxException, FollowedBy, NotAny, Or, MatchFirst, Keyword, Group, White, lineno, col) #@UnusedImport
+from pyparsing import (delimitedList, Forward, Literal, #@UnusedImport @UnresolvedImport
+  stringEnd, nums, Word, CaselessLiteral, Combine, #@UnusedImport @UnresolvedImport
+  Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport @UnresolvedImport
+  operatorPrecedence, oneOf, ParseException, ParserElement, #@UnusedImport @UnresolvedImport
+  alphas, alphanums, ParseFatalException, #@UnusedImport @UnresolvedImport
+  ParseSyntaxException, FollowedBy, NotAny, Or, #@UnusedImport @UnresolvedImport
+  MatchFirst, Keyword, Group, White, lineno, col) #@UnusedImport @UnresolvedImport
+    
     
 from .pyparsing_utils import myOperatorPrecedence
 
@@ -53,13 +50,13 @@ integer = Combine(O(plusorminus) + number)
 floatnumber = Combine(integer + (point + O(number)) ^ (e + integer))
 integer.setParseAction(lambda tokens: SimpleRValue(int(tokens[0])))
 floatnumber.setParseAction(lambda tokens: SimpleRValue(float(tokens[0])))
-
+pi = Keyword('pi').setParseAction(lambda tokens: SimpleRValue(math.pi, 'pi')) #@UnusedVariable
 isnumber = lambda x: isinstance(x, Number)
 
 rvalue = Forward()
 rvalue.setName('rvalue')
-contract = Forward()
-contract.setName('contract')
+contract_expression = Forward()
+contract_expression.setName('contract')
 simple_contract = Forward()
 simple_contract.setName('simple_contract')
 
@@ -70,7 +67,7 @@ from .library import (EqualTo, Unary, Binary, composite_contract,
                       misc_variables_ref, SimpleRValue)
 
 
-number = floatnumber | integer
+number = pi | floatnumber | integer
 operand = number | int_variables_ref | misc_variables_ref
 operand.setName('r-value')
 
@@ -99,5 +96,5 @@ simple_contract.setName('simple contract expression')
 
 any_contract = composite_contract | simple_contract
 any_contract.setName('Any simple or composite contract')
-contract << (any_contract) # Parentheses before << !!
+contract_expression << (any_contract) # Parentheses before << !!
 

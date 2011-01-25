@@ -1,8 +1,8 @@
 import numpy
 from numpy  import ndarray, dtype #@UnusedImport
 
-from ..interface import Contract, ContractNotRespected, RValue
-from ..syntax import (add_contract, W, contract, O, S, rvalue,
+from ..interface import Contract, ContractNotRespected
+from ..syntax import (add_contract, W, contract_expression, O, S, rvalue,
                        simple_contract, ZeroOrMore, Literal, MatchFirst,
                         opAssoc, FollowedBy, NotAny, Keyword,
                        add_keyword, Word)
@@ -10,6 +10,7 @@ from ..pyparsing_utils import myOperatorPrecedence
 
 from .compositions import And, OR
 from .suggester import create_suggester
+from .array_ops import ArrayOR, ArrayAnd, DType, ArrayConstraint
 
 
 class Array(Contract):
@@ -159,103 +160,6 @@ class Shape(Contract):
         return Shape(length, contract, where) 
     
     
-class DType(Contract):
-    ''' Checks that the value is an array with the given dtype. ''' 
-    def __init__(self, dtype, dtype_string=None, where=None):
-        assert isinstance(dtype, numpy.dtype)
-        Contract.__init__(self, where)
-        self.dtype = dtype
-        if dtype_string is None:
-            dtype_string = "%s" % dtype
-        self.dtype_string = dtype_string
-    
-    def check_contract(self, context, value):
-        assert isinstance(value, ndarray) # Guaranteed by construction
-        
-        if not (value.dtype == self.dtype):
-            error = ('Expected array with dtype %r, got %r.' % 
-                     (self.dtype, value.dtype)) 
-            raise ContractNotRespected(self, error, value, context)
-     
-    def __str__(self):
-        return self.dtype_string
-    
-    def __repr__(self):
-        if  "%s" % self.dtype == self.dtype_string:
-            return 'DType(%r)' % self.dtype
-        else:
-            return 'DType(%r,%r)' % (self.dtype, self.dtype_string)
-        
-        
-    @staticmethod 
-    def parse_action(dtype=None):
-        assert dtype is None or isinstance(dtype, numpy.dtype)
-        def parse(s, loc, tokens):
-            where = W(s, loc)
-            dtype_string = tokens[0]
-            if dtype is None:
-                use_dtype = numpy.dtype(dtype_string)
-            else:
-                use_dtype = dtype
-            return DType(use_dtype, dtype_string, where)
-        return parse
-    
-class ArrayConstraint(Contract):
-    ''' Comparisons for numpy array elements. They check that
-        the condition is respected for all the entries in the array. '''
-    
-    constraints = {
-        '=': lambda x, rvalue: x == rvalue,
-        '==': lambda x, rvalue: x == rvalue,
-        '!=': lambda x, rvalue: x != rvalue,
-        '>': lambda x, rvalue: x > rvalue,
-        '>=': lambda x, rvalue: x >= rvalue,
-        '<': lambda x, rvalue: x < rvalue,
-        '<=': lambda x, rvalue: x <= rvalue,
-    }
-    
-    def __init__(self, glyph, rvalue, where=None):
-        assert isinstance(rvalue, RValue)  
-        Contract.__init__(self, where)
-        self.glyph = glyph 
-        self.rvalue = rvalue
-        self.op = ArrayConstraint.constraints[glyph]
-        
-        
-    def check_contract(self, context, value):
-        assert isinstance(value, ndarray)
-        bound = context.eval(self.rvalue, self)
-
-        result = self.op(value, bound)
-        
-        ok = numpy.all(result)
-        
-        if not ok:
-            # count the number of invalid:
-            num_fail = numpy.sum(1 * value.flatten())
-            num = value.size
-            perc = 100.0 * num_fail / num
-            error = ('%d/%d (%f%%) of elements do not respect the condition '
-                     ' "x %s %s". ' % 
-                     (num_fail, num, perc, self.glyph, bound))
-            # TODO: display some of those values?
-            raise ContractNotRespected(self, error, value, context)
-     
-    def __str__(self):
-        return '%s%s' % (self.glyph, self.rvalue)
-        
-    def __repr__(self):
-        return 'ArrayConstraint(%r,%r)' % (self.glyph, self.rvalue)
-    
-    @staticmethod
-    def parse_action(s, loc, tokens):
-        where = W(s, loc)
-        glyph = "".join(tokens['glyph'])
-        rvalue = tokens['rvalue']
-        return ArrayConstraint(glyph, rvalue, where)
- 
-
-
 
 array_constraints = []
 for glyph in ArrayConstraint.constraints:
@@ -282,15 +186,13 @@ for x in supported.split():
 ndarray_simple_contract = MatchFirst(dtype_checks + array_constraints)
 ndarray_simple_contract.setName('numpy element contract')
 
-
 suggester = create_suggester(get_options=lambda:supported.split())
 baseExpr = ndarray_simple_contract | suggester
 baseExpr.setName('numpy contract (with recovery)')
 
-operatorPrecedence = myOperatorPrecedence
-ndarray_composite_contract = operatorPrecedence(baseExpr, [
-                        (',', 2, opAssoc.LEFT, And.parse_action),
-                         ('|', 2, opAssoc.LEFT, OR.parse_action),
+ndarray_composite_contract = myOperatorPrecedence(baseExpr, [
+                        (',', 2, opAssoc.LEFT, ArrayAnd.parse_action),
+                         ('|', 2, opAssoc.LEFT, ArrayOR.parse_action),
                     ])
 
 
@@ -302,7 +204,7 @@ shape_suggester = create_suggester(get_options=lambda:['...'],
                                    pattern=Word('.'))
 
 inside_inside1 = simple_contract | shape_suggester
-inside_inside2 = contract | shape_suggester
+inside_inside2 = contract_expression | shape_suggester
 inside = (S('(') - inside_inside2 - S(')')) | inside_inside1 # XXX: ^ and use or_contract?
 shape_contract = my_delim_list2(inside, S('x')) + O(S('x') + ellipsis)
 shape_contract.setParseAction(ShapeContract.parse_action)
@@ -318,8 +220,8 @@ add_contract(array_contract)
 add_keyword('array')
 add_keyword('ndarray')
 
-optional_length = (S('[') - contract - S(']'))('length')
-optional_other = (S('(') - contract - S(')'))('other')
+optional_length = (S('[') - contract_expression - S(']'))('length')
+optional_other = (S('(') - contract_expression - S(')'))('other')
 shape = S('shape') + O(optional_length) + O(optional_other)
 shape.setName('shape() contract')
 shape.setParseAction(Shape.parse_action)

@@ -1,5 +1,6 @@
 from ..interface import Contract, ContractNotRespected, RValue
 from ..syntax import W, add_contract, O, Literal, isnumber, rvalue
+import math
 
  
 class CheckOrder(Contract):
@@ -59,6 +60,10 @@ class CheckOrder(Contract):
                            val.__class__.__name__) 
                     raise ContractNotRespected(self, msg, (val1, val2), context)
             
+            if math.isnan(val1) or math.isnan(val2):
+                msg = ('I cannot compare NaN (checking: %s %s %s)' % (val1, self.glyph, val2))
+                raise ContractNotRespected(self, msg, (val1, val2), context)  
+            
             if val1 < val2:
                 ok = self.smaller
             elif val1 > val2:
@@ -105,16 +110,3 @@ for glyph in CheckOrder.conditions:
     expr.setParseAction(CheckOrder.parse_action)
     add_contract(expr)
 
-
-
-#
-#comparison = operatorPrecedence(rvalue,
-#    [
-#     ('>', 2, opAssoc.LEFT, parse_arithmetic_rvalue(lambda x, y:x * y, '*')),
-#     ('>', 2, opAssoc.LEFT, parse_arithmetic_rvalue(lambda x, y:x - y, '-')),
-#     ('+', 2, opAssoc.LEFT, parse_arithmetic_rvalue(lambda x, y:x + y, '+')),
-#    ]
-#    
-#    )
-#
-#add_contract(comparison)

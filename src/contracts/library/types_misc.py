@@ -1,7 +1,8 @@
 from numbers import Number
 
 from ..interface import Contract, ContractNotRespected
-from ..syntax import W, add_contract, contract, S, Keyword, add_keyword
+from ..syntax import W, add_contract, contract_expression, S, Keyword, add_keyword
+
 
 class CheckType(Contract):
     
@@ -70,7 +71,7 @@ class Type(Contract):
         return Type(type_constraint, where) #@UnusedVariable
 
 
-type_contract = S('type') - S('(') - contract('type_constraint') - S(')')
+type_contract = S('type') - S('(') - contract_expression('type_constraint') - S(')')
 
 add_contract(type_contract.setParseAction(Type.parse_action))
 add_keyword('type')

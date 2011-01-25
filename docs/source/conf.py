@@ -185,7 +185,7 @@ html_static_path = ['my_static']
 #html_file_suffix = ''
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'procgraphdoc'
+htmlhelp_basename = 'contractsdoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -199,7 +199,7 @@ htmlhelp_basename = 'procgraphdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'contracts.tex', u'procgraph Documentation',
+  ('index', 'contracts.tex', u'PyContracts Documentation',
    u'Andrea Censi', 'manual'),
 ]
 

@@ -25,5 +25,8 @@ new_contract('MutableMapping', ist(collections.MutableMapping))
 #new_contract('ItemsView', ist(collections.ItemsView))
 #new_contract('ValuesView', ist(collections.ValuesView))
 
-new_contract('None', lambda x: x is None) 
-new_contract('NoneType', lambda x: x is None) 
+# Not a lambda to have better messages
+def is_None(x): return x is None
+
+new_contract('None', is_None) 
+new_contract('NoneType', is_None) 

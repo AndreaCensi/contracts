@@ -1,7 +1,9 @@
+import collections
+
 from ..interface import Contract, ContractNotRespected
 from ..syntax import add_contract, W, contract_expression, O, S, add_keyword
 
-class List(Contract):
+class Seq(Contract):
     
     def __init__(self, length_contract=None, elements_contract=None, where=None):
         Contract.__init__(self, where)
@@ -9,8 +11,8 @@ class List(Contract):
         self.elements_contract = elements_contract
     
     def check_contract(self, context, value): 
-        if not isinstance(value, list):
-            error = 'Expected a sequence, got %r.' % value.__class__.__name__
+        if not isinstance(value, collections.Sequence):
+            error = 'Expected a list, got %r.' % value.__class__.__name__
             raise ContractNotRespected(self, error, value, context)
        
         if self.length_contract is not None:
@@ -21,7 +23,7 @@ class List(Contract):
                 self.elements_contract._check_contract(context, element)
     
     def __str__(self):
-        s = 'list'
+        s = 'seq'
         if self.length_contract is not None:
             s += '[%s]' % self.length_contract
         if self.elements_contract is not None:
@@ -29,7 +31,7 @@ class List(Contract):
         return s
     
     def __repr__(self):
-        s = 'List(%r,%r)' % (self.length_contract, self.elements_contract)
+        s = 'Seq(%r,%r)' % (self.length_contract, self.elements_contract)
         return s
             
     @staticmethod
@@ -37,14 +39,14 @@ class List(Contract):
         where = W(s, loc)
         length_contract = tokens.get('length_contract', None)
         elements_contract = tokens.get('elements_contract', None)
-        return List(length_contract, elements_contract, where=where)
+        return Seq(length_contract, elements_contract, where=where)
  
 
-list_contract = (S('list') - 
+list_contract = (S('seq') - 
                  O(S('[') - contract_expression('length_contract') - S(']')) + 
                  O(S('(') - contract_expression('elements_contract') - S(')')))
-list_contract.setParseAction(List.parse_action)
+list_contract.setParseAction(Seq.parse_action)
 
-list_contract.setName('List contract')
-add_keyword('list')
+list_contract.setName('Seq contract')
+add_keyword('seq')
 add_contract(list_contract)

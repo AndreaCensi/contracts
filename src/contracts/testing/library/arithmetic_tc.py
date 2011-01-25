@@ -1,4 +1,4 @@
-from ..test_registrar import syntax_fail, good, fail
+from . import syntax_fail, good, fail
 
 syntax_fail('=1+')
 syntax_fail('=1-')

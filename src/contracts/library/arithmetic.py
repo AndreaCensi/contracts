@@ -17,12 +17,13 @@ class Binary(RValue):
         '*': 1,
     }
     def __init__(self, exprs, glyph, where=None):
+        assert glyph in  Binary.operations
+        for e in exprs:
+            assert isinstance(e, RValue)
+
         self.where = where
         self.exprs = exprs 
-        for e in self.exprs:
-            assert isinstance(e, RValue)
         self.glyph = glyph
-        self.operation = Binary.operations[glyph]
         self.precedence = Binary.precedence[glyph]
         
     def eval(self, context):
@@ -33,7 +34,8 @@ class Binary(RValue):
                 raise ValueError('I can only do math with numbers, not %r.' % 
                                  val.__class__.__name__) 
             vals.append(val)
-        return reduce(self.operation, vals)
+        operation = Binary.operations[self.glyph]
+        return reduce(operation, vals)
         
     def __repr__(self):
         s = 'Binary(%r,%r)' % (self.exprs, self.glyph)
@@ -71,20 +73,22 @@ class Unary(RValue):
     }
     
     def __init__(self, glyph, expr, where=None):
+        assert glyph in Unary.operations
         assert isinstance(expr, RValue)
 
         self.where = where
         self.expr = expr
         self.glyph = glyph
-        self.operation = Unary.operations[glyph]
+        
         
     def eval(self, context):
         val = self.expr.eval(context)
         if not isnumber(val):
             raise ValueError('I can only do math with numbers, not with %r.' % 
                    val.__class__.__name__) 
-
-        return self.operation(val)
+            
+        operation = Unary.operations[self.glyph]
+        return operation(val)
         
     def __repr__(self):
         s = 'Unary(%r,%r)' % (self.glyph, self.expr)

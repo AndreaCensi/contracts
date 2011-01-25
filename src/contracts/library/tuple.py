@@ -1,7 +1,7 @@
 from ..interface import Contract, ContractNotRespected
-from ..syntax import(add_contract, W, contract, O, S, ZeroOrMore, simple_contract,
+from ..syntax import(add_contract, W, contract_expression, O, S, ZeroOrMore,
                       Group, add_keyword)
-from contracts.library.compositions import or_contract
+from .compositions import or_contract
 
 
 class Tuple(Contract):
@@ -75,14 +75,14 @@ class Tuple(Contract):
 # if you use contract instead of simple_contract, it will be matched as And
 
 
-inside = (S('(') - contract - S(')')) | or_contract 
+inside = (S('(') - contract_expression - S(')')) | or_contract 
 inside.setName('Any contract for tuple elements (use parenthesis for AND)')
 
 elements = Group(S('(') - inside - ZeroOrMore(S(',') - inside) - S(')'))('elements')
 elements.setName('Tuple elements contract.')
 
 
-length = Group(S('[') - contract - S(']'))('length') 
+length = Group(S('[') - contract_expression - S(']'))('length') 
 length.setName('Tuple length contract.')
 
 tuple_contract = S('tuple') - O(length | elements) 
