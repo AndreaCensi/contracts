@@ -20,7 +20,8 @@ try:
 except ImportError: # pragma: no cover
     pass  
 else:
-    from .array import ShapeContract, Shape, Array, ArrayConstraint, DType, dtype
+    from .array import (ShapeContract, Shape, Array, ArrayConstraint, DType,
+                        dtype, ArrayOR, ArrayAnd)
     
 from .extensions import (identifier_expression, identifier_contract,
                          Extension, CheckCallable)

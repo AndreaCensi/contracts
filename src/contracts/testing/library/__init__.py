@@ -22,5 +22,5 @@ except ImportError: # pragma: no cover
     pass  
 else:
     from . import array_tc
-#    from . import array_elements_tc
+    from . import array_elements_tc
     
