@@ -19,12 +19,14 @@ class Arg(object):
         return "Arg(%r,%r)" % (self.desc, self.type)
 
 class DocStringInfo(object):
-    def __init__(self, docstring=None, params={}, returns=[]):
+    def __init__(self, docstring=None, params=None, returns=None):
+        if params is None:
+            params = {}
+        if returns is None:
+            returns = []
         self.docstring = docstring
         self.params = params
         self.returns = returns
-        # self.vars
-        # self.raises
     
     def __eq__(self, other):
         return (self.docstring == other.docstring and
@@ -44,16 +46,19 @@ class DocStringInfo(object):
         else:
             indentation = 0
         # ORDER?
+        s += '\n\n'
         prefix = '\n' + (' ' * indentation) 
         for param in self.params:
-            s += prefix + ':param %s: %s' % (param, self.params[param].desc)
+            if self.params[param].desc is not None:
+                s += prefix + ':param %s: %s' % (param, self.params[param].desc)
             if self.params[param].type is not None:
                 s += prefix + ':type %s:  %s' % (param, self.params[param].type)
             s += prefix 
 
         if self.returns:
             for r in self.returns:
-                s += prefix + ':returns: %s' % (r.desc)
+                if r.desc is not None:
+                    s += prefix + ':returns: %s' % (r.desc)
                 if r.type is not None:
                     s += prefix + ':rtype:  %s' % (r.type)
                 s += prefix
@@ -121,10 +126,7 @@ def parse_annotations(docstring, keys, empty=False):
         docstring = regexp.sub(repl=replace, string=docstring)
         
     return docstring, found
-    
-
-
- 
+     
 
 def number_of_spaces(x):
     for i in range(1, len(x)):

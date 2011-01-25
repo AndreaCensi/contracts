@@ -5,13 +5,11 @@ import sys
 from .syntax import contract_expression, ParseException, ParseFatalException
 from .interface import (Context, Contract, ContractSyntaxError, Where,
                         ContractException, ContractNotRespected, describe_value)
-from .docstring_parsing import DocStringInfo
+from .docstring_parsing import DocStringInfo, Arg
 from .backported import getcallargs, getfullargspec
 from .library import (identifier_expression, Extension,
                       CheckCallable, SeparateContext) 
-from contracts.enabling import all_disabled
-
-
+from .enabling import all_disabled
 
 
 def check_contracts(contracts, values, context_variables=None):
@@ -161,7 +159,7 @@ def contracts(*arg, **kwargs):
         return wrap
     
 
-def contracts_decorate(function, **kwargs):
+def contracts_decorate(function, modify_docstring=True, **kwargs):
     ''' An explicit way to decorate a given function.
         The decorator :py:func:`decorate` calls this function internally. 
     '''
@@ -177,7 +175,7 @@ def contracts_decorate(function, **kwargs):
                 msg = 'Unknown parameter %r; I know %r.' % (kw, all_args)
                 raise ContractException(msg)
             
-        accepts_dict = kwargs 
+        accepts_dict = dict(**kwargs) 
         
     else:
         # Py3k: check if there are annotations
@@ -206,23 +204,17 @@ def contracts_decorate(function, **kwargs):
     
     
     if returns is None:
-        returns = '*'
-        
+        returns_parsed = None
+    else:
+        returns_parsed = parse_flexible_spec(returns)
+            
     accepts_parsed = dict([ (x, parse_flexible_spec(accepts_dict[x])) 
                             for x in accepts_dict])
-    returns_parsed = parse_flexible_spec(returns)
+    
     
     # TODO: add classname if bound method
-    nice_function_display = '%s() (in %s)' % (function.__name__, function.__module__)
+    nice_function_display = '%s() in %s' % (function.__name__, function.__module__)
     
-    # XXX: get rid of this?
-    wrap_exceptions = True
-    if wrap_exceptions:
-        capture = ContractNotRespected
-    else:
-        capture = ()
-    
-    # I like this meta-meta stuff :-)
     def contracts_checker(unused, *args, **kwargs):
         bound = getcallargs(function, *args, **kwargs)
         
@@ -234,7 +226,7 @@ def contracts_decorate(function, **kwargs):
                 for arg in all_args:
                     if arg in accepts_parsed:
                         accepts_parsed[arg]._check_contract(context, bound[arg])
-            except capture as e:
+            except ContractNotRespected as e:
                 msg = ('Breach for argument %r to %s.\n' 
                        % (arg, nice_function_display))
                 e.error = msg + e.error
@@ -242,10 +234,10 @@ def contracts_decorate(function, **kwargs):
         
         result = function(*args, **kwargs)
         
-        if do_checks:    
+        if do_checks and returns_parsed is not None:    
             try:
                 returns_parsed._check_contract(context, result)
-            except capture as e:
+            except ContractNotRespected as e:
                 msg = ('Breach for return value of %s.\n' 
                        % (nice_function_display))
                 e.error = msg + e.error
@@ -255,10 +247,36 @@ def contracts_decorate(function, **kwargs):
     
     # TODO: add rtype statements if missing
 
+    if modify_docstring:
+        def write_contract_as_rst(c):
+            return '``%s``' % c
+        
+        if function.__doc__ is not None:
+            docs = DocStringInfo.parse(function.__doc__)
+        else:
+            docs = DocStringInfo("")
+        for param in accepts_parsed:
+            if not param in docs.params:
+#                default = '*not documented*'
+                default = ''
+                docs.params[param] = Arg(default, None)
+            
+            docs.params[param].type = write_contract_as_rst(accepts_parsed[param])
+            
+        if returns_parsed is not None:
+            if not docs.returns:
+                docs.returns.append(Arg(None, None))
+            docs.returns[0].type = write_contract_as_rst(returns_parsed)
+        new_docs = docs.__str__()   
+        
+#        print '-' * 40 + 'for %s \n' % nice_function_display + add_prefix(new_docs, ' >')
+    else:
+        new_docs = function.__doc__
+
     from decorator import decorator #@UnresolvedImport
     wrapper = decorator(contracts_checker, function)
         
-    wrapper.__doc__ = function.__doc__
+    wrapper.__doc__ = new_docs
     wrapper.__name__ = function.__name__
     wrapper.__module__ = function.__module__
     
@@ -347,7 +365,7 @@ def check(contract, object, desc=None, **context):
     if not isinstance(contract, str):
         # XXX: make it more liberal?
         raise ValueError('I expect a string (contract spec) as the first '
-                         'argument, not a %s.' % contract.__class__)
+                         'argument, not a %s.' % describe_value(contract))
     try:
         return check_contracts([contract], [object], context)
     except ContractNotRespected as e:

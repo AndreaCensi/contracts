@@ -1,6 +1,6 @@
 import unittest
 
-from contracts import decorate, contracts
+from contracts import decorate, contracts, contract
 from ..interface import ContractException, ContractNotRespected
 from contracts.main import parse_contract_string
 
@@ -231,7 +231,7 @@ class DecoratorTests(unittest.TestCase):
         self.assertRaises(ContractNotRespected, f, 1, 2.0)
         
     def test_check_docstring_maintained(self):
-        def f(a, b):
+        def f1(a, b):
             ''' This is good
                 :type a: int
                 :type b: int
@@ -239,17 +239,55 @@ class DecoratorTests(unittest.TestCase):
             '''
             return a + b
         
-        f2 = decorate(f)
-        self.assertEqual(f.__doc__, f2.__doc__)
-        self.assertEqual(f.__name__, f2.__name__)
-        self.assertEqual(f.__module__, f2.__module__)
+        def f2(string):
+            pass
+        
+        f1_dec = decorate(f1)
+        self.assertNotEqual(f1.__doc__, f1_dec.__doc__)
+        self.assertEqual(f1.__name__, f1_dec.__name__)
+        self.assertEqual(f1.__module__, f1_dec.__module__)
 
-        f = parse_contract_string
-        f3 = decorate(f, string='str')
-        self.assertEqual(f.__doc__, f3.__doc__)
-        self.assertEqual(f.__name__, f3.__name__)
-        self.assertEqual(f.__module__, f3.__module__)
+        f2_dec = decorate(f2, string='str')
+        self.assertNotEqual(f2.__doc__, f2_dec.__doc__)
+        self.assertEqual(f2.__name__, f2_dec.__name__)
+        self.assertEqual(f2.__module__, f2_dec.__module__)
 
+        f1_dec_p = decorate(f1, modify_docstring=False)
+        self.assertEqual(f1_dec_p.__doc__, f1.__doc__)
+
+        f2_dec_p = decorate(f2, modify_docstring=False, string='str')
+        self.assertEqual(f2.__doc__, f2_dec_p.__doc__)
+
+        @contract
+        def f1b(a, b):
+            ''' This is good
+                :type a: int
+                :type b: int
+                :rtype: int
+            '''
+            return a + b
+        
+        @contract(string='str')
+        def f2b(string):
+            pass
+
+        @contract(modify_docstring=False)
+        def f1b_p(a, b):
+            ''' This is good
+                :type a: int
+                :type b: int
+                :rtype: int
+            '''
+            return a + b
+        
+        @contract(modify_docstring=False, string='str')
+        def f2b_p(string):
+            pass
+        
+        self.assertNotEqual(f1.__doc__, f1b.__doc__)
+        self.assertEqual(f1.__doc__, f1b_p.__doc__)
+        self.assertNotEqual(f2.__doc__, f2b.__doc__)
+        self.assertEqual(f2.__doc__, f2b_p.__doc__)
 
     def test_kwargs(self):
         def f(a, b, c=7): #@UnusedVariable

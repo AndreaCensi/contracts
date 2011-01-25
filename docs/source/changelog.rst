@@ -2,11 +2,15 @@
 0.9.3 -- 2011-01-XX
 --------------------
 
-Pre-release:
+Document, pre-release:
 * finish contracts --> contract
 * document disable_all() (tests missing) 
+* The function's docstring is now modified 
+
 
 New features:
+
+* The function's docstring is now modified to show the contracts for the parameters.
 
 * Implemented the generic contracts ``seq`` and ``map`` that
   generalize ``list`` and ``dict`` when any Sequence or Mapping will do. 
