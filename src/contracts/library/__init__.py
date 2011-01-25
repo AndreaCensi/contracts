@@ -4,8 +4,10 @@ from .separate_context import SeparateContext
 from .types_misc import Type, CheckType, Number
 from .strings import String
 from .lists import List
+from .seq import Seq
 from .tuple import Tuple
 from .dicts import Dict
+from .map import Map
 from .comparison import CheckOrder
 from .arithmetic import Binary, Unary
 from .compositions import OR, And, composite_contract, or_contract

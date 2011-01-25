@@ -12,8 +12,8 @@ from . import arithmetic_tc
 from . import compositions_tc
 from . import variables_tc
 from . import simple_values_tc
-#from . import map_tc
-#from . import seq_tc
+from . import map_tc
+from . import seq_tc
 
 
 try: 
