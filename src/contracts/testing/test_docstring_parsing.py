@@ -1,6 +1,8 @@
 import unittest
 
-from ..docstring_parsing import DocStringInfo, Arg, parse_docstring_annotations
+from ..docstring_parsing import DocStringInfo, Arg, number_of_spaces
+from contracts.interface import add_prefix
+
 
 examples = { """ 
         Provides a RGB representation of the values by interpolating the range 
@@ -41,9 +43,31 @@ class DocStringTest(unittest.TestCase):
     
     def test_parsing(self):
         for string in examples:
-            parsed = parse_docstring_annotations(string)
+            parsed = DocStringInfo.parse(string)
             "%s" % parsed
             "%r" % parsed
             result = examples[string]
             self.assertEqual(result, parsed)
                 
+    def test_number_of_spaces(self):
+        self.assertEqual(number_of_spaces(''), 0)
+        self.assertEqual(number_of_spaces(' '), 1)
+        self.assertEqual(number_of_spaces('  '), 2)
+        self.assertEqual(number_of_spaces('11'), 0)
+        self.assertEqual(number_of_spaces(' 223'), 1)
+        self.assertEqual(number_of_spaces('  4343'), 2)
+        
+    def test_reparsing(self):
+        for string, result in examples.items():
+            parsed = DocStringInfo.parse(string)
+            converted = "%s" % parsed
+            reparsed = DocStringInfo.parse(converted)
+            
+            msg = ('First string:\n%s\nParsed as:\n%s\n' % 
+                (add_prefix(string, '|'), add_prefix('%r' % parsed, '|')))
+            
+            msg += ('Converted:\n%s\nReparsed as:\n%s\n' % 
+                (add_prefix(converted, '|'), add_prefix('%r' % reparsed, '|')))
+            
+            self.assertEqual(parsed, reparsed, msg=msg)
+        

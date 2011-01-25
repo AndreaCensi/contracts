@@ -32,12 +32,64 @@ class DocStringInfo(object):
                 self.returns == other.returns)
     
      
-    def __str__(self):
-        s = "DocString:\n"
-        s += ' params: %s\n' % self.params
-        s += ' returns: %s' % self.returns
-        return s
+    def __repr__(self):
+        return "DocString(\n\t%r,\n\t%r,\n\t%r)" % (self.docstring, self.params, self.returns)
         
+    def __str__(self):                    
+        s = self.docstring
+        valid_lines = [x for x in self.docstring.split('\n') if x]
+        if valid_lines: 
+            last_line = [-1]
+            indentation = number_of_spaces(last_line)
+        else:
+            indentation = 0
+        # ORDER?
+        prefix = '\n' + (' ' * indentation) 
+        for param in self.params:
+            s += prefix + ':param %s: %s' % (param, self.params[param].desc)
+            if self.params[param].type is not None:
+                s += prefix + ':type %s:  %s' % (param, self.params[param].type)
+            s += prefix 
+
+        if self.returns:
+            for r in self.returns:
+                s += prefix + ':returns: %s' % (r.desc)
+                if r.type is not None:
+                    s += prefix + ':rtype:  %s' % (r.type)
+                s += prefix
+        
+        return s
+    
+    @staticmethod
+    def parse(docstring):
+        assert docstring is not None
+            
+        param_keys = ['param', 'parameter', 'arg', 'argument', 'key', 'keyword']
+        type_keys = ['type']
+        return_keys = ['returns', 'return']
+        rtype_keys = ['rtype']
+        # TODO: document state?
+        # var_keys = ['var', 'ivar', 'cvar']
+        # raises, raise, except, exception
+        
+        docstring, params_ann = parse_annotations(docstring, param_keys, False) 
+        docstring, types_ann = parse_annotations(docstring, type_keys, False)
+        docstring, returns_ann = parse_annotations(docstring, return_keys, True)
+        docstring, rtype_ann = parse_annotations(docstring, rtype_keys, True)
+        
+        params = {}
+        names = set(list(params_ann.keys()) + list(types_ann.keys()))
+        for name in names:
+            params[name] = Arg(params_ann.get(name, None),
+                                types_ann.get(name, None))
+    
+        returns = []
+        for i in range(max(len(returns_ann), len(rtype_ann))):
+            returns.append(Arg(returns_ann.get(i, None),
+                                rtype_ann.get(i, None)))
+    
+        return DocStringInfo(docstring, params=params, returns=returns)
+
 def parse_annotations(docstring, keys, empty=False):
     ''' Returns docstring_without, dictionary.
         If empty specified, will look for empty statements, and give integers
@@ -70,33 +122,12 @@ def parse_annotations(docstring, keys, empty=False):
         
     return docstring, found
     
-def parse_docstring_annotations(docstring):
-    assert docstring is not None
-        
-    param_keys = ['param', 'parameter', 'arg', 'argument', 'key', 'keyword']
-    type_keys = ['type']
-    return_keys = ['returns', 'return']
-    rtype_keys = ['rtype']
-    # TODO: document state?
-    # var_keys = ['var', 'ivar', 'cvar']
-    # raises, raise, except, exception
-    
-    docstring, params_ann = parse_annotations(docstring, param_keys, False) 
-    docstring, types_ann = parse_annotations(docstring, type_keys, False)
-    docstring, returns_ann = parse_annotations(docstring, return_keys, True)
-    docstring, rtype_ann = parse_annotations(docstring, rtype_keys, True)
-    
-    params = {}
-    names = set(list(params_ann.keys()) + list(types_ann.keys()))
-    for name in names:
-        params[name] = Arg(params_ann.get(name, None),
-                            types_ann.get(name, None))
 
-    returns = []
-    for i in range(max(len(returns_ann), len(rtype_ann))):
-        returns.append(Arg(returns_ann.get(i, None),
-                            rtype_ann.get(i, None)))
-
-    return DocStringInfo(docstring, params=params, returns=returns)
 
  
+
+def number_of_spaces(x):
+    for i in range(1, len(x)):
+        if x[:i] != ' ' * i:
+            return i - 1
+    return len(x)

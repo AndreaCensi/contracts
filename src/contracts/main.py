@@ -5,7 +5,7 @@ import sys
 from .syntax import contract_expression, ParseException, ParseFatalException
 from .interface import (Context, Contract, ContractSyntaxError, Where,
                         ContractException, ContractNotRespected, describe_value)
-from .docstring_parsing import parse_docstring_annotations
+from .docstring_parsing import DocStringInfo
 from .backported import getcallargs, getfullargspec
 from .library import (identifier_expression, Extension,
                       CheckCallable, SeparateContext) 
@@ -277,7 +277,7 @@ def parse_flexible_spec(spec):
                                 % describe_value(spec))
 
 def parse_contracts_from_docstring(function):
-    annotations = parse_docstring_annotations(function.__doc__)
+    annotations = DocStringInfo.parse(function.__doc__)
     
     if len(annotations.returns) > 1:
         raise ContractException('More than one return type specified.')
