@@ -10,22 +10,18 @@ from .utils import check_contracts_ok, check_syntax_fail, check_contracts_fail
 from . import test_multiple #@UnusedImport
 
 # Import all the symbols needed to eval() the __repr__() output.
-from ..library import * #@UnusedWildImport
-from ..syntax import SimpleRValue #@UnusedImport # XXX
+from ..library import * #@UnusedWildImport @UnresolvedImport
 
 
-# If you want to try only some tests, set select to True, and add them below.
-select = False
-#select = True
-if select:
-    # Remove the other tests
-    good_examples[:] = []
-    syntax_fail_examples[:] = []
-    semantic_fail_examples[:] = []
-    contract_fail_examples[:] = []
-    
-    # Add the ones you want to do here:
-    from ..test_registrar import  fail, good, syntax_fail, semantic_fail #@UnusedImport
+## If you want to try only some tests, set select to True, and add them below.
+## Remove the other tests
+#good_examples[:] = []
+#syntax_fail_examples[:] = []
+#semantic_fail_examples[:] = []
+#contract_fail_examples[:] = []
+#
+## Add the ones you want to do here:
+#from ..test_registrar import  fail, good, syntax_fail, semantic_fail #@UnusedImport
 
 
 def test_good():

@@ -1,7 +1,7 @@
 from ..interface import Contract, ContractNotRespected
-from ..syntax import(add_contract, W, contract_expression, O, S, ZeroOrMore, simple_contract,
+from ..syntax import(add_contract, W, contract_expression, O, S, ZeroOrMore,
                       Group, add_keyword)
-from contracts.library.compositions import or_contract
+from .compositions import or_contract
 
 
 class Tuple(Contract):

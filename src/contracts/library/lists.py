@@ -1,6 +1,5 @@
 from ..interface import Contract, ContractNotRespected
-from ..syntax import add_contract, W, contract_expression, O, S
-from contracts.syntax import add_keyword
+from ..syntax import add_contract, W, contract_expression, O, S, add_keyword
 
 class List(Contract):
     

@@ -2,18 +2,14 @@ from numbers import Number
 import math
 
 # All the imports from pyparsing go here
-#from contracts import use_pyparsing
-if False: # pragma: no cover
-    print('contracts: Warning: using my private version of PyParsing for testing.')
-    from .mypyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
-        CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport
-        operatorPrecedence, oneOf, ParseException, ParserElement, alphas, alphanums, #@UnusedImport
-        ParseFatalException, ParseSyntaxException, FollowedBy, NotAny, Or, MatchFirst, Keyword, Group, White, lineno, col) #@UnusedImport
-else:
-    from pyparsing import (delimitedList, Forward, Literal, stringEnd, nums, Word, #@UnusedImport
-        CaselessLiteral, Combine, Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport
-        operatorPrecedence, oneOf, ParseException, ParserElement, alphas, alphanums, #@UnusedImport
-        ParseFatalException, ParseSyntaxException, FollowedBy, NotAny, Or, MatchFirst, Keyword, Group, White, lineno, col) #@UnusedImport
+from pyparsing import (delimitedList, Forward, Literal, #@UnusedImport @UnresolvedImport
+  stringEnd, nums, Word, CaselessLiteral, Combine, #@UnusedImport @UnresolvedImport
+  Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport @UnresolvedImport
+  operatorPrecedence, oneOf, ParseException, ParserElement, #@UnusedImport @UnresolvedImport
+  alphas, alphanums, ParseFatalException, #@UnusedImport @UnresolvedImport
+  ParseSyntaxException, FollowedBy, NotAny, Or, #@UnusedImport @UnresolvedImport
+  MatchFirst, Keyword, Group, White, lineno, col) #@UnusedImport @UnresolvedImport
+    
     
 from .pyparsing_utils import myOperatorPrecedence
 

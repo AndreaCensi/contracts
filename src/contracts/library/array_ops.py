@@ -1,7 +1,8 @@
-from contracts.interface import Contract, ContractNotRespected, RValue
-from ..syntax import W, rvalue, Literal
 from abc import abstractmethod
 import numpy
+
+from ..interface import Contract, ContractNotRespected, RValue
+from ..syntax import W
 
 class ArrayElementsTest(Contract):
     

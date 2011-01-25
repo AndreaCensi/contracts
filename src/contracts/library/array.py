@@ -1,7 +1,7 @@
 import numpy
 from numpy  import ndarray, dtype #@UnusedImport
 
-from ..interface import Contract, ContractNotRespected, RValue
+from ..interface import Contract, ContractNotRespected
 from ..syntax import (add_contract, W, contract_expression, O, S, rvalue,
                        simple_contract, ZeroOrMore, Literal, MatchFirst,
                         opAssoc, FollowedBy, NotAny, Keyword,
@@ -10,8 +10,7 @@ from ..pyparsing_utils import myOperatorPrecedence
 
 from .compositions import And, OR
 from .suggester import create_suggester
-from contracts.library.array_ops import ArrayOR, ArrayAnd, DType, \
-    ArrayConstraint
+from .array_ops import ArrayOR, ArrayAnd, DType, ArrayConstraint
 
 
 class Array(Contract):
