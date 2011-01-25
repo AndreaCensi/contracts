@@ -1,4 +1,4 @@
-import cPickle as pickle
+import pickle
 from .utils import check_contracts_fail
 from contracts.test_registrar import semantic_fail_examples, \
     contract_fail_examples, good_examples
