@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-version = "0.9.2"
+version = "0.9.3"
 
 description = (
 'PyContracts is a Python package that allows to declare '
@@ -41,7 +41,7 @@ setup(name='PyContracts',
       download_url='http://github.com/AndreaCensi/contracts/tarball/%s' % version,
       
       package_dir={'':'src'},
-      packages=['contracts'],
+      packages=['contracts', 'contracts.library'],
       install_requires=['pyparsing', 'decorator'],
       tests_require=['nose'],
       entry_points={},
