@@ -7,13 +7,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>PyContracts &mdash; PyContracts v0.9.2 documentation</title>
+    <title>PyContracts &mdash; PyContracts v0.9.3 documentation</title>
     <link rel="stylesheet" href="static/default.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.9.2',
+        VERSION:     '0.9.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,7 +22,7 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="PyContracts v0.9.2 documentation" href="#" />
+    <link rel="top" title="PyContracts v0.9.3 documentation" href="#" />
 	 
 
 
@@ -47,7 +47,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">PyContracts v0.9.2 documentation</a> &raquo;</li> 
+        <li><a href="#">PyContracts v0.9.3 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -74,7 +74,7 @@ using <a class="reference external" href="http://www.haskell.org/">Haskell</a> i
 <ul>
 <li><p class="first">Using annotations (for Python 3) &#8212;this is perhaps the most
 intuitive way:</p>
-<div class="highlight-python"><pre>@contracts
+<div class="highlight-python"><pre>@contract
 def my_function(a : 'int,&gt;0', b : 'list[N],N&gt;0') -&gt; 'list[N]':
      # Requires b to be a nonempty list, and the return
      # value to have the same length.
@@ -83,7 +83,7 @@ def my_function(a : 'int,&gt;0', b : 'list[N],N&gt;0') -&gt; 'list[N]':
 </li>
 <li><p class="first">Using <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags in docstrings. In this way, they will be included
 in your Sphinx documentation:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contracts</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span>
 <span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Function description.</span>
 <span class="sd">        :type a: int,&gt;0</span>
@@ -95,7 +95,7 @@ in your Sphinx documentation:</p>
 </div>
 </li>
 <li><p class="first">Using arguments to the decorators; the least intrusive way:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contracts</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int,&gt;0&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;0&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int,&gt;0&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;0&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="o">...</span>
 </pre></div>
@@ -111,6 +111,10 @@ in your Sphinx documentation:</p>
 <span class="n">check</span><span class="p">(</span><span class="s">&#39;dict(int: (valid_name, int))&#39;</span><span class="p">,</span> <span class="n">employees</span><span class="p">)</span>
 </pre></div>
 </div>
+<p><strong>News</strong></p>
+<ul class="simple">
+<li>2011-01-28: Version 0.9.3 released (<a class="reference internal" href="changelog.html#id1"><em>changelog</em></a>).</li>
+</ul>
 <p><strong>Status:</strong> <span class="brand">PyContracts</span> is very well tested and documented, however I&#8217;m keeping
 the version to 0.9, as some slight variations of the syntax are likely to be made
 based on users feedback and suggestions.</p>
@@ -122,6 +126,7 @@ based on users feedback and suggestions.</p>
 <li><a class="reference internal" href="#api"><em>PyContracts API</em></a></li>
 <li><a class="reference internal" href="#contracts-language-reference"><em>Language reference</em></a></li>
 <li><a class="reference internal" href="#api-reference"><em>PyContracts public API reference</em></a></li>
+<li><a class="reference internal" href="credits.html#credits"><em>Credits</em></a></li>
 </ul>
 <div class="section" id="installation">
 <span id="id1"></span><h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
@@ -259,8 +264,8 @@ sizes and shapes. Moreover, <span class="brand">PyContracts</span> can do arithm
 <li>See <a class="reference internal" href="#contracts-language-reference"><em>Language reference</em></a> for a description of the domain specific language
 used to describe the contracts.</li>
 </ul>
-<div class="section" id="using-the-contracts-decorator">
-<h2>Using the <tt class="docutils literal"><span class="pre">&#64;contracts</span></tt> decorator.<a class="headerlink" href="#using-the-contracts-decorator" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="using-the-contract-decorator">
+<h2>Using the <tt class="docutils literal"><span class="pre">&#64;contract</span></tt> decorator.<a class="headerlink" href="#using-the-contract-decorator" title="Permalink to this headline">¶</a></h2>
 <p>The decorator <a class="reference internal" href="#module-contracts" title="contracts"><tt class="xref py py-func docutils literal"><span class="pre">contracts()</span></tt></a> is considered the main way to
 define constraints. It is quite flexible, and it is smart enough
 to support functions with variable number of arguments and keyword arguments.</p>
@@ -276,13 +281,13 @@ use both annotations and docstring for the same function: if annotations
 are found, the docstring is not considered.</p>
 <div class="section" id="using-decorator-arguments">
 <h3>Using decorator arguments<a class="headerlink" href="#using-decorator-arguments" title="Permalink to this headline">¶</a></h3>
-<p><a class="reference internal" href="#module-contracts" title="contracts"><tt class="xref py py-func docutils literal"><span class="pre">contracts()</span></tt></a> accepts a list of keyword arguments.
+<p><a class="reference internal" href="#contracts.contract" title="contracts.contract"><tt class="xref py py-func docutils literal"><span class="pre">contract()</span></tt></a> accepts a list of keyword arguments.
 Each keyword should correspond to one function argument, plus
 the special name <tt class="docutils literal"><span class="pre">returns</span></tt> is reserved for describing the return value.
 An example use would be:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contracts</span>
 
-<span class="nd">@contracts</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int,&gt;0&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;0&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
+<span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int,&gt;0&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;0&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="o">...</span>
 </pre></div>
@@ -293,7 +298,7 @@ An example use would be:</p>
 </li>
 <li><p class="first">Python types &#8212; in this case <span class="brand">PyContracts</span> will do a simple <a class="reference external" href="http://docs.python.org/library/functions.html#isinstance" title="(in Python v2.7)"><tt class="xref py py-func docutils literal"><span class="pre">isinstance()</span></tt></a> check.
 This is slightly more clear if the contract is simple:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contracts</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
 </pre></div>
@@ -306,7 +311,7 @@ This is slightly more clear if the contract is simple:</p>
 <p>The same rules apply. In this case the syntax would look like this:</p>
 <div class="highlight-python"><pre>from contracts import contracts
 
-@contracts
+@contract
 def my_function(a:'int,&gt;0', b:'list[N],N&gt;0') -&gt; 'list[N]':
     ...</pre>
 </div>
@@ -321,7 +326,7 @@ In this way, your function becomes automatically more robust and better document
 <p>Here is an example use:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contracts</span>
 
-<span class="nd">@contracts</span>
+<span class="nd">@contract</span>
 <span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot; Function description.</span>
 
@@ -560,7 +565,7 @@ and then reuse that definition. For example:</p>
 <span class="n">color</span><span class="o">.</span><span class="n">fail</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
 
 <span class="c"># Now use ``color`` in other contracts.</span>
-<span class="nd">@contracts</span>
+<span class="nd">@contract</span>
 <span class="k">def</span> <span class="nf">fill_area</span><span class="p">(</span><span class="n">inside</span><span class="p">,</span> <span class="n">border</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Fill the area inside the current figure.</span>
 
@@ -568,7 +573,7 @@ and then reuse that definition. For example:</p>
 <span class="sd">        :type inside: color              &quot;&quot;&quot;</span>
     <span class="o">...</span>
 
-<span class="nd">@contracts</span>
+<span class="nd">@contract</span>
 <span class="k">def</span> <span class="nf">fill_gradient</span><span class="p">(</span><span class="n">colors</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Use a gradient to fill the area.</span>
 
@@ -752,6 +757,16 @@ specify optional constraints for its length and for its elements.</p>
 </tbody>
 </table>
 </div>
+<div class="section" id="sequences">
+<h2>Sequences<a class="headerlink" href="#sequences" title="Permalink to this headline">¶</a></h2>
+<p>The contract <tt class="docutils literal"><span class="pre">seq</span></tt> has the same syntax as <tt class="docutils literal"><span class="pre">list</span></tt> but matches any sequence.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">seq</span>
+<span class="n">seq</span><span class="p">[</span><span class="n">length_contract</span><span class="p">]</span>
+<span class="n">seq</span><span class="p">(</span><span class="n">elements_contract</span><span class="p">)</span>
+<span class="n">seq</span><span class="p">[</span><span class="n">length_contract</span><span class="p">](</span><span class="n">elements_contract</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="tuples">
 <h2>Tuples<a class="headerlink" href="#tuples" title="Permalink to this headline">¶</a></h2>
 <p>You can either specify a length (with square brackets),
@@ -851,6 +866,18 @@ are tuples with two elements, of two different types <tt class="docutils literal
 </tbody>
 </table>
 </div>
+<div class="section" id="mappings">
+<h2>Mappings<a class="headerlink" href="#mappings" title="Permalink to this headline">¶</a></h2>
+<p>The contract <tt class="docutils literal"><span class="pre">map</span></tt> has the same syntax as <tt class="docutils literal"><span class="pre">dict</span></tt> but matches any mapping.</p>
+<div class="highlight-python"><pre>map
+
+map[length_contract]
+
+map(key_contract: value_contract)
+
+map[length_contract](key_contract: value_contract)</pre>
+</div>
+</div>
 <div class="section" id="numpy-arrays">
 <h2>Numpy arrays<a class="headerlink" href="#numpy-arrays" title="Permalink to this headline">¶</a></h2>
 <p>The support for Numpy arrays was one of the motivations for me to develop <span class="brand">PyContracts</span>.
@@ -883,9 +910,9 @@ the error messages tend to be more descriptive.</p>
 <h3>Shape contracts<a class="headerlink" href="#shape-contracts" title="Permalink to this headline">¶</a></h3>
 <p>A <em>shape contract</em> is specified using a special syntax of the kind:</p>
 <blockquote>
-<p>dimension1 x dimension2 x dimension3</p>
+<div><p>dimension1 x dimension2 x dimension3</p>
 <p>dimension1 x dimension2 x dimension3 x ...</p>
-</blockquote>
+</div></blockquote>
 <p>The ellipsis is part of the syntax and specifies that more dimensions are allowed.</p>
 <p>Each dimension can be specified as a number, with variables, or as a contract.</p>
 <table border="1" class="docutils">
@@ -969,6 +996,9 @@ They appear similar to the normal <span class="brand">PyContracts</span> compari
 <tr><td><tt class="docutils literal"><span class="pre">array[NxN](float,&gt;=0,&lt;=1)</span></tt></td>
 <td>A square matrix with float elements in the interval [0,1].</td>
 </tr>
+<tr><td><tt class="docutils literal"><span class="pre">array[NxN](int,(0|1))</span></tt></td>
+<td>A square matrix with each element equal either to 0 or 1 (this could model a directed graph).</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -983,7 +1013,7 @@ Notice how the contracts serve very well as documentation.</p>
 <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;rgb&#39;</span><span class="p">,</span>  <span class="s">&#39;array[HxWx3](uint8),H&gt;0,W&gt;0&#39;</span><span class="p">)</span>
 <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;rgba&#39;</span><span class="p">,</span> <span class="s">&#39;array[HxWx4](uint8),H&gt;0,W&gt;0&#39;</span><span class="p">)</span>
 
-<span class="nd">@contracts</span>
+<span class="nd">@contract</span>
 <span class="k">def</span> <span class="nf">blend_images</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">image2</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">         Blends two images together.</span>
@@ -1001,7 +1031,7 @@ Notice how the contracts serve very well as documentation.</p>
 </pre></div>
 </div>
 <p>If you want to have a function that accepts a list of images, you would write:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contracts</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span>
 <span class="k">def</span> <span class="nf">blend_images</span><span class="p">(</span><span class="n">images</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">         Blends a series of images together.</span>
@@ -1056,15 +1086,15 @@ are tuples with two elements, of two different types <tt class="docutils literal
 <span class="target" id="module-contracts"></span><div class="section" id="decorating-a-function">
 <h2>Decorating a function<a class="headerlink" href="#decorating-a-function" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="contracts.contracts">
-<tt class="descclassname">contracts.</tt><tt class="descname">contracts</tt><big>(</big><em>*arg</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#contracts.contracts" title="Permalink to this definition">¶</a></dt>
+<dt id="contracts.contract">
+<tt class="descclassname">contracts.</tt><tt class="descname">contract</tt><big>(</big><em>*arg</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#contracts.contract" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator for adding contracts to functions.</p>
 <p>It is smart enough to support functions with variable number of arguments
 and keyword arguments.</p>
 <p>There are three ways to specify the contracts. In order of precedence:</p>
 <ul>
 <li><p class="first">As arguments to this decorator. For example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contracts</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int,&gt;0&#39;</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;0&#39;</span><span class="p">,</span><span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int,&gt;0&#39;</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;0&#39;</span><span class="p">,</span><span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="c"># ...</span>
     <span class="k">pass</span>
@@ -1072,14 +1102,14 @@ and keyword arguments.</p>
 </div>
 </li>
 <li><p class="first">As annotations (supported only in Python 3):</p>
-<div class="highlight-python"><pre>@contracts
+<div class="highlight-python"><pre>@contract
 def my_function(a:'int,&gt;0', b:'list[N],N&gt;0') -&gt; 'list[N]': 
     # ...
     pass</pre>
 </div>
 </li>
 <li><p class="first">Using <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags in the function&#8217;s docstring:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contracts</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span>
 <span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span> 
     <span class="sd">&quot;&quot;&quot; Function description.</span>
 <span class="sd">        :type a: int,&gt;0</span>
@@ -1091,6 +1121,10 @@ def my_function(a:'int,&gt;0', b:'list[N],N&gt;0') -&gt; 'list[N]':
 </div>
 </li>
 </ul>
+<p><strong>Signature and docstrings</strong>: The signature of the decorated
+function is conserved. By default, the docstring is modified
+by adding <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> definitions. To avoid that,
+pass <tt class="docutils literal"><span class="pre">modify_docstring=False</span></tt> as a parameter.</p>
 <p><strong>Contracts evaluation</strong>: Note that all contracts for the arguments 
 and the return values
 are evaluated in the same context. This make it possible to use
@@ -1128,10 +1162,18 @@ for <span class="brand">PyContracts</span>, but the latter is better for Sphinx:
 
 <dl class="function">
 <dt id="contracts.decorate">
-<tt class="descclassname">contracts.</tt><tt class="descname">decorate</tt><big>(</big><em>function</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#contracts.decorate" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">contracts.</tt><tt class="descname">decorate</tt><big>(</big><em>function</em>, <em>modify_docstring=True</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#contracts.decorate" title="Permalink to this definition">¶</a></dt>
 <dd><p>An explicit way to decorate a given function.
 The decorator <a class="reference internal" href="#contracts.decorate" title="contracts.decorate"><tt class="xref py py-func docutils literal"><span class="pre">decorate()</span></tt></a> calls this function internally.</p>
 </dd></dl>
+
+</div>
+<div class="section" id="enabling-disabling">
+<h2>Enabling/disabling<a class="headerlink" href="#enabling-disabling" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="contracts.disable_all">
+<tt class="descclassname">contracts.</tt><tt class="descname">disable_all</tt><big>(</big><big>)</big><a class="headerlink" href="#contracts.disable_all" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 <div class="section" id="exceptions">
@@ -1159,7 +1201,7 @@ The decorator <a class="reference internal" href="#contracts.decorate" title="co
 <h2>Manually checking values<a class="headerlink" href="#manually-checking-values" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="contracts.check">
-<tt class="descclassname">contracts.</tt><tt class="descname">check</tt><big>(</big><em>contract</em>, <em>object</em>, <em>desc=None</em><big>)</big><a class="headerlink" href="#contracts.check" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">contracts.</tt><tt class="descname">check</tt><big>(</big><em>contract</em>, <em>object</em>, <em>desc=None</em>, <em>**context</em><big>)</big><a class="headerlink" href="#contracts.check" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks that <tt class="docutils literal"><span class="pre">object</span></tt> satisfies the contract described by <tt class="docutils literal"><span class="pre">contract</span></tt>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1371,7 +1413,7 @@ needed.</p>
 
 <dl class="class">
 <dt id="contracts.Context">
-<em class="property">class </em><tt class="descclassname">contracts.</tt><tt class="descname">Context</tt><a class="headerlink" href="#contracts.Context" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">contracts.</tt><tt class="descname">Context</tt><big>(</big><em>variables={}</em><big>)</big><a class="headerlink" href="#contracts.Context" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class that represents the context for checking an expression.</p>
 <p>For now it is mostly a glorified dictionary, but perhaps in the
 future it will be something more.</p>
@@ -1414,7 +1456,7 @@ contracts expression in your own PyParsing grammar.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#pycontracts-api">PyContracts API</a><ul>
-<li><a class="reference internal" href="#using-the-contracts-decorator">Using the <tt class="docutils literal"><span class="pre">&#64;contracts</span></tt> decorator.</a><ul>
+<li><a class="reference internal" href="#using-the-contract-decorator">Using the <tt class="docutils literal"><span class="pre">&#64;contract</span></tt> decorator.</a><ul>
 <li><a class="reference internal" href="#using-decorator-arguments">Using decorator arguments</a></li>
 <li><a class="reference internal" href="#using-python-annotations">Using Python annotations</a></li>
 <li><a class="reference internal" href="#using-functions-docstrings">Using functions docstrings</a></li>
@@ -1441,8 +1483,10 @@ contracts expression in your own PyParsing grammar.</p>
 <li><a class="reference internal" href="#arithmetic-and-comparison">Arithmetic and comparison</a></li>
 <li><a class="reference internal" href="#details-of-variable-binding">Details of variable binding</a></li>
 <li><a class="reference internal" href="#lists">Lists</a></li>
+<li><a class="reference internal" href="#sequences">Sequences</a></li>
 <li><a class="reference internal" href="#tuples">Tuples</a></li>
 <li><a class="reference internal" href="#dictionaries">Dictionaries</a></li>
+<li><a class="reference internal" href="#mappings">Mappings</a></li>
 <li><a class="reference internal" href="#numpy-arrays">Numpy arrays</a><ul>
 <li><a class="reference internal" href="#shape-contracts">Shape contracts</a></li>
 <li><a class="reference internal" href="#numpy-specific-contracts">Numpy-specific contracts</a></li>
@@ -1454,6 +1498,7 @@ contracts expression in your own PyParsing grammar.</p>
 </li>
 <li><a class="reference internal" href="#pycontracts-public-api-reference">PyContracts public API reference</a><ul>
 <li><a class="reference internal" href="#decorating-a-function">Decorating a function</a></li>
+<li><a class="reference internal" href="#enabling-disabling">Enabling/disabling</a></li>
 <li><a class="reference internal" href="#exceptions">Exceptions</a></li>
 <li><a class="reference internal" href="#manually-checking-values">Manually checking values</a></li>
 <li><a class="reference internal" href="#miscellaneous">Miscellaneous</a></li>
@@ -1492,13 +1537,13 @@ contracts expression in your own PyParsing grammar.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">PyContracts v0.9.2 documentation</a> &raquo;</li> 
+        <li><a href="#">PyContracts v0.9.3 documentation</a> &raquo;</li> 
       </ul>
     </div>
 	
     <div class="footer">
         &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
     </div>
 	
     <script type="text/javascript">

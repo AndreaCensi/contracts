@@ -27,7 +27,7 @@ Contracts can be specified in three ways:
 - Using annotations (for Python 3) ---this is perhaps the most 
   intuitive way: :: 
   
-      @contracts
+      @contract
       def my_function(a : 'int,>0', b : 'list[N],N>0') -> 'list[N]': 
            # Requires b to be a nonempty list, and the return 
            # value to have the same length.
@@ -36,7 +36,7 @@ Contracts can be specified in three ways:
 - Using ``:type:`` and ``:rtype:`` tags in docstrings. In this way, they will be included
   in your Sphinx documentation: ::
    
-      @contracts
+      @contract
       def my_function(a, b): 
           """ Function description.
               :type a: int,>0
@@ -47,7 +47,7 @@ Contracts can be specified in three ways:
           
 - Using arguments to the decorators; the least intrusive way: ::
    
-      @contracts(a='int,>0', b='list[N],N>0', returns='list[N]')
+      @contract(a='int,>0', b='list[N],N>0', returns='list[N]')
       def my_function(a, b):
           ...
           
@@ -60,14 +60,15 @@ as well as hooks to extend |pycontracts| with new contracts types: ::
     new_contract('valid_name', lambda s: isinstance(s, str) and len(s)>0)
     check('dict(int: (valid_name, int))', employees)
 
+**News**
 
+- 2011-01-28: Version 0.9.3 released (:ref:`changelog <changelog>`).
 
 **Status:** |pycontracts| is very well tested and documented, however I'm keeping
 the version to 0.9, as some slight variations of the syntax are likely to be made
 based on users feedback and suggestions.
 
 **Support**: use the GitHub issue tracker_ or email me_.
-
 
 **Documentation index**
 
@@ -76,6 +77,7 @@ based on users feedback and suggestions.
 - :ref:`api`
 - :ref:`contracts_language_reference`
 - :ref:`api_reference`
+- :ref:`credits`
 
 .. _typecheck: http://oakwinter.com/code/typecheck/
 .. _Haskell: http://www.haskell.org/
