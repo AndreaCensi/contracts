@@ -13,7 +13,7 @@ This is a discussion of the |pycontracts| API.
 
 
 
-Using the ``@contracts`` decorator.
+Using the ``@contract`` decorator.
 ----------------------------------------------------
 
 The decorator :py:func:`contracts` is considered the main way to 
@@ -35,14 +35,14 @@ are found, the docstring is not considered.
 Using decorator arguments
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-:py:func:`contracts` accepts a list of keyword arguments.
+:py:func:`contract` accepts a list of keyword arguments.
 Each keyword should correspond to one function argument, plus
 the special name ``returns`` is reserved for describing the return value.
 An example use would be: ::
 
     from contracts import contracts
 
-    @contracts(a='int,>0', b='list[N],N>0', returns='list[N]')
+    @contract(a='int,>0', b='list[N],N>0', returns='list[N]')
     def my_function(a, b):
         ...
       
@@ -54,7 +54,7 @@ The values can be either:
 - Python types --- in this case |pycontracts| will do a simple :py:func:`isinstance` check.
   This is slightly more clear if the contract is simple: ::
 
-      @contracts(a=int, b=float, returns=float)
+      @contract(a=int, b=float, returns=float)
       def my_function(a, b):
           return a + b
 
@@ -66,7 +66,7 @@ The same rules apply. In this case the syntax would look like this: ::
 
     from contracts import contracts
 
-    @contracts
+    @contract
     def my_function(a:'int,>0', b:'list[N],N>0') -> 'list[N]': 
         ...
       
@@ -86,7 +86,7 @@ Here is an example use: ::
 
     from contracts import contracts
     
-    @contracts
+    @contract
     def my_function(a, b): 
       """ Function description.
   
@@ -347,7 +347,7 @@ and then reuse that definition. For example: ::
     color.fail([0,0,2])
     
     # Now use ``color`` in other contracts.
-    @contracts
+    @contract
     def fill_area(inside, border):
         """ Fill the area inside the current figure.
         
@@ -355,7 +355,7 @@ and then reuse that definition. For example: ::
             :type inside: color              """
         ...
         
-    @contracts
+    @contract
     def fill_gradient(colors):
         """ Use a gradient to fill the area.
         

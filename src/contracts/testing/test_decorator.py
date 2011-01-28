@@ -1,8 +1,7 @@
 import unittest
 
-from contracts import decorate, contracts, contract
-from ..interface import ContractException, ContractNotRespected
-from contracts.main import parse_contract_string
+from contracts import (decorate, contract,
+                ContractException, ContractNotRespected)
 
 class DecoratorTests(unittest.TestCase):
     
@@ -113,7 +112,7 @@ class DecoratorTests(unittest.TestCase):
 
 
     def test_ok1(self):
-        @contracts
+        @contract
         def f(a, b):
             ''' This is good
                 :type a: int
@@ -124,7 +123,7 @@ class DecoratorTests(unittest.TestCase):
 
     def test_ok3(self):
         ''' Trying the quoting thing. '''
-        @contracts
+        @contract
         def f(a, b):
             ''' This is good
                 :type a: ``int``
@@ -156,13 +155,13 @@ class DecoratorTests(unittest.TestCase):
         self.assertRaises(ContractException, decorate, f)
 
     def test_ok2(self):
-        @contracts(a='int', returns='int')
+        @contract(a='int', returns='int')
         def f(a, b):
             pass
 
     def test_invalid_args(self):
         def f():
-            @contracts(1)
+            @contract(1)
             def g(a, b): 
                 return int(a + b)
         self.assertRaises(ContractException, f)
@@ -170,19 +169,19 @@ class DecoratorTests(unittest.TestCase):
     def test_invalid_args2(self):
         ''' unknown parameter '''
         def f():
-            @contracts(c=2)
+            @contract(c=2)
             def g(a, b): 
                 return int(a + b)
         self.assertRaises(ContractException, f)
         
     def test_check_it_works1(self):
-        @contracts(a='int', b='int', returns='int')
+        @contract(a='int', b='int', returns='int')
         def f(a, b): #@UnusedVariable
             return 2.0
         self.assertRaises(ContractNotRespected, f, 1, 2)
 
     def test_check_it_works2(self):
-        @contracts(a='int', b='int', returns='int')
+        @contract(a='int', b='int', returns='int')
         def f(a, b): #@UnusedVariable
             return a + b
         f(1, 2)
@@ -191,7 +190,7 @@ class DecoratorTests(unittest.TestCase):
 
     def test_check_it_works2b(self):
         ''' Nothing for b '''
-        @contracts(a='int', returns='int')
+        @contract(a='int', returns='int')
         def f(a, b): #@UnusedVariable
             return int(a + b)
         f(1, 2)
@@ -218,7 +217,7 @@ class DecoratorTests(unittest.TestCase):
     #     self.assertRaises(ContractNotRespected, f, 1.0, 2)
         
     def test_check_it_works3(self):
-        @contracts
+        @contract
         def f(a, b):
             ''' This is good
                 :type a: int
@@ -342,7 +341,7 @@ class DecoratorTests(unittest.TestCase):
         def f(a):
             return a
         
-        @contracts(a='int')
+        @contract(a='int')
         def f2(a):
             return a
 

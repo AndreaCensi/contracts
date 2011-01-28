@@ -14,9 +14,15 @@ This section provides a reference to |pycontracts|' public interface.
 Decorating a function
 ---------------------
 
-.. autofunction:: contracts
+.. autofunction:: contract
 
 .. autofunction:: decorate
+
+
+Enabling/disabling
+------------------
+
+.. autofunction:: disable_all
 
 
 Exceptions

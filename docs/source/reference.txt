@@ -170,6 +170,17 @@ The general syntax is: ::
    * - ``tuple(list[N], list[N])``
      - A tuple of two lists of the same length.
      
+Sequences
+------------------
+
+The contract ``seq'' has the same syntax as ``list'' but matches any sequence. ::
+
+    seq
+    seq[length_contract]
+    seq(elements_contract)
+    seq[length_contract](elements_contract)
+
+
 Tuples
 ------------------
 
@@ -215,9 +226,6 @@ In the latter case, you are also specifying implicitly the number of elements.
 
    * - ``tuple[>=2]``
      - A tuple with at least two elements.
-     
-
-
 
 
 Dictionaries
@@ -261,6 +269,19 @@ for its keys and values: ::
      - A dictionary whose keys are strings, and whose values
        are tuples with two elements, of two different types ``x`` and ``y``.
 
+Mappings
+--------
+
+The contract ``map'' has the same syntax as ``dict'' but matches any mapping. ::
+
+    map
+    
+    map[length_contract]
+    
+    map(key_contract: value_contract)
+    
+    map[length_contract](key_contract: value_contract)
+    
 
 Numpy arrays
 ------------------
@@ -376,6 +397,9 @@ Arithmetic comparisons
    * - ``array[NxN](float,>=0,<=1)``
      - A square matrix with float elements in the interval [0,1].
 
+   * - ``array[NxN](int,(0|1))``
+     - A square matrix with each element equal either to 0 or 1 (this could model a directed graph).
+     
 
 Other examples
 ^^^^^^^^^^^^^^
@@ -390,7 +414,7 @@ Notice how the contracts serve very well as documentation. ::
     new_contract('rgb',  'array[HxWx3](uint8),H>0,W>0')
     new_contract('rgba', 'array[HxWx4](uint8),H>0,W>0')
     
-    @contracts
+    @contract
     def blend_images(image1, image2):
         ''' 
              Blends two images together. 
@@ -408,7 +432,7 @@ Notice how the contracts serve very well as documentation. ::
 
 If you want to have a function that accepts a list of images, you would write: ::
 
-    @contracts
+    @contract
     def blend_images(images):
         '''  
              Blends a series of images together.

@@ -1,10 +1,10 @@
 import unittest
 
-from contracts import new_contract, check
+from contracts import new_contract, check, Contract, contract
 from contracts.library.extensions import identifier_expression
-from contracts.interface import Contract
-from contracts.testing.utils import check_contracts_fail, check_contracts_ok
-from contracts.main import contracts, can_be_used_as_a_type
+
+from .utils import check_contracts_fail, check_contracts_ok
+from contracts.main import  can_be_used_as_a_type
 
 # The different patterns
 
@@ -164,7 +164,7 @@ class TestNewContract(unittest.TestCase):
         class NewStyleClass(object):
             def __init__(self, x, y): #@UnusedVariable @ 
                 pass
-        @contracts(x=NewStyleClass)
+        @contract(x=NewStyleClass)
         def f(x):
             pass
     
@@ -172,7 +172,7 @@ class TestNewContract(unittest.TestCase):
         class OldStyleClass():
             def __init__(self, x, y): #@UnusedVariable @ 
                 pass
-        @contracts(x=OldStyleClass)
+        @contract(x=OldStyleClass)
         def f(x):
             pass
     
@@ -213,7 +213,7 @@ class TestNewContract(unittest.TestCase):
         self.assertRaises(ValueError, color.fail, [0, 0, 1])
         
         # Now use ``color`` in other contracts.
-        @contracts
+        @contract
         def fill_area(inside, border):
             """ Fill the area inside the current figure.
             
@@ -222,7 +222,7 @@ class TestNewContract(unittest.TestCase):
             """
             pass
             
-        @contracts
+        @contract
         def fill_gradient(colors):
             """ Use a gradient to fill the area.
             
@@ -243,7 +243,7 @@ class TestNewContract(unittest.TestCase):
 
     def test_as_decorator_multiple(self):
         @new_contract
-        @contracts(x='int')
+        @contract(x='int')
         def even2(x):
             return x % 2 == 0
 

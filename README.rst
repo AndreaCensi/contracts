@@ -19,7 +19,7 @@ Contracts can be specified in three ways:
 - Using annotations (for Python 3) ---this is perhaps the most 
   intuitive way: :: 
   
-      @contracts
+      @contract
       def my_function(a : 'int,>0', b : 'list[N],N>0') -> 'list[N]': 
            # Requires b to be a nonempty list, and the return 
            # value to have the same length.
@@ -28,7 +28,7 @@ Contracts can be specified in three ways:
 - Using ``:type:`` and ``:rtype:`` tags in docstrings. In this way, they will be included
   in your Sphinx documentation: ::
    
-      @contracts
+      @contract
       def my_function(a, b): 
           """ Function description.
               :type a: int,>0
@@ -39,7 +39,7 @@ Contracts can be specified in three ways:
           
 - Using arguments to the decorators; the least intrusive way: ::
    
-      @contracts(a='int,>0', b='list[N],N>0', returns='list[N]')
+      @contract(a='int,>0', b='list[N],N>0', returns='list[N]')
       def my_function(a, b):
           ...
           
