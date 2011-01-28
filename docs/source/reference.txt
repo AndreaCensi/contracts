@@ -173,7 +173,7 @@ The general syntax is: ::
 Sequences
 ------------------
 
-The contract ``seq'' has the same syntax as ``list'' but matches any sequence. ::
+The contract ``seq`` has the same syntax as ``list`` but matches any sequence. ::
 
     seq
     seq[length_contract]
@@ -272,7 +272,7 @@ for its keys and values: ::
 Mappings
 --------
 
-The contract ``map'' has the same syntax as ``dict'' but matches any mapping. ::
+The contract ``map`` has the same syntax as ``dict`` but matches any mapping. ::
 
     map
     
