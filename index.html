@@ -145,13 +145,13 @@ $ nosetests -w src         # run the extensive test suite</pre>
 <span id="id2"></span><h2>Quick tour<a class="headerlink" href="#quick-tour" title="Permalink to this headline">¶</a></h2>
 <p>The contracts are specified using the <tt class="docutils literal"><span class="pre">type</span></tt> clause of RST-style
 docstrings (now accepted as standard in the python libraries); or, they can be passed explicitly
-to the <tt class="docutils literal"><span class="pre">&#64;contracts</span></tt> decorator. In this example, <span class="brand">PyContracts</span> is smart enough to check that
+to the <tt class="docutils literal"><span class="pre">&#64;contract</span></tt> decorator. In this example, <span class="brand">PyContracts</span> is smart enough to check that
 the two parameters <tt class="docutils literal"><span class="pre">a</span></tt> and <tt class="docutils literal"><span class="pre">b</span></tt> are matrices of compatible dimensions. Then, it checks that
 the result value is of compatible dimensions as well.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span>
-<span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contracts</span>
+<span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contract</span>
 
-<span class="nd">@contracts</span>
+<span class="nd">@contract</span>
 <span class="k">def</span> <span class="nf">matrix_multiply</span><span class="p">(</span><span class="n">a</span><span class="p">,</span>  <span class="n">b</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39; Multiplies two matrices together.</span>
 
@@ -175,7 +175,7 @@ complexity of the code.</p>
 <li><p class="first">The two lists have elements of the same type (indicated by the variable <tt class="docutils literal"><span class="pre">x</span></tt>);</p>
 </li>
 <li><p class="first">The returned list has the correct size (the sum of the two lengths).</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contracts</span><span class="p">(</span>      <span class="n">a</span><span class="o">=</span><span class="s">&#39;list[ M ](type(x))&#39;</span><span class="p">,</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span>      <span class="n">a</span><span class="o">=</span><span class="s">&#39;list[ M ](type(x))&#39;</span><span class="p">,</span>
                  <span class="n">b</span><span class="o">=</span><span class="s">&#39;list[ N ](type(x))&#39;</span><span class="p">,</span>
            <span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[M+N](type(x))&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_cat_equal</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
@@ -285,7 +285,7 @@ are found, the docstring is not considered.</p>
 Each keyword should correspond to one function argument, plus
 the special name <tt class="docutils literal"><span class="pre">returns</span></tt> is reserved for describing the return value.
 An example use would be:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contracts</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contract</span>
 
 <span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int,&gt;0&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;0&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
@@ -309,7 +309,7 @@ This is slightly more clear if the contract is simple:</p>
 <div class="section" id="using-python-annotations">
 <h3>Using Python annotations<a class="headerlink" href="#using-python-annotations" title="Permalink to this headline">¶</a></h3>
 <p>The same rules apply. In this case the syntax would look like this:</p>
-<div class="highlight-python"><pre>from contracts import contracts
+<div class="highlight-python"><pre>from contracts import contract
 
 @contract
 def my_function(a:'int,&gt;0', b:'list[N],N&gt;0') -&gt; 'list[N]':
@@ -324,7 +324,7 @@ can interpret those tags to produce pretty documentation.</p>
 <p><span class="brand">PyContracts</span> can read contracts declared using the <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags.
 In this way, your function becomes automatically more robust and better documented.</p>
 <p>Here is an example use:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contracts</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contract</span>
 
 <span class="nd">@contract</span>
 <span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
@@ -381,7 +381,7 @@ For example:</p>
 </div>
 <div class="section" id="manual-api">
 <h2>Manual API<a class="headerlink" href="#manual-api" title="Permalink to this headline">¶</a></h2>
-<p>In addition to the <a class="reference internal" href="#module-contracts" title="contracts"><tt class="xref py py-func docutils literal"><span class="pre">contracts()</span></tt></a> decorator, <span class="brand">PyContracts</span> offers
+<p>In addition to the <tt class="xref py py-func docutils literal"><span class="pre">&#64;contract()</span></tt> decorator, <span class="brand">PyContracts</span> offers
 an interface for checking expressions explicitly.</p>
 <p>The <a class="reference internal" href="#contracts.check" title="contracts.check"><tt class="xref py py-func docutils literal"><span class="pre">check()</span></tt></a> function  allows you to check
 that some value respect a given contract.</p>
@@ -433,9 +433,9 @@ first list, binds the variable <tt class="docutils literal"><span class="pre">N<
 then checks that <tt class="docutils literal"><span class="pre">list[N]</span></tt> describes the second list. Now, however,
 <tt class="docutils literal"><span class="pre">N</span></tt> has already been bound, and the matching fails. The error you would see is:</p>
 <div class="highlight-python"><pre>contracts.ContractNotRespected: Expected that 'N' = 2, got 3.
- context: checking: N (context: N=2)         for value: Instance of int: 3
- context: checking: list[N] (context: N=2)   for value: Instance of list: [1, 2, 3]
- context: checking: tuple(list[N],list[N])   for value: Instance of tuple: ([0, 1], [1, 2, 3])</pre>
+checking: N                        (N=2)   for value: Instance of int: 3
+checking: list[N]                  (N=2)   for value: Instance of list: [1, 2, 3]
+checking: tuple(list[N],list[N])           for value: Instance of tuple: ([0, 1], [1, 2, 3])</pre>
 </div>
 <p><span class="brand">PyContracts</span> tries hard to give you a readable message even with complicated contracts.
 For example, consider the complicated expression:</p>
@@ -444,19 +444,19 @@ For example, consider the complicated expression:</p>
 </div>
 <p>Because there is an OR (<tt class="docutils literal"><span class="pre">|</span></tt>), <span class="brand">PyContracts</span> will have to explain to you why
 none of the three OR clauses was satisfied.</p>
-<div class="highlight-python"><pre>contracts.ContractNotRespected: Could not satisfy any of the 3 clauses.
----- Clause #0: ----
-| Expected type 'int', got 'tuple'.
-|  context: checking: int               for value: Instance of tuple: ('a', 'b')
----- Clause #1: ----
-| Expected a string, got 'tuple'.
-|  context: checking: str               for value: Instance of tuple: ('a', 'b')
----- Clause #2: ----
-| Expected type 'int', got 'str'.
-|  context: checking: int               for value: Instance of str: 'b'
-|  context: checking: tuple(str,int)    for value: Instance of tuple: ('a', 'b')
-------- (end clauses) -------
- context: checking: int|str|tuple(str,int)   for value: Instance of tuple: ('a', 'b')</pre>
+<div class="highlight-python"><pre>contracts.interface.ContractNotRespected: Could not satisfy any of the 3 clauses in int|str|tuple(str,int).
+ ---- Clause #1:   int
+ | Expected type 'int', got 'tuple'.
+ | checking: int      for value: Instance of tuple: ('a', 'b')
+ ---- Clause #2:   str
+ | Expected a string, got 'tuple'.
+ | checking: str      for value: Instance of tuple: ('a', 'b')
+ ---- Clause #3:   tuple(str,int)
+ | Expected type 'int', got 'str'.
+ | checking: int                 for value: Instance of str: 'b'
+ | checking: tuple(str,int)      for value: Instance of tuple: ('a', 'b')
+ ------- (end clauses) -------
+checking: int|str|tuple(str,int)      for value: Instance of tuple: ('a', 'b')</pre>
 </div>
 </div>
 <div class="section" id="explicit-parsing-and-checking">
@@ -1008,7 +1008,7 @@ They appear similar to the normal <span class="brand">PyContracts</span> compari
 a domain-specific array type (<tt class="docutils literal"><span class="pre">rgb</span></tt>, <tt class="docutils literal"><span class="pre">rgba</span></tt>), then uses <span class="brand">PyContracts</span>
 to be sure that the two given images and the result values have coherent dimensions.
 Notice how the contracts serve very well as documentation.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contracts</span><span class="p">,</span> <span class="n">new_contract</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contract</span><span class="p">,</span> <span class="n">new_contract</span>
 
 <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;rgb&#39;</span><span class="p">,</span>  <span class="s">&#39;array[HxWx3](uint8),H&gt;0,W&gt;0&#39;</span><span class="p">)</span>
 <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;rgba&#39;</span><span class="p">,</span> <span class="s">&#39;array[HxWx4](uint8),H&gt;0,W&gt;0&#39;</span><span class="p">)</span>
