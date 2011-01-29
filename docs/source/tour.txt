@@ -6,14 +6,14 @@ Quick tour
 
 The contracts are specified using the ``type`` clause of RST-style
 docstrings (now accepted as standard in the python libraries); or, they can be passed explicitly
-to the ``@contracts`` decorator. In this example, |pycontracts| is smart enough to check that
+to the ``@contract`` decorator. In this example, |pycontracts| is smart enough to check that
 the two parameters ``a`` and ``b`` are matrices of compatible dimensions. Then, it checks that
 the result value is of compatible dimensions as well. ::
 
     import numpy
-    from contracts import contracts
+    from contracts import contract
     
-    @contracts
+    @contract
     def matrix_multiply(a,  b):
         ''' Multiplies two matrices together.
         
@@ -34,7 +34,7 @@ complexity of the code.
 
 
 ..
-    @contracts(players="dict(str: tuple(str, number))", returns="tuple(str,number)")
+    @contract(players="dict(str: tuple(str, number))", returns="tuple(str,number)")
     def get_larger(players):
         ''' Find the best player in the league and its team, given
             a dictionary of name -> (team, score).
@@ -48,7 +48,7 @@ In the next example we check that:
 
 - The returned list has the correct size (the sum of the two lengths). ::
     
-    @contracts(      a='list[ M ](type(x))', 
+    @contract(      a='list[ M ](type(x))', 
                      b='list[ N ](type(x))', 
                returns='list[M+N](type(x))')
     def my_cat_equal(a, b):

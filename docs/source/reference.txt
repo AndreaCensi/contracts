@@ -409,7 +409,7 @@ a domain-specific array type (``rgb``, ``rgba``), then uses |pycontracts|
 to be sure that the two given images and the result values have coherent dimensions.
 Notice how the contracts serve very well as documentation. ::
 
-    from contracts import contracts, new_contract
+    from contracts import contract, new_contract
     
     new_contract('rgb',  'array[HxWx3](uint8),H>0,W>0')
     new_contract('rgba', 'array[HxWx4](uint8),H>0,W>0')
