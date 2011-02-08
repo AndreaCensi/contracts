@@ -21,3 +21,4 @@ dist
 *.tmp*
 src/.noseids
 *coverage*
+test*py
