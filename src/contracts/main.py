@@ -10,6 +10,7 @@ from .backported import getcallargs, getfullargspec
 from .library import (identifier_expression, Extension,
                       CheckCallable, SeparateContext) 
 from .enabling import all_disabled
+from contracts.library.extensions import CheckCallableWithSelf
 
 
 def check_contracts(contracts, values, context_variables=None):
@@ -229,6 +230,10 @@ def contracts_decorate(function, modify_docstring=True, **kwargs):
         if do_checks:
             try:
                 context = Context()
+                # add self if we are a bound method
+                if 'self' in all_args:
+                    context.set_variable('self', args[0])
+                
                 for arg in all_args:
                     if arg in accepts_parsed:
                         accepts_parsed[arg]._check_contract(context, bound[arg])
@@ -289,7 +294,7 @@ def contracts_decorate(function, modify_docstring=True, **kwargs):
     return wrapper
 
 def parse_flexible_spec(spec):
-    ''' spec can be either a type or a contract string. 
+    ''' spec can be either a Contract, a type, or a contract string. 
         In the latter case, the usual parsing takes place'''
     if isinstance(spec, str):
         return parse_contract_string(spec)
@@ -479,7 +484,8 @@ def new_contract(*args):
         # We were called without parameters
         function = args[0]
         identifier = function.__name__
-        return new_contract_impl(identifier, function)
+        contract = new_contract_impl(identifier, function)
+        return function
     else:
         return new_contract_impl(*args)
     
@@ -512,10 +518,11 @@ def new_contract_impl(identifier, condition):
         c = identifier_expression.parseString(identifier, parseAll=True)
     except ParseException as e:
         where = Where(identifier, line=e.lineno, column=e.col)
-        #msg = 'Error in parsing string: %s' % e    
-        raise ValueError('The given identifier %r does not correspond to my idea '
-                         'of what an identifier should look like;\n%s\n%s' 
-                         % (identifier, e, where))
+        #msg = 'Error in parsing string: %s' % e 
+        msg = ('The given identifier %r does not correspond to my idea '
+               'of what an identifier should look like;\n%s\n%s' 
+                 % (identifier, e, where))
+        raise ValueError(msg)
     
     # Now let's check the condition
     if isinstance(condition, str):
@@ -524,8 +531,9 @@ def new_contract_impl(identifier, condition):
             # could call parse_flexible_spec as well here
             bare_contract = parse_contract_string(condition)
         except ContractSyntaxError as e:
-            raise ValueError('The given condition %r does not parse cleanly: %s' % 
-                             (condition, e))
+            msg = ('The given condition %r does not parse cleanly: %s' % 
+                   (condition, e))
+            raise ValueError(msg)
     # Important: types are callable, so check this first.
     elif can_be_used_as_a_type(condition): 
         # parse_flexible_spec can take care of types
@@ -533,17 +541,24 @@ def new_contract_impl(identifier, condition):
     # Lastly, it should be a callable
     elif hasattr(condition, '__call__'):
         # Check that the signature is right
-        can, error = can_accept_exactly_one_argument(condition)
-        if not can:
-            raise ValueError('The given callable %r should be able to accept '
-                             'exactly one argument. Error: %s ' % (condition, error))
-        bare_contract = CheckCallable(condition)
+        if can_accept_self_plus_one_argument(condition):
+            bare_contract = CheckCallableWithSelf(condition)
+        else:
+            can, error = can_accept_exactly_one_argument(condition)
+            if not can:
+                msg = ('The given callable %r should be able to accept '
+                      'exactly one argument. Error: %s ' % (condition, error))
+                raise ValueError(msg)
+            bare_contract = CheckCallable(condition)
     else:
         raise ValueError('I need either a string or a callable for the '
                          'condition; found %s.' % describe_value(condition))
     
-    # Separate the context
-    contract = SeparateContext(bare_contract)
+    # Separate the context if needed
+    if isinstance(bare_contract, (CheckCallable, CheckCallableWithSelf)):
+        contract = bare_contract
+    else:
+        contract = SeparateContext(bare_contract)
     
     # It's okay if we define the same thing twice
     if identifier in Extension.registrar:
@@ -566,7 +581,9 @@ def new_contract_impl(identifier, condition):
     except ContractSyntaxError as e: # pragma: no cover
         assert False, 'Cannot parse %r: %s' % (identifier, e)
         
-    return bare_contract
+    return contract
+#    return bare_contract
+#    return condition
 
 
 inPy2 = sys.version_info[0] == 2    
@@ -609,5 +626,31 @@ def can_accept_exactly_one_argument(callable_thing):
         return False, str(e)
     else:
         return True, None
+
+def can_accept_self_plus_one_argument(callable_thing):
+    ''' Checks that a callable can accept exactly self plus one argument
+        using introspection.
+    '''
+    
+    if inspect.ismethod(callable_thing): # bound method
+        f = callable_thing.__func__
+    else:
+        if not inspect.isfunction(callable_thing):
+            f = callable_thing.__call__
+        else:
+            f = callable_thing
+
+    spec = getfullargspec(f)
+    if len(spec.args) == 0 or spec.args[0] != 'self':
+        return False
+
+    try:
+        getcallargs(f, 'self', 'value')
+    except (TypeError, ValueError) as e: #@UnusedVariable
+        return False
+    else:
+        return True
+    
+    return False
 
 
