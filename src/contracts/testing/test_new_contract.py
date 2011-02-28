@@ -59,7 +59,7 @@ class TestNewContract(unittest.TestCase):
     
     def test_valid_identifiers(self):
         examples = ['aa', 'a_', 'a2', 'a_2', 'list2', 'dict2', 'int2',
-                    'float2', 'A2', 'array2', 'unit_length']
+                    'float2', 'A2', 'array2', 'unit_length', 'SE2', 'SE3', 'SEn']
         
         def check_valid_identifier(e):
             c = identifier_expression.parseString(e, parseAll=True)
@@ -278,5 +278,16 @@ class TestNewContract(unittest.TestCase):
                 pass
         
         assert can_be_used_as_a_type(NewStyleClass)
+        
+    def test_capital_name1(self):
+        # some problems with identifiers starting with capitals
+        new_contract('SEn', 'int')
+        check_contracts_ok('SEn', 1)
+        check_contracts_fail('SEn', 2.0)
+        
+    def test_capital_name2(self):
+        new_contract('Sen', 'int')
+        check_contracts_ok('Sen', 1)
+        check_contracts_fail('Sen', 2.0)
         
         
