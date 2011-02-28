@@ -184,12 +184,13 @@ class TestNewContract(unittest.TestCase):
         assert o.f('value') == True
         new_contract(cname(), o.f)
     
-    def test_callable_invalid(self):
-        class MyTest_fail(object):
-            def __call__(self, x, y): #@UnusedVariable
-                return True
-            
-        self.assertRaises(ValueError, new_contract, cname(), MyTest_fail())
+# TODO: removed after checking in class methods
+#    def test_callable_invalid(self):
+#        class MyTest_fail(object):
+#            def __call__(self, x, y): #@UnusedVariable
+#                return True
+#            
+#        self.assertRaises(ValueError, new_contract, cname(), MyTest_fail())
         
     def test_lambda_2(self):
         new_contract(cname(), lambda x: True) #@UnusedVariable
