@@ -1,5 +1,4 @@
-import sys
-from copy import deepcopy
+import sys 
 from .syntax import lineno, col
 
 class Where(object):
@@ -174,7 +173,10 @@ class Context(object):
     
     def copy(self):
         ''' Returns a copy of this context. '''
-        return deepcopy(self)
+        d = {}
+        for k in self._variables:
+            d[k] = self._variables[k].value
+        return Context(d)
     
     def __contains__(self, key):
         return self.has_variable(key)
