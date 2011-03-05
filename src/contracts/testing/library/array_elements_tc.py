@@ -16,3 +16,5 @@ good('array(=4|>=0,<=2)', arr124)
 good('array(=5|>=0,<=2)', arr125)
 fail('array(=4|>=2,<=0)', arr124)
 
+arr01int16 = numpy.zeros((3,), 'int16')
+good('array(int16,(=0|=1))', arr01int16)
