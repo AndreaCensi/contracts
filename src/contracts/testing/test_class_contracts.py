@@ -75,10 +75,8 @@ class ClassContractsTests(unittest.TestCase):
         def go():                
             @contract(move='legal_move4')
             def take_turn(move):
-                print "ciao"
                 pass
             
-            print "ciao"
             take_turn(0)
 
         self.assertRaises(ContractNotRespected, go)
