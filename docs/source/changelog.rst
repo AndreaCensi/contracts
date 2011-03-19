@@ -3,6 +3,46 @@ Changelog
 
 .. _changelog: 
 
+0.9.4 -- 2011-03-19
+--------------------
+
+Bug fixes:
+
+* Fixed bugs with ``new_contract`` with new contract names composed
+  by only two letters (it confused the parsing rules).
+
+Performance improvements:
+
+* Avoid deep copy of objects in some cases (thanks to William Furr),
+
+New experimental features:
+
+* Contracts for class methods (suggestion by William Furr). 
+  Documentation still to write; here's an example: ::
+  
+    from contracts import new_contract, contract
+
+    class Game(object):
+        def __init__(self, legal_moves):
+            self.legal_moves = legal_moves
+
+        # You can now create a contract from object methods
+        # that can use the object attributes to validate the value.
+        @new_contract
+        def legal_move(self, move):
+            if not move in self.legal_moves:
+                raise ValueError('Move not valid')
+
+        @contract(move='legal_move')
+        def take_turn(self, move):
+            pass
+        
+    game = Game(legal_moves=[1,2,3])
+    game.take_turn(1) # ok
+    game.take_turn(5) # raises exception
+
+
+
 0.9.3 -- 2011-01-28
 --------------------
 
