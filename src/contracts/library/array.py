@@ -1,7 +1,7 @@
 import numpy
 from numpy  import ndarray, dtype #@UnusedImport
 
-from ..interface import Contract, ContractNotRespected
+from ..interface import Contract, ContractNotRespected, describe_type
 from ..syntax import (add_contract, W, contract_expression, O, S, rvalue,
                        simple_contract, ZeroOrMore, Literal, MatchFirst,
                         opAssoc, FollowedBy, NotAny, Keyword,
@@ -22,7 +22,7 @@ class Array(Contract):
     
     def check_contract(self, context, value): 
         if not isinstance(value, ndarray):
-            error = 'Expected an array, got %r.' % value.__class__.__name__
+            error = 'Expected an array, got a %s.' % describe_type(value)
             raise ContractNotRespected(contract=self, error=error,
                                        value=value, context=context)
        

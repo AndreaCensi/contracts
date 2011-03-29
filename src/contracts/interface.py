@@ -355,6 +355,20 @@ def clipped_repr(x, clip):
 def remove_newlines(s):
     return s.replace('\n', ' ')
 
+def describe_type(x):
+    ''' Returns a friendly description of the type of x. '''
+    if inPy2 and isinstance(x, ClassType):
+        class_name = '(old-style class) %s' % x
+    else:
+        if hasattr(x, '__class__'):
+            class_name = '%s' % x.__class__.__name__
+        else:
+            # for extension classes (spmatrix)
+            class_name = str(type(x))
+
+    return class_name
+
+
 def describe_value(x, clip=50):
     ''' Describes an object, for use in the error messages. '''
     if hasattr(x, 'shape') and hasattr(x, 'dtype'):
@@ -363,13 +377,8 @@ def describe_value(x, clip=50):
         final = desc + clipped_repr(x, clip - len(desc))
         return remove_newlines(final)
     else:
-        if inPy2 and isinstance(x, ClassType):
-            class_name = '(old-style class type) %s' % x
-        else:
-            class_name = '%s' % x.__class__.__name__
-
+        class_name = describe_type(x)
         desc = 'Instance of %s: ' % class_name
-        
         final = desc + clipped_repr(x, clip - len(desc))
         return remove_newlines(final) 
 
