@@ -58,7 +58,7 @@ class DocStringTest(unittest.TestCase):
         self.assertEqual(number_of_spaces('  4343'), 2)
         
     def test_reparsing(self):
-        for string, result in examples.items():
+        for string, result in examples.items(): #@UnusedVariable
             parsed = DocStringInfo.parse(string)
             converted = "%s" % parsed
             reparsed = DocStringInfo.parse(converted)
