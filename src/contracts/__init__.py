@@ -10,7 +10,7 @@ from .main import (check, fail, check_multiple, contract, new_contract)
 from .main import parse_flexible_spec as parse
 from .main import contracts_decorate as decorate
 
-from .enabling import disable_all, enable_all
+from .enabling import disable_all, enable_all, all_disabled
 
 # For backwards compatibility
 contracts = contract   
