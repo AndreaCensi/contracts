@@ -223,29 +223,30 @@ def contracts_decorate(function, modify_docstring=True, **kwargs):
     nice_function_display = '%s() in %s' % (function.__name__, function.__module__)
     
     def contracts_checker(unused, *args, **kwargs):
+        do_checks = not all_disabled()
+        if not do_checks:
+            return function(*args, **kwargs)
+        
         bound = getcallargs(function, *args, **kwargs)
         
-        do_checks = not all_disabled()
-        
-        if do_checks:
-            try:
-                context = Context()
-                # add self if we are a bound method
-                if 'self' in all_args:
-                    context.set_variable('self', args[0])
-                
-                for arg in all_args:
-                    if arg in accepts_parsed:
-                        accepts_parsed[arg]._check_contract(context, bound[arg])
-            except ContractNotRespected as e:
-                msg = ('Breach for argument %r to %s.\n' 
-                       % (arg, nice_function_display))
-                e.error = msg + e.error
-                raise e
+        try:
+            context = Context()
+            # add self if we are a bound method
+            if 'self' in all_args:
+                context.set_variable('self', args[0])
+            
+            for arg in all_args:
+                if arg in accepts_parsed:
+                    accepts_parsed[arg]._check_contract(context, bound[arg])
+        except ContractNotRespected as e:
+            msg = ('Breach for argument %r to %s.\n' 
+                   % (arg, nice_function_display))
+            e.error = msg + e.error
+            raise e
         
         result = function(*args, **kwargs)
         
-        if do_checks and returns_parsed is not None:    
+        if returns_parsed is not None:    
             try:
                 returns_parsed._check_contract(context, result)
             except ContractNotRespected as e:
