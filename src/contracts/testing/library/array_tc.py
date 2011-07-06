@@ -136,6 +136,15 @@ good('array[(2,*)x...]', numpy.ones((2, 10)))
 fail('array[(2,3)x...]', numpy.ones((4, 10)))
 
 
+good('seq', numpy.ones(3))
+good('seq[3]', numpy.ones(3))
+fail('seq[3]', numpy.ones(2))
+good('seq[6]', numpy.ones((2, 3)))
+fail('seq[6]', numpy.ones((2, 4)))
+     
+
+
+
 
 
 
