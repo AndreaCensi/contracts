@@ -3,6 +3,12 @@ import collections
 from ..interface import Contract, ContractNotRespected
 from ..syntax import add_contract, W, contract_expression, O, S, add_keyword
 
+try:
+    import numpy
+    has_numpy = True
+except:
+    has_numpy = False
+    
 class Seq(Contract):
     
     def __init__(self, length_contract=None, elements_contract=None, where=None):
@@ -11,6 +17,18 @@ class Seq(Contract):
         self.elements_contract = elements_contract
     
     def check_contract(self, context, value): 
+        if has_numpy and isinstance(value, numpy.ndarray):
+            # TODO: check basic datatypes
+            # use value.size and value.flat for iteration
+            if self.length_contract is not None:
+                self.length_contract._check_contract(context, value.size)
+            
+            if self.elements_contract is not None:
+                for element in value.flat:
+                    self.elements_contract._check_contract(context, element)
+                        
+            return
+        
         if not isinstance(value, collections.Sequence):
             error = 'Expected a sequence, got %r.' % value.__class__.__name__
             raise ContractNotRespected(self, error, value, context)
