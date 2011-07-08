@@ -82,7 +82,7 @@ def parse_contract_string(string):
 # TODO: add decorator-specific exception
 
 
-def contract(*arg, **kwargs):
+def contract_decorator(*arg, **kwargs):
     ''' Decorator for adding contracts to functions.
     
         It is smart enough to support functions with variable number of arguments

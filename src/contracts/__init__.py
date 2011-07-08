@@ -1,4 +1,4 @@
-__version__ = '1.0.0'
+__version__ = '1.1.0'
 
 from . import syntax 
 contract_expression = syntax.contract_expression
@@ -6,7 +6,7 @@ contract_expression = syntax.contract_expression
 from .interface import (Contract, Context, ContractNotRespected,
                         ContractSyntaxError, ContractException)
 
-from .main import (check, fail, check_multiple, contract, new_contract)
+from .main import (check, fail, check_multiple, contract_decorator as contract, new_contract)
 from .main import parse_flexible_spec as parse
 from .main import contracts_decorate as decorate
 
