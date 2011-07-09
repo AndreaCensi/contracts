@@ -1,6 +1,6 @@
 from ..interface import Contract, ContractNotRespected
 from ..syntax import(add_contract, W, contract_expression, O, S, ZeroOrMore,
-                      Group, add_keyword)
+                      Group, add_keyword, Keyword)
 from .compositions import or_contract
 
 
@@ -85,7 +85,7 @@ elements.setName('Tuple elements contract.')
 length = Group(S('[') - contract_expression - S(']'))('length') 
 length.setName('Tuple length contract.')
 
-tuple_contract = S('tuple') - O(length | elements) 
+tuple_contract = Keyword('tuple') - O(length | elements) 
 tuple_contract.setName('tuple contract')
 
 add_contract(tuple_contract.setParseAction(Tuple.parse_action))

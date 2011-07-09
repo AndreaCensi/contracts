@@ -1,5 +1,5 @@
 from ..interface import Contract, ContractNotRespected
-from ..syntax import  W, contract_expression, O, S, add_contract, add_keyword
+from ..syntax import  W, contract_expression, O, S, add_contract, add_keyword, Keyword
 import collections
 
 
@@ -57,7 +57,7 @@ class Map(Contract):
 
 length_spec = S('[') - contract_expression('length') - S(']')
 kv_spec = '(' - O(contract_expression('key')) + ':' + O(contract_expression('value')) - ')'
-dict_contract = 'map' + O(length_spec) + O(kv_spec)
+dict_contract = Keyword('map') + O(length_spec) + O(kv_spec)
 
 dict_contract.setParseAction(Map.parse_action)
 

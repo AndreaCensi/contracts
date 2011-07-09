@@ -5,6 +5,7 @@ from contracts.library.extensions import identifier_expression
 
 from .utils import check_contracts_fail, check_contracts_ok
 from contracts.main import  can_be_used_as_a_type
+from contracts.syntax import ParsingTmp
 
 # The different patterns
 
@@ -281,13 +282,17 @@ class TestNewContract(unittest.TestCase):
 
 
 examples_valid = ['aa', 'a_', 'a2', 'a_2', 'list2', 'dict2', 'int2',
-                'float2', 'A2', 'array2', 'unit_length', 'SE2', 'SE3', 'S1', 'S2', 'axis_angle']
+                'float2', 'point2', 'A2', 'array2', 'unit_length', 'SE2', 'SE3', 'S1', 'S2', 'axis_angle']
 
+for k in ParsingTmp.keywords:
+    examples_valid.append('%s2' % k)
+    examples_valid.append('%s_' % k)
+    
 def check_valid_identifier(e):
     check_valid_identifier.__dict__['description'] = \
         'check_valid_identifier(%r)' % e
         
-    identifier_expression.parseString(e, parseAll=True)
+    identifier_expression.parseString(e, parseAll=True) #@UndefinedVariable
     
     new_contract(e, '*')
     

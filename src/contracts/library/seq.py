@@ -1,7 +1,7 @@
 import collections
 
 from ..interface import Contract, ContractNotRespected
-from ..syntax import add_contract, W, contract_expression, O, S, add_keyword
+from ..syntax import add_contract, W, contract_expression, O, S, add_keyword, Keyword
 
 try:
     import numpy
@@ -60,7 +60,7 @@ class Seq(Contract):
         return Seq(length_contract, elements_contract, where=where)
  
 
-list_contract = (S('seq') - 
+list_contract = (Keyword('seq') - 
                  O(S('[') - contract_expression('length_contract') - S(']')) + 
                  O(S('(') - contract_expression('elements_contract') - S(')')))
 list_contract.setParseAction(Seq.parse_action)
