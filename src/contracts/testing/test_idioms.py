@@ -1,8 +1,8 @@
 import unittest
 
 from contracts import (check, Context, ContractNotRespected, Contract, parse,
-                       check_multiple, ContractSyntaxError)
-from contracts.main import fail
+                       check_multiple, ContractSyntaxError, fail)
+
 
 class TestIdioms(unittest.TestCase):
     

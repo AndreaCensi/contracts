@@ -57,19 +57,6 @@ class TestNewContract(unittest.TestCase):
         self.assertRaises(ValueError, new_contract, '2acdca', 'list[N]')
         self.assertRaises(ValueError, new_contract, '_', 'list[N]')
     
-    def test_valid_identifiers(self):
-        examples = ['aa', 'a_', 'a2', 'a_2', 'list2', 'dict2', 'int2',
-                    'float2', 'A2', 'array2', 'unit_length', 'SE2', 'SE3', 'SEn']
-        
-        def check_valid_identifier(e):
-            c = identifier_expression.parseString(e, parseAll=True)
-            assert isinstance(c, Contract)
-            
-        for e in examples:
-            yield check_valid_identifier, e
-        
-        for e in examples:
-            yield new_contract, e, '*'
             
     def test_valid(self):
         c = new_contract('my_list', 'list[2]')
@@ -291,3 +278,24 @@ class TestNewContract(unittest.TestCase):
         check_contracts_fail('Sen', 2.0)
         
         
+
+
+examples_valid = ['aa', 'a_', 'a2', 'a_2', 'list2', 'dict2', 'int2',
+                'float2', 'A2', 'array2', 'unit_length', 'SE2', 'SE3', 'S1', 'S2', 'axis_angle']
+
+def check_valid_identifier(e):
+    check_valid_identifier.__dict__['description'] = \
+        'check_valid_identifier(%r)' % e
+        
+    identifier_expression.parseString(e, parseAll=True)
+    
+    new_contract(e, '*')
+    
+    check(e, 42)
+    
+def test_valid_identifiers():
+
+    for e in examples_valid:
+        yield check_valid_identifier, e
+    
+            

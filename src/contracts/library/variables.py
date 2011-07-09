@@ -83,10 +83,12 @@ alphabetl = 'a b c d e f g h i j k l m n o p q r s t u w v x y z '
 
 # Special case: allow an expression like AxBxC
 nofollow = 'a b c d e f g h i j k l m n o p q r s t u w v   y z'
-# also do not commit if part of word (SEn)
+# also do not commit if part of word (SEn, a_2)
 nofollow += 'A B C D E F G H I J K L M N O P Q R S T U W V X Y Z '
+nofollow += '0 1 2 3 4 5 6 7 8 9 _'
+# but recall 'axis_angle'
 int_variables = oneOf(alphabetu.split()) + FollowedBy(NotAny(oneOf(nofollow.split())))
-misc_variables = oneOf(alphabetl.split()) + FollowedBy(NotAny(oneOf(alphabetl.split())))
+misc_variables = oneOf(alphabetl.split()) + FollowedBy(NotAny(oneOf(nofollow.split() + ['x'])))
 int_variables_ref = int_variables.copy().setParseAction(VariableRef.parse_action)
 misc_variables_ref = misc_variables.copy().setParseAction(VariableRef.parse_action) 
 
@@ -96,10 +98,11 @@ misc_variables_ref = misc_variables.copy().setParseAction(VariableRef.parse_acti
 #misc_variables = oneOf(alphabet.lower()) + FollowedBy(White()) 
 
 nofollow = 'a b c d e f g h i j k l m n o p q r s t u w v   y z '
-nofollow += ' * - + / '
+nofollow += ' * - + /'
 nofollow += 'A B C D E F G H I J K L M N O P Q R S T U W V X Y Z '
+nofollow += '0 1 2 3 4 5 6 7 8 9 _'
 int_variables2 = oneOf(alphabetu.split()) + FollowedBy(NotAny(oneOf(nofollow.split())))
-misc_variables2 = oneOf(alphabetl.split()) + FollowedBy(NotAny(oneOf(alphabetl.split())))
+misc_variables2 = oneOf(alphabetl.split()) + FollowedBy(NotAny(oneOf(nofollow.split() + ['x'])))
 int_variables_contract = int_variables2.setParseAction(BindVariable.parse_action(int))
 misc_variables_contract = misc_variables2.setParseAction(BindVariable.parse_action(object))  
 

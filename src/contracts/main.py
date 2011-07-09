@@ -66,7 +66,7 @@ def parse_contract_string(string):
     if string in Storage.string2contract:
         return Storage.string2contract[string]
     try:
-        c = contract_expression.parseString(string, parseAll=True)[0] 
+        c = contract_expression.parseString(string, parseAll=True)[0] #@UndefinedVariable
         assert isinstance(c, Contract), 'Want Contract, not %r' % c
         Storage.string2contract[string] = c
         return c
@@ -516,7 +516,7 @@ def new_contract_impl(identifier, condition):
         
     # Make sure it corresponds to our idea of identifier
     try:
-        c = identifier_expression.parseString(identifier, parseAll=True)
+        c = identifier_expression.parseString(identifier, parseAll=True) #@UndefinedVariable
     except ParseException as e:
         where = Where(identifier, line=e.lineno, column=e.col)
         #msg = 'Error in parsing string: %s' % e 
