@@ -3,6 +3,27 @@ Changelog
 
 .. _changelog: 
 
+
+1.1.0 -- 2011-06-30
+--------------------
+
+* Now Numpy array are treated as sequences: ``seq[2](number)`` matches both ``[1,2]``
+  as well as ``np.array([1,2])``.
+
+1.0.0 -- 2011-06-30
+--------------------
+
+No new features since 0.9.4, mainly performance improvements and some bug fixes.
+
+Main changes:
+
+* Fixed bug that did not allow to define new contracts with name such as `list_`` if ``list``
+  is already defined.
+  
+* Performance much improved when contracts is disabled; now the overhead is only an extra function call.
+
+
+
 0.9.4 -- 2011-03-19
 --------------------
 
