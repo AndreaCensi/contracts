@@ -1,4 +1,4 @@
-__version__ = '1.1.0'
+__version__ = '1.2.0dev'
 
 from . import syntax 
 contract_expression = syntax.contract_expression
