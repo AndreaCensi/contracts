@@ -62,7 +62,8 @@ as well as hooks to extend |pycontracts| with new contracts types: ::
 
 **News**
 
-- 2011-01-28: Version 0.9.3 released (:ref:`changelog <changelog>`).
+- 2011-03-19: Version 0.9.4 released (:ref:`changelog <changelog>`).
+- 2011-01-28: Version 0.9.3 released.
 
 **Status:** |pycontracts| is very well tested and documented, however I'm keeping
 the version to 0.9, as some slight variations of the syntax are likely to be made
