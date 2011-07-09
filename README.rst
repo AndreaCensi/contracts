@@ -56,7 +56,5 @@ as well as hooks to extend PyContracts with new contracts types: ::
 .. _typecheck: http://oakwinter.com/code/typecheck/
 .. _Haskell: http://www.haskell.org/
 
-**Status:** PyContracts is very well tested and documented, however I'm keeping
-the version to 0.9, as some slight variations of the syntax are likely to be made
-based on users feedback and suggestions.
+**Status:** PyContracts is very well tested and documented. The syntax is stable and it won't be changed.
 
