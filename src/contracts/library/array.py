@@ -191,8 +191,8 @@ baseExpr = ndarray_simple_contract | suggester
 baseExpr.setName('numpy contract (with recovery)')
 
 ndarray_composite_contract = myOperatorPrecedence(baseExpr, [
-                        (',', 2, opAssoc.LEFT, ArrayAnd.parse_action),
-                         ('|', 2, opAssoc.LEFT, ArrayOR.parse_action),
+                        (',', 2, opAssoc.LEFT, ArrayAnd.parse_action), #@UndefinedVariable
+                         ('|', 2, opAssoc.LEFT, ArrayOR.parse_action), #@UndefinedVariable
                     ])
 
 
