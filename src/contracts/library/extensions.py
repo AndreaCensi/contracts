@@ -9,6 +9,7 @@ class Extension(Contract):
     
     def __init__(self, identifier, where=None):
         assert identifier in Extension.registrar
+        self.contract = Extension.registrar[identifier]
         self.identifier = identifier
         Contract.__init__(self, where)
     
@@ -19,7 +20,7 @@ class Extension(Contract):
         return "Extension(%r)" % self.identifier
     
     def check_contract(self, context, value):
-        Extension.registrar[self.identifier]._check_contract(context, value)
+        self.contract._check_contract(context, value)
         
     @staticmethod
     def parse_action(s, loc, tokens):
