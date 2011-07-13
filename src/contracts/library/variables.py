@@ -33,7 +33,7 @@ class BindVariable(Contract):
                           value.__class__.__name__))
                 raise ContractNotRespected(self, error, value, context)
             
-            context.set_variable(self.variable, value, origin=self)
+            context.set_variable(self.variable, value)
             
     def __str__(self):
         return self.variable

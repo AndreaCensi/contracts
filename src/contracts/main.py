@@ -485,7 +485,7 @@ def new_contract(*args):
         # We were called without parameters
         function = args[0]
         identifier = function.__name__
-        contract = new_contract_impl(identifier, function)
+        new_contract_impl(identifier, function)
         return function
     else:
         return new_contract_impl(*args)

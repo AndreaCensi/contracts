@@ -134,33 +134,20 @@ class Context(object):
         For now it is mostly a glorified dictionary, but perhaps in the
         future it will be something more.
     '''
-    class BoundVariable(object):
-        def __init__(self, value, description=None, origin=None):
-            self.value = value
-            self.description = description
-            self.origin = origin
-            
-        def __repr__(self):
-            return "{0!r}".format(self.value)
-
     def __init__(self, variables={}):
-        self._variables = {}
-        
-        for k in variables:
-            var = Context.BoundVariable(variables[k], origin='Outside context.')
-            self._variables[k] = var
-        
+        self._variables = dict(**variables)
+            
     def has_variable(self, name):
         return name in self._variables
     
     def get_variable(self, name):
-        assert self.has_variable(name)
-        value = self._variables[name].value
+        assert name in self._variables
+        value = self._variables[name]
         return value
     
-    def set_variable(self, name, value, description=None, origin=None):
-        assert not self.has_variable(name)
-        self._variables[name] = Context.BoundVariable(value, description, origin)
+    def set_variable(self, name, value):
+        assert not name in self._variables
+        self._variables[name] = value
     
     def eval(self, value, contract):
         assert isinstance(value, RValue)
@@ -173,10 +160,7 @@ class Context(object):
     
     def copy(self):
         ''' Returns a copy of this context. '''
-        d = {}
-        for k in self._variables:
-            d[k] = self._variables[k].value
-        return Context(d)
+        return Context(self._variables)
     
     def __contains__(self, key):
         return self.has_variable(key)
@@ -248,14 +232,14 @@ class Contract(object):
             but the error is wrapped recursively. This is the function
             that subclasses must call when checking their sub-contracts. 
         '''
-        if not self.enabled(): return
+        if not self._enabled: return
         
-        assert isinstance(context, Context), context
-        contextc = context.copy()
+        #assert isinstance(context, Context), context
+        variables = context._variables.copy()
         try: 
             self.check_contract(context, value)
         except ContractNotRespected as e:
-            e.stack.append((self, contextc, value))
+            e.stack.append((self, Context(variables), value))
             raise
     
     def __repr__(self):
