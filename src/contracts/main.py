@@ -154,15 +154,20 @@ def contract_decorator(*arg, **kwargs):
         if isinstance(arg[0], types.FunctionType):
             # We were called without parameters
             function = arg[0]
+            if all_disabled():
+                return function
             return contracts_decorate(function, **kwargs)
         else:
             raise ContractException('I expect that  contracts() is called with '
                                     'only keyword arguments (passed: %r)' % arg)
     else:
         # We were called *with* parameters.
-        def wrap(function):
-            # TODO: wrap exception
-            return contracts_decorate(function, **kwargs)
+        if all_disabled():
+            def wrap(function): return function
+        else:
+            def wrap(function):
+                # TODO: wrap exception
+                return contracts_decorate(function, **kwargs)
         return wrap
     
 
