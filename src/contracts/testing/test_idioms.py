@@ -1,6 +1,6 @@
 import unittest
 
-from contracts import (check, Context, ContractNotRespected, Contract, parse,
+from contracts import (check, ContractNotRespected, Contract, parse,
                        check_multiple, ContractSyntaxError, fail)
 
 
@@ -9,7 +9,7 @@ class TestIdioms(unittest.TestCase):
     def test_check_1(self):
         res = check('tuple(int,int)', (2, 2))
         
-        assert isinstance(res, Context)
+        assert isinstance(res, dict)
   
     def test_check_1a(self):
         self.assertRaises(ValueError, check, 1, 2)

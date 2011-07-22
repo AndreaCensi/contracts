@@ -13,8 +13,8 @@ class BindVariable(Contract):
         self.allowed_types = allowed_types
     
     def check_contract(self, context, value):
-        if context.has_variable(self.variable):
-            expected = context.get_variable(self.variable)
+        if self.variable in context:
+            expected = context[self.variable]
             if not (expected == value):
                 # TODO: add where it was bound
                 error = (
@@ -33,7 +33,7 @@ class BindVariable(Contract):
                           value.__class__.__name__))
                 raise ContractNotRespected(self, error, value, context)
             
-            context.set_variable(self.variable, value)
+            context[self.variable] = value
             
     def __str__(self):
         return self.variable
@@ -62,9 +62,9 @@ class VariableRef(RValue):
         
     def eval(self, context): # XXX
         var = self.variable
-        if not context.has_variable(var):
+        if not var in context:
             raise ValueError('Unknown variable %r.' % var)
-        return context.get_variable(var)
+        return context[var]
 
     def __repr__(self):
         return "VariableRef(%r)" % self.variable

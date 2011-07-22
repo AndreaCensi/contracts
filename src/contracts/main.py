@@ -3,7 +3,7 @@ import inspect
 import sys
 
 from .syntax import contract_expression, ParseException, ParseFatalException
-from .interface import (Context, Contract, ContractSyntaxError, Where,
+from .interface import (Contract, ContractSyntaxError, Where,
                         ContractException, ContractNotRespected, describe_value)
 from .docstring_parsing import DocStringInfo, Arg
 from .backported import getcallargs, getfullargspec
@@ -52,7 +52,7 @@ def check_contracts(contracts, values, context_variables=None):
         assert isinstance(x, str)
         C.append(parse_contract_string(x))
 
-    context = Context(context_variables)
+    context = context_variables.copy()
     for i in range(len(contracts)):
         C[i]._check_contract(context, values[i])
     
@@ -235,10 +235,10 @@ def contracts_decorate(function, modify_docstring=True, **kwargs):
         bound = getcallargs(function, *args, **kwargs)
         
         try:
-            context = Context()
+            context = {}
             # add self if we are a bound method
             if 'self' in all_args:
-                context.set_variable('self', args[0])
+                context['self'] = args[0]
             
             for arg in all_args:
                 if arg in accepts_parsed:

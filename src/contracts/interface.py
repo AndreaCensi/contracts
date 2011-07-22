@@ -67,7 +67,7 @@ class ContractNotRespected(ContractException):
     
     def __init__(self, contract, error, value, context):
         assert isinstance(contract, Contract), contract
-        assert isinstance(context, Context), context
+        assert isinstance(context, dict), context
         assert isinstance(error, str), error
         
         self.contract = contract
@@ -125,55 +125,16 @@ class RValue(object):
     def __str__(self):
         ''' Same constraints as :py:func:`Contract.__str__()`. '''
         assert False, 'Not implemented in %r' % self.__class__  # pragma: no cover
-        
+         
 
-
-class Context(object):
-    ''' Class that represents the context for checking an expression. 
-    
-        For now it is mostly a glorified dictionary, but perhaps in the
-        future it will be something more.
-    '''
-    def __init__(self, variables={}):
-        self._variables = dict(**variables)
-            
-    def has_variable(self, name):
-        return name in self._variables
-    
-    def get_variable(self, name):
-        assert name in self._variables
-        value = self._variables[name]
-        return value
-    
-    def set_variable(self, name, value):
-        assert not name in self._variables
-        self._variables[name] = value
-    
-    def eval(self, value, contract):
-        assert isinstance(value, RValue)
-        assert isinstance(contract, Contract)
-        try:    
-            return value.eval(self)
-        except ValueError as e:
-            msg = 'Error while evaluating RValue %r: %s' % (value, e)
-            raise ContractNotRespected(contract, msg, value, self)
-    
-    def copy(self):
-        ''' Returns a copy of this context. '''
-        return Context(self._variables)
-    
-    def __contains__(self, key):
-        return self.has_variable(key)
-    
-    def __getitem__(self, key):
-        return self.get_variable(key)
-                       
-    def __repr__(self):
-        return 'Context(%r)' % self._variables
-    
-    def __str__(self):
-        return ", ".join("%s=%s" % (k, v) for (k, v) in list(self._variables.items()))
-        
+def eval_in_context(context, value, contract):
+    assert isinstance(contract, Contract)
+    assert isinstance(value, RValue), describe_value(value)
+    try:    
+        return value.eval(context)
+    except ValueError as e:
+        msg = 'Error while evaluating RValue %r: %s' % (value, e)
+        raise ContractNotRespected(contract, msg, value, context)
         
         
 class Contract(object):
@@ -197,8 +158,7 @@ class Contract(object):
         
             :raise: ContractNotRespected
         '''
-        context = Context()
-        return self.check_contract(context, value)
+        return self.check_contract({}, value)
     
     def fail(self, value):
         ''' Checks that the value **does not** respect this contract.
@@ -234,12 +194,11 @@ class Contract(object):
         '''
         if not self._enabled: return
         
-        #assert isinstance(context, Context), context
-        variables = context._variables.copy()
+        variables = context.copy()
         try: 
             self.check_contract(context, value)
         except ContractNotRespected as e:
-            e.stack.append((self, Context(variables), value))
+            e.stack.append((self, variables, value))
             raise
     
     def __repr__(self):

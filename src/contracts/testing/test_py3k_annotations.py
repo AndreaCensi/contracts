@@ -1,7 +1,7 @@
 # FIXME: how can I not parse this with python2?
 import unittest
 from contracts import decorate, ContractException, contract, ContractNotRespected
-
+#@PydevCodeAnalysisIgnore
 class Py3kAnnotationsTest(unittest.TestCase):
 
     def test_malformed(self):
