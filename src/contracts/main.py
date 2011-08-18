@@ -467,7 +467,7 @@ def new_contract(*args):
         The function name is used as the identifier. ::
         
             @new_contract
-            def new_contract_name():
+            def new_contract_name(x):
                 return isinstance(x, list)
         
           
