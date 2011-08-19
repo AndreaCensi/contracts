@@ -24,7 +24,12 @@ class Seq(Contract):
                 self.length_contract._check_contract(context, value.size)
             
             if self.elements_contract is not None:
-                for element in value.flat:
+                n = value.size
+                for i in xrange(n):
+                    element = value.flat[i]
+                    if element.dtype == numpy.int32 or element.dtype == numpy.int64:
+                        element = int(element)
+                    # XXX: hack
                     self.elements_contract._check_contract(context, element)
                         
             return
