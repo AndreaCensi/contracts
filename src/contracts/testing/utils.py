@@ -1,6 +1,7 @@
-from ..interface import (ContractSyntaxError, describe_value, Context,
+from ..interface import (ContractSyntaxError, describe_value,
                          ContractNotRespected)
 from ..main import parse_contract_string, check_contracts
+
 
 
 def check_contracts_ok(contract, value):
@@ -9,7 +10,7 @@ def check_contracts_ok(contract, value):
         value = [value]
     context = check_contracts(contract, value)
     
-    assert isinstance(context, Context)
+    assert isinstance(context, dict)
     "%s" % context 
     "%r" % context
             

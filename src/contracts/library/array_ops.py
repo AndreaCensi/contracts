@@ -3,6 +3,7 @@ import numpy
 
 from ..interface import Contract, ContractNotRespected, RValue
 from ..syntax import W
+from contracts.interface import eval_in_context
 
 class ArrayElementsTest(Contract):
     
@@ -147,8 +148,8 @@ class ArrayConstraint(ArrayElementsTest):
     def test_elements(self, context, value):
         ''' Returns either a bool or an array of bool. '''
         assert isinstance(value, numpy.ndarray)
-        bound = context.eval(self.rvalue, self)
-
+        bound = eval_in_context(context=context, value=self.rvalue, contract=self)
+                        
         operation = ArrayConstraint.constraints[self.glyph]
         result = operation(value, bound)
         return result

@@ -1,5 +1,6 @@
 from ..interface import Contract, ContractNotRespected, RValue
 from ..syntax import W
+from ..interface import eval_in_context
 
 
 class EqualTo(Contract):
@@ -9,7 +10,8 @@ class EqualTo(Contract):
         self.rvalue = rvalue
         
     def check_contract(self, context, value):
-        val = context.eval(self.rvalue, self)
+        val = eval_in_context(context, self.rvalue, self)
+#        val = context.eval(self.rvalue, self)
         if not(val == value):
             error = ('EqualTo: Condition %s == %s not respected.' % (val, value))
             raise ContractNotRespected(contract=self, error=error,

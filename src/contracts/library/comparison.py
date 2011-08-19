@@ -1,6 +1,7 @@
 from ..interface import Contract, ContractNotRespected, RValue
 from ..syntax import W, add_contract, O, Literal, isnumber, rvalue
 import math
+from contracts.interface import eval_in_context
 
  
 class CheckOrder(Contract):
@@ -29,9 +30,11 @@ class CheckOrder(Contract):
         if self.expr1 is None:
             val1 = value
         else:
-            val1 = context.eval(self.expr1, self)
-                    
-        val2 = context.eval(self.expr2, self)
+#            val1 = context.eval(self.expr1, self)
+            val1 = eval_in_context(context, self.expr1, self)
+                        
+#        val2 = context.eval(self.expr2, self)
+        val2 = eval_in_context(context, self.expr2, self)
  
         # Check if we only need to check equality
         # in that case, we don't care for the type
