@@ -6,11 +6,15 @@ contract_expression = syntax.contract_expression
 from .interface import (Contract, ContractNotRespected,
                         ContractSyntaxError, ContractException)
 
-from .main import (check, fail, check_multiple, contract_decorator as contract, new_contract)
-from .main import parse_flexible_spec as parse
-from .main import contracts_decorate as decorate
+from .main import (check, fail, check_multiple, contract_decorator as contract,
+                    new_contract,
+                    contracts_decorate as decorate,
+                    parse_flexible_spec as parse)
 
 from .enabling import disable_all, enable_all, all_disabled
+
+# A couple of useful functions
+from .interface import describe_value, describe_type
 
 # For backwards compatibility
 contracts = contract   
