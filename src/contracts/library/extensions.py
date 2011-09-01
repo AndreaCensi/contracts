@@ -32,6 +32,17 @@ class Extension(Contract):
         where = W(s, loc)
         return Extension(identifier, where)
 
+    # We want to be pickable so we do not save self.contract
+    # which might point to a lambda
+    def __getstate__(self):
+        return {'identifier': self.identifier}
+    
+    def __setstate__(self, d):
+        self.identifier = d['identifier']
+        self.contract = Extension.registrar[self.identifier]
+
+
+
 class CheckCallable(Contract):
     def __init__(self, callable):
         self.callable = callable
