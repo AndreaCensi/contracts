@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-version = "1.2.0dev"
+version = "1.2.0"
 
 description = (
 'PyContracts is a Python package that allows to declare '
