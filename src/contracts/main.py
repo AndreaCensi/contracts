@@ -194,7 +194,7 @@ def contracts_decorate(function, modify_docstring=True, **kwargs):
         annotations = get_annotations(function)
         
         if annotations:
-            print(annotations)
+            #print(annotations)
             if 'return' in annotations:
                 returns = annotations['return']
                 del annotations['return']
