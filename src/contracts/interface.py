@@ -2,10 +2,11 @@ import sys
 from .syntax import lineno, col
 
 class Where(object):
-    ''' An object of this class represents a place in a file. 
+    ''' 
+        An object of this class represents a place in a file. 
     
-    All parsed elements contain a reference to a :py:class:`Where` object
-    so that we can output pretty error messages.
+        All parsed elements contain a reference to a :py:class:`Where` object
+        so that we can output pretty error messages.
     '''
     def __init__(self, string,
                  character=None, line=None, column=None):

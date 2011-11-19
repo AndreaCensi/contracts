@@ -10,7 +10,7 @@ from .backported import getcallargs, getfullargspec
 from .library import (identifier_expression, Extension,
                       CheckCallable, SeparateContext) 
 from .enabling import all_disabled
-from contracts.library.extensions import CheckCallableWithSelf
+from .library.extensions import CheckCallableWithSelf
 
 
 def check_contracts(contracts, values, context_variables=None):
