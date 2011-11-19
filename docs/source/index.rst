@@ -12,6 +12,11 @@ PyContracts
 return values. It supports a basic type system, variables binding, arithmetic constraints, and
 has several specialized contracts (notably for Numpy arrays). 
 
+
+**Status:** |pycontracts| is very well tested and documented. The last release
+is version 1.2.0 (November 2011). See :ref:`changelog <changelog>`.
+
+
 **Why**: The purpose of |pycontracts| is **not** to turn Python into a statically-typed language
 (albeit you can be as strict as you wish), but, rather, to avoid the time-consuming and
 obfuscating checking of various preconditions. In fact, more than the type constraints, I found
@@ -60,14 +65,6 @@ as well as hooks to extend |pycontracts| with new contracts types: ::
     new_contract('valid_name', lambda s: isinstance(s, str) and len(s)>0)
     check('dict(int: (valid_name, int))', employees)
 
-**News**
-
-- 2011-03-19: Version 0.9.4 released (:ref:`changelog <changelog>`).
-- 2011-01-28: Version 0.9.3 released.
-
-**Status:** |pycontracts| is very well tested and documented, however I'm keeping
-the version to 0.9, as some slight variations of the syntax are likely to be made
-based on users feedback and suggestions.
 
 **Support**: use the GitHub issue tracker_ or email me_.
 

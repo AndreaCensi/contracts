@@ -54,14 +54,7 @@ Manually checking values
 
    .. automethod:: __repr__()
 
-   .. automethod:: __str__()
-
-.. autoclass:: Context
-
-   .. automethod:: __contains__()
-   
-   .. automethod:: __getitem__()
-    
+   .. automethod:: __str__()    
 
 Miscellaneous
 ------------------------

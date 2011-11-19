@@ -83,7 +83,8 @@ class ContractNotRespected(ContractException):
         align = []
         for (contract, context, value) in self.stack:
             try:
-                contexts = "%s" % context
+                varss = ['%s: %s' % (k, describe_value(v)) for k, v in context.items()]
+                contexts = " ".join(varss)
             except:
                 contexts = '! cannot write context'
             if contexts:
