@@ -67,6 +67,9 @@ class ContractNotRespected(ContractException):
     ''' Exception thrown when a value does not respect a contract. '''
     
     def __init__(self, contract, error, value, context):
+        # XXX: solves pickling problem in multiprocess problem, but not the 
+        # real solution
+        Exception.__init__(self, contract, error, value, context) 
         assert isinstance(contract, Contract), contract
         assert isinstance(context, dict), context
         assert isinstance(error, str), error
@@ -115,7 +118,7 @@ def format_table(rows, colspacing=1):
 
 class RValue(object):
     
-    def eval(self, context): #@UnusedVariable
+    def eval(self, context): #@UnusedVariable @ReservedAssignment
         ''' Can raise ValueError; will be wrapped in ContractNotRespected. '''
         assert False, 'Not implemented in %r' % self.__class__  # pragma: no cover 
 

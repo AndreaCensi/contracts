@@ -368,7 +368,7 @@ def get_all_arg_names(function):
     return all_args
     
 
-def check(contract, object, desc=None, **context):
+def check(contract, object, desc=None, **context): #@ReservedAssignment
     ''' 
         Checks that ``object`` satisfies the contract described by ``contract``.
     
