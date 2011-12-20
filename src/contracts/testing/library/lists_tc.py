@@ -12,7 +12,7 @@ fail('list[*](float)', [1])
 good('list[=1]', [0])
 good('list[=2]', [0, 1])
 fail('list[=2]', [0])
-good('list[1]', [0]) # shortcut
+good('list[1]', [0])  # shortcut
 good('list[2]', [0, 1])
 fail('list[2]', [0])
 good('list(int)', [])

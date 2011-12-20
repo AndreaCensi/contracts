@@ -15,13 +15,14 @@ from .variables import (BindVariable, VariableRef, misc_variables_contract,
                         int_variables_contract, misc_variables_ref,
                         int_variables_ref)
 from .simple_values import EqualTo, SimpleRValue
-try: 
+
+try:
     import numpy
-except ImportError: # pragma: no cover
-    pass  
+except ImportError:  # pragma: no cover
+    pass
 else:
     from .array import (ShapeContract, Shape, Array, ArrayConstraint, DType,
                         dtype, ArrayOR, ArrayAnd)
-    
+
 from .extensions import (identifier_expression, identifier_contract,
                          Extension, CheckCallable)

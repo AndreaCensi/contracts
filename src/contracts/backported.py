@@ -1,30 +1,34 @@
 import sys
 
+
 # Backport inspect.getcallargs from Python 2.7 to 2.6
-if sys.version_info[0] == 3: # pragma: no cover
-    from inspect import getfullargspec #@UnresolvedImport
-    
-else: # pragma: no cover
+if sys.version_info[0] == 3:  # pragma: no cover
+    from inspect import getfullargspec  # @UnresolvedImport
+
+else:  # pragma: no cover
     from collections import namedtuple
     FullArgSpec = namedtuple('FullArgSpec', 'args varargs varkw defaults kwonlyargs kwonlydefaults annotations')
     from inspect import getargspec
+
     def getfullargspec(function):
         spec = getargspec(function)
-        fullspec = FullArgSpec(args=spec.args, varargs=spec.varargs, varkw=spec.keywords,
-                            defaults=spec.defaults, kwonlyargs=[], kwonlydefaults=None,
-                            annotations={})
+        fullspec = FullArgSpec(args=spec.args, varargs=spec.varargs,
+                               varkw=spec.keywords,
+                               defaults=spec.defaults, kwonlyargs=[],
+                               kwonlydefaults=None,
+                               annotations={})
         return fullspec
 
 
 # Backport inspect.getcallargs from Python 2.7 to 2.6
-if sys.version_info[:2] == (2, 7): # pragma: no cover
-    from inspect import getcallargs #@UnresolvedImport @UnusedImport
-    
-else: # pragma: no cover
+if sys.version_info[:2] == (2, 7):  # pragma: no cover
+    from inspect import getcallargs  # @UnresolvedImport @UnusedImport
+
+else:  # pragma: no cover
     inPy3k = sys.version_info[0] == 3
 
     from inspect import ismethod
-    
+
     def getcallargs(func, *positional, **named):
         """Get the mapping of arguments to values.
     
@@ -33,14 +37,14 @@ else: # pragma: no cover
         values from 'positional' and 'named'."""
         args, varargs, varkw, defaults, \
             kwonlyargs, kwonlydefaults, annotations = getfullargspec(func) #@UnusedVariable
-        
+
         if kwonlyargs:
             raise ValueError("I'm sorry, I don't have the logic to use kwonlyargs. "
                              "Perhapse you can help PyContracts and implement this? Thanks.")
-            
+
         f_name = func.__name__
         arg2value = {}
-    
+
         # The following closures are basically because of tuple parameter unpacking.
         assigned_tuple_params = []
         def assign(arg, value):
@@ -53,7 +57,7 @@ else: # pragma: no cover
                     try:
                         subvalue = next(value)
                     except StopIteration:
-                        raise ValueError('need more than %d %s to unpack' % 
+                        raise ValueError('need more than %d %s to unpack' %
                                          (i, 'values' if i > 1 else 'value'))
                     assign(subarg, subvalue)
                 try:
@@ -91,7 +95,7 @@ else: # pragma: no cover
                 f_name, 'at most' if defaults else 'exactly', num_args,
                 'arguments' if num_args > 1 else 'argument', num_total))
         elif num_args == 0 and num_total:
-            raise TypeError('%s() takes no arguments (%d given)' % 
+            raise TypeError('%s() takes no arguments (%d given)' %
                             (f_name, num_total))
         for arg in args:
             if isinstance(arg, str) and arg in named:
@@ -110,7 +114,7 @@ else: # pragma: no cover
             unexpected = next(iter(named))
             if isinstance(unexpected, unicode):
                 unexpected = unexpected.encode(sys.getdefaultencoding(), 'replace')
-            raise TypeError("%s() got an unexpected keyword argument '%s'" % 
+            raise TypeError("%s() got an unexpected keyword argument '%s'" %
                             (f_name, unexpected))
         unassigned = num_args - len([arg for arg in args if is_assigned(arg)])
         if unassigned:
@@ -119,5 +123,6 @@ else: # pragma: no cover
                 f_name, 'at least' if defaults else 'exactly', num_required,
                 'arguments' if num_required > 1 else 'argument', num_total))
         return arg2value
-        
+
+
 

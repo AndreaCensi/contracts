@@ -1,12 +1,12 @@
 import numpy
-from numpy  import ndarray, dtype #@UnusedImport
+from numpy  import ndarray, dtype  # @UnusedImport
 
 from ..interface import Contract, ContractNotRespected, describe_type
 from ..syntax import (add_contract, W, contract_expression, O, S, rvalue,
                        simple_contract, ZeroOrMore, Literal, MatchFirst,
                         opAssoc, FollowedBy, NotAny, Keyword,
                        add_keyword, Word)
-from ..pyparsing_utils import myOperatorPrecedence 
+from ..pyparsing_utils import myOperatorPrecedence
 
 from .compositions import And, OR
 from .suggester import create_suggester
@@ -14,24 +14,25 @@ from .array_ops import ArrayOR, ArrayAnd, DType, ArrayConstraint
 
 
 class Array(Contract):
-    
-    def __init__(self, shape_contract=None, elements_contract=None, where=None):
+
+    def __init__(self, shape_contract=None,
+                        elements_contract=None, where=None):
         Contract.__init__(self, where)
         self.shape_contract = shape_contract
         self.elements_contract = elements_contract
-    
-    def check_contract(self, context, value): 
+
+    def check_contract(self, context, value):
         if not isinstance(value, ndarray):
             error = 'Expected an array, got a %s.' % describe_type(value)
             raise ContractNotRespected(contract=self, error=error,
                                        value=value, context=context)
-       
+
         if self.shape_contract is not None:
             self.shape_contract._check_contract(context, value.shape)
-        
+
         if self.elements_contract is not None:
             self.elements_contract._check_contract(context, value)
-    
+
     def __str__(self):
         s = 'array'
         if self.shape_contract is not None:
@@ -39,19 +40,21 @@ class Array(Contract):
         if self.elements_contract is not None:
             s += '(%s)' % self.elements_contract
         return s
-    
+
     def __repr__(self):
         s = 'Array(%r,%r)' % (self.shape_contract, self.elements_contract)
         return s
-            
+
     @staticmethod
     def parse_action(s, loc, tokens):
         where = W(s, loc)
         shape_contract = tokens.get('shape_contract', [None])[0]
         elements_contract = tokens.get('elements_contract', [None])[0]
-        
-        assert shape_contract is None or isinstance(shape_contract, ShapeContract)
-        assert elements_contract is None or isinstance(elements_contract, Contract)
+
+        assert shape_contract is None or isinstance(shape_contract,
+                                                    ShapeContract)
+        assert elements_contract is None or isinstance(elements_contract,
+                                                       Contract)
         return Array(shape_contract, elements_contract, where=where)
 
 
@@ -62,47 +65,48 @@ class ShapeContract(Contract):
         Contract.__init__(self, where)
         self.dimensions = dimensions
         self.ellipsis = ellipsis
-    
+
     def check_contract(self, context, value):
-        assert isinstance(value, tuple) # Guaranteed by construction
+        assert isinstance(value, tuple)  # Guaranteed by construction
 
         expected = len(self.dimensions)
         ndim = len(value)
-    
-        if ndim < expected: # TODO: write clearer message
+
+        if ndim < expected:  # TODO: write clearer message
             error = 'Expected %d dimensions, got %d.' % (expected, ndim)
             raise ContractNotRespected(contract=self, error=error,
                                        value=value, context=context)
-        
+
         if ndim > expected and not self.ellipsis:
-            error = 'Expected %d dimensions, got %d.' % (expected, ndim) 
+            error = 'Expected %d dimensions, got %d.' % (expected, ndim)
             raise ContractNotRespected(contract=self, error=error,
                                        value=value, context=context)
-        
+
         for i in range(expected):
             self.dimensions[i]._check_contract(context, value[i])
-        
+
     def __str__(self):
         be_careful = self.ellipsis or len(self.dimensions) > 1
+
         def rep(x):
             if be_careful and isinstance(x, (And, OR)):
                 return "(%s)" % x
             else:
                 return "%s" % x
-            
+
         s = 'x'.join(rep(x) for x in self.dimensions)
         if self.ellipsis:
             s += 'x...'
         return s
-    
+
     def __repr__(self):
         if self.ellipsis:
             s = 'ShapeContract(%r,%r)' % (self.dimensions, self.ellipsis)
         else:
             s = 'ShapeContract(%r)' % self.dimensions
         return s
-    
-    @staticmethod 
+
+    @staticmethod
     def parse_action(s, loc, tokens):
         where = W(s, loc)
         #print "in tokens: " % tokens
@@ -123,22 +127,22 @@ class Shape(Contract):
         Contract.__init__(self, where)
         self.contract = contract
         self.length = length
-    
+
     def check_contract(self, context, value):
         if not isinstance(value, ndarray):
             error = 'Expected an array, got %r.' % value.__class__.__name__
             raise ContractNotRespected(contract=self, error=error,
-                                       value=value, context=context)       
-        
+                                       value=value, context=context)
+
         if isinstance(value, ndarray):
             value = value.shape
-            
+
         if self.length is not None:
             self.length._check_contract(context, len(value))
-            
+
         if self.contract is not None:
             self.contract._check_contract(context, value)
-    
+
     def __str__(self):
         s = 'shape'
         if self.length is not None:
@@ -146,20 +150,19 @@ class Shape(Contract):
         if self.contract is not None:
             s += '(%s)' % self.contract
         return s
-    
+
     def __repr__(self):
         s = 'Shape(%r,%r)' % (self.length, self.contract)
         return s
-    
-    @staticmethod 
+
+    @staticmethod
     def parse_action(s, loc, tokens):
         where = W(s, loc)
         assert 0 <= len(tokens) <= 2
         length = tokens.get('length', [None])[0]
         contract = tokens.get('other', [None])[0]
-        return Shape(length, contract, where) 
-    
-    
+        return Shape(length, contract, where)
+
 
 array_constraints = []
 for glyph in ArrayConstraint.constraints:
@@ -169,18 +172,18 @@ for glyph in ArrayConstraint.constraints:
         glyph_expression.setName('!=')
     else:
         glyph_expression = Literal(glyph)
-    
+
     expr = glyph_expression('glyph') - rvalue('rvalue')
     expr.setParseAction(ArrayConstraint.parse_action)
     array_constraints.append(expr)
 
-supported = ("uint8 uint16 uint32 uint64 int8 int16 int32 int64 float32 float64"
-             " u1 i1")
-       
+supported = ("uint8 uint16 uint32 uint64 int8 int16 int32 int64 float32"
+             " float64 u1 i1")
+
 dtype_checks = []
 for x in supported.split():
     d = numpy.dtype(x)
-    expr = Keyword(x).setParseAction(DType.parse_action(d))  
+    expr = Keyword(x).setParseAction(DType.parse_action(d))
     dtype_checks.append(expr)
 
 ndarray_simple_contract = MatchFirst(dtype_checks + array_constraints)
@@ -196,7 +199,7 @@ ndarray_composite_contract = myOperatorPrecedence(baseExpr, [
                     ])
 
 
-def my_delim_list2(what, delim): 
+def my_delim_list2(what, delim):
     return (what + ZeroOrMore(S(delim) + FollowedBy(NotAny(ellipsis)) - what))
 ellipsis = Literal('...')
 

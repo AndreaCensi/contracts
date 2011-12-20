@@ -4,6 +4,7 @@ syntax_fail_examples = []
 semantic_fail_examples = []
 contract_fail_examples = []
 
+
 # If exact is True, we are providing a canonical form
 # for the expression and we want it back.
 def good(a, b, exact=True): good_examples.append((a, b, exact))

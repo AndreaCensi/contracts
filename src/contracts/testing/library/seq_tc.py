@@ -16,11 +16,11 @@ good('seq[*]', (1,))
 good('seq[*](*)', (1,))
 good('seq[*](float)', (1.0,))
 fail('seq[*](float)', (1,))
-     
+
 good('seq[=1]', [0])
 good('seq[=2]', [0, 1])
 fail('seq[=2]', [0])
-good('seq[1]', [0]) # shortcut
+good('seq[1]', [0])  # shortcut
 good('seq[2]', (0, 1))
 fail('seq[2]', (0,))
 

@@ -1,10 +1,12 @@
-import sys 
 from .syntax import lineno, col
+import sys
+from abc import abstractmethod, ABCMeta
+
 
 class Where(object):
-    ''' 
-        An object of this class represents a place in a file. 
-    
+    '''
+        An object of this class represents a place in a file.
+
         All parsed elements contain a reference to a :py:class:`Where` object
         so that we can output pretty error messages.
     '''
@@ -30,14 +32,14 @@ class Where(object):
         pattern = 'line %2d >'
         for i in range(start, self.line):
             s += ("%s%s\n" % (pattern % (i + 1), lines[i]))
-            
         fill = len(pattern % (i + 1))
-        space = ' ' * fill + ' ' * (self.col - 1) 
+        space = ' ' * fill + ' ' * (self.col - 1)
         s += space + '^\n'
         s += space + '|\n'
         s += space + 'here or nearby'
-        return s
-    
+        return  s
+
+
 def add_prefix(s, prefix):
     result = ""
     for l in s.split('\n'):
@@ -46,63 +48,65 @@ def add_prefix(s, prefix):
     result = result[:-1]
     return result
 
+
 class ContractException(Exception):
     ''' The base class for the exceptions thrown by this module. '''
     pass
 
+
 class ContractSyntaxError(ContractException):
     ''' Exception thrown when there is a syntax error in the contracts. '''
-    
+
     def __init__(self, error, where=None):
         self.error = error
         self.where = where
-        
+
     def __str__(self):
         s = self.error
         s += "\n\n" + add_prefix(self.where.__str__(), ' ')
-        return s 
+        return s
 
-    
+
 class ContractNotRespected(ContractException):
     ''' Exception thrown when a value does not respect a contract. '''
-    
+
     def __init__(self, contract, error, value, context):
-        # XXX: solves pickling problem in multiprocess problem, but not the 
+        # XXX: solves pickling problem in multiprocess problem, but not the
         # real solution
-        Exception.__init__(self, contract, error, value, context) 
+        Exception.__init__(self, contract, error, value, context)
         assert isinstance(contract, Contract), contract
         assert isinstance(context, dict), context
         assert isinstance(error, str), error
-        
+
         self.contract = contract
         self.error = error
         self.value = value
         self.context = context
         self.stack = []
-        
+
     def __str__(self):
-        msg = str(self.error) 
-        
+        msg = str(self.error)
+
         align = []
         for (contract, context, value) in self.stack:
             try:
-                varss = ['%s: %s' % (k, describe_value(v)) for k, v in context.items()]
+                varss = ['%s: %s' % (k, describe_value(v))
+                         for k, v in context.items()]
                 contexts = " ".join(varss)
             except:
                 contexts = '! cannot write context'
             if contexts:
                 contexts = ('(%s)' % contexts)
-                
+
             #cons = ("%s %s" % (contract, contexts)).ljust(30)
             row = ['checking: %s' % contract,
                       contexts,
                     'for value: %s' % describe_value(value, clip=70)]
             align.append(row)
-            
-        
-        msg += format_table(align, colspacing=3)    
-        
+
+        msg += format_table(align, colspacing=3)
         return msg
+
 
 def format_table(rows, colspacing=1):
     sizes = []
@@ -111,81 +115,89 @@ def format_table(rows, colspacing=1):
     s = ''
     for row in rows:
         s += '\n'
-        for size, cell in zip(sizes, row):  
-            s += cell.ljust(size) 
+        for size, cell in zip(sizes, row):
+            s += cell.ljust(size)
             s += ' ' * colspacing
     return s
 
+
 class RValue(object):
-    
-    def eval(self, context): #@UnusedVariable @ReservedAssignment
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    def eval(self, context):  # @UnusedVariable @ReservedAssignment
         ''' Can raise ValueError; will be wrapped in ContractNotRespected. '''
-        assert False, 'Not implemented in %r' % self.__class__  # pragma: no cover 
 
     def __eq__(self, other):
-        return (self.__class__ == other.__class__ and 
+        return (self.__class__ == other.__class__ and
                 self.__repr__() == other.__repr__())
-        
+
+    @abstractmethod
     def __repr__(self):
         ''' Same constraints as :py:func:`Contract.__repr__()`. '''
-        assert False, 'Not implemented in %r' % self.__class__  # pragma: no cover
 
+    @abstractmethod
     def __str__(self):
         ''' Same constraints as :py:func:`Contract.__str__()`. '''
-        assert False, 'Not implemented in %r' % self.__class__  # pragma: no cover
-         
+
 
 def eval_in_context(context, value, contract):
     assert isinstance(contract, Contract)
     assert isinstance(value, RValue), describe_value(value)
-    try:    
+    try:
         return value.eval(context)
     except ValueError as e:
         msg = 'Error while evaluating RValue %r: %s' % (value, e)
         raise ContractNotRespected(contract, msg, value, context)
-        
-        
+
+
 class Contract(object):
-    
+    __metaclass__ = ABCMeta
+
     def __init__(self, where):
-        assert where is None or isinstance(where, Where), 'Wrong type %s' % where
+        assert ((where is None) or
+                (isinstance(where, Where), 'Wrong type %s' % where))
         self.where = where
-        self.enable() 
-        
+        self.enable()
+
     def enable(self):
         self._enabled = True
-        
+
     def disable(self):
         self._enabled = False
-    
+
     def enabled(self):
         return self._enabled
-    
+
     def check(self, value):
-        ''' Checks that the value satisfies this contract. 
-        
+        '''
+            Checks that the value satisfies this contract.
+
             :raise: ContractNotRespected
         '''
         return self.check_contract({}, value)
-    
+
     def fail(self, value):
-        ''' Checks that the value **does not** respect this contract.
-            Raises an exception if it does. 
-           
-           :raise: ValueError 
-        '''    
+        '''
+            Checks that the value **does not** respect this contract.
+            Raises an exception if it does.
+
+            :raise: ValueError
+        '''
         try:
             context = self.check(value)
         except ContractNotRespected:
             pass
         else:
-            msg = 'I did not expect that this value would satisfy this contract.\n'
+            msg = ('I did not expect that this value would '
+                   'satisfy this contract.\n')
             msg += '-    value: %s\n' % describe_value(value)
             msg += '- contract: %s\n' % self
             msg += '-  context: %r' % context
             raise ValueError(msg)
-        
-    def check_contract(self, context, value): #@UnusedVariable
+
+    @abstractmethod
+    def check_contract(self, context, value):  # @UnusedVariable
         ''' 
             Checks that value is ok with this contract in the specific 
             context. This is the function that subclasses must implement.
@@ -193,24 +205,25 @@ class Contract(object):
             :param context: The context in which expressions are evaluated.
             :type context: ``class(Contract)``
         '''
-        assert False, 'Not implemented in %r' % self.__class__ # pragma: no cover
-    
+
     def _check_contract(self, context, value):
         ''' Recursively checks the contracts; it calls check_contract,
             but the error is wrapped recursively. This is the function
             that subclasses must call when checking their sub-contracts. 
         '''
         if not self._enabled: return
-        
+
         variables = context.copy()
-        try: 
+        try:
             self.check_contract(context, value)
         except ContractNotRespected as e:
             e.stack.append((self, variables, value))
             raise
-    
+
+    @abstractmethod
     def __repr__(self):
-        ''' Returns a string representation of a contract that can be 
+        ''' 
+            Returns a string representation of a contract that can be 
             evaluated by Python's :py:func:`eval()`.
             
             It must hold that: ``eval(contract.__repr__()) == contract``.
@@ -231,8 +244,8 @@ class Contract(object):
             True
 
         '''
-        assert False, 'Not implemented in %r' % self.__class__  # pragma: no cover
 
+    @abstractmethod
     def __str__(self):
         ''' Returns a string representation of a contract that can be 
             reparsed by :py:func:`contracts.parse()`.
@@ -282,14 +295,13 @@ class Contract(object):
             
             
         '''
-        assert False, 'Not implemented in %r' % self.__class__ # pragma: no cover
 
     def __eq__(self, other):
-        return (self.__class__ == other.__class__ and 
+        return (self.__class__ == other.__class__ and
                 self.__repr__() == other.__repr__())
 
 
-inPy2 = sys.version_info[0] == 2    
+inPy2 = sys.version_info[0] == 2
 if inPy2:
     from types import ClassType
 
@@ -331,6 +343,6 @@ def describe_value(x, clip=50):
         class_name = describe_type(x)
         desc = 'Instance of %s: ' % class_name
         final = desc + clipped_repr(x, clip - len(desc))
-        return remove_newlines(final) 
+        return remove_newlines(final)
 
-    
+

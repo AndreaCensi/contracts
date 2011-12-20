@@ -1,9 +1,10 @@
-import pickle
 from .utils import check_contracts_fail
-from contracts.test_registrar import semantic_fail_examples, \
-    contract_fail_examples, good_examples
 from contracts import ContractNotRespected, parse, Contract
-    
+from contracts.test_registrar import (semantic_fail_examples,
+    contract_fail_examples, good_examples)
+import pickle
+
+
 def check_exception_pickable(contract, value):
     exception = check_contracts_fail(contract, value)
     assert isinstance(exception, Exception)
@@ -20,10 +21,12 @@ def check_exception_pickable(contract, value):
 
 
 def test_exceptions_are_pickable():
-    for contract, value, exact in semantic_fail_examples: #@UnusedVariable
-        yield check_contracts_fail, contract, value, ContractNotRespected #ContractSemanticError
-    for contract, value, exact in contract_fail_examples: #@UnusedVariable
+    for contract, value, exact in semantic_fail_examples:  # @UnusedVariable
         yield check_contracts_fail, contract, value, ContractNotRespected
+        #ContractSemanticError
+    for contract, value, exact in contract_fail_examples:  # @UnusedVariable
+        yield check_contracts_fail, contract, value, ContractNotRespected
+
 
 def check_contract_pickable(contract):
     c = parse(contract)
@@ -40,9 +43,10 @@ def check_contract_pickable(contract):
 
     assert c == c2
 
-def test_contracts_are_pickable():    
-    all = (good_examples + semantic_fail_examples + contract_fail_examples)
-    for contract, value, exact in all: #@UnusedVariable
+
+def test_contracts_are_pickable():
+    allc = (good_examples + semantic_fail_examples + contract_fail_examples)
+    for contract, _, _ in allc:
         if isinstance(contract, list):
             for c in contract:
                 yield check_contract_pickable, c

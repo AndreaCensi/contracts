@@ -7,9 +7,6 @@ syntax_fail('=1*')
 for number in [1, 1.0, 1e10, -1]:
     good('=%r' % number, number)
     good('%r' % number, number)
-    
-
-
 
 good('=2', 2)
 good('=1+1', 2)

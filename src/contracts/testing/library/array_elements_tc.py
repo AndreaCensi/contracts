@@ -4,8 +4,8 @@ from . import good, fail
 
 arr01 = numpy.array([0, 1, 0, 1])
 arr012 = numpy.array([0, 1, 0, 2])
-arr124 = numpy.array([ 1, 2, 4])
-arr125 = numpy.array([ 1, 2, 5])
+arr124 = numpy.array([1, 2, 4])
+arr125 = numpy.array([1, 2, 5])
 
 good('array(=0|=1|=2)', arr01)
 good('array(=0|=1|=2)', arr012)

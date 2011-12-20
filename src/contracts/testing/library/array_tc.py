@@ -16,8 +16,8 @@ a_f64 = numpy.zeros((3, 4), dtype='float64')
 good('array', a_f32)
 good('array', a_f64)
 # synonims
-good('ndarray', a_f32, exact=False) # will be canonicalized to "array"
-good('ndarray', a_f64, exact=False) # same
+good('ndarray', a_f32, exact=False)  # will be canonicalized to "array"
+good('ndarray', a_f64, exact=False)  # same
 fail('array', [0, 1])
 # dtypes
 good('array(uint8)', a_u8)
@@ -55,7 +55,7 @@ fail('array[AxBxC]', a2d)
 fail('array[2x4]', a3d)
 
 good('array[HxW],H=2,W>3', a2d)
-good('array[(=2)x(>3)]', a2d, exact=False) # Parenthesis are unnecessary
+good('array[(=2)x(>3)]', a2d, exact=False)  # Parenthesis are unnecessary
 
 # ellipsis to mean 0 or more dimensions 
 good('array[2x4x...]', a2d)
@@ -118,7 +118,8 @@ fail(['shape(x)', 'shape(x)'], [a2d, a3d])
 good('array[NxN](<=1)', numpy.ones((10, 10)))
 good('array[NxN](<=1,float32)', numpy.ones((10, 10), dtype='float32'))
 good('array[NxN](<=1,float32|float64)', numpy.ones((10, 10), dtype='float64'))
-good('array[NxN](<=1,(float32|float64))', numpy.ones((10, 10), dtype='float64'))
+good('array[NxN](<=1,(float32|float64))',
+     numpy.ones((10, 10), dtype='float64'))
 good('array[NxN](<=1,>=1)', numpy.ones((10, 10)))
 
 # more complicated tests
@@ -141,7 +142,7 @@ good('seq[3]', numpy.ones(3))
 fail('seq[3]', numpy.ones(2))
 good('seq[6]', numpy.ones((2, 3)))
 fail('seq[6]', numpy.ones((2, 4)))
-     
+
 
 
 

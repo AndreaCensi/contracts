@@ -16,11 +16,11 @@ from . import map_tc
 from . import seq_tc
 
 
-try: 
+try:
     import numpy
-except ImportError: # pragma: no cover
-    pass  
+except ImportError:  # pragma: no cover
+    pass
 else:
     from . import array_tc
     from . import array_elements_tc
-    
+

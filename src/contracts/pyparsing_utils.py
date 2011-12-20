@@ -1,6 +1,7 @@
 from .syntax import (Forward, Suppress, FollowedBy, Group, OneOrMore, Optional,
                      opAssoc)
 
+
 def myOperatorPrecedence(baseExpr, opList):
     """Helper method for constructing grammars of expressions made up of
        operators working in a precedence hierarchy.  Operators may be unary or
@@ -31,7 +32,7 @@ def myOperatorPrecedence(baseExpr, opList):
     ret.setName('operatorSystem(%s)' % opnames)
 #    parenthesis = Suppress('(') + ret + FollowedBy(NotAny(oneOf(allops))) - Suppress(')')
     parenthesis = Suppress('(') - ret - Suppress(')')
-    lastExpr = parenthesis.setName('parenthesis(%s)' % opnames) | baseExpr 
+    lastExpr = parenthesis.setName('parenthesis(%s)' % opnames) | baseExpr
     lastExpr.setName('Base operand (%s) or parenthesis' % baseExpr.name)
     for operDef in opList:
         opExpr, arity, rightLeftAssoc, pa = (operDef + (None,))[:4]
@@ -46,7 +47,7 @@ def myOperatorPrecedence(baseExpr, opList):
             elif arity == 2:
                 if opExpr is not None:
 #                    matchExpr = Group(lastExpr + FollowedBy(opExpr) + OneOrMore(opExpr - lastExpr))                
-                    matchExpr = Group(lastExpr + FollowedBy(opExpr) - OneOrMore(opExpr - lastExpr))                
+                    matchExpr = Group(lastExpr + FollowedBy(opExpr) - OneOrMore(opExpr - lastExpr))
                 else:
                     matchExpr = FollowedBy(lastExpr + lastExpr) + Group(lastExpr + OneOrMore(lastExpr))
             elif arity == 3:
@@ -58,7 +59,7 @@ def myOperatorPrecedence(baseExpr, opList):
             if arity == 1:
                 # try to avoid LR with this extra test
                 if not isinstance(opExpr, Optional):
-                    opExpr = Optional(opExpr) 
+                    opExpr = Optional(opExpr)
                 matchExpr = FollowedBy(opExpr.expr - thisExpr) - Group(opExpr - thisExpr)
             elif arity == 2:
                 if opExpr is not None:

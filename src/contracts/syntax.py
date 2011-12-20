@@ -1,16 +1,17 @@
 from numbers import Number
 import math
 
+
 # All the imports from pyparsing go here
-from pyparsing import (delimitedList, Forward, Literal, #@UnusedImport @UnresolvedImport
-  stringEnd, nums, Word, CaselessLiteral, Combine, #@UnusedImport @UnresolvedImport
-  Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc, #@UnusedImport @UnresolvedImport
-  operatorPrecedence, oneOf, ParseException, ParserElement, #@UnusedImport @UnresolvedImport
-  alphas, alphanums, ParseFatalException, #@UnusedImport @UnresolvedImport
-  ParseSyntaxException, FollowedBy, NotAny, Or, #@UnusedImport @UnresolvedImport
-  MatchFirst, Keyword, Group, White, lineno, col) #@UnusedImport @UnresolvedImport
-    
-    
+from pyparsing import (delimitedList, Forward, Literal,
+  stringEnd, nums, Word, CaselessLiteral, Combine,
+  Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc,
+  operatorPrecedence, oneOf, ParseException, ParserElement,
+  alphas, alphanums, ParseFatalException,
+  ParseSyntaxException, FollowedBy, NotAny, Or,
+  MatchFirst, Keyword, Group, White, lineno, col)
+
+
 from .pyparsing_utils import myOperatorPrecedence
 
 # Enable memoization (much faster!)
@@ -18,14 +19,17 @@ ParserElement.enablePackrat()
 
 from .interface import Where
 
-class ParsingTmp: 
+
+class ParsingTmp:
     # TODO: FIXME: decide on an order, if we do the opposite it doesn't work.
     contract_types = []
     rvalues_types = []
     keywords = []
 
+
 def add_contract(x):
-    ParsingTmp.contract_types.append(x) 
+    ParsingTmp.contract_types.append(x)
+
 
 def add_keyword(x):
     ''' Declares that x is a keyword --- this is useful to have more
@@ -42,7 +46,7 @@ W = Where
 O = Optional
 S = Suppress
 
-number = Word(nums) 
+number = Word(nums)
 point = Literal('.')
 e = CaselessLiteral('E')
 plusorminus = Literal('+') | Literal('-')
