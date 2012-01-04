@@ -211,7 +211,8 @@ class Contract(object):
             but the error is wrapped recursively. This is the function
             that subclasses must call when checking their sub-contracts. 
         '''
-        if not self._enabled: return
+        if not self._enabled:
+            return
 
         variables = context.copy()
         try:
@@ -305,6 +306,7 @@ inPy2 = sys.version_info[0] == 2
 if inPy2:
     from types import ClassType
 
+
 def clipped_repr(x, clip):
     s = "{0!r}".format(x)
     if len(s) > clip:
@@ -315,8 +317,10 @@ def clipped_repr(x, clip):
 
 # TODO: add checks for these functions
 
+
 def remove_newlines(s):
     return s.replace('\n', ' ')
+
 
 def describe_type(x):
     ''' Returns a friendly description of the type of x. '''

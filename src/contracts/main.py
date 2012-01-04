@@ -169,7 +169,8 @@ def contract_decorator(*arg, **kwargs):
     else:
         # We were called *with* parameters.
         if all_disabled():
-            def wrap(function): return function
+            def wrap(function):
+                return function
         else:
             def wrap(function):
                 # TODO: wrap exception
@@ -212,7 +213,8 @@ def contracts_decorate(function, modify_docstring=True, **kwargs):
             # Last resort: get types from documentation string.
             if function.__doc__ is None:
                 # XXX: change name
-                raise ContractException('You did not specify a contract, nor I can '
+                raise ContractException(
+                                'You did not specify a contract, nor I can '
                                         'find a docstring for %r.' % function)
 
             accepts_dict, returns = parse_contracts_from_docstring(function)
@@ -220,18 +222,17 @@ def contracts_decorate(function, modify_docstring=True, **kwargs):
             if not accepts_dict and not returns:
                 raise ContractException('No contract specified in docstring.')
 
-
     if returns is None:
         returns_parsed = None
     else:
         returns_parsed = parse_flexible_spec(returns)
 
-    accepts_parsed = dict([ (x, parse_flexible_spec(accepts_dict[x]))
+    accepts_parsed = dict([(x, parse_flexible_spec(accepts_dict[x]))
                             for x in accepts_dict])
 
-
     # TODO: add classname if bound method
-    nice_function_display = '%s() in %s' % (function.__name__, function.__module__)
+    nice_function_display = ('%s() in %s' %
+                             (function.__name__, function.__module__))
 
     is_bound_method = 'self' in all_args
 
@@ -287,7 +288,8 @@ def contracts_decorate(function, modify_docstring=True, **kwargs):
                 default = ''
                 docs.params[param] = Arg(default, None)
 
-            docs.params[param].type = write_contract_as_rst(accepts_parsed[param])
+            docs.params[param].type = \
+                write_contract_as_rst(accepts_parsed[param])
 
         if returns_parsed is not None:
             if not docs.returns:
@@ -295,7 +297,6 @@ def contracts_decorate(function, modify_docstring=True, **kwargs):
             docs.returns[0].type = write_contract_as_rst(returns_parsed)
         new_docs = docs.__str__()
 
-#        print '-' * 40 + 'for %s \n' % nice_function_display + add_prefix(new_docs, ' >')
     else:
         new_docs = function.__doc__
 
@@ -308,6 +309,7 @@ def contracts_decorate(function, modify_docstring=True, **kwargs):
 
     return wrapper
 
+
 def parse_flexible_spec(spec):
     ''' spec can be either a Contract, a type, or a contract string. 
         In the latter case, the usual parsing takes place'''
@@ -319,6 +321,7 @@ def parse_flexible_spec(spec):
     else:
         raise ContractException('I want either a string or a type, not %s.'
                                 % describe_value(spec))
+
 
 def parse_contracts_from_docstring(function):
     annotations = DocStringInfo.parse(function.__doc__)
@@ -342,7 +345,7 @@ def parse_contracts_from_docstring(function):
 
     # These are the annotations
     params = annotations.params
-    name2type = dict([ (name, remove_quotes(params[name].type))
+    name2type = dict([(name, remove_quotes(params[name].type))
                        for name in params])
 
     # Let's look at the parameters:
@@ -351,21 +354,23 @@ def parse_contracts_from_docstring(function):
     # Check we don't have extra:
     for name in name2type:
         if not name in all_args:
-            msg = ('A contract was specified for argument %r which I cannot find'
-                   ' in my list of arguments (%s)' % (name, ", ".join(all_args)))
+            msg = ('A contract was specified for argument %r which I cannot'
+                   ' find in my list of arguments (%s)' %
+                    (name, ", ".join(all_args)))
             raise ContractException(msg)
 
     if len(name2type) != len(all_args): # pragma: no cover
         pass
         # TODO: warn?
-        # msg = 'Found %d contracts for %d variables.' % (len(name2type), len(args))
 
     return name2type, returns
 
 inPy3k = sys.version_info[0] == 3
 
+
 def get_annotations(function):
     return getfullargspec(function).annotations
+
 
 def get_all_arg_names(function):
     spec = getfullargspec(function)
@@ -376,7 +381,8 @@ def get_all_arg_names(function):
 
 def check(contract, object, desc=None, **context): #@ReservedAssignment
     ''' 
-        Checks that ``object`` satisfies the contract described by ``contract``.
+        Checks that ``object`` satisfies the contract 
+        described by ``contract``.
     
         :param contract: The contract string.
         :type contract:  str
@@ -399,6 +405,7 @@ def check(contract, object, desc=None, **context): #@ReservedAssignment
             e.error = '%s\n%s' % (desc, e.error)
         raise e
 
+
 def fail(contract, value, **initial_context):
     ''' Checks that the value **does not** respect this contract.
         Raises an exception if it does. 
@@ -416,7 +423,6 @@ def fail(contract, value, **initial_context):
         msg += '- contract: %s\n' % parsed_contract
         msg += '-  context: %r' % context
         raise ValueError(msg)
-
 
 
 def check_multiple(couples, desc=None):
@@ -504,10 +510,12 @@ def new_contract(*args):
     else:
         return new_contract_impl(*args)
 
+
 def new_contract_impl(identifier, condition):
     # Be friendly
     if not isinstance(identifier, str):
-        raise ValueError('I expect the identifier to be a string; received %s.' %
+        raise ValueError('I expect the identifier to be a string; '
+                         'received %s.' %
                          describe_value(identifier))
 
     # Make sure it is not already an expression that we know.
