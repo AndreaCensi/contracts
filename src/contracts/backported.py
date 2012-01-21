@@ -7,7 +7,8 @@ if sys.version_info[0] == 3:  # pragma: no cover
 
 else:  # pragma: no cover
     from collections import namedtuple
-    FullArgSpec = namedtuple('FullArgSpec', 'args varargs varkw defaults kwonlyargs kwonlydefaults annotations')
+    FullArgSpec = namedtuple('FullArgSpec', 'args varargs varkw defaults'
+                             ' kwonlyargs kwonlydefaults annotations')
     from inspect import getargspec
 
     def getfullargspec(function):

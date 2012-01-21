@@ -178,7 +178,7 @@ for glyph in ArrayConstraint.constraints:
     array_constraints.append(expr)
 
 supported = ("uint8 uint16 uint32 uint64 int8 int16 int32 int64 float32"
-             " float64 u1 i1")
+             " float64 u1 i1 bool")
 
 dtype_checks = []
 for x in supported.split():
