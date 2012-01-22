@@ -530,9 +530,10 @@ def new_contract_impl(identifier, condition):
         # check it does not redefine list, tuple, etc.
         try:
             c = parse_contract_string(identifier)
-            raise ValueError('Invalid identifier %r; it overwrites an already known '
-                             'expression. In fact, I can parse it as %s (%r).' %
+            msg = ('Invalid identifier %r; it overwrites an already known '
+                   'expression. In fact, I can parse it as %s (%r).' %
                              (identifier, c, c))
+            raise ValueError(msg)
         except ContractSyntaxError:
             pass
 
@@ -613,6 +614,7 @@ inPy2 = sys.version_info[0] == 2
 if inPy2:
     from types import ClassType
 
+
 def can_be_used_as_a_type(x):
     ''' Checks that x can be used as a type; specifically,
         we can write isintance(y,x). 
@@ -649,6 +651,7 @@ def can_accept_exactly_one_argument(callable_thing):
         return False, str(e)
     else:
         return True, None
+
 
 def can_accept_self_plus_one_argument(callable_thing):
     ''' Checks that a callable can accept exactly self plus one argument

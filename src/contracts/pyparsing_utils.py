@@ -9,8 +9,8 @@ def myOperatorPrecedence(baseExpr, opList):
        to operator expressions.
 
        Parameters:
-        - baseExpr - expression representing the most basic element for the nested
-        - opList - list of tuples, one for each operator precedence level in the
+        - baseExpr - expression representing the most basic element for the
+        - opList - list of tuples, one for each operator precedence level in 
           expression grammar; each tuple is of the form
           (opExpr, numTerms, rightLeftAssoc, parseAction), where:
            - opExpr is the pyparsing expression for the operator;
