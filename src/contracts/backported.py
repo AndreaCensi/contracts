@@ -1,7 +1,5 @@
 import sys
 
-
-# Backport inspect.getcallargs from Python 2.7 to 2.6
 if sys.version_info[0] == 3:  # pragma: no cover
     from inspect import getfullargspec  # @UnresolvedImport
 
