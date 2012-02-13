@@ -161,7 +161,11 @@ def contract_decorator(*arg, **kwargs):
             function = arg[0]
             if all_disabled():
                 return function
-            return contracts_decorate(function, **kwargs)
+            try:
+                return contracts_decorate(function, **kwargs)
+            except ContractSyntaxError as e:
+                # Erase the stack
+                raise ContractSyntaxError(e.error, e.where)
         else:
             msg = ('I expect that  contracts() is called with '
                     'only keyword arguments (passed: %r)' % arg)
@@ -173,8 +177,11 @@ def contract_decorator(*arg, **kwargs):
                 return function
         else:
             def wrap(function):
-                # TODO: wrap exception
-                return contracts_decorate(function, **kwargs)
+                try:
+                    return contracts_decorate(function, **kwargs)
+                except ContractSyntaxError as e:
+                    # Erase the stack
+                    raise ContractSyntaxError(e.error, e.where)
         return wrap
 
 
