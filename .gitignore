@@ -22,3 +22,4 @@ dist
 src/.noseids
 *coverage*
 tmp_tests
+.noseids

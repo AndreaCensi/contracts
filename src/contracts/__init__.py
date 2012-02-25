@@ -1,6 +1,10 @@
-__version__ = '1.2.0'
+__version__ = '1.3.0'
 
-from . import syntax 
+import logging
+logging.basicConfig()
+logger = logging.getLogger(__name__)
+
+from . import syntax
 contract_expression = syntax.contract_expression
 
 from .interface import (Contract, ContractNotRespected,
@@ -17,8 +21,9 @@ from .enabling import disable_all, enable_all, all_disabled
 from .interface import describe_value, describe_type
 
 # For backwards compatibility
-contracts = contract   
+contracts = contract
 
 # After everything is loaded, load aliases
-from .library import miscellaneous_aliases 
+from .library import miscellaneous_aliases
+
 

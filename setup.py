@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-version = "1.2.0"
+version = "1.2.2"
 
 description = (
 'PyContracts is a Python package that allows to declare '
@@ -10,24 +10,24 @@ description = (
 'in a decorator, or inside a docstring :type: and :rtype: tags. '
 'PyContracts supports a basic type system, variables binding, '
 'arithmetic constraints, and has several specialized '
-'contracts (notably for Numpy arrays), as well as an extension API.') 
+'contracts (notably for Numpy arrays), as well as an extension API.')
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
-    
+
 long_description = read('README.rst')
-    
+
 
 setup(name='PyContracts',
       author="Andrea Censi",
       author_email="andrea@cds.caltech.edu",
       url='http://andreacensi.github.com/contracts/',
-      
+
       description=description,
       long_description=long_description,
       keywords="type checking, value checking, contracts",
       license="LGPL",
-      
+
       classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
@@ -39,7 +39,7 @@ setup(name='PyContracts',
 
 	  version=version,
       download_url='http://github.com/AndreaCensi/contracts/tarball/%s' % version,
-      
+
       package_dir={'':'src'},
       packages=['contracts', 'contracts.library'],
       install_requires=['pyparsing', 'decorator'],
