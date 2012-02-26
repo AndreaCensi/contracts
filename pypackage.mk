@@ -1,3 +1,7 @@
+# (common version)
+
+.PHONY: docs all develop test
+	
 all: develop
 
 develop:
@@ -33,3 +37,7 @@ test-parallel:
 
 test-coverage:
 	$(nose) $(package) $(nose_coverage) $(NOSE_PARAMS)
+
+
+print-config:
+	boot_olympics_print_config --outdir docs/source/my_static/config/
