@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>contracts</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th bgcolor="#70b0f0" class="navbar-select"
+          >&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://github.com/AndreaCensi/contracts">PyContracts</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;contracts
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="contracts-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="contracts-module.html">Package contracts</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-name">__version__</tt> <tt class="py-op">=</tt> <tt class="py-docstring">'1.3.0'</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">logging</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-name">logging</tt><tt class="py-op">.</tt><tt class="py-name">basicConfig</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt id="link-0" class="py-name" targets="Variable contracts.enabling.logger=contracts.enabling-module.html#logger,Variable contracts.logger=contracts-module.html#logger"><a title="contracts.enabling.logger
+contracts.logger" class="py-name" href="#" onclick="return doclink('link-0', 'logger', 'link-0');">logger</a></tt> <tt class="py-op">=</tt> <tt class="py-name">logging</tt><tt class="py-op">.</tt><tt class="py-name">getLogger</tt><tt class="py-op">(</tt><tt class="py-name">__name__</tt><tt class="py-op">)</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt> <tt class="py-keyword">import</tt> <tt id="link-1" class="py-name" targets="Module contracts.syntax=contracts.syntax-module.html"><a title="contracts.syntax" class="py-name" href="#" onclick="return doclink('link-1', 'syntax', 'link-1');">syntax</a></tt> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt id="link-2" class="py-name" targets="Variable contracts.contract_expression=contracts-module.html#contract_expression,Variable contracts.library.array.contract_expression=contracts.library.array-module.html#contract_expression,Variable contracts.library.dicts.contract_expression=contracts.library.dicts-module.html#contract_expression,Variable contracts.library.lists.contract_expression=contracts.library.lists-module.html#contract_expression,Variable contracts.library.map.contract_expression=contracts.library.map-module.html#contract_expression,Variable contracts.library.separate_context.contract_expression=contracts.library.separate_context-module.html#contract_expression,Variable contracts.library.seq.contract_expression=contracts.library.seq-module.html#contract_expression,Variable contracts.library.strings.contract_expression=contracts.library.strings-module.html#contract_expression,Variable contracts.library.tuple.contract_expression=contracts.library.tuple-module.html#contract_expression,Variable contracts.library.types_misc.contract_expression=contracts.library.types_misc-module.html#contract_expression,Variable contracts.main.contract_expression=contracts.main-module.html#contract_expression,Variable contracts.syntax.contract_expression=contracts.syntax-module.html#contract_expression"><a title="contracts.contract_expression
+contracts.library.array.contract_expression
+contracts.library.dicts.contract_expression
+contracts.library.lists.contract_expression
+contracts.library.map.contract_expression
+contracts.library.separate_context.contract_expression
+contracts.library.seq.contract_expression
+contracts.library.strings.contract_expression
+contracts.library.tuple.contract_expression
+contracts.library.types_misc.contract_expression
+contracts.main.contract_expression
+contracts.syntax.contract_expression" class="py-name" href="#" onclick="return doclink('link-2', 'contract_expression', 'link-2');">contract_expression</a></tt> <tt class="py-op">=</tt> <tt id="link-3" class="py-name"><a title="contracts.syntax" class="py-name" href="#" onclick="return doclink('link-3', 'syntax', 'link-1');">syntax</a></tt><tt class="py-op">.</tt><tt id="link-4" class="py-name"><a title="contracts.contract_expression
+contracts.library.array.contract_expression
+contracts.library.dicts.contract_expression
+contracts.library.lists.contract_expression
+contracts.library.map.contract_expression
+contracts.library.separate_context.contract_expression
+contracts.library.seq.contract_expression
+contracts.library.strings.contract_expression
+contracts.library.tuple.contract_expression
+contracts.library.types_misc.contract_expression
+contracts.main.contract_expression
+contracts.syntax.contract_expression" class="py-name" href="#" onclick="return doclink('link-4', 'contract_expression', 'link-2');">contract_expression</a></tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt><tt id="link-5" class="py-name" targets="Module contracts.interface=contracts.interface-module.html"><a title="contracts.interface" class="py-name" href="#" onclick="return doclink('link-5', 'interface', 'link-5');">interface</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">(</tt><tt id="link-6" class="py-name" targets="Class contracts.interface.Contract=contracts.interface.Contract-class.html"><a title="contracts.interface.Contract" class="py-name" href="#" onclick="return doclink('link-6', 'Contract', 'link-6');">Contract</a></tt><tt class="py-op">,</tt> <tt id="link-7" class="py-name" targets="Class contracts.interface.ContractNotRespected=contracts.interface.ContractNotRespected-class.html"><a title="contracts.interface.ContractNotRespected" class="py-name" href="#" onclick="return doclink('link-7', 'ContractNotRespected', 'link-7');">ContractNotRespected</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line">                        <tt id="link-8" class="py-name" targets="Class contracts.interface.ContractSyntaxError=contracts.interface.ContractSyntaxError-class.html"><a title="contracts.interface.ContractSyntaxError" class="py-name" href="#" onclick="return doclink('link-8', 'ContractSyntaxError', 'link-8');">ContractSyntaxError</a></tt><tt class="py-op">,</tt> <tt id="link-9" class="py-name" targets="Class contracts.interface.ContractException=contracts.interface.ContractException-class.html"><a title="contracts.interface.ContractException" class="py-name" href="#" onclick="return doclink('link-9', 'ContractException', 'link-9');">ContractException</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt><tt id="link-10" class="py-name" targets="Module contracts.main=contracts.main-module.html,Function contracts.testing.friendliness_statistics.main()=contracts.testing.friendliness_statistics-module.html#main"><a title="contracts.main
+contracts.testing.friendliness_statistics.main" class="py-name" href="#" onclick="return doclink('link-10', 'main', 'link-10');">main</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">(</tt><tt id="link-11" class="py-name" targets="Method contracts.interface.Contract.check()=contracts.interface.Contract-class.html#check,Function contracts.main.check()=contracts.main-module.html#check"><a title="contracts.interface.Contract.check
+contracts.main.check" class="py-name" href="#" onclick="return doclink('link-11', 'check', 'link-11');">check</a></tt><tt class="py-op">,</tt> <tt id="link-12" class="py-name" targets="Method contracts.interface.Contract.fail()=contracts.interface.Contract-class.html#fail,Function contracts.main.fail()=contracts.main-module.html#fail,Function contracts.test_registrar.fail()=contracts.test_registrar-module.html#fail"><a title="contracts.interface.Contract.fail
+contracts.main.fail
+contracts.test_registrar.fail" class="py-name" href="#" onclick="return doclink('link-12', 'fail', 'link-12');">fail</a></tt><tt class="py-op">,</tt> <tt id="link-13" class="py-name" targets="Function contracts.main.check_multiple()=contracts.main-module.html#check_multiple"><a title="contracts.main.check_multiple" class="py-name" href="#" onclick="return doclink('link-13', 'check_multiple', 'link-13');">check_multiple</a></tt><tt class="py-op">,</tt> <tt id="link-14" class="py-name" targets="Function contracts.main.contract_decorator()=contracts.main-module.html#contract_decorator"><a title="contracts.main.contract_decorator" class="py-name" href="#" onclick="return doclink('link-14', 'contract_decorator', 'link-14');">contract_decorator</a></tt> <tt class="py-keyword">as</tt> <tt class="py-name">contract</tt><tt class="py-op">,</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">                    <tt id="link-15" class="py-name" targets="Function contracts.main.new_contract()=contracts.main-module.html#new_contract"><a title="contracts.main.new_contract" class="py-name" href="#" onclick="return doclink('link-15', 'new_contract', 'link-15');">new_contract</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">                    <tt id="link-16" class="py-name" targets="Function contracts.main.contracts_decorate()=contracts.main-module.html#contracts_decorate"><a title="contracts.main.contracts_decorate" class="py-name" href="#" onclick="return doclink('link-16', 'contracts_decorate', 'link-16');">contracts_decorate</a></tt> <tt class="py-keyword">as</tt> <tt class="py-name">decorate</tt><tt class="py-op">,</tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">                    <tt id="link-17" class="py-name" targets="Function contracts.main.parse_flexible_spec()=contracts.main-module.html#parse_flexible_spec"><a title="contracts.main.parse_flexible_spec" class="py-name" href="#" onclick="return doclink('link-17', 'parse_flexible_spec', 'link-17');">parse_flexible_spec</a></tt> <tt class="py-keyword">as</tt> <tt id="link-18" class="py-name" targets="Static Method contracts.docstring_parsing.DocStringInfo.parse()=contracts.docstring_parsing.DocStringInfo-class.html#parse"><a title="contracts.docstring_parsing.DocStringInfo.parse" class="py-name" href="#" onclick="return doclink('link-18', 'parse', 'link-18');">parse</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt><tt id="link-19" class="py-name" targets="Module contracts.enabling=contracts.enabling-module.html"><a title="contracts.enabling" class="py-name" href="#" onclick="return doclink('link-19', 'enabling', 'link-19');">enabling</a></tt> <tt class="py-keyword">import</tt> <tt id="link-20" class="py-name" targets="Variable contracts.enabling.Switches.disable_all=contracts.enabling.Switches-class.html#disable_all,Function contracts.enabling.disable_all()=contracts.enabling-module.html#disable_all"><a title="contracts.enabling.Switches.disable_all
+contracts.enabling.disable_all" class="py-name" href="#" onclick="return doclink('link-20', 'disable_all', 'link-20');">disable_all</a></tt><tt class="py-op">,</tt> <tt id="link-21" class="py-name" targets="Function contracts.enabling.enable_all()=contracts.enabling-module.html#enable_all"><a title="contracts.enabling.enable_all" class="py-name" href="#" onclick="return doclink('link-21', 'enable_all', 'link-21');">enable_all</a></tt><tt class="py-op">,</tt> <tt id="link-22" class="py-name" targets="Function contracts.enabling.all_disabled()=contracts.enabling-module.html#all_disabled"><a title="contracts.enabling.all_disabled" class="py-name" href="#" onclick="return doclink('link-22', 'all_disabled', 'link-22');">all_disabled</a></tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line"><tt class="py-comment"># A couple of useful functions</tt> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt><tt id="link-23" class="py-name"><a title="contracts.interface" class="py-name" href="#" onclick="return doclink('link-23', 'interface', 'link-5');">interface</a></tt> <tt class="py-keyword">import</tt> <tt id="link-24" class="py-name" targets="Function contracts.interface.describe_value()=contracts.interface-module.html#describe_value"><a title="contracts.interface.describe_value" class="py-name" href="#" onclick="return doclink('link-24', 'describe_value', 'link-24');">describe_value</a></tt><tt class="py-op">,</tt> <tt id="link-25" class="py-name" targets="Function contracts.interface.describe_type()=contracts.interface-module.html#describe_type"><a title="contracts.interface.describe_type" class="py-name" href="#" onclick="return doclink('link-25', 'describe_type', 'link-25');">describe_type</a></tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line"> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line"><tt class="py-comment"># For backwards compatibility</tt> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line"><tt id="link-26" class="py-name" targets="Package contracts=contracts-module.html"><a title="contracts" class="py-name" href="#" onclick="return doclink('link-26', 'contracts', 'link-26');">contracts</a></tt> <tt class="py-op">=</tt> <tt class="py-name">contract</tt> </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line"> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line"><tt class="py-comment"># After everything is loaded, load aliases</tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt><tt id="link-27" class="py-name" targets="Package contracts.library=contracts.library-module.html,Package contracts.testing.library=contracts.testing.library-module.html"><a title="contracts.library
+contracts.testing.library" class="py-name" href="#" onclick="return doclink('link-27', 'library', 'link-27');">library</a></tt> <tt class="py-keyword">import</tt> <tt id="link-28" class="py-name" targets="Module contracts.library.miscellaneous_aliases=contracts.library.miscellaneous_aliases-module.html"><a title="contracts.library.miscellaneous_aliases" class="py-name" href="#" onclick="return doclink('link-28', 'miscellaneous_aliases', 'link-28');">miscellaneous_aliases</a></tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th bgcolor="#70b0f0" class="navbar-select"
+          >&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://github.com/AndreaCensi/contracts">PyContracts</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sat Feb 25 23:37:54 2012
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

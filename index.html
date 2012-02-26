@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>PyContracts &mdash; PyContracts 1.2.0 documentation</title>
+    <title>PyContracts &mdash; PyContracts 1.3.0 documentation</title>
     
     <link rel="stylesheet" href="static/default.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '1.2.0',
+        VERSION:     '1.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.2.0 documentation" href="#" />
+    <link rel="top" title="PyContracts 1.3.0 documentation" href="#" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -51,7 +51,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">PyContracts 1.2.0 documentation</a> &raquo;</li> 
+        <li><a href="#">PyContracts 1.3.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -1088,8 +1088,8 @@ are tuples with two elements, of two different types <tt class="docutils literal
 <dt id="contracts.contract">
 <tt class="descclassname">contracts.</tt><tt class="descname">contract</tt><big>(</big><em>*arg</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#contracts.contract" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator for adding contracts to functions.</p>
-<p>It is smart enough to support functions with variable number of arguments
-and keyword arguments.</p>
+<p>It is smart enough to support functions with variable number of 
+arguments and keyword arguments.</p>
 <p>There are three ways to specify the contracts. In order of precedence:</p>
 <ul>
 <li><p class="first">As arguments to this decorator. For example:</p>
@@ -1127,11 +1127,12 @@ pass <tt class="docutils literal"><span class="pre">modify_docstring=False</span
 <p><strong>Contracts evaluation</strong>: Note that all contracts for the arguments 
 and the return values
 are evaluated in the same context. This make it possible to use
-common variables in the contract expression. For example, in the example
-above, the return value is constrained to be a list of the same 
+common variables in the contract expression. For example, in the 
+example above, the return value is constrained to be a list of the same 
 length (<tt class="docutils literal"><span class="pre">N</span></tt>) as the parameter <tt class="docutils literal"><span class="pre">b</span></tt>.</p>
 <p><strong>Using docstrings</strong> Note that, by convention, those annotations must 
-be parseable as RestructuredText. This is relevant if you are using Sphinx.
+be parseable as RestructuredText. This is relevant if you are using 
+Sphinx.
 If the contract string has special RST characters in it, like <tt class="docutils literal"><span class="pre">*</span></tt>,
 you can include it in double ticks. <span class="brand">PyContracts</span> will remove
 the double ticks before interpreting the string.</p>
@@ -1151,7 +1152,7 @@ for <span class="brand">PyContracts</span>, but the latter is better for Sphinx:
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raise :</th><td class="field-body">ContractException, if arguments are not coherent with the function</td>
+<tr class="field-odd field"><th class="field-name">Raise :</th><td class="field-body">ContractException, if arguments are not coherent</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raise :</th><td class="field-body">ContractSyntaxError</td>
 </tr>
@@ -1202,7 +1203,8 @@ The decorator <a class="reference internal" href="#contracts.decorate" title="co
 <dl class="function">
 <dt id="contracts.check">
 <tt class="descclassname">contracts.</tt><tt class="descname">check</tt><big>(</big><em>contract</em>, <em>object</em>, <em>desc=None</em>, <em>**context</em><big>)</big><a class="headerlink" href="#contracts.check" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks that <tt class="docutils literal"><span class="pre">object</span></tt> satisfies the contract described by <tt class="docutils literal"><span class="pre">contract</span></tt>.</p>
+<dd><p>Checks that <tt class="docutils literal"><span class="pre">object</span></tt> satisfies the contract 
+described by <tt class="docutils literal"><span class="pre">contract</span></tt>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1529,7 +1531,7 @@ contracts expression in your own PyParsing grammar.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">PyContracts 1.2.0 documentation</a> &raquo;</li> 
+        <li><a href="#">PyContracts 1.3.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
 	

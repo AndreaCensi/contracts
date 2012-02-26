@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>contracts.syntax</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="contracts-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://github.com/AndreaCensi/contracts">PyContracts</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="contracts-module.html">Package&nbsp;contracts</a> ::
+        Module&nbsp;syntax
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="contracts.syntax-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="contracts.syntax-module.html">Module contracts.syntax</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">numbers</tt> <tt class="py-keyword">import</tt> <tt class="py-name">Number</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">math</tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-comment"># All the imports from pyparsing go here</tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">pyparsing</tt> <tt class="py-keyword">import</tt> <tt class="py-op">(</tt><tt class="py-name">delimitedList</tt><tt class="py-op">,</tt> <tt class="py-name">Forward</tt><tt class="py-op">,</tt> <tt class="py-name">Literal</tt><tt class="py-op">,</tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line">  <tt id="link-0" class="py-name" targets="Variable contracts.syntax.stringEnd=contracts.syntax-module.html#stringEnd"><a title="contracts.syntax.stringEnd" class="py-name" href="#" onclick="return doclink('link-0', 'stringEnd', 'link-0');">stringEnd</a></tt><tt class="py-op">,</tt> <tt id="link-1" class="py-name" targets="Variable contracts.syntax.nums=contracts.syntax-module.html#nums"><a title="contracts.syntax.nums" class="py-name" href="#" onclick="return doclink('link-1', 'nums', 'link-1');">nums</a></tt><tt class="py-op">,</tt> <tt class="py-name">Word</tt><tt class="py-op">,</tt> <tt class="py-name">CaselessLiteral</tt><tt class="py-op">,</tt> <tt class="py-name">Combine</tt><tt class="py-op">,</tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line">  <tt class="py-name">Optional</tt><tt class="py-op">,</tt> <tt class="py-name">Suppress</tt><tt class="py-op">,</tt> <tt class="py-name">OneOrMore</tt><tt class="py-op">,</tt> <tt class="py-name">ZeroOrMore</tt><tt class="py-op">,</tt> <tt id="link-2" class="py-name" targets="Variable contracts.library.array.opAssoc=contracts.library.array-module.html#opAssoc,Variable contracts.library.compositions.opAssoc=contracts.library.compositions-module.html#opAssoc,Variable contracts.pyparsing_utils.opAssoc=contracts.pyparsing_utils-module.html#opAssoc,Variable contracts.syntax.opAssoc=contracts.syntax-module.html#opAssoc"><a title="contracts.library.array.opAssoc
+contracts.library.compositions.opAssoc
+contracts.pyparsing_utils.opAssoc
+contracts.syntax.opAssoc" class="py-name" href="#" onclick="return doclink('link-2', 'opAssoc', 'link-2');">opAssoc</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line">  <tt class="py-name">operatorPrecedence</tt><tt class="py-op">,</tt> <tt class="py-name">oneOf</tt><tt class="py-op">,</tt> <tt class="py-name">ParseException</tt><tt class="py-op">,</tt> <tt class="py-name">ParserElement</tt><tt class="py-op">,</tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line">  <tt id="link-3" class="py-name" targets="Variable contracts.library.extensions.alphas=contracts.library.extensions-module.html#alphas,Variable contracts.library.suggester.alphas=contracts.library.suggester-module.html#alphas,Variable contracts.syntax.alphas=contracts.syntax-module.html#alphas"><a title="contracts.library.extensions.alphas
+contracts.library.suggester.alphas
+contracts.syntax.alphas" class="py-name" href="#" onclick="return doclink('link-3', 'alphas', 'link-3');">alphas</a></tt><tt class="py-op">,</tt> <tt id="link-4" class="py-name" targets="Variable contracts.library.extensions.alphanums=contracts.library.extensions-module.html#alphanums,Variable contracts.library.suggester.alphanums=contracts.library.suggester-module.html#alphanums,Variable contracts.syntax.alphanums=contracts.syntax-module.html#alphanums"><a title="contracts.library.extensions.alphanums
+contracts.library.suggester.alphanums
+contracts.syntax.alphanums" class="py-name" href="#" onclick="return doclink('link-4', 'alphanums', 'link-4');">alphanums</a></tt><tt class="py-op">,</tt> <tt class="py-name">ParseFatalException</tt><tt class="py-op">,</tt> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line">  <tt class="py-name">ParseSyntaxException</tt><tt class="py-op">,</tt> <tt class="py-name">FollowedBy</tt><tt class="py-op">,</tt> <tt class="py-name">NotAny</tt><tt class="py-op">,</tt> <tt class="py-name">Or</tt><tt class="py-op">,</tt> </tt>
+<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line">  <tt class="py-name">MatchFirst</tt><tt class="py-op">,</tt> <tt class="py-name">Keyword</tt><tt class="py-op">,</tt> <tt class="py-name">Group</tt><tt class="py-op">,</tt> <tt class="py-name">White</tt><tt class="py-op">,</tt> <tt class="py-name">lineno</tt><tt class="py-op">,</tt> <tt class="py-name">col</tt><tt class="py-op">)</tt> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt><tt id="link-5" class="py-name" targets="Module contracts.pyparsing_utils=contracts.pyparsing_utils-module.html"><a title="contracts.pyparsing_utils" class="py-name" href="#" onclick="return doclink('link-5', 'pyparsing_utils', 'link-5');">pyparsing_utils</a></tt> <tt class="py-keyword">import</tt> <tt id="link-6" class="py-name" targets="Function contracts.pyparsing_utils.myOperatorPrecedence()=contracts.pyparsing_utils-module.html#myOperatorPrecedence"><a title="contracts.pyparsing_utils.myOperatorPrecedence" class="py-name" href="#" onclick="return doclink('link-6', 'myOperatorPrecedence', 'link-6');">myOperatorPrecedence</a></tt> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"> </tt>
+<a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line"><tt class="py-comment"># Enable memoization (much faster!)</tt> </tt>
+<a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line"><tt class="py-name">ParserElement</tt><tt class="py-op">.</tt><tt class="py-name">enablePackrat</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line"> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt><tt id="link-7" class="py-name" targets="Module contracts.interface=contracts.interface-module.html"><a title="contracts.interface" class="py-name" href="#" onclick="return doclink('link-7', 'interface', 'link-7');">interface</a></tt> <tt class="py-keyword">import</tt> <tt id="link-8" class="py-name" targets="Class contracts.interface.Where=contracts.interface.Where-class.html"><a title="contracts.interface.Where" class="py-name" href="#" onclick="return doclink('link-8', 'Where', 'link-8');">Where</a></tt> </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line"> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line"> </tt>
+<a name="ParsingTmp"></a><div id="ParsingTmp-def"><a name="L23"></a><tt class="py-lineno"> 23</tt> <a class="py-toggle" href="#" id="ParsingTmp-toggle" onclick="return toggle('ParsingTmp');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="contracts.syntax.ParsingTmp-class.html">ParsingTmp</a><tt class="py-op">:</tt> </tt>
+</div><div id="ParsingTmp-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="ParsingTmp-expanded"><a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line">    <tt class="py-comment"># TODO: FIXME: decide on an order, if we do the opposite it doesn't work.</tt> </tt>
+<a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line">    <tt id="link-9" class="py-name" targets="Variable contracts.syntax.ParsingTmp.contract_types=contracts.syntax.ParsingTmp-class.html#contract_types"><a title="contracts.syntax.ParsingTmp.contract_types" class="py-name" href="#" onclick="return doclink('link-9', 'contract_types', 'link-9');">contract_types</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line">    <tt id="link-10" class="py-name" targets="Variable contracts.syntax.ParsingTmp.rvalues_types=contracts.syntax.ParsingTmp-class.html#rvalues_types"><a title="contracts.syntax.ParsingTmp.rvalues_types" class="py-name" href="#" onclick="return doclink('link-10', 'rvalues_types', 'link-10');">rvalues_types</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line">    <tt id="link-11" class="py-name" targets="Variable contracts.syntax.ParsingTmp.keywords=contracts.syntax.ParsingTmp-class.html#keywords"><a title="contracts.syntax.ParsingTmp.keywords" class="py-name" href="#" onclick="return doclink('link-11', 'keywords', 'link-11');">keywords</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+</div><a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line"> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line"> </tt>
+<a name="add_contract"></a><div id="add_contract-def"><a name="L30"></a><tt class="py-lineno"> 30</tt> <a class="py-toggle" href="#" id="add_contract-toggle" onclick="return toggle('add_contract');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="contracts.syntax-module.html#add_contract">add_contract</a><tt class="py-op">(</tt><tt class="py-param">x</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="add_contract-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="add_contract-expanded"><a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line">    <tt id="link-12" class="py-name" targets="Class contracts.syntax.ParsingTmp=contracts.syntax.ParsingTmp-class.html"><a title="contracts.syntax.ParsingTmp" class="py-name" href="#" onclick="return doclink('link-12', 'ParsingTmp', 'link-12');">ParsingTmp</a></tt><tt class="py-op">.</tt><tt id="link-13" class="py-name"><a title="contracts.syntax.ParsingTmp.contract_types" class="py-name" href="#" onclick="return doclink('link-13', 'contract_types', 'link-9');">contract_types</a></tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt id="link-14" class="py-name" targets="Variable contracts.library.array.x=contracts.library.array-module.html#x"><a title="contracts.library.array.x" class="py-name" href="#" onclick="return doclink('link-14', 'x', 'link-14');">x</a></tt><tt class="py-op">)</tt> </tt>
+</div><a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line"> </tt>
+<a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line"> </tt>
+<a name="add_keyword"></a><div id="add_keyword-def"><a name="L34"></a><tt class="py-lineno"> 34</tt> <a class="py-toggle" href="#" id="add_keyword-toggle" onclick="return toggle('add_keyword');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="contracts.syntax-module.html#add_keyword">add_keyword</a><tt class="py-op">(</tt><tt class="py-param">x</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="add_keyword-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="add_keyword-expanded"><a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line">    <tt class="py-docstring">''' Declares that x is a keyword --- this is useful to have more</tt> </tt>
+<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line"><tt class="py-docstring">        clear messages. "keywords" are not parsed by Extension.</tt> </tt>
+<a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line"><tt class="py-docstring">        (see extensions.py) and allows to have "deep" error indications.</tt> </tt>
+<a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line"><tt class="py-docstring">        See http://pyparsing.wikispaces.com/message/view/home/620225</tt> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line"><tt class="py-docstring">        and the discussion of the "-" operator in the docs.</tt> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line"><tt class="py-docstring">    '''</tt> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line">    <tt id="link-15" class="py-name"><a title="contracts.syntax.ParsingTmp" class="py-name" href="#" onclick="return doclink('link-15', 'ParsingTmp', 'link-12');">ParsingTmp</a></tt><tt class="py-op">.</tt><tt id="link-16" class="py-name"><a title="contracts.syntax.ParsingTmp.keywords" class="py-name" href="#" onclick="return doclink('link-16', 'keywords', 'link-11');">keywords</a></tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt id="link-17" class="py-name"><a title="contracts.library.array.x" class="py-name" href="#" onclick="return doclink('link-17', 'x', 'link-14');">x</a></tt><tt class="py-op">)</tt> </tt>
+</div><a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line"> </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line"><tt class="py-name">W</tt> <tt class="py-op">=</tt> <tt id="link-18" class="py-name"><a title="contracts.interface.Where" class="py-name" href="#" onclick="return doclink('link-18', 'Where', 'link-8');">Where</a></tt> </tt>
+<a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line"> </tt>
+<a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line"> </tt>
+<a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line"><tt class="py-name">O</tt> <tt class="py-op">=</tt> <tt class="py-name">Optional</tt> </tt>
+<a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line"><tt class="py-name">S</tt> <tt class="py-op">=</tt> <tt class="py-name">Suppress</tt> </tt>
+<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line"> </tt>
+<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line"><tt id="link-19" class="py-name" targets="Variable contracts.syntax.number=contracts.syntax-module.html#number,Variable contracts.testing.library.arithmetic_tc.number=contracts.testing.library.arithmetic_tc-module.html#number"><a title="contracts.syntax.number
+contracts.testing.library.arithmetic_tc.number" class="py-name" href="#" onclick="return doclink('link-19', 'number', 'link-19');">number</a></tt> <tt class="py-op">=</tt> <tt class="py-name">Word</tt><tt class="py-op">(</tt><tt id="link-20" class="py-name"><a title="contracts.syntax.nums" class="py-name" href="#" onclick="return doclink('link-20', 'nums', 'link-1');">nums</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line"><tt id="link-21" class="py-name" targets="Variable contracts.syntax.point=contracts.syntax-module.html#point"><a title="contracts.syntax.point" class="py-name" href="#" onclick="return doclink('link-21', 'point', 'link-21');">point</a></tt> <tt class="py-op">=</tt> <tt class="py-name">Literal</tt><tt class="py-op">(</tt><tt class="py-string">'.'</tt><tt class="py-op">)</tt> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line"><tt id="link-22" class="py-name" targets="Variable contracts.syntax.e=contracts.syntax-module.html#e"><a title="contracts.syntax.e" class="py-name" href="#" onclick="return doclink('link-22', 'e', 'link-22');">e</a></tt> <tt class="py-op">=</tt> <tt class="py-name">CaselessLiteral</tt><tt class="py-op">(</tt><tt class="py-string">'E'</tt><tt class="py-op">)</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line"><tt id="link-23" class="py-name" targets="Variable contracts.syntax.plusorminus=contracts.syntax-module.html#plusorminus"><a title="contracts.syntax.plusorminus" class="py-name" href="#" onclick="return doclink('link-23', 'plusorminus', 'link-23');">plusorminus</a></tt> <tt class="py-op">=</tt> <tt class="py-name">Literal</tt><tt class="py-op">(</tt><tt class="py-string">'+'</tt><tt class="py-op">)</tt> <tt class="py-op">|</tt> <tt class="py-name">Literal</tt><tt class="py-op">(</tt><tt class="py-string">'-'</tt><tt class="py-op">)</tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line"><tt id="link-24" class="py-name" targets="Variable contracts.syntax.integer=contracts.syntax-module.html#integer"><a title="contracts.syntax.integer" class="py-name" href="#" onclick="return doclink('link-24', 'integer', 'link-24');">integer</a></tt> <tt class="py-op">=</tt> <tt class="py-name">Combine</tt><tt class="py-op">(</tt><tt class="py-name">O</tt><tt class="py-op">(</tt><tt id="link-25" class="py-name"><a title="contracts.syntax.plusorminus" class="py-name" href="#" onclick="return doclink('link-25', 'plusorminus', 'link-23');">plusorminus</a></tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt id="link-26" class="py-name"><a title="contracts.syntax.number
+contracts.testing.library.arithmetic_tc.number" class="py-name" href="#" onclick="return doclink('link-26', 'number', 'link-19');">number</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line"><tt id="link-27" class="py-name" targets="Variable contracts.syntax.floatnumber=contracts.syntax-module.html#floatnumber"><a title="contracts.syntax.floatnumber" class="py-name" href="#" onclick="return doclink('link-27', 'floatnumber', 'link-27');">floatnumber</a></tt> <tt class="py-op">=</tt> <tt class="py-name">Combine</tt><tt class="py-op">(</tt><tt id="link-28" class="py-name"><a title="contracts.syntax.integer" class="py-name" href="#" onclick="return doclink('link-28', 'integer', 'link-24');">integer</a></tt> <tt class="py-op">+</tt> <tt class="py-op">(</tt><tt id="link-29" class="py-name"><a title="contracts.syntax.point" class="py-name" href="#" onclick="return doclink('link-29', 'point', 'link-21');">point</a></tt> <tt class="py-op">+</tt> <tt class="py-name">O</tt><tt class="py-op">(</tt><tt id="link-30" class="py-name"><a title="contracts.syntax.number
+contracts.testing.library.arithmetic_tc.number" class="py-name" href="#" onclick="return doclink('link-30', 'number', 'link-19');">number</a></tt><tt class="py-op">)</tt><tt class="py-op">)</tt> <tt class="py-op">^</tt> <tt class="py-op">(</tt><tt id="link-31" class="py-name"><a title="contracts.syntax.e" class="py-name" href="#" onclick="return doclink('link-31', 'e', 'link-22');">e</a></tt> <tt class="py-op">+</tt> <tt id="link-32" class="py-name"><a title="contracts.syntax.integer" class="py-name" href="#" onclick="return doclink('link-32', 'integer', 'link-24');">integer</a></tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line"><tt id="link-33" class="py-name"><a title="contracts.syntax.integer" class="py-name" href="#" onclick="return doclink('link-33', 'integer', 'link-24');">integer</a></tt><tt class="py-op">.</tt><tt class="py-name">setParseAction</tt><tt class="py-op">(</tt><tt class="py-keyword">lambda</tt> <tt class="py-name">tokens</tt><tt class="py-op">:</tt> <tt id="link-34" class="py-name" targets="Class contracts.library.simple_values.SimpleRValue=contracts.library.simple_values.SimpleRValue-class.html"><a title="contracts.library.simple_values.SimpleRValue" class="py-name" href="#" onclick="return doclink('link-34', 'SimpleRValue', 'link-34');">SimpleRValue</a></tt><tt class="py-op">(</tt><tt class="py-name">int</tt><tt class="py-op">(</tt><tt class="py-name">tokens</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line"><tt id="link-35" class="py-name"><a title="contracts.syntax.floatnumber" class="py-name" href="#" onclick="return doclink('link-35', 'floatnumber', 'link-27');">floatnumber</a></tt><tt class="py-op">.</tt><tt class="py-name">setParseAction</tt><tt class="py-op">(</tt><tt class="py-keyword">lambda</tt> <tt class="py-name">tokens</tt><tt class="py-op">:</tt> <tt id="link-36" class="py-name"><a title="contracts.library.simple_values.SimpleRValue" class="py-name" href="#" onclick="return doclink('link-36', 'SimpleRValue', 'link-34');">SimpleRValue</a></tt><tt class="py-op">(</tt><tt class="py-name">float</tt><tt class="py-op">(</tt><tt class="py-name">tokens</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line"><tt id="link-37" class="py-name" targets="Variable contracts.syntax.pi=contracts.syntax-module.html#pi"><a title="contracts.syntax.pi" class="py-name" href="#" onclick="return doclink('link-37', 'pi', 'link-37');">pi</a></tt> <tt class="py-op">=</tt> <tt class="py-name">Keyword</tt><tt class="py-op">(</tt><tt class="py-string">'pi'</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">setParseAction</tt><tt class="py-op">(</tt><tt class="py-keyword">lambda</tt> <tt class="py-name">tokens</tt><tt class="py-op">:</tt> <tt id="link-38" class="py-name"><a title="contracts.library.simple_values.SimpleRValue" class="py-name" href="#" onclick="return doclink('link-38', 'SimpleRValue', 'link-34');">SimpleRValue</a></tt><tt class="py-op">(</tt><tt class="py-name">math</tt><tt class="py-op">.</tt><tt id="link-39" class="py-name"><a title="contracts.syntax.pi" class="py-name" href="#" onclick="return doclink('link-39', 'pi', 'link-37');">pi</a></tt><tt class="py-op">,</tt> <tt class="py-string">'pi'</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> <tt class="py-comment">#@UnusedVariable</tt> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line"><tt id="link-40" class="py-name" targets="Function contracts.syntax.isnumber()=contracts.syntax-module.html#isnumber"><a title="contracts.syntax.isnumber" class="py-name" href="#" onclick="return doclink('link-40', 'isnumber', 'link-40');">isnumber</a></tt> <tt class="py-op">=</tt> <tt class="py-keyword">lambda</tt> <tt id="link-41" class="py-name"><a title="contracts.library.array.x" class="py-name" href="#" onclick="return doclink('link-41', 'x', 'link-14');">x</a></tt><tt class="py-op">:</tt> <tt class="py-name">isinstance</tt><tt class="py-op">(</tt><tt id="link-42" class="py-name"><a title="contracts.library.array.x" class="py-name" href="#" onclick="return doclink('link-42', 'x', 'link-14');">x</a></tt><tt class="py-op">,</tt> <tt class="py-name">Number</tt><tt class="py-op">)</tt> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line"> </tt>
+<a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line"><tt id="link-43" class="py-name" targets="Variable contracts.library.array.rvalue=contracts.library.array-module.html#rvalue,Variable contracts.library.comparison.rvalue=contracts.library.comparison-module.html#rvalue,Variable contracts.syntax.rvalue=contracts.syntax-module.html#rvalue"><a title="contracts.library.array.rvalue
+contracts.library.comparison.rvalue
+contracts.syntax.rvalue" class="py-name" href="#" onclick="return doclink('link-43', 'rvalue', 'link-43');">rvalue</a></tt> <tt class="py-op">=</tt> <tt class="py-name">Forward</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line"><tt id="link-44" class="py-name"><a title="contracts.library.array.rvalue
+contracts.library.comparison.rvalue
+contracts.syntax.rvalue" class="py-name" href="#" onclick="return doclink('link-44', 'rvalue', 'link-43');">rvalue</a></tt><tt class="py-op">.</tt><tt class="py-name">setName</tt><tt class="py-op">(</tt><tt class="py-string">'rvalue'</tt><tt class="py-op">)</tt> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line"><tt id="link-45" class="py-name" targets="Variable contracts.contract_expression=contracts-module.html#contract_expression,Variable contracts.library.array.contract_expression=contracts.library.array-module.html#contract_expression,Variable contracts.library.dicts.contract_expression=contracts.library.dicts-module.html#contract_expression,Variable contracts.library.lists.contract_expression=contracts.library.lists-module.html#contract_expression,Variable contracts.library.map.contract_expression=contracts.library.map-module.html#contract_expression,Variable contracts.library.separate_context.contract_expression=contracts.library.separate_context-module.html#contract_expression,Variable contracts.library.seq.contract_expression=contracts.library.seq-module.html#contract_expression,Variable contracts.library.strings.contract_expression=contracts.library.strings-module.html#contract_expression,Variable contracts.library.tuple.contract_expression=contracts.library.tuple-module.html#contract_expression,Variable contracts.library.types_misc.contract_expression=contracts.library.types_misc-module.html#contract_expression,Variable contracts.main.contract_expression=contracts.main-module.html#contract_expression,Variable contracts.syntax.contract_expression=contracts.syntax-module.html#contract_expression"><a title="contracts.contract_expression
+contracts.library.array.contract_expression
+contracts.library.dicts.contract_expression
+contracts.library.lists.contract_expression
+contracts.library.map.contract_expression
+contracts.library.separate_context.contract_expression
+contracts.library.seq.contract_expression
+contracts.library.strings.contract_expression
+contracts.library.tuple.contract_expression
+contracts.library.types_misc.contract_expression
+contracts.main.contract_expression
+contracts.syntax.contract_expression" class="py-name" href="#" onclick="return doclink('link-45', 'contract_expression', 'link-45');">contract_expression</a></tt> <tt class="py-op">=</tt> <tt class="py-name">Forward</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line"><tt id="link-46" class="py-name"><a title="contracts.contract_expression
+contracts.library.array.contract_expression
+contracts.library.dicts.contract_expression
+contracts.library.lists.contract_expression
+contracts.library.map.contract_expression
+contracts.library.separate_context.contract_expression
+contracts.library.seq.contract_expression
+contracts.library.strings.contract_expression
+contracts.library.tuple.contract_expression
+contracts.library.types_misc.contract_expression
+contracts.main.contract_expression
+contracts.syntax.contract_expression" class="py-name" href="#" onclick="return doclink('link-46', 'contract_expression', 'link-45');">contract_expression</a></tt><tt class="py-op">.</tt><tt class="py-name">setName</tt><tt class="py-op">(</tt><tt class="py-string">'contract'</tt><tt class="py-op">)</tt> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line"><tt id="link-47" class="py-name" targets="Variable contracts.library.array.simple_contract=contracts.library.array-module.html#simple_contract,Variable contracts.library.compositions.simple_contract=contracts.library.compositions-module.html#simple_contract,Variable contracts.syntax.simple_contract=contracts.syntax-module.html#simple_contract"><a title="contracts.library.array.simple_contract
+contracts.library.compositions.simple_contract
+contracts.syntax.simple_contract" class="py-name" href="#" onclick="return doclink('link-47', 'simple_contract', 'link-47');">simple_contract</a></tt> <tt class="py-op">=</tt> <tt class="py-name">Forward</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line"><tt id="link-48" class="py-name"><a title="contracts.library.array.simple_contract
+contracts.library.compositions.simple_contract
+contracts.syntax.simple_contract" class="py-name" href="#" onclick="return doclink('link-48', 'simple_contract', 'link-47');">simple_contract</a></tt><tt class="py-op">.</tt><tt class="py-name">setName</tt><tt class="py-op">(</tt><tt class="py-string">'simple_contract'</tt><tt class="py-op">)</tt> </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line"> </tt>
+<a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line"><tt class="py-comment"># Import all expressions -- they will call add_contract()</tt> </tt>
+<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt><tt id="link-49" class="py-name" targets="Package contracts.library=contracts.library-module.html,Package contracts.testing.library=contracts.testing.library-module.html"><a title="contracts.library
+contracts.testing.library" class="py-name" href="#" onclick="return doclink('link-49', 'library', 'link-49');">library</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">(</tt><tt id="link-50" class="py-name" targets="Class contracts.library.simple_values.EqualTo=contracts.library.simple_values.EqualTo-class.html"><a title="contracts.library.simple_values.EqualTo" class="py-name" href="#" onclick="return doclink('link-50', 'EqualTo', 'link-50');">EqualTo</a></tt><tt class="py-op">,</tt> <tt id="link-51" class="py-name" targets="Class contracts.library.arithmetic.Unary=contracts.library.arithmetic.Unary-class.html"><a title="contracts.library.arithmetic.Unary" class="py-name" href="#" onclick="return doclink('link-51', 'Unary', 'link-51');">Unary</a></tt><tt class="py-op">,</tt> <tt id="link-52" class="py-name" targets="Class contracts.library.arithmetic.Binary=contracts.library.arithmetic.Binary-class.html"><a title="contracts.library.arithmetic.Binary" class="py-name" href="#" onclick="return doclink('link-52', 'Binary', 'link-52');">Binary</a></tt><tt class="py-op">,</tt> <tt id="link-53" class="py-name" targets="Variable contracts.library.composite_contract=contracts.library-module.html#composite_contract,Variable contracts.library.compositions.composite_contract=contracts.library.compositions-module.html#composite_contract,Variable contracts.syntax.composite_contract=contracts.syntax-module.html#composite_contract,Variable contracts.testing.test_particulars.composite_contract=contracts.testing.test_particulars-module.html#composite_contract,Variable contracts.testing.test_simple.composite_contract=contracts.testing.test_simple-module.html#composite_contract"><a title="contracts.library.composite_contract
+contracts.library.compositions.composite_contract
+contracts.syntax.composite_contract
+contracts.testing.test_particulars.composite_contract
+contracts.testing.test_simple.composite_contract" class="py-name" href="#" onclick="return doclink('link-53', 'composite_contract', 'link-53');">composite_contract</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line">                      <tt id="link-54" class="py-name" targets="Variable contracts.library.extensions.identifier_contract=contracts.library.extensions-module.html#identifier_contract,Variable contracts.library.identifier_contract=contracts.library-module.html#identifier_contract,Variable contracts.syntax.identifier_contract=contracts.syntax-module.html#identifier_contract,Variable contracts.testing.test_particulars.identifier_contract=contracts.testing.test_particulars-module.html#identifier_contract,Variable contracts.testing.test_simple.identifier_contract=contracts.testing.test_simple-module.html#identifier_contract"><a title="contracts.library.extensions.identifier_contract
+contracts.library.identifier_contract
+contracts.syntax.identifier_contract
+contracts.testing.test_particulars.identifier_contract
+contracts.testing.test_simple.identifier_contract" class="py-name" href="#" onclick="return doclink('link-54', 'identifier_contract', 'link-54');">identifier_contract</a></tt><tt class="py-op">,</tt> <tt id="link-55" class="py-name" targets="Variable contracts.library.misc_variables_contract=contracts.library-module.html#misc_variables_contract,Variable contracts.library.variables.misc_variables_contract=contracts.library.variables-module.html#misc_variables_contract,Variable contracts.syntax.misc_variables_contract=contracts.syntax-module.html#misc_variables_contract,Variable contracts.testing.test_particulars.misc_variables_contract=contracts.testing.test_particulars-module.html#misc_variables_contract,Variable contracts.testing.test_simple.misc_variables_contract=contracts.testing.test_simple-module.html#misc_variables_contract"><a title="contracts.library.misc_variables_contract
+contracts.library.variables.misc_variables_contract
+contracts.syntax.misc_variables_contract
+contracts.testing.test_particulars.misc_variables_contract
+contracts.testing.test_simple.misc_variables_contract" class="py-name" href="#" onclick="return doclink('link-55', 'misc_variables_contract', 'link-55');">misc_variables_contract</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line">                      <tt id="link-56" class="py-name" targets="Variable contracts.library.int_variables_contract=contracts.library-module.html#int_variables_contract,Variable contracts.library.variables.int_variables_contract=contracts.library.variables-module.html#int_variables_contract,Variable contracts.syntax.int_variables_contract=contracts.syntax-module.html#int_variables_contract,Variable contracts.testing.test_particulars.int_variables_contract=contracts.testing.test_particulars-module.html#int_variables_contract,Variable contracts.testing.test_simple.int_variables_contract=contracts.testing.test_simple-module.html#int_variables_contract"><a title="contracts.library.int_variables_contract
+contracts.library.variables.int_variables_contract
+contracts.syntax.int_variables_contract
+contracts.testing.test_particulars.int_variables_contract
+contracts.testing.test_simple.int_variables_contract" class="py-name" href="#" onclick="return doclink('link-56', 'int_variables_contract', 'link-56');">int_variables_contract</a></tt><tt class="py-op">,</tt> <tt id="link-57" class="py-name" targets="Variable contracts.library.int_variables_ref=contracts.library-module.html#int_variables_ref,Variable contracts.library.variables.int_variables_ref=contracts.library.variables-module.html#int_variables_ref,Variable contracts.syntax.int_variables_ref=contracts.syntax-module.html#int_variables_ref,Variable contracts.testing.test_particulars.int_variables_ref=contracts.testing.test_particulars-module.html#int_variables_ref,Variable contracts.testing.test_simple.int_variables_ref=contracts.testing.test_simple-module.html#int_variables_ref"><a title="contracts.library.int_variables_ref
+contracts.library.variables.int_variables_ref
+contracts.syntax.int_variables_ref
+contracts.testing.test_particulars.int_variables_ref
+contracts.testing.test_simple.int_variables_ref" class="py-name" href="#" onclick="return doclink('link-57', 'int_variables_ref', 'link-57');">int_variables_ref</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line">                      <tt id="link-58" class="py-name" targets="Variable contracts.library.misc_variables_ref=contracts.library-module.html#misc_variables_ref,Variable contracts.library.variables.misc_variables_ref=contracts.library.variables-module.html#misc_variables_ref,Variable contracts.syntax.misc_variables_ref=contracts.syntax-module.html#misc_variables_ref,Variable contracts.testing.test_particulars.misc_variables_ref=contracts.testing.test_particulars-module.html#misc_variables_ref,Variable contracts.testing.test_simple.misc_variables_ref=contracts.testing.test_simple-module.html#misc_variables_ref"><a title="contracts.library.misc_variables_ref
+contracts.library.variables.misc_variables_ref
+contracts.syntax.misc_variables_ref
+contracts.testing.test_particulars.misc_variables_ref
+contracts.testing.test_simple.misc_variables_ref" class="py-name" href="#" onclick="return doclink('link-58', 'misc_variables_ref', 'link-58');">misc_variables_ref</a></tt><tt class="py-op">,</tt> <tt id="link-59" class="py-name"><a title="contracts.library.simple_values.SimpleRValue" class="py-name" href="#" onclick="return doclink('link-59', 'SimpleRValue', 'link-34');">SimpleRValue</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line"> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line"> </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line"><tt id="link-60" class="py-name"><a title="contracts.syntax.number
+contracts.testing.library.arithmetic_tc.number" class="py-name" href="#" onclick="return doclink('link-60', 'number', 'link-19');">number</a></tt> <tt class="py-op">=</tt> <tt id="link-61" class="py-name"><a title="contracts.syntax.pi" class="py-name" href="#" onclick="return doclink('link-61', 'pi', 'link-37');">pi</a></tt> <tt class="py-op">|</tt> <tt id="link-62" class="py-name"><a title="contracts.syntax.floatnumber" class="py-name" href="#" onclick="return doclink('link-62', 'floatnumber', 'link-27');">floatnumber</a></tt> <tt class="py-op">|</tt> <tt id="link-63" class="py-name"><a title="contracts.syntax.integer" class="py-name" href="#" onclick="return doclink('link-63', 'integer', 'link-24');">integer</a></tt> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line"><tt id="link-64" class="py-name" targets="Variable contracts.syntax.operand=contracts.syntax-module.html#operand"><a title="contracts.syntax.operand" class="py-name" href="#" onclick="return doclink('link-64', 'operand', 'link-64');">operand</a></tt> <tt class="py-op">=</tt> <tt id="link-65" class="py-name"><a title="contracts.syntax.number
+contracts.testing.library.arithmetic_tc.number" class="py-name" href="#" onclick="return doclink('link-65', 'number', 'link-19');">number</a></tt> <tt class="py-op">|</tt> <tt id="link-66" class="py-name"><a title="contracts.library.int_variables_ref
+contracts.library.variables.int_variables_ref
+contracts.syntax.int_variables_ref
+contracts.testing.test_particulars.int_variables_ref
+contracts.testing.test_simple.int_variables_ref" class="py-name" href="#" onclick="return doclink('link-66', 'int_variables_ref', 'link-57');">int_variables_ref</a></tt> <tt class="py-op">|</tt> <tt id="link-67" class="py-name"><a title="contracts.library.misc_variables_ref
+contracts.library.variables.misc_variables_ref
+contracts.syntax.misc_variables_ref
+contracts.testing.test_particulars.misc_variables_ref
+contracts.testing.test_simple.misc_variables_ref" class="py-name" href="#" onclick="return doclink('link-67', 'misc_variables_ref', 'link-58');">misc_variables_ref</a></tt> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line"><tt id="link-68" class="py-name"><a title="contracts.syntax.operand" class="py-name" href="#" onclick="return doclink('link-68', 'operand', 'link-64');">operand</a></tt><tt class="py-op">.</tt><tt class="py-name">setName</tt><tt class="py-op">(</tt><tt class="py-string">'r-value'</tt><tt class="py-op">)</tt> </tt>
+<a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line"> </tt>
+<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line"> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line"><tt id="link-69" class="py-name"><a title="contracts.library.array.rvalue
+contracts.library.comparison.rvalue
+contracts.syntax.rvalue" class="py-name" href="#" onclick="return doclink('link-69', 'rvalue', 'link-43');">rvalue</a></tt> <tt class="py-op">&lt;&lt;</tt> <tt id="link-70" class="py-name"><a title="contracts.pyparsing_utils.myOperatorPrecedence" class="py-name" href="#" onclick="return doclink('link-70', 'myOperatorPrecedence', 'link-6');">myOperatorPrecedence</a></tt><tt class="py-op">(</tt><tt id="link-71" class="py-name"><a title="contracts.syntax.operand" class="py-name" href="#" onclick="return doclink('link-71', 'operand', 'link-64');">operand</a></tt><tt class="py-op">,</tt> <tt class="py-op">[</tt> </tt>
+<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line">             <tt class="py-op">(</tt><tt class="py-string">'-'</tt><tt class="py-op">,</tt> <tt class="py-number">1</tt><tt class="py-op">,</tt> <tt id="link-72" class="py-name"><a title="contracts.library.array.opAssoc
+contracts.library.compositions.opAssoc
+contracts.pyparsing_utils.opAssoc
+contracts.syntax.opAssoc" class="py-name" href="#" onclick="return doclink('link-72', 'opAssoc', 'link-2');">opAssoc</a></tt><tt class="py-op">.</tt><tt class="py-name">RIGHT</tt><tt class="py-op">,</tt> <tt id="link-73" class="py-name"><a title="contracts.library.arithmetic.Unary" class="py-name" href="#" onclick="return doclink('link-73', 'Unary', 'link-51');">Unary</a></tt><tt class="py-op">.</tt><tt id="link-74" class="py-name" targets="Static Method contracts.library.arithmetic.Binary.parse_action()=contracts.library.arithmetic.Binary-class.html#parse_action,Static Method contracts.library.arithmetic.Unary.parse_action()=contracts.library.arithmetic.Unary-class.html#parse_action,Static Method contracts.library.array.Array.parse_action()=contracts.library.array.Array-class.html#parse_action,Static Method contracts.library.array.Shape.parse_action()=contracts.library.array.Shape-class.html#parse_action,Static Method contracts.library.array.ShapeContract.parse_action()=contracts.library.array.ShapeContract-class.html#parse_action,Static Method contracts.library.array_ops.ArrayAnd.parse_action()=contracts.library.array_ops.ArrayAnd-class.html#parse_action,Static Method contracts.library.array_ops.ArrayConstraint.parse_action()=contracts.library.array_ops.ArrayConstraint-class.html#parse_action,Static Method contracts.library.array_ops.ArrayOR.parse_action()=contracts.library.array_ops.ArrayOR-class.html#parse_action,Static Method contracts.library.array_ops.DType.parse_action()=contracts.library.array_ops.DType-class.html#parse_action,Static Method contracts.library.comparison.CheckOrder.parse_action()=contracts.library.comparison.CheckOrder-class.html#parse_action,Static Method contracts.library.compositions.And.parse_action()=contracts.library.compositions.And-class.html#parse_action,Static Method contracts.library.compositions.OR.parse_action()=contracts.library.compositions.OR-class.html#parse_action,Static Method contracts.library.dicts.Dict.parse_action()=contracts.library.dicts.Dict-class.html#parse_action,Static Method contracts.library.dummy.Any.parse_action()=contracts.library.dummy.Any-class.html#parse_action,Static Method contracts.library.dummy.Never.parse_action()=contracts.library.dummy.Never-class.html#parse_action,Static Method contracts.library.extensions.Extension.parse_action()=contracts.library.extensions.Extension-class.html#parse_action,Static Method contracts.library.lists.List.parse_action()=contracts.library.lists.List-class.html#parse_action,Static Method contracts.library.map.Map.parse_action()=contracts.library.map.Map-class.html#parse_action,Static Method contracts.library.separate_context.SeparateContext.parse_action()=contracts.library.separate_context.SeparateContext-class.html#parse_action,Static Method contracts.library.seq.Seq.parse_action()=contracts.library.seq.Seq-class.html#parse_action,Static Method contracts.library.simple_values.EqualTo.parse_action()=contracts.library.simple_values.EqualTo-class.html#parse_action,Static Method contracts.library.strings.String.parse_action()=contracts.library.strings.String-class.html#parse_action,Static Method contracts.library.tuple.Tuple.parse_action()=contracts.library.tuple.Tuple-class.html#parse_action,Static Method contracts.library.types_misc.CheckType.parse_action()=contracts.library.types_misc.CheckType-class.html#parse_action,Static Method contracts.library.types_misc.Type.parse_action()=contracts.library.types_misc.Type-class.html#parse_action,Static Method contracts.library.variables.BindVariable.parse_action()=contracts.library.variables.BindVariable-class.html#parse_action,Static Method contracts.library.variables.VariableRef.parse_action()=contracts.library.variables.VariableRef-class.html#parse_action"><a title="contracts.library.arithmetic.Binary.parse_action
+contracts.library.arithmetic.Unary.parse_action
+contracts.library.array.Array.parse_action
+contracts.library.array.Shape.parse_action
+contracts.library.array.ShapeContract.parse_action
+contracts.library.array_ops.ArrayAnd.parse_action
+contracts.library.array_ops.ArrayConstraint.parse_action
+contracts.library.array_ops.ArrayOR.parse_action
+contracts.library.array_ops.DType.parse_action
+contracts.library.comparison.CheckOrder.parse_action
+contracts.library.compositions.And.parse_action
+contracts.library.compositions.OR.parse_action
+contracts.library.dicts.Dict.parse_action
+contracts.library.dummy.Any.parse_action
+contracts.library.dummy.Never.parse_action
+contracts.library.extensions.Extension.parse_action
+contracts.library.lists.List.parse_action
+contracts.library.map.Map.parse_action
+contracts.library.separate_context.SeparateContext.parse_action
+contracts.library.seq.Seq.parse_action
+contracts.library.simple_values.EqualTo.parse_action
+contracts.library.strings.String.parse_action
+contracts.library.tuple.Tuple.parse_action
+contracts.library.types_misc.CheckType.parse_action
+contracts.library.types_misc.Type.parse_action
+contracts.library.variables.BindVariable.parse_action
+contracts.library.variables.VariableRef.parse_action" class="py-name" href="#" onclick="return doclink('link-74', 'parse_action', 'link-74');">parse_action</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line">             <tt class="py-op">(</tt><tt class="py-string">'*'</tt><tt class="py-op">,</tt> <tt class="py-number">2</tt><tt class="py-op">,</tt> <tt id="link-75" class="py-name"><a title="contracts.library.array.opAssoc
+contracts.library.compositions.opAssoc
+contracts.pyparsing_utils.opAssoc
+contracts.syntax.opAssoc" class="py-name" href="#" onclick="return doclink('link-75', 'opAssoc', 'link-2');">opAssoc</a></tt><tt class="py-op">.</tt><tt class="py-name">LEFT</tt><tt class="py-op">,</tt> <tt id="link-76" class="py-name"><a title="contracts.library.arithmetic.Binary" class="py-name" href="#" onclick="return doclink('link-76', 'Binary', 'link-52');">Binary</a></tt><tt class="py-op">.</tt><tt id="link-77" class="py-name"><a title="contracts.library.arithmetic.Binary.parse_action
+contracts.library.arithmetic.Unary.parse_action
+contracts.library.array.Array.parse_action
+contracts.library.array.Shape.parse_action
+contracts.library.array.ShapeContract.parse_action
+contracts.library.array_ops.ArrayAnd.parse_action
+contracts.library.array_ops.ArrayConstraint.parse_action
+contracts.library.array_ops.ArrayOR.parse_action
+contracts.library.array_ops.DType.parse_action
+contracts.library.comparison.CheckOrder.parse_action
+contracts.library.compositions.And.parse_action
+contracts.library.compositions.OR.parse_action
+contracts.library.dicts.Dict.parse_action
+contracts.library.dummy.Any.parse_action
+contracts.library.dummy.Never.parse_action
+contracts.library.extensions.Extension.parse_action
+contracts.library.lists.List.parse_action
+contracts.library.map.Map.parse_action
+contracts.library.separate_context.SeparateContext.parse_action
+contracts.library.seq.Seq.parse_action
+contracts.library.simple_values.EqualTo.parse_action
+contracts.library.strings.String.parse_action
+contracts.library.tuple.Tuple.parse_action
+contracts.library.types_misc.CheckType.parse_action
+contracts.library.types_misc.Type.parse_action
+contracts.library.variables.BindVariable.parse_action
+contracts.library.variables.VariableRef.parse_action" class="py-name" href="#" onclick="return doclink('link-77', 'parse_action', 'link-74');">parse_action</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line">             <tt class="py-op">(</tt><tt class="py-string">'-'</tt><tt class="py-op">,</tt> <tt class="py-number">2</tt><tt class="py-op">,</tt> <tt id="link-78" class="py-name"><a title="contracts.library.array.opAssoc
+contracts.library.compositions.opAssoc
+contracts.pyparsing_utils.opAssoc
+contracts.syntax.opAssoc" class="py-name" href="#" onclick="return doclink('link-78', 'opAssoc', 'link-2');">opAssoc</a></tt><tt class="py-op">.</tt><tt class="py-name">LEFT</tt><tt class="py-op">,</tt> <tt id="link-79" class="py-name"><a title="contracts.library.arithmetic.Binary" class="py-name" href="#" onclick="return doclink('link-79', 'Binary', 'link-52');">Binary</a></tt><tt class="py-op">.</tt><tt id="link-80" class="py-name"><a title="contracts.library.arithmetic.Binary.parse_action
+contracts.library.arithmetic.Unary.parse_action
+contracts.library.array.Array.parse_action
+contracts.library.array.Shape.parse_action
+contracts.library.array.ShapeContract.parse_action
+contracts.library.array_ops.ArrayAnd.parse_action
+contracts.library.array_ops.ArrayConstraint.parse_action
+contracts.library.array_ops.ArrayOR.parse_action
+contracts.library.array_ops.DType.parse_action
+contracts.library.comparison.CheckOrder.parse_action
+contracts.library.compositions.And.parse_action
+contracts.library.compositions.OR.parse_action
+contracts.library.dicts.Dict.parse_action
+contracts.library.dummy.Any.parse_action
+contracts.library.dummy.Never.parse_action
+contracts.library.extensions.Extension.parse_action
+contracts.library.lists.List.parse_action
+contracts.library.map.Map.parse_action
+contracts.library.separate_context.SeparateContext.parse_action
+contracts.library.seq.Seq.parse_action
+contracts.library.simple_values.EqualTo.parse_action
+contracts.library.strings.String.parse_action
+contracts.library.tuple.Tuple.parse_action
+contracts.library.types_misc.CheckType.parse_action
+contracts.library.types_misc.Type.parse_action
+contracts.library.variables.BindVariable.parse_action
+contracts.library.variables.VariableRef.parse_action" class="py-name" href="#" onclick="return doclink('link-80', 'parse_action', 'link-74');">parse_action</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line">             <tt class="py-op">(</tt><tt class="py-string">'+'</tt><tt class="py-op">,</tt> <tt class="py-number">2</tt><tt class="py-op">,</tt> <tt id="link-81" class="py-name"><a title="contracts.library.array.opAssoc
+contracts.library.compositions.opAssoc
+contracts.pyparsing_utils.opAssoc
+contracts.syntax.opAssoc" class="py-name" href="#" onclick="return doclink('link-81', 'opAssoc', 'link-2');">opAssoc</a></tt><tt class="py-op">.</tt><tt class="py-name">LEFT</tt><tt class="py-op">,</tt> <tt id="link-82" class="py-name"><a title="contracts.library.arithmetic.Binary" class="py-name" href="#" onclick="return doclink('link-82', 'Binary', 'link-52');">Binary</a></tt><tt class="py-op">.</tt><tt id="link-83" class="py-name"><a title="contracts.library.arithmetic.Binary.parse_action
+contracts.library.arithmetic.Unary.parse_action
+contracts.library.array.Array.parse_action
+contracts.library.array.Shape.parse_action
+contracts.library.array.ShapeContract.parse_action
+contracts.library.array_ops.ArrayAnd.parse_action
+contracts.library.array_ops.ArrayConstraint.parse_action
+contracts.library.array_ops.ArrayOR.parse_action
+contracts.library.array_ops.DType.parse_action
+contracts.library.comparison.CheckOrder.parse_action
+contracts.library.compositions.And.parse_action
+contracts.library.compositions.OR.parse_action
+contracts.library.dicts.Dict.parse_action
+contracts.library.dummy.Any.parse_action
+contracts.library.dummy.Never.parse_action
+contracts.library.extensions.Extension.parse_action
+contracts.library.lists.List.parse_action
+contracts.library.map.Map.parse_action
+contracts.library.separate_context.SeparateContext.parse_action
+contracts.library.seq.Seq.parse_action
+contracts.library.simple_values.EqualTo.parse_action
+contracts.library.strings.String.parse_action
+contracts.library.tuple.Tuple.parse_action
+contracts.library.types_misc.CheckType.parse_action
+contracts.library.types_misc.Type.parse_action
+contracts.library.variables.BindVariable.parse_action
+contracts.library.variables.VariableRef.parse_action" class="py-name" href="#" onclick="return doclink('link-83', 'parse_action', 'link-74');">parse_action</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line">          <tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line"> </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line"><tt class="py-comment"># I want </tt> </tt>
+<a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line"><tt class="py-comment"># - BindVariable to have precedence to EqualTo(VariableRef)</tt> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line"><tt class="py-comment"># but I also want:</tt> </tt>
+<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line"><tt class="py-comment"># - Arithmetic to have precedence w.r.t BindVariable </tt> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line"><tt class="py-comment"># last is variables</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line"><tt id="link-84" class="py-name" targets="Function contracts.syntax.add_contract()=contracts.syntax-module.html#add_contract"><a title="contracts.syntax.add_contract" class="py-name" href="#" onclick="return doclink('link-84', 'add_contract', 'link-84');">add_contract</a></tt><tt class="py-op">(</tt><tt id="link-85" class="py-name"><a title="contracts.library.misc_variables_contract
+contracts.library.variables.misc_variables_contract
+contracts.syntax.misc_variables_contract
+contracts.testing.test_particulars.misc_variables_contract
+contracts.testing.test_simple.misc_variables_contract" class="py-name" href="#" onclick="return doclink('link-85', 'misc_variables_contract', 'link-55');">misc_variables_contract</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line"><tt id="link-86" class="py-name"><a title="contracts.syntax.add_contract" class="py-name" href="#" onclick="return doclink('link-86', 'add_contract', 'link-84');">add_contract</a></tt><tt class="py-op">(</tt><tt id="link-87" class="py-name"><a title="contracts.library.int_variables_contract
+contracts.library.variables.int_variables_contract
+contracts.syntax.int_variables_contract
+contracts.testing.test_particulars.int_variables_contract
+contracts.testing.test_simple.int_variables_contract" class="py-name" href="#" onclick="return doclink('link-87', 'int_variables_contract', 'link-56');">int_variables_contract</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line"><tt id="link-88" class="py-name"><a title="contracts.syntax.add_contract" class="py-name" href="#" onclick="return doclink('link-88', 'add_contract', 'link-84');">add_contract</a></tt><tt class="py-op">(</tt><tt id="link-89" class="py-name"><a title="contracts.library.array.rvalue
+contracts.library.comparison.rvalue
+contracts.syntax.rvalue" class="py-name" href="#" onclick="return doclink('link-89', 'rvalue', 'link-43');">rvalue</a></tt><tt class="py-op">.</tt><tt class="py-name">copy</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">setParseAction</tt><tt class="py-op">(</tt><tt id="link-90" class="py-name"><a title="contracts.library.simple_values.EqualTo" class="py-name" href="#" onclick="return doclink('link-90', 'EqualTo', 'link-50');">EqualTo</a></tt><tt class="py-op">.</tt><tt id="link-91" class="py-name"><a title="contracts.library.arithmetic.Binary.parse_action
+contracts.library.arithmetic.Unary.parse_action
+contracts.library.array.Array.parse_action
+contracts.library.array.Shape.parse_action
+contracts.library.array.ShapeContract.parse_action
+contracts.library.array_ops.ArrayAnd.parse_action
+contracts.library.array_ops.ArrayConstraint.parse_action
+contracts.library.array_ops.ArrayOR.parse_action
+contracts.library.array_ops.DType.parse_action
+contracts.library.comparison.CheckOrder.parse_action
+contracts.library.compositions.And.parse_action
+contracts.library.compositions.OR.parse_action
+contracts.library.dicts.Dict.parse_action
+contracts.library.dummy.Any.parse_action
+contracts.library.dummy.Never.parse_action
+contracts.library.extensions.Extension.parse_action
+contracts.library.lists.List.parse_action
+contracts.library.map.Map.parse_action
+contracts.library.separate_context.SeparateContext.parse_action
+contracts.library.seq.Seq.parse_action
+contracts.library.simple_values.EqualTo.parse_action
+contracts.library.strings.String.parse_action
+contracts.library.tuple.Tuple.parse_action
+contracts.library.types_misc.CheckType.parse_action
+contracts.library.types_misc.Type.parse_action
+contracts.library.variables.BindVariable.parse_action
+contracts.library.variables.VariableRef.parse_action" class="py-name" href="#" onclick="return doclink('link-91', 'parse_action', 'link-74');">parse_action</a></tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line"> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line"><tt id="link-92" class="py-name" targets="Variable contracts.syntax.hardwired=contracts.syntax-module.html#hardwired"><a title="contracts.syntax.hardwired" class="py-name" href="#" onclick="return doclink('link-92', 'hardwired', 'link-92');">hardwired</a></tt> <tt class="py-op">=</tt> <tt class="py-name">MatchFirst</tt><tt class="py-op">(</tt><tt id="link-93" class="py-name"><a title="contracts.syntax.ParsingTmp" class="py-name" href="#" onclick="return doclink('link-93', 'ParsingTmp', 'link-12');">ParsingTmp</a></tt><tt class="py-op">.</tt><tt id="link-94" class="py-name"><a title="contracts.syntax.ParsingTmp.contract_types" class="py-name" href="#" onclick="return doclink('link-94', 'contract_types', 'link-9');">contract_types</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line"><tt id="link-95" class="py-name"><a title="contracts.syntax.hardwired" class="py-name" href="#" onclick="return doclink('link-95', 'hardwired', 'link-92');">hardwired</a></tt><tt class="py-op">.</tt><tt class="py-name">setName</tt><tt class="py-op">(</tt><tt class="py-string">'Predefined contract expression'</tt><tt class="py-op">)</tt> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line"> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line"><tt id="link-96" class="py-name"><a title="contracts.library.array.simple_contract
+contracts.library.compositions.simple_contract
+contracts.syntax.simple_contract" class="py-name" href="#" onclick="return doclink('link-96', 'simple_contract', 'link-47');">simple_contract</a></tt> <tt class="py-op">&lt;&lt;</tt> <tt class="py-op">(</tt><tt id="link-97" class="py-name"><a title="contracts.syntax.hardwired" class="py-name" href="#" onclick="return doclink('link-97', 'hardwired', 'link-92');">hardwired</a></tt> <tt class="py-op">|</tt> <tt id="link-98" class="py-name"><a title="contracts.library.extensions.identifier_contract
+contracts.library.identifier_contract
+contracts.syntax.identifier_contract
+contracts.testing.test_particulars.identifier_contract
+contracts.testing.test_simple.identifier_contract" class="py-name" href="#" onclick="return doclink('link-98', 'identifier_contract', 'link-54');">identifier_contract</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line"><tt id="link-99" class="py-name"><a title="contracts.library.array.simple_contract
+contracts.library.compositions.simple_contract
+contracts.syntax.simple_contract" class="py-name" href="#" onclick="return doclink('link-99', 'simple_contract', 'link-47');">simple_contract</a></tt><tt class="py-op">.</tt><tt class="py-name">setName</tt><tt class="py-op">(</tt><tt class="py-string">'simple contract expression'</tt><tt class="py-op">)</tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line"> </tt>
+<a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line"><tt id="link-100" class="py-name" targets="Variable contracts.syntax.any_contract=contracts.syntax-module.html#any_contract"><a title="contracts.syntax.any_contract" class="py-name" href="#" onclick="return doclink('link-100', 'any_contract', 'link-100');">any_contract</a></tt> <tt class="py-op">=</tt> <tt id="link-101" class="py-name"><a title="contracts.library.composite_contract
+contracts.library.compositions.composite_contract
+contracts.syntax.composite_contract
+contracts.testing.test_particulars.composite_contract
+contracts.testing.test_simple.composite_contract" class="py-name" href="#" onclick="return doclink('link-101', 'composite_contract', 'link-53');">composite_contract</a></tt> <tt class="py-op">|</tt> <tt id="link-102" class="py-name"><a title="contracts.library.array.simple_contract
+contracts.library.compositions.simple_contract
+contracts.syntax.simple_contract" class="py-name" href="#" onclick="return doclink('link-102', 'simple_contract', 'link-47');">simple_contract</a></tt> </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line"><tt id="link-103" class="py-name"><a title="contracts.syntax.any_contract" class="py-name" href="#" onclick="return doclink('link-103', 'any_contract', 'link-100');">any_contract</a></tt><tt class="py-op">.</tt><tt class="py-name">setName</tt><tt class="py-op">(</tt><tt class="py-string">'Any simple or composite contract'</tt><tt class="py-op">)</tt> </tt>
+<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line"><tt id="link-104" class="py-name"><a title="contracts.contract_expression
+contracts.library.array.contract_expression
+contracts.library.dicts.contract_expression
+contracts.library.lists.contract_expression
+contracts.library.map.contract_expression
+contracts.library.separate_context.contract_expression
+contracts.library.seq.contract_expression
+contracts.library.strings.contract_expression
+contracts.library.tuple.contract_expression
+contracts.library.types_misc.contract_expression
+contracts.main.contract_expression
+contracts.syntax.contract_expression" class="py-name" href="#" onclick="return doclink('link-104', 'contract_expression', 'link-45');">contract_expression</a></tt> <tt class="py-op">&lt;&lt;</tt> <tt class="py-op">(</tt><tt id="link-105" class="py-name"><a title="contracts.syntax.any_contract" class="py-name" href="#" onclick="return doclink('link-105', 'any_contract', 'link-100');">any_contract</a></tt><tt class="py-op">)</tt> <tt class="py-comment"># Parentheses before &lt;&lt; !!</tt> </tt>
+<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="contracts-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://github.com/AndreaCensi/contracts">PyContracts</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sat Feb 25 23:37:54 2012
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
