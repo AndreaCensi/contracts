@@ -1,0 +1,161 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>contracts.library.separate_context &mdash; PyContracts 1.3.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../static/doctools.js"></script>
+    <link rel="top" title="PyContracts 1.3.0 documentation" href="../../../index.html" />
+    <link rel="up" title="contracts" href="../../contracts.html" />
+	 
+
+   <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
+
+   <style type="text/css">
+   
+   </style>
+
+<!--<link  href="http://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css" >
+<link  href="http://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet" type="text/css" >
+<link  href="static/pycontracts.css" rel="stylesheet" type="text/css" >-->
+
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyContracts 1.3.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for contracts.library.separate_context</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">..interface</span> <span class="kn">import</span> <span class="n">Contract</span>
+<span class="kn">from</span> <span class="nn">..syntax</span> <span class="kn">import</span> <span class="n">add_contract</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">contract_expression</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Group</span>
+
+
+<div class="viewcode-block" id="SeparateContext"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.separate_context.SeparateContext">[docs]</a><span class="k">class</span> <span class="nc">SeparateContext</span><span class="p">(</span><span class="n">Contract</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">contract</span><span class="p">,</span> <span class="n">Contract</span><span class="p">)</span>
+        <span class="n">Contract</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">contract</span> <span class="o">=</span> <span class="n">contract</span>
+
+<div class="viewcode-block" id="SeparateContext.check_contract"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.separate_context.SeparateContext.check_contract">[docs]</a>    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">copy</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">contract</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;$(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">contract</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;SeparateContext(</span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">contract</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="SeparateContext.parse_action"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.separate_context.SeparateContext.parse_action">[docs]</a>    <span class="k">def</span> <span class="nf">parse_action</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
+        <span class="n">where</span> <span class="o">=</span> <span class="n">W</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">SeparateContext</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;child&#39;</span><span class="p">],</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
+
+</div></div>
+<span class="n">sepcon</span> <span class="o">=</span> <span class="p">(</span><span class="n">Group</span><span class="p">(</span><span class="n">Literal</span><span class="p">(</span><span class="s">&#39;$&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">Literal</span><span class="p">(</span><span class="s">&#39;(&#39;</span><span class="p">)</span> <span class="o">-</span>
+                <span class="n">contract_expression</span><span class="p">(</span><span class="s">&#39;child&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">Literal</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">)))</span>
+<span class="n">sepcon</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">SeparateContext</span><span class="o">.</span><span class="n">parse_action</span><span class="p">)</span>
+<span class="n">sepcon</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&#39;Context separation construct&#39;</span><span class="p">)</span>
+<span class="n">add_contract</span><span class="p">(</span><span class="n">sepcon</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyContracts 1.3.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../contracts.html" >contracts</a> &raquo;</li> 
+      </ul>
+    </div>
+	
+    <div class="footer">
+        &copy; Copyright 2010, Andrea Censi.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+	
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-155626-14']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+
+    
+
+
+  </body>
+</html>

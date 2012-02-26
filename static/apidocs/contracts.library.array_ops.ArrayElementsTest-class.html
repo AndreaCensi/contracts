@@ -65,7 +65,13 @@
 <h1 class="epydoc">Class ArrayElementsTest</h1><p class="nomargin-top"><span class="codelink"><a href="contracts.library.array_ops-pysrc.html#ArrayElementsTest">source&nbsp;code</a></span></p>
 <center>
 <center>  <map id="uml_class_diagram_for_contract_17" name="uml_class_diagram_for_contract_17">
+<area shape="rect" href="contracts.library.array_ops.ArrayElementsTest-class.html#__abstractmethods__" title="contracts.library.array_ops.ArrayElementsTest.__abstractmethods__" alt="" coords="91,265,301,284"/>
+<area shape="rect" href="contracts.library.array_ops.ArrayElementsTest-class.html#check_contract" title="Checks that value is ok with this contract in the specific context." alt="" coords="91,287,301,305"/>
+<area shape="rect" href="contracts.library.array_ops.ArrayElementsTest-class.html#test_elements" title="Returns either a bool or an array of bool." alt="" coords="91,305,301,324"/>
+<area shape="rect" href="contracts.library.array_ops.ArrayElementsTest-class.html" title="contracts.library.array_ops.ArrayElementsTest" alt="" coords="89,248,303,325"/>
 <area shape="rect" href="contracts.library.array_ops.ArrayConstraint-class.html" title="Comparisons for numpy array elements." alt="" coords="16,355,120,381"/>
+<area shape="rect" href="contracts.library.array_ops.DType-class.html" title="Checks that the value is an array with the given dtype." alt="" coords="171,355,221,381"/>
+<area shape="rect" href="contracts.library.array_ops.ArrayLogical-class.html" title="contracts.library.array_ops.ArrayLogical" alt="" coords="272,355,357,381"/>
 <area shape="rect" href="abc.ABCMeta-class.html" title="Metaclass for defining Abstract Base Classes (ABCs)." alt="" coords="136,28,256,47"/>
 <area shape="rect" href="contracts.interface.Contract-class.html#__eq__" title="contracts.interface.Contract.__eq__" alt="" coords="136,49,256,68"/>
 <area shape="rect" href="contracts.interface.Contract-class.html#__init__" title="x.__init__(...) initializes x; see help(type(x)) for signature" alt="" coords="136,68,256,87"/>
@@ -77,14 +83,8 @@
 <area shape="rect" href="contracts.interface.Contract-class.html#enabled" title="contracts.interface.Contract.enabled" alt="" coords="136,180,256,199"/>
 <area shape="rect" href="contracts.interface.Contract-class.html#fail" title="Checks that the value does not respect this contract." alt="" coords="136,199,256,217"/>
 <area shape="rect" href="contracts.interface.Contract-class.html" title="contracts.interface.Contract" alt="" coords="135,11,257,219"/>
-<area shape="rect" href="contracts.library.array_ops.ArrayElementsTest-class.html#__abstractmethods__" title="contracts.library.array_ops.ArrayElementsTest.__abstractmethods__" alt="" coords="91,265,301,284"/>
-<area shape="rect" href="contracts.library.array_ops.ArrayElementsTest-class.html#check_contract" title="Checks that value is ok with this contract in the specific context." alt="" coords="91,287,301,305"/>
-<area shape="rect" href="contracts.library.array_ops.ArrayElementsTest-class.html#test_elements" title="Returns either a bool or an array of bool." alt="" coords="91,305,301,324"/>
-<area shape="rect" href="contracts.library.array_ops.ArrayElementsTest-class.html" title="contracts.library.array_ops.ArrayElementsTest" alt="" coords="89,248,303,325"/>
-<area shape="rect" href="contracts.library.array_ops.DType-class.html" title="Checks that the value is an array with the given dtype." alt="" coords="171,355,221,381"/>
-<area shape="rect" href="contracts.library.array_ops.ArrayOR-class.html" title="contracts.library.array_ops.ArrayOR" alt="" coords="224,411,288,437"/>
-<area shape="rect" href="contracts.library.array_ops.ArrayLogical-class.html" title="contracts.library.array_ops.ArrayLogical" alt="" coords="272,355,357,381"/>
-<area shape="rect" href="contracts.library.array_ops.ArrayAnd-class.html" title="contracts.library.array_ops.ArrayAnd" alt="" coords="339,411,408,437"/>
+<area shape="rect" href="contracts.library.array_ops.ArrayAnd-class.html" title="contracts.library.array_ops.ArrayAnd" alt="" coords="221,411,291,437"/>
+<area shape="rect" href="contracts.library.array_ops.ArrayOR-class.html" title="contracts.library.array_ops.ArrayOR" alt="" coords="341,411,405,437"/>
 </map>
   <img src="uml_class_diagram_for_contract_17.gif" alt='' usemap="#uml_class_diagram_for_contract_17" ismap="ismap" class="graph-without-title" />
 </center>
@@ -230,7 +230,7 @@ context.</td>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="_abc_cache"></a><span class="summary-name">_abc_cache</span> = <code title="&lt;_weakrefset.WeakSet object at 0x1e9d310&gt;">&lt;_weakrefset.WeakSet object at 0x1e9d310&gt;</code>
+        <a name="_abc_cache"></a><span class="summary-name">_abc_cache</span> = <code title="&lt;_weakrefset.WeakSet object at 0x2699310&gt;">&lt;_weakrefset.WeakSet object at 0x2699310&gt;</code>
     </td>
   </tr>
   <tr>
@@ -385,7 +385,7 @@ context. This is the function that subclasses must implement.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 25 23:37:52 2012
+    Generated by Epydoc 3.0.1 on Sun Feb 26 11:44:24 2012
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
