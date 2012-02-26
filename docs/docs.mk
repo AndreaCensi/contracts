@@ -1,5 +1,7 @@
 # (common version)
 #
+.PHONY: all upload compile-website compile website only-upload
+	
 webdir=website
 
 # also change this in epydoc.cfg
@@ -22,6 +24,10 @@ website: distclean
 upload: compile-website
 	./gitadd.zsh $(webdir)
 	$(webgit) push
+
+only-upload: 
+		./gitadd.zsh $(webdir)
+		$(webgit) push
 
 distclean:
 	rm -rf $(webdir)/
