@@ -11,6 +11,7 @@ from .syntax import contract_expression, ParseException, ParseFatalException
 import inspect
 import sys
 import types
+import functools
 
 
 def check_contracts(contracts, values, context_variables=None):
@@ -173,16 +174,16 @@ def contract_decorator(*arg, **kwargs):
     else:
         # We were called *with* parameters.
         if all_disabled():
-            def wrap(function):
+            def tmp_wrap(function):
                 return function
         else:
-            def wrap(function):
+            def tmp_wrap(function):
                 try:
                     return contracts_decorate(function, **kwargs)
                 except ContractSyntaxError as e:
                     # Erase the stack
                     raise ContractSyntaxError(e.error, e.where)
-        return wrap
+        return tmp_wrap
 
 
 def contracts_decorate(function, modify_docstring=True, **kwargs):
@@ -307,6 +308,11 @@ def contracts_decorate(function, modify_docstring=True, **kwargs):
     else:
         new_docs = function.__doc__
 
+    # XXX: why doesn't this work?
+    contracts_checker.__name__ = 'checker-for-%s' % function.__name__
+    contracts_checker.__module__ = function.__module__
+
+    # TODO: is using functools.wraps better?
     from decorator import decorator #@UnresolvedImport
     wrapper = decorator(contracts_checker, function)
 

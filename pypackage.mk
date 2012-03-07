@@ -12,7 +12,7 @@ docs:
 
 coverage_dir=coverage_information
 nose=nosetests --with-id
-nose_parallel=--processes=16 --process-timeout=30 --process-restartworker
+nose_parallel=--processes=16 --process-timeout=300 --process-restartworker
 nose_coverage=--with-coverage --cover-html --cover-html-dir $(coverage_dir)  --cover-package=$(package)
 
 test:
@@ -29,15 +29,19 @@ test:
 	@echo
 	$(nose) $(package) $(NOSE_PARAMS)
 
+
+test-stop:
+	$(nose) $(package) $(NOSE_PARAMS) -x
+
 test-failed:
 	$(nose) $(package) $(NOSE_PARAMS) --failed
 
 test-parallel:
-	$(nose) $(package) $(nose_parallel) $(NOSE_PARAMS)
+	$(nose) $(package) $(NOSE_PARAMS) $(nose_parallel) 
+
+test-parallel-stop:
+	$(nose) $(package) $(NOSE_PARAMS) $(nose_parallel) -x 
 
 test-coverage:
-	$(nose) $(package) $(nose_coverage) $(NOSE_PARAMS)
+	$(nose) $(package) $(NOSE_PARAMS) $(nose_coverage) 
 
-
-print-config:
-	boot_olympics_print_config --outdir docs/source/my_static/config/
