@@ -2,7 +2,7 @@ from .suggester import create_suggester
 from .dummy import Any, Never
 from .separate_context import SeparateContext
 from .types_misc import Type, CheckType, Number
-from .strings import String
+from .strings import String, AnsiString, UnicodeString
 from .lists import List
 from .seq import Seq
 from .tuple import Tuple
