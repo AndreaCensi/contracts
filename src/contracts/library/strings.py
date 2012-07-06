@@ -37,22 +37,30 @@ class StringBase(Contract):
         return cls(length, where=where)
 
 
-class String(StringBase):
-    KEYWORD = 'string'
-    TYPE = basestring
-    DESCRIPTION = "an ANSI or Unicode string"
+import sys
+if sys.version_info[0] == 3:  # Python 3
 
+    class String(StringBase):
+        KEYWORD = 'string'
+        TYPE = str
+        DESCRIPTION = "a string"
 
-class AnsiString(StringBase):
-    KEYWORD = 'str'
-    TYPE = str
-    DESCRIPTION = "an ANSI string"
+else:  # Python 2.x
 
+    class String(StringBase):
+        KEYWORD = 'string'
+        TYPE = basestring
+        DESCRIPTION = "an ANSI or Unicode string"
 
-class UnicodeString(StringBase):
-    KEYWORD = 'unicode'
-    TYPE = unicode
-    DESCRIPTION = "a Unicode string"
+    class AnsiString(StringBase):
+        KEYWORD = 'str'
+        TYPE = str
+        DESCRIPTION = "an ANSI string"
+
+    class UnicodeString(StringBase):
+        KEYWORD = 'unicode'
+        TYPE = unicode
+        DESCRIPTION = "a Unicode string"
 
 
 for cls in StringBase.__subclasses__():
