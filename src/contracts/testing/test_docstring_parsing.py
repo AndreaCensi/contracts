@@ -4,7 +4,7 @@ from ..docstring_parsing import DocStringInfo, Arg, number_of_spaces
 from contracts.interface import add_prefix
 
 
-examples = { """ 
+examples = {""" 
         Provides a RGB representation of the values by interpolating the range 
         [min(value),max(value)] into the colorspace [min_color, max_color].
         
@@ -24,8 +24,7 @@ examples = { """
 
         :return: gray
 
-    """ :  DocStringInfo(docstring=
-                         ' \n        Provides a RGB representation of the values by interpolating the range \n'
+    """: DocStringInfo(docstring=' \n        Provides a RGB representation of the values by interpolating the range \n'
                          '        [min(value),max(value)] into the colorspace [min_color, max_color].\n',
   params={
         'value': Arg('The field to represent.', 'HxW array'),
@@ -33,10 +32,9 @@ examples = { """
         'min_value': Arg('If specified, everything *below* is clipped.', 'float'),
         'min_color': Arg('Color to give to the minimum values.', None),
   },
-  returns=[ Arg('A RGB image.', "HxWx3 uint8"), Arg('gray', None)] 
+  returns=[Arg('A RGB image.', "HxWx3 uint8"), Arg('gray', None)] 
 )          
 }
-
 
 
 class DocStringTest(unittest.TestCase):
