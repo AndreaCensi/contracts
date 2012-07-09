@@ -46,7 +46,7 @@ class TestNewContract(unittest.TestCase):
         self.assertRaises(ValueError, new_contract, 'my13', 2)
 
     def test_invalid_callable(self):
-        self.assertRaises(ValueError, new_contract, 'new', lambda:None)
+        self.assertRaises(ValueError, new_contract, 'new', lambda: None)
 
     def test_parsing_error(self):
         self.assertRaises(ValueError, new_contract, 'new', '>>')
@@ -64,7 +64,6 @@ class TestNewContract(unittest.TestCase):
         self.assertRaises(ValueError, new_contract, 'list', 'list[N]')
         self.assertRaises(ValueError, new_contract, '2acdca', 'list[N]')
         self.assertRaises(ValueError, new_contract, '_', 'list[N]')
-
 
     def test_valid(self):
         c = new_contract('my_list', 'list[2]')
@@ -118,6 +117,7 @@ class TestNewContract(unittest.TestCase):
     def test_other_pass(self):
         class Ex1(Exception):
             pass
+        
         def invalid(x):
             raise Ex1()
         c = cname()
@@ -159,6 +159,7 @@ class TestNewContract(unittest.TestCase):
         class NewStyleClass(object):
             def __init__(self, x, y):  # @UnusedVariable 
                 pass
+            
         @contract(x=NewStyleClass)
         def f(x):
             pass
@@ -167,6 +168,7 @@ class TestNewContract(unittest.TestCase):
         class OldStyleClass():
             def __init__(self, x, y):  # @UnusedVariable 
                 pass
+            
         @contract(x=OldStyleClass)
         def f(x):
             pass
@@ -286,14 +288,13 @@ class TestNewContract(unittest.TestCase):
         check_contracts_fail('Sen', 2.0)
 
 
-
-
 examples_valid = ['aa', 'a_', 'a2', 'a_2', 'list2', 'dict2', 'int2',
                 'float2', 'point2', 'A2', 'array2', 'unit_length', 'SE2', 'SE3', 'S1', 'S2', 'axis_angle']
 
 for k in ParsingTmp.keywords:
     examples_valid.append('%s2' % k)
     examples_valid.append('%s_' % k)
+
 
 def check_valid_identifier(e):
     check_valid_identifier.__dict__['description'] = \
@@ -304,6 +305,7 @@ def check_valid_identifier(e):
     new_contract(e, '*')
 
     check(e, 42)
+
 
 def test_valid_identifiers():
 

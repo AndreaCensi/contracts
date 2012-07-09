@@ -28,7 +28,8 @@ new_contract('MutableMapping', ist(collections.MutableMapping))
 
 
 # Not a lambda to have better messages
-def is_None(x): return x is None
+def is_None(x): 
+    return x is None
 
 new_contract('None', is_None)
 new_contract('NoneType', is_None)

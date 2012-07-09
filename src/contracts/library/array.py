@@ -189,7 +189,7 @@ for x in supported.split():
 ndarray_simple_contract = MatchFirst(dtype_checks + array_constraints)
 ndarray_simple_contract.setName('numpy element contract')
 
-suggester = create_suggester(get_options=lambda:supported.split())
+suggester = create_suggester(get_options=lambda: supported.split())
 baseExpr = ndarray_simple_contract | suggester
 baseExpr.setName('numpy contract (with recovery)')
 
@@ -203,7 +203,7 @@ def my_delim_list2(what, delim):
     return (what + ZeroOrMore(S(delim) + FollowedBy(NotAny(ellipsis)) - what))
 ellipsis = Literal('...')
 
-shape_suggester = create_suggester(get_options=lambda:['...'],
+shape_suggester = create_suggester(get_options=lambda: ['...'],
                                    pattern=Word('.'))
 
 inside_inside1 = simple_contract | shape_suggester

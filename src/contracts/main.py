@@ -11,7 +11,6 @@ from .syntax import contract_expression, ParseException, ParseFatalException
 import inspect
 import sys
 import types
-import functools
 
 
 def check_contracts(contracts, values, context_variables=None):
