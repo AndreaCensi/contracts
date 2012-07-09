@@ -25,7 +25,7 @@ class StringBase(Contract):
         return '%s(%r)' % (self.__class__.__name__, self.length)
 
     def __str__(self):
-        s = self.KEYWORD
+        s = self.KEYWORDS[0]
         if self.length is not None:
             s += '[%s]' % self.length
         return s
@@ -41,30 +41,31 @@ import sys
 if sys.version_info[0] == 3:  # Python 3
 
     class String(StringBase):
-        KEYWORD = 'string'
+        KEYWORDS = ['str', 'string']
         TYPE = str
         DESCRIPTION = "a string"
 
 else:  # Python 2.x
 
     class String(StringBase):
-        KEYWORD = 'string'
+        KEYWORDS = ['string']
         TYPE = basestring
         DESCRIPTION = "an ANSI or Unicode string"
 
     class AnsiString(StringBase):
-        KEYWORD = 'str'
+        KEYWORDS = ['str']
         TYPE = str
         DESCRIPTION = "an ANSI string"
 
     class UnicodeString(StringBase):
-        KEYWORD = 'unicode'
+        KEYWORDS = ['unicode']
         TYPE = unicode
         DESCRIPTION = "a Unicode string"
 
 
 for cls in StringBase.__subclasses__():
-    contract = (Keyword(cls.KEYWORD) +
-                O('[' - contract_expression('length') - ']'))
-    add_keyword(cls.KEYWORD)
-    add_contract(contract.setParseAction(cls.parse_action))
+    for keyword in cls.KEYWORDS:
+        contract = (Keyword(keyword) +
+                    O('[' - contract_expression('length') - ']'))
+        add_keyword(keyword)
+        add_contract(contract.setParseAction(cls.parse_action))
