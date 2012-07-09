@@ -40,12 +40,16 @@ class StringBase(Contract):
 import sys
 if sys.version_info[0] == 3:  # Python 3
 
+    __all__ = ['String']
+
     class String(StringBase):
         KEYWORDS = ['str', 'string']
         TYPE = str
         DESCRIPTION = "a string"
 
 else:  # Python 2.x
+
+    __all__ = ['String', 'AnsiString', 'UnicodeString']
 
     class String(StringBase):
         KEYWORDS = ['string']
