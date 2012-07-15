@@ -1,0 +1,442 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>contracts.testing.test_new_contract &mdash; PyContracts 1.4.0dev documentation</title>
+    
+    <link rel="stylesheet" href="../../../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.4.0dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../static/doctools.js"></script>
+    <link rel="top" title="PyContracts 1.4.0dev documentation" href="../../../index.html" />
+    <link rel="up" title="contracts" href="../../contracts.html" />
+	 
+
+   <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
+
+   <style type="text/css">
+   
+   </style>
+
+<!--<link  href="http://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css" >
+<link  href="http://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet" type="text/css" >
+<link  href="static/pycontracts.css" rel="stylesheet" type="text/css" >-->
+
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyContracts 1.4.0dev documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for contracts.testing.test_new_contract</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">new_contract</span><span class="p">,</span> <span class="n">check</span><span class="p">,</span> <span class="n">Contract</span><span class="p">,</span> <span class="n">contract</span>
+<span class="kn">from</span> <span class="nn">contracts.library.extensions</span> <span class="kn">import</span> <span class="n">identifier_expression</span>
+
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">check_contracts_fail</span><span class="p">,</span> <span class="n">check_contracts_ok</span>
+<span class="kn">from</span> <span class="nn">contracts.main</span> <span class="kn">import</span>  <span class="n">can_be_used_as_a_type</span>
+<span class="kn">from</span> <span class="nn">contracts.syntax</span> <span class="kn">import</span> <span class="n">ParsingTmp</span>
+
+<span class="c"># The different patterns</span>
+
+
+<div class="viewcode-block" id="ok1"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.ok1">[docs]</a><span class="k">def</span> <span class="nf">ok1</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="ok2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.ok2">[docs]</a><span class="k">def</span> <span class="nf">ok2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
+    <span class="k">return</span> <span class="bp">True</span>
+
+</div>
+<div class="viewcode-block" id="fail1"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.fail1">[docs]</a><span class="k">def</span> <span class="nf">fail1</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;message&#39;</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="fail2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.fail2">[docs]</a><span class="k">def</span> <span class="nf">fail2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
+    <span class="k">return</span> <span class="bp">False</span>
+
+</div>
+<div class="viewcode-block" id="invalid_callable1"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.invalid_callable1">[docs]</a><span class="k">def</span> <span class="nf">invalid_callable1</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
+    <span class="k">return</span> <span class="s">&#39;ciao&#39;</span>
+
+
+<span class="c"># generates a new name:</span></div>
+<div class="viewcode-block" id="cname"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.cname">[docs]</a><span class="k">def</span> <span class="nf">cname</span><span class="p">():</span>
+    <span class="n">TestNewContract</span><span class="o">.</span><span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="s">&#39;GeneratedContract</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">TestNewContract</span><span class="o">.</span><span class="n">counter</span>
+
+</div>
+<div class="viewcode-block" id="TestNewContract"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract">[docs]</a><span class="k">class</span> <span class="nc">TestNewContract</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="TestNewContract.test_inverted_args"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_inverted_args">[docs]</a>    <span class="k">def</span> <span class="nf">test_inverted_args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">new_contract</span><span class="p">,</span> <span class="n">ok1</span><span class="p">,</span> <span class="s">&#39;list&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_wrong_args"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_wrong_args">[docs]</a>    <span class="k">def</span> <span class="nf">test_wrong_args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">new_contract</span><span class="p">,</span> <span class="s">&#39;my13&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_invalid_callable"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_invalid_callable">[docs]</a>    <span class="k">def</span> <span class="nf">test_invalid_callable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">new_contract</span><span class="p">,</span> <span class="s">&#39;new&#39;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">None</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_parsing_error"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_parsing_error">[docs]</a>    <span class="k">def</span> <span class="nf">test_parsing_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">new_contract</span><span class="p">,</span> <span class="s">&#39;new&#39;</span><span class="p">,</span> <span class="s">&#39;&gt;&gt;&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_parsing_error2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_parsing_error2">[docs]</a>    <span class="k">def</span> <span class="nf">test_parsing_error2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># parsing error (unknown spec)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">new_contract</span><span class="p">,</span> <span class="s">&#39;new&#39;</span><span class="p">,</span> <span class="s">&#39;unknown&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_invalid_names"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_invalid_names">[docs]</a>    <span class="k">def</span> <span class="nf">test_invalid_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># invalid names:</span>
+        <span class="n">alphabet</span> <span class="o">=</span> <span class="s">&#39;A B C D E F G H I J K L M N O P Q R S T U W V X Y Z&#39;</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">alphabet</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">new_contract</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="s">&#39;list&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">new_contract</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="s">&#39;list&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">new_contract</span><span class="p">,</span> <span class="s">&#39;list&#39;</span><span class="p">,</span> <span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">new_contract</span><span class="p">,</span> <span class="s">&#39;2acdca&#39;</span><span class="p">,</span> <span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">new_contract</span><span class="p">,</span> <span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_valid"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_valid">[docs]</a>    <span class="k">def</span> <span class="nf">test_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;my_list&#39;</span><span class="p">,</span> <span class="s">&#39;list[2]&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">Contract</span><span class="p">)</span>
+        <span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple(my_list, my_list)&#39;</span><span class="p">,</span> <span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+        <span class="n">check_contracts_fail</span><span class="p">(</span><span class="s">&#39;tuple(my_list, my_list)&#39;</span><span class="p">,</span> <span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_separate_context"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_separate_context">[docs]</a>    <span class="k">def</span> <span class="nf">test_separate_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;my_list2&#39;</span><span class="p">,</span> <span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
+        <span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple(my_list2, my_list2)&#39;</span><span class="p">,</span> <span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+        <span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple(my_list2, my_list2)&#39;</span><span class="p">,</span> <span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_renaming"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_renaming">[docs]</a>    <span class="k">def</span> <span class="nf">test_renaming</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">ok1</span><span class="p">,</span> <span class="n">ok2</span><span class="p">)</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;my7&#39;</span><span class="p">,</span> <span class="n">ok1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">new_contract</span><span class="p">,</span> <span class="s">&#39;my7&#39;</span><span class="p">,</span> <span class="n">ok2</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_allow_renaming_if_equal1"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_allow_renaming_if_equal1">[docs]</a>    <span class="k">def</span> <span class="nf">test_allow_renaming_if_equal1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;my8&#39;</span><span class="p">,</span> <span class="n">ok1</span><span class="p">)</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;my8&#39;</span><span class="p">,</span> <span class="n">ok1</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_allow_renaming_if_equal2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_allow_renaming_if_equal2">[docs]</a>    <span class="k">def</span> <span class="nf">test_allow_renaming_if_equal2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;my8b&#39;</span><span class="p">,</span> <span class="s">&#39;list[3]&#39;</span><span class="p">)</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;my8b&#39;</span><span class="p">,</span> <span class="s">&#39;list[3]&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_callable1"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_callable1">[docs]</a>    <span class="k">def</span> <span class="nf">test_callable1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">cname</span><span class="p">()</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">ok2</span><span class="p">)</span>
+        <span class="n">check</span><span class="p">(</span><span class="s">&#39;list(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="n">c</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_callable2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_callable2">[docs]</a>    <span class="k">def</span> <span class="nf">test_callable2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">cname</span><span class="p">()</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">ok2</span><span class="p">)</span>
+        <span class="n">check</span><span class="p">(</span><span class="s">&#39;list(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="n">c</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_callable3"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_callable3">[docs]</a>    <span class="k">def</span> <span class="nf">test_callable3</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">cname</span><span class="p">()</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">fail1</span><span class="p">)</span>
+        <span class="n">check_contracts_fail</span><span class="p">(</span><span class="s">&#39;list(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="n">c</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_callable4"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_callable4">[docs]</a>    <span class="k">def</span> <span class="nf">test_callable4</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">cname</span><span class="p">()</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">fail2</span><span class="p">)</span>
+        <span class="n">check_contracts_fail</span><span class="p">(</span><span class="s">&#39;list(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="n">c</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_invalid_callable2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_invalid_callable2">[docs]</a>    <span class="k">def</span> <span class="nf">test_invalid_callable2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">cname</span><span class="p">()</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">invalid_callable1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">check</span><span class="p">,</span> <span class="s">&#39;list(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="n">c</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_other_pass"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_other_pass">[docs]</a>    <span class="k">def</span> <span class="nf">test_other_pass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">class</span> <span class="nc">Ex1</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+            <span class="k">pass</span>
+        
+        <span class="k">def</span> <span class="nf">invalid</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">Ex1</span><span class="p">()</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">cname</span><span class="p">()</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">invalid</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">Ex1</span><span class="p">,</span> <span class="n">check</span><span class="p">,</span> <span class="s">&#39;list(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="n">c</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_callable"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_callable">[docs]</a>    <span class="k">def</span> <span class="nf">test_callable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">class</span> <span class="nc">MyTest_ok</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+            <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>  <span class="c"># @UnusedVariable </span>
+                <span class="k">return</span> <span class="bp">True</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="n">MyTest_ok</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">o</span><span class="p">(</span><span class="s">&#39;value&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="n">cname</span><span class="p">(),</span> <span class="n">o</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_callable_old_style"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_callable_old_style">[docs]</a>    <span class="k">def</span> <span class="nf">test_callable_old_style</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">class</span> <span class="nc">MyTest_ok</span><span class="p">():</span>
+            <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>  <span class="c"># @UnusedVariable </span>
+                <span class="k">return</span> <span class="bp">True</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="n">MyTest_ok</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">o</span><span class="p">(</span><span class="s">&#39;value&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="n">cname</span><span class="p">(),</span> <span class="n">o</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_class_as_contract1"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_class_as_contract1">[docs]</a>    <span class="k">def</span> <span class="nf">test_class_as_contract1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># This should be interpreted as a type</span>
+        <span class="c"># init(x,y) so it is not mistaken for a valid callable</span>
+        <span class="k">class</span> <span class="nc">NewStyleClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+            <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>  <span class="c"># @UnusedVariable </span>
+                <span class="k">pass</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="n">cname</span><span class="p">(),</span> <span class="n">NewStyleClass</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_class_as_contract2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_class_as_contract2">[docs]</a>    <span class="k">def</span> <span class="nf">test_class_as_contract2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># old sytle class</span>
+        <span class="k">class</span> <span class="nc">OldStyleClass</span><span class="p">():</span>
+            <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>  <span class="c"># @UnusedVariable </span>
+                <span class="k">pass</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="n">cname</span><span class="p">(),</span> <span class="n">OldStyleClass</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_class_as_contract3"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_class_as_contract3">[docs]</a>    <span class="k">def</span> <span class="nf">test_class_as_contract3</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">class</span> <span class="nc">NewStyleClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+            <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>  <span class="c"># @UnusedVariable </span>
+                <span class="k">pass</span>
+            
+        <span class="nd">@contract</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">NewStyleClass</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_class_as_contract4"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_class_as_contract4">[docs]</a>    <span class="k">def</span> <span class="nf">test_class_as_contract4</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">class</span> <span class="nc">OldStyleClass</span><span class="p">():</span>
+            <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>  <span class="c"># @UnusedVariable </span>
+                <span class="k">pass</span>
+            
+        <span class="nd">@contract</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">OldStyleClass</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_callable_5"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_callable_5">[docs]</a>    <span class="k">def</span> <span class="nf">test_callable_5</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">class</span> <span class="nc">MyTest_ok</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+            <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
+                <span class="k">return</span> <span class="bp">True</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="n">MyTest_ok</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">o</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="s">&#39;value&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="n">cname</span><span class="p">(),</span> <span class="n">o</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+
+<span class="c"># TODO: removed after checking in class methods</span>
+<span class="c">#    def test_callable_invalid(self):</span>
+<span class="c">#        class MyTest_fail(object):</span>
+<span class="c">#            def __call__(self, x, y):  # @UnusedVariable</span>
+<span class="c">#                return True</span>
+<span class="c">#            </span>
+<span class="c">#        self.assertRaises(ValueError, new_contract, cname(), MyTest_fail())</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_lambda_2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_lambda_2">[docs]</a>    <span class="k">def</span> <span class="nf">test_lambda_2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="n">cname</span><span class="p">(),</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">True</span><span class="p">)</span>  <span class="c"># @UnusedVariable</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="n">cname</span><span class="p">(),</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">None</span><span class="p">)</span>  <span class="c"># @UnusedVariable</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_lambda_invalid"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_lambda_invalid">[docs]</a>    <span class="k">def</span> <span class="nf">test_lambda_invalid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="bp">True</span>  <span class="c"># @UnusedVariable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">new_contract</span><span class="p">,</span> <span class="n">cname</span><span class="p">(),</span> <span class="n">f</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_lambda_invalid2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_lambda_invalid2">[docs]</a>    <span class="k">def</span> <span class="nf">test_lambda_invalid2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">new_contract</span><span class="p">,</span> <span class="n">cname</span><span class="p">(),</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">True</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_idioms"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_idioms">[docs]</a>    <span class="k">def</span> <span class="nf">test_idioms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;color&#39;</span><span class="p">,</span> <span class="s">&#39;list[3](number,&gt;=0,&lt;=1)&#39;</span><span class="p">)</span>
+        <span class="c"># Make sure we got it right</span>
+        <span class="n">color</span><span class="o">.</span><span class="n">check</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="n">color</span><span class="o">.</span><span class="n">check</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">color</span><span class="o">.</span><span class="n">fail</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="n">color</span><span class="o">.</span><span class="n">fail</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">color</span><span class="o">.</span><span class="n">fail</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+        <span class="c"># Now use ``color`` in other contracts.</span>
+        <span class="nd">@contract</span>
+        <span class="k">def</span> <span class="nf">fill_area</span><span class="p">(</span><span class="n">inside</span><span class="p">,</span> <span class="n">border</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; Fill the area inside the current figure.</span>
+<span class="sd">            </span>
+<span class="sd">                :type border: color</span>
+<span class="sd">                :type inside: color</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">pass</span>
+
+        <span class="nd">@contract</span>
+        <span class="k">def</span> <span class="nf">fill_gradient</span><span class="p">(</span><span class="n">colors</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; Use a gradient to fill the area.</span>
+<span class="sd">            </span>
+<span class="sd">                :type colors: list(color)</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_as_decorator"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_as_decorator">[docs]</a>    <span class="k">def</span> <span class="nf">test_as_decorator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nd">@new_contract</span>
+        <span class="k">def</span> <span class="nf">even</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">parse</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&#39;even&#39;</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_as_decorator_multiple"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_as_decorator_multiple">[docs]</a>    <span class="k">def</span> <span class="nf">test_as_decorator_multiple</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nd">@new_contract</span>
+        <span class="nd">@contract</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">&#39;int&#39;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">even2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+
+        <span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">parse</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&#39;even2&#39;</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span> <span class="c"># now fails </span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_types_as_contracts"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_types_as_contracts">[docs]</a>    <span class="k">def</span> <span class="nf">test_types_as_contracts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">cname</span><span class="p">()</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+        <span class="n">check_contracts_ok</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">check_contracts_fail</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_types_as_contracts2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_types_as_contracts2">[docs]</a>    <span class="k">def</span> <span class="nf">test_types_as_contracts2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">cname</span><span class="p">()</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+        <span class="n">check_contracts_ok</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">check_contracts_fail</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_well_recognized"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_well_recognized">[docs]</a>    <span class="k">def</span> <span class="nf">test_well_recognized</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">class</span> <span class="nc">OldStyleClass</span><span class="p">():</span>
+            <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>  <span class="c"># @UnusedVariable </span>
+                <span class="k">pass</span>
+
+        <span class="k">assert</span> <span class="n">can_be_used_as_a_type</span><span class="p">(</span><span class="n">OldStyleClass</span><span class="p">)</span>
+
+        <span class="k">class</span> <span class="nc">NewStyleClass</span><span class="p">():</span>
+            <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>  <span class="c"># @UnusedVariable </span>
+                <span class="k">pass</span>
+
+        <span class="k">assert</span> <span class="n">can_be_used_as_a_type</span><span class="p">(</span><span class="n">NewStyleClass</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_capital_name1"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_capital_name1">[docs]</a>    <span class="k">def</span> <span class="nf">test_capital_name1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># some problems with identifiers starting with capitals</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;SEn&#39;</span><span class="p">,</span> <span class="s">&#39;int&#39;</span><span class="p">)</span>
+        <span class="n">check_contracts_ok</span><span class="p">(</span><span class="s">&#39;SEn&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">check_contracts_fail</span><span class="p">(</span><span class="s">&#39;SEn&#39;</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_capital_name2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_capital_name2">[docs]</a>    <span class="k">def</span> <span class="nf">test_capital_name2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;Sen&#39;</span><span class="p">,</span> <span class="s">&#39;int&#39;</span><span class="p">)</span>
+        <span class="n">check_contracts_ok</span><span class="p">(</span><span class="s">&#39;Sen&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">check_contracts_fail</span><span class="p">(</span><span class="s">&#39;Sen&#39;</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+
+</div></div>
+<span class="n">examples_valid</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;aa&#39;</span><span class="p">,</span> <span class="s">&#39;a_&#39;</span><span class="p">,</span> <span class="s">&#39;a2&#39;</span><span class="p">,</span> <span class="s">&#39;a_2&#39;</span><span class="p">,</span> <span class="s">&#39;list2&#39;</span><span class="p">,</span> <span class="s">&#39;dict2&#39;</span><span class="p">,</span> <span class="s">&#39;int2&#39;</span><span class="p">,</span>
+                <span class="s">&#39;float2&#39;</span><span class="p">,</span> <span class="s">&#39;point2&#39;</span><span class="p">,</span> <span class="s">&#39;A2&#39;</span><span class="p">,</span> <span class="s">&#39;array2&#39;</span><span class="p">,</span> <span class="s">&#39;unit_length&#39;</span><span class="p">,</span> <span class="s">&#39;SE2&#39;</span><span class="p">,</span> <span class="s">&#39;SE3&#39;</span><span class="p">,</span> <span class="s">&#39;S1&#39;</span><span class="p">,</span> <span class="s">&#39;S2&#39;</span><span class="p">,</span> <span class="s">&#39;axis_angle&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ParsingTmp</span><span class="o">.</span><span class="n">keywords</span><span class="p">:</span>
+    <span class="n">examples_valid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">2&#39;</span> <span class="o">%</span> <span class="n">k</span><span class="p">)</span>
+    <span class="n">examples_valid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">_&#39;</span> <span class="o">%</span> <span class="n">k</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="check_valid_identifier"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.check_valid_identifier">[docs]</a><span class="k">def</span> <span class="nf">check_valid_identifier</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="n">check_valid_identifier</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="s">&#39;description&#39;</span><span class="p">]</span> <span class="o">=</span> \
+        <span class="s">&#39;check_valid_identifier(</span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="n">e</span>
+
+    <span class="n">identifier_expression</span><span class="o">.</span><span class="n">parseString</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">parseAll</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c">#@UndefinedVariable</span>
+
+    <span class="n">new_contract</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">)</span>
+
+    <span class="n">check</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="test_valid_identifiers"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.test_valid_identifiers">[docs]</a><span class="k">def</span> <span class="nf">test_valid_identifiers</span><span class="p">():</span>
+
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">examples_valid</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">check_valid_identifier</span><span class="p">,</span> <span class="n">e</span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyContracts 1.4.0dev documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../contracts.html" >contracts</a> &raquo;</li> 
+      </ul>
+    </div>
+	
+    <div class="footer">
+        &copy; Copyright 2010, Andrea Censi.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+	
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-155626-14']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+
+    
+
+
+  </body>
+</html>

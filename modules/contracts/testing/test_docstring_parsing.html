@@ -1,0 +1,200 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>contracts.testing.test_docstring_parsing &mdash; PyContracts 1.4.0dev documentation</title>
+    
+    <link rel="stylesheet" href="../../../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.4.0dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../static/doctools.js"></script>
+    <link rel="top" title="PyContracts 1.4.0dev documentation" href="../../../index.html" />
+    <link rel="up" title="contracts" href="../../contracts.html" />
+	 
+
+   <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
+
+   <style type="text/css">
+   
+   </style>
+
+<!--<link  href="http://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css" >
+<link  href="http://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet" type="text/css" >
+<link  href="static/pycontracts.css" rel="stylesheet" type="text/css" >-->
+
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyContracts 1.4.0dev documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for contracts.testing.test_docstring_parsing</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="kn">from</span> <span class="nn">..docstring_parsing</span> <span class="kn">import</span> <span class="n">DocStringInfo</span><span class="p">,</span> <span class="n">Arg</span><span class="p">,</span> <span class="n">number_of_spaces</span>
+<span class="kn">from</span> <span class="nn">contracts.interface</span> <span class="kn">import</span> <span class="n">add_prefix</span>
+
+
+<span class="n">examples</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;&quot;&quot; </span>
+<span class="s">        Provides a RGB representation of the values by interpolating the range </span>
+<span class="s">        [min(value),max(value)] into the colorspace [min_color, max_color].</span>
+<span class="s">        </span>
+<span class="s">        :param value: The field to represent.</span>
+<span class="s">        :type  value: HxW array</span>
+<span class="s">            </span>
+<span class="s">        :param max_value: If specified, everything *above* is clipped.</span>
+<span class="s">        :type max_value: float</span>
+<span class="s">        :param min_value: If specified, everything *below* is clipped.</span>
+<span class="s">        :type min_value: float</span>
+<span class="s">    </span>
+<span class="s">        :param min_color:  Color to give to the minimum values.</span>
+<span class="s">        </span>
+<span class="s">        </span>
+<span class="s">        :return: A RGB image.</span>
+<span class="s">        :rtype: HxWx3 uint8</span>
+
+<span class="s">        :return: gray</span>
+
+<span class="s">    &quot;&quot;&quot;</span><span class="p">:</span> <span class="n">DocStringInfo</span><span class="p">(</span><span class="n">docstring</span><span class="o">=</span><span class="s">&#39; </span><span class="se">\n</span><span class="s">        Provides a RGB representation of the values by interpolating the range </span><span class="se">\n</span><span class="s">&#39;</span>
+                         <span class="s">&#39;        [min(value),max(value)] into the colorspace [min_color, max_color].</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span>
+  <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+        <span class="s">&#39;value&#39;</span><span class="p">:</span> <span class="n">Arg</span><span class="p">(</span><span class="s">&#39;The field to represent.&#39;</span><span class="p">,</span> <span class="s">&#39;HxW array&#39;</span><span class="p">),</span>
+        <span class="s">&#39;max_value&#39;</span><span class="p">:</span> <span class="n">Arg</span><span class="p">(</span><span class="s">&#39;If specified, everything *above* is clipped.&#39;</span><span class="p">,</span> <span class="s">&#39;float&#39;</span><span class="p">),</span>
+        <span class="s">&#39;min_value&#39;</span><span class="p">:</span> <span class="n">Arg</span><span class="p">(</span><span class="s">&#39;If specified, everything *below* is clipped.&#39;</span><span class="p">,</span> <span class="s">&#39;float&#39;</span><span class="p">),</span>
+        <span class="s">&#39;min_color&#39;</span><span class="p">:</span> <span class="n">Arg</span><span class="p">(</span><span class="s">&#39;Color to give to the minimum values.&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+  <span class="p">},</span>
+  <span class="n">returns</span><span class="o">=</span><span class="p">[</span><span class="n">Arg</span><span class="p">(</span><span class="s">&#39;A RGB image.&#39;</span><span class="p">,</span> <span class="s">&quot;HxWx3 uint8&quot;</span><span class="p">),</span> <span class="n">Arg</span><span class="p">(</span><span class="s">&#39;gray&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)]</span> 
+<span class="p">)</span>          
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="DocStringTest"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_docstring_parsing.DocStringTest">[docs]</a><span class="k">class</span> <span class="nc">DocStringTest</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    
+<div class="viewcode-block" id="DocStringTest.test_parsing"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_docstring_parsing.DocStringTest.test_parsing">[docs]</a>    <span class="k">def</span> <span class="nf">test_parsing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">string</span> <span class="ow">in</span> <span class="n">examples</span><span class="p">:</span>
+            <span class="n">parsed</span> <span class="o">=</span> <span class="n">DocStringInfo</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+            <span class="s">&quot;</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">parsed</span>
+            <span class="s">&quot;</span><span class="si">%r</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">parsed</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">examples</span><span class="p">[</span><span class="n">string</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">parsed</span><span class="p">)</span>
+                </div>
+<div class="viewcode-block" id="DocStringTest.test_number_of_spaces"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_docstring_parsing.DocStringTest.test_number_of_spaces">[docs]</a>    <span class="k">def</span> <span class="nf">test_number_of_spaces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">number_of_spaces</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">number_of_spaces</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">number_of_spaces</span><span class="p">(</span><span class="s">&#39;  &#39;</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">number_of_spaces</span><span class="p">(</span><span class="s">&#39;11&#39;</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">number_of_spaces</span><span class="p">(</span><span class="s">&#39; 223&#39;</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">number_of_spaces</span><span class="p">(</span><span class="s">&#39;  4343&#39;</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="DocStringTest.test_reparsing"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_docstring_parsing.DocStringTest.test_reparsing">[docs]</a>    <span class="k">def</span> <span class="nf">test_reparsing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">string</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">examples</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="c">#@UnusedVariable</span>
+            <span class="n">parsed</span> <span class="o">=</span> <span class="n">DocStringInfo</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+            <span class="n">converted</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">parsed</span>
+            <span class="n">reparsed</span> <span class="o">=</span> <span class="n">DocStringInfo</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">converted</span><span class="p">)</span>
+            
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;First string:</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s">Parsed as:</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> 
+                <span class="p">(</span><span class="n">add_prefix</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s">&#39;|&#39;</span><span class="p">),</span> <span class="n">add_prefix</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">parsed</span><span class="p">,</span> <span class="s">&#39;|&#39;</span><span class="p">)))</span>
+            
+            <span class="n">msg</span> <span class="o">+=</span> <span class="p">(</span><span class="s">&#39;Converted:</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s">Reparsed as:</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> 
+                <span class="p">(</span><span class="n">add_prefix</span><span class="p">(</span><span class="n">converted</span><span class="p">,</span> <span class="s">&#39;|&#39;</span><span class="p">),</span> <span class="n">add_prefix</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">reparsed</span><span class="p">,</span> <span class="s">&#39;|&#39;</span><span class="p">)))</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">parsed</span><span class="p">,</span> <span class="n">reparsed</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
+        </div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyContracts 1.4.0dev documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../contracts.html" >contracts</a> &raquo;</li> 
+      </ul>
+    </div>
+	
+    <div class="footer">
+        &copy; Copyright 2010, Andrea Censi.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+	
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-155626-14']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+
+    
+
+
+  </body>
+</html>

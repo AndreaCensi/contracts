@@ -1,0 +1,242 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>contracts.testing.test_simple &mdash; PyContracts 1.4.0dev documentation</title>
+    
+    <link rel="stylesheet" href="../../../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.4.0dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../static/doctools.js"></script>
+    <link rel="top" title="PyContracts 1.4.0dev documentation" href="../../../index.html" />
+    <link rel="up" title="contracts" href="../../contracts.html" />
+	 
+
+   <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
+
+   <style type="text/css">
+   
+   </style>
+
+<!--<link  href="http://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css" >
+<link  href="http://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet" type="text/css" >
+<link  href="static/pycontracts.css" rel="stylesheet" type="text/css" >-->
+
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyContracts 1.4.0dev documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for contracts.testing.test_simple</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">traceback</span>
+
+<span class="kn">from</span> <span class="nn">..main</span> <span class="kn">import</span> <span class="n">parse_contract_string</span>
+<span class="kn">from</span> <span class="nn">..interface</span> <span class="kn">import</span> <span class="n">ContractNotRespected</span>
+<span class="kn">from</span> <span class="nn">..test_registrar</span> <span class="kn">import</span> <span class="p">(</span><span class="n">good_examples</span><span class="p">,</span> <span class="n">semantic_fail_examples</span><span class="p">,</span>
+                              <span class="n">syntax_fail_examples</span><span class="p">,</span> <span class="n">contract_fail_examples</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">check_contracts_ok</span><span class="p">,</span> <span class="n">check_syntax_fail</span><span class="p">,</span> <span class="n">check_contracts_fail</span>
+
+<span class="c"># Import the other tests</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">test_multiple</span>  <span class="c"># @UnusedImport</span>
+
+<span class="c"># Import all the symbols needed to eval() the __repr__() output.</span>
+<span class="kn">from</span> <span class="nn">..library</span> <span class="kn">import</span> <span class="o">*</span>  <span class="c"># @UnusedWildImport @UnresolvedImport</span>
+
+
+<span class="c">## If you want to try only some tests, set select to True, and add them below.</span>
+<span class="c">## Remove the other tests</span>
+<span class="c">#good_examples[:] = []</span>
+<span class="c">#syntax_fail_examples[:] = []</span>
+<span class="c">#semantic_fail_examples[:] = []</span>
+<span class="c">#contract_fail_examples[:] = []</span>
+<span class="c">#</span>
+<span class="c">## Add the ones you want to do here:</span>
+<span class="c">#from ..test_registrar import  fail, good, syntax_fail, semantic_fail </span>
+
+
+<div class="viewcode-block" id="test_good"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_simple.test_good">[docs]</a><span class="k">def</span> <span class="nf">test_good</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">contract</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">exact</span> <span class="ow">in</span> <span class="n">good_examples</span><span class="p">:</span>  <span class="c"># @UnusedVariable</span>
+        <span class="k">yield</span> <span class="n">check_contracts_ok</span><span class="p">,</span> <span class="n">contract</span><span class="p">,</span> <span class="n">value</span>
+
+</div>
+<div class="viewcode-block" id="test_syntax_fail"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_simple.test_syntax_fail">[docs]</a><span class="k">def</span> <span class="nf">test_syntax_fail</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">syntax_fail_examples</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">check_syntax_fail</span><span class="p">,</span> <span class="n">s</span>
+
+</div>
+<div class="viewcode-block" id="test_semantic_fail"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_simple.test_semantic_fail">[docs]</a><span class="k">def</span> <span class="nf">test_semantic_fail</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">contract</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">exact</span> <span class="ow">in</span> <span class="n">semantic_fail_examples</span><span class="p">:</span>  <span class="c"># @UnusedVariable</span>
+        <span class="k">yield</span> <span class="n">check_contracts_fail</span><span class="p">,</span> <span class="n">contract</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">ContractNotRespected</span>
+
+</div>
+<div class="viewcode-block" id="test_contract_fail"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_simple.test_contract_fail">[docs]</a><span class="k">def</span> <span class="nf">test_contract_fail</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">contract</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">exact</span> <span class="ow">in</span> <span class="n">contract_fail_examples</span><span class="p">:</span>  <span class="c"># @UnusedVariable</span>
+        <span class="k">yield</span> <span class="n">check_contracts_fail</span><span class="p">,</span> <span class="n">contract</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">ContractNotRespected</span>
+
+
+<span class="c"># Checks that we can eval() the __repr__() value and </span>
+<span class="c"># we get an equivalent object. </span></div>
+<div class="viewcode-block" id="test_repr"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_simple.test_repr">[docs]</a><span class="k">def</span> <span class="nf">test_repr</span><span class="p">():</span>
+    <span class="n">allc</span> <span class="o">=</span> <span class="p">(</span><span class="n">good_examples</span> <span class="o">+</span> <span class="n">semantic_fail_examples</span> <span class="o">+</span> <span class="n">contract_fail_examples</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">contract</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">exact</span> <span class="ow">in</span> <span class="n">allc</span><span class="p">:</span>  <span class="c"># @UnusedVariable</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">contract</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">contract</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">check_good_repr</span><span class="p">,</span> <span class="n">c</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">check_good_repr</span><span class="p">,</span> <span class="n">contract</span>
+
+
+<span class="c">#  Checks that we can reconvert the __str__() value and we get the same. </span></div>
+<div class="viewcode-block" id="test_reconversion"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_simple.test_reconversion">[docs]</a><span class="k">def</span> <span class="nf">test_reconversion</span><span class="p">():</span>
+    <span class="n">allc</span> <span class="o">=</span> <span class="p">(</span><span class="n">good_examples</span> <span class="o">+</span> <span class="n">semantic_fail_examples</span> <span class="o">+</span> <span class="n">contract_fail_examples</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">contract</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">exact</span> <span class="ow">in</span> <span class="n">allc</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">contract</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">contract</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">check_recoversion</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">exact</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">check_recoversion</span><span class="p">,</span> <span class="n">contract</span><span class="p">,</span> <span class="n">exact</span>
+
+</div>
+<div class="viewcode-block" id="check_good_repr"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_simple.check_good_repr">[docs]</a><span class="k">def</span> <span class="nf">check_good_repr</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Checks that we can eval() the __repr__() value and we get</span>
+<span class="sd">        an equivalent object. &#39;&#39;&#39;</span>
+    <span class="n">parsed</span> <span class="o">=</span> <span class="n">parse_contract_string</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="c"># Check that it compares true with itself</span>
+    <span class="k">assert</span> <span class="n">parsed</span><span class="o">.</span><span class="n">__eq__</span><span class="p">(</span><span class="n">parsed</span><span class="p">),</span> <span class="s">&#39;Repr does not know itself: </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">parsed</span>
+
+    <span class="n">reprc</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">__repr__</span><span class="p">()</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">reeval</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">reprc</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;Could not evaluate expression </span><span class="si">%r</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">reprc</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+
+    <span class="k">assert</span> <span class="n">reeval</span> <span class="o">==</span> <span class="n">parsed</span><span class="p">,</span> \
+            <span class="s">&#39;Repr gives different object:</span><span class="se">\n</span><span class="s">  </span><span class="si">%r</span><span class="s"> !=</span><span class="se">\n</span><span class="s">  </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">parsed</span><span class="p">,</span> <span class="n">reeval</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="check_recoversion"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_simple.check_recoversion">[docs]</a><span class="k">def</span> <span class="nf">check_recoversion</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">exact</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Checks that we can eval() the __repr__() value and we get</span>
+<span class="sd">        an equivalent object. &#39;&#39;&#39;</span>
+    <span class="n">parsed</span> <span class="o">=</span> <span class="n">parse_contract_string</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+    <span class="n">s2</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
+    <span class="n">reconv</span> <span class="o">=</span> <span class="n">parse_contract_string</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span>
+
+    <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;Reparsing gives different objects:</span><span class="se">\n</span><span class="s">&#39;</span>
+    <span class="n">msg</span> <span class="o">+=</span> <span class="s">&#39;  Original string: </span><span class="si">%r</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">s</span>
+    <span class="n">msg</span> <span class="o">+=</span> <span class="s">&#39;           parsed: </span><span class="si">%r</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">parsed</span>
+    <span class="n">msg</span> <span class="o">+=</span> <span class="s">&#39;      Regenerated: </span><span class="si">%r</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">s2</span>
+    <span class="n">msg</span> <span class="o">+=</span> <span class="s">&#39;         reparsed: </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">reconv</span>
+
+    <span class="k">assert</span> <span class="n">reconv</span> <span class="o">==</span> <span class="n">parsed</span><span class="p">,</span> <span class="n">msg</span>
+
+    <span class="k">if</span> <span class="n">exact</span><span class="p">:</span>
+        <span class="c"># Warn if the string is not exactly the same.</span>
+        <span class="k">if</span> <span class="n">s2</span> <span class="o">!=</span> <span class="n">s</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;Slight different regenerated strings:</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="p">(</span><span class="s">&#39;   original: </span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">s</span><span class="p">)</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="p">(</span><span class="s">&#39;  generated: </span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">s2</span><span class="p">)</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="p">(</span><span class="s">&#39;   parsed the first time as: </span><span class="si">%r</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">parsed</span><span class="p">)</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="p">(</span><span class="s">&#39;                and then as: </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">reconv</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">s2</span> <span class="o">==</span> <span class="n">s</span><span class="p">,</span> <span class="n">msg</span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyContracts 1.4.0dev documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../contracts.html" >contracts</a> &raquo;</li> 
+      </ul>
+    </div>
+	
+    <div class="footer">
+        &copy; Copyright 2010, Andrea Censi.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+	
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-155626-14']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+
+    
+
+
+  </body>
+</html>

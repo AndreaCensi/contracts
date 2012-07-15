@@ -3,6 +3,22 @@ Changelog
 
 .. _changelog: 
 
+1.4.0 -- 2011-09-01
+--------------------
+
+* Various minor internal improvements on speed and better error messages
+* Introduced new "string" and "unicode" keywords (due to Xion) and 
+  clarified the meaning of strings in general.
+
+New behavior:
+
+* "unicode" matches unicode strings (only in 2.x)
+* "str" matches the "str" type only (so ANSI strings in 2.x and all/Unicode strings in 3.x)
+* "string" matches both str and unicode in 2.x and just "str" in 3.X
+
+Because the new behavior should not break any existing usage, 
+this remains a "1.x" release.
+
 
 1.2.0 -- 2011-09-01
 --------------------
