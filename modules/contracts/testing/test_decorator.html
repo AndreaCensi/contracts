@@ -1,0 +1,472 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>contracts.testing.test_decorator &mdash; PyContracts 1.4.0dev documentation</title>
+    
+    <link rel="stylesheet" href="../../../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.4.0dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../static/doctools.js"></script>
+    <link rel="top" title="PyContracts 1.4.0dev documentation" href="../../../index.html" />
+    <link rel="up" title="contracts" href="../../contracts.html" />
+	 
+
+   <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
+
+   <style type="text/css">
+   
+   </style>
+
+<!--<link  href="http://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css" >
+<link  href="http://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet" type="text/css" >
+<link  href="static/pycontracts.css" rel="stylesheet" type="text/css" >-->
+
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyContracts 1.4.0dev documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for contracts.testing.test_decorator</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="p">(</span><span class="n">decorate</span><span class="p">,</span> <span class="n">contract</span><span class="p">,</span>
+                <span class="n">ContractException</span><span class="p">,</span> <span class="n">ContractNotRespected</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="DecoratorTests"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests">[docs]</a><span class="k">class</span> <span class="nc">DecoratorTests</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DecoratorTests.test_malformed"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_malformed">[docs]</a>    <span class="k">def</span> <span class="nf">test_malformed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+            <span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">                Wrong syntax </span>
+<span class="sd">            </span>
+<span class="sd">                :rtype okok</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">pass</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractException</span><span class="p">,</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_malformed2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_malformed2">[docs]</a>    <span class="k">def</span> <span class="nf">test_malformed2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+            <span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">                Wrong syntax </span>
+<span class="sd">            </span>
+<span class="sd">                :rtype: okok</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">pass</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractException</span><span class="p">,</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_not_specified1"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_not_specified1">[docs]</a>    <span class="k">def</span> <span class="nf">test_not_specified1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; No docstring specified &#39;&#39;&#39;</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+            <span class="k">pass</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractException</span><span class="p">,</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_not_specified2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_not_specified2">[docs]</a>    <span class="k">def</span> <span class="nf">test_not_specified2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+            <span class="sd">&#39;&#39;&#39; No types specified in the docstring &#39;&#39;&#39;</span>
+            <span class="k">pass</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractException</span><span class="p">,</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_too_many"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_too_many">[docs]</a>    <span class="k">def</span> <span class="nf">test_too_many</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+            <span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">                Too many rtype clauses.</span>
+<span class="sd">                :rtype: int</span>
+<span class="sd">                :rtype: int</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">pass</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractException</span><span class="p">,</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_invalid1"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_invalid1">[docs]</a>    <span class="k">def</span> <span class="nf">test_invalid1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+            <span class="sd">&#39;&#39;&#39; Unknown b.</span>
+<span class="sd">                :type a: int</span>
+<span class="sd">                :type b: int</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">pass</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractException</span><span class="p">,</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_parse_error1"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_parse_error1">[docs]</a>    <span class="k">def</span> <span class="nf">test_parse_error1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="sd">&#39;&#39;&#39; Same with optional</span>
+<span class="sd">                :type a: in</span>
+<span class="sd">                :type b: int</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">pass</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractException</span><span class="p">,</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_parse_error2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_parse_error2">[docs]</a>    <span class="k">def</span> <span class="nf">test_parse_error2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="sd">&#39;&#39;&#39; Same with optional</span>
+<span class="sd">                :type a: int</span>
+<span class="sd">                :type b: int</span>
+<span class="sd">                :rtype: in</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">pass</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractException</span><span class="p">,</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.not_supported1"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.not_supported1">[docs]</a>    <span class="k">def</span> <span class="nf">not_supported1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Support of *args &#39;&#39;&#39;</span>
+
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="o">*</span><span class="n">b</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
+            <span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">                :type a: int</span>
+<span class="sd">                :type b: tuple(int)</span>
+<span class="sd">                :rtype: int</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">pass</span>
+
+            <span class="n">decorate</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.not_supported2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.not_supported2">[docs]</a>    <span class="k">def</span> <span class="nf">not_supported2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Support of **args &#39;&#39;&#39;</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="o">**</span><span class="n">b</span><span class="p">):</span>
+            <span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">                :type a: int</span>
+<span class="sd">                :type b: dict(int:int)</span>
+<span class="sd">                :rtype: int</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">pass</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractException</span><span class="p">,</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_ok1"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_ok1">[docs]</a>    <span class="k">def</span> <span class="nf">test_ok1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nd">@contract</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="sd">&#39;&#39;&#39; This is good</span>
+<span class="sd">                :type a: int</span>
+<span class="sd">                :type b: int</span>
+<span class="sd">                :rtype: int</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_ok3"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_ok3">[docs]</a>    <span class="k">def</span> <span class="nf">test_ok3</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Trying the quoting thing. &#39;&#39;&#39;</span>
+        <span class="nd">@contract</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="sd">&#39;&#39;&#39; This is good</span>
+<span class="sd">                :type a: ``int``</span>
+<span class="sd">                :type b: ``int``</span>
+<span class="sd">                :rtype: ``int``</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_bad_quoting"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_bad_quoting">[docs]</a>    <span class="k">def</span> <span class="nf">test_bad_quoting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">                :type a: ``int``</span>
+<span class="sd">                :type b: ``int``</span>
+<span class="sd">                :rtype: ``int`</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">pass</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractException</span><span class="p">,</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_bad_quoting2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_bad_quoting2">[docs]</a>    <span class="k">def</span> <span class="nf">test_bad_quoting2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">                :type a: ``int``</span>
+<span class="sd">                :type b: `int``</span>
+<span class="sd">                :rtype: ``int``</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">pass</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractException</span><span class="p">,</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_ok2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_ok2">[docs]</a>    <span class="k">def</span> <span class="nf">test_ok2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;int&#39;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_invalid_args"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_invalid_args">[docs]</a>    <span class="k">def</span> <span class="nf">test_invalid_args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+            <span class="nd">@contract</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">def</span> <span class="nf">g</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+                <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractException</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_invalid_args2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_invalid_args2">[docs]</a>    <span class="k">def</span> <span class="nf">test_invalid_args2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; unknown parameter &#39;&#39;&#39;</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+            <span class="nd">@contract</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">def</span> <span class="nf">g</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+                <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractException</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_check_it_works1"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_check_it_works1">[docs]</a>    <span class="k">def</span> <span class="nf">test_check_it_works1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s">&#39;int&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;int&#39;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
+            <span class="k">return</span> <span class="mf">2.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_check_it_works2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_check_it_works2">[docs]</a>    <span class="k">def</span> <span class="nf">test_check_it_works2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s">&#39;int&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;int&#39;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
+            <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+        <span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_check_it_works2b"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_check_it_works2b">[docs]</a>    <span class="k">def</span> <span class="nf">test_check_it_works2b</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Nothing for b &#39;&#39;&#39;</span>
+        <span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;int&#39;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+        <span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_check_it_works2c"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_check_it_works2c">[docs]</a>    <span class="k">def</span> <span class="nf">test_check_it_works2c</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Nothing for b &#39;&#39;&#39;</span>
+        <span class="k">def</span> <span class="nf">f1</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+
+        <span class="n">f</span> <span class="o">=</span> <span class="n">decorate</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="s">&#39;int&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;int&#39;</span><span class="p">)</span>
+
+        <span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c"># def test_module_as_decorator(self):</span>
+    <span class="c">#     import contracts as contract_module</span>
+    <span class="c"># </span>
+    <span class="c">#     @contract_module</span>
+    <span class="c">#     def f(a, b): #@UnusedVariable</span>
+    <span class="c">#         return a + b</span>
+    <span class="c">#     f(1, 2)</span>
+    <span class="c">#     self.assertRaises(ContractNotRespected, f, 1.0, 2)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_check_it_works3"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_check_it_works3">[docs]</a>    <span class="k">def</span> <span class="nf">test_check_it_works3</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nd">@contract</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="sd">&#39;&#39;&#39; This is good</span>
+<span class="sd">                :type a: int</span>
+<span class="sd">                :type b: int</span>
+<span class="sd">                :rtype: int</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+        <span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_check_docstring_maintained"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_check_docstring_maintained">[docs]</a>    <span class="k">def</span> <span class="nf">test_check_docstring_maintained</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">f1</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="sd">&#39;&#39;&#39; This is good</span>
+<span class="sd">                :type a: int</span>
+<span class="sd">                :type b: int</span>
+<span class="sd">                :rtype: int</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+        <span class="k">def</span> <span class="nf">f2</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+            <span class="k">pass</span>
+
+        <span class="n">f1_dec</span> <span class="o">=</span> <span class="n">decorate</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">__doc__</span><span class="p">,</span> <span class="n">f1_dec</span><span class="o">.</span><span class="n">__doc__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">f1_dec</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">__module__</span><span class="p">,</span> <span class="n">f1_dec</span><span class="o">.</span><span class="n">__module__</span><span class="p">)</span>
+
+        <span class="n">f2_dec</span> <span class="o">=</span> <span class="n">decorate</span><span class="p">(</span><span class="n">f2</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s">&#39;str&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">f2</span><span class="o">.</span><span class="n">__doc__</span><span class="p">,</span> <span class="n">f2_dec</span><span class="o">.</span><span class="n">__doc__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">f2</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">f2_dec</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">f2</span><span class="o">.</span><span class="n">__module__</span><span class="p">,</span> <span class="n">f2_dec</span><span class="o">.</span><span class="n">__module__</span><span class="p">)</span>
+
+        <span class="n">f1_dec_p</span> <span class="o">=</span> <span class="n">decorate</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">modify_docstring</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">f1_dec_p</span><span class="o">.</span><span class="n">__doc__</span><span class="p">,</span> <span class="n">f1</span><span class="o">.</span><span class="n">__doc__</span><span class="p">)</span>
+
+        <span class="n">f2_dec_p</span> <span class="o">=</span> <span class="n">decorate</span><span class="p">(</span><span class="n">f2</span><span class="p">,</span> <span class="n">modify_docstring</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s">&#39;str&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">f2</span><span class="o">.</span><span class="n">__doc__</span><span class="p">,</span> <span class="n">f2_dec_p</span><span class="o">.</span><span class="n">__doc__</span><span class="p">)</span>
+
+        <span class="nd">@contract</span>
+        <span class="k">def</span> <span class="nf">f1b</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="sd">&#39;&#39;&#39; This is good</span>
+<span class="sd">                :type a: int</span>
+<span class="sd">                :type b: int</span>
+<span class="sd">                :rtype: int</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+        <span class="nd">@contract</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="s">&#39;str&#39;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">f2b</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+            <span class="k">pass</span>
+
+        <span class="nd">@contract</span><span class="p">(</span><span class="n">modify_docstring</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">f1b_p</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="sd">&#39;&#39;&#39; This is good</span>
+<span class="sd">                :type a: int</span>
+<span class="sd">                :type b: int</span>
+<span class="sd">                :rtype: int</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+        <span class="nd">@contract</span><span class="p">(</span><span class="n">modify_docstring</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s">&#39;str&#39;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">f2b_p</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+            <span class="k">pass</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">__doc__</span><span class="p">,</span> <span class="n">f1b</span><span class="o">.</span><span class="n">__doc__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">__doc__</span><span class="p">,</span> <span class="n">f1b_p</span><span class="o">.</span><span class="n">__doc__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">f2</span><span class="o">.</span><span class="n">__doc__</span><span class="p">,</span> <span class="n">f2b</span><span class="o">.</span><span class="n">__doc__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">f2</span><span class="o">.</span><span class="n">__doc__</span><span class="p">,</span> <span class="n">f2b_p</span><span class="o">.</span><span class="n">__doc__</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_kwargs"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_kwargs">[docs]</a>    <span class="k">def</span> <span class="nf">test_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">7</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
+            <span class="sd">&#39;&#39;&#39; Same with optional</span>
+<span class="sd">                :type a: int</span>
+<span class="sd">                :type b: int</span>
+<span class="sd">                :type c: int</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="n">b</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>
+
+        <span class="n">f2</span> <span class="o">=</span> <span class="n">decorate</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">f2</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+        <span class="n">f2</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">Exception</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">Exception</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_varargs"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_varargs">[docs]</a>    <span class="k">def</span> <span class="nf">test_varargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="n">c</span><span class="p">):</span>
+            <span class="sd">&#39;&#39;&#39; Same with optional</span>
+<span class="sd">                :type a: int</span>
+<span class="sd">                :type b: int</span>
+<span class="sd">                :type c: tuple</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">assert</span> <span class="n">c</span> <span class="o">==</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+        <span class="n">f2</span> <span class="o">=</span> <span class="n">decorate</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">f2</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_keywords"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_keywords">[docs]</a>    <span class="k">def</span> <span class="nf">test_keywords</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="o">**</span><span class="n">c</span><span class="p">):</span>
+            <span class="sd">&#39;&#39;&#39; Same with optional</span>
+<span class="sd">                :type A: int</span>
+<span class="sd">                :type B: int</span>
+<span class="sd">                :type c: dict</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">assert</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">A</span>
+            <span class="k">assert</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;b&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">B</span>
+
+        <span class="n">f2</span> <span class="o">=</span> <span class="n">decorate</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+        <span class="n">f2</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">Exception</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_same_signature"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_same_signature">[docs]</a>    <span class="k">def</span> <span class="nf">test_same_signature</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">getargspec</span>
+
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">a</span>
+
+        <span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int&#39;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">f2</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">a</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">getargspec</span><span class="p">(</span><span class="n">f2</span><span class="p">),</span> <span class="n">getargspec</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyContracts 1.4.0dev documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../contracts.html" >contracts</a> &raquo;</li> 
+      </ul>
+    </div>
+	
+    <div class="footer">
+        &copy; Copyright 2010, Andrea Censi.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+	
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-155626-14']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+
+    
+
+
+  </body>
+</html>
