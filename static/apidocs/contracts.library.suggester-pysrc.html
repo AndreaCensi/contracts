@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>contracts.library.suggester</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="contracts-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://github.com/AndreaCensi/contracts">PyContracts</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="contracts-module.html">Package&nbsp;contracts</a> ::
+        <a href="contracts.library-module.html">Package&nbsp;library</a> ::
+        Module&nbsp;suggester
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="contracts.library.suggester-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="contracts.library.suggester-module.html">Module contracts.library.suggester</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">operator</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt><tt class="py-op">.</tt><tt id="link-0" class="py-name" targets="Module contracts.syntax=contracts.syntax-module.html"><a title="contracts.syntax" class="py-name" href="#" onclick="return doclink('link-0', 'syntax', 'link-0');">syntax</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">(</tt><tt class="py-name">Combine</tt><tt class="py-op">,</tt> <tt class="py-name">Word</tt><tt class="py-op">,</tt> <tt id="link-1" class="py-name" targets="Variable contracts.library.extensions.alphas=contracts.library.extensions-module.html#alphas,Variable contracts.library.suggester.alphas=contracts.library.suggester-module.html#alphas,Variable contracts.syntax.alphas=contracts.syntax-module.html#alphas"><a title="contracts.library.extensions.alphas
+contracts.library.suggester.alphas
+contracts.syntax.alphas" class="py-name" href="#" onclick="return doclink('link-1', 'alphas', 'link-1');">alphas</a></tt><tt class="py-op">,</tt> <tt id="link-2" class="py-name" targets="Variable contracts.library.extensions.alphanums=contracts.library.extensions-module.html#alphanums,Variable contracts.library.suggester.alphanums=contracts.library.suggester-module.html#alphanums,Variable contracts.syntax.alphanums=contracts.syntax-module.html#alphanums"><a title="contracts.library.extensions.alphanums
+contracts.library.suggester.alphanums
+contracts.syntax.alphanums" class="py-name" href="#" onclick="return doclink('link-2', 'alphanums', 'link-2');">alphanums</a></tt><tt class="py-op">,</tt> <tt class="py-name">oneOf</tt><tt class="py-op">,</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line">                      <tt class="py-name">ParseSyntaxException</tt><tt class="py-op">,</tt> <tt class="py-name">ParseException</tt><tt class="py-op">)</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"> </tt>
+<a name="find_longest_match"></a><div id="find_longest_match-def"><a name="L7"></a><tt class="py-lineno"> 7</tt> <a class="py-toggle" href="#" id="find_longest_match-toggle" onclick="return toggle('find_longest_match');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="contracts.library.suggester-module.html#find_longest_match">find_longest_match</a><tt class="py-op">(</tt><tt class="py-param">s</tt><tt class="py-op">,</tt> <tt class="py-param">options</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="find_longest_match-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="find_longest_match-expanded"><a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line">    <tt class="py-name">matches</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">(</tt><tt id="link-3" class="py-name" targets="Variable contracts.library.array.x=contracts.library.array-module.html#x"><a title="contracts.library.array.x" class="py-name" href="#" onclick="return doclink('link-3', 'x', 'link-3');">x</a></tt><tt class="py-op">,</tt> <tt id="link-4" class="py-name" targets="Function contracts.library.suggester.longest_match()=contracts.library.suggester-module.html#longest_match"><a title="contracts.library.suggester.longest_match" class="py-name" href="#" onclick="return doclink('link-4', 'longest_match', 'link-4');">longest_match</a></tt><tt class="py-op">(</tt><tt id="link-5" class="py-name" targets="Variable contracts.testing.friendliness_statistics.s=contracts.testing.friendliness_statistics-module.html#s"><a title="contracts.testing.friendliness_statistics.s" class="py-name" href="#" onclick="return doclink('link-5', 's', 'link-5');">s</a></tt><tt class="py-op">,</tt> <tt id="link-6" class="py-name"><a title="contracts.library.array.x" class="py-name" href="#" onclick="return doclink('link-6', 'x', 'link-3');">x</a></tt><tt class="py-op">)</tt><tt class="py-op">)</tt> <tt class="py-keyword">for</tt> <tt id="link-7" class="py-name"><a title="contracts.library.array.x" class="py-name" href="#" onclick="return doclink('link-7', 'x', 'link-3');">x</a></tt> <tt class="py-keyword">in</tt> <tt class="py-name">options</tt><tt class="py-op">]</tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line">    <tt class="py-name">best</tt> <tt class="py-op">=</tt> <tt class="py-name">max</tt><tt class="py-op">(</tt><tt class="py-name">matches</tt><tt class="py-op">,</tt> <tt class="py-name">key</tt><tt class="py-op">=</tt><tt class="py-name">operator</tt><tt class="py-op">.</tt><tt class="py-name">itemgetter</tt><tt class="py-op">(</tt><tt class="py-number">1</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">best</tt> </tt>
+</div><a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"> </tt>
+<a name="longest_match"></a><div id="longest_match-def"><a name="L13"></a><tt class="py-lineno">13</tt> <a class="py-toggle" href="#" id="longest_match-toggle" onclick="return toggle('longest_match');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="contracts.library.suggester-module.html#longest_match">longest_match</a><tt class="py-op">(</tt><tt class="py-param">a</tt><tt class="py-op">,</tt> <tt class="py-param">b</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="longest_match-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="longest_match-expanded"><a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">    <tt class="py-name">lengths</tt> <tt class="py-op">=</tt> <tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-name">min</tt><tt class="py-op">(</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">a</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">b</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-number">1</tt><tt class="py-op">)</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">    <tt class="py-name">lengths</tt> <tt class="py-op">=</tt> <tt class="py-name">list</tt><tt class="py-op">(</tt><tt class="py-name">reversed</tt><tt class="py-op">(</tt><tt class="py-name">lengths</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt id="link-8" class="py-name" targets="Variable contracts.testing.friendliness_statistics.i=contracts.testing.friendliness_statistics-module.html#i"><a title="contracts.testing.friendliness_statistics.i" class="py-name" href="#" onclick="return doclink('link-8', 'i', 'link-8');">i</a></tt> <tt class="py-keyword">in</tt> <tt class="py-name">lengths</tt><tt class="py-op">:</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">a</tt><tt class="py-op">[</tt><tt class="py-op">:</tt><tt id="link-9" class="py-name"><a title="contracts.testing.friendliness_statistics.i" class="py-name" href="#" onclick="return doclink('link-9', 'i', 'link-8');">i</a></tt><tt class="py-op">]</tt> <tt class="py-op">==</tt> <tt class="py-name">b</tt><tt class="py-op">[</tt><tt class="py-op">:</tt><tt id="link-10" class="py-name"><a title="contracts.testing.friendliness_statistics.i" class="py-name" href="#" onclick="return doclink('link-10', 'i', 'link-8');">i</a></tt><tt class="py-op">]</tt><tt class="py-op">:</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt id="link-11" class="py-name"><a title="contracts.testing.friendliness_statistics.i" class="py-name" href="#" onclick="return doclink('link-11', 'i', 'link-8');">i</a></tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line">    <tt class="py-keyword">assert</tt> <tt class="py-name">False</tt>  <tt class="py-comment"># pragma: no cover</tt> </tt>
+</div><a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line"> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line"><tt class="py-keyword">assert</tt> <tt class="py-op">(</tt><tt class="py-string">'float64'</tt><tt class="py-op">,</tt> <tt class="py-number">6</tt><tt class="py-op">)</tt> <tt class="py-op">==</tt> <tt id="link-12" class="py-name" targets="Function contracts.library.suggester.find_longest_match()=contracts.library.suggester-module.html#find_longest_match"><a title="contracts.library.suggester.find_longest_match" class="py-name" href="#" onclick="return doclink('link-12', 'find_longest_match', 'link-12');">find_longest_match</a></tt><tt class="py-op">(</tt><tt class="py-string">'float6'</tt><tt class="py-op">,</tt> <tt class="py-op">[</tt><tt class="py-string">'float32'</tt><tt class="py-op">,</tt> <tt class="py-string">'float64'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line"><tt class="py-keyword">assert</tt> <tt class="py-number">2</tt> <tt class="py-op">==</tt> <tt id="link-13" class="py-name"><a title="contracts.library.suggester.find_longest_match" class="py-name" href="#" onclick="return doclink('link-13', 'find_longest_match', 'link-12');">find_longest_match</a></tt><tt class="py-op">(</tt><tt class="py-string">'fl6'</tt><tt class="py-op">,</tt> <tt class="py-op">[</tt><tt class="py-string">'float32'</tt><tt class="py-op">,</tt> <tt class="py-string">'float64'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line"> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line"> </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line"><tt class="py-comment"># http://hetland.org/coding/python/levenshtein.py</tt> </tt>
+<a name="levenshtein"></a><div id="levenshtein-def"><a name="L26"></a><tt class="py-lineno">26</tt> <a class="py-toggle" href="#" id="levenshtein-toggle" onclick="return toggle('levenshtein');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="contracts.library.suggester-module.html#levenshtein">levenshtein</a><tt class="py-op">(</tt><tt class="py-param">a</tt><tt class="py-op">,</tt> <tt class="py-param">b</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="levenshtein-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="levenshtein-expanded"><a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">    <tt class="py-docstring">"Calculates the Levenshtein distance between a and b."</tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">    <tt class="py-name">n</tt><tt class="py-op">,</tt> <tt class="py-name">m</tt> <tt class="py-op">=</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">a</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">b</tt><tt class="py-op">)</tt> </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">n</tt> <tt class="py-op">&gt;</tt> <tt class="py-name">m</tt><tt class="py-op">:</tt>  <tt class="py-comment"># pragma: no cover</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">        <tt class="py-comment"># Make sure n &lt;= m, to use O(min(n,m)) space</tt> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">        <tt class="py-name">a</tt><tt class="py-op">,</tt> <tt class="py-name">b</tt> <tt class="py-op">=</tt> <tt class="py-name">b</tt><tt class="py-op">,</tt> <tt class="py-name">a</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">        <tt class="py-name">n</tt><tt class="py-op">,</tt> <tt class="py-name">m</tt> <tt class="py-op">=</tt> <tt class="py-name">m</tt><tt class="py-op">,</tt> <tt class="py-name">n</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line"> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">    <tt class="py-name">current</tt> <tt class="py-op">=</tt> <tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-name">n</tt> <tt class="py-op">+</tt> <tt class="py-number">1</tt><tt class="py-op">)</tt> </tt>
+<a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt id="link-14" class="py-name"><a title="contracts.testing.friendliness_statistics.i" class="py-name" href="#" onclick="return doclink('link-14', 'i', 'link-8');">i</a></tt> <tt class="py-keyword">in</tt> <tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-number">1</tt><tt class="py-op">,</tt> <tt class="py-name">m</tt> <tt class="py-op">+</tt> <tt class="py-number">1</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">        <tt class="py-name">previous</tt><tt class="py-op">,</tt> <tt class="py-name">current</tt> <tt class="py-op">=</tt> <tt class="py-name">current</tt><tt class="py-op">,</tt> <tt class="py-op">[</tt><tt id="link-15" class="py-name"><a title="contracts.testing.friendliness_statistics.i" class="py-name" href="#" onclick="return doclink('link-15', 'i', 'link-8');">i</a></tt><tt class="py-op">]</tt> <tt class="py-op">+</tt> <tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> <tt class="py-op">*</tt> <tt class="py-name">n</tt> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">j</tt> <tt class="py-keyword">in</tt> <tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-number">1</tt><tt class="py-op">,</tt> <tt class="py-name">n</tt> <tt class="py-op">+</tt> <tt class="py-number">1</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">            <tt class="py-name">add</tt><tt class="py-op">,</tt> <tt class="py-name">delete</tt> <tt class="py-op">=</tt> <tt class="py-name">previous</tt><tt class="py-op">[</tt><tt class="py-name">j</tt><tt class="py-op">]</tt> <tt class="py-op">+</tt> <tt class="py-number">1</tt><tt class="py-op">,</tt> <tt class="py-name">current</tt><tt class="py-op">[</tt><tt class="py-name">j</tt> <tt class="py-op">-</tt> <tt class="py-number">1</tt><tt class="py-op">]</tt> <tt class="py-op">+</tt> <tt class="py-number">1</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">            <tt class="py-name">change</tt> <tt class="py-op">=</tt> <tt class="py-name">previous</tt><tt class="py-op">[</tt><tt class="py-name">j</tt> <tt class="py-op">-</tt> <tt class="py-number">1</tt><tt class="py-op">]</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">a</tt><tt class="py-op">[</tt><tt class="py-name">j</tt> <tt class="py-op">-</tt> <tt class="py-number">1</tt><tt class="py-op">]</tt> <tt class="py-op">!=</tt> <tt class="py-name">b</tt><tt class="py-op">[</tt><tt id="link-16" class="py-name"><a title="contracts.testing.friendliness_statistics.i" class="py-name" href="#" onclick="return doclink('link-16', 'i', 'link-8');">i</a></tt> <tt class="py-op">-</tt> <tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">:</tt> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">                <tt class="py-name">change</tt> <tt class="py-op">=</tt> <tt class="py-name">change</tt> <tt class="py-op">+</tt> <tt class="py-number">1</tt> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line">            <tt class="py-name">current</tt><tt class="py-op">[</tt><tt class="py-name">j</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">min</tt><tt class="py-op">(</tt><tt class="py-name">add</tt><tt class="py-op">,</tt> <tt class="py-name">delete</tt><tt class="py-op">,</tt> <tt class="py-name">change</tt><tt class="py-op">)</tt> </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line"> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">current</tt><tt class="py-op">[</tt><tt class="py-name">n</tt><tt class="py-op">]</tt> </tt>
+</div><a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line"> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line"> </tt>
+<a name="find_best_match"></a><div id="find_best_match-def"><a name="L47"></a><tt class="py-lineno">47</tt> <a class="py-toggle" href="#" id="find_best_match-toggle" onclick="return toggle('find_best_match');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="contracts.library.suggester-module.html#find_best_match">find_best_match</a><tt class="py-op">(</tt><tt class="py-param">s</tt><tt class="py-op">,</tt> <tt class="py-param">options</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="find_best_match-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="find_best_match-expanded"><a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line">    <tt class="py-name">matches</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">(</tt><tt id="link-17" class="py-name"><a title="contracts.library.array.x" class="py-name" href="#" onclick="return doclink('link-17', 'x', 'link-3');">x</a></tt><tt class="py-op">,</tt> <tt id="link-18" class="py-name" targets="Function contracts.library.suggester.levenshtein()=contracts.library.suggester-module.html#levenshtein"><a title="contracts.library.suggester.levenshtein" class="py-name" href="#" onclick="return doclink('link-18', 'levenshtein', 'link-18');">levenshtein</a></tt><tt class="py-op">(</tt><tt id="link-19" class="py-name"><a title="contracts.testing.friendliness_statistics.s" class="py-name" href="#" onclick="return doclink('link-19', 's', 'link-5');">s</a></tt><tt class="py-op">[</tt><tt class="py-op">:</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt id="link-20" class="py-name"><a title="contracts.library.array.x" class="py-name" href="#" onclick="return doclink('link-20', 'x', 'link-3');">x</a></tt><tt class="py-op">)</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt id="link-21" class="py-name"><a title="contracts.library.array.x" class="py-name" href="#" onclick="return doclink('link-21', 'x', 'link-3');">x</a></tt><tt class="py-op">)</tt> <tt class="py-op">-</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt id="link-22" class="py-name"><a title="contracts.library.array.x" class="py-name" href="#" onclick="return doclink('link-22', 'x', 'link-3');">x</a></tt><tt class="py-op">)</tt><tt class="py-op">)</tt> <tt class="py-keyword">for</tt> <tt id="link-23" class="py-name"><a title="contracts.library.array.x" class="py-name" href="#" onclick="return doclink('link-23', 'x', 'link-3');">x</a></tt> <tt class="py-keyword">in</tt> <tt class="py-name">options</tt><tt class="py-op">]</tt> </tt>
+<a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line">    <tt class="py-name">best</tt> <tt class="py-op">=</tt> <tt class="py-name">min</tt><tt class="py-op">(</tt><tt class="py-name">matches</tt><tt class="py-op">,</tt> <tt class="py-name">key</tt><tt class="py-op">=</tt><tt class="py-name">operator</tt><tt class="py-op">.</tt><tt class="py-name">itemgetter</tt><tt class="py-op">(</tt><tt class="py-number">1</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">best</tt> </tt>
+</div><a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line"> </tt>
+<a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line"> </tt>
+<a name="default_message"></a><div id="default_message-def"><a name="L53"></a><tt class="py-lineno">53</tt> <a class="py-toggle" href="#" id="default_message-toggle" onclick="return toggle('default_message');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="contracts.library.suggester-module.html#default_message">default_message</a><tt class="py-op">(</tt><tt class="py-param">identifier</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="default_message-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="default_message-expanded"><a name="L54"></a><tt class="py-lineno">54</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-string">'Unknown identifier %r. '</tt> <tt class="py-op">%</tt> <tt class="py-name">identifier</tt> </tt>
+</div><a name="L55"></a><tt class="py-lineno">55</tt>  <tt class="py-line"> </tt>
+<a name="L56"></a><tt class="py-lineno">56</tt>  <tt class="py-line"> </tt>
+<a name="create_suggester"></a><div id="create_suggester-def"><a name="L57"></a><tt class="py-lineno">57</tt> <a class="py-toggle" href="#" id="create_suggester-toggle" onclick="return toggle('create_suggester');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="contracts.library.suggester-module.html#create_suggester">create_suggester</a><tt class="py-op">(</tt><tt class="py-param">get_options</tt><tt class="py-op">,</tt> <tt class="py-param">get_message</tt><tt class="py-op">=</tt><tt id="link-24" class="py-name" targets="Function contracts.library.suggester.default_message()=contracts.library.suggester-module.html#default_message"><a title="contracts.library.suggester.default_message" class="py-name" href="#" onclick="return doclink('link-24', 'default_message', 'link-24');">default_message</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L58"></a><tt class="py-lineno">58</tt>  <tt class="py-line">            <tt class="py-param">pattern</tt><tt class="py-op">=</tt><tt class="py-name">Combine</tt><tt class="py-op">(</tt><tt class="py-name">oneOf</tt><tt class="py-op">(</tt><tt class="py-name">list</tt><tt class="py-op">(</tt><tt id="link-25" class="py-name"><a title="contracts.library.extensions.alphas
+contracts.library.suggester.alphas
+contracts.syntax.alphas" class="py-name" href="#" onclick="return doclink('link-25', 'alphas', 'link-1');">alphas</a></tt><tt class="py-op">)</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-name">Word</tt><tt class="py-op">(</tt><tt class="py-string">'_'</tt> <tt class="py-op">+</tt> <tt id="link-26" class="py-name"><a title="contracts.library.extensions.alphanums
+contracts.library.suggester.alphanums
+contracts.syntax.alphanums" class="py-name" href="#" onclick="return doclink('link-26', 'alphanums', 'link-2');">alphanums</a></tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="create_suggester-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="create_suggester-expanded"><a name="L59"></a><tt class="py-lineno">59</tt>  <tt class="py-line">    <tt class="py-name">pattern</tt> <tt class="py-op">=</tt> <tt class="py-name">pattern</tt><tt class="py-op">.</tt><tt class="py-name">copy</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L60"></a><tt class="py-lineno">60</tt>  <tt class="py-line"> </tt>
+<a name="L61"></a><tt class="py-lineno">61</tt>  <tt class="py-line">    <tt class="py-keyword">def</tt> <tt class="py-def-name">find_match</tt><tt class="py-op">(</tt><tt class="py-param">identifier</tt><tt class="py-op">,</tt> <tt class="py-param">options</tt><tt class="py-op">,</tt> <tt class="py-param">local_string</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L62"></a><tt class="py-lineno">62</tt>  <tt class="py-line">        <tt class="py-name">match</tt><tt class="py-op">,</tt> <tt id="link-27" class="py-name" targets="Variable contracts.library.tuple.length=contracts.library.tuple-module.html#length"><a title="contracts.library.tuple.length" class="py-name" href="#" onclick="return doclink('link-27', 'length', 'link-27');">length</a></tt> <tt class="py-op">=</tt> <tt id="link-28" class="py-name"><a title="contracts.library.suggester.find_longest_match" class="py-name" href="#" onclick="return doclink('link-28', 'find_longest_match', 'link-12');">find_longest_match</a></tt><tt class="py-op">(</tt><tt class="py-name">identifier</tt><tt class="py-op">,</tt> <tt class="py-name">options</tt><tt class="py-op">)</tt> </tt>
+<a name="L63"></a><tt class="py-lineno">63</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt id="link-29" class="py-name"><a title="contracts.library.tuple.length" class="py-name" href="#" onclick="return doclink('link-29', 'length', 'link-27');">length</a></tt> <tt class="py-op">&gt;=</tt> <tt class="py-number">2</tt><tt class="py-op">:</tt> </tt>
+<a name="L64"></a><tt class="py-lineno">64</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> <tt class="py-name">match</tt><tt class="py-op">,</tt> <tt id="link-30" class="py-name"><a title="contracts.library.tuple.length" class="py-name" href="#" onclick="return doclink('link-30', 'length', 'link-27');">length</a></tt> </tt>
+<a name="L65"></a><tt class="py-lineno">65</tt>  <tt class="py-line"> </tt>
+<a name="L66"></a><tt class="py-lineno">66</tt>  <tt class="py-line">        <tt class="py-name">match</tt><tt class="py-op">,</tt> <tt class="py-name">distance</tt> <tt class="py-op">=</tt> <tt id="link-31" class="py-name" targets="Function contracts.library.suggester.find_best_match()=contracts.library.suggester-module.html#find_best_match"><a title="contracts.library.suggester.find_best_match" class="py-name" href="#" onclick="return doclink('link-31', 'find_best_match', 'link-31');">find_best_match</a></tt><tt class="py-op">(</tt><tt class="py-name">local_string</tt><tt class="py-op">,</tt> <tt class="py-name">options</tt><tt class="py-op">)</tt> </tt>
+<a name="L67"></a><tt class="py-lineno">67</tt>  <tt class="py-line"> </tt>
+<a name="L68"></a><tt class="py-lineno">68</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">distance</tt> <tt class="py-op">&lt;</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">match</tt><tt class="py-op">)</tt> <tt class="py-op">-</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
+<a name="L69"></a><tt class="py-lineno">69</tt>  <tt class="py-line">            <tt id="link-32" class="py-name"><a title="contracts.library.tuple.length" class="py-name" href="#" onclick="return doclink('link-32', 'length', 'link-27');">length</a></tt> <tt class="py-op">=</tt> <tt id="link-33" class="py-name"><a title="contracts.library.suggester.longest_match" class="py-name" href="#" onclick="return doclink('link-33', 'longest_match', 'link-4');">longest_match</a></tt><tt class="py-op">(</tt><tt class="py-name">local_string</tt><tt class="py-op">,</tt> <tt class="py-name">match</tt><tt class="py-op">)</tt> </tt>
+<a name="L70"></a><tt class="py-lineno">70</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">True</tt><tt class="py-op">,</tt> <tt class="py-name">match</tt><tt class="py-op">,</tt> <tt id="link-34" class="py-name"><a title="contracts.library.tuple.length" class="py-name" href="#" onclick="return doclink('link-34', 'length', 'link-27');">length</a></tt> </tt>
+<a name="L71"></a><tt class="py-lineno">71</tt>  <tt class="py-line"> </tt>
+<a name="L72"></a><tt class="py-lineno">72</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">False</tt><tt class="py-op">,</tt> <tt class="py-string">"No matches found"</tt><tt class="py-op">,</tt> <tt class="py-number">0</tt> </tt>
+</div><a name="L73"></a><tt class="py-lineno">73</tt>  <tt class="py-line"> </tt>
+<a name="L74"></a><tt class="py-lineno">74</tt>  <tt class="py-line">    <tt class="py-keyword">def</tt> <tt class="py-def-name">parse_action</tt><tt class="py-op">(</tt><tt class="py-param">s</tt><tt class="py-op">,</tt> <tt class="py-param">loc</tt><tt class="py-op">,</tt> <tt class="py-param">tokens</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L75"></a><tt class="py-lineno">75</tt>  <tt class="py-line">        <tt class="py-name">identifier</tt> <tt class="py-op">=</tt> <tt class="py-name">tokens</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> </tt>
+<a name="L76"></a><tt class="py-lineno">76</tt>  <tt class="py-line">        <tt class="py-name">options</tt> <tt class="py-op">=</tt> <tt class="py-name">get_options</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L77"></a><tt class="py-lineno">77</tt>  <tt class="py-line">        <tt class="py-keyword">assert</tt> <tt class="py-keyword">not</tt> <tt class="py-op">(</tt><tt class="py-name">identifier</tt> <tt class="py-keyword">in</tt> <tt class="py-name">options</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-op">(</tt><tt class="py-string">'I was not supposed to match %r.'</tt> </tt>
+<a name="L78"></a><tt class="py-lineno">78</tt>  <tt class="py-line">                                             <tt class="py-op">%</tt> <tt class="py-name">identifier</tt><tt class="py-op">)</tt> </tt>
+<a name="L79"></a><tt class="py-lineno">79</tt>  <tt class="py-line"> </tt>
+<a name="L80"></a><tt class="py-lineno">80</tt>  <tt class="py-line">        <tt class="py-name">msg</tt> <tt class="py-op">=</tt> <tt class="py-name">get_message</tt><tt class="py-op">(</tt><tt class="py-name">identifier</tt><tt class="py-op">)</tt> </tt>
+<a name="L81"></a><tt class="py-lineno">81</tt>  <tt class="py-line"> </tt>
+<a name="L82"></a><tt class="py-lineno">82</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">options</tt><tt class="py-op">:</tt> </tt>
+<a name="L83"></a><tt class="py-lineno">83</tt>  <tt class="py-line">            <tt class="py-name">local_string</tt> <tt class="py-op">=</tt> <tt id="link-35" class="py-name"><a title="contracts.testing.friendliness_statistics.s" class="py-name" href="#" onclick="return doclink('link-35', 's', 'link-5');">s</a></tt><tt class="py-op">[</tt><tt class="py-name">loc</tt><tt class="py-op">:</tt><tt class="py-op">]</tt> </tt>
+<a name="L84"></a><tt class="py-lineno">84</tt>  <tt class="py-line">            <tt class="py-name">confident</tt><tt class="py-op">,</tt> <tt class="py-name">match</tt><tt class="py-op">,</tt> <tt id="link-36" class="py-name"><a title="contracts.library.tuple.length" class="py-name" href="#" onclick="return doclink('link-36', 'length', 'link-27');">length</a></tt> <tt class="py-op">=</tt> <tt class="py-name">find_match</tt><tt class="py-op">(</tt><tt class="py-name">identifier</tt><tt class="py-op">,</tt> <tt class="py-name">options</tt><tt class="py-op">,</tt> </tt>
+<a name="L85"></a><tt class="py-lineno">85</tt>  <tt class="py-line">                                                  <tt class="py-name">local_string</tt><tt class="py-op">)</tt> </tt>
+<a name="L86"></a><tt class="py-lineno">86</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">confident</tt><tt class="py-op">:</tt> </tt>
+<a name="L87"></a><tt class="py-lineno">87</tt>  <tt class="py-line">                <tt class="py-name">msg</tt> <tt class="py-op">+=</tt> <tt class="py-string">'Did you mean %r?'</tt> <tt class="py-op">%</tt> <tt class="py-name">match</tt> </tt>
+<a name="L88"></a><tt class="py-lineno">88</tt>  <tt class="py-line">                <tt class="py-name">loc</tt> <tt class="py-op">+=</tt> <tt id="link-37" class="py-name"><a title="contracts.library.tuple.length" class="py-name" href="#" onclick="return doclink('link-37', 'length', 'link-27');">length</a></tt> </tt>
+<a name="L89"></a><tt class="py-lineno">89</tt>  <tt class="py-line">            <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L90"></a><tt class="py-lineno">90</tt>  <tt class="py-line">                <tt class="py-name">msg</tt> <tt class="py-op">+=</tt> <tt class="py-string">'\nI know: %r.\n'</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">options</tt><tt class="py-op">)</tt> </tt>
+<a name="L91"></a><tt class="py-lineno">91</tt>  <tt class="py-line">        <tt class="py-name">pe</tt> <tt class="py-op">=</tt> <tt class="py-name">ParseException</tt><tt class="py-op">(</tt><tt id="link-38" class="py-name"><a title="contracts.testing.friendliness_statistics.s" class="py-name" href="#" onclick="return doclink('link-38', 's', 'link-5');">s</a></tt><tt class="py-op">,</tt> <tt class="py-name">loc</tt><tt class="py-op">,</tt> <tt class="py-name">msg</tt><tt class="py-op">,</tt> <tt class="py-name">pattern</tt><tt class="py-op">)</tt> </tt>
+<a name="L92"></a><tt class="py-lineno">92</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">ParseSyntaxException</tt><tt class="py-op">(</tt><tt class="py-name">pe</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L93"></a><tt class="py-lineno">93</tt>  <tt class="py-line"> </tt>
+<a name="L94"></a><tt class="py-lineno">94</tt>  <tt class="py-line">    <tt class="py-name">pattern</tt><tt class="py-op">.</tt><tt class="py-name">setParseAction</tt><tt class="py-op">(</tt><tt id="link-39" class="py-name" targets="Static Method contracts.library.arithmetic.Binary.parse_action()=contracts.library.arithmetic.Binary-class.html#parse_action,Static Method contracts.library.arithmetic.Unary.parse_action()=contracts.library.arithmetic.Unary-class.html#parse_action,Static Method contracts.library.array.Array.parse_action()=contracts.library.array.Array-class.html#parse_action,Static Method contracts.library.array.Shape.parse_action()=contracts.library.array.Shape-class.html#parse_action,Static Method contracts.library.array.ShapeContract.parse_action()=contracts.library.array.ShapeContract-class.html#parse_action,Static Method contracts.library.array_ops.ArrayAnd.parse_action()=contracts.library.array_ops.ArrayAnd-class.html#parse_action,Static Method contracts.library.array_ops.ArrayConstraint.parse_action()=contracts.library.array_ops.ArrayConstraint-class.html#parse_action,Static Method contracts.library.array_ops.ArrayOR.parse_action()=contracts.library.array_ops.ArrayOR-class.html#parse_action,Static Method contracts.library.array_ops.DType.parse_action()=contracts.library.array_ops.DType-class.html#parse_action,Static Method contracts.library.comparison.CheckOrder.parse_action()=contracts.library.comparison.CheckOrder-class.html#parse_action,Static Method contracts.library.compositions.And.parse_action()=contracts.library.compositions.And-class.html#parse_action,Static Method contracts.library.compositions.OR.parse_action()=contracts.library.compositions.OR-class.html#parse_action,Static Method contracts.library.dicts.Dict.parse_action()=contracts.library.dicts.Dict-class.html#parse_action,Static Method contracts.library.dummy.Any.parse_action()=contracts.library.dummy.Any-class.html#parse_action,Static Method contracts.library.dummy.Never.parse_action()=contracts.library.dummy.Never-class.html#parse_action,Static Method contracts.library.extensions.Extension.parse_action()=contracts.library.extensions.Extension-class.html#parse_action,Static Method contracts.library.lists.List.parse_action()=contracts.library.lists.List-class.html#parse_action,Static Method contracts.library.map.Map.parse_action()=contracts.library.map.Map-class.html#parse_action,Static Method contracts.library.separate_context.SeparateContext.parse_action()=contracts.library.separate_context.SeparateContext-class.html#parse_action,Static Method contracts.library.seq.Seq.parse_action()=contracts.library.seq.Seq-class.html#parse_action,Static Method contracts.library.simple_values.EqualTo.parse_action()=contracts.library.simple_values.EqualTo-class.html#parse_action,Static Method contracts.library.strings.String.parse_action()=contracts.library.strings.String-class.html#parse_action,Static Method contracts.library.tuple.Tuple.parse_action()=contracts.library.tuple.Tuple-class.html#parse_action,Static Method contracts.library.types_misc.CheckType.parse_action()=contracts.library.types_misc.CheckType-class.html#parse_action,Static Method contracts.library.types_misc.Type.parse_action()=contracts.library.types_misc.Type-class.html#parse_action,Static Method contracts.library.variables.BindVariable.parse_action()=contracts.library.variables.BindVariable-class.html#parse_action,Static Method contracts.library.variables.VariableRef.parse_action()=contracts.library.variables.VariableRef-class.html#parse_action"><a title="contracts.library.arithmetic.Binary.parse_action
+contracts.library.arithmetic.Unary.parse_action
+contracts.library.array.Array.parse_action
+contracts.library.array.Shape.parse_action
+contracts.library.array.ShapeContract.parse_action
+contracts.library.array_ops.ArrayAnd.parse_action
+contracts.library.array_ops.ArrayConstraint.parse_action
+contracts.library.array_ops.ArrayOR.parse_action
+contracts.library.array_ops.DType.parse_action
+contracts.library.comparison.CheckOrder.parse_action
+contracts.library.compositions.And.parse_action
+contracts.library.compositions.OR.parse_action
+contracts.library.dicts.Dict.parse_action
+contracts.library.dummy.Any.parse_action
+contracts.library.dummy.Never.parse_action
+contracts.library.extensions.Extension.parse_action
+contracts.library.lists.List.parse_action
+contracts.library.map.Map.parse_action
+contracts.library.separate_context.SeparateContext.parse_action
+contracts.library.seq.Seq.parse_action
+contracts.library.simple_values.EqualTo.parse_action
+contracts.library.strings.String.parse_action
+contracts.library.tuple.Tuple.parse_action
+contracts.library.types_misc.CheckType.parse_action
+contracts.library.types_misc.Type.parse_action
+contracts.library.variables.BindVariable.parse_action
+contracts.library.variables.VariableRef.parse_action" class="py-name" href="#" onclick="return doclink('link-39', 'parse_action', 'link-39');">parse_action</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L95"></a><tt class="py-lineno">95</tt>  <tt class="py-line"> </tt>
+<a name="L96"></a><tt class="py-lineno">96</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">pattern</tt> </tt>
+</div><a name="L97"></a><tt class="py-lineno">97</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="contracts-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://github.com/AndreaCensi/contracts">PyContracts</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sun Feb 26 11:44:29 2012
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

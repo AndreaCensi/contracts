@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>contracts.pyparsing_utils</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="contracts-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://github.com/AndreaCensi/contracts">PyContracts</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="contracts-module.html">Package&nbsp;contracts</a> ::
+        Module&nbsp;pyparsing_utils
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="contracts.pyparsing_utils-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="contracts.pyparsing_utils-module.html">Module contracts.pyparsing_utils</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt><tt id="link-0" class="py-name" targets="Module contracts.syntax=contracts.syntax-module.html"><a title="contracts.syntax" class="py-name" href="#" onclick="return doclink('link-0', 'syntax', 'link-0');">syntax</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">(</tt><tt class="py-name">Forward</tt><tt class="py-op">,</tt> <tt class="py-name">Suppress</tt><tt class="py-op">,</tt> <tt class="py-name">FollowedBy</tt><tt class="py-op">,</tt> <tt class="py-name">Group</tt><tt class="py-op">,</tt> <tt class="py-name">OneOrMore</tt><tt class="py-op">,</tt> <tt class="py-name">Optional</tt><tt class="py-op">,</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line">                     <tt id="link-1" class="py-name" targets="Variable contracts.library.array.opAssoc=contracts.library.array-module.html#opAssoc,Variable contracts.library.compositions.opAssoc=contracts.library.compositions-module.html#opAssoc,Variable contracts.pyparsing_utils.opAssoc=contracts.pyparsing_utils-module.html#opAssoc,Variable contracts.syntax.opAssoc=contracts.syntax-module.html#opAssoc"><a title="contracts.library.array.opAssoc
+contracts.library.compositions.opAssoc
+contracts.pyparsing_utils.opAssoc
+contracts.syntax.opAssoc" class="py-name" href="#" onclick="return doclink('link-1', 'opAssoc', 'link-1');">opAssoc</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"> </tt>
+<a name="myOperatorPrecedence"></a><div id="myOperatorPrecedence-def"><a name="L5"></a><tt class="py-lineno"> 5</tt> <a class="py-toggle" href="#" id="myOperatorPrecedence-toggle" onclick="return toggle('myOperatorPrecedence');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="contracts.pyparsing_utils-module.html#myOperatorPrecedence">myOperatorPrecedence</a><tt class="py-op">(</tt><tt class="py-param">baseExpr</tt><tt class="py-op">,</tt> <tt class="py-param">opList</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="myOperatorPrecedence-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="myOperatorPrecedence-expanded"><a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line">    <tt class="py-docstring">"""Helper method for constructing grammars of expressions made up of</tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt class="py-docstring">       operators working in a precedence hierarchy.  Operators may be unary or</tt> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt class="py-docstring">       binary, left- or right-associative.  Parse actions can also be attached</tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"><tt class="py-docstring">       to operator expressions.</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"><tt class="py-docstring">       Parameters:</tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"><tt class="py-docstring">        - baseExpr - expression representing the most basic element for the</tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line"><tt class="py-docstring">        - opList - list of tuples, one for each operator precedence level in </tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line"><tt class="py-docstring">          expression grammar; each tuple is of the form</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line"><tt class="py-docstring">          (opExpr, numTerms, rightLeftAssoc, parseAction), where:</tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line"><tt class="py-docstring">           - opExpr is the pyparsing expression for the operator;</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"><tt class="py-docstring">              may also be a string, which will be converted to a Literal;</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line"><tt class="py-docstring">              if numTerms is 3, opExpr is a tuple of two expressions, for the</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"><tt class="py-docstring">              two operators separating the 3 terms</tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line"><tt class="py-docstring">           - numTerms is the number of terms for this operator (must</tt> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line"><tt class="py-docstring">              be 1, 2, or 3)</tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line"><tt class="py-docstring">           - rightLeftAssoc is the indicator whether the operator is</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line"><tt class="py-docstring">              right or left associative, using the pyparsing-defined</tt> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line"><tt class="py-docstring">              constants opAssoc.RIGHT and opAssoc.LEFT.</tt> </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line"><tt class="py-docstring">           - parseAction is the parse action to be associated with</tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line"><tt class="py-docstring">              expressions matching this operator expression (the</tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line"><tt class="py-docstring">              parse action tuple member may be omitted)</tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">    <tt class="py-name">ret</tt> <tt class="py-op">=</tt> <tt class="py-name">Forward</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">    <tt class="py-name">allops</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt id="link-2" class="py-name" targets="Variable contracts.library.array.x=contracts.library.array-module.html#x"><a title="contracts.library.array.x" class="py-name" href="#" onclick="return doclink('link-2', 'x', 'link-2');">x</a></tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> <tt class="py-keyword">for</tt> <tt id="link-3" class="py-name"><a title="contracts.library.array.x" class="py-name" href="#" onclick="return doclink('link-3', 'x', 'link-2');">x</a></tt> <tt class="py-keyword">in</tt> <tt class="py-name">opList</tt><tt class="py-op">]</tt> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">    <tt class="py-name">opnames</tt> <tt class="py-op">=</tt> <tt class="py-string">","</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">str</tt><tt class="py-op">(</tt><tt id="link-4" class="py-name"><a title="contracts.library.array.x" class="py-name" href="#" onclick="return doclink('link-4', 'x', 'link-2');">x</a></tt><tt class="py-op">)</tt> <tt class="py-keyword">for</tt> <tt id="link-5" class="py-name"><a title="contracts.library.array.x" class="py-name" href="#" onclick="return doclink('link-5', 'x', 'link-2');">x</a></tt> <tt class="py-keyword">in</tt> <tt class="py-name">allops</tt><tt class="py-op">)</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">    <tt class="py-name">ret</tt><tt class="py-op">.</tt><tt class="py-name">setName</tt><tt class="py-op">(</tt><tt class="py-string">'operatorSystem(%s)'</tt> <tt class="py-op">%</tt> <tt class="py-name">opnames</tt><tt class="py-op">)</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line"><tt class="py-comment">#    parenthesis = Suppress('(') + ret + FollowedBy(NotAny(oneOf(allops))) - Suppress(')')</tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">    <tt class="py-name">parenthesis</tt> <tt class="py-op">=</tt> <tt class="py-name">Suppress</tt><tt class="py-op">(</tt><tt class="py-string">'('</tt><tt class="py-op">)</tt> <tt class="py-op">-</tt> <tt class="py-name">ret</tt> <tt class="py-op">-</tt> <tt class="py-name">Suppress</tt><tt class="py-op">(</tt><tt class="py-string">')'</tt><tt class="py-op">)</tt> </tt>
+<a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">    <tt class="py-name">lastExpr</tt> <tt class="py-op">=</tt> <tt class="py-name">parenthesis</tt><tt class="py-op">.</tt><tt class="py-name">setName</tt><tt class="py-op">(</tt><tt class="py-string">'parenthesis(%s)'</tt> <tt class="py-op">%</tt> <tt class="py-name">opnames</tt><tt class="py-op">)</tt> <tt class="py-op">|</tt> <tt id="link-6" class="py-name" targets="Variable contracts.library.array.baseExpr=contracts.library.array-module.html#baseExpr,Variable contracts.library.compositions.baseExpr=contracts.library.compositions-module.html#baseExpr"><a title="contracts.library.array.baseExpr
+contracts.library.compositions.baseExpr" class="py-name" href="#" onclick="return doclink('link-6', 'baseExpr', 'link-6');">baseExpr</a></tt> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">    <tt class="py-name">lastExpr</tt><tt class="py-op">.</tt><tt class="py-name">setName</tt><tt class="py-op">(</tt><tt class="py-string">'Base operand (%s) or parenthesis'</tt> <tt class="py-op">%</tt> <tt id="link-7" class="py-name"><a title="contracts.library.array.baseExpr
+contracts.library.compositions.baseExpr" class="py-name" href="#" onclick="return doclink('link-7', 'baseExpr', 'link-6');">baseExpr</a></tt><tt class="py-op">.</tt><tt id="link-8" class="py-name" targets="Variable contracts.library.array.name=contracts.library.array-module.html#name"><a title="contracts.library.array.name" class="py-name" href="#" onclick="return doclink('link-8', 'name', 'link-8');">name</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">operDef</tt> <tt class="py-keyword">in</tt> <tt class="py-name">opList</tt><tt class="py-op">:</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">        <tt class="py-name">opExpr</tt><tt class="py-op">,</tt> <tt class="py-name">arity</tt><tt class="py-op">,</tt> <tt class="py-name">rightLeftAssoc</tt><tt class="py-op">,</tt> <tt class="py-name">pa</tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-name">operDef</tt> <tt class="py-op">+</tt> <tt class="py-op">(</tt><tt class="py-name">None</tt><tt class="py-op">,</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-op">:</tt><tt class="py-number">4</tt><tt class="py-op">]</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">arity</tt> <tt class="py-op">==</tt> <tt class="py-number">3</tt><tt class="py-op">:</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">opExpr</tt> <tt class="py-keyword">is</tt> <tt class="py-name">None</tt> <tt class="py-keyword">or</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">opExpr</tt><tt class="py-op">)</tt> <tt class="py-op">!=</tt> <tt class="py-number">2</tt><tt class="py-op">:</tt> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">                <tt class="py-keyword">raise</tt> <tt class="py-name">ValueError</tt><tt class="py-op">(</tt><tt class="py-string">"if numterms=3, opExpr must be a tuple or list of two expressions"</tt><tt class="py-op">)</tt> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line">            <tt class="py-name">opExpr1</tt><tt class="py-op">,</tt> <tt class="py-name">opExpr2</tt> <tt class="py-op">=</tt> <tt class="py-name">opExpr</tt> </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line">        <tt class="py-name">thisExpr</tt> <tt class="py-op">=</tt> <tt class="py-name">Forward</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">setName</tt><tt class="py-op">(</tt><tt class="py-string">"operation_with(%s)"</tt> <tt class="py-op">%</tt> <tt class="py-name">opExpr</tt><tt class="py-op">)</tt> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">rightLeftAssoc</tt> <tt class="py-op">==</tt> <tt id="link-9" class="py-name"><a title="contracts.library.array.opAssoc
+contracts.library.compositions.opAssoc
+contracts.pyparsing_utils.opAssoc
+contracts.syntax.opAssoc" class="py-name" href="#" onclick="return doclink('link-9', 'opAssoc', 'link-1');">opAssoc</a></tt><tt class="py-op">.</tt><tt class="py-name">LEFT</tt><tt class="py-op">:</tt> </tt>
+<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">arity</tt> <tt class="py-op">==</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line">                <tt class="py-name">matchExpr</tt> <tt class="py-op">=</tt> <tt class="py-name">FollowedBy</tt><tt class="py-op">(</tt><tt class="py-name">lastExpr</tt> <tt class="py-op">+</tt> <tt class="py-name">opExpr</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-name">Group</tt><tt class="py-op">(</tt><tt class="py-name">lastExpr</tt> <tt class="py-op">+</tt> <tt class="py-name">OneOrMore</tt><tt class="py-op">(</tt><tt class="py-name">opExpr</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line">            <tt class="py-keyword">elif</tt> <tt class="py-name">arity</tt> <tt class="py-op">==</tt> <tt class="py-number">2</tt><tt class="py-op">:</tt> </tt>
+<a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-name">opExpr</tt> <tt class="py-keyword">is</tt> <tt class="py-keyword">not</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line"><tt class="py-comment">#                    matchExpr = Group(lastExpr + FollowedBy(opExpr) + OneOrMore(opExpr - lastExpr))                </tt> </tt>
+<a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line">                    <tt class="py-name">matchExpr</tt> <tt class="py-op">=</tt> <tt class="py-name">Group</tt><tt class="py-op">(</tt><tt class="py-name">lastExpr</tt> <tt class="py-op">+</tt> <tt class="py-name">FollowedBy</tt><tt class="py-op">(</tt><tt class="py-name">opExpr</tt><tt class="py-op">)</tt> <tt class="py-op">-</tt> <tt class="py-name">OneOrMore</tt><tt class="py-op">(</tt><tt class="py-name">opExpr</tt> <tt class="py-op">-</tt> <tt class="py-name">lastExpr</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line">                <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line">                    <tt class="py-name">matchExpr</tt> <tt class="py-op">=</tt> <tt class="py-name">FollowedBy</tt><tt class="py-op">(</tt><tt class="py-name">lastExpr</tt> <tt class="py-op">+</tt> <tt class="py-name">lastExpr</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-name">Group</tt><tt class="py-op">(</tt><tt class="py-name">lastExpr</tt> <tt class="py-op">+</tt> <tt class="py-name">OneOrMore</tt><tt class="py-op">(</tt><tt class="py-name">lastExpr</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line">            <tt class="py-keyword">elif</tt> <tt class="py-name">arity</tt> <tt class="py-op">==</tt> <tt class="py-number">3</tt><tt class="py-op">:</tt> </tt>
+<a name="L54"></a><tt class="py-lineno">54</tt>  <tt class="py-line">                <tt class="py-name">matchExpr</tt> <tt class="py-op">=</tt> <tt class="py-name">FollowedBy</tt><tt class="py-op">(</tt><tt class="py-name">lastExpr</tt> <tt class="py-op">+</tt> <tt class="py-name">opExpr1</tt> <tt class="py-op">+</tt> <tt class="py-name">lastExpr</tt> <tt class="py-op">+</tt> <tt class="py-name">opExpr2</tt> <tt class="py-op">+</tt> <tt class="py-name">lastExpr</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> \ </tt>
+<a name="L55"></a><tt class="py-lineno">55</tt>  <tt class="py-line">                            <tt class="py-name">Group</tt><tt class="py-op">(</tt><tt class="py-name">lastExpr</tt> <tt class="py-op">+</tt> <tt class="py-name">opExpr1</tt> <tt class="py-op">+</tt> <tt class="py-name">lastExpr</tt> <tt class="py-op">+</tt> <tt class="py-name">opExpr2</tt> <tt class="py-op">+</tt> <tt class="py-name">lastExpr</tt><tt class="py-op">)</tt> </tt>
+<a name="L56"></a><tt class="py-lineno">56</tt>  <tt class="py-line">            <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L57"></a><tt class="py-lineno">57</tt>  <tt class="py-line">                <tt class="py-keyword">raise</tt> <tt class="py-name">ValueError</tt><tt class="py-op">(</tt><tt class="py-string">"operator must be unary (1), binary (2), or ternary (3)"</tt><tt class="py-op">)</tt> </tt>
+<a name="L58"></a><tt class="py-lineno">58</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt class="py-name">rightLeftAssoc</tt> <tt class="py-op">==</tt> <tt id="link-10" class="py-name"><a title="contracts.library.array.opAssoc
+contracts.library.compositions.opAssoc
+contracts.pyparsing_utils.opAssoc
+contracts.syntax.opAssoc" class="py-name" href="#" onclick="return doclink('link-10', 'opAssoc', 'link-1');">opAssoc</a></tt><tt class="py-op">.</tt><tt class="py-name">RIGHT</tt><tt class="py-op">:</tt> </tt>
+<a name="L59"></a><tt class="py-lineno">59</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">arity</tt> <tt class="py-op">==</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
+<a name="L60"></a><tt class="py-lineno">60</tt>  <tt class="py-line">                <tt class="py-comment"># try to avoid LR with this extra test</tt> </tt>
+<a name="L61"></a><tt class="py-lineno">61</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">isinstance</tt><tt class="py-op">(</tt><tt class="py-name">opExpr</tt><tt class="py-op">,</tt> <tt class="py-name">Optional</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L62"></a><tt class="py-lineno">62</tt>  <tt class="py-line">                    <tt class="py-name">opExpr</tt> <tt class="py-op">=</tt> <tt class="py-name">Optional</tt><tt class="py-op">(</tt><tt class="py-name">opExpr</tt><tt class="py-op">)</tt> </tt>
+<a name="L63"></a><tt class="py-lineno">63</tt>  <tt class="py-line">                <tt class="py-name">matchExpr</tt> <tt class="py-op">=</tt> <tt class="py-name">FollowedBy</tt><tt class="py-op">(</tt><tt class="py-name">opExpr</tt><tt class="py-op">.</tt><tt id="link-11" class="py-name" targets="Variable contracts.library.array.expr=contracts.library.array-module.html#expr,Variable contracts.library.comparison.expr=contracts.library.comparison-module.html#expr"><a title="contracts.library.array.expr
+contracts.library.comparison.expr" class="py-name" href="#" onclick="return doclink('link-11', 'expr', 'link-11');">expr</a></tt> <tt class="py-op">-</tt> <tt class="py-name">thisExpr</tt><tt class="py-op">)</tt> <tt class="py-op">-</tt> <tt class="py-name">Group</tt><tt class="py-op">(</tt><tt class="py-name">opExpr</tt> <tt class="py-op">-</tt> <tt class="py-name">thisExpr</tt><tt class="py-op">)</tt> </tt>
+<a name="L64"></a><tt class="py-lineno">64</tt>  <tt class="py-line">            <tt class="py-keyword">elif</tt> <tt class="py-name">arity</tt> <tt class="py-op">==</tt> <tt class="py-number">2</tt><tt class="py-op">:</tt> </tt>
+<a name="L65"></a><tt class="py-lineno">65</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-name">opExpr</tt> <tt class="py-keyword">is</tt> <tt class="py-keyword">not</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L66"></a><tt class="py-lineno">66</tt>  <tt class="py-line">                    <tt class="py-name">matchExpr</tt> <tt class="py-op">=</tt> <tt class="py-name">FollowedBy</tt><tt class="py-op">(</tt><tt class="py-name">lastExpr</tt> <tt class="py-op">+</tt> <tt class="py-name">opExpr</tt> <tt class="py-op">-</tt> <tt class="py-name">thisExpr</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-name">Group</tt><tt class="py-op">(</tt><tt class="py-name">lastExpr</tt> <tt class="py-op">+</tt> <tt class="py-name">OneOrMore</tt><tt class="py-op">(</tt><tt class="py-name">opExpr</tt> <tt class="py-op">-</tt> <tt class="py-name">thisExpr</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L67"></a><tt class="py-lineno">67</tt>  <tt class="py-line">                <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L68"></a><tt class="py-lineno">68</tt>  <tt class="py-line">                    <tt class="py-name">matchExpr</tt> <tt class="py-op">=</tt> <tt class="py-name">FollowedBy</tt><tt class="py-op">(</tt><tt class="py-name">lastExpr</tt> <tt class="py-op">+</tt> <tt class="py-name">thisExpr</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-name">Group</tt><tt class="py-op">(</tt><tt class="py-name">lastExpr</tt> <tt class="py-op">+</tt> <tt class="py-name">OneOrMore</tt><tt class="py-op">(</tt><tt class="py-name">thisExpr</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L69"></a><tt class="py-lineno">69</tt>  <tt class="py-line">            <tt class="py-keyword">elif</tt> <tt class="py-name">arity</tt> <tt class="py-op">==</tt> <tt class="py-number">3</tt><tt class="py-op">:</tt> </tt>
+<a name="L70"></a><tt class="py-lineno">70</tt>  <tt class="py-line">                <tt class="py-name">matchExpr</tt> <tt class="py-op">=</tt> <tt class="py-name">FollowedBy</tt><tt class="py-op">(</tt><tt class="py-name">lastExpr</tt> <tt class="py-op">+</tt> <tt class="py-name">opExpr1</tt> <tt class="py-op">+</tt> <tt class="py-name">thisExpr</tt> <tt class="py-op">+</tt> <tt class="py-name">opExpr2</tt> <tt class="py-op">+</tt> <tt class="py-name">thisExpr</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> \ </tt>
+<a name="L71"></a><tt class="py-lineno">71</tt>  <tt class="py-line">                            <tt class="py-name">Group</tt><tt class="py-op">(</tt><tt class="py-name">lastExpr</tt> <tt class="py-op">+</tt> <tt class="py-name">opExpr1</tt> <tt class="py-op">+</tt> <tt class="py-name">thisExpr</tt> <tt class="py-op">+</tt> <tt class="py-name">opExpr2</tt> <tt class="py-op">+</tt> <tt class="py-name">thisExpr</tt><tt class="py-op">)</tt> </tt>
+<a name="L72"></a><tt class="py-lineno">72</tt>  <tt class="py-line">            <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L73"></a><tt class="py-lineno">73</tt>  <tt class="py-line">                <tt class="py-keyword">raise</tt> <tt class="py-name">ValueError</tt><tt class="py-op">(</tt><tt class="py-string">"operator must be unary (1), binary (2), or ternary (3)"</tt><tt class="py-op">)</tt> </tt>
+<a name="L74"></a><tt class="py-lineno">74</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L75"></a><tt class="py-lineno">75</tt>  <tt class="py-line">            <tt class="py-keyword">raise</tt> <tt class="py-name">ValueError</tt><tt class="py-op">(</tt><tt class="py-string">"operator must indicate right or left associativity"</tt><tt class="py-op">)</tt> </tt>
+<a name="L76"></a><tt class="py-lineno">76</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">pa</tt><tt class="py-op">:</tt> </tt>
+<a name="L77"></a><tt class="py-lineno">77</tt>  <tt class="py-line">            <tt class="py-name">matchExpr</tt><tt class="py-op">.</tt><tt class="py-name">setParseAction</tt><tt class="py-op">(</tt><tt class="py-name">pa</tt><tt class="py-op">)</tt> </tt>
+<a name="L78"></a><tt class="py-lineno">78</tt>  <tt class="py-line">        <tt class="py-name">thisExpr</tt> <tt class="py-op">&lt;&lt;</tt> <tt class="py-op">(</tt><tt class="py-name">matchExpr</tt> <tt class="py-op">|</tt> <tt class="py-name">lastExpr</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">setName</tt><tt class="py-op">(</tt><tt class="py-string">'operation with %s'</tt> <tt class="py-op">%</tt> <tt class="py-name">opExpr</tt><tt class="py-op">)</tt> </tt>
+<a name="L79"></a><tt class="py-lineno">79</tt>  <tt class="py-line">        <tt class="py-name">lastExpr</tt> <tt class="py-op">=</tt> <tt class="py-name">thisExpr</tt> </tt>
+<a name="L80"></a><tt class="py-lineno">80</tt>  <tt class="py-line">    <tt class="py-name">ret</tt> <tt class="py-op">&lt;&lt;</tt> <tt class="py-name">lastExpr</tt> </tt>
+<a name="L81"></a><tt class="py-lineno">81</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">ret</tt> </tt>
+</div><a name="L82"></a><tt class="py-lineno">82</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="contracts-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://github.com/AndreaCensi/contracts">PyContracts</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sun Feb 26 11:44:30 2012
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

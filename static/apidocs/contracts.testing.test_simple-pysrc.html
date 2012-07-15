@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>contracts.testing.test_simple</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="contracts-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://github.com/AndreaCensi/contracts">PyContracts</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="contracts-module.html">Package&nbsp;contracts</a> ::
+        <a href="contracts.testing-module.html">Package&nbsp;testing</a> ::
+        Module&nbsp;test_simple
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="contracts.testing.test_simple-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="contracts.testing.test_simple-module.html">Module contracts.testing.test_simple</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">traceback</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt><tt class="py-op">.</tt><tt id="link-0" class="py-name" targets="Module contracts.main=contracts.main-module.html,Function contracts.testing.friendliness_statistics.main()=contracts.testing.friendliness_statistics-module.html#main"><a title="contracts.main
+contracts.testing.friendliness_statistics.main" class="py-name" href="#" onclick="return doclink('link-0', 'main', 'link-0');">main</a></tt> <tt class="py-keyword">import</tt> <tt id="link-1" class="py-name" targets="Function contracts.main.parse_contract_string()=contracts.main-module.html#parse_contract_string"><a title="contracts.main.parse_contract_string" class="py-name" href="#" onclick="return doclink('link-1', 'parse_contract_string', 'link-1');">parse_contract_string</a></tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt><tt class="py-op">.</tt><tt id="link-2" class="py-name" targets="Module contracts.interface=contracts.interface-module.html"><a title="contracts.interface" class="py-name" href="#" onclick="return doclink('link-2', 'interface', 'link-2');">interface</a></tt> <tt class="py-keyword">import</tt> <tt id="link-3" class="py-name" targets="Class contracts.interface.ContractNotRespected=contracts.interface.ContractNotRespected-class.html"><a title="contracts.interface.ContractNotRespected" class="py-name" href="#" onclick="return doclink('link-3', 'ContractNotRespected', 'link-3');">ContractNotRespected</a></tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt><tt class="py-op">.</tt><tt id="link-4" class="py-name" targets="Module contracts.test_registrar=contracts.test_registrar-module.html"><a title="contracts.test_registrar" class="py-name" href="#" onclick="return doclink('link-4', 'test_registrar', 'link-4');">test_registrar</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">(</tt><tt id="link-5" class="py-name" targets="Variable contracts.test_registrar.good_examples=contracts.test_registrar-module.html#good_examples,Variable contracts.testing.friendliness_statistics.good_examples=contracts.testing.friendliness_statistics-module.html#good_examples,Variable contracts.testing.test_pickling.good_examples=contracts.testing.test_pickling-module.html#good_examples,Variable contracts.testing.test_simple.good_examples=contracts.testing.test_simple-module.html#good_examples"><a title="contracts.test_registrar.good_examples
+contracts.testing.friendliness_statistics.good_examples
+contracts.testing.test_pickling.good_examples
+contracts.testing.test_simple.good_examples" class="py-name" href="#" onclick="return doclink('link-5', 'good_examples', 'link-5');">good_examples</a></tt><tt class="py-op">,</tt> <tt id="link-6" class="py-name" targets="Variable contracts.test_registrar.semantic_fail_examples=contracts.test_registrar-module.html#semantic_fail_examples,Variable contracts.testing.friendliness_statistics.semantic_fail_examples=contracts.testing.friendliness_statistics-module.html#semantic_fail_examples,Variable contracts.testing.test_pickling.semantic_fail_examples=contracts.testing.test_pickling-module.html#semantic_fail_examples,Variable contracts.testing.test_simple.semantic_fail_examples=contracts.testing.test_simple-module.html#semantic_fail_examples"><a title="contracts.test_registrar.semantic_fail_examples
+contracts.testing.friendliness_statistics.semantic_fail_examples
+contracts.testing.test_pickling.semantic_fail_examples
+contracts.testing.test_simple.semantic_fail_examples" class="py-name" href="#" onclick="return doclink('link-6', 'semantic_fail_examples', 'link-6');">semantic_fail_examples</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line">                              <tt id="link-7" class="py-name" targets="Variable contracts.test_registrar.syntax_fail_examples=contracts.test_registrar-module.html#syntax_fail_examples,Variable contracts.testing.test_simple.syntax_fail_examples=contracts.testing.test_simple-module.html#syntax_fail_examples"><a title="contracts.test_registrar.syntax_fail_examples
+contracts.testing.test_simple.syntax_fail_examples" class="py-name" href="#" onclick="return doclink('link-7', 'syntax_fail_examples', 'link-7');">syntax_fail_examples</a></tt><tt class="py-op">,</tt> <tt id="link-8" class="py-name" targets="Variable contracts.test_registrar.contract_fail_examples=contracts.test_registrar-module.html#contract_fail_examples,Variable contracts.testing.friendliness_statistics.contract_fail_examples=contracts.testing.friendliness_statistics-module.html#contract_fail_examples,Variable contracts.testing.test_pickling.contract_fail_examples=contracts.testing.test_pickling-module.html#contract_fail_examples,Variable contracts.testing.test_simple.contract_fail_examples=contracts.testing.test_simple-module.html#contract_fail_examples"><a title="contracts.test_registrar.contract_fail_examples
+contracts.testing.friendliness_statistics.contract_fail_examples
+contracts.testing.test_pickling.contract_fail_examples
+contracts.testing.test_simple.contract_fail_examples" class="py-name" href="#" onclick="return doclink('link-8', 'contract_fail_examples', 'link-8');">contract_fail_examples</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt><tt id="link-9" class="py-name" targets="Module contracts.testing.utils=contracts.testing.utils-module.html"><a title="contracts.testing.utils" class="py-name" href="#" onclick="return doclink('link-9', 'utils', 'link-9');">utils</a></tt> <tt class="py-keyword">import</tt> <tt id="link-10" class="py-name" targets="Function contracts.testing.utils.check_contracts_ok()=contracts.testing.utils-module.html#check_contracts_ok"><a title="contracts.testing.utils.check_contracts_ok" class="py-name" href="#" onclick="return doclink('link-10', 'check_contracts_ok', 'link-10');">check_contracts_ok</a></tt><tt class="py-op">,</tt> <tt id="link-11" class="py-name" targets="Function contracts.testing.utils.check_syntax_fail()=contracts.testing.utils-module.html#check_syntax_fail"><a title="contracts.testing.utils.check_syntax_fail" class="py-name" href="#" onclick="return doclink('link-11', 'check_syntax_fail', 'link-11');">check_syntax_fail</a></tt><tt class="py-op">,</tt> <tt id="link-12" class="py-name" targets="Function contracts.testing.utils.check_contracts_fail()=contracts.testing.utils-module.html#check_contracts_fail"><a title="contracts.testing.utils.check_contracts_fail" class="py-name" href="#" onclick="return doclink('link-12', 'check_contracts_fail', 'link-12');">check_contracts_fail</a></tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-comment"># Import the other tests</tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt> <tt class="py-keyword">import</tt> <tt id="link-13" class="py-name" targets="Module contracts.testing.test_multiple=contracts.testing.test_multiple-module.html"><a title="contracts.testing.test_multiple" class="py-name" href="#" onclick="return doclink('link-13', 'test_multiple', 'link-13');">test_multiple</a></tt>  <tt class="py-comment"># @UnusedImport</tt> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"> </tt>
+<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line"><tt class="py-comment"># Import all the symbols needed to eval() the __repr__() output.</tt> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt><tt class="py-op">.</tt><tt id="link-14" class="py-name" targets="Package contracts.library=contracts.library-module.html,Package contracts.testing.library=contracts.testing.library-module.html"><a title="contracts.library
+contracts.testing.library" class="py-name" href="#" onclick="return doclink('link-14', 'library', 'link-14');">library</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt>  <tt class="py-comment"># @UnusedWildImport @UnresolvedImport</tt> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"><tt class="py-comment">## If you want to try only some tests, set select to True, and add them below.</tt> </tt>
+<a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line"><tt class="py-comment">## Remove the other tests</tt> </tt>
+<a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line"><tt class="py-comment">#good_examples[:] = []</tt> </tt>
+<a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line"><tt class="py-comment">#syntax_fail_examples[:] = []</tt> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line"><tt class="py-comment">#semantic_fail_examples[:] = []</tt> </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line"><tt class="py-comment">#contract_fail_examples[:] = []</tt> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line"><tt class="py-comment">#</tt> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line"><tt class="py-comment">## Add the ones you want to do here:</tt> </tt>
+<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line"><tt class="py-comment">#from ..test_registrar import  fail, good, syntax_fail, semantic_fail </tt> </tt>
+<a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line"> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line"> </tt>
+<a name="test_good"></a><div id="test_good-def"><a name="L27"></a><tt class="py-lineno"> 27</tt> <a class="py-toggle" href="#" id="test_good-toggle" onclick="return toggle('test_good');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="contracts.testing.test_simple-module.html#test_good">test_good</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="test_good-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="test_good-expanded"><a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">contract</tt><tt class="py-op">,</tt> <tt class="py-name">value</tt><tt class="py-op">,</tt> <tt class="py-name">exact</tt> <tt class="py-keyword">in</tt> <tt id="link-15" class="py-name"><a title="contracts.test_registrar.good_examples
+contracts.testing.friendliness_statistics.good_examples
+contracts.testing.test_pickling.good_examples
+contracts.testing.test_simple.good_examples" class="py-name" href="#" onclick="return doclink('link-15', 'good_examples', 'link-5');">good_examples</a></tt><tt class="py-op">:</tt>  <tt class="py-comment"># @UnusedVariable</tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line">        <tt class="py-keyword">yield</tt> <tt id="link-16" class="py-name"><a title="contracts.testing.utils.check_contracts_ok" class="py-name" href="#" onclick="return doclink('link-16', 'check_contracts_ok', 'link-10');">check_contracts_ok</a></tt><tt class="py-op">,</tt> <tt class="py-name">contract</tt><tt class="py-op">,</tt> <tt class="py-name">value</tt> </tt>
+</div><a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line"> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line"> </tt>
+<a name="test_syntax_fail"></a><div id="test_syntax_fail-def"><a name="L32"></a><tt class="py-lineno"> 32</tt> <a class="py-toggle" href="#" id="test_syntax_fail-toggle" onclick="return toggle('test_syntax_fail');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="contracts.testing.test_simple-module.html#test_syntax_fail">test_syntax_fail</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="test_syntax_fail-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="test_syntax_fail-expanded"><a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt id="link-17" class="py-name" targets="Variable contracts.testing.friendliness_statistics.s=contracts.testing.friendliness_statistics-module.html#s"><a title="contracts.testing.friendliness_statistics.s" class="py-name" href="#" onclick="return doclink('link-17', 's', 'link-17');">s</a></tt> <tt class="py-keyword">in</tt> <tt id="link-18" class="py-name"><a title="contracts.test_registrar.syntax_fail_examples
+contracts.testing.test_simple.syntax_fail_examples" class="py-name" href="#" onclick="return doclink('link-18', 'syntax_fail_examples', 'link-7');">syntax_fail_examples</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line">        <tt class="py-keyword">yield</tt> <tt id="link-19" class="py-name"><a title="contracts.testing.utils.check_syntax_fail" class="py-name" href="#" onclick="return doclink('link-19', 'check_syntax_fail', 'link-11');">check_syntax_fail</a></tt><tt class="py-op">,</tt> <tt id="link-20" class="py-name"><a title="contracts.testing.friendliness_statistics.s" class="py-name" href="#" onclick="return doclink('link-20', 's', 'link-17');">s</a></tt> </tt>
+</div><a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line"> </tt>
+<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line"> </tt>
+<a name="test_semantic_fail"></a><div id="test_semantic_fail-def"><a name="L37"></a><tt class="py-lineno"> 37</tt> <a class="py-toggle" href="#" id="test_semantic_fail-toggle" onclick="return toggle('test_semantic_fail');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="contracts.testing.test_simple-module.html#test_semantic_fail">test_semantic_fail</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="test_semantic_fail-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="test_semantic_fail-expanded"><a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">contract</tt><tt class="py-op">,</tt> <tt class="py-name">value</tt><tt class="py-op">,</tt> <tt class="py-name">exact</tt> <tt class="py-keyword">in</tt> <tt id="link-21" class="py-name"><a title="contracts.test_registrar.semantic_fail_examples
+contracts.testing.friendliness_statistics.semantic_fail_examples
+contracts.testing.test_pickling.semantic_fail_examples
+contracts.testing.test_simple.semantic_fail_examples" class="py-name" href="#" onclick="return doclink('link-21', 'semantic_fail_examples', 'link-6');">semantic_fail_examples</a></tt><tt class="py-op">:</tt>  <tt class="py-comment"># @UnusedVariable</tt> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">        <tt class="py-keyword">yield</tt> <tt id="link-22" class="py-name"><a title="contracts.testing.utils.check_contracts_fail" class="py-name" href="#" onclick="return doclink('link-22', 'check_contracts_fail', 'link-12');">check_contracts_fail</a></tt><tt class="py-op">,</tt> <tt class="py-name">contract</tt><tt class="py-op">,</tt> <tt class="py-name">value</tt><tt class="py-op">,</tt> <tt id="link-23" class="py-name"><a title="contracts.interface.ContractNotRespected" class="py-name" href="#" onclick="return doclink('link-23', 'ContractNotRespected', 'link-3');">ContractNotRespected</a></tt> </tt>
+</div><a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line"> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line"> </tt>
+<a name="test_contract_fail"></a><div id="test_contract_fail-def"><a name="L42"></a><tt class="py-lineno"> 42</tt> <a class="py-toggle" href="#" id="test_contract_fail-toggle" onclick="return toggle('test_contract_fail');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="contracts.testing.test_simple-module.html#test_contract_fail">test_contract_fail</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="test_contract_fail-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="test_contract_fail-expanded"><a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">contract</tt><tt class="py-op">,</tt> <tt class="py-name">value</tt><tt class="py-op">,</tt> <tt class="py-name">exact</tt> <tt class="py-keyword">in</tt> <tt id="link-24" class="py-name"><a title="contracts.test_registrar.contract_fail_examples
+contracts.testing.friendliness_statistics.contract_fail_examples
+contracts.testing.test_pickling.contract_fail_examples
+contracts.testing.test_simple.contract_fail_examples" class="py-name" href="#" onclick="return doclink('link-24', 'contract_fail_examples', 'link-8');">contract_fail_examples</a></tt><tt class="py-op">:</tt>  <tt class="py-comment"># @UnusedVariable</tt> </tt>
+<a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line">        <tt class="py-keyword">yield</tt> <tt id="link-25" class="py-name"><a title="contracts.testing.utils.check_contracts_fail" class="py-name" href="#" onclick="return doclink('link-25', 'check_contracts_fail', 'link-12');">check_contracts_fail</a></tt><tt class="py-op">,</tt> <tt class="py-name">contract</tt><tt class="py-op">,</tt> <tt class="py-name">value</tt><tt class="py-op">,</tt> <tt id="link-26" class="py-name"><a title="contracts.interface.ContractNotRespected" class="py-name" href="#" onclick="return doclink('link-26', 'ContractNotRespected', 'link-3');">ContractNotRespected</a></tt> </tt>
+</div><a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line"> </tt>
+<a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line"> </tt>
+<a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line"><tt class="py-comment"># Checks that we can eval() the __repr__() value and </tt> </tt>
+<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line"><tt class="py-comment"># we get an equivalent object. </tt> </tt>
+<a name="test_repr"></a><div id="test_repr-def"><a name="L49"></a><tt class="py-lineno"> 49</tt> <a class="py-toggle" href="#" id="test_repr-toggle" onclick="return toggle('test_repr');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="contracts.testing.test_simple-module.html#test_repr">test_repr</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="test_repr-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="test_repr-expanded"><a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line">    <tt class="py-name">allc</tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt id="link-27" class="py-name"><a title="contracts.test_registrar.good_examples
+contracts.testing.friendliness_statistics.good_examples
+contracts.testing.test_pickling.good_examples
+contracts.testing.test_simple.good_examples" class="py-name" href="#" onclick="return doclink('link-27', 'good_examples', 'link-5');">good_examples</a></tt> <tt class="py-op">+</tt> <tt id="link-28" class="py-name"><a title="contracts.test_registrar.semantic_fail_examples
+contracts.testing.friendliness_statistics.semantic_fail_examples
+contracts.testing.test_pickling.semantic_fail_examples
+contracts.testing.test_simple.semantic_fail_examples" class="py-name" href="#" onclick="return doclink('link-28', 'semantic_fail_examples', 'link-6');">semantic_fail_examples</a></tt> <tt class="py-op">+</tt> <tt id="link-29" class="py-name"><a title="contracts.test_registrar.contract_fail_examples
+contracts.testing.friendliness_statistics.contract_fail_examples
+contracts.testing.test_pickling.contract_fail_examples
+contracts.testing.test_simple.contract_fail_examples" class="py-name" href="#" onclick="return doclink('link-29', 'contract_fail_examples', 'link-8');">contract_fail_examples</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">contract</tt><tt class="py-op">,</tt> <tt class="py-name">value</tt><tt class="py-op">,</tt> <tt class="py-name">exact</tt> <tt class="py-keyword">in</tt> <tt class="py-name">allc</tt><tt class="py-op">:</tt>  <tt class="py-comment"># @UnusedVariable</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">isinstance</tt><tt class="py-op">(</tt><tt class="py-name">contract</tt><tt class="py-op">,</tt> <tt class="py-name">list</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line">            <tt class="py-keyword">for</tt> <tt class="py-name">c</tt> <tt class="py-keyword">in</tt> <tt class="py-name">contract</tt><tt class="py-op">:</tt> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line">                <tt class="py-keyword">yield</tt> <tt id="link-30" class="py-name" targets="Function contracts.testing.test_simple.check_good_repr()=contracts.testing.test_simple-module.html#check_good_repr"><a title="contracts.testing.test_simple.check_good_repr" class="py-name" href="#" onclick="return doclink('link-30', 'check_good_repr', 'link-30');">check_good_repr</a></tt><tt class="py-op">,</tt> <tt class="py-name">c</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line">            <tt class="py-keyword">yield</tt> <tt id="link-31" class="py-name"><a title="contracts.testing.test_simple.check_good_repr" class="py-name" href="#" onclick="return doclink('link-31', 'check_good_repr', 'link-30');">check_good_repr</a></tt><tt class="py-op">,</tt> <tt class="py-name">contract</tt> </tt>
+</div><a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line"> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line"> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line"><tt class="py-comment">#  Checks that we can reconvert the __str__() value and we get the same. </tt> </tt>
+<a name="test_reconversion"></a><div id="test_reconversion-def"><a name="L60"></a><tt class="py-lineno"> 60</tt> <a class="py-toggle" href="#" id="test_reconversion-toggle" onclick="return toggle('test_reconversion');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="contracts.testing.test_simple-module.html#test_reconversion">test_reconversion</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="test_reconversion-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="test_reconversion-expanded"><a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line">    <tt class="py-name">allc</tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt id="link-32" class="py-name"><a title="contracts.test_registrar.good_examples
+contracts.testing.friendliness_statistics.good_examples
+contracts.testing.test_pickling.good_examples
+contracts.testing.test_simple.good_examples" class="py-name" href="#" onclick="return doclink('link-32', 'good_examples', 'link-5');">good_examples</a></tt> <tt class="py-op">+</tt> <tt id="link-33" class="py-name"><a title="contracts.test_registrar.semantic_fail_examples
+contracts.testing.friendliness_statistics.semantic_fail_examples
+contracts.testing.test_pickling.semantic_fail_examples
+contracts.testing.test_simple.semantic_fail_examples" class="py-name" href="#" onclick="return doclink('link-33', 'semantic_fail_examples', 'link-6');">semantic_fail_examples</a></tt> <tt class="py-op">+</tt> <tt id="link-34" class="py-name"><a title="contracts.test_registrar.contract_fail_examples
+contracts.testing.friendliness_statistics.contract_fail_examples
+contracts.testing.test_pickling.contract_fail_examples
+contracts.testing.test_simple.contract_fail_examples" class="py-name" href="#" onclick="return doclink('link-34', 'contract_fail_examples', 'link-8');">contract_fail_examples</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">contract</tt><tt class="py-op">,</tt> <tt class="py-name">_</tt><tt class="py-op">,</tt> <tt class="py-name">exact</tt> <tt class="py-keyword">in</tt> <tt class="py-name">allc</tt><tt class="py-op">:</tt> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">isinstance</tt><tt class="py-op">(</tt><tt class="py-name">contract</tt><tt class="py-op">,</tt> <tt class="py-name">list</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line">            <tt class="py-keyword">for</tt> <tt class="py-name">c</tt> <tt class="py-keyword">in</tt> <tt class="py-name">contract</tt><tt class="py-op">:</tt> </tt>
+<a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line">                <tt class="py-keyword">yield</tt> <tt id="link-35" class="py-name" targets="Function contracts.testing.test_simple.check_recoversion()=contracts.testing.test_simple-module.html#check_recoversion"><a title="contracts.testing.test_simple.check_recoversion" class="py-name" href="#" onclick="return doclink('link-35', 'check_recoversion', 'link-35');">check_recoversion</a></tt><tt class="py-op">,</tt> <tt class="py-name">c</tt><tt class="py-op">,</tt> <tt class="py-name">exact</tt> </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line">            <tt class="py-keyword">yield</tt> <tt id="link-36" class="py-name"><a title="contracts.testing.test_simple.check_recoversion" class="py-name" href="#" onclick="return doclink('link-36', 'check_recoversion', 'link-35');">check_recoversion</a></tt><tt class="py-op">,</tt> <tt class="py-name">contract</tt><tt class="py-op">,</tt> <tt class="py-name">exact</tt> </tt>
+</div><a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line"> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line"> </tt>
+<a name="check_good_repr"></a><div id="check_good_repr-def"><a name="L70"></a><tt class="py-lineno"> 70</tt> <a class="py-toggle" href="#" id="check_good_repr-toggle" onclick="return toggle('check_good_repr');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="contracts.testing.test_simple-module.html#check_good_repr">check_good_repr</a><tt class="py-op">(</tt><tt class="py-param">c</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="check_good_repr-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="check_good_repr-expanded"><a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line">    <tt class="py-docstring">''' Checks that we can eval() the __repr__() value and we get</tt> </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line"><tt class="py-docstring">        an equivalent object. '''</tt> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line">    <tt class="py-name">parsed</tt> <tt class="py-op">=</tt> <tt id="link-37" class="py-name"><a title="contracts.main.parse_contract_string" class="py-name" href="#" onclick="return doclink('link-37', 'parse_contract_string', 'link-1');">parse_contract_string</a></tt><tt class="py-op">(</tt><tt class="py-name">c</tt><tt class="py-op">)</tt> </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line">    <tt class="py-comment"># Check that it compares true with itself</tt> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line">    <tt class="py-keyword">assert</tt> <tt class="py-name">parsed</tt><tt class="py-op">.</tt><tt id="link-38" class="py-name" targets="Method contracts.docstring_parsing.Arg.__eq__()=contracts.docstring_parsing.Arg-class.html#__eq__,Method contracts.docstring_parsing.DocStringInfo.__eq__()=contracts.docstring_parsing.DocStringInfo-class.html#__eq__,Method contracts.interface.Contract.__eq__()=contracts.interface.Contract-class.html#__eq__,Method contracts.interface.RValue.__eq__()=contracts.interface.RValue-class.html#__eq__"><a title="contracts.docstring_parsing.Arg.__eq__
+contracts.docstring_parsing.DocStringInfo.__eq__
+contracts.interface.Contract.__eq__
+contracts.interface.RValue.__eq__" class="py-name" href="#" onclick="return doclink('link-38', '__eq__', 'link-38');">__eq__</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-string">'Repr does not know itself: %r'</tt> <tt class="py-op">%</tt> <tt class="py-name">parsed</tt> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line"> </tt>
+<a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line">    <tt class="py-name">reprc</tt> <tt class="py-op">=</tt> <tt class="py-name">parsed</tt><tt class="py-op">.</tt><tt id="link-39" class="py-name" targets="Method contracts.backported.FullArgSpec.__repr__()=contracts.backported.FullArgSpec-class.html#__repr__,Method contracts.docstring_parsing.Arg.__repr__()=contracts.docstring_parsing.Arg-class.html#__repr__,Method contracts.docstring_parsing.DocStringInfo.__repr__()=contracts.docstring_parsing.DocStringInfo-class.html#__repr__,Method contracts.interface.Contract.__repr__()=contracts.interface.Contract-class.html#__repr__,Method contracts.interface.RValue.__repr__()=contracts.interface.RValue-class.html#__repr__,Method contracts.library.arithmetic.Binary.__repr__()=contracts.library.arithmetic.Binary-class.html#__repr__,Method contracts.library.arithmetic.Unary.__repr__()=contracts.library.arithmetic.Unary-class.html#__repr__,Method contracts.library.array.Array.__repr__()=contracts.library.array.Array-class.html#__repr__,Method contracts.library.array.Shape.__repr__()=contracts.library.array.Shape-class.html#__repr__,Method contracts.library.array.ShapeContract.__repr__()=contracts.library.array.ShapeContract-class.html#__repr__,Method contracts.library.array_ops.ArrayAnd.__repr__()=contracts.library.array_ops.ArrayAnd-class.html#__repr__,Method contracts.library.array_ops.ArrayConstraint.__repr__()=contracts.library.array_ops.ArrayConstraint-class.html#__repr__,Method contracts.library.array_ops.ArrayOR.__repr__()=contracts.library.array_ops.ArrayOR-class.html#__repr__,Method contracts.library.array_ops.DType.__repr__()=contracts.library.array_ops.DType-class.html#__repr__,Method contracts.library.comparison.CheckOrder.__repr__()=contracts.library.comparison.CheckOrder-class.html#__repr__,Method contracts.library.compositions.And.__repr__()=contracts.library.compositions.And-class.html#__repr__,Method contracts.library.compositions.OR.__repr__()=contracts.library.compositions.OR-class.html#__repr__,Method contracts.library.dicts.Dict.__repr__()=contracts.library.dicts.Dict-class.html#__repr__,Method contracts.library.dummy.Any.__repr__()=contracts.library.dummy.Any-class.html#__repr__,Method contracts.library.dummy.Never.__repr__()=contracts.library.dummy.Never-class.html#__repr__,Method contracts.library.extensions.CheckCallable.__repr__()=contracts.library.extensions.CheckCallable-class.html#__repr__,Method contracts.library.extensions.CheckCallableWithSelf.__repr__()=contracts.library.extensions.CheckCallableWithSelf-class.html#__repr__,Method contracts.library.extensions.Extension.__repr__()=contracts.library.extensions.Extension-class.html#__repr__,Method contracts.library.lists.List.__repr__()=contracts.library.lists.List-class.html#__repr__,Method contracts.library.map.Map.__repr__()=contracts.library.map.Map-class.html#__repr__,Method contracts.library.separate_context.SeparateContext.__repr__()=contracts.library.separate_context.SeparateContext-class.html#__repr__,Method contracts.library.seq.Seq.__repr__()=contracts.library.seq.Seq-class.html#__repr__,Method contracts.library.simple_values.EqualTo.__repr__()=contracts.library.simple_values.EqualTo-class.html#__repr__,Method contracts.library.simple_values.SimpleRValue.__repr__()=contracts.library.simple_values.SimpleRValue-class.html#__repr__,Method contracts.library.strings.String.__repr__()=contracts.library.strings.String-class.html#__repr__,Method contracts.library.tuple.Tuple.__repr__()=contracts.library.tuple.Tuple-class.html#__repr__,Method contracts.library.types_misc.CheckType.__repr__()=contracts.library.types_misc.CheckType-class.html#__repr__,Method contracts.library.types_misc.Type.__repr__()=contracts.library.types_misc.Type-class.html#__repr__,Method contracts.library.variables.BindVariable.__repr__()=contracts.library.variables.BindVariable-class.html#__repr__,Method contracts.library.variables.VariableRef.__repr__()=contracts.library.variables.VariableRef-class.html#__repr__"><a title="contracts.backported.FullArgSpec.__repr__
+contracts.docstring_parsing.Arg.__repr__
+contracts.docstring_parsing.DocStringInfo.__repr__
+contracts.interface.Contract.__repr__
+contracts.interface.RValue.__repr__
+contracts.library.arithmetic.Binary.__repr__
+contracts.library.arithmetic.Unary.__repr__
+contracts.library.array.Array.__repr__
+contracts.library.array.Shape.__repr__
+contracts.library.array.ShapeContract.__repr__
+contracts.library.array_ops.ArrayAnd.__repr__
+contracts.library.array_ops.ArrayConstraint.__repr__
+contracts.library.array_ops.ArrayOR.__repr__
+contracts.library.array_ops.DType.__repr__
+contracts.library.comparison.CheckOrder.__repr__
+contracts.library.compositions.And.__repr__
+contracts.library.compositions.OR.__repr__
+contracts.library.dicts.Dict.__repr__
+contracts.library.dummy.Any.__repr__
+contracts.library.dummy.Never.__repr__
+contracts.library.extensions.CheckCallable.__repr__
+contracts.library.extensions.CheckCallableWithSelf.__repr__
+contracts.library.extensions.Extension.__repr__
+contracts.library.lists.List.__repr__
+contracts.library.map.Map.__repr__
+contracts.library.separate_context.SeparateContext.__repr__
+contracts.library.seq.Seq.__repr__
+contracts.library.simple_values.EqualTo.__repr__
+contracts.library.simple_values.SimpleRValue.__repr__
+contracts.library.strings.String.__repr__
+contracts.library.tuple.Tuple.__repr__
+contracts.library.types_misc.CheckType.__repr__
+contracts.library.types_misc.Type.__repr__
+contracts.library.variables.BindVariable.__repr__
+contracts.library.variables.VariableRef.__repr__" class="py-name" href="#" onclick="return doclink('link-39', '__repr__', 'link-39');">__repr__</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line"> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line">        <tt class="py-name">reeval</tt> <tt class="py-op">=</tt> <tt id="link-40" class="py-name" targets="Method contracts.interface.RValue.eval()=contracts.interface.RValue-class.html#eval,Method contracts.library.arithmetic.Binary.eval()=contracts.library.arithmetic.Binary-class.html#eval,Method contracts.library.arithmetic.Unary.eval()=contracts.library.arithmetic.Unary-class.html#eval,Method contracts.library.simple_values.SimpleRValue.eval()=contracts.library.simple_values.SimpleRValue-class.html#eval,Method contracts.library.variables.VariableRef.eval()=contracts.library.variables.VariableRef-class.html#eval"><a title="contracts.interface.RValue.eval
+contracts.library.arithmetic.Binary.eval
+contracts.library.arithmetic.Unary.eval
+contracts.library.simple_values.SimpleRValue.eval
+contracts.library.variables.VariableRef.eval" class="py-name" href="#" onclick="return doclink('link-40', 'eval', 'link-40');">eval</a></tt><tt class="py-op">(</tt><tt class="py-name">reprc</tt><tt class="py-op">)</tt> </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt> <tt class="py-name">Exception</tt> <tt class="py-keyword">as</tt> <tt id="link-41" class="py-name" targets="Variable contracts.syntax.e=contracts.syntax-module.html#e"><a title="contracts.syntax.e" class="py-name" href="#" onclick="return doclink('link-41', 'e', 'link-41');">e</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line">        <tt class="py-name">traceback</tt><tt class="py-op">.</tt><tt class="py-name">print_exc</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">Exception</tt><tt class="py-op">(</tt><tt class="py-string">'Could not evaluate expression %r: %s'</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">reprc</tt><tt class="py-op">,</tt> <tt id="link-42" class="py-name"><a title="contracts.syntax.e" class="py-name" href="#" onclick="return doclink('link-42', 'e', 'link-41');">e</a></tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line"> </tt>
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line">    <tt class="py-keyword">assert</tt> <tt class="py-name">reeval</tt> <tt class="py-op">==</tt> <tt class="py-name">parsed</tt><tt class="py-op">,</tt> \ </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line">            <tt class="py-string">'Repr gives different object:\n  %r !=\n  %r'</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt class="py-name">reeval</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line"> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line"> </tt>
+<a name="check_recoversion"></a><div id="check_recoversion-def"><a name="L89"></a><tt class="py-lineno"> 89</tt> <a class="py-toggle" href="#" id="check_recoversion-toggle" onclick="return toggle('check_recoversion');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="contracts.testing.test_simple-module.html#check_recoversion">check_recoversion</a><tt class="py-op">(</tt><tt class="py-param">s</tt><tt class="py-op">,</tt> <tt class="py-param">exact</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="check_recoversion-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="check_recoversion-expanded"><a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">    <tt class="py-docstring">''' Checks that we can eval() the __repr__() value and we get</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line"><tt class="py-docstring">        an equivalent object. '''</tt> </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line">    <tt class="py-name">parsed</tt> <tt class="py-op">=</tt> <tt id="link-43" class="py-name"><a title="contracts.main.parse_contract_string" class="py-name" href="#" onclick="return doclink('link-43', 'parse_contract_string', 'link-1');">parse_contract_string</a></tt><tt class="py-op">(</tt><tt id="link-44" class="py-name"><a title="contracts.testing.friendliness_statistics.s" class="py-name" href="#" onclick="return doclink('link-44', 's', 'link-17');">s</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line"> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line">    <tt id="link-45" class="py-name" targets="Variable contracts.testing.friendliness_statistics.s2=contracts.testing.friendliness_statistics-module.html#s2"><a title="contracts.testing.friendliness_statistics.s2" class="py-name" href="#" onclick="return doclink('link-45', 's2', 'link-45');">s2</a></tt> <tt class="py-op">=</tt> <tt class="py-name">parsed</tt><tt class="py-op">.</tt><tt id="link-46" class="py-name" targets="Method contracts.docstring_parsing.DocStringInfo.__str__()=contracts.docstring_parsing.DocStringInfo-class.html#__str__,Method contracts.interface.Contract.__str__()=contracts.interface.Contract-class.html#__str__,Method contracts.interface.ContractNotRespected.__str__()=contracts.interface.ContractNotRespected-class.html#__str__,Method contracts.interface.ContractSyntaxError.__str__()=contracts.interface.ContractSyntaxError-class.html#__str__,Method contracts.interface.RValue.__str__()=contracts.interface.RValue-class.html#__str__,Method contracts.interface.Where.__str__()=contracts.interface.Where-class.html#__str__,Method contracts.library.arithmetic.Binary.__str__()=contracts.library.arithmetic.Binary-class.html#__str__,Method contracts.library.arithmetic.Unary.__str__()=contracts.library.arithmetic.Unary-class.html#__str__,Method contracts.library.array.Array.__str__()=contracts.library.array.Array-class.html#__str__,Method contracts.library.array.Shape.__str__()=contracts.library.array.Shape-class.html#__str__,Method contracts.library.array.ShapeContract.__str__()=contracts.library.array.ShapeContract-class.html#__str__,Method contracts.library.array_ops.ArrayConstraint.__str__()=contracts.library.array_ops.ArrayConstraint-class.html#__str__,Method contracts.library.array_ops.ArrayLogical.__str__()=contracts.library.array_ops.ArrayLogical-class.html#__str__,Method contracts.library.array_ops.DType.__str__()=contracts.library.array_ops.DType-class.html#__str__,Method contracts.library.comparison.CheckOrder.__str__()=contracts.library.comparison.CheckOrder-class.html#__str__,Method contracts.library.compositions.Logical.__str__()=contracts.library.compositions.Logical-class.html#__str__,Method contracts.library.dicts.Dict.__str__()=contracts.library.dicts.Dict-class.html#__str__,Method contracts.library.dummy.Any.__str__()=contracts.library.dummy.Any-class.html#__str__,Method contracts.library.dummy.Never.__str__()=contracts.library.dummy.Never-class.html#__str__,Method contracts.library.extensions.CheckCallable.__str__()=contracts.library.extensions.CheckCallable-class.html#__str__,Method contracts.library.extensions.CheckCallableWithSelf.__str__()=contracts.library.extensions.CheckCallableWithSelf-class.html#__str__,Method contracts.library.extensions.Extension.__str__()=contracts.library.extensions.Extension-class.html#__str__,Method contracts.library.lists.List.__str__()=contracts.library.lists.List-class.html#__str__,Method contracts.library.map.Map.__str__()=contracts.library.map.Map-class.html#__str__,Method contracts.library.separate_context.SeparateContext.__str__()=contracts.library.separate_context.SeparateContext-class.html#__str__,Method contracts.library.seq.Seq.__str__()=contracts.library.seq.Seq-class.html#__str__,Method contracts.library.simple_values.EqualTo.__str__()=contracts.library.simple_values.EqualTo-class.html#__str__,Method contracts.library.simple_values.SimpleRValue.__str__()=contracts.library.simple_values.SimpleRValue-class.html#__str__,Method contracts.library.strings.String.__str__()=contracts.library.strings.String-class.html#__str__,Method contracts.library.tuple.Tuple.__str__()=contracts.library.tuple.Tuple-class.html#__str__,Method contracts.library.types_misc.CheckType.__str__()=contracts.library.types_misc.CheckType-class.html#__str__,Method contracts.library.types_misc.Type.__str__()=contracts.library.types_misc.Type-class.html#__str__,Method contracts.library.variables.BindVariable.__str__()=contracts.library.variables.BindVariable-class.html#__str__,Method contracts.library.variables.VariableRef.__str__()=contracts.library.variables.VariableRef-class.html#__str__"><a title="contracts.docstring_parsing.DocStringInfo.__str__
+contracts.interface.Contract.__str__
+contracts.interface.ContractNotRespected.__str__
+contracts.interface.ContractSyntaxError.__str__
+contracts.interface.RValue.__str__
+contracts.interface.Where.__str__
+contracts.library.arithmetic.Binary.__str__
+contracts.library.arithmetic.Unary.__str__
+contracts.library.array.Array.__str__
+contracts.library.array.Shape.__str__
+contracts.library.array.ShapeContract.__str__
+contracts.library.array_ops.ArrayConstraint.__str__
+contracts.library.array_ops.ArrayLogical.__str__
+contracts.library.array_ops.DType.__str__
+contracts.library.comparison.CheckOrder.__str__
+contracts.library.compositions.Logical.__str__
+contracts.library.dicts.Dict.__str__
+contracts.library.dummy.Any.__str__
+contracts.library.dummy.Never.__str__
+contracts.library.extensions.CheckCallable.__str__
+contracts.library.extensions.CheckCallableWithSelf.__str__
+contracts.library.extensions.Extension.__str__
+contracts.library.lists.List.__str__
+contracts.library.map.Map.__str__
+contracts.library.separate_context.SeparateContext.__str__
+contracts.library.seq.Seq.__str__
+contracts.library.simple_values.EqualTo.__str__
+contracts.library.simple_values.SimpleRValue.__str__
+contracts.library.strings.String.__str__
+contracts.library.tuple.Tuple.__str__
+contracts.library.types_misc.CheckType.__str__
+contracts.library.types_misc.Type.__str__
+contracts.library.variables.BindVariable.__str__
+contracts.library.variables.VariableRef.__str__" class="py-name" href="#" onclick="return doclink('link-46', '__str__', 'link-46');">__str__</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line">    <tt class="py-name">reconv</tt> <tt class="py-op">=</tt> <tt id="link-47" class="py-name"><a title="contracts.main.parse_contract_string" class="py-name" href="#" onclick="return doclink('link-47', 'parse_contract_string', 'link-1');">parse_contract_string</a></tt><tt class="py-op">(</tt><tt id="link-48" class="py-name"><a title="contracts.testing.friendliness_statistics.s2" class="py-name" href="#" onclick="return doclink('link-48', 's2', 'link-45');">s2</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line"> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line">    <tt class="py-name">msg</tt> <tt class="py-op">=</tt> <tt class="py-string">'Reparsing gives different objects:\n'</tt> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line">    <tt class="py-name">msg</tt> <tt class="py-op">+=</tt> <tt class="py-string">'  Original string: %r\n'</tt> <tt class="py-op">%</tt> <tt id="link-49" class="py-name"><a title="contracts.testing.friendliness_statistics.s" class="py-name" href="#" onclick="return doclink('link-49', 's', 'link-17');">s</a></tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line">    <tt class="py-name">msg</tt> <tt class="py-op">+=</tt> <tt class="py-string">'           parsed: %r\n'</tt> <tt class="py-op">%</tt> <tt class="py-name">parsed</tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line">    <tt class="py-name">msg</tt> <tt class="py-op">+=</tt> <tt class="py-string">'      Regenerated: %r\n'</tt> <tt class="py-op">%</tt> <tt id="link-50" class="py-name"><a title="contracts.testing.friendliness_statistics.s2" class="py-name" href="#" onclick="return doclink('link-50', 's2', 'link-45');">s2</a></tt> </tt>
+<a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line">    <tt class="py-name">msg</tt> <tt class="py-op">+=</tt> <tt class="py-string">'         reparsed: %r'</tt> <tt class="py-op">%</tt> <tt class="py-name">reconv</tt> </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line"> </tt>
+<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line">    <tt class="py-keyword">assert</tt> <tt class="py-name">reconv</tt> <tt class="py-op">==</tt> <tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt class="py-name">msg</tt> </tt>
+<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line"> </tt>
+<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">exact</tt><tt class="py-op">:</tt> </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line">        <tt class="py-comment"># Warn if the string is not exactly the same.</tt> </tt>
+<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt id="link-51" class="py-name"><a title="contracts.testing.friendliness_statistics.s2" class="py-name" href="#" onclick="return doclink('link-51', 's2', 'link-45');">s2</a></tt> <tt class="py-op">!=</tt> <tt id="link-52" class="py-name"><a title="contracts.testing.friendliness_statistics.s" class="py-name" href="#" onclick="return doclink('link-52', 's', 'link-17');">s</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line">            <tt class="py-name">msg</tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-string">'Slight different regenerated strings:\n'</tt><tt class="py-op">)</tt> </tt>
+<a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line">            <tt class="py-name">msg</tt> <tt class="py-op">+=</tt> <tt class="py-op">(</tt><tt class="py-string">'   original: %s\n'</tt> <tt class="py-op">%</tt> <tt id="link-53" class="py-name"><a title="contracts.testing.friendliness_statistics.s" class="py-name" href="#" onclick="return doclink('link-53', 's', 'link-17');">s</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line">            <tt class="py-name">msg</tt> <tt class="py-op">+=</tt> <tt class="py-op">(</tt><tt class="py-string">'  generated: %s\n'</tt> <tt class="py-op">%</tt> <tt id="link-54" class="py-name"><a title="contracts.testing.friendliness_statistics.s2" class="py-name" href="#" onclick="return doclink('link-54', 's2', 'link-45');">s2</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line">            <tt class="py-name">msg</tt> <tt class="py-op">+=</tt> <tt class="py-op">(</tt><tt class="py-string">'   parsed the first time as: %r\n'</tt> <tt class="py-op">%</tt> <tt class="py-name">parsed</tt><tt class="py-op">)</tt> </tt>
+<a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line">            <tt class="py-name">msg</tt> <tt class="py-op">+=</tt> <tt class="py-op">(</tt><tt class="py-string">'                and then as: %r'</tt> <tt class="py-op">%</tt> <tt class="py-name">reconv</tt><tt class="py-op">)</tt> </tt>
+<a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line">            <tt class="py-keyword">assert</tt> <tt id="link-55" class="py-name"><a title="contracts.testing.friendliness_statistics.s2" class="py-name" href="#" onclick="return doclink('link-55', 's2', 'link-45');">s2</a></tt> <tt class="py-op">==</tt> <tt id="link-56" class="py-name"><a title="contracts.testing.friendliness_statistics.s" class="py-name" href="#" onclick="return doclink('link-56', 's', 'link-17');">s</a></tt><tt class="py-op">,</tt> <tt class="py-name">msg</tt> </tt>
+</div><a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="contracts-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://github.com/AndreaCensi/contracts">PyContracts</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sun Feb 26 11:44:27 2012
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
