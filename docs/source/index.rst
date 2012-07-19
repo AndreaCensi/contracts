@@ -14,7 +14,7 @@ has several specialized contracts (notably for Numpy arrays).
 
 
 **Status:** |pycontracts| is very well tested and documented. The last release
-is version 1.2.0 (November 2011). See :ref:`changelog <changelog>`.
+is version 1.4.0 (July 2012). See :ref:`changelog <changelog>`.
 
 
 **Why**: The purpose of |pycontracts| is **not** to turn Python into a statically-typed language
