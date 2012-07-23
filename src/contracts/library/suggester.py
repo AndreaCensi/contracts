@@ -74,21 +74,21 @@ def create_suggester(get_options, get_message=default_message,
     def parse_action(s, loc, tokens):
         identifier = tokens[0]
         options = get_options()
-        if not (identifier in options):
-            msg = 'Bug in syntax: I was not supposed to match %r.' % identifier
-            msg += '(options: %s)' % options
+        
+        msg = 'Bug in syntax: I was not supposed to match %r.' % identifier
+        msg += '(options: %s)' % options
+        
+        msg += ''' Suggestions on the cause:
+            1) Use add_keyword(), always.
             
-            msg += ''' Suggestions on the cause:
-                1) Use add_keyword(), always.
-                
-                2) Use:
-                    Keyword('attr') - attrs_spec
-                   instead of 
-                    Keyword('attr') + attrs_spec
-            '''
-            assert False, msg
-             
+            2) Use:
+                Keyword('attr') - attrs_spec
+               instead of 
+                Keyword('attr') + attrs_spec
+        '''
+        assert not (identifier in options), msg
 
+        
         msg = get_message(identifier)
 
         if options:
