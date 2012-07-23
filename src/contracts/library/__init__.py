@@ -8,7 +8,7 @@ from .seq import Seq
 from .tuple import Tuple
 from .dicts import Dict
 from .map import Map
-from .objects import Object
+from .attr import Attr 
 from .comparison import CheckOrder
 from .arithmetic import Binary, Unary
 from .compositions import OR, And, composite_contract, or_contract
