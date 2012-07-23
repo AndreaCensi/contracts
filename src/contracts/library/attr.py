@@ -40,7 +40,9 @@ class Attr(Contract):
         where = W(s, loc)
         attrs = tokens.get('attrs', None)
         if attrs is not None:
-            attrs = {k: v for k, v in attrs.items()}
+            # Python 3 only
+            # attrs = {k: v for k, v in attrs.items()}
+            attrs = dict([(k, v) for k, v in attrs.items()])
         return Attr(attrs, where=where)
 
 attr_spec = Dict(
