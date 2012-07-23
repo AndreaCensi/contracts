@@ -37,15 +37,10 @@ class Object(Contract):
 
     @staticmethod
     def parse_action(s, loc, tokens):
-        print "Object.parse_action:", s, loc, tokens
-        print "tokens.keys", tokens.keys()
         where = W(s, loc)
         attrs = tokens.get('attrs', None)
-        print "tokens['attrs']", attrs
         if attrs is not None:
             attrs = {k: v for k, v in attrs.items()}
-            print "attrs", attrs
-        #attrs = tokens.get('attrs', None)
         return Object(attrs, where=where)
 
 attr_spec = Dict(
