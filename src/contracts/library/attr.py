@@ -12,16 +12,15 @@ class Attr(Contract):
         self.attrs = attrs
 
     def check_contract(self, context, value):
-        # Everything is an object
-        #if not isinstance(value, object):
-        #    error = 'Expected an object, got %r.' % value.__class__.__name__
-        #    raise ContractNotRespected(contract=self, error=error,
-        #            value=value, context=context)
-
         if self.attrs is not None:
             for k in self.attrs:
                 if hasattr(value, k):
                     self.attrs[k]._check_contract(context, getattr(value, k))
+                else:
+                    error = 'Expected an attribute %r.' % k
+                    raise ContractNotRespected(contract=self, error=error,
+                                               value=value, context=context)
+
 
     def __str__(self):
         s = 'attr'
