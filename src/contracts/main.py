@@ -185,12 +185,12 @@ def contract_decorator(*arg, **kwargs):
         return tmp_wrap
 
 
-def contracts_decorate(function, modify_docstring=True, **kwargs):
+def contracts_decorate(function_, modify_docstring=True, **kwargs):
     ''' An explicit way to decorate a given function.
         The decorator :py:func:`decorate` calls this function internally. 
     '''
 
-    all_args = get_all_arg_names(function)
+    all_args = get_all_arg_names(function_)
 
     if kwargs:
 
@@ -205,7 +205,7 @@ def contracts_decorate(function, modify_docstring=True, **kwargs):
 
     else:
         # Py3k: check if there are annotations
-        annotations = get_annotations(function)
+        annotations = get_annotations(function_)
 
         if annotations:
             #print(annotations)
@@ -218,13 +218,13 @@ def contracts_decorate(function, modify_docstring=True, **kwargs):
             accepts_dict = annotations
         else:
             # Last resort: get types from documentation string.
-            if function.__doc__ is None:
+            if function_.__doc__ is None:
                 # XXX: change name
                 raise ContractException(
                                 'You did not specify a contract, nor I can '
-                                        'find a docstring for %r.' % function)
+                                        'find a docstring for %r.' % function_)
 
-            accepts_dict, returns = parse_contracts_from_docstring(function)
+            accepts_dict, returns = parse_contracts_from_docstring(function_)
 
             if not accepts_dict and not returns:
                 raise ContractException('No contract specified in docstring.')
@@ -239,16 +239,16 @@ def contracts_decorate(function, modify_docstring=True, **kwargs):
 
     # TODO: add classname if bound method
     nice_function_display = ('%s() in %s' %
-                             (function.__name__, function.__module__))
+                             (function_.__name__, function_.__module__))
 
     is_bound_method = 'self' in all_args
 
     def contracts_checker(unused, *args, **kwargs):
         do_checks = not all_disabled()
         if not do_checks:
-            return function(*args, **kwargs)
+            return function_(*args, **kwargs)
 
-        bound = getcallargs(function, *args, **kwargs)
+        bound = getcallargs(function_, *args, **kwargs)
 
         try:
             context = {}
@@ -266,7 +266,7 @@ def contracts_decorate(function, modify_docstring=True, **kwargs):
             e.error = msg + e.error
             raise e
 
-        result = function(*args, **kwargs)
+        result = function_(*args, **kwargs)
 
         if returns_parsed is not None:
             try:
@@ -285,8 +285,8 @@ def contracts_decorate(function, modify_docstring=True, **kwargs):
         def write_contract_as_rst(c):
             return '``%s``' % c
 
-        if function.__doc__ is not None:
-            docs = DocStringInfo.parse(function.__doc__)
+        if function_.__doc__ is not None:
+            docs = DocStringInfo.parse(function_.__doc__)
         else:
             docs = DocStringInfo("")
         for param in accepts_parsed:
@@ -305,19 +305,19 @@ def contracts_decorate(function, modify_docstring=True, **kwargs):
         new_docs = docs.__str__()
 
     else:
-        new_docs = function.__doc__
+        new_docs = function_.__doc__
 
     # XXX: why doesn't this work?
-    contracts_checker.__name__ = 'checker-for-%s' % function.__name__
-    contracts_checker.__module__ = function.__module__
+    contracts_checker.__name__ = 'checker-for-%s' % function_.__name__
+    contracts_checker.__module__ = function_.__module__
 
     # TODO: is using functools.wraps better?
     from decorator import decorator #@UnresolvedImport
-    wrapper = decorator(contracts_checker, function)
+    wrapper = decorator(contracts_checker, function_)
 
     wrapper.__doc__ = new_docs
-    wrapper.__name__ = function.__name__
-    wrapper.__module__ = function.__module__
+    wrapper.__name__ = function_.__name__
+    wrapper.__module__ = function_.__module__
 
     return wrapper
 
