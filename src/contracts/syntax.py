@@ -19,6 +19,8 @@ ParserElement.enablePackrat()
 
 from .interface import Where
 
+import numpy
+
 
 class ParsingTmp:
     # TODO: FIXME: decide on an order, if we do the opposite it doesn't work.
@@ -55,7 +57,7 @@ floatnumber = Combine(integer + (point + O(number)) ^ (e + integer))
 integer.setParseAction(lambda tokens: SimpleRValue(int(tokens[0])))
 floatnumber.setParseAction(lambda tokens: SimpleRValue(float(tokens[0])))
 pi = Keyword('pi').setParseAction(lambda tokens: SimpleRValue(math.pi, 'pi')) #@UnusedVariable
-isnumber = lambda x: isinstance(x, Number)
+isnumber = lambda x: isinstance(x, Number) or isinstance(x, numpy.number)
 
 rvalue = Forward()
 rvalue.setName('rvalue')
