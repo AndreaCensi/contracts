@@ -86,25 +86,30 @@ class ContractNotRespected(ContractException):
 
     def __str__(self):
         msg = str(self.error)
-
-        align = []
-        for (contract, context, value) in self.stack:
+        
+        def context_to_string(context):
             try:
-                varss = ['%s: %s' % (k, describe_value(v))
+                varss = ['- %s: %s' % (k, describe_value(v, clip=70))
                          for k, v in context.items()]
-                contexts = " ".join(varss)
+                contexts = "\n".join(varss)
             except:
                 contexts = '! cannot write context'
-            if contexts:
-                contexts = ('(%s)' % contexts)
+            return contexts
 
+        align = []
+        for (contract, context, value) in self.stack:     #@UnusedVariable
             #cons = ("%s %s" % (contract, contexts)).ljust(30)
             row = ['checking: %s' % contract,
-                      contexts,
                     'for value: %s' % describe_value(value, clip=70)]
             align.append(row)
-
+            
         msg += format_table(align, colspacing=3)
+        
+        context0 = self.stack[0][1]
+        if context0:
+            msg += ('\nVariables bound in inner context:\n%s' 
+                    % context_to_string(self.stack[0][1]))
+            
         return msg
 
 

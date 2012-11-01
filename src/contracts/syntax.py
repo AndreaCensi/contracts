@@ -57,7 +57,17 @@ floatnumber = Combine(integer + (point + O(number)) ^ (e + integer))
 integer.setParseAction(lambda tokens: SimpleRValue(int(tokens[0])))
 floatnumber.setParseAction(lambda tokens: SimpleRValue(float(tokens[0])))
 pi = Keyword('pi').setParseAction(lambda tokens: SimpleRValue(math.pi, 'pi')) #@UnusedVariable
-isnumber = lambda x: isinstance(x, Number) or isinstance(x, numpy.number)
+
+def isnumber(x):
+    # These are scalar quantities that we can compare (=,>,>=, etc.)
+    if isinstance(x, Number):
+        return True
+    try: 
+        # Slow, do it only once (TODO)
+        import numpy
+        return isinstance(x, numpy.number)
+    except:
+        return False
 
 rvalue = Forward()
 rvalue.setName('rvalue')

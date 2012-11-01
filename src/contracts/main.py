@@ -167,7 +167,7 @@ def contract_decorator(*arg, **kwargs):
                 # Erase the stack
                 raise ContractSyntaxError(e.error, e.where)
         else:
-            msg = ('I expect that  contracts() is called with '
+            msg = ('I expect that contracts() is called with '
                     'only keyword arguments (passed: %r)' % arg)
             raise ContractException(msg)
     else:

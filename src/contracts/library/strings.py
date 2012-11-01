@@ -69,7 +69,7 @@ else:  # Python 2.x
 
 for cls in StringBase.__subclasses__():
     for keyword in cls.KEYWORDS:
-        contract = (Keyword(keyword) +
+        mycontract = (Keyword(keyword) + 
                     O('[' - contract_expression('length') - ']'))
         add_keyword(keyword)
-        add_contract(contract.setParseAction(cls.parse_action))
+        add_contract(mycontract.setParseAction(cls.parse_action))

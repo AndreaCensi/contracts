@@ -1,3 +1,5 @@
+# Generic Makefile for python package providing testing/installation.
+
 # (common version)
 
 .PHONY: docs all develop test
