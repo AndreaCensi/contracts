@@ -3,6 +3,8 @@ import unittest
 from contracts import (decorate, contract,
                 ContractException, ContractNotRespected)
 
+from contracts.interface import MissingContract
+
 
 class DecoratorTests(unittest.TestCase):
 
@@ -342,3 +344,25 @@ class DecoratorTests(unittest.TestCase):
 
         self.assertEqual(getargspec(f2), getargspec(f))
 
+
+    def test_empty_types(self):
+
+        def x():
+            @contract
+            def f(myparam):
+                """
+                :param myparam: something
+                """
+
+        self.assertRaises(MissingContract, x)
+
+    def test_empty_types2(self):
+
+        @contract
+        def f(x):
+            """
+            :param x: something
+            :type x: *
+            """
+
+        f(1)

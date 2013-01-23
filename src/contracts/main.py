@@ -3,7 +3,7 @@ from .docstring_parsing import DocStringInfo, Arg
 from .enabling import all_disabled
 from .interface import (Contract, ContractSyntaxError, Where,
                         ContractException, ContractNotRespected,
-                        describe_value)
+                        describe_value, MissingContract)
 from .library import (identifier_expression, Extension, CheckCallable,
                       SeparateContext)
 from .library.extensions import CheckCallableWithSelf
@@ -343,10 +343,13 @@ def parse_contracts_from_docstring(function):
 
     def remove_quotes(x):
         ''' Removes the double back-tick quotes if present. '''
+        if x is None:
+            return None
         if x.startswith('``') and x.endswith('``') and len(x) > 3:
             return x[2:-2]
         elif x.startswith('``') or x.endswith('``'):
-            raise ContractException('Malformed quoting in string %r.' % x)
+            msg = 'Malformed quoting in string %r.' % x
+            raise ContractException(msg)
         else:
             return x
 
@@ -360,6 +363,21 @@ def parse_contracts_from_docstring(function):
     name2type = dict([(name, remove_quotes(params[name].type))
                        for name in params])
 
+    # Check the ones that do not have contracts specified
+    nullparams = [name for name in params if params[name].type is None]
+    if nullparams:
+        msg = ('The parameter(s) %r in this docstring have no type statement.'
+                % (",".join(nullparams)))
+        msg += """
+
+Note: you can use the asterisk if you do not care about assigning
+a contract to a certain parameter:
+
+    :param x: 
+    :type x: *
+"""
+        raise MissingContract(msg)
+
     # Let's look at the parameters:
     all_args = get_all_arg_names(function)
 
@@ -367,8 +385,8 @@ def parse_contracts_from_docstring(function):
     for name in name2type:
         if not name in all_args:
             msg = ('A contract was specified for argument %r which I cannot'
-                   ' find in my list of arguments (%s)' %
-                    (name, ", ".join(all_args)))
+                   ' find in my list of arguments (%r)' %
+                    (name, all_args))
             raise ContractException(msg)
 
     if len(name2type) != len(all_args): # pragma: no cover

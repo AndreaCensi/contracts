@@ -53,6 +53,8 @@ class ContractException(Exception):
     ''' The base class for the exceptions thrown by this module. '''
     pass
 
+class MissingContract(ContractException):
+    pass
 
 class ContractSyntaxError(ContractException):
     ''' Exception thrown when there is a syntax error in the contracts. '''
