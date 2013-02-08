@@ -3,8 +3,18 @@ Changelog
 
 .. _changelog: 
 
+1.5.0 -- 2013-02-07
+-------------------
+
+* New "attr(name:type)" syntax for checking types of attributes.
+  (Contributed by Brett Graham)
+* Fixed handling of missing specs in docstrings.
+* Numpy types are treated as numbers in comparisons.
+
+
+
 1.4.0 -- 2012-07-15
---------------------
+-------------------
 
 * Various minor internal improvements on speed and better error messages
 * Introduced new "string" and "unicode" keywords (due to Xion) and 
