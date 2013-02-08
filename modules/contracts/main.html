@@ -69,7 +69,7 @@
 <span class="kn">from</span> <span class="nn">.enabling</span> <span class="kn">import</span> <span class="n">all_disabled</span>
 <span class="kn">from</span> <span class="nn">.interface</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Contract</span><span class="p">,</span> <span class="n">ContractSyntaxError</span><span class="p">,</span> <span class="n">Where</span><span class="p">,</span>
                         <span class="n">ContractException</span><span class="p">,</span> <span class="n">ContractNotRespected</span><span class="p">,</span>
-                        <span class="n">describe_value</span><span class="p">)</span>
+                        <span class="n">describe_value</span><span class="p">,</span> <span class="n">MissingContract</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="p">(</span><span class="n">identifier_expression</span><span class="p">,</span> <span class="n">Extension</span><span class="p">,</span> <span class="n">CheckCallable</span><span class="p">,</span>
                       <span class="n">SeparateContext</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">.library.extensions</span> <span class="kn">import</span> <span class="n">CheckCallableWithSelf</span>
@@ -233,7 +233,7 @@
                 <span class="c"># Erase the stack</span>
                 <span class="k">raise</span> <span class="n">ContractSyntaxError</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">where</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;I expect that  contracts() is called with &#39;</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;I expect that contracts() is called with &#39;</span>
                     <span class="s">&#39;only keyword arguments (passed: </span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="n">arg</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">ContractException</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -251,12 +251,12 @@
         <span class="k">return</span> <span class="n">tmp_wrap</span>
 
 </div>
-<div class="viewcode-block" id="contracts_decorate"><a class="viewcode-back" href="../../api/contracts.html#contracts.main.contracts_decorate">[docs]</a><span class="k">def</span> <span class="nf">contracts_decorate</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">modify_docstring</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="contracts_decorate"><a class="viewcode-back" href="../../api/contracts.html#contracts.main.contracts_decorate">[docs]</a><span class="k">def</span> <span class="nf">contracts_decorate</span><span class="p">(</span><span class="n">function_</span><span class="p">,</span> <span class="n">modify_docstring</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39; An explicit way to decorate a given function.</span>
 <span class="sd">        The decorator :py:func:`decorate` calls this function internally. </span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="n">all_args</span> <span class="o">=</span> <span class="n">get_all_arg_names</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+    <span class="n">all_args</span> <span class="o">=</span> <span class="n">get_all_arg_names</span><span class="p">(</span><span class="n">function_</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
 
@@ -271,7 +271,7 @@
 
     <span class="k">else</span><span class="p">:</span>
         <span class="c"># Py3k: check if there are annotations</span>
-        <span class="n">annotations</span> <span class="o">=</span> <span class="n">get_annotations</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+        <span class="n">annotations</span> <span class="o">=</span> <span class="n">get_annotations</span><span class="p">(</span><span class="n">function_</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">annotations</span><span class="p">:</span>
             <span class="c">#print(annotations)</span>
@@ -284,13 +284,13 @@
             <span class="n">accepts_dict</span> <span class="o">=</span> <span class="n">annotations</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c"># Last resort: get types from documentation string.</span>
-            <span class="k">if</span> <span class="n">function</span><span class="o">.</span><span class="n">__doc__</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">function_</span><span class="o">.</span><span class="n">__doc__</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="c"># XXX: change name</span>
                 <span class="k">raise</span> <span class="n">ContractException</span><span class="p">(</span>
                                 <span class="s">&#39;You did not specify a contract, nor I can &#39;</span>
-                                        <span class="s">&#39;find a docstring for </span><span class="si">%r</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="n">function</span><span class="p">)</span>
+                                        <span class="s">&#39;find a docstring for </span><span class="si">%r</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="n">function_</span><span class="p">)</span>
 
-            <span class="n">accepts_dict</span><span class="p">,</span> <span class="n">returns</span> <span class="o">=</span> <span class="n">parse_contracts_from_docstring</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+            <span class="n">accepts_dict</span><span class="p">,</span> <span class="n">returns</span> <span class="o">=</span> <span class="n">parse_contracts_from_docstring</span><span class="p">(</span><span class="n">function_</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="n">accepts_dict</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">returns</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ContractException</span><span class="p">(</span><span class="s">&#39;No contract specified in docstring.&#39;</span><span class="p">)</span>
@@ -305,16 +305,16 @@
 
     <span class="c"># TODO: add classname if bound method</span>
     <span class="n">nice_function_display</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">() in </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span>
-                             <span class="p">(</span><span class="n">function</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">function</span><span class="o">.</span><span class="n">__module__</span><span class="p">))</span>
+                             <span class="p">(</span><span class="n">function_</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">function_</span><span class="o">.</span><span class="n">__module__</span><span class="p">))</span>
 
     <span class="n">is_bound_method</span> <span class="o">=</span> <span class="s">&#39;self&#39;</span> <span class="ow">in</span> <span class="n">all_args</span>
 
     <span class="k">def</span> <span class="nf">contracts_checker</span><span class="p">(</span><span class="n">unused</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">do_checks</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">all_disabled</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">do_checks</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">function_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="n">bound</span> <span class="o">=</span> <span class="n">getcallargs</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">bound</span> <span class="o">=</span> <span class="n">getcallargs</span><span class="p">(</span><span class="n">function_</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">context</span> <span class="o">=</span> <span class="p">{}</span>
@@ -332,7 +332,7 @@
             <span class="n">e</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="n">msg</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="n">error</span>
             <span class="k">raise</span> <span class="n">e</span>
 
-        <span class="n">result</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">function_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">returns_parsed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
@@ -351,8 +351,8 @@
         <span class="k">def</span> <span class="nf">write_contract_as_rst</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
             <span class="k">return</span> <span class="s">&#39;``</span><span class="si">%s</span><span class="s">``&#39;</span> <span class="o">%</span> <span class="n">c</span>
 
-        <span class="k">if</span> <span class="n">function</span><span class="o">.</span><span class="n">__doc__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">docs</span> <span class="o">=</span> <span class="n">DocStringInfo</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">function</span><span class="o">.</span><span class="n">__doc__</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">function_</span><span class="o">.</span><span class="n">__doc__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">docs</span> <span class="o">=</span> <span class="n">DocStringInfo</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">function_</span><span class="o">.</span><span class="n">__doc__</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">docs</span> <span class="o">=</span> <span class="n">DocStringInfo</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">accepts_parsed</span><span class="p">:</span>
@@ -371,19 +371,19 @@
         <span class="n">new_docs</span> <span class="o">=</span> <span class="n">docs</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
 
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">new_docs</span> <span class="o">=</span> <span class="n">function</span><span class="o">.</span><span class="n">__doc__</span>
+        <span class="n">new_docs</span> <span class="o">=</span> <span class="n">function_</span><span class="o">.</span><span class="n">__doc__</span>
 
     <span class="c"># XXX: why doesn&#39;t this work?</span>
-    <span class="n">contracts_checker</span><span class="o">.</span><span class="n">__name__</span> <span class="o">=</span> <span class="s">&#39;checker-for-</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">function</span><span class="o">.</span><span class="n">__name__</span>
-    <span class="n">contracts_checker</span><span class="o">.</span><span class="n">__module__</span> <span class="o">=</span> <span class="n">function</span><span class="o">.</span><span class="n">__module__</span>
+    <span class="n">contracts_checker</span><span class="o">.</span><span class="n">__name__</span> <span class="o">=</span> <span class="s">&#39;checker-for-</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">function_</span><span class="o">.</span><span class="n">__name__</span>
+    <span class="n">contracts_checker</span><span class="o">.</span><span class="n">__module__</span> <span class="o">=</span> <span class="n">function_</span><span class="o">.</span><span class="n">__module__</span>
 
     <span class="c"># TODO: is using functools.wraps better?</span>
     <span class="kn">from</span> <span class="nn">decorator</span> <span class="kn">import</span> <span class="n">decorator</span> <span class="c">#@UnresolvedImport</span>
-    <span class="n">wrapper</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">contracts_checker</span><span class="p">,</span> <span class="n">function</span><span class="p">)</span>
+    <span class="n">wrapper</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">contracts_checker</span><span class="p">,</span> <span class="n">function_</span><span class="p">)</span>
 
     <span class="n">wrapper</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">new_docs</span>
-    <span class="n">wrapper</span><span class="o">.</span><span class="n">__name__</span> <span class="o">=</span> <span class="n">function</span><span class="o">.</span><span class="n">__name__</span>
-    <span class="n">wrapper</span><span class="o">.</span><span class="n">__module__</span> <span class="o">=</span> <span class="n">function</span><span class="o">.</span><span class="n">__module__</span>
+    <span class="n">wrapper</span><span class="o">.</span><span class="n">__name__</span> <span class="o">=</span> <span class="n">function_</span><span class="o">.</span><span class="n">__name__</span>
+    <span class="n">wrapper</span><span class="o">.</span><span class="n">__module__</span> <span class="o">=</span> <span class="n">function_</span><span class="o">.</span><span class="n">__module__</span>
 
     <span class="k">return</span> <span class="n">wrapper</span>
 
@@ -409,10 +409,13 @@
 
     <span class="k">def</span> <span class="nf">remove_quotes</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; Removes the double back-tick quotes if present. &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
         <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;``&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">x</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;``&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
         <span class="k">elif</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;``&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">x</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;``&#39;</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">ContractException</span><span class="p">(</span><span class="s">&#39;Malformed quoting in string </span><span class="si">%r</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="n">x</span><span class="p">)</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;Malformed quoting in string </span><span class="si">%r</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="n">x</span>
+            <span class="k">raise</span> <span class="n">ContractException</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">x</span>
 
@@ -426,6 +429,21 @@
     <span class="n">name2type</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">name</span><span class="p">,</span> <span class="n">remove_quotes</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">type</span><span class="p">))</span>
                        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">params</span><span class="p">])</span>
 
+    <span class="c"># Check the ones that do not have contracts specified</span>
+    <span class="n">nullparams</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">params</span> <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">nullparams</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;The parameter(s) </span><span class="si">%r</span><span class="s"> in this docstring have no type statement.&#39;</span>
+                <span class="o">%</span> <span class="p">(</span><span class="s">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">nullparams</span><span class="p">)))</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="s">&quot;&quot;&quot;</span>
+
+<span class="s">Note: you can use the asterisk if you do not care about assigning</span>
+<span class="s">a contract to a certain parameter:</span>
+
+<span class="s">    :param x: </span>
+<span class="s">    :type x: *</span>
+<span class="s">&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">MissingContract</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
     <span class="c"># Let&#39;s look at the parameters:</span>
     <span class="n">all_args</span> <span class="o">=</span> <span class="n">get_all_arg_names</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
 
@@ -433,8 +451,8 @@
     <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">name2type</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">all_args</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;A contract was specified for argument </span><span class="si">%r</span><span class="s"> which I cannot&#39;</span>
-                   <span class="s">&#39; find in my list of arguments (</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span>
-                    <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">all_args</span><span class="p">)))</span>
+                   <span class="s">&#39; find in my list of arguments (</span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">all_args</span><span class="p">))</span>
             <span class="k">raise</span> <span class="n">ContractException</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">name2type</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_args</span><span class="p">):</span> <span class="c"># pragma: no cover</span>

@@ -69,6 +69,8 @@
 <span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="p">(</span><span class="n">decorate</span><span class="p">,</span> <span class="n">contract</span><span class="p">,</span>
                 <span class="n">ContractException</span><span class="p">,</span> <span class="n">ContractNotRespected</span><span class="p">)</span>
 
+<span class="kn">from</span> <span class="nn">contracts.interface</span> <span class="kn">import</span> <span class="n">MissingContract</span>
+
 
 <div class="viewcode-block" id="DecoratorTests"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests">[docs]</a><span class="k">class</span> <span class="nc">DecoratorTests</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
 
@@ -407,7 +409,30 @@
             <span class="k">return</span> <span class="n">a</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">getargspec</span><span class="p">(</span><span class="n">f2</span><span class="p">),</span> <span class="n">getargspec</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
-</pre></div></div></div>
+
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_empty_types"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_empty_types">[docs]</a>    <span class="k">def</span> <span class="nf">test_empty_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">def</span> <span class="nf">x</span><span class="p">():</span>
+            <span class="nd">@contract</span>
+            <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">myparam</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                :param myparam: something</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">MissingContract</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DecoratorTests.test_empty_types2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_decorator.DecoratorTests.test_empty_types2">[docs]</a>    <span class="k">def</span> <span class="nf">test_empty_types2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="nd">@contract</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            :param x: something</span>
+<span class="sd">            :type x: *</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+
+        <span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div></div>
+</pre></div>
 
           </div>
         </div>

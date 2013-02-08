@@ -135,10 +135,10 @@
 </div>
 <span class="k">for</span> <span class="n">cls</span> <span class="ow">in</span> <span class="n">StringBase</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">():</span>
     <span class="k">for</span> <span class="n">keyword</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">KEYWORDS</span><span class="p">:</span>
-        <span class="n">contract</span> <span class="o">=</span> <span class="p">(</span><span class="n">Keyword</span><span class="p">(</span><span class="n">keyword</span><span class="p">)</span> <span class="o">+</span>
+        <span class="n">mycontract</span> <span class="o">=</span> <span class="p">(</span><span class="n">Keyword</span><span class="p">(</span><span class="n">keyword</span><span class="p">)</span> <span class="o">+</span> 
                     <span class="n">O</span><span class="p">(</span><span class="s">&#39;[&#39;</span> <span class="o">-</span> <span class="n">contract_expression</span><span class="p">(</span><span class="s">&#39;length&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="s">&#39;]&#39;</span><span class="p">))</span>
         <span class="n">add_keyword</span><span class="p">(</span><span class="n">keyword</span><span class="p">)</span>
-        <span class="n">add_contract</span><span class="p">(</span><span class="n">contract</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">parse_action</span><span class="p">))</span>
+        <span class="n">add_contract</span><span class="p">(</span><span class="n">mycontract</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">parse_action</span><span class="p">))</span>
 </pre></div>
 
           </div>

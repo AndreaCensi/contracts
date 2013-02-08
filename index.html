@@ -1086,7 +1086,7 @@ are tuples with two elements, of two different types <tt class="docutils literal
 <h2>Decorating a function<a class="headerlink" href="#decorating-a-function" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="contracts.contract">
-<tt class="descclassname">contracts.</tt><tt class="descname">contract</tt><big>(</big><em>*arg</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#contracts.contract" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">contracts.</tt><tt class="descname">contract</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="modules/contracts.html#contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.contract" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator for adding contracts to functions.</p>
 <p>It is smart enough to support functions with variable number of 
 arguments and keyword arguments.</p>
@@ -1162,7 +1162,7 @@ for <span class="brand">PyContracts</span>, but the latter is better for Sphinx:
 
 <dl class="function">
 <dt id="contracts.decorate">
-<tt class="descclassname">contracts.</tt><tt class="descname">decorate</tt><big>(</big><em>function</em>, <em>modify_docstring=True</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#contracts.decorate" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">contracts.</tt><tt class="descname">decorate</tt><big>(</big><em>function_</em>, <em>modify_docstring=True</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#contracts.decorate" title="Permalink to this definition">¶</a></dt>
 <dd><p>An explicit way to decorate a given function.
 The decorator <a class="reference internal" href="#contracts.decorate" title="contracts.decorate"><tt class="xref py py-func docutils literal"><span class="pre">decorate()</span></tt></a> calls this function internally.</p>
 </dd></dl>
@@ -1251,7 +1251,7 @@ In the latter case, the usual parsing takes place</p>
 
 <dl class="function">
 <dt id="contracts.new_contract">
-<tt class="descclassname">contracts.</tt><tt class="descname">new_contract</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#contracts.new_contract" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">contracts.</tt><tt class="descname">new_contract</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="modules/contracts.html#new_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.new_contract" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines a new contract type. Used both as a decorator and as 
 a function.</p>
 <p><strong>1) Use as a function.</strong> The first parameter must be a string. 
