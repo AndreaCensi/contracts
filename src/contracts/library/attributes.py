@@ -40,9 +40,9 @@ class Attr(Contract):
 
 attr_spec = Dict(
         delimitedList(
-            Group(Word(alphanums) + \
-                    Suppress(Literal(':')) + \
-                    contract_expression('value')), \
+            Group(Word(alphanums) + 
+                    Suppress(Literal(':')) + 
+                    contract_expression('value')),
             delim=';')
         )('attrs')
 attrs_spec = ('(' - attr_spec - ')')
