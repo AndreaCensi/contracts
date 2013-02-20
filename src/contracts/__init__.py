@@ -37,3 +37,5 @@ contracts = contract
 from .library import miscellaneous_aliases
 
 
+# And after everything else is loaded, load the  utils
+from .useful_contracts import *
