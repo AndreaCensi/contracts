@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-version = "1.5.0"
+version = "1.5.1"
 
 description = (
 'PyContracts is a Python package that allows to declare '
@@ -16,6 +16,12 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 long_description = read('README.rst')
+
+import sys
+pyparsing_version_condition = '<'
+if sys.version_info[0] >= 3:
+    pyparsing_version_condition = '>='
+pyparsing = 'pyparsing%s2.0.0' % pyparsing_version_condition
 
 
 setup(name='PyContracts',
@@ -37,12 +43,12 @@ setup(name='PyContracts',
         'Topic :: Software Development :: Testing'
       ],
 
-	  version=version,
+    version=version,
       download_url='http://github.com/AndreaCensi/contracts/tarball/%s' % version,
 
       package_dir={'':'src'},
       packages=find_packages('src'),
-      install_requires=['pyparsing', 'decorator'],
+      install_requires=[pyparsing, 'decorator'],
       tests_require=['nose'],
       entry_points={},
 )
