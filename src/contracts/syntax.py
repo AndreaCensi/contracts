@@ -3,13 +3,13 @@ import math
 
 
 # All the imports from pyparsing go here
-from pyparsing import (delimitedList, Forward, Literal,
-  stringEnd, nums, Word, CaselessLiteral, Combine,
-  Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc,
-  operatorPrecedence, oneOf, ParseException, ParserElement,
-  alphas, alphanums, ParseFatalException,
-  ParseSyntaxException, FollowedBy, NotAny, Or,
-  MatchFirst, Keyword, Group, White, lineno, col)
+from pyparsing import (delimitedList, Forward, Literal,  # @UnusedImport
+  stringEnd, nums, Word, CaselessLiteral, Combine,  # @UnusedImport
+  Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc,  # @UnusedImport
+  operatorPrecedence, oneOf, ParseException, ParserElement,  # @UnusedImport
+  alphas, alphanums, ParseFatalException,  # @UnusedImport
+  ParseSyntaxException, FollowedBy, NotAny, Or,  # @UnusedImport
+  MatchFirst, Keyword, Group, White, lineno, col)  # @UnusedImport
 
 
 from .pyparsing_utils import myOperatorPrecedence
@@ -54,7 +54,7 @@ integer = Combine(O(plusorminus) + number)
 floatnumber = Combine(integer + (point + O(number)) ^ (e + integer))
 integer.setParseAction(lambda tokens: SimpleRValue(int(tokens[0])))
 floatnumber.setParseAction(lambda tokens: SimpleRValue(float(tokens[0])))
-pi = Keyword('pi').setParseAction(lambda tokens: SimpleRValue(math.pi, 'pi')) #@UnusedVariable
+pi = Keyword('pi').setParseAction(lambda tokens: SimpleRValue(math.pi, 'pi'))  # @UnusedVariable
 
 def isnumber(x):
     # These are scalar quantities that we can compare (=,>,>=, etc.)
@@ -111,5 +111,5 @@ simple_contract.setName('simple contract expression')
 
 any_contract = composite_contract | simple_contract
 any_contract.setName('Any simple or composite contract')
-contract_expression << (any_contract) # Parentheses before << !!
+contract_expression << (any_contract)  # Parentheses before << !!
 
