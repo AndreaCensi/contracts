@@ -62,7 +62,6 @@ def check_contracts(contracts, values, context_variables=None):
 class Storage:
     string2contract = {}
 
-
 def parse_contract_string(string):
     assert isinstance(string, str), type(string)
     if string in Storage.string2contract:
