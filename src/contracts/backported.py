@@ -7,9 +7,29 @@ else:  # pragma: no cover
     from collections import namedtuple
     FullArgSpec = namedtuple('FullArgSpec', 'args varargs varkw defaults'
                              ' kwonlyargs kwonlydefaults annotations')
-    from inspect import getargspec
+    from inspect import getargspec as _getargspec
+    
+    def getargspec(function):
+        # print function
+        # print 'hasattr im_func', hasattr(function, 'im_func')
+        if hasattr(function, 'im_func'):
+            # print('this is a special function : %s' % function)
+            # For methods or classmethods drop the first
+            # argument from the returned list because
+            # python supplies that automatically for us.
+            # Note that this differs from what
+            # inspect.getargspec() returns for methods.
+            # NB: We use im_func so we work with
+            #     instancemethod objects also.
+            spec = list(_getargspec(function.im_func))
+            spec[0] = spec[0][1:]
+            return spec
+        # print 'calling normal %s' % function
+        return _getargspec(function)
 
     def getfullargspec(function):
+        
+        
         spec = getargspec(function)
         fullspec = FullArgSpec(args=spec.args, varargs=spec.varargs,
                                varkw=spec.keywords,
@@ -46,6 +66,7 @@ else:  # pragma: no cover
 
         # The following closures are basically because of tuple parameter unpacking.
         assigned_tuple_params = []
+        
         def assign(arg, value):
             if isinstance(arg, str):
                 arg2value[arg] = value

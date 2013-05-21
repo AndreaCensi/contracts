@@ -1,10 +1,8 @@
 from contracts import parse
-import unittest
-from contracts.library import BindVariable
-from contracts.syntax import ParseFatalException, ParseException
 from contracts.interface import Where, ContractSyntaxError
-from contracts.library.variables import misc_variables_contract, \
-    int_variables_contract
+from contracts.library import *  # @UnusedWildImport
+from contracts.syntax import ParseFatalException, ParseException
+import unittest
 
 
 def expression_fails(expression, string, all=True):  # @ReservedAssignment
@@ -15,7 +13,7 @@ def expression_fails(expression, string, all=True):  # @ReservedAssignment
     except ParseFatalException:
         pass
     else:
-        raise Exception('Expression: %s\nparsed to: %s\n(%r)' %
+        raise Exception('Expression: %s\nparsed to: %s\n(%r)' % 
                         (string, c, c))
 
 
@@ -55,7 +53,6 @@ class TestParticular(unittest.TestCase):
         expression_fails(int_variables_contract, 'A*', all=False)
 
 
-from contracts.library import *  # @UnusedWildImport
 
 
 class TestBindingVsRef(unittest.TestCase):

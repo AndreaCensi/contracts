@@ -207,7 +207,7 @@ def contracts_decorate(function_, modify_docstring=True, **kwargs):
         annotations = get_annotations(function_)
 
         if annotations:
-            #print(annotations)
+            # print(annotations)
             if 'return' in annotations:
                 returns = annotations['return']
                 del annotations['return']
@@ -237,7 +237,7 @@ def contracts_decorate(function_, modify_docstring=True, **kwargs):
                             for x in accepts_dict])
 
     # TODO: add classname if bound method
-    nice_function_display = ('%s() in %s' %
+    nice_function_display = ('%s() in %s' % 
                              (function_.__name__, function_.__module__))
 
     is_bound_method = 'self' in all_args
@@ -311,20 +311,23 @@ def contracts_decorate(function_, modify_docstring=True, **kwargs):
     contracts_checker.__module__ = function_.__module__
 
     # TODO: is using functools.wraps better?
-    from decorator import decorator #@UnresolvedImport
+    from decorator import decorator
     wrapper = decorator(contracts_checker, function_)
 
     wrapper.__doc__ = new_docs
     wrapper.__name__ = function_.__name__
     wrapper.__module__ = function_.__module__
 
+    wrapper.__contracts__ = dict(returns=returns_parsed, **accepts_parsed)
     return wrapper
 
 
 def parse_flexible_spec(spec):
     ''' spec can be either a Contract, a type, or a contract string. 
         In the latter case, the usual parsing takes place'''
-    if isinstance(spec, str):
+    if isinstance(spec, Contract):
+        return spec
+    elif isinstance(spec, str):
         return parse_contract_string(spec)
     elif can_be_used_as_a_type(spec):
         from .library import CheckType
@@ -384,11 +387,11 @@ a contract to a certain parameter:
     for name in name2type:
         if not name in all_args:
             msg = ('A contract was specified for argument %r which I cannot'
-                   ' find in my list of arguments (%r)' %
+                   ' find in my list of arguments (%r)' % 
                     (name, all_args))
             raise ContractException(msg)
 
-    if len(name2type) != len(all_args): # pragma: no cover
+    if len(name2type) != len(all_args):  # pragma: no cover
         pass
         # TODO: warn?
 
@@ -408,7 +411,7 @@ def get_all_arg_names(function):
     return all_args
 
 
-def check(contract, object, desc=None, **context): #@ReservedAssignment
+def check(contract, object, desc=None, **context):  # @ReservedAssignment
     ''' 
         Checks that ``object`` satisfies the contract 
         described by ``contract``.
@@ -544,7 +547,7 @@ def new_contract_impl(identifier, condition):
     # Be friendly
     if not isinstance(identifier, str):
         raise ValueError('I expect the identifier to be a string; '
-                         'received %s.' %
+                         'received %s.' % 
                          describe_value(identifier))
 
     # Make sure it is not already an expression that we know.
@@ -560,7 +563,7 @@ def new_contract_impl(identifier, condition):
         try:
             c = parse_contract_string(identifier)
             msg = ('Invalid identifier %r; it overwrites an already known '
-                   'expression. In fact, I can parse it as %s (%r).' %
+                   'expression. In fact, I can parse it as %s (%r).' % 
                              (identifier, c, c))
             raise ValueError(msg)
         except ContractSyntaxError:
@@ -568,10 +571,10 @@ def new_contract_impl(identifier, condition):
 
     # Make sure it corresponds to our idea of identifier
     try:
-        c = identifier_expression.parseString(identifier, parseAll=True) #@UndefinedVariable
+        c = identifier_expression.parseString(identifier, parseAll=True)  # @UndefinedVariable
     except ParseException as e:
         where = Where(identifier, line=e.lineno, column=e.col)
-        #msg = 'Error in parsing string: %s' % e 
+        # msg = 'Error in parsing string: %s' % e 
         msg = ('The given identifier %r does not correspond to my idea '
                'of what an identifier should look like;\n%s\n%s'
                  % (identifier, e, where))
@@ -584,7 +587,7 @@ def new_contract_impl(identifier, condition):
             # could call parse_flexible_spec as well here
             bare_contract = parse_contract_string(condition)
         except ContractSyntaxError as e:
-            msg = ('The given condition %r does not parse cleanly: %s' %
+            msg = ('The given condition %r does not parse cleanly: %s' % 
                    (condition, e))
             raise ValueError(msg)
     # Important: types are callable, so check this first.
@@ -630,8 +633,8 @@ def new_contract_impl(identifier, condition):
         c = parse_contract_string(identifier)
         expected = Extension(identifier)
         assert c == expected, \
-              'Expected %r, got %r.' % (c, expected) # pragma: no cover
-    except ContractSyntaxError as e: # pragma: no cover
+              'Expected %r, got %r.' % (c, expected)  # pragma: no cover
+    except ContractSyntaxError as e:  # pragma: no cover
         assert False, 'Cannot parse %r: %s' % (identifier, e)
 
     return contract
@@ -663,7 +666,7 @@ def can_accept_exactly_one_argument(callable_thing):
     ''' Checks that a callable can accept exactly one argument
         using introspection.
     '''
-    if inspect.ismethod(callable_thing): # bound method
+    if inspect.ismethod(callable_thing):  # bound method
         f = callable_thing.__func__
         args = (callable_thing.__self__, 'test',)
     else:
@@ -675,7 +678,7 @@ def can_accept_exactly_one_argument(callable_thing):
 
     try:
         getcallargs(f, *args)
-    except (TypeError, ValueError) as e: #@UnusedVariable
+    except (TypeError, ValueError) as e:  # @UnusedVariable
         # print 'Get call args exception (f=%r,args=%r): %s ' % (f, args, e)
         return False, str(e)
     else:
@@ -687,7 +690,7 @@ def can_accept_self_plus_one_argument(callable_thing):
         using introspection.
     '''
 
-    if inspect.ismethod(callable_thing): # bound method
+    if inspect.ismethod(callable_thing):  # bound method
         f = callable_thing.__func__
     else:
         if not inspect.isfunction(callable_thing):
@@ -701,7 +704,7 @@ def can_accept_self_plus_one_argument(callable_thing):
 
     try:
         getcallargs(f, 'self', 'value')
-    except (TypeError, ValueError) as e: #@UnusedVariable
+    except (TypeError, ValueError) as e:  # @UnusedVariable
         return False
     else:
         return True
