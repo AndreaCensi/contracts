@@ -109,7 +109,7 @@ class ShapeContract(Contract):
     @staticmethod
     def parse_action(s, loc, tokens):
         where = W(s, loc)
-        #print "in tokens: " % tokens
+        # print "in tokens: " % tokens
         # workaround for some bugs
         ellipsis = False
         dimensions = []
@@ -178,7 +178,8 @@ for glyph in ArrayConstraint.constraints:
     array_constraints.append(expr)
 
 supported = ("uint8 uint16 uint32 uint64 int8 int16 int32 int64 float32"
-             " float64 u1 i1 bool")
+             " float64 u1 i1 bool int float")
+# in numpy, int = int64, float = float64
 
 dtype_checks = []
 for x in supported.split():
@@ -194,8 +195,8 @@ baseExpr = ndarray_simple_contract | suggester
 baseExpr.setName('numpy contract (with recovery)')
 
 ndarray_composite_contract = myOperatorPrecedence(baseExpr, [
-                        (',', 2, opAssoc.LEFT, ArrayAnd.parse_action), #@UndefinedVariable
-                         ('|', 2, opAssoc.LEFT, ArrayOR.parse_action), #@UndefinedVariable
+                        (',', 2, opAssoc.LEFT, ArrayAnd.parse_action),  # @UndefinedVariable
+                         ('|', 2, opAssoc.LEFT, ArrayOR.parse_action),  # @UndefinedVariable
                     ])
 
 
@@ -208,7 +209,7 @@ shape_suggester = create_suggester(get_options=lambda: ['...'],
 
 inside_inside1 = simple_contract | shape_suggester
 inside_inside2 = contract_expression | shape_suggester
-inside = (S('(') - inside_inside2 - S(')')) | inside_inside1 # XXX: ^ and use or_contract?
+inside = (S('(') - inside_inside2 - S(')')) | inside_inside1  # XXX: ^ and use or_contract?
 shape_contract = my_delim_list2(inside, S('x')) + O(S('x') + ellipsis)
 shape_contract.setParseAction(ShapeContract.parse_action)
 shape_contract.setName('array shape contract')
