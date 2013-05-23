@@ -1,6 +1,10 @@
 from abc import ABCMeta
-from types import FunctionType
+from contracts import ContractException
 from contracts.main import contracts_decorate
+from contracts.utils import indent
+from types import FunctionType
+import traceback
+
 
 __all__ = ['ContractsMeta']
 
@@ -35,14 +39,25 @@ class ContractsMeta(ABCMeta):
                             # msg = 'inherit contracts for %s:%s() from %s' % (clsname, k, b.__name__)
                             # print(msg)
                             # TODO: check that the contracts are a subtype
-                            f1 = contracts_decorate(f, **spec)
+                            try:
+                                f1 = contracts_decorate(f, **spec)
+                            except ContractException as e:
+                                msg = 'Error while applying ContractsMeta magic.\n'
+                                msg += '  subclass:  %s\n' % clsname
+                                msg += '      base:  %s\n' % b.__name__
+                                msg += '  function:  %s()\n' % k
+                                msg += 'Exception:\n'
+                                msg += indent(traceback.format_exc(e), '| ') + '\n'
+                                msg += '(most likely parameters names are different?)'
+                                raise ContractException(msg)       
                             setattr(cls, k, f1)
                             break
                     else:
                         pass
                 else:
-                    pass
                     # print(' X not found in %s' % b.__name__)
+                    pass
+                    
                         
             else:
                 pass
