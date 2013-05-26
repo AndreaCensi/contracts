@@ -236,18 +236,25 @@ def contracts_decorate(function_, modify_docstring=True, **kwargs):
     accepts_parsed = dict([(x, parse_flexible_spec(accepts_dict[x]))
                             for x in accepts_dict])
 
-    # TODO: add classname if bound method
-    nice_function_display = ('%s() in %s' % 
-                             (function_.__name__, function_.__module__))
-
     is_bound_method = 'self' in all_args
+    
+    # TODO: add classname if bound method
 
     def contracts_checker(unused, *args, **kwargs):
         do_checks = not all_disabled()
         if not do_checks:
             return function_(*args, **kwargs)
 
+#         nice_function_display = ('%s() in module %s' % 
+#                                  (function_.__name__, function_.__module__))
+        nice_function_display = '%s()' % function_.__name__
+        if is_bound_method:
+            klass = type(args[0]).__name__
+            nice_function_display = klass + ':' + nice_function_display  
+    
+
         bound = getcallargs(function_, *args, **kwargs)
+
 
         try:
             context = {}
