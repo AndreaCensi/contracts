@@ -1,21 +1,21 @@
 from . import good, fail, syntax_fail
 
 
-class A:
+class A(object):
     a = 1
     b = 2
 
 tc_a = A()
 
 
-class B:
+class B(object):
     a = 2
 
 tc_b = B()
 
 
 
-syntax_fail('attr') # need at least some attribute
+syntax_fail('attr')  # need at least some attribute
 
 good('attr(a:*)', tc_a)
 good('attr(a:int)', tc_a)

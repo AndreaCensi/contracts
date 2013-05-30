@@ -251,10 +251,8 @@ def contracts_decorate(function_, modify_docstring=True, **kwargs):
         if is_bound_method:
             klass = type(args[0]).__name__
             nice_function_display = klass + ':' + nice_function_display  
-    
 
         bound = getcallargs(function_, *args, **kwargs)
-
 
         try:
             context = {}
