@@ -1,6 +1,7 @@
 from abc import abstractmethod
 from contracts import ContractNotRespected, contract, ContractsMeta
 import unittest
+from contracts.interface import CannotDecorateClassmethods
 
 
 class TestMeta(unittest.TestCase):
@@ -18,7 +19,6 @@ class TestMeta(unittest.TestCase):
         class B(A):
             # does not implement f
             pass
-            
         
         self.assertRaises(TypeError, B)
         
@@ -113,22 +113,24 @@ class TestMeta(unittest.TestCase):
         self.assertRaises(ContractNotRespected, B.f, 0)
         
 
-    def test_classmethod2(self):
-        
-        class A():
-            __metaclass__ = ContractsMeta
+    def test_classmethod2a(self):
+         
+        def test_classmethod2():
             
-            @contract(a='>0')
-            @classmethod
-            def f(cls, a):
-                pass
-            
-        class B(A):
-            
-            @classmethod
-            def f(cls, a):
-                pass
-  
-        self.assertRaises(ContractNotRespected, B.f, B, 0)
-  
-   
+            class A():
+                __metaclass__ = ContractsMeta
+                
+                @contract(a='>0')
+                @classmethod
+                def f(cls, a):
+                    pass
+                
+            class B(A):
+                
+                @classmethod
+                def f(cls, a):
+                    pass
+      
+        self.assertRaises(CannotDecorateClassmethods, test_classmethod2)
+      
+       

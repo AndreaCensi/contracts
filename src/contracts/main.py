@@ -11,6 +11,8 @@ from .syntax import contract_expression, ParseException, ParseFatalException
 import inspect
 import sys
 import types
+from contracts.interface import ContractDefinitionError, \
+    CannotDecorateClassmethods
 
 
 def check_contracts(contracts, values, context_variables=None):
@@ -188,6 +190,32 @@ def contracts_decorate(function_, modify_docstring=True, **kwargs):
     ''' An explicit way to decorate a given function.
         The decorator :py:func:`decorate` calls this function internally. 
     '''
+    
+    if isinstance(function_, classmethod):
+        msg = """
+The function is a classmethod; PyContracts cannot decorate a classmethod. 
+You can, however, first decorate a function and then turn it into a classmethod.
+
+For example, instead of doing this:
+
+    class A():
+    
+        @contract(a='>0')
+        @classmethod
+        def f(cls, a):
+            pass
+
+you can achieve the same goal by inverting the two decorators:
+
+    class A():
+    
+        @classmethod
+        @contract(a='>0')
+        def f(cls, a):
+            pass
+"""
+        raise CannotDecorateClassmethods(msg)
+        
 
     all_args = get_all_arg_names(function_)
 
@@ -207,7 +235,6 @@ def contracts_decorate(function_, modify_docstring=True, **kwargs):
         annotations = get_annotations(function_)
 
         if annotations:
-            # print(annotations)
             if 'return' in annotations:
                 returns = annotations['return']
                 del annotations['return']
@@ -238,15 +265,11 @@ def contracts_decorate(function_, modify_docstring=True, **kwargs):
 
     is_bound_method = 'self' in all_args
     
-    # TODO: add classname if bound method
-
     def contracts_checker(unused, *args, **kwargs):
         do_checks = not all_disabled()
         if not do_checks:
             return function_(*args, **kwargs)
 
-#         nice_function_display = ('%s() in module %s' % 
-#                                  (function_.__name__, function_.__module__))
         nice_function_display = '%s()' % function_.__name__
         if is_bound_method:
             klass = type(args[0]).__name__

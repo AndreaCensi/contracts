@@ -56,7 +56,13 @@ class ContractException(Exception):
 class MissingContract(ContractException):
     pass
 
-class ContractSyntaxError(ContractException):
+class ContractDefinitionError(ContractException):
+    """ Thrown when defining the contracts """
+
+class CannotDecorateClassmethods(ContractDefinitionError):
+    pass
+    
+class ContractSyntaxError(ContractDefinitionError):
     ''' Exception thrown when there is a syntax error in the contracts. '''
 
     def __init__(self, error, where=None):
@@ -99,8 +105,8 @@ class ContractNotRespected(ContractException):
             return contexts
 
         align = []
-        for (contract, context, value) in self.stack:     #@UnusedVariable
-            #cons = ("%s %s" % (contract, contexts)).ljust(30)
+        for (contract, context, value) in self.stack:  # @UnusedVariable
+            # cons = ("%s %s" % (contract, contexts)).ljust(30)
             row = ['checking: %s' % contract,
                     'for value: %s' % describe_value(value, clip=70)]
             align.append(row)

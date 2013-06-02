@@ -1,4 +1,5 @@
 import sys
+from inspect import ArgSpec
 
 if sys.version_info[0] == 3:  # pragma: no cover
     from inspect import getfullargspec  # @UnresolvedImport
@@ -10,7 +11,6 @@ else:  # pragma: no cover
     from inspect import getargspec as _getargspec
     
     def getargspec(function):
-        # print function
         # print 'hasattr im_func', hasattr(function, 'im_func')
         if hasattr(function, 'im_func'):
             # print('this is a special function : %s' % function)
@@ -21,15 +21,16 @@ else:  # pragma: no cover
             # inspect.getargspec() returns for methods.
             # NB: We use im_func so we work with
             #     instancemethod objects also.
-            spec = list(_getargspec(function.im_func))
-            spec[0] = spec[0][1:]
+            x = _getargspec(function.im_func)
+            new_args = x.args[1:]
+            spec = ArgSpec(args=new_args, varargs=x.varargs,
+                           keywords=x.keywords, defaults=x.defaults)
             return spec
+        
         # print 'calling normal %s' % function
         return _getargspec(function)
 
     def getfullargspec(function):
-        
-        
         spec = getargspec(function)
         fullspec = FullArgSpec(args=spec.args, varargs=spec.varargs,
                                varkw=spec.keywords,
