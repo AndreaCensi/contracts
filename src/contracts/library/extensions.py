@@ -15,9 +15,11 @@ class Extension(Contract):
 
     def __str__(self):
         return self.identifier
+#         return Extension.registrar[self.identifier].__str__()
 
     def __repr__(self):
         return "Extension(%r)" % self.identifier
+        # return "new_contract(%r,%s)" % (self.identifier, Extension.registrar[self.identifier])
 
     def check_contract(self, context, value):
         self.contract._check_contract(context, value)
@@ -59,12 +61,12 @@ class CheckCallable(Contract):
             # passed
             pass
         elif result == False:
-            msg = ('Value does not pass criteria of %s() (module: %s).' %
+            msg = ('Value does not pass criteria of %s() (module: %s).' % 
                    (self.callable.__name__, self.callable.__module__))
             raise ContractNotRespected(self, msg, value, context)
         else:
             msg = ('I expect that %r returns either True, False, None; or '
-                   'raises a ValueError exception. Instead, I got %s.' %
+                   'raises a ValueError exception. Instead, I got %s.' % 
                    (self.callable, describe_value(value)))
             raise ValueError(msg)
 
@@ -101,12 +103,12 @@ class CheckCallableWithSelf(Contract):
             # passed
             pass
         elif result == False:
-            msg = ('Value does not pass criteria of %s() (module: %s).' %
+            msg = ('Value does not pass criteria of %s() (module: %s).' % 
                    (self.callable.__name__, self.callable.__module__))
             raise ContractNotRespected(self, msg, value, context)
         else:
             msg = ('I expect that %r returns either True, False, None; or '
-                   'raises a ValueError exception. Instead, I got %s.' %
+                   'raises a ValueError exception. Instead, I got %s.' % 
                    (self.callable, describe_value(value)))
             raise ValueError(msg)
 
@@ -121,7 +123,7 @@ class CheckCallableWithSelf(Contract):
         return 'function %s()' % self.callable.__name__
 
 
-#lowercase = alphas.lower()
+# lowercase = alphas.lower()
 identifier_expression = Combine(oneOf(list(alphas)) + Word('_' + alphanums))
 
 identifier_contract = identifier_expression.copy().setParseAction(

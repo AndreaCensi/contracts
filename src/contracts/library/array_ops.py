@@ -2,7 +2,10 @@ from abc import abstractmethod
 import numpy
 
 from ..interface import Contract, ContractNotRespected, RValue, eval_in_context
-from ..syntax import W
+from ..syntax import W, Keyword
+from contracts.syntax import add_contract, add_keyword
+from contracts.library.types_misc import CheckType
+
 
 
 class ArrayElementsTest(Contract):
@@ -83,6 +86,14 @@ class ArrayOR(ArrayLogical):
             clauses.append(operand)
         where = W(string, location)
         return ArrayOR(clauses, where=where)
+
+class ArrayORCustomString(ArrayOR):
+    def __init__(self, custom_string, **other):
+        self.custom_string = custom_string
+        ArrayOR.__init__(self, **other)
+        
+    def __str__(self):
+        return self.custom_string
 
 
 class ArrayAnd(ArrayLogical):
@@ -204,5 +215,30 @@ class DType(ArrayElementsTest):
                 use_dtype = dtype
             return DType(use_dtype, dtype_string, where)
         return parse
+
+import numpy as np
+np_types = {
+    'np_int': np.int,  # Platform integer (normally either int32 or int64)
+    'np_int8': np.int8,  # Byte (-128 to 127)
+    'np_int16': np.int16,  # Integer (-32768 to 32767)
+    'np_int32': np.int32,  # Integer (-2147483648 to 2147483647)
+    'np_int64': np.int64,  # Integer (9223372036854775808 to 9223372036854775807)
+    'np_uint8': np.uint8,  # Unsigned integer (0 to 255)
+    'np_uint16': np.uint16,  # Unsigned integer (0 to 65535)
+    'np_uint32': np.uint32,  # Unsigned integer (0 to 4294967295)
+    'np_uint64': np.uint64,  # Unsigned integer (0 to 18446744073709551615)
+    'np_float': np.float,  # Shorthand for float64.
+    'np_float16': np.float16,  #  Half precision float: sign bit, 5 bits exponent, 10 bits mantissa
+    'np_float32': np.float32,  #  Single precision float: sign bit, 8 bits exponent, 23 bits mantissa
+    'np_float64': np.float64,  #  Double precision float: sign bit, 11 bits exponent, 52 bits mantissa
+    'np_complex': np.complex,  #  Shorthand for complex128.
+    'np_complex64': np.complex64,  #    Complex number, represented by two 32-bit floats (real and imaginary components)
+    'np_complex128': np.complex128}
+
+for k, t in np_types.items():
+    add_contract(Keyword(k).setParseAction(CheckType.parse_action(t)))
+    add_keyword(k)
+
+
 
 

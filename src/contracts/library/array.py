@@ -11,6 +11,7 @@ from ..pyparsing_utils import myOperatorPrecedence
 from .compositions import And, OR
 from .suggester import create_suggester
 from .array_ops import ArrayOR, ArrayAnd, DType, ArrayConstraint
+from contracts.library.array_ops import ArrayORCustomString
 
 
 class Array(Contract):
@@ -177,20 +178,44 @@ for glyph in ArrayConstraint.constraints:
     expr.setParseAction(ArrayConstraint.parse_action)
     array_constraints.append(expr)
 
-supported = ("uint8 uint16 uint32 uint64 int8 int16 int32 int64 float32"
-             " float64 u1 i1 bool int float")
+np_uint_dtypes = "u1 uint8 uint16 uint32 uint64".split()
+np_int_dtypes = "i1 int8 int16 int32 int64".split()
+np_float_dtypes = "float32 float64".split()
+np_other_dtypes = ['bool']  
+atomic = np_uint_dtypes + np_int_dtypes + np_float_dtypes + np_other_dtypes
+
 # in numpy, int = int64, float = float64
+# for us, int = int64|int32| ...
 
 dtype_checks = []
-for x in supported.split():
+for x in atomic:
     d = numpy.dtype(x)
     expr = Keyword(x).setParseAction(DType.parse_action(d))
     dtype_checks.append(expr)
+    
+def np_composite(custom_string, alternatives):
+    alts = [DType(numpy.dtype(a), a) for a in alternatives] 
+    return ArrayORCustomString(custom_string=custom_string, clauses=alts)
+    
+def np_uint(s, loc, tokens):  # @UnusedVariable
+    return np_composite('uint', np_uint_dtypes)
+ 
+def np_int(s, loc, tokens):  # @UnusedVariable
+    return np_composite('int', np_int_dtypes)
+
+def np_float(s, loc, tokens):  # @UnusedVariable
+    return np_composite('float', np_float_dtypes)
+
+dtype_checks.append(Keyword('int').setParseAction(np_int))
+dtype_checks.append(Keyword('uint').setParseAction(np_uint))
+dtype_checks.append(Keyword('float').setParseAction(np_float))
+
+composite = ['int', 'uint', 'float']
 
 ndarray_simple_contract = MatchFirst(dtype_checks + array_constraints)
 ndarray_simple_contract.setName('numpy element contract')
 
-suggester = create_suggester(get_options=lambda: supported.split())
+suggester = create_suggester(get_options=lambda: atomic + composite)
 baseExpr = ndarray_simple_contract | suggester
 baseExpr.setName('numpy contract (with recovery)')
 
@@ -231,3 +256,7 @@ shape.setName('shape() contract')
 shape.setParseAction(Shape.parse_action)
 add_contract(shape)
 add_keyword('shape')
+
+
+
+

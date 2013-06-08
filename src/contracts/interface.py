@@ -353,7 +353,7 @@ def describe_value(x, clip=50):
     ''' Describes an object, for use in the error messages. '''
     if hasattr(x, 'shape') and hasattr(x, 'dtype'):
         shape_desc = 'x'.join(str(i) for i in x.shape)
-        desc = 'array[%s](%s) ' % (shape_desc, x.dtype)
+        desc = 'array[%r](%s) ' % (shape_desc, x.dtype)
         final = desc + clipped_repr(x, clip - len(desc))
         return remove_newlines(final)
     else:

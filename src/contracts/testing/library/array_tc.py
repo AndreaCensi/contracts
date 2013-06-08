@@ -2,6 +2,8 @@ from numpy import zeros, ones
 import numpy as np
 
 from . import syntax_fail, good, fail
+from contracts.library.array import np_int_dtypes, np_uint_dtypes, \
+    np_float_dtypes
 
 a_u8 = np.zeros((3, 4), dtype='uint8')
 a_i8 = np.zeros((3, 4), dtype='int8')
@@ -153,4 +155,57 @@ good('finite', np.float(1))
 fail('finite', np.inf)
 fail('finite', np.nan)
 
+
+# generalized ideas of numbers
+# np_ints = ['int8', 'int16', 'int32', 'int64',
+#            'uint8', 'uint16', 'uint32', 'uint64',
+#            ]
+# np_floats = ['float32', 'float64']
+
+good('array(float)', np.array(1.32, 'float32'))
+
+
+for dt in np_int_dtypes:
+    x = np.array(1).astype(dt)
+    good('number', x)
+    fail('Number', x)
+
+    good('array(int)', x)
+    good('int', x)
+    fail('Int', x)
+
+    fail('array(float)', x)
+    fail('float', x)
+    fail('Float', x)
+    
+# generalized ideas of numbers
+for dt in np_float_dtypes:
+    x = np.array(1).astype(dt)
+    good('number', x)
+    fail('Number', x)
+    
+    fail('array(int)', x)
+    fail('int', x)
+    fail('Int', x)
+
+    good('array(float)', x)
+    good('float', x)
+    fail('Float', x)
+    
+# generalized ideas of numbers
+for dt in np_uint_dtypes:
+    x = np.array(1).astype(dt)
+    good('number', x)
+    fail('Number', x)
+    
+    fail('array(int)', x)
+    fail('int', x)
+    fail('Int', x)
+
+    good('array(uint)', x)
+    fail('Int', x)
+
+    fail('array(float)', x)
+    fail('float', x)
+    fail('Float', x)
 
