@@ -8,6 +8,7 @@ from .seq import Seq
 from .tuple import Tuple
 from .dicts import Dict
 from .map import Map
+from .sets import *
 from .attributes import Attr 
 
 
