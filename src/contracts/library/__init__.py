@@ -30,3 +30,5 @@ else:
 
 from .extensions import (identifier_expression, identifier_contract,
                          Extension, CheckCallable)
+
+from .isinstance_imp import *

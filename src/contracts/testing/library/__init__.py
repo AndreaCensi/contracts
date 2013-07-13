@@ -16,6 +16,8 @@ from . import map_tc
 from . import seq_tc
 from . import attr_tc
 
+from . import isinstance_tc 
+
 try:
     import numpy
 except ImportError:  # pragma: no cover

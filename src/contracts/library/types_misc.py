@@ -39,10 +39,13 @@ class CheckType(Contract):
             return CheckType(types, tokens[0], where=where)  # @UnusedVariable
         return parse
 
+
 add_contract(Keyword('Int').setParseAction(CheckType.parse_action(int)))
 add_keyword('Int')
+
 add_contract(Keyword('Float').setParseAction(CheckType.parse_action(float)))
 add_keyword('Float')
+
 add_contract(Keyword('Number').setParseAction(CheckType.parse_action(Number)))
 add_keyword('Number')
 

@@ -31,7 +31,7 @@ from .enabling import disable_all, enable_all, all_disabled
 from .interface import describe_value, describe_type
 
 # For backwards compatibility
-contracts = contract
+# contracts = contract
 
 # After everything is loaded, load aliases
 from .library import miscellaneous_aliases
