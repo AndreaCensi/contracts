@@ -88,7 +88,7 @@ class TestMeta(unittest.TestCase):
             def f(a):
                 pass
   
-  
+        # this doesn't work  
         self.assertRaises(ContractNotRespected, B.f, 0)
         
     
@@ -109,7 +109,8 @@ class TestMeta(unittest.TestCase):
             @classmethod
             def f(cls, a):
                 pass
-  
+
+        # this doesn't work  
         self.assertRaises(ContractNotRespected, B.f, 0)
         
 
