@@ -2,6 +2,7 @@ from contracts.interface import Contract, ContractNotRespected
 from contracts.syntax import W, S, Keyword, add_contract, add_keyword
 from pyparsing import alphanums, Word
 
+__all__ = ['IsInstance', 'isinstance_contract']
 
 class IsInstance(Contract):
     
@@ -12,19 +13,8 @@ class IsInstance(Contract):
         self.name = name
 
     def check_contract(self, context, value):
-        #  self.type_constraint._check_contract(context, type(value))
-
-        if hasattr(value, '__class__'):
-            # old style class
-            class_name = value.__class__.__name__
-            bases_names = [x.__name__ for x in value.__class__.__bases__]
-        else:
-            # new style
-            t = type(value)
-            class_name = t.__name__
-            bases = t.__bases__
-            bases_names = [b.__name__ for b in bases]
-
+        class_name, bases_names = get_all_super_names(value) 
+        
         if not self.name in bases_names + [class_name]:
             msg = ('Failed check isinstance(%s) for type %r and superclasses %r.' 
                    % (self.name, class_name, bases_names))
@@ -43,10 +33,35 @@ class IsInstance(Contract):
         return IsInstance(name, where)
 
 
+def get_all_super_names(value):
+    """ Returns name of class, list of names of supers """
+    if hasattr(value, '__class__'):
+        # old style class
+        klass = value.__class__
+        class_name = klass.__name__
+        bases = get_oldstyle_bases(klass)
+        bases_names = [x.__name__ for x in bases]
+    else:
+        # new style
+        t = type(value)
+        class_name = t.__name__
+        bases_names = [b.__name__ for b in t.mro()]
+    return class_name, bases_names
+
+def get_oldstyle_bases(klass):
+    todo = [klass]
+    res = []
+    while todo:
+        x = todo.pop(0)
+        res.append(x)
+        for b in x.__bases__:
+            if not b in res:
+                todo.append(b)
+    return res
+
 Identifier = Word(alphanums + '_')
 
-isinstance_contract = (Keyword('isinstance') - S('(')
-                 - Identifier('name') - S(')'))
+isinstance_contract = (Keyword('isinstance') - S('(') - Identifier('name') - S(')'))
 
 add_contract(isinstance_contract.setParseAction(IsInstance.parse_action))
 add_keyword('isinstance')
