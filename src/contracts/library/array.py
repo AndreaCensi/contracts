@@ -1,17 +1,14 @@
-import numpy
-from numpy  import ndarray, dtype  # @UnusedImport
-
 from ..interface import Contract, ContractNotRespected, describe_type
-from ..syntax import (add_contract, W, contract_expression, O, S, rvalue,
-                       simple_contract, ZeroOrMore, Literal, MatchFirst,
-                        opAssoc, FollowedBy, NotAny, Keyword,
-                       add_keyword, Word)
 from ..pyparsing_utils import myOperatorPrecedence
-
+from ..syntax import (add_contract, W, contract_expression, O, S, rvalue,
+    simple_contract, ZeroOrMore, Literal, MatchFirst, opAssoc, FollowedBy, NotAny,
+    Keyword, add_keyword, Word)
+from .array_ops import (ArrayOR, ArrayAnd, DType, ArrayConstraint,
+    ArrayORCustomString)
 from .compositions import And, OR
 from .suggester import create_suggester
-from .array_ops import ArrayOR, ArrayAnd, DType, ArrayConstraint
-from contracts.library.array_ops import ArrayORCustomString
+from numpy import ndarray, dtype  # @UnusedImport
+import numpy
 
 
 class Array(Contract):
@@ -220,13 +217,15 @@ baseExpr = ndarray_simple_contract | suggester
 baseExpr.setName('numpy contract (with recovery)')
 
 ndarray_composite_contract = myOperatorPrecedence(baseExpr, [
-                        (',', 2, opAssoc.LEFT, ArrayAnd.parse_action),  # @UndefinedVariable
-                         ('|', 2, opAssoc.LEFT, ArrayOR.parse_action),  # @UndefinedVariable
-                    ])
+    (',', 2, opAssoc.LEFT, ArrayAnd.parse_action),  # @UndefinedVariable
+    ('|', 2, opAssoc.LEFT, ArrayOR.parse_action),  # @UndefinedVariable
+])
 
 
 def my_delim_list2(what, delim):
     return (what + ZeroOrMore(S(delim) + FollowedBy(NotAny(ellipsis)) - what))
+
+
 ellipsis = Literal('...')
 
 shape_suggester = create_suggester(get_options=lambda: ['...'],

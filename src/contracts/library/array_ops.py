@@ -1,10 +1,8 @@
-from abc import abstractmethod
-import numpy
-
 from ..interface import Contract, ContractNotRespected, RValue, eval_in_context
-from ..syntax import W, Keyword
-from contracts.syntax import add_contract, add_keyword
-from contracts.library.types_misc import CheckType
+from ..syntax import W, Keyword, add_contract, add_keyword
+from .types_misc import CheckType
+from abc import abstractmethod
+import numpy as np
 
 
 
@@ -16,12 +14,12 @@ class ArrayElementsTest(Contract):
 
     def check_contract(self, context, value):
         result = self.test_elements(context, value)
-        if numpy.all(result):
+        if np.all(result):
             return
-        result = numpy.array(result)  # for simple bool
+        result = np.array(result)  # for simple bool
         resultf = result.flatten()
         valuef = value.flatten()
-        some, = numpy.nonzero(numpy.logical_not(resultf))
+        some, = np.nonzero(np.logical_not(resultf))
         num = value.size
         num_fail = len(some)
         perc = 100.0 * num_fail / num
@@ -64,11 +62,11 @@ class ArrayOR(ArrayLogical):
         self.clauses = clauses
 
     def test_elements(self, context, value):
-        assert isinstance(value, numpy.ndarray)
+        assert isinstance(value, np.ndarray)
         result = False
         for c in self.clauses:
             result_c = c.test_elements(context, value)
-            result = numpy.logical_or(result_c, result)
+            result = np.logical_or(result_c, result)
         return result
 
     def __repr__(self):
@@ -110,11 +108,11 @@ class ArrayAnd(ArrayLogical):
         self.clauses = clauses
 
     def test_elements(self, context, value):
-        assert isinstance(value, numpy.ndarray)
+        assert isinstance(value, np.ndarray)
         result = True
         for c in self.clauses:
             result_c = c.test_elements(context, value)
-            result = numpy.logical_and(result_c, result)
+            result = np.logical_and(result_c, result)
         return result
 
     def __repr__(self):
@@ -157,7 +155,7 @@ class ArrayConstraint(ArrayElementsTest):
 
     def test_elements(self, context, value):
         ''' Returns either a bool or an array of bool. '''
-        assert isinstance(value, numpy.ndarray)
+        assert isinstance(value, np.ndarray)
         bound = eval_in_context(context=context, value=self.rvalue,
                                 contract=self)
 
@@ -182,7 +180,7 @@ class ArrayConstraint(ArrayElementsTest):
 class DType(ArrayElementsTest):
     ''' Checks that the value is an array with the given dtype. '''
     def __init__(self, dtype, dtype_string=None, where=None):
-        assert isinstance(dtype, numpy.dtype)
+        assert isinstance(dtype, np.dtype)
         Contract.__init__(self, where)
         self.dtype = dtype
         if dtype_string is None:
@@ -190,7 +188,7 @@ class DType(ArrayElementsTest):
         self.dtype_string = dtype_string
 
     def test_elements(self, context, value):  # @UnusedVariable
-        assert isinstance(value, numpy.ndarray)  # Guaranteed by construction
+        assert isinstance(value, np.ndarray)  # Guaranteed by construction
         return (value.dtype == self.dtype)
 
     def __str__(self):
@@ -204,19 +202,19 @@ class DType(ArrayElementsTest):
 
     @staticmethod
     def parse_action(dtype=None):
-        assert dtype is None or isinstance(dtype, numpy.dtype)
+        assert dtype is None or isinstance(dtype, np.dtype)
 
         def parse(s, loc, tokens):
             where = W(s, loc)
             dtype_string = tokens[0]
             if dtype is None:
-                use_dtype = numpy.dtype(dtype_string)
+                use_dtype = np.dtype(dtype_string)
             else:
                 use_dtype = dtype
             return DType(use_dtype, dtype_string, where)
         return parse
 
-import numpy as np
+
 np_types = {
     'np_int': np.int,  # Platform integer (normally either int32 or int64)
     'np_int8': np.int8,  # Byte (-128 to 127)
