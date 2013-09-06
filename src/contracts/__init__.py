@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 from . import syntax
 contract_expression = syntax.contract_expression
 
-from .interface import (Contract, ContractNotRespected,
+from .interface import (Contract, ContractNotRespected, CannotDecorateClassmethods,
                         ContractSyntaxError, ContractException)
 
 from .main import (check, fail, check_multiple, contract_decorator,

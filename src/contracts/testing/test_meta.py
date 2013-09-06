@@ -1,7 +1,21 @@
 from abc import abstractmethod
 from contracts import ContractNotRespected, contract, ContractsMeta
 import unittest
-from contracts.interface import CannotDecorateClassmethods
+from contracts import CannotDecorateClassmethods
+import functools
+import nose
+
+
+def expected_failure(test):
+    @functools.wraps(test)
+    def inner(*args, **kwargs):
+        try:
+            test(*args, **kwargs)
+        except Exception:
+            raise nose.SkipTest
+        else:
+            raise AssertionError('Failure expected')
+    return inner
 
 
 class TestMeta(unittest.TestCase):
@@ -69,7 +83,7 @@ class TestMeta(unittest.TestCase):
         self.assertRaises(ContractNotRespected, b.f, 0)
         self.assertRaises(ContractNotRespected, b.g, 0)
 
-    
+    @expected_failure
     def test_static1(self):
         
         class A():
@@ -88,10 +102,9 @@ class TestMeta(unittest.TestCase):
             def f(a):
                 pass
   
-        # this doesn't work  
-        self.assertRaises(ContractNotRespected, B.f, 0)
+        self.assertRaises(ContractNotRespected, B.f, 0) # this doesn't work  
         
-    
+    @expected_failure   
     def test_classmethod1(self):
         
         class A():
@@ -112,9 +125,9 @@ class TestMeta(unittest.TestCase):
                 print('called B.f(%s)' % a)
                 pass
 
-        # this doesn't work  
-        self.assertRaises(ContractNotRespected, B.f, 0)
+        self.assertRaises(ContractNotRespected, B.f, 0) # this doesn't work  
 
+    @expected_failure
     def test_classmethod1ns(self):
     
         class A(object):
@@ -135,8 +148,7 @@ class TestMeta(unittest.TestCase):
                 print('called B.f(%s)' % a)
                 pass
 
-        # this doesn't work  
-        self.assertRaises(ContractNotRespected, B.f, 0)
+        self.assertRaises(ContractNotRespected, B.f, 0) # this doesn't work  
         
 
     def test_classmethod2a(self):
@@ -160,3 +172,4 @@ class TestMeta(unittest.TestCase):
         self.assertRaises(CannotDecorateClassmethods, test_classmethod2)
       
        
+

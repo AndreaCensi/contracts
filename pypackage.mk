@@ -31,6 +31,7 @@ test:
 	@echo
 	$(nose) $(package) $(NOSE_PARAMS)
 
+NOSE_PARAMS?=
 
 test-stop:
 	$(nose) $(package) $(NOSE_PARAMS) -x
