@@ -13,11 +13,9 @@ PyContracts is overkill for you, you might want to try a simpler alternative, su
 typecheck_. If you find that PyContracts is not *enough* for you, you probably want to be
 using Haskell_ instead of Python.
 
-
 Contracts can be specified in three ways:
 
-- Using annotations (for Python 3) ---this is perhaps the most 
-  intuitive way: :: 
+- Using annotations (for Python 3): :: 
   
       @contract
       def my_function(a : 'int,>0', b : 'list[N],N>0') -> 'list[N]': 
@@ -25,7 +23,7 @@ Contracts can be specified in three ways:
            # value to have the same length.
            ...
       
-- Using ``:type:`` and ``:rtype:`` tags in docstrings:
+- Using ``:type:`` and ``:rtype:`` tags in docstrings: ::
    
       @contract
       def my_function(a, b): 
@@ -36,7 +34,7 @@ Contracts can be specified in three ways:
           """
           ...
           
-- Using arguments to the decorators; the least intrusive way: ::
+- Using arguments to the ``@contract`` decorator: ::
    
       @contract(a='int,>0', b='list[N],N>0', returns='list[N]')
       def my_function(a, b):
@@ -49,7 +47,7 @@ In any case, PyContracts will include the spec in the ``__doc__`` attribute.
     new_contract('valid_name', lambda s: isinstance(s, str) and len(s)>0)
     check('dict(int: (valid_name, int))', employees)
 
-Any Python type is a contract:
+Any Python type is a contract: ::
 
     @contract(a=int, # simple contract
               b='int,>0' # more complicated
