@@ -25,8 +25,7 @@ Contracts can be specified in three ways:
            # value to have the same length.
            ...
       
-- Using ``:type:`` and ``:rtype:`` tags in docstrings. In this way, they will be included
-  in your Sphinx documentation: ::
+- Using ``:type:`` and ``:rtype:`` tags in docstrings:
    
       @contract
       def my_function(a, b): 
@@ -43,7 +42,9 @@ Contracts can be specified in three ways:
       def my_function(a, b):
           ...
 
-You can extend PyContracts with new contracts types: ::
+In any case, PyContracts will include the spec in the ``__doc__`` attribute.
+
+**Extensions:** You can extend PyContracts with new contracts types: ::
 
     new_contract('valid_name', lambda s: isinstance(s, str) and len(s)>0)
     check('dict(int: (valid_name, int))', employees)
@@ -56,7 +57,7 @@ Any Python type is a contract:
     def f(a, b):
         ...
 
-The metaclass 'ContractsMeta' is like ABCMeta, but it propagates contracts to the subclasses:
+**Enforcing interfaces**: The metaclass 'ContractsMeta' is like ABCMeta, but it propagates contracts to the subclasses: ::
 
     from contracts import contract, ContractsMeta
 
@@ -73,7 +74,7 @@ The metaclass 'ContractsMeta' is like ABCMeta, but it propagates contracts to th
         def sample(probability):
             ....
 
-There is special support for Numpy:
+**Numpy**: There is special support for Numpy: ::
 
     @contract(image='array[HxWx3](uint8),H>10,W>10')
     def recolor(image):
