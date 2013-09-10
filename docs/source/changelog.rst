@@ -3,6 +3,21 @@ Changelog
 
 .. _changelog: 
 
+1.6.0 -- 2013-09-10
+-------------------
+
+* New features:
+  - New ContractsMeta metaclass to provide subclasses with contracts. Use like you would ABCMeta. (docs to write)
+  - Added a "isinstance(ClassName)" contract for generic type checking
+
+* Other fixes:
+  - Cleaned up much of the code regarding Numpy arrays
+  - Fixed a few incompatibilities with new versions of pyparsing
+  - Better display of error conditions in several occasions.
+
+* Incomplete list of contributors: Ryan Heimbuch
+
+
 1.5.0 -- 2013-02-07
 -------------------
 
