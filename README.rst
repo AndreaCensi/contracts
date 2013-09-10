@@ -42,15 +42,42 @@ Contracts can be specified in three ways:
       @contract(a='int,>0', b='list[N],N>0', returns='list[N]')
       def my_function(a, b):
           ...
-          
-Moreover, there are utility functions for manual checking of values: ::
 
-    check('array[HxWx3](uint8),H>10,W>10', image)
-
-as well as hooks to extend PyContracts with new contracts types: ::
+You can extend PyContracts with new contracts types: ::
 
     new_contract('valid_name', lambda s: isinstance(s, str) and len(s)>0)
     check('dict(int: (valid_name, int))', employees)
+
+Any Python type is a contract:
+
+    @contract(a=int, # simple contract
+              b='int,>0' # more complicated
+              )
+    def f(a, b):
+        ...
+
+The metaclass 'ContractsMeta' is like ABCMeta, but it propagates contracts to the subclasses:
+
+    from contracts import contract, ContractsMeta
+
+    class Base(object):
+        __metaclass__ = ContractsMeta
+
+        @abstractmethod
+        @contract(probability='float,>=0,<=1')
+        def sample(probability):
+            passs
+
+    class Derived(Base):
+        # The contract is automatically enforced for all children!
+        def sample(probability):
+            ....
+
+There is special support for Numpy:
+
+    @contract(image='array[HxWx3](uint8),H>10,W>10')
+    def recolor(image):
+        ...
 
 
 .. _typecheck: http://oakwinter.com/code/typecheck/
