@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>contracts.library.extensions &mdash; PyContracts 1.5.0 documentation</title>
+    <title>contracts.library.extensions &mdash; PyContracts 1.6.0 documentation</title>
     
     <link rel="stylesheet" href="../../../static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '1.5.0',
+        VERSION:     '1.6.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +23,7 @@
     <script type="text/javascript" src="../../../static/jquery.js"></script>
     <script type="text/javascript" src="../../../static/underscore.js"></script>
     <script type="text/javascript" src="../../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.5.0 documentation" href="../../../index.html" />
+    <link rel="top" title="PyContracts 1.6.0 documentation" href="../../../index.html" />
     <link rel="up" title="contracts" href="../../contracts.html" />
 	 
 
@@ -52,7 +50,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyContracts 1.5.0 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyContracts 1.6.0 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li>
           <li><a href="../../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
       </ul>
@@ -81,9 +79,11 @@
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span>
+<span class="c">#         return Extension.registrar[self.identifier].__str__()</span>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&quot;Extension(</span><span class="si">%r</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span>
+        <span class="c"># return &quot;new_contract(%r,%s)&quot; % (self.identifier, Extension.registrar[self.identifier])</span>
 
 <div class="viewcode-block" id="Extension.check_contract"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.extensions.Extension.check_contract">[docs]</a>    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">contract</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
@@ -125,12 +125,12 @@
             <span class="c"># passed</span>
             <span class="k">pass</span>
         <span class="k">elif</span> <span class="n">result</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;Value does not pass criteria of </span><span class="si">%s</span><span class="s">() (module: </span><span class="si">%s</span><span class="s">).&#39;</span> <span class="o">%</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;Value does not pass criteria of </span><span class="si">%s</span><span class="s">() (module: </span><span class="si">%s</span><span class="s">).&#39;</span> <span class="o">%</span> 
                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">callable</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">callable</span><span class="o">.</span><span class="n">__module__</span><span class="p">))</span>
             <span class="k">raise</span> <span class="n">ContractNotRespected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;I expect that </span><span class="si">%r</span><span class="s"> returns either True, False, None; or &#39;</span>
-                   <span class="s">&#39;raises a ValueError exception. Instead, I got </span><span class="si">%s</span><span class="s">.&#39;</span> <span class="o">%</span>
+                   <span class="s">&#39;raises a ValueError exception. Instead, I got </span><span class="si">%s</span><span class="s">.&#39;</span> <span class="o">%</span> 
                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">callable</span><span class="p">,</span> <span class="n">describe_value</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 </div>
@@ -167,12 +167,12 @@
             <span class="c"># passed</span>
             <span class="k">pass</span>
         <span class="k">elif</span> <span class="n">result</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;Value does not pass criteria of </span><span class="si">%s</span><span class="s">() (module: </span><span class="si">%s</span><span class="s">).&#39;</span> <span class="o">%</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;Value does not pass criteria of </span><span class="si">%s</span><span class="s">() (module: </span><span class="si">%s</span><span class="s">).&#39;</span> <span class="o">%</span> 
                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">callable</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">callable</span><span class="o">.</span><span class="n">__module__</span><span class="p">))</span>
             <span class="k">raise</span> <span class="n">ContractNotRespected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;I expect that </span><span class="si">%r</span><span class="s"> returns either True, False, None; or &#39;</span>
-                   <span class="s">&#39;raises a ValueError exception. Instead, I got </span><span class="si">%s</span><span class="s">.&#39;</span> <span class="o">%</span>
+                   <span class="s">&#39;raises a ValueError exception. Instead, I got </span><span class="si">%s</span><span class="s">.&#39;</span> <span class="o">%</span> 
                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">callable</span><span class="p">,</span> <span class="n">describe_value</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 </div>
@@ -187,7 +187,7 @@
         <span class="k">return</span> <span class="s">&#39;function </span><span class="si">%s</span><span class="s">()&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">callable</span><span class="o">.</span><span class="n">__name__</span>
 
 
-<span class="c">#lowercase = alphas.lower()</span></div>
+<span class="c"># lowercase = alphas.lower()</span></div>
 <span class="n">identifier_expression</span> <span class="o">=</span> <span class="n">Combine</span><span class="p">(</span><span class="n">oneOf</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">alphas</span><span class="p">))</span> <span class="o">+</span> <span class="n">Word</span><span class="p">(</span><span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">alphanums</span><span class="p">))</span>
 
 <span class="n">identifier_contract</span> <span class="o">=</span> <span class="n">identifier_expression</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span>
@@ -225,7 +225,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyContracts 1.5.0 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyContracts 1.6.0 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li>
           <li><a href="../../contracts.html" >contracts</a> &raquo;</li> 
       </ul>
@@ -233,7 +233,7 @@
 	
     <div class="footer">
         &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
     </div>
 	
     <script type="text/javascript">

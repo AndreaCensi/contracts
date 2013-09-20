@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>contracts.useful_contracts.numpy_specific &mdash; PyContracts 1.6.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.6.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../static/doctools.js"></script>
+    <link rel="top" title="PyContracts 1.6.0 documentation" href="../../../index.html" />
+    <link rel="up" title="contracts" href="../../contracts.html" />
+	 
+
+   <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
+
+   <style type="text/css">
+   
+   </style>
+
+<!--<link  href="http://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css" >
+<link  href="http://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet" type="text/css" >
+<link  href="static/pycontracts.css" rel="stylesheet" type="text/css" >-->
+
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyContracts 1.6.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for contracts.useful_contracts.numpy_specific</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">new_contract</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">contracts.interface</span> <span class="kn">import</span> <span class="n">describe_value</span><span class="p">,</span> <span class="n">describe_type</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;finite&#39;</span><span class="p">]</span>
+
+<span class="nd">@new_contract</span>
+<div class="viewcode-block" id="finite"><a class="viewcode-back" href="../../../api/contracts.useful_contracts.html#contracts.useful_contracts.numpy_specific.finite">[docs]</a><span class="k">def</span> <span class="nf">finite</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</div>
+<span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;np_scalar_uint&#39;</span><span class="p">,</span> <span class="s">&#39;np_uint8|np_uint16|np_uint32|np_uint64&#39;</span><span class="p">)</span>
+<span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;np_scalar_int&#39;</span><span class="p">,</span> <span class="s">&#39;np_int8|np_int16|np_int32|np_int64&#39;</span><span class="p">)</span>
+<span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;np_scalar_float&#39;</span><span class="p">,</span> <span class="s">&#39;np_float32|np_float64&#39;</span><span class="p">)</span>
+<span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;np_scalar_type&#39;</span><span class="p">,</span> <span class="s">&#39;np_scalar_int|np_scalar_uint|np_scalar_float&#39;</span><span class="p">)</span>
+
+<span class="nd">@new_contract</span>  
+<span class="k">def</span> <span class="nf">np_zeroshape_array</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="c">#     scalars = [ </span>
+<span class="c">#     np.int,  # Platform integer (normally either int32 or int64)</span>
+<span class="c">#     np.int8,  # Byte (-128 to 127)</span>
+<span class="c">#     np.int16,  # Integer (-32768 to 32767)</span>
+<span class="c">#     np.int32,  # Integer (-2147483648 to 2147483647)</span>
+<span class="c">#     np.int64,  # Integer (9223372036854775808 to 9223372036854775807)</span>
+<span class="c">#     np.uint8,  # Unsigned integer (0 to 255)</span>
+<span class="c">#     np.uint16,  # Unsigned integer (0 to 65535)</span>
+<span class="c">#     np.uint32,  # Unsigned integer (0 to 4294967295)</span>
+<span class="c">#     np.uint64,  # Unsigned integer (0 to 18446744073709551615)</span>
+<span class="c">#     np.float,  # Shorthand for float64.</span>
+<span class="c">#     np.float16,  #  Half precision float: sign bit, 5 bits exponent, 10 bits mantissa</span>
+<span class="c">#     np.float32,  #  Single precision float: sign bit, 8 bits exponent, 23 bits mantissa</span>
+<span class="c">#     np.float64,  #  Double precision float: sign bit, 11 bits exponent, 52 bits mantissa</span>
+<span class="c">#     np.complex,  #  Shorthand for complex128.</span>
+<span class="c">#     np.complex64,  #    Complex number, represented by two 32-bit floats (real and imaginary components)</span>
+<span class="c">#     np.complex128</span>
+<span class="c">#     ]</span>
+<span class="c">#  </span>
+<span class="c">#     if isinstance(x, tuple(scalars)):</span>
+<span class="c">#         return</span>
+<span class="c">#  </span>
+<span class="c">#  </span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;Not an array: </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s"> &#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">describe_type</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+ 
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">():</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;Not a scalar: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">describe_value</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+     
+
+<span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;np_scalar&#39;</span><span class="p">,</span> <span class="s">&#39;np_zeroshape_array|np_scalar_type&#39;</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PyContracts 1.6.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../contracts.html" >contracts</a> &raquo;</li> 
+      </ul>
+    </div>
+	
+    <div class="footer">
+        &copy; Copyright 2010, Andrea Censi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+	
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-155626-14']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+
+    
+
+
+  </body>
+</html>

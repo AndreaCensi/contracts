@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>contracts Package &mdash; PyContracts 1.5.0 documentation</title>
+    <title>contracts Package &mdash; PyContracts 1.6.0 documentation</title>
     
     <link rel="stylesheet" href="../static/default.css" type="text/css" />
     <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.5.0',
+        VERSION:     '1.6.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +23,7 @@
     <script type="text/javascript" src="../static/jquery.js"></script>
     <script type="text/javascript" src="../static/underscore.js"></script>
     <script type="text/javascript" src="../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.5.0 documentation" href="../index.html" />
+    <link rel="top" title="PyContracts 1.6.0 documentation" href="../index.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -51,7 +49,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../index.html">PyContracts 1.5.0 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PyContracts 1.6.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -64,7 +62,15 @@
 <h1>contracts Package<a class="headerlink" href="#contracts-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
 <h2><a class="reference internal" href="../index.html#module-contracts" title="contracts"><tt class="xref py py-mod docutils literal"><span class="pre">contracts</span></tt></a> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-contracts"></span><dl class="function">
+<span class="target" id="module-contracts"></span><dl class="class">
+<dt id="contracts.ContractsMeta">
+<em class="property">class </em><tt class="descclassname">contracts.</tt><tt class="descname">ContractsMeta</tt><big>(</big><em>clsname</em>, <em>bases</em>, <em>clsdict</em><big>)</big><a class="headerlink" href="#contracts.ContractsMeta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="http://docs.python.org/library/abc.html#abc.ABCMeta" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">abc.ABCMeta</span></tt></a></p>
+<p>This metaclass lets the subclasses inherit the specifications. 
+Very useful for abstract commands.</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="contracts.contract">
 <tt class="descclassname">contracts.</tt><tt class="descname">contract</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../modules/contracts.html#contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.contract" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator for adding contracts to functions.</p>
@@ -118,82 +124,6 @@ you can include it in double ticks. <a href="#id2"><span class="problematic" id=
 the double ticks before interpreting the string.</p>
 <p>For example, the two annotations in this docstring are equivalent
 for <a href="#id4"><span class="problematic" id="id5">|pycontracts|</span></a>, but the latter is better for Sphinx:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot; My function </span>
-
-<span class="sd">    :param a: First parameter</span>
-<span class="sd">    :type a: list(tuple(str,*))</span>
-<span class="sd">    </span>
-<span class="sd">    :param b: First parameter</span>
-<span class="sd">    :type b: ``list(tuple(str,*))``</span>
-<span class="sd">&quot;&quot;&quot;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raise :</th><td class="field-body">ContractException, if arguments are not coherent</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raise :</th><td class="field-body">ContractSyntaxError</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="contracts.contracts">
-<tt class="descclassname">contracts.</tt><tt class="descname">contracts</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#contracts.contracts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Decorator for adding contracts to functions.</p>
-<p>It is smart enough to support functions with variable number of 
-arguments and keyword arguments.</p>
-<p>There are three ways to specify the contracts. In order of precedence:</p>
-<ul>
-<li><p class="first">As arguments to this decorator. For example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int,&gt;0&#39;</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;0&#39;</span><span class="p">,</span><span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-    <span class="c"># ...</span>
-    <span class="k">pass</span>
-</pre></div>
-</div>
-</li>
-<li><p class="first">As annotations (supported only in Python 3):</p>
-<div class="highlight-python"><pre>@contract
-def my_function(a:'int,&gt;0', b:'list[N],N&gt;0') -&gt; 'list[N]': 
-    # ...
-    pass</pre>
-</div>
-</li>
-<li><p class="first">Using <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags in the function&#8217;s docstring:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span>
-<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span> 
-    <span class="sd">&quot;&quot;&quot; Function description.</span>
-<span class="sd">        :type a: int,&gt;0</span>
-<span class="sd">        :type b: list[N],N&gt;0</span>
-<span class="sd">        :rtype: list[N]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span>
-</pre></div>
-</div>
-</li>
-</ul>
-<p><strong>Signature and docstrings</strong>: The signature of the decorated
-function is conserved. By default, the docstring is modified
-by adding <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> definitions. To avoid that,
-pass <tt class="docutils literal"><span class="pre">modify_docstring=False</span></tt> as a parameter.</p>
-<p><strong>Contracts evaluation</strong>: Note that all contracts for the arguments 
-and the return values
-are evaluated in the same context. This make it possible to use
-common variables in the contract expression. For example, in the 
-example above, the return value is constrained to be a list of the same 
-length (<tt class="docutils literal"><span class="pre">N</span></tt>) as the parameter <tt class="docutils literal"><span class="pre">b</span></tt>.</p>
-<p><strong>Using docstrings</strong> Note that, by convention, those annotations must 
-be parseable as RestructuredText. This is relevant if you are using 
-Sphinx.
-If the contract string has special RST characters in it, like <tt class="docutils literal"><span class="pre">*</span></tt>,
-you can include it in double ticks. <a href="#id6"><span class="problematic" id="id7">|pycontracts|</span></a> will remove
-the double ticks before interpreting the string.</p>
-<p>For example, the two annotations in this docstring are equivalent
-for <a href="#id8"><span class="problematic" id="id9">|pycontracts|</span></a>, but the latter is better for Sphinx:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot; My function </span>
 
 <span class="sd">    :param a: First parameter</span>
@@ -327,6 +257,11 @@ using <a class="reference internal" href="../index.html#contracts.Contract.check
 </dd></dl>
 
 <dl class="function">
+<dt id="contracts.backported.getargspec">
+<tt class="descclassname">contracts.backported.</tt><tt class="descname">getargspec</tt><big>(</big><em>function</em><big>)</big><a class="reference internal" href="../modules/contracts/backported.html#getargspec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.backported.getargspec" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
 <dt id="contracts.backported.getfullargspec">
 <tt class="descclassname">contracts.backported.</tt><tt class="descname">getfullargspec</tt><big>(</big><em>function</em><big>)</big><a class="reference internal" href="../modules/contracts/backported.html#getfullargspec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.backported.getfullargspec" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -398,6 +333,12 @@ for names.</p>
 </div>
 <div class="section" id="module-contracts.interface">
 <span id="interface-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">interface</span></tt> Module<a class="headerlink" href="#module-contracts.interface" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="contracts.interface.CannotDecorateClassmethods">
+<em class="property">exception </em><tt class="descclassname">contracts.interface.</tt><tt class="descname">CannotDecorateClassmethods</tt><a class="reference internal" href="../modules/contracts/interface.html#CannotDecorateClassmethods"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.interface.CannotDecorateClassmethods" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contracts.interface.ContractDefinitionError" title="contracts.interface.ContractDefinitionError"><tt class="xref py py-class docutils literal"><span class="pre">contracts.interface.ContractDefinitionError</span></tt></a></p>
+</dd></dl>
+
 <dl class="class">
 <dt id="contracts.interface.Contract">
 <em class="property">class </em><tt class="descclassname">contracts.interface.</tt><tt class="descname">Contract</tt><big>(</big><em>where</em><big>)</big><a class="reference internal" href="../modules/contracts/interface.html#Contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.interface.Contract" title="Permalink to this definition">¶</a></dt>
@@ -464,6 +405,13 @@ Raises an exception if it does.</p>
 </dd></dl>
 
 <dl class="exception">
+<dt id="contracts.interface.ContractDefinitionError">
+<em class="property">exception </em><tt class="descclassname">contracts.interface.</tt><tt class="descname">ContractDefinitionError</tt><a class="reference internal" href="../modules/contracts/interface.html#ContractDefinitionError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.interface.ContractDefinitionError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contracts.interface.ContractException" title="contracts.interface.ContractException"><tt class="xref py py-class docutils literal"><span class="pre">contracts.interface.ContractException</span></tt></a></p>
+<p>Thrown when defining the contracts</p>
+</dd></dl>
+
+<dl class="exception">
 <dt id="contracts.interface.ContractException">
 <em class="property">exception </em><tt class="descclassname">contracts.interface.</tt><tt class="descname">ContractException</tt><a class="reference internal" href="../modules/contracts/interface.html#ContractException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.interface.ContractException" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
@@ -480,7 +428,7 @@ Raises an exception if it does.</p>
 <dl class="exception">
 <dt id="contracts.interface.ContractSyntaxError">
 <em class="property">exception </em><tt class="descclassname">contracts.interface.</tt><tt class="descname">ContractSyntaxError</tt><big>(</big><em>error</em>, <em>where=None</em><big>)</big><a class="reference internal" href="../modules/contracts/interface.html#ContractSyntaxError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.interface.ContractSyntaxError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#contracts.interface.ContractException" title="contracts.interface.ContractException"><tt class="xref py py-class docutils literal"><span class="pre">contracts.interface.ContractException</span></tt></a></p>
+<dd><p>Bases: <a class="reference internal" href="#contracts.interface.ContractDefinitionError" title="contracts.interface.ContractDefinitionError"><tt class="xref py py-class docutils literal"><span class="pre">contracts.interface.ContractDefinitionError</span></tt></a></p>
 <p>Exception thrown when there is a syntax error in the contracts.</p>
 </dd></dl>
 
@@ -556,7 +504,7 @@ so that we can output pretty error messages.</p>
 <em class="property">class </em><tt class="descclassname">contracts.main.</tt><tt class="descname">Storage</tt><a class="reference internal" href="../modules/contracts/main.html#Storage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.main.Storage" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="attribute">
 <dt id="contracts.main.Storage.string2contract">
-<tt class="descname">string2contract</tt><em class="property"> = {'Hashable': Extension('Hashable'), 'Callable': Extension('Callable'), 'None': Extension('None'), 'Set': Extension('Set'), 'Container': Extension('Container'), 'Iterator': Extension('Iterator'), 'Sequence': Extension('Sequence'), 'MutableMapping': Extension('MutableMapping'), 'Mapping': Extension('Mapping'), 'MutableSequence': Extension('MutableSequence'), 'Sized': Extension('Sized'), 'NoneType': Extension('NoneType'), 'MutableSet': Extension('MutableSet'), 'Iterable': Extension('Iterable')}</em><a class="headerlink" href="#contracts.main.Storage.string2contract" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">string2contract</tt><em class="property"> = {'Container': Extension('Container'), 'int': Extension('int'), 'MutableMapping': Extension('MutableMapping'), 'float': Extension('float'), 'np_zeroshape_array': Extension('np_zeroshape_array'), 'np_scalar_uint': Extension('np_scalar_uint'), 'np_scalar_uint|(np_scalar, array(uint))': OR([Extension('np_scalar_uint'), And([Extension('np_scalar'), Array(None,ArrayOR([DType(dtype('uint8'),'u1'), DType(dtype('uint8')), DType(dtype('uint16')), DType(dtype('uint32')), DType(dtype('uint64'))]))])]), 'np_zeroshape_array|np_scalar_type': OR([Extension('np_zeroshape_array'), Extension('np_scalar_type')]), 'np_scalar_int|np_scalar_uint|np_scalar_float': OR([Extension('np_scalar_int'), Extension('np_scalar_uint'), Extension('np_scalar_float')]), 'np_float32|np_float64': OR([CheckType(float32,'np_float32'), CheckType(float64,'np_float64')]), 'Int|np_scalar_int|(np_scalar,array(int))': OR([CheckType(int,'Int'), Extension('np_scalar_int'), And([Extension('np_scalar'), Array(None,ArrayOR([DType(dtype('int8'),'i1'), DType(dtype('int8')), DType(dtype('int16')), DType(dtype('int32')), DType(dtype('int64'))]))])]), 'Mapping': Extension('Mapping'), 'Callable': Extension('Callable'), 'np_scalar_float': Extension('np_scalar_float'), 'finite': Extension('finite'), 'float|int|uint': OR([Extension('float'), Extension('int'), Extension('uint')]), 'Hashable': Extension('Hashable'), 'None': Extension('None'), 'MutableSet': Extension('MutableSet'), 'np_scalar_type': Extension('np_scalar_type'), 'MutableSequence': Extension('MutableSequence'), 'number': Extension('number'), 'Sized': Extension('Sized'), 'uint': Extension('uint'), 'np_int8|np_int16|np_int32|np_int64': OR([CheckType(int8,'np_int8'), CheckType(int16,'np_int16'), CheckType(int32,'np_int32'), CheckType(int64,'np_int64')]), 'Set': Extension('Set'), 'Iterator': Extension('Iterator'), 'Sequence': Extension('Sequence'), 'np_uint8|np_uint16|np_uint32|np_uint64': OR([CheckType(uint8,'np_uint8'), CheckType(uint16,'np_uint16'), CheckType(uint32,'np_uint32'), CheckType(uint64,'np_uint64')]), 'np_scalar': Extension('np_scalar'), 'Iterable': Extension('Iterable'), 'np_scalar_int': Extension('np_scalar_int'), 'Float|np_scalar_float|(np_scalar, array(float))': OR([CheckType(float,'Float'), Extension('np_scalar_float'), And([Extension('np_scalar'), Array(None,ArrayOR([DType(dtype('float32')), DType(dtype('float64'))]))])]), 'NoneType': Extension('NoneType')}</em><a class="headerlink" href="#contracts.main.Storage.string2contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -710,10 +658,10 @@ length (<tt class="docutils literal"><span class="pre">N</span></tt>) as the par
 be parseable as RestructuredText. This is relevant if you are using 
 Sphinx.
 If the contract string has special RST characters in it, like <tt class="docutils literal"><span class="pre">*</span></tt>,
-you can include it in double ticks. <a href="#id10"><span class="problematic" id="id11">|pycontracts|</span></a> will remove
+you can include it in double ticks. <a href="#id6"><span class="problematic" id="id7">|pycontracts|</span></a> will remove
 the double ticks before interpreting the string.</p>
 <p>For example, the two annotations in this docstring are equivalent
-for <a href="#id12"><span class="problematic" id="id13">|pycontracts|</span></a>, but the latter is better for Sphinx:</p>
+for <a href="#id8"><span class="problematic" id="id9">|pycontracts|</span></a>, but the latter is better for Sphinx:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot; My function </span>
 
 <span class="sd">    :param a: First parameter</span>
@@ -746,8 +694,10 @@ The decorator <tt class="xref py py-func docutils literal"><span class="pre">dec
 <dl class="function">
 <dt id="contracts.main.fail">
 <tt class="descclassname">contracts.main.</tt><tt class="descname">fail</tt><big>(</big><em>contract</em>, <em>value</em>, <em>**initial_context</em><big>)</big><a class="reference internal" href="../modules/contracts/main.html#fail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.main.fail" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks that the value <strong>does not</strong> respect this contract.
-Raises an exception if it does.</p>
+<dd><dl class="docutils">
+<dt>Checks that the value <strong>does not</strong> respect this contract.</dt>
+<dd>Raises an exception if it does.</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -912,12 +862,12 @@ parse action tuple member may be omitted)</p>
 <em class="property">class </em><tt class="descclassname">contracts.syntax.</tt><tt class="descname">ParsingTmp</tt><a class="reference internal" href="../modules/contracts/syntax.html#ParsingTmp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.syntax.ParsingTmp" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="attribute">
 <dt id="contracts.syntax.ParsingTmp.contract_types">
-<tt class="descname">contract_types</tt><a class="headerlink" href="#contracts.syntax.ParsingTmp.contract_types" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">contract_types</tt><em class="property"> = [&quot;*&quot;, &quot;#&quot;, Context separation construct, &quot;Int&quot;, &quot;Float&quot;, &quot;Number&quot;, &quot;bool&quot;, And, And, And, And, List contract, Seq contract, tuple contract, And, And, Set contract, And, And, And, And, And, And, And, And, &quot;np_uint16&quot;, &quot;np_int64&quot;, &quot;np_int8&quot;, &quot;np_complex128&quot;, &quot;np_uint8&quot;, &quot;np_complex64&quot;, &quot;np_float16&quot;, &quot;np_complex&quot;, &quot;np_int&quot;, &quot;np_uint32&quot;, &quot;np_float32&quot;, &quot;np_float&quot;, &quot;np_int32&quot;, &quot;np_int16&quot;, &quot;np_uint64&quot;, &quot;np_float64&quot;, array() contract, shape() contract, And, And, And, rvalue]</em><a class="headerlink" href="#contracts.syntax.ParsingTmp.contract_types" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="contracts.syntax.ParsingTmp.keywords">
-<tt class="descname">keywords</tt><em class="property"> = ['int', 'float', 'bool', 'number', 'type', 'string', 'str', 'unicode', 'list', 'seq', 'tuple', 'dict', 'map', 'attr', 'array', 'ndarray', 'shape']</em><a class="headerlink" href="#contracts.syntax.ParsingTmp.keywords" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">keywords</tt><em class="property"> = ['Int', 'Float', 'Number', 'bool', 'type', 'string', 'str', 'unicode', 'list', 'seq', 'tuple', 'dict', 'map', 'set', 'attr', 'np_uint16', 'np_int64', 'np_int8', 'np_complex128', 'np_uint8', 'np_complex64', 'np_float16', 'np_complex', 'np_int', 'np_uint32', 'np_float32', 'np_float', 'np_int32', 'np_int16', 'np_uint64', 'np_float64', 'array', 'ndarray', 'shape', 'isinstance']</em><a class="headerlink" href="#contracts.syntax.ParsingTmp.keywords" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -1099,13 +1049,13 @@ and the discussion of the &#8220;-&#8221; operator in the docs.</p>
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../index.html">PyContracts 1.5.0 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PyContracts 1.6.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
 	
     <div class="footer">
         &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
     </div>
 	
     <script type="text/javascript">

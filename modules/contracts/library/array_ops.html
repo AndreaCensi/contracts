@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>contracts.library.array_ops &mdash; PyContracts 1.5.0 documentation</title>
+    <title>contracts.library.array_ops &mdash; PyContracts 1.6.0 documentation</title>
     
     <link rel="stylesheet" href="../../../static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '1.5.0',
+        VERSION:     '1.6.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +23,7 @@
     <script type="text/javascript" src="../../../static/jquery.js"></script>
     <script type="text/javascript" src="../../../static/underscore.js"></script>
     <script type="text/javascript" src="../../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.5.0 documentation" href="../../../index.html" />
+    <link rel="top" title="PyContracts 1.6.0 documentation" href="../../../index.html" />
     <link rel="up" title="contracts" href="../../contracts.html" />
 	 
 
@@ -52,7 +50,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyContracts 1.5.0 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyContracts 1.6.0 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li>
           <li><a href="../../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
       </ul>
@@ -64,11 +62,12 @@
           <div class="body">
             
   <h1>Source code for contracts.library.array_ops</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
-<span class="kn">import</span> <span class="nn">numpy</span>
-
 <span class="kn">from</span> <span class="nn">..interface</span> <span class="kn">import</span> <span class="n">Contract</span><span class="p">,</span> <span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">RValue</span><span class="p">,</span> <span class="n">eval_in_context</span>
-<span class="kn">from</span> <span class="nn">..syntax</span> <span class="kn">import</span> <span class="n">W</span>
+<span class="kn">from</span> <span class="nn">..syntax</span> <span class="kn">import</span> <span class="n">W</span><span class="p">,</span> <span class="n">Keyword</span><span class="p">,</span> <span class="n">add_contract</span><span class="p">,</span> <span class="n">add_keyword</span>
+<span class="kn">from</span> <span class="nn">.types_misc</span> <span class="kn">import</span> <span class="n">CheckType</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
 
 
 <div class="viewcode-block" id="ArrayElementsTest"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array_ops.ArrayElementsTest">[docs]</a><span class="k">class</span> <span class="nc">ArrayElementsTest</span><span class="p">(</span><span class="n">Contract</span><span class="p">):</span>
@@ -79,12 +78,12 @@
 </div>
 <div class="viewcode-block" id="ArrayElementsTest.check_contract"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array_ops.ArrayElementsTest.check_contract">[docs]</a>    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_elements</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">numpy</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
             <span class="k">return</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>  <span class="c"># for simple bool</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>  <span class="c"># for simple bool</span>
         <span class="n">resultf</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
         <span class="n">valuef</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-        <span class="n">some</span><span class="p">,</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">resultf</span><span class="p">))</span>
+        <span class="n">some</span><span class="p">,</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">resultf</span><span class="p">))</span>
         <span class="n">num</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">size</span>
         <span class="n">num_fail</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">some</span><span class="p">)</span>
         <span class="n">perc</span> <span class="o">=</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="n">num_fail</span> <span class="o">/</span> <span class="n">num</span>
@@ -127,11 +126,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">clauses</span> <span class="o">=</span> <span class="n">clauses</span>
 
 <div class="viewcode-block" id="ArrayOR.test_elements"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array_ops.ArrayOR.test_elements">[docs]</a>    <span class="k">def</span> <span class="nf">test_elements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clauses</span><span class="p">:</span>
             <span class="n">result_c</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">test_elements</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">result_c</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">result_c</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span>
 </div>
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -149,8 +148,16 @@
             <span class="n">clauses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">operand</span><span class="p">)</span>
         <span class="n">where</span> <span class="o">=</span> <span class="n">W</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">location</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ArrayOR</span><span class="p">(</span><span class="n">clauses</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
-
 </div></div>
+<div class="viewcode-block" id="ArrayORCustomString"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array_ops.ArrayORCustomString">[docs]</a><span class="k">class</span> <span class="nc">ArrayORCustomString</span><span class="p">(</span><span class="n">ArrayOR</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">custom_string</span><span class="p">,</span> <span class="o">**</span><span class="n">other</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">custom_string</span> <span class="o">=</span> <span class="n">custom_string</span>
+        <span class="n">ArrayOR</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">other</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_string</span>
+
+</div>
 <div class="viewcode-block" id="ArrayAnd"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array_ops.ArrayAnd">[docs]</a><span class="k">class</span> <span class="nc">ArrayAnd</span><span class="p">(</span><span class="n">ArrayLogical</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clauses</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">clauses</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
@@ -165,11 +172,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">clauses</span> <span class="o">=</span> <span class="n">clauses</span>
 
 <div class="viewcode-block" id="ArrayAnd.test_elements"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array_ops.ArrayAnd.test_elements">[docs]</a>    <span class="k">def</span> <span class="nf">test_elements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clauses</span><span class="p">:</span>
             <span class="n">result_c</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">test_elements</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">result_c</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">result_c</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span>
 </div>
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -212,7 +219,7 @@
 
 <div class="viewcode-block" id="ArrayConstraint.test_elements"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array_ops.ArrayConstraint.test_elements">[docs]</a>    <span class="k">def</span> <span class="nf">test_elements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; Returns either a bool or an array of bool. &#39;&#39;&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
         <span class="n">bound</span> <span class="o">=</span> <span class="n">eval_in_context</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rvalue</span><span class="p">,</span>
                                 <span class="n">contract</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
 
@@ -237,7 +244,7 @@
 <div class="viewcode-block" id="DType"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array_ops.DType">[docs]</a><span class="k">class</span> <span class="nc">DType</span><span class="p">(</span><span class="n">ArrayElementsTest</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39; Checks that the value is an array with the given dtype. &#39;&#39;&#39;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">dtype_string</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="n">Contract</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span>
         <span class="k">if</span> <span class="n">dtype_string</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -245,7 +252,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dtype_string</span> <span class="o">=</span> <span class="n">dtype_string</span>
 
 <div class="viewcode-block" id="DType.test_elements"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array_ops.DType.test_elements">[docs]</a>    <span class="k">def</span> <span class="nf">test_elements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>  <span class="c"># Guaranteed by construction</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>  <span class="c"># Guaranteed by construction</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 </div>
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -259,18 +266,41 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="DType.parse_action"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array_ops.DType.parse_action">[docs]</a>    <span class="k">def</span> <span class="nf">parse_action</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
             <span class="n">where</span> <span class="o">=</span> <span class="n">W</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
             <span class="n">dtype_string</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="n">use_dtype</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">dtype_string</span><span class="p">)</span>
+                <span class="n">use_dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">dtype_string</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">use_dtype</span> <span class="o">=</span> <span class="n">dtype</span>
             <span class="k">return</span> <span class="n">DType</span><span class="p">(</span><span class="n">use_dtype</span><span class="p">,</span> <span class="n">dtype_string</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">parse</span>
-</pre></div></div></div>
+
+</div></div>
+<span class="n">np_types</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;np_int&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">,</span>  <span class="c"># Platform integer (normally either int32 or int64)</span>
+    <span class="s">&#39;np_int8&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">,</span>  <span class="c"># Byte (-128 to 127)</span>
+    <span class="s">&#39;np_int16&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">,</span>  <span class="c"># Integer (-32768 to 32767)</span>
+    <span class="s">&#39;np_int32&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span>  <span class="c"># Integer (-2147483648 to 2147483647)</span>
+    <span class="s">&#39;np_int64&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span>  <span class="c"># Integer (9223372036854775808 to 9223372036854775807)</span>
+    <span class="s">&#39;np_uint8&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span>  <span class="c"># Unsigned integer (0 to 255)</span>
+    <span class="s">&#39;np_uint16&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span>  <span class="c"># Unsigned integer (0 to 65535)</span>
+    <span class="s">&#39;np_uint32&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">,</span>  <span class="c"># Unsigned integer (0 to 4294967295)</span>
+    <span class="s">&#39;np_uint64&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">uint64</span><span class="p">,</span>  <span class="c"># Unsigned integer (0 to 18446744073709551615)</span>
+    <span class="s">&#39;np_float&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">,</span>  <span class="c"># Shorthand for float64.</span>
+    <span class="s">&#39;np_float16&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">,</span>  <span class="c">#  Half precision float: sign bit, 5 bits exponent, 10 bits mantissa</span>
+    <span class="s">&#39;np_float32&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>  <span class="c">#  Single precision float: sign bit, 8 bits exponent, 23 bits mantissa</span>
+    <span class="s">&#39;np_float64&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span>  <span class="c">#  Double precision float: sign bit, 11 bits exponent, 52 bits mantissa</span>
+    <span class="s">&#39;np_complex&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">complex</span><span class="p">,</span>  <span class="c">#  Shorthand for complex128.</span>
+    <span class="s">&#39;np_complex64&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span>  <span class="c">#    Complex number, represented by two 32-bit floats (real and imaginary components)</span>
+    <span class="s">&#39;np_complex128&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">}</span>
+
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np_types</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">add_contract</span><span class="p">(</span><span class="n">Keyword</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">CheckType</span><span class="o">.</span><span class="n">parse_action</span><span class="p">(</span><span class="n">t</span><span class="p">)))</span>
+    <span class="n">add_keyword</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+</pre></div>
 
           </div>
         </div>
@@ -303,7 +333,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyContracts 1.5.0 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyContracts 1.6.0 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li>
           <li><a href="../../contracts.html" >contracts</a> &raquo;</li> 
       </ul>
@@ -311,7 +341,7 @@
 	
     <div class="footer">
         &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
     </div>
 	
     <script type="text/javascript">

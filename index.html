@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>PyContracts &mdash; PyContracts 1.5.0 documentation</title>
+    <title>PyContracts &mdash; PyContracts 1.6.0 documentation</title>
     
     <link rel="stylesheet" href="static/default.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
-        VERSION:     '1.5.0',
+        URL_ROOT:    './',
+        VERSION:     '1.6.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +23,7 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.5.0 documentation" href="#" />
+    <link rel="top" title="PyContracts 1.6.0 documentation" href="#" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -51,7 +49,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">PyContracts 1.5.0 documentation</a> &raquo;</li> 
+        <li><a href="#">PyContracts 1.6.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -67,7 +65,7 @@
 return values. It supports a basic type system, variables binding, arithmetic constraints, and
 has several specialized contracts (notably for Numpy arrays).</p>
 <p><strong>Status:</strong> <span class="brand">PyContracts</span> is very well tested and documented. The last release
-is version 1.5.0 (January 2013). See <a class="reference internal" href="changelog.html#id1"><em>changelog</em></a>.</p>
+is version 1.6.0 (September 2013). See <a class="reference internal" href="changelog.html#id1"><em>changelog</em></a>.</p>
 <p><strong>Why</strong>: The purpose of <span class="brand">PyContracts</span> is <strong>not</strong> to turn Python into a statically-typed language
 (albeit you can be as strict as you wish), but, rather, to avoid the time-consuming and
 obfuscating checking of various preconditions. In fact, more than the type constraints, I found
@@ -265,7 +263,7 @@ used to describe the contracts.</li>
 </ul>
 <div class="section" id="using-the-contract-decorator">
 <h2>Using the <tt class="docutils literal"><span class="pre">&#64;contract</span></tt> decorator.<a class="headerlink" href="#using-the-contract-decorator" title="Permalink to this headline">¶</a></h2>
-<p>The decorator <a class="reference internal" href="#module-contracts" title="contracts"><tt class="xref py py-func docutils literal"><span class="pre">contracts()</span></tt></a> is considered the main way to
+<p>The decorator <a class="reference internal" href="#module-contracts" title="contracts"><tt class="xref py py-func docutils literal"><span class="pre">contracts()</span></tt></a> is the main way to
 define constraints. It is quite flexible, and it is smart enough
 to support functions with variable number of arguments and keyword arguments.</p>
 <p>There are three ways to specify the contracts. In order of precedence:</p>
@@ -360,186 +358,27 @@ for <span class="brand">PyContracts</span>, but the latter is better for Sphinx:
 </div>
 </div>
 </div>
-<div class="section" id="decorating-a-function-explicitly">
-<h3>Decorating a function explicitly<a class="headerlink" href="#decorating-a-function-explicitly" title="Permalink to this headline">¶</a></h3>
-<p>The public interface of <span class="brand">PyContracts</span> contains a function <a class="reference internal" href="#contracts.decorate" title="contracts.decorate"><tt class="xref py py-func docutils literal"><span class="pre">decorate()</span></tt></a>
-that can be used to decorate functions after they are defined.
-For example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">decorate</span>
-
-<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
-    <span class="n">a</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">a</span>
-
-<span class="n">f2</span> <span class="o">=</span> <span class="n">decorate</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;1&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N-1]&#39;</span><span class="p">)</span>
-
-<span class="n">f2</span><span class="p">([])</span> <span class="c"># raises exception before pop() is executed</span>
+</div>
+<div class="section" id="creating-new-contracts-using-new-contract">
+<h2>Creating new contracts using <tt class="docutils literal"><span class="pre">new_contract</span></tt><a class="headerlink" href="#creating-new-contracts-using-new-contract" title="Permalink to this headline">¶</a></h2>
+<p>The function  <a class="reference internal" href="#contracts.new_contract" title="contracts.new_contract"><tt class="xref py py-func docutils literal"><span class="pre">new_contract()</span></tt></a>  is used to define new contracts.
+It takes two arguments. The first argument is the name
+of the new contract, and the second is the value:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;color&#39;</span><span class="p">,</span> <span class="s">&#39;list[3](float)&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="manual-api">
-<h2>Manual API<a class="headerlink" href="#manual-api" title="Permalink to this headline">¶</a></h2>
-<p>In addition to the <tt class="xref py py-func docutils literal"><span class="pre">&#64;contract()</span></tt> decorator, <span class="brand">PyContracts</span> offers
-an interface for checking expressions explicitly.</p>
-<p>The <a class="reference internal" href="#contracts.check" title="contracts.check"><tt class="xref py py-func docutils literal"><span class="pre">check()</span></tt></a> function  allows you to check
-that some value respect a given contract.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">check</span>
-
-<span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple(int,int)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="p">)</span>
+<p>Once defined, the new contracts can be used as part of more complicated
+expressions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">colors</span><span class="o">=</span><span class="s">&#39;list(color)&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">average_colors</span><span class="p">(</span><span class="n">colors</span><span class="p">):</span>
+    <span class="k">pass</span>
 </pre></div>
 </div>
-<p><a class="reference internal" href="#contracts.check" title="contracts.check"><tt class="xref py py-func docutils literal"><span class="pre">check()</span></tt></a> might raise:</p>
-<dl class="docutils">
-<dt><a class="reference internal" href="#contracts.ContractSyntaxError" title="contracts.ContractSyntaxError"><tt class="xref py py-class docutils literal"><span class="pre">ContractSyntaxError</span></tt></a></dt>
-<dd>If there are parsing errors.</dd>
-<dt><a class="reference internal" href="#contracts.ContractNotRespected" title="contracts.ContractNotRespected"><tt class="xref py py-class docutils literal"><span class="pre">ContractNotRespected</span></tt></a></dt>
-<dd>If the value does not respect the contract constraints.</dd>
-</dl>
-<p>Both exceptions are instances of <a class="reference internal" href="#contracts.ContractException" title="contracts.ContractException"><tt class="xref py py-class docutils literal"><span class="pre">ContractException</span></tt></a>.
-Usually you want to use <a class="reference internal" href="#contracts.check" title="contracts.check"><tt class="xref py py-func docutils literal"><span class="pre">check()</span></tt></a> as a better <tt class="docutils literal"><span class="pre">assert()</span></tt>, so you
-don&#8217;t want to catch those exceptions. The error message should
-be descriptive enough.</p>
-<p>For example, the message generated by</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple(int, tuple(*,str))&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
-</pre></div>
-</div>
-<p>is</p>
-<div class="highlight-python"><pre>contracts.ContractNotRespected: Expected a string, got 'int'.
- context: checking: str                       for value: Instance of int: 2
- context: checking: tuple(*,str)              for value: Instance of tuple: (1, 2)
- context: checking: tuple(int,tuple(*,str))   for value: Instance of tuple: (0, (1, 2))</pre>
-</div>
-<p>The message shows the recursive matches of expressions, and should be enough
-to diagnose the problem. Nevertheless, you can add a third argument to specify a message that will be included
-in the error, if one is thrown. For example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-<span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple(int,int)&#39;</span><span class="p">,</span> <span class="n">score</span><span class="p">,</span> <span class="s">&#39;Player score must be a tuple of 2 int.&#39;</span> <span class="p">)</span>
-</pre></div>
-</div>
-<div class="section" id="interpreting-error-messages">
-<h3>Interpreting error messages<a class="headerlink" href="#interpreting-error-messages" title="Permalink to this headline">¶</a></h3>
-<p>In the case you are using variables, the matching &#8220;context&#8221; is shown.
-The context is the set of variables which have already bound to values.</p>
-<p>For example, suppose you want a tuple with two lists of equal length.
-This can be expressed as:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">value</span> <span class="o">=</span> <span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span> <span class="c"># invalid</span>
-<span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple(list[N], list[N])&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>What happens behind the scenes is that <span class="brand">PyContracts</span> first matches the
-first list, binds the variable <tt class="docutils literal"><span class="pre">N</span></tt> to the length of that list (=2),
-then checks that <tt class="docutils literal"><span class="pre">list[N]</span></tt> describes the second list. Now, however,
-<tt class="docutils literal"><span class="pre">N</span></tt> has already been bound, and the matching fails. The error you would see is:</p>
-<div class="highlight-python"><pre>contracts.ContractNotRespected: Expected that 'N' = 2, got 3.
-checking: N                        (N=2)   for value: Instance of int: 3
-checking: list[N]                  (N=2)   for value: Instance of list: [1, 2, 3]
-checking: tuple(list[N],list[N])           for value: Instance of tuple: ([0, 1], [1, 2, 3])</pre>
-</div>
-<p><span class="brand">PyContracts</span> tries hard to give you a readable message even with complicated contracts.
-For example, consider the complicated expression:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">check</span><span class="p">(</span><span class="s">&#39;int|str|tuple(str,int)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">))</span>
-</pre></div>
-</div>
-<p>Because there is an OR (<tt class="docutils literal"><span class="pre">|</span></tt>), <span class="brand">PyContracts</span> will have to explain to you why
-none of the three OR clauses was satisfied.</p>
-<div class="highlight-python"><pre>contracts.interface.ContractNotRespected: Could not satisfy any of the 3 clauses in int|str|tuple(str,int).
- ---- Clause #1:   int
- | Expected type 'int', got 'tuple'.
- | checking: int      for value: Instance of tuple: ('a', 'b')
- ---- Clause #2:   str
- | Expected a string, got 'tuple'.
- | checking: str      for value: Instance of tuple: ('a', 'b')
- ---- Clause #3:   tuple(str,int)
- | Expected type 'int', got 'str'.
- | checking: int                 for value: Instance of str: 'b'
- | checking: tuple(str,int)      for value: Instance of tuple: ('a', 'b')
- ------- (end clauses) -------
-checking: int|str|tuple(str,int)      for value: Instance of tuple: ('a', 'b')</pre>
-</div>
-</div>
-<div class="section" id="explicit-parsing-and-checking">
-<h3>Explicit parsing and checking<a class="headerlink" href="#explicit-parsing-and-checking" title="Permalink to this headline">¶</a></h3>
-<p>The results of parsing are cached internally, there is no performance
-penalty in using <a class="reference internal" href="#contracts.check" title="contracts.check"><tt class="xref py py-func docutils literal"><span class="pre">check()</span></tt></a>  often.</p>
-<p>If you wish, you can also separate the parsing and checking phases.
-The function <a class="reference internal" href="#contracts.parse" title="contracts.parse"><tt class="xref py py-func docutils literal"><span class="pre">parse()</span></tt></a> will return a <a class="reference internal" href="#contracts.Contract" title="contracts.Contract"><tt class="xref py py-class docutils literal"><span class="pre">Contract</span></tt></a> object,
-which in turn has a <a class="reference internal" href="#contracts.Contract.check" title="contracts.Contract.check"><tt class="xref py py-func docutils literal"><span class="pre">Contract.check()</span></tt></a> function you can call.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">parse</span>
-
-<span class="n">contract</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&#39;&gt;0&#39;</span><span class="p">)</span>  <span class="c"># May raise ContractSyntaxError</span>
-<span class="n">contract</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>       <span class="c"># May raise ContractNotRespected</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="checking-multiple-values">
-<h3>Checking multiple values<a class="headerlink" href="#checking-multiple-values" title="Permalink to this headline">¶</a></h3>
-<p>The most interesting uses of <span class="brand">PyContracts</span> are when it is used
-to check that multiple objects respect mutual constraints.</p>
-<p>You can use <a class="reference internal" href="#contracts.check_multiple" title="contracts.check_multiple"><tt class="xref py py-func docutils literal"><span class="pre">check_multiple()</span></tt></a> to check that a series of values
-respect a series of contracts, that might reference each other&#8217;s variables.
-The argument to  <a class="reference internal" href="#contracts.check_multiple" title="contracts.check_multiple"><tt class="xref py py-func docutils literal"><span class="pre">check_multiple()</span></tt></a> must be a list of tuples with two elements
-(contract, value).</p>
-<p>In the next example, we are defining a table. We want <tt class="docutils literal"><span class="pre">data</span></tt>
-to be a list of lists with equal length, and that
-<tt class="docutils literal"><span class="pre">row_labels</span></tt> and <tt class="docutils literal"><span class="pre">col_labels</span></tt> have the expected
-length, coherent with <tt class="docutils literal"><span class="pre">data</span></tt>. <span class="brand">PyContracts</span> allows you
-to do all this checks with a remarkably clear, concise, and readable notation.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">check_multiple</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
-        <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]]</span>
-<span class="n">row_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;first season&#39;</span><span class="p">,</span> <span class="s">&#39;second season&#39;</span><span class="p">]</span>
-<span class="n">col_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Team1&#39;</span><span class="p">,</span> <span class="s">&#39;Team2&#39;</span><span class="p">,</span> <span class="s">&#39;Team3&#39;</span><span class="p">]</span>
-
-<span class="n">check_multiple</span><span class="p">([(</span><span class="s">&#39;list[C](str),C&gt;0&#39;</span><span class="p">,</span> <span class="n">col_labels</span><span class="p">),</span>
-                <span class="p">(</span><span class="s">&#39;list[R](str),R&gt;0&#39;</span><span class="p">,</span> <span class="n">row_labels</span><span class="p">),</span>
-                <span class="p">(</span><span class="s">&#39;list[R](list[C](numbers))&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="p">],</span>
-               <span class="s">&#39;I expect col_labels, row_labels, and data to &#39;</span>
-               <span class="s">&#39;have coherent dimensions.&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="examining-the-contract-objects">
-<h3>Examining the Contract objects<a class="headerlink" href="#examining-the-contract-objects" title="Permalink to this headline">¶</a></h3>
-<p>If you want to examine the contract object, use <a class="reference internal" href="#contracts.Contract.__repr__" title="contracts.Contract.__repr__"><tt class="xref py py-func docutils literal"><span class="pre">Contract.__repr__()</span></tt></a>
-for eval()uable expression,
-or <a class="reference internal" href="#contracts.Contract.__str__" title="contracts.Contract.__str__"><tt class="xref py py-func docutils literal"><span class="pre">Contract.__str__()</span></tt></a>  to get back a representation using <span class="brand">PyContracts</span>&#8216; language.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">parse</span>
-
-<span class="n">contract</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&#39; list[N](int), N &gt; 0&#39;</span><span class="p">)</span>
-
-<span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">contract</span><span class="p">)</span>   <span class="c"># =&gt; &#39;list[N](int),N&gt;0&#39;</span>
-<span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%r</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">contract</span><span class="p">)</span>
-<span class="c"># =&gt; And([List(BindVariable(&#39;N&#39;,int),CheckType(int)),</span>
-<span class="c">#         CheckOrder(VariableRef(&#39;N&#39;),&#39;&gt;&#39;,SimpleRValue(0))])</span>
-</pre></div>
-</div>
-<p>The latter is useful if you are hacking <span class="brand">PyContracts</span> and you
-want to check in detail what is going on.</p>
-</div>
-<div class="section" id="examining-bound-variables">
-<h3>Examining bound variables<a class="headerlink" href="#examining-bound-variables" title="Permalink to this headline">¶</a></h3>
-<p>If you are using binding expression, you can examine
-what variables were bound using the return values.
-The functions <a class="reference internal" href="#contracts.check" title="contracts.check"><tt class="xref py py-func docutils literal"><span class="pre">check()</span></tt></a> and <a class="reference internal" href="#contracts.Contract.check" title="contracts.Contract.check"><tt class="xref py py-func docutils literal"><span class="pre">Contract.check()</span></tt></a> will return
-a <tt class="xref py py-class docutils literal"><span class="pre">Context</span></tt> object.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">context</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s">&#39;list[N](str), N&gt;0&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="s">&#39;b&#39;</span><span class="p">,</span><span class="s">&#39;c&#39;</span><span class="p">])</span>
-
-<span class="k">print</span><span class="p">(</span><span class="s">&#39;N&#39;</span> <span class="ow">in</span> <span class="n">context</span><span class="p">)</span>  <span class="c"># =&gt; True</span>
-<span class="k">print</span><span class="p">(</span><span class="n">context</span><span class="p">[</span><span class="s">&#39;N&#39;</span><span class="p">])</span>    <span class="c"># =&gt; 3</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="extending-pycontracts-with-new-contracts">
-<h2>Extending <span class="brand">PyContracts</span> with new contracts<a class="headerlink" href="#extending-pycontracts-with-new-contracts" title="Permalink to this headline">¶</a></h2>
-<p>Defines a new contract type. The second parameter can be either
-a string or a callable function.</p>
+<p>The second parameter to <tt class="docutils literal"><span class="pre">new_contract</span></tt> can be either
+a string, a Python type, or a callable function.</p>
 <ul>
-<li><p class="first">If it is a string, it is interpreted as contract expression;
-the given identifier will become an alias
-for that expression.</p>
+<li><p class="first">If it is a string or a type, it is interpreted as contract expression
+like any parameter to <tt class="xref py py-func docutils literal"><span class="pre">&#64;contract()</span></tt>.</p>
 </li>
 <li><p class="first">If it is a callable, it must accept one parameter, and either:</p>
 <ul class="simple">
@@ -581,15 +420,41 @@ and then reuse that definition. For example:</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="using-pycontracts-in-your-own-pyparsing-based-language">
-<h2>Using PyContracts in your own PyParsing-based language<a class="headerlink" href="#using-pycontracts-in-your-own-pyparsing-based-language" title="Permalink to this headline">¶</a></h2>
-<p>You can use <a class="reference internal" href="#contracts.contract_expression" title="contracts.contract_expression"><tt class="xref py py-data docutils literal"><span class="pre">contract_expression</span></tt></a> to add a contract expression
-to your PyParsing-based grammar:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contract_expression</span>
+<div class="section" id="using-the-contractsmeta-meta-class">
+<h2>Using the <tt class="docutils literal"><span class="pre">ContractsMeta</span></tt> meta-class<a class="headerlink" href="#using-the-contractsmeta-meta-class" title="Permalink to this headline">¶</a></h2>
+<p>The  <a class="reference internal" href="api/contracts.html#contracts.ContractsMeta" title="contracts.ContractsMeta"><tt class="xref py py-class docutils literal"><span class="pre">ContractsMeta</span></tt></a> meta-class can be used as a drop-in
+replacement for <tt class="docutils literal"><span class="pre">ABCMeta</span></tt>. It allows you to declare contracts
+for a superclass and then have those contracts automatically
+enforced for any class that derives from it.</p>
+<p>For example, let us define a &#8220;timer&#8221; interface whose
+<tt class="docutils literal"><span class="pre">start</span></tt> method requires a positive number:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">ContractsMeta</span><span class="p">,</span> <span class="n">contract</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
 
-<span class="kn">from</span> <span class="nn">pyparsing</span> <span class="kn">import</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="k">class</span> <span class="nc">TimerInterface</span><span class="p">():</span>
+    <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">ContractsMeta</span>
 
-<span class="n">my_grammar</span> <span class="o">=</span> <span class="o">...</span> <span class="o">+</span> <span class="n">Optional</span><span class="p">(</span><span class="n">Literal</span><span class="p">(</span><span class="s">&#39;respects&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">contract_expression</span><span class="p">)</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="nd">@contract</span><span class="p">(</span><span class="n">interval</span><span class="o">=</span><span class="s">&#39;(float|int),&gt;0&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interval</span><span class="p">):</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Now we can subclass  <tt class="docutils literal"><span class="pre">TimerInterface</span></tt> and all contracts
+will be automatically inherited:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Timer</span><span class="p">(</span><span class="n">TimerInterface</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interval</span><span class="p">):</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">()</span>
+
+
+<span class="n">t</span> <span class="o">=</span> <span class="n">Timer</span><span class="p">()</span>
+<span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c"># raises ContractNotRespected</span>
+
+<span class="c"># contracts.interface.ContractNotRespected: Breach for argument &#39;interval&#39; to Timer:start().</span>
+<span class="c"># Condition -1 &gt;= 0 not respected</span>
+<span class="c"># checking: &gt;=0               for value: Instance of int: -1</span>
+<span class="c"># checking: (float|int),&gt;=0   for value: Instance of int: -1</span>
 </pre></div>
 </div>
 </div>
@@ -1421,6 +1286,194 @@ needed.</p>
 contracts expression in your own PyParsing grammar.</p>
 </dd></dl>
 
+</div>
+<div class="section" id="pycontracts-low-level-api">
+<h2>PyContracts Low-level API<a class="headerlink" href="#pycontracts-low-level-api" title="Permalink to this headline">¶</a></h2>
+<p>This is a discussion of the low-level features of the PyContracts
+API. This is primarely of interest to developers who want to modify
+PyContracts or integrate it with other libraries.</p>
+<div class="section" id="decorating-a-function-explicitly">
+<h3>Decorating a function explicitly<a class="headerlink" href="#decorating-a-function-explicitly" title="Permalink to this headline">¶</a></h3>
+<p>The public interface of <span class="brand">PyContracts</span> contains a function <a class="reference internal" href="#contracts.decorate" title="contracts.decorate"><tt class="xref py py-func docutils literal"><span class="pre">decorate()</span></tt></a>
+that can be used to decorate functions after they are defined.
+For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">decorate</span>
+
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">a</span>
+
+<span class="n">f2</span> <span class="o">=</span> <span class="n">decorate</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;1&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N-1]&#39;</span><span class="p">)</span>
+
+<span class="n">f2</span><span class="p">([])</span> <span class="c"># raises exception before pop() is executed</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="checking-contracts-manually">
+<h3>Checking contracts manually<a class="headerlink" href="#checking-contracts-manually" title="Permalink to this headline">¶</a></h3>
+<p>In addition to the <tt class="xref py py-func docutils literal"><span class="pre">&#64;contract()</span></tt> decorator, <span class="brand">PyContracts</span> offers
+an interface for checking expressions explicitly.</p>
+<p>The <a class="reference internal" href="#contracts.check" title="contracts.check"><tt class="xref py py-func docutils literal"><span class="pre">check()</span></tt></a> function  allows you to check
+that some value respect a given contract.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">check</span>
+
+<span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple(int,int)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="#contracts.check" title="contracts.check"><tt class="xref py py-func docutils literal"><span class="pre">check()</span></tt></a> might raise:</p>
+<dl class="docutils">
+<dt><a class="reference internal" href="#contracts.ContractSyntaxError" title="contracts.ContractSyntaxError"><tt class="xref py py-class docutils literal"><span class="pre">ContractSyntaxError</span></tt></a></dt>
+<dd>If there are parsing errors.</dd>
+<dt><a class="reference internal" href="#contracts.ContractNotRespected" title="contracts.ContractNotRespected"><tt class="xref py py-class docutils literal"><span class="pre">ContractNotRespected</span></tt></a></dt>
+<dd>If the value does not respect the contract constraints.</dd>
+</dl>
+<p>Both exceptions are instances of <a class="reference internal" href="#contracts.ContractException" title="contracts.ContractException"><tt class="xref py py-class docutils literal"><span class="pre">ContractException</span></tt></a>.
+Usually you want to use <a class="reference internal" href="#contracts.check" title="contracts.check"><tt class="xref py py-func docutils literal"><span class="pre">check()</span></tt></a> as a better <tt class="docutils literal"><span class="pre">assert()</span></tt>, so you
+don&#8217;t want to catch those exceptions. The error message should
+be descriptive enough.</p>
+<p>For example, the message generated by</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple(int, tuple(*,str))&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>is</p>
+<div class="highlight-python"><pre>contracts.ContractNotRespected: Expected a string, got 'int'.
+ context: checking: str                       for value: Instance of int: 2
+ context: checking: tuple(*,str)              for value: Instance of tuple: (1, 2)
+ context: checking: tuple(int,tuple(*,str))   for value: Instance of tuple: (0, (1, 2))</pre>
+</div>
+<p>The message shows the recursive matches of expressions, and should be enough
+to diagnose the problem. Nevertheless, you can add a third argument to specify a message that will be included
+in the error, if one is thrown. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+<span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple(int,int)&#39;</span><span class="p">,</span> <span class="n">score</span><span class="p">,</span> <span class="s">&#39;Player score must be a tuple of 2 int.&#39;</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="interpreting-error-messages">
+<h3>Interpreting error messages<a class="headerlink" href="#interpreting-error-messages" title="Permalink to this headline">¶</a></h3>
+<p>In the case you are using variables, the matching &#8220;context&#8221; is shown.
+The context is the set of variables which have already bound to values.</p>
+<p>For example, suppose you want a tuple with two lists of equal length.
+This can be expressed as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">value</span> <span class="o">=</span> <span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span> <span class="c"># invalid</span>
+<span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple(list[N], list[N])&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>What happens behind the scenes is that <span class="brand">PyContracts</span> first matches the
+first list, binds the variable <tt class="docutils literal"><span class="pre">N</span></tt> to the length of that list (=2),
+then checks that <tt class="docutils literal"><span class="pre">list[N]</span></tt> describes the second list. Now, however,
+<tt class="docutils literal"><span class="pre">N</span></tt> has already been bound, and the matching fails. The error you would see is:</p>
+<div class="highlight-python"><pre>contracts.ContractNotRespected: Expected that 'N' = 2, got 3.
+checking: N                        (N=2)   for value: Instance of int: 3
+checking: list[N]                  (N=2)   for value: Instance of list: [1, 2, 3]
+checking: tuple(list[N],list[N])           for value: Instance of tuple: ([0, 1], [1, 2, 3])</pre>
+</div>
+<p><span class="brand">PyContracts</span> tries hard to give you a readable message even with complicated contracts.
+For example, consider the complicated expression:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">check</span><span class="p">(</span><span class="s">&#39;int|str|tuple(str,int)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Because there is an OR (<tt class="docutils literal"><span class="pre">|</span></tt>), <span class="brand">PyContracts</span> will have to explain to you why
+none of the three OR clauses was satisfied.</p>
+<div class="highlight-python"><pre>contracts.interface.ContractNotRespected: Could not satisfy any of the 3 clauses in int|str|tuple(str,int).
+ ---- Clause #1:   int
+ | Expected type 'int', got 'tuple'.
+ | checking: int      for value: Instance of tuple: ('a', 'b')
+ ---- Clause #2:   str
+ | Expected a string, got 'tuple'.
+ | checking: str      for value: Instance of tuple: ('a', 'b')
+ ---- Clause #3:   tuple(str,int)
+ | Expected type 'int', got 'str'.
+ | checking: int                 for value: Instance of str: 'b'
+ | checking: tuple(str,int)      for value: Instance of tuple: ('a', 'b')
+ ------- (end clauses) -------
+checking: int|str|tuple(str,int)      for value: Instance of tuple: ('a', 'b')</pre>
+</div>
+</div>
+<div class="section" id="explicit-parsing-and-checking">
+<h3>Explicit parsing and checking<a class="headerlink" href="#explicit-parsing-and-checking" title="Permalink to this headline">¶</a></h3>
+<p>The results of parsing are cached internally, there is no performance
+penalty in using <a class="reference internal" href="#contracts.check" title="contracts.check"><tt class="xref py py-func docutils literal"><span class="pre">check()</span></tt></a>  often.</p>
+<p>If you wish, you can also separate the parsing and checking phases.
+The function <a class="reference internal" href="#contracts.parse" title="contracts.parse"><tt class="xref py py-func docutils literal"><span class="pre">parse()</span></tt></a> will return a <a class="reference internal" href="#contracts.Contract" title="contracts.Contract"><tt class="xref py py-class docutils literal"><span class="pre">Contract</span></tt></a> object,
+which in turn has a <a class="reference internal" href="#contracts.Contract.check" title="contracts.Contract.check"><tt class="xref py py-func docutils literal"><span class="pre">Contract.check()</span></tt></a> function you can call.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">parse</span>
+
+<span class="n">contract</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&#39;&gt;0&#39;</span><span class="p">)</span>  <span class="c"># May raise ContractSyntaxError</span>
+<span class="n">contract</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>       <span class="c"># May raise ContractNotRespected</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="checking-multiple-values">
+<h3>Checking multiple values<a class="headerlink" href="#checking-multiple-values" title="Permalink to this headline">¶</a></h3>
+<p>The most interesting uses of <span class="brand">PyContracts</span> are when it is used
+to check that multiple objects respect mutual constraints.</p>
+<p>You can use <a class="reference internal" href="#contracts.check_multiple" title="contracts.check_multiple"><tt class="xref py py-func docutils literal"><span class="pre">check_multiple()</span></tt></a> to check that a series of values
+respect a series of contracts, that might reference each other&#8217;s variables.
+The argument to  <a class="reference internal" href="#contracts.check_multiple" title="contracts.check_multiple"><tt class="xref py py-func docutils literal"><span class="pre">check_multiple()</span></tt></a> must be a list of tuples with two elements
+(contract, value).</p>
+<p>In the next example, we are defining a table. We want <tt class="docutils literal"><span class="pre">data</span></tt>
+to be a list of lists with equal length, and that
+<tt class="docutils literal"><span class="pre">row_labels</span></tt> and <tt class="docutils literal"><span class="pre">col_labels</span></tt> have the expected
+length, coherent with <tt class="docutils literal"><span class="pre">data</span></tt>. <span class="brand">PyContracts</span> allows you
+to do all this checks with a remarkably clear, concise, and readable notation.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">check_multiple</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]]</span>
+<span class="n">row_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;first season&#39;</span><span class="p">,</span> <span class="s">&#39;second season&#39;</span><span class="p">]</span>
+<span class="n">col_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Team1&#39;</span><span class="p">,</span> <span class="s">&#39;Team2&#39;</span><span class="p">,</span> <span class="s">&#39;Team3&#39;</span><span class="p">]</span>
+
+<span class="n">check_multiple</span><span class="p">([(</span><span class="s">&#39;list[C](str),C&gt;0&#39;</span><span class="p">,</span> <span class="n">col_labels</span><span class="p">),</span>
+                <span class="p">(</span><span class="s">&#39;list[R](str),R&gt;0&#39;</span><span class="p">,</span> <span class="n">row_labels</span><span class="p">),</span>
+                <span class="p">(</span><span class="s">&#39;list[R](list[C](numbers))&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="p">],</span>
+               <span class="s">&#39;I expect col_labels, row_labels, and data to &#39;</span>
+               <span class="s">&#39;have coherent dimensions.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="examining-the-contract-objects">
+<h3>Examining the Contract objects<a class="headerlink" href="#examining-the-contract-objects" title="Permalink to this headline">¶</a></h3>
+<p>If you want to examine the contract object, use <a class="reference internal" href="#contracts.Contract.__repr__" title="contracts.Contract.__repr__"><tt class="xref py py-func docutils literal"><span class="pre">Contract.__repr__()</span></tt></a>
+for eval()uable expression,
+or <a class="reference internal" href="#contracts.Contract.__str__" title="contracts.Contract.__str__"><tt class="xref py py-func docutils literal"><span class="pre">Contract.__str__()</span></tt></a>  to get back a representation using <span class="brand">PyContracts</span>&#8216; language.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">parse</span>
+
+<span class="n">contract</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&#39; list[N](int), N &gt; 0&#39;</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">contract</span><span class="p">)</span>   <span class="c"># =&gt; &#39;list[N](int),N&gt;0&#39;</span>
+<span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%r</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">contract</span><span class="p">)</span>
+<span class="c"># =&gt; And([List(BindVariable(&#39;N&#39;,int),CheckType(int)),</span>
+<span class="c">#         CheckOrder(VariableRef(&#39;N&#39;),&#39;&gt;&#39;,SimpleRValue(0))])</span>
+</pre></div>
+</div>
+<p>The latter is useful if you are hacking <span class="brand">PyContracts</span> and you
+want to check in detail what is going on.</p>
+</div>
+<div class="section" id="examining-bound-variables">
+<h3>Examining bound variables<a class="headerlink" href="#examining-bound-variables" title="Permalink to this headline">¶</a></h3>
+<p>If you are using binding expression, you can examine
+what variables were bound using the return values.
+The functions <a class="reference internal" href="#contracts.check" title="contracts.check"><tt class="xref py py-func docutils literal"><span class="pre">check()</span></tt></a> and <a class="reference internal" href="#contracts.Contract.check" title="contracts.Contract.check"><tt class="xref py py-func docutils literal"><span class="pre">Contract.check()</span></tt></a> will return
+a <tt class="xref py py-class docutils literal"><span class="pre">Context</span></tt> object.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">context</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s">&#39;list[N](str), N&gt;0&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">,</span><span class="s">&#39;b&#39;</span><span class="p">,</span><span class="s">&#39;c&#39;</span><span class="p">])</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">&#39;N&#39;</span> <span class="ow">in</span> <span class="n">context</span><span class="p">)</span>  <span class="c"># =&gt; True</span>
+<span class="k">print</span><span class="p">(</span><span class="n">context</span><span class="p">[</span><span class="s">&#39;N&#39;</span><span class="p">])</span>    <span class="c"># =&gt; 3</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-pycontracts-in-your-own-pyparsing-based-language">
+<h3>Using PyContracts in your own PyParsing-based language<a class="headerlink" href="#using-pycontracts-in-your-own-pyparsing-based-language" title="Permalink to this headline">¶</a></h3>
+<p>You can use <a class="reference internal" href="#contracts.contract_expression" title="contracts.contract_expression"><tt class="xref py py-data docutils literal"><span class="pre">contract_expression</span></tt></a> to add a contract expression
+to your PyParsing-based grammar:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contract_expression</span>
+
+<span class="kn">from</span> <span class="nn">pyparsing</span> <span class="kn">import</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="n">my_grammar</span> <span class="o">=</span> <span class="o">...</span> <span class="o">+</span> <span class="n">Optional</span><span class="p">(</span><span class="n">Literal</span><span class="p">(</span><span class="s">&#39;respects&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">contract_expression</span><span class="p">)</span>
+</pre></div>
+</div>
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -1434,6 +1487,7 @@ contracts expression in your own PyParsing grammar.</p>
   })();
 
 </script></div>
+</div>
 </div>
 
 
@@ -1454,19 +1508,10 @@ contracts expression in your own PyParsing grammar.</p>
 <li><a class="reference internal" href="#using-decorator-arguments">Using decorator arguments</a></li>
 <li><a class="reference internal" href="#using-python-annotations">Using Python annotations</a></li>
 <li><a class="reference internal" href="#using-functions-docstrings">Using functions docstrings</a></li>
-<li><a class="reference internal" href="#decorating-a-function-explicitly">Decorating a function explicitly</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#manual-api">Manual API</a><ul>
-<li><a class="reference internal" href="#interpreting-error-messages">Interpreting error messages</a></li>
-<li><a class="reference internal" href="#explicit-parsing-and-checking">Explicit parsing and checking</a></li>
-<li><a class="reference internal" href="#checking-multiple-values">Checking multiple values</a></li>
-<li><a class="reference internal" href="#examining-the-contract-objects">Examining the Contract objects</a></li>
-<li><a class="reference internal" href="#examining-bound-variables">Examining bound variables</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#extending-pycontracts-with-new-contracts">Extending <span class="brand">PyContracts</span> with new contracts</a></li>
-<li><a class="reference internal" href="#using-pycontracts-in-your-own-pyparsing-based-language">Using PyContracts in your own PyParsing-based language</a></li>
+<li><a class="reference internal" href="#creating-new-contracts-using-new-contract">Creating new contracts using <tt class="docutils literal"><span class="pre">new_contract</span></tt></a></li>
+<li><a class="reference internal" href="#using-the-contractsmeta-meta-class">Using the <tt class="docutils literal"><span class="pre">ContractsMeta</span></tt> meta-class</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#language-reference">Language reference</a><ul>
@@ -1496,6 +1541,17 @@ contracts expression in your own PyParsing grammar.</p>
 <li><a class="reference internal" href="#exceptions">Exceptions</a></li>
 <li><a class="reference internal" href="#manually-checking-values">Manually checking values</a></li>
 <li><a class="reference internal" href="#miscellaneous">Miscellaneous</a></li>
+<li><a class="reference internal" href="#pycontracts-low-level-api">PyContracts Low-level API</a><ul>
+<li><a class="reference internal" href="#decorating-a-function-explicitly">Decorating a function explicitly</a></li>
+<li><a class="reference internal" href="#checking-contracts-manually">Checking contracts manually</a></li>
+<li><a class="reference internal" href="#interpreting-error-messages">Interpreting error messages</a></li>
+<li><a class="reference internal" href="#explicit-parsing-and-checking">Explicit parsing and checking</a></li>
+<li><a class="reference internal" href="#checking-multiple-values">Checking multiple values</a></li>
+<li><a class="reference internal" href="#examining-the-contract-objects">Examining the Contract objects</a></li>
+<li><a class="reference internal" href="#examining-bound-variables">Examining bound variables</a></li>
+<li><a class="reference internal" href="#using-pycontracts-in-your-own-pyparsing-based-language">Using PyContracts in your own PyParsing-based language</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1531,13 +1587,13 @@ contracts expression in your own PyParsing grammar.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">PyContracts 1.5.0 documentation</a> &raquo;</li> 
+        <li><a href="#">PyContracts 1.6.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
 	
     <div class="footer">
         &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
     </div>
 	
     <script type="text/javascript">
