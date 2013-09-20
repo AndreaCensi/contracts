@@ -14,7 +14,7 @@ has several specialized contracts (notably for Numpy arrays).
 
 
 **Status:** |pycontracts| is very well tested and documented. The last release
-is version 1.5.0 (January 2013). See :ref:`changelog <changelog>`.
+is version 1.6.0 (September 2013). See :ref:`changelog <changelog>`.
 
 
 **Why**: The purpose of |pycontracts| is **not** to turn Python into a statically-typed language
@@ -111,6 +111,8 @@ The beautiful library pyparsing_ is required.
 .. include:: reference.txt
 
 .. include:: api_reference.txt
+
+.. include:: api_lowlevel.txt
 
 
  

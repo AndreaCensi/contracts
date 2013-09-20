@@ -7,7 +7,7 @@ Changelog
 -------------------
 
 * New features:
-  - New ContractsMeta metaclass to provide subclasses with contracts. Use like you would ABCMeta. (docs to write)
+  - New ContractsMeta metaclass to provide subclasses with contracts. Use like you would ABCMeta. See docs:  :ref:`contractsmeta`
   - Added a "isinstance(ClassName)" contract for generic type checking
 
 * Other fixes:

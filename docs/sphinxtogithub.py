@@ -36,7 +36,8 @@ class Replacer(object):
         self.to = to
 
     def process(self, text):
-
+        print 'from: %r' % self.from_
+        print 'to: %r' % self.to
         return text.replace( self.from_, self.to )
 
 class FileHandler(object):
@@ -194,6 +195,7 @@ class LayoutFactory(object):
         self.force = force
 
     def create_layout(self, path):
+        path = str(path)
 
         contents = self.dir_helper.list_dir(path)
 

@@ -58,7 +58,7 @@ Any Python type is a contract: ::
 **Enforcing interfaces**: The metaclass 'ContractsMeta' is like ABCMeta, but it propagates contracts to the subclasses: ::
 
     from contracts import contract, ContractsMeta
-
+    
     class Base(object):
         __metaclass__ = ContractsMeta
 
