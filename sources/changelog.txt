@@ -1,5 +1,7 @@
 .. include:: menu.txt
 
+.. _the_changelog:
+
 Changelog
 =========
 
