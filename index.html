@@ -111,18 +111,31 @@ useful the ability to impose value and size constraints. For example, &#8220;I n
 <a class="reference external" href="http://oakwinter.com/code/typecheck/">typecheck</a>. If you find that <span class="brand">PyContracts</span> is not <em>enough</em> for you, you probably want to be
 using <a class="reference external" href="http://www.haskell.org/">Haskell</a> instead of Python.</p>
 <p><strong>Specifying contracts</strong>: Contracts can be specified in three ways:</p>
-<ul>
-<li><p class="first">Using annotations (for Python 3) &#8212;this is perhaps the most
-intuitive way:</p>
+<ol class="arabic">
+<li><p class="first">Using <strong>arguments to the decorators</strong>; the least intrusive way:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int,&gt;0&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;0&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Using <strong>annotations (for Python 3)</strong> &#8212;this is perhaps the most</p>
+</li>
+</ol>
+<blockquote>
+<div><p>intuitive way:</p>
 <div class="highlight-python"><pre>@contract
 def my_function(a : 'int,&gt;0', b : 'list[N],N&gt;0') -&gt; 'list[N]':
      # Requires b to be a nonempty list, and the return
      # value to have the same length.
      ...</pre>
 </div>
-</li>
-<li><p class="first">Using <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags in docstrings. In this way, they will be included
-in your Sphinx documentation:</p>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li>Using <strong>docstrings</strong>, with the <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags. In this way, they will be included</li>
+</ol>
+<blockquote>
+<div><p>in your Sphinx documentation:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span>
 <span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Function description.</span>
@@ -133,15 +146,7 @@ in your Sphinx documentation:</p>
     <span class="o">...</span>
 </pre></div>
 </div>
-</li>
-<li><p class="first">Using arguments to the decorators; the least intrusive way:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int,&gt;0&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;0&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-    <span class="o">...</span>
-</pre></div>
-</div>
-</li>
-</ul>
+</div></blockquote>
 <p><strong>Specifying new contracts</strong>:  There are hooks to extend <span class="brand">PyContracts</span> with new contracts types:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;valid_name&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">check</span><span class="p">(</span><span class="s">&#39;dict(int: (valid_name, int))&#39;</span><span class="p">,</span> <span class="n">employees</span><span class="p">)</span>
