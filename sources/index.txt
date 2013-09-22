@@ -91,25 +91,12 @@ The beautiful library pyparsing_ is required.
 
 **Support**: use the GitHub issue tracker_ or email me_.
 
-**Documentation index**
-
-- :ref:`quick_tour`
-- :ref:`api`
-- :ref:`contracts_language_reference`
-
-**Developer documentation**
-
-- :ref:`overhead`
-- :ref:`api_reference`
-- :ref:`api_lowlevel`
-- :ref:`credits`
-
 .. _typecheck: http://oakwinter.com/code/typecheck/
 .. _Haskell: http://www.haskell.org/
 .. _tracker: http://github.com/AndreaCensi/contracts/issues
 .. _me: http://purl.org/censi/web
 
+.. include:: menu.txt
+
 .. raw:: html
    :file: tracking.html
-
-.. include:: menu.txt
