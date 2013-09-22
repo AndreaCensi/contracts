@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Overhead of PyContracts &mdash; PyContracts 1.6.0 documentation</title>
+    
+    <link rel="stylesheet" href="static/default.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.6.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="top" title="PyContracts 1.6.0 documentation" href="index.html" />
+	 
+
+   <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
+
+   <style type="text/css">
+   
+   </style>
+
+<!--<link  href="http://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css" >
+<link  href="http://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet" type="text/css" >
+<link  href="static/pycontracts.css" rel="stylesheet" type="text/css" >-->
+
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">PyContracts 1.6.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="overhead-of-pycontracts">
+<h1>Overhead of PyContracts<a class="headerlink" href="#overhead-of-pycontracts" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="disabled-mode">
+<h2>Disabled mode<a class="headerlink" href="#disabled-mode" title="Permalink to this headline">¶</a></h2>
+<p>In production, all checks can be disabled using the function <tt class="docutils literal"><span class="pre">contracts.disable_all()</span></tt>.</p>
+<p>The performance in disabled mode depends on whether <tt class="docutils literal"><span class="pre">contracts.disable_all()</span></tt> is called before or after the decorated function is loaded.</p>
+<p>If <tt class="docutils literal"><span class="pre">disable_all()</span></tt> is called <em>before</em>, then the decorator gets ignored and the overhead is 0. Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">contracts</span><span class="o">.</span><span class="n">disable_all</span><span class="p">()</span>
+
+<span class="nd">@contract</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">&#39;int,&gt;=0&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;int,&gt;=1&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c"># no overhead</span>
+</pre></div>
+</div>
+<p>If <tt class="docutils literal"><span class="pre">disable_all()</span></tt> is called <em>after</em>, then there is some overhead, because PyContracts will call the function as <tt class="docutils literal"><span class="pre">f(*args,**kwargs)</span></tt>, which has some overhead. Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">&#39;int,&gt;=0&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;int,&gt;=1&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="n">contracts</span><span class="o">.</span><span class="n">disable_all</span><span class="p">()</span>
+
+<span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c"># some overhead</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="enabled-mode">
+<h2>Enabled mode<a class="headerlink" href="#enabled-mode" title="Permalink to this headline">¶</a></h2>
+<p>I haven&#8217;t done any rigorous benchmarking,  but the overhead in enabled mode depends on two main things:</p>
+<ol class="arabic">
+<li><p class="first">PyContracts calls <tt class="docutils literal"><span class="pre">inspect</span></tt>  methods to associate arguments to arguments names. This takes a surprising amount of time and probably there is a smarter way to do it.</p>
+</li>
+<li><p class="first">The time to check the contract for each argument. This depends on the complexity of the contract. Each contract is parsed only once and then represented as a syntactic tree. For example, the representation of &#8216;int,&gt;0&#8217; is:</p>
+<div class="highlight-python"><pre>python -c "import contracts; print '%r' % contracts.parse('int,&gt;=0')"
+And([CheckType(int), CheckOrder(None,'&gt;=',SimpleRValue(0))])</pre>
+</div>
+</li>
+</ol>
+<p>Python being Python, there&#8217;s some overhead for calling object methods in the contract tree.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Overhead of PyContracts</a><ul>
+<li><a class="reference internal" href="#disabled-mode">Disabled mode</a></li>
+<li><a class="reference internal" href="#enabled-mode">Enabled mode</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="sources/overhead.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">PyContracts 1.6.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+	
+    <div class="footer">
+        &copy; Copyright 2010, Andrea Censi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+	
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-155626-14']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+
+    
+
+
+  </body>
+</html>
