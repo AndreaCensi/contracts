@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>API for specifying contracts &mdash; PyContracts 1.6.0 documentation</title>
+    
+    <link rel="stylesheet" href="static/default.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.6.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="top" title="PyContracts 1.6.0 documentation" href="index.html" />
+	 
+
+   <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
+
+   <style type="text/css">
+  div.col1 {
+    display: block;
+    float: left;
+  }
+
+  div.col2 {
+    margin-left: 3em;
+    display: block;
+    float: left;
+  }
+
+   </style>
+
+<!--<link  href="http://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css" >
+<link  href="http://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet" type="text/css" >
+<link  href="static/pycontracts.css" rel="stylesheet" type="text/css" >-->
+
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">PyContracts 1.6.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="col1 container">
+<p><strong>User documentation</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="index.html#introduction"><em>Introduction to PyContracts</em></a></li>
+<li><a class="reference internal" href="tour.html#quick-tour"><em>Quick tour</em></a></li>
+<li>Reference:<ul>
+<li><a class="reference internal" href="#api"><em>API for specifying contracts</em></a></li>
+<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><em>Using the ContractsMeta meta-class</em></a></li>
+<li><a class="reference internal" href="new_contract.html#new-contract"><em>Creating new contracts using new_contract</em></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="reference.html#contracts-language-reference"><em>Language reference</em></a></li>
+</ul>
+</div>
+<div class="col2 container">
+<p><strong>Developer documentation</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="overhead.html#overhead"><em>PyContracts overhead in production and in testing</em></a></li>
+<li><a class="reference internal" href="api_reference.html#api-reference"><em>PyContracts public API reference</em></a></li>
+<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><em>PyContracts low-level API</em></a></li>
+<li><a class="reference internal" href="credits.html#credits"><em>Credits</em></a></li>
+</ul>
+</div>
+<div style="clear:left"/><div class="section" id="api-for-specifying-contracts">
+<span id="api"></span><h1>API for specifying contracts<a class="headerlink" href="#api-for-specifying-contracts" title="Permalink to this headline">¶</a></h1>
+<p>This is a discussion of the <a href="#id1"><span class="problematic" id="id2">|pycontracts|</span></a> API.</p>
+<ul class="simple">
+<li>See <a class="reference internal" href="api_reference.html#module-contracts" title="contracts"><tt class="xref py py-mod docutils literal"><span class="pre">contracts</span></tt></a> for a detailed list of this module&#8217;s public interface.</li>
+<li>See <a class="reference internal" href="reference.html#contracts-language-reference"><em>Language reference</em></a> for a description of the domain specific language
+used to describe the contracts.</li>
+</ul>
+<div class="section" id="using-the-contract-decorator">
+<h2>Using the <tt class="docutils literal"><span class="pre">&#64;contract</span></tt> decorator.<a class="headerlink" href="#using-the-contract-decorator" title="Permalink to this headline">¶</a></h2>
+<p>The decorator <a class="reference internal" href="api_reference.html#module-contracts" title="contracts"><tt class="xref py py-func docutils literal"><span class="pre">contracts()</span></tt></a> is the main way to
+define constraints. It is quite flexible, and it is smart enough
+to support functions with variable number of arguments and keyword arguments.</p>
+<p>There are three ways to specify the contracts. In order of precedence:</p>
+<ul class="simple">
+<li>As arguments to this decorator.</li>
+<li>As Python 3 function annotations.</li>
+<li>Using <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags in the function&#8217;s docstring.</li>
+</ul>
+<p><a href="#id3"><span class="problematic" id="id4">|pycontracts|</span></a> will try these options in order. Note that, in any case,
+only one of these options are chosen. For example, you cannot
+use both annotations and docstring for the same function: if annotations
+are found, the docstring is not considered.</p>
+<div class="section" id="using-decorator-arguments">
+<h3>Using decorator arguments<a class="headerlink" href="#using-decorator-arguments" title="Permalink to this headline">¶</a></h3>
+<p><tt class="xref py py-func docutils literal"><span class="pre">contract()</span></tt> accepts a list of keyword arguments.
+Each keyword should correspond to one function argument, plus
+the special name <tt class="docutils literal"><span class="pre">returns</span></tt> is reserved for describing the return value.
+An example use would be:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contract</span>
+
+<span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int,&gt;0&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;0&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>The values can be either:</p>
+<ul>
+<li><p class="first">Strings using <a href="#id5"><span class="problematic" id="id6">|pycontracts|</span></a>&#8216; DSL language (see <a class="reference internal" href="reference.html#contracts-language-reference"><em>Language reference</em></a>)</p>
+</li>
+<li><p class="first">Python types &#8212; in this case <a href="#id7"><span class="problematic" id="id8">|pycontracts|</span></a> will do a simple <a class="reference external" href="http://docs.python.org/library/functions.html#isinstance" title="(in Python v2.7)"><tt class="xref py py-func docutils literal"><span class="pre">isinstance()</span></tt></a> check.
+This is slightly more clear if the contract is simple:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="using-python-annotations">
+<h3>Using Python annotations<a class="headerlink" href="#using-python-annotations" title="Permalink to this headline">¶</a></h3>
+<p>The same rules apply. In this case the syntax would look like this:</p>
+<div class="highlight-python"><pre>from contracts import contract
+
+@contract
+def my_function(a:'int,&gt;0', b:'list[N],N&gt;0') -&gt; 'list[N]':
+    ...</pre>
+</div>
+</div>
+<div class="section" id="using-functions-docstrings">
+<h3>Using functions docstrings<a class="headerlink" href="#using-functions-docstrings" title="Permalink to this headline">¶</a></h3>
+<p>The Python standard library seems to have standardized on the <tt class="docutils literal"><span class="pre">:param:</span></tt>, <tt class="docutils literal"><span class="pre">:type:</span></tt>,
+<tt class="docutils literal"><span class="pre">:return:</span></tt>, <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags to document functions, and tools like Sphinx
+can interpret those tags to produce pretty documentation.</p>
+<p><a href="#id9"><span class="problematic" id="id10">|pycontracts|</span></a> can read contracts declared using the <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags.
+In this way, your function becomes automatically more robust and better documented.</p>
+<p>Here is an example use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contract</span>
+
+<span class="nd">@contract</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot; Function description.</span>
+
+<span class="sd">      :param a: first number</span>
+<span class="sd">      :type a: int,&gt;0</span>
+<span class="sd">      :param b: description of b</span>
+<span class="sd">      :type b: list[N],N&gt;0</span>
+
+<span class="sd">      :return: a list</span>
+<span class="sd">      :rtype: list[N]               &quot;&quot;&quot;</span>
+  <span class="o">...</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>By convention, those annotations must be parsable as
+reStructuredText.
+If the contract string has special RST characters in it, like <tt class="docutils literal"><span class="pre">*</span></tt>,
+you can include it in double ticks. <a href="#id11"><span class="problematic" id="id12">|pycontracts|</span></a> will remove
+the double ticks before interpreting the string.</p>
+<p>For example, the two annotations in this docstring are equivalent
+for <a href="#id13"><span class="problematic" id="id14">|pycontracts|</span></a>, but the latter is better for Sphinx:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot; My function</span>
+
+<span class="sd">    :param a: First parameter</span>
+<span class="sd">    :type a: list(tuple(str,*))</span>
+
+<span class="sd">    :param b: First parameter</span>
+<span class="sd">    :type b: ``list(tuple(str,*))``</span>
+<span class="sd">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="col1 container">
+<p><strong>User documentation</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="index.html#introduction"><em>Introduction to PyContracts</em></a></li>
+<li><a class="reference internal" href="tour.html#quick-tour"><em>Quick tour</em></a></li>
+<li>Reference:<ul>
+<li><a class="reference internal" href="#api"><em>API for specifying contracts</em></a></li>
+<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><em>Using the ContractsMeta meta-class</em></a></li>
+<li><a class="reference internal" href="new_contract.html#new-contract"><em>Creating new contracts using new_contract</em></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="reference.html#contracts-language-reference"><em>Language reference</em></a></li>
+</ul>
+</div>
+<div class="col2 container">
+<p><strong>Developer documentation</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="overhead.html#overhead"><em>PyContracts overhead in production and in testing</em></a></li>
+<li><a class="reference internal" href="api_reference.html#api-reference"><em>PyContracts public API reference</em></a></li>
+<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><em>PyContracts low-level API</em></a></li>
+<li><a class="reference internal" href="credits.html#credits"><em>Credits</em></a></li>
+</ul>
+</div>
+<div style="clear:left"/></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">API for specifying contracts</a><ul>
+<li><a class="reference internal" href="#using-the-contract-decorator">Using the <tt class="docutils literal"><span class="pre">&#64;contract</span></tt> decorator.</a><ul>
+<li><a class="reference internal" href="#using-decorator-arguments">Using decorator arguments</a></li>
+<li><a class="reference internal" href="#using-python-annotations">Using Python annotations</a></li>
+<li><a class="reference internal" href="#using-functions-docstrings">Using functions docstrings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="sources/api.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">PyContracts 1.6.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+	
+    <div class="footer">
+        &copy; Copyright 2010, Andrea Censi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+	
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-155626-14']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+
+    
+
+
+  </body>
+</html>

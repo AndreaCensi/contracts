@@ -30,7 +30,17 @@
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
 
    <style type="text/css">
-   
+  div.col1 {
+    display: block;
+    float: left;
+  }
+
+  div.col2 {
+    margin-left: 3em;
+    display: block;
+    float: left;
+  }
+
    </style>
 
 <!--<link  href="http://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css" >
@@ -79,12 +89,12 @@
 
 <span class="c"># Just make them appear as belonging to the &quot;contracts&quot; Module</span>
 <span class="c"># So that Eclipse and other IDEs will not get confused.</span>
-<div class="viewcode-block" id="contract"><a class="viewcode-back" href="../index.html#contracts.contract">[docs]</a><span class="k">def</span> <span class="nf">contract</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="contract"><a class="viewcode-back" href="../api_reference.html#contracts.contract">[docs]</a><span class="k">def</span> <span class="nf">contract</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">contract_decorator</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 <span class="n">contract</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">contract_decorator</span><span class="o">.</span><span class="n">__doc__</span>
 
 <span class="kn">from</span> <span class="nn">.main</span> <span class="kn">import</span> <span class="n">new_contract</span> <span class="k">as</span> <span class="n">new_contract_main</span>
-<div class="viewcode-block" id="new_contract"><a class="viewcode-back" href="../index.html#contracts.new_contract">[docs]</a><span class="k">def</span> <span class="nf">new_contract</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="new_contract"><a class="viewcode-back" href="../api_reference.html#contracts.new_contract">[docs]</a><span class="k">def</span> <span class="nf">new_contract</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">new_contract_main</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 <span class="n">new_contract</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">new_contract_main</span><span class="o">.</span><span class="n">__doc__</span>
 

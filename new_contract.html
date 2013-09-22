@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>PyContracts overhead in production and in testing &mdash; PyContracts 1.6.0 documentation</title>
+    <title>Creating new contracts using new_contract &mdash; PyContracts 1.6.0 documentation</title>
     
     <link rel="stylesheet" href="static/default.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
@@ -76,7 +76,7 @@
 <li>Reference:<ul>
 <li><a class="reference internal" href="api.html#api"><em>API for specifying contracts</em></a></li>
 <li><a class="reference internal" href="contractsmeta.html#contractsmeta"><em>Using the ContractsMeta meta-class</em></a></li>
-<li><a class="reference internal" href="new_contract.html#new-contract"><em>Creating new contracts using new_contract</em></a></li>
+<li><a class="reference internal" href="#new-contract"><em>Creating new contracts using new_contract</em></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="reference.html#contracts-language-reference"><em>Language reference</em></a></li>
@@ -85,53 +85,72 @@
 <div class="col2 container">
 <p><strong>Developer documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="#overhead"><em>PyContracts overhead in production and in testing</em></a></li>
+<li><a class="reference internal" href="overhead.html#overhead"><em>PyContracts overhead in production and in testing</em></a></li>
 <li><a class="reference internal" href="api_reference.html#api-reference"><em>PyContracts public API reference</em></a></li>
 <li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><em>PyContracts low-level API</em></a></li>
 <li><a class="reference internal" href="credits.html#credits"><em>Credits</em></a></li>
 </ul>
 </div>
-<div style="clear:left"/><div class="section" id="pycontracts-overhead-in-production-and-in-testing">
-<span id="overhead"></span><h1>PyContracts overhead in production and in testing<a class="headerlink" href="#pycontracts-overhead-in-production-and-in-testing" title="Permalink to this headline">¶</a></h1>
-<p>In production, all checks can be disabled using the function <tt class="docutils literal"><span class="pre">contracts.disable_all()</span></tt>.</p>
-<div class="section" id="overhead-when-disabled">
-<h2>Overhead when disabled<a class="headerlink" href="#overhead-when-disabled" title="Permalink to this headline">¶</a></h2>
-<p>The performance in disabled mode depends on whether <tt class="docutils literal"><span class="pre">contracts.disable_all()</span></tt> is called before or after the decorated function is loaded.</p>
-<p>If <tt class="docutils literal"><span class="pre">disable_all()</span></tt> is called <em>before</em>, then the decorator gets ignored and the overhead is 0. Example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">contracts</span><span class="o">.</span><span class="n">disable_all</span><span class="p">()</span>
-
-<span class="nd">@contract</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">&#39;int,&gt;=0&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;int,&gt;=1&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
-
-<span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c"># no overhead</span>
+<div style="clear:left"/><div class="section" id="creating-new-contracts-using-new-contract">
+<span id="new-contract"></span><h1>Creating new contracts using <tt class="docutils literal"><span class="pre">new_contract</span></tt><a class="headerlink" href="#creating-new-contracts-using-new-contract" title="Permalink to this headline">¶</a></h1>
+<p>The function  <tt class="xref py py-func docutils literal"><span class="pre">new_contract()</span></tt>  is used to define new contracts.
+It takes two arguments. The first argument is the name
+of the new contract, and the second is the value:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;color&#39;</span><span class="p">,</span> <span class="s">&#39;list[3](float)&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>If <tt class="docutils literal"><span class="pre">disable_all()</span></tt> is called <em>after</em>, then there is some overhead, because PyContracts will call the function as <tt class="docutils literal"><span class="pre">f(*args,**kwargs)</span></tt>, which has some overhead. Example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">&#39;int,&gt;=0&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;int,&gt;=1&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
-
-<span class="n">contracts</span><span class="o">.</span><span class="n">disable_all</span><span class="p">()</span>
-
-<span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c"># some overhead</span>
+<p>Once defined, the new contracts can be used as part of more complicated
+expressions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">colors</span><span class="o">=</span><span class="s">&#39;list(color)&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">average_colors</span><span class="p">(</span><span class="n">colors</span><span class="p">):</span>
+    <span class="k">pass</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="performance-hit-when-enabled">
-<h2>Performance hit when enabled<a class="headerlink" href="#performance-hit-when-enabled" title="Permalink to this headline">¶</a></h2>
-<p>I haven&#8217;t done any rigorous benchmarking,  but PyContract&#8217;s performance hit depends mainly on two factors:</p>
-<ol class="arabic">
-<li><p class="first">PyContracts calls <tt class="docutils literal"><span class="pre">inspect</span></tt>  methods to associate arguments to arguments names. This takes a surprising amount of time and probably there is a smarter way to do it.</p>
+<p>The second parameter to <tt class="docutils literal"><span class="pre">new_contract</span></tt> can be either
+a string, a Python type, or a callable function.</p>
+<ul>
+<li><p class="first">If it is a string or a type, it is interpreted as contract expression
+like any parameter to <tt class="xref py py-func docutils literal"><span class="pre">&#64;contract()</span></tt>.</p>
 </li>
-<li><p class="first">The time to check the contract for each argument. This depends on the complexity of the contract.</p>
-<p>Each contract is parsed only once and then represented as a syntactic tree. For example, the representation of <tt class="docutils literal"><span class="pre">int,&gt;0</span></tt> is:</p>
-<div class="highlight-python"><pre>python -c "import contracts; print '%r' % contracts.parse('int,&gt;=0')"
-And([CheckType(int), CheckOrder(None,'&gt;=',SimpleRValue(0))])</pre>
-</div>
-<p>Python being Python, there&#8217;s some overhead for calling object methods in the contract tree.</p>
+<li><p class="first">If it is a callable, it must accept one parameter, and either:</p>
+<ul class="simple">
+<li>return True or None, to signify it accepts.</li>
+<li>return False or raise ValueError, to signify it doesn&#8217;t.</li>
+</ul>
+<p>If ValueError is raised, its message is used in the error.</p>
 </li>
-</ol>
+</ul>
+<p>This function returns a <tt class="xref py py-class docutils literal"><span class="pre">Contract</span></tt> object. It might be
+useful to check right away if the declaration is what you meant,
+using <tt class="xref py py-func docutils literal"><span class="pre">Contract.check()</span></tt> and <tt class="xref py py-func docutils literal"><span class="pre">Contract.fail()</span></tt>.</p>
+<p>For example, suppose that you are writing a graphical application
+and that many of your functions need arguments representing colors.
+It might be a good idea to declare once and for all what is a color,
+and then reuse that definition. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">color</span> <span class="o">=</span> <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;color&#39;</span><span class="p">,</span> <span class="s">&#39;list[3](number,&gt;=0,&lt;=1)&#39;</span><span class="p">)</span>
+<span class="c"># Make sure we got it right</span>
+<span class="n">color</span><span class="o">.</span><span class="n">check</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">color</span><span class="o">.</span><span class="n">check</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">color</span><span class="o">.</span><span class="n">fail</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">color</span><span class="o">.</span><span class="n">fail</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="c"># Now use ``color`` in other contracts.</span>
+<span class="nd">@contract</span>
+<span class="k">def</span> <span class="nf">fill_area</span><span class="p">(</span><span class="n">inside</span><span class="p">,</span> <span class="n">border</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Fill the area inside the current figure.</span>
+
+<span class="sd">        :type border: color</span>
+<span class="sd">        :type inside: color              &quot;&quot;&quot;</span>
+    <span class="o">...</span>
+
+<span class="nd">@contract</span>
+<span class="k">def</span> <span class="nf">fill_gradient</span><span class="p">(</span><span class="n">colors</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Use a gradient to fill the area.</span>
+
+<span class="sd">        :type colors: list[&gt;=2](color)     &quot;&quot;&quot;</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
 <div class="col1 container">
 <p><strong>User documentation</strong></p>
 <ul class="simple">
@@ -140,7 +159,7 @@ And([CheckType(int), CheckOrder(None,'&gt;=',SimpleRValue(0))])</pre>
 <li>Reference:<ul>
 <li><a class="reference internal" href="api.html#api"><em>API for specifying contracts</em></a></li>
 <li><a class="reference internal" href="contractsmeta.html#contractsmeta"><em>Using the ContractsMeta meta-class</em></a></li>
-<li><a class="reference internal" href="new_contract.html#new-contract"><em>Creating new contracts using new_contract</em></a></li>
+<li><a class="reference internal" href="#new-contract"><em>Creating new contracts using new_contract</em></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="reference.html#contracts-language-reference"><em>Language reference</em></a></li>
@@ -149,14 +168,13 @@ And([CheckType(int), CheckOrder(None,'&gt;=',SimpleRValue(0))])</pre>
 <div class="col2 container">
 <p><strong>Developer documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="#overhead"><em>PyContracts overhead in production and in testing</em></a></li>
+<li><a class="reference internal" href="overhead.html#overhead"><em>PyContracts overhead in production and in testing</em></a></li>
 <li><a class="reference internal" href="api_reference.html#api-reference"><em>PyContracts public API reference</em></a></li>
 <li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><em>PyContracts low-level API</em></a></li>
 <li><a class="reference internal" href="credits.html#credits"><em>Credits</em></a></li>
 </ul>
 </div>
 <div style="clear:left"/></div>
-</div>
 
 
           </div>
@@ -164,18 +182,9 @@ And([CheckType(int), CheckOrder(None,'&gt;=',SimpleRValue(0))])</pre>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">PyContracts overhead in production and in testing</a><ul>
-<li><a class="reference internal" href="#overhead-when-disabled">Overhead when disabled</a></li>
-<li><a class="reference internal" href="#performance-hit-when-enabled">Performance hit when enabled</a></li>
-</ul>
-</li>
-</ul>
-
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="sources/overhead.txt"
+    <li><a href="sources/new_contract.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">

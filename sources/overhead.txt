@@ -1,10 +1,14 @@
-Overhead of PyContracts
------------------------
+.. include:: menu.txt
 
-Disabled mode
-^^^^^^^^^^^^^
+.. _overhead:
+
+PyContracts overhead in production and in testing
+-------------------------------------------------
 
 In production, all checks can be disabled using the function ``contracts.disable_all()``. 
+
+Overhead when disabled
+^^^^^^^^^^^^^^^^^^^^^^
 
 The performance in disabled mode depends on whether ``contracts.disable_all()`` is called before or after the decorated function is loaded.
 
@@ -29,17 +33,20 @@ If ``disable_all()`` is called *after*, then there is some overhead, because PyC
     f(0) # some overhead
 
 
-Enabled mode
-^^^^^^^^^^^^
+Performance hit when enabled
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-I haven't done any rigorous benchmarking,  but the overhead in enabled mode depends on two main things:
+I haven't done any rigorous benchmarking,  but PyContract's performance hit depends mainly on two factors:
 
 1) PyContracts calls ``inspect``  methods to associate arguments to arguments names. This takes a surprising amount of time and probably there is a smarter way to do it.
 
-2) The time to check the contract for each argument. This depends on the complexity of the contract. Each contract is parsed only once and then represented as a syntactic tree. For example, the representation of 'int,>0' is: ::
+2) The time to check the contract for each argument. This depends on the complexity of the contract. 
 
-     python -c "import contracts; print '%r' % contracts.parse('int,>=0')"
-     And([CheckType(int), CheckOrder(None,'>=',SimpleRValue(0))])
+   Each contract is parsed only once and then represented as a syntactic tree. For example, the representation of ``int,>0`` is: ::
+
+       python -c "import contracts; print '%r' % contracts.parse('int,>=0')"
+       And([CheckType(int), CheckOrder(None,'>=',SimpleRValue(0))])
     
-Python being Python, there's some overhead for calling object methods in the contract tree.
+   Python being Python, there's some overhead for calling object methods in the contract tree.
 
+.. include:: menu.txt
