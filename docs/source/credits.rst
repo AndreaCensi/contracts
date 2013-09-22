@@ -1,3 +1,5 @@
+.. include:: definitions.txt
+
 .. include:: menu.txt
 
 .. _credits:
