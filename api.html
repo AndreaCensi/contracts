@@ -33,7 +33,7 @@
     display: block;
     float: left;
   }
-
+  div.brief-summary { display: none;}
   div.col2 {
     margin-left: 3em;
     display: block;
@@ -94,7 +94,7 @@
 </div>
 <div style="clear:left"/><div class="section" id="api-for-specifying-contracts">
 <span id="api"></span><h1>API for specifying contracts<a class="headerlink" href="#api-for-specifying-contracts" title="Permalink to this headline">¶</a></h1>
-<p>This is a discussion of the <a href="#id1"><span class="problematic" id="id2">|pycontracts|</span></a> API.</p>
+<p>This is a discussion of the <span class="brand">PyContracts</span> API.</p>
 <ul class="simple">
 <li>See <a class="reference internal" href="api_reference.html#module-contracts" title="contracts"><tt class="xref py py-mod docutils literal"><span class="pre">contracts</span></tt></a> for a detailed list of this module&#8217;s public interface.</li>
 <li>See <a class="reference internal" href="reference.html#contracts-language-reference"><em>Language reference</em></a> for a description of the domain specific language
@@ -111,7 +111,7 @@ to support functions with variable number of arguments and keyword arguments.</p
 <li>As Python 3 function annotations.</li>
 <li>Using <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags in the function&#8217;s docstring.</li>
 </ul>
-<p><a href="#id3"><span class="problematic" id="id4">|pycontracts|</span></a> will try these options in order. Note that, in any case,
+<p><span class="brand">PyContracts</span> will try these options in order. Note that, in any case,
 only one of these options are chosen. For example, you cannot
 use both annotations and docstring for the same function: if annotations
 are found, the docstring is not considered.</p>
@@ -130,9 +130,9 @@ An example use would be:</p>
 </div>
 <p>The values can be either:</p>
 <ul>
-<li><p class="first">Strings using <a href="#id5"><span class="problematic" id="id6">|pycontracts|</span></a>&#8216; DSL language (see <a class="reference internal" href="reference.html#contracts-language-reference"><em>Language reference</em></a>)</p>
+<li><p class="first">Strings using <span class="brand">PyContracts</span>&#8216; DSL language (see <a class="reference internal" href="reference.html#contracts-language-reference"><em>Language reference</em></a>)</p>
 </li>
-<li><p class="first">Python types &#8212; in this case <a href="#id7"><span class="problematic" id="id8">|pycontracts|</span></a> will do a simple <a class="reference external" href="http://docs.python.org/library/functions.html#isinstance" title="(in Python v2.7)"><tt class="xref py py-func docutils literal"><span class="pre">isinstance()</span></tt></a> check.
+<li><p class="first">Python types &#8212; in this case <span class="brand">PyContracts</span> will do a simple <a class="reference external" href="http://docs.python.org/library/functions.html#isinstance" title="(in Python v2.7)"><tt class="xref py py-func docutils literal"><span class="pre">isinstance()</span></tt></a> check.
 This is slightly more clear if the contract is simple:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
@@ -157,7 +157,7 @@ def my_function(a:'int,&gt;0', b:'list[N],N&gt;0') -&gt; 'list[N]':
 <p>The Python standard library seems to have standardized on the <tt class="docutils literal"><span class="pre">:param:</span></tt>, <tt class="docutils literal"><span class="pre">:type:</span></tt>,
 <tt class="docutils literal"><span class="pre">:return:</span></tt>, <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags to document functions, and tools like Sphinx
 can interpret those tags to produce pretty documentation.</p>
-<p><a href="#id9"><span class="problematic" id="id10">|pycontracts|</span></a> can read contracts declared using the <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags.
+<p><span class="brand">PyContracts</span> can read contracts declared using the <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags.
 In this way, your function becomes automatically more robust and better documented.</p>
 <p>Here is an example use:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contract</span>
@@ -181,10 +181,10 @@ In this way, your function becomes automatically more robust and better document
 <p>By convention, those annotations must be parsable as
 reStructuredText.
 If the contract string has special RST characters in it, like <tt class="docutils literal"><span class="pre">*</span></tt>,
-you can include it in double ticks. <a href="#id11"><span class="problematic" id="id12">|pycontracts|</span></a> will remove
+you can include it in double ticks. <span class="brand">PyContracts</span> will remove
 the double ticks before interpreting the string.</p>
 <p>For example, the two annotations in this docstring are equivalent
-for <a href="#id13"><span class="problematic" id="id14">|pycontracts|</span></a>, but the latter is better for Sphinx:</p>
+for <span class="brand">PyContracts</span>, but the latter is better for Sphinx:</p>
 <div class="last highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot; My function</span>
 
 <span class="sd">    :param a: First parameter</span>

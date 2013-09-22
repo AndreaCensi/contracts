@@ -33,7 +33,7 @@
     display: block;
     float: left;
   }
-
+  div.brief-summary { display: none;}
   div.col2 {
     margin-left: 3em;
     display: block;
@@ -94,7 +94,7 @@
 </div>
 <div style="clear:left"/><div class="section" id="language-reference">
 <span id="contracts-language-reference"></span><h1>Language reference<a class="headerlink" href="#language-reference" title="Permalink to this headline">¶</a></h1>
-<p>This section describes <a href="#id1"><span class="problematic" id="id2">|pycontracts|</span></a>&#8216; language for specifying contracts.</p>
+<p>This section describes <span class="brand">PyContracts</span>&#8216; language for specifying contracts.</p>
 <ul class="simple">
 <li>See <a class="reference internal" href="tour.html#quick-tour"><em>Quick tour</em></a> for a summary of the available features.</li>
 <li>See <a class="reference internal" href="api.html#api"><em>API for specifying contracts</em></a> for a description of the API.</li>
@@ -116,7 +116,7 @@ of a value. These are the supported primitive types:</p>
 </div>
 <div class="section" id="variables">
 <h2>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h2>
-<p><a href="#id3"><span class="problematic" id="id4">|pycontracts|</span></a> allows to use variables to bind to sub-expressions
+<p><span class="brand">PyContracts</span> allows to use variables to bind to sub-expressions
 and reuse later (it is simpler than it sounds).</p>
 <p>There are two kinds of variables. The first kind is denoted
 by an uppercase letter, and it is constrained to bind to integer values.</p>
@@ -194,15 +194,15 @@ else:
 </div>
 <div class="section" id="equality">
 <h2>Equality<a class="headerlink" href="#equality" title="Permalink to this headline">¶</a></h2>
-<p><a href="#id5"><span class="problematic" id="id6">|towrite|</span></a></p>
+<p><span style="font-weight:bold">This section must still be written.</span></p>
 </div>
 <div class="section" id="arithmetic-and-comparison">
 <h2>Arithmetic and comparison<a class="headerlink" href="#arithmetic-and-comparison" title="Permalink to this headline">¶</a></h2>
-<p><a href="#id7"><span class="problematic" id="id8">|towrite|</span></a></p>
+<p><span style="font-weight:bold">This section must still be written.</span></p>
 </div>
 <div class="section" id="details-of-variable-binding">
 <h2>Details of variable binding<a class="headerlink" href="#details-of-variable-binding" title="Permalink to this headline">¶</a></h2>
-<p><a href="#id9"><span class="problematic" id="id10">|towrite|</span></a></p>
+<p><span style="font-weight:bold">This section must still be written.</span></p>
 </div>
 <div class="section" id="lists">
 <h2>Lists<a class="headerlink" href="#lists" title="Permalink to this headline">¶</a></h2>
@@ -377,7 +377,7 @@ map[length_contract](key_contract: value_contract)</pre>
 </div>
 <div class="section" id="numpy-arrays">
 <h2>Numpy arrays<a class="headerlink" href="#numpy-arrays" title="Permalink to this headline">¶</a></h2>
-<p>The support for Numpy arrays was one of the motivations for me to develop <a href="#id11"><span class="problematic" id="id12">|pycontracts|</span></a>.
+<p>The support for Numpy arrays was one of the motivations for me to develop <span class="brand">PyContracts</span>.
 <a class="reference external" href="http://numpy.scipy.org/">Numpy</a> is one of the best and most useful Python packages around. It supports
 the <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html">ndarray</a> datatype which allows for operations with <a class="reference external" href="http://en.wikipedia.org/wiki/Tensor">tensors</a> of arbitrary dimensions.</p>
 <p>All of that is very powerful, but it might be a bit confusing, especially
@@ -391,7 +391,7 @@ of your assumptions, otherwise you risk of ignoring powerful bugs.</p>
 you don&#8217;t know what to expect out of your algorithms. A stupid
 bug can lead to an exciting (false) discovery!</p>
 </div>
-<p>So <a href="#id13"><span class="problematic" id="id14">|pycontracts|</span></a> offers several shortcuts for Numpy arrays, and
+<p>So <span class="brand">PyContracts</span> offers several shortcuts for Numpy arrays, and
 the error messages tend to be more descriptive.</p>
 <p>The general syntax looks like this:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">array</span>
@@ -454,7 +454,7 @@ the error messages tend to be more descriptive.</p>
 <div class="section" id="numpy-specific-contracts">
 <h3>Numpy-specific contracts<a class="headerlink" href="#numpy-specific-contracts" title="Permalink to this headline">¶</a></h3>
 <p>A <em>numpy contract</em> is special and implemented separately
-from the other <a href="#id15"><span class="problematic" id="id16">|pycontracts|</span></a> contract.
+from the other <span class="brand">PyContracts</span> contract.
 Right now, we support:</p>
 <dl class="docutils">
 <dt>Datatype contracts</dt>
@@ -464,7 +464,7 @@ Right now, we support:</p>
 </dd>
 <dt>Arithmetic comparisons</dt>
 <dd><p class="first">These have the semantics that <strong>all</strong> elements must satisfy the contract.
-They appear similar to the normal <a href="#id17"><span class="problematic" id="id18">|pycontracts|</span></a> comparison:</p>
+They appear similar to the normal <span class="brand">PyContracts</span> comparison:</p>
 <div class="last highlight-python"><pre>&gt;0   &lt;0   &lt;=1   =0</pre>
 </div>
 </dd>
@@ -502,7 +502,7 @@ They appear similar to the normal <a href="#id17"><span class="problematic" id="
 <div class="section" id="other-examples">
 <h3>Other examples<a class="headerlink" href="#other-examples" title="Permalink to this headline">¶</a></h3>
 <p>Here is an example that first uses <tt class="xref py py-func docutils literal"><span class="pre">new_contract()</span></tt> to specify
-a domain-specific array type (<tt class="docutils literal"><span class="pre">rgb</span></tt>, <tt class="docutils literal"><span class="pre">rgba</span></tt>), then uses <a href="#id19"><span class="problematic" id="id20">|pycontracts|</span></a>
+a domain-specific array type (<tt class="docutils literal"><span class="pre">rgb</span></tt>, <tt class="docutils literal"><span class="pre">rgba</span></tt>), then uses <span class="brand">PyContracts</span>
 to be sure that the two given images and the result values have coherent dimensions.
 Notice how the contracts serve very well as documentation.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contract</span><span class="p">,</span> <span class="n">new_contract</span>
@@ -544,7 +544,7 @@ Notice how the contracts serve very well as documentation.</p>
 </div>
 <div class="section" id="advanced-topic-the-context-isolate-operator">
 <h2>Advanced topic: the context isolate operator<a class="headerlink" href="#advanced-topic-the-context-isolate-operator" title="Permalink to this headline">¶</a></h2>
-<p><a href="#id21"><span class="problematic" id="id22">|pycontracts|</span></a> has a special construct <tt class="docutils literal"><span class="pre">$(...)</span></tt> used to separate the context
+<p><span class="brand">PyContracts</span> has a special construct <tt class="docutils literal"><span class="pre">$(...)</span></tt> used to separate the context
 of variables. The semantics is that the variables assigned inside <tt class="docutils literal"><span class="pre">$(...)</span></tt>
 are not propagated outside.</p>
 <table border="1" class="docutils">

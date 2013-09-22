@@ -33,7 +33,7 @@
     display: block;
     float: left;
   }
-
+  div.brief-summary { display: none;}
   div.col2 {
     margin-left: 3em;
     display: block;
@@ -97,45 +97,37 @@
 </div>
 <div style="clear:left"/><div class="section" id="introduction-to-pycontracts">
 <span id="introduction"></span><h2>Introduction to PyContracts<a class="headerlink" href="#introduction-to-pycontracts" title="Permalink to this headline">¶</a></h2>
-<p><span class="brand">PyContracts</span> is a Python package that allows to declare constraints on function parameters and
+<p>PyContracts is a Python package that allows to declare constraints on function parameters and
 return values. It supports a basic type system, variables binding, arithmetic constraints, and
 has several specialized contracts (notably for Numpy arrays).</p>
-<p><strong>Status:</strong> <span class="brand">PyContracts</span> is very well tested and documented. The last release
-is version 1.6.0 (September 2013). See <a class="reference internal" href="changelog.html#id1"><em>changelog</em></a>.</p>
-<p><strong>Why</strong>: The purpose of <span class="brand">PyContracts</span> is <strong>not</strong> to turn Python into a statically-typed language
+<div class="brief-summary container">
+A brief summary follows. See the full documentation at: &lt;<a class="reference external" href="http://andreacensi.github.com/contracts/">http://andreacensi.github.com/contracts/</a>&gt;</div>
+<p><strong>Why</strong>: The purpose of PyContracts is <strong>not</strong> to turn Python into a statically-typed language
 (albeit you can be as strict as you wish), but, rather, to avoid the time-consuming and
 obfuscating checking of various preconditions. In fact, more than the type constraints, I found
 useful the ability to impose value and size constraints. For example, &#8220;I need a list of at least
 3 positive numbers&#8221; can be expressed as <tt class="docutils literal"><span class="pre">list[&gt;=3](number,</span> <span class="pre">&gt;0))</span></tt>. If you find that
-<span class="brand">PyContracts</span> is overkill for you, you might want to try a simpler alternative, such as
-<a class="reference external" href="http://oakwinter.com/code/typecheck/">typecheck</a>. If you find that <span class="brand">PyContracts</span> is not <em>enough</em> for you, you probably want to be
+PyContracts is overkill for you, you might want to try a simpler alternative, such as
+<a class="reference external" href="http://oakwinter.com/code/typecheck/">typecheck</a>. If you find that PyContracts is not <em>enough</em> for you, you probably want to be
 using <a class="reference external" href="http://www.haskell.org/">Haskell</a> instead of Python.</p>
 <p><strong>Specifying contracts</strong>: Contracts can be specified in three ways:</p>
 <ol class="arabic">
-<li><p class="first">Using <strong>arguments to the decorators</strong>; the least intrusive way:</p>
+<li><p class="first"><strong>Using the ``&#64;contract`` decorator:</strong></p>
 <div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int,&gt;0&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;0&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="o">...</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">Using <strong>annotations (for Python 3)</strong> &#8212;this is perhaps the most</p>
-</li>
-</ol>
-<blockquote>
-<div><p>intuitive way:</p>
+<li><p class="first"><strong>Using annotations</strong> (for Python 3):</p>
 <div class="highlight-python"><pre>@contract
 def my_function(a : 'int,&gt;0', b : 'list[N],N&gt;0') -&gt; 'list[N]':
      # Requires b to be a nonempty list, and the return
      # value to have the same length.
      ...</pre>
 </div>
-</div></blockquote>
-<ol class="arabic simple" start="3">
-<li>Using <strong>docstrings</strong>, with the <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags. In this way, they will be included</li>
-</ol>
-<blockquote>
-<div><p>in your Sphinx documentation:</p>
+</li>
+<li><p class="first"><strong>Using docstrings</strong>, with the <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span>
 <span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Function description.</span>
@@ -146,30 +138,49 @@ def my_function(a : 'int,&gt;0', b : 'list[N],N&gt;0') -&gt; 'list[N]':
     <span class="o">...</span>
 </pre></div>
 </div>
-</div></blockquote>
-<p><strong>Specifying new contracts</strong>:  There are hooks to extend <span class="brand">PyContracts</span> with new contracts types:</p>
+</li>
+</ol>
+<p>In any case, PyContracts will include the spec in the <tt class="docutils literal"><span class="pre">__doc__</span></tt> attribute.</p>
+<p><strong>Deployment</strong>: In production, all checks can be disabled using the function <tt class="docutils literal"><span class="pre">contracts.disable_all()</span></tt>, so the performance hit is 0.</p>
+<p><strong>Extensions:</strong> You can extend PyContracts with new contracts types:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;valid_name&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">check</span><span class="p">(</span><span class="s">&#39;dict(int: (valid_name, int))&#39;</span><span class="p">,</span> <span class="n">employees</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Numpy-specific</strong>:  There is specific support for Numpy&#8217;s <tt class="docutils literal"><span class="pre">array</span></tt>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="s">&#39;array[HxWx3](uint8),H&gt;10,W&gt;10&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+<span class="nd">@contract</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="s">&#39;dict(int: (valid_name, int))&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">process_accounting</span><span class="p">(</span><span class="n">records</span><span class="p">):</span>
     <span class="o">...</span>
 </pre></div>
 </div>
-<p><strong>Deployment</strong>: In production, all checks can be disabled using the function <tt class="docutils literal"><span class="pre">contracts.disable_all()</span></tt>, so the performance hit is 0.</p>
-<p><strong>Installation</strong>:  Install <span class="brand">PyContracts</span> using:</p>
-<div class="highlight-python"><pre>$ pip install PyContracts</pre>
+<p>Any Python type is a contract:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="c"># simple contract</span>
+          <span class="n">b</span><span class="o">=</span><span class="s">&#39;int,&gt;0&#39;</span> <span class="c"># more complicated</span>
+          <span class="p">)</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
 </div>
-<p>or from GitHub:</p>
-<div class="highlight-python"><pre>$ git clone git://github.com:AndreaCensi/contracts.git
-$ cd contracts
-$ python setup.py develop
-$ nosetests -w src         # run the extensive test suite</pre>
+<p><strong>Enforcing interfaces</strong>: The metaclass &#8216;ContractsMeta&#8217; is like ABCMeta, but it propagates contracts to the subclasses:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contract</span><span class="p">,</span> <span class="n">ContractsMeta</span>
+
+<span class="k">class</span> <span class="nc">Base</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">ContractsMeta</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="nd">@contract</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="s">&#39;float,&gt;=0,&lt;=1&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="n">probability</span><span class="p">):</span>
+        <span class="n">passs</span>
+
+<span class="k">class</span> <span class="nc">Derived</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="c"># The contract is automatically enforced for all children!</span>
+    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="n">probability</span><span class="p">):</span>
+        <span class="o">....</span>
+</pre></div>
 </div>
-<p>The beautiful library <a class="reference external" href="http://pyparsing.wikispaces.com">pyparsing</a> is required.</p>
-<p><strong>Support</strong>: use the GitHub issue <a class="reference external" href="http://github.com/AndreaCensi/contracts/issues">tracker</a> or email <a class="reference external" href="http://purl.org/censi/web">me</a>.</p>
+<p><strong>Numpy</strong>: There is special support for Numpy:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="s">&#39;array[HxWx3](uint8),H&gt;10,W&gt;10&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">recolor</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p><strong>Status:</strong> PyContracts is very well tested and documented. The syntax is stable and it won&#8217;t be changed.</p>
 <div class="col1 container">
 <p><strong>User documentation</strong></p>
 <ul class="simple">

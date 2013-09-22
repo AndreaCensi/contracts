@@ -1,3 +1,4 @@
+.. include:: definitions.txt
 
 .. include:: menu.txt
 

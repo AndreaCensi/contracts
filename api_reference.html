@@ -33,7 +33,7 @@
     display: block;
     float: left;
   }
-
+  div.brief-summary { display: none;}
   div.col2 {
     margin-left: 3em;
     display: block;
@@ -94,7 +94,7 @@
 </div>
 <div style="clear:left"/><div class="section" id="pycontracts-public-api-reference">
 <span id="api-reference"></span><h1>PyContracts public API reference<a class="headerlink" href="#pycontracts-public-api-reference" title="Permalink to this headline">¶</a></h1>
-<p>This section provides a reference to <a href="#id1"><span class="problematic" id="id2">|pycontracts|</span></a>&#8216; public interface.</p>
+<p>This section provides a reference to <span class="brand">PyContracts</span>&#8216; public interface.</p>
 <ul class="simple">
 <li>See <a class="reference internal" href="api.html#api"><em>API for specifying contracts</em></a> for a more friendly discussion.</li>
 <li>See <a class="reference internal" href="reference.html#contracts-language-reference"><em>Language reference</em></a> for a reference on the domain-specific language.</li>
@@ -151,10 +151,10 @@ length (<tt class="docutils literal"><span class="pre">N</span></tt>) as the par
 be parseable as RestructuredText. This is relevant if you are using 
 Sphinx.
 If the contract string has special RST characters in it, like <tt class="docutils literal"><span class="pre">*</span></tt>,
-you can include it in double ticks. <a href="#id3"><span class="problematic" id="id4">|pycontracts|</span></a> will remove
+you can include it in double ticks. <span class="brand">PyContracts</span> will remove
 the double ticks before interpreting the string.</p>
 <p>For example, the two annotations in this docstring are equivalent
-for <a href="#id5"><span class="problematic" id="id6">|pycontracts|</span></a>, but the latter is better for Sphinx:</p>
+for <span class="brand">PyContracts</span>, but the latter is better for Sphinx:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot; My function </span>
 
 <span class="sd">    :param a: First parameter</span>

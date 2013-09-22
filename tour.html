@@ -33,7 +33,7 @@
     display: block;
     float: left;
   }
-
+  div.brief-summary { display: none;}
   div.col2 {
     margin-left: 3em;
     display: block;
@@ -96,7 +96,7 @@
 <span id="id1"></span><h1>Quick tour<a class="headerlink" href="#quick-tour" title="Permalink to this headline">¶</a></h1>
 <p>The contracts are specified using the <tt class="docutils literal"><span class="pre">type</span></tt> clause of RST-style
 docstrings (now accepted as standard in the python libraries); or, they can be passed explicitly
-to the <tt class="docutils literal"><span class="pre">&#64;contract</span></tt> decorator. In this example, <a href="#id2"><span class="problematic" id="id3">|pycontracts|</span></a> is smart enough to check that
+to the <tt class="docutils literal"><span class="pre">&#64;contract</span></tt> decorator. In this example, <span class="brand">PyContracts</span> is smart enough to check that
 the two parameters <tt class="docutils literal"><span class="pre">a</span></tt> and <tt class="docutils literal"><span class="pre">b</span></tt> are matrices of compatible dimensions. Then, it checks that
 the result value is of compatible dimensions as well.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span>
@@ -117,7 +117,7 @@ the result value is of compatible dimensions as well.</p>
     <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><a href="#id4"><span class="problematic" id="id5">|pycontracts|</span></a> can come in handy when you have operations
+<p><span class="brand">PyContracts</span> can come in handy when you have operations
 that could be one-liners if you are sure of the types of
 the parameters, but doing all the checking adds to the
 complexity of the code.</p>
@@ -174,11 +174,11 @@ or specify more about it using the additional clauses.</p>
 </tr>
 </tbody>
 </table>
-<p><a href="#id6"><span class="problematic" id="id7">|pycontracts|</span></a> supports the use of variables.
+<p><span class="brand">PyContracts</span> supports the use of variables.
 There are two kinds of variables: lower-case letters (<tt class="docutils literal"><span class="pre">a</span></tt>, <tt class="docutils literal"><span class="pre">b</span></tt>, ...)
 are general-purpose variables, while upper-case letters (<tt class="docutils literal"><span class="pre">A</span></tt>, <tt class="docutils literal"><span class="pre">B</span></tt>, ...)
 are constrained to bind to integer types; they are meant to represent
-sizes and shapes. Moreover, <a href="#id8"><span class="problematic" id="id9">|pycontracts|</span></a> can do arithmetic and comparisons.</p>
+sizes and shapes. Moreover, <span class="brand">PyContracts</span> can do arithmetic and comparisons.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="50%" />
