@@ -1,3 +1,4 @@
+.. include:: menu.txt
 
 .. _quick_tour:
 
@@ -110,3 +111,4 @@ sizes and shapes. Moreover, |pycontracts| can do arithmetic and comparisons.
 
 For the complete reference to the available contract expressions, see :ref:`contracts_language_reference`.
 
+.. include:: menu.txt

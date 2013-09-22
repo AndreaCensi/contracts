@@ -1,8 +1,10 @@
 
+.. include:: menu.txt
+
 .. _api:
 
-PyContracts API
-===============
+API for specifying contracts
+============================
 
 This is a discussion of the |pycontracts| API. 
 
@@ -119,109 +121,5 @@ Here is an example use: ::
       """
 
 
-Creating new contracts using ``new_contract``
--------------------------------------------------
-
-The function  :py:func:`new_contract`  is used to define new contracts.
-It takes two arguments. The first argument is the name
-of the new contract, and the second is the value: ::
-
-    new_contract('color', 'list[3](float)')
-
-Once defined, the new contracts can be used as part of more complicated 
-expressions: ::
-
-    @contract(colors='list(color)')
-    def average_colors(colors):
-        pass
-
-The second parameter to ``new_contract`` can be either
-a string, a Python type, or a callable function. 
-
-- If it is a string or a type, it is interpreted as contract expression
-  like any parameter to :py:func:`@contract`.
-
-- If it is a callable, it must accept one parameter, and either:
-  
-  * return True or None, to signify it accepts.
-  
-  * return False or raise ValueError, to signify it doesn't.
-  
-  If ValueError is raised, its message is used in the error.
-  
-This function returns a :py:class:`Contract` object. It might be
-useful to check right away if the declaration is what you meant,
-using :py:func:`Contract.check` and :py:func:`Contract.fail`.  
-
-For example, suppose that you are writing a graphical application
-and that many of your functions need arguments representing colors.
-It might be a good idea to declare once and for all what is a color,
-and then reuse that definition. For example: ::
-
-    color = new_contract('color', 'list[3](number,>=0,<=1)')
-    # Make sure we got it right
-    color.check([0,0,0])
-    color.check([0,0,1])
-    color.fail([0,0])
-    color.fail([0,0,2])
-    
-    # Now use ``color`` in other contracts.
-    @contract
-    def fill_area(inside, border):
-        """ Fill the area inside the current figure.
-        
-            :type border: color
-            :type inside: color              """
-        ...
-        
-    @contract
-    def fill_gradient(colors):
-        """ Use a gradient to fill the area.
-        
-            :type colors: list[>=2](color)     """
-        ...
-
-
-.. _contractsmeta:
-
-Using the ``ContractsMeta`` meta-class
--------------------------------------------------
-
-The  :py:class:`ContractsMeta` meta-class can be used as a drop-in 
-replacement for ``ABCMeta``. It allows you to declare contracts
-for a superclass and then have those contracts automatically
-enforced for any class that derives from it.
-
-For example, let us define a "timer" interface whose
-``start`` method requires a positive number: ::
-
-    from contracts import ContractsMeta, contract
-    from abc import abstractmethod
-
-    class TimerInterface():
-        __metaclass__ = ContractsMeta
-
-        @abstractmethod
-        @contract(interval='(float|int),>0')
-        def start(self, interval):
-            pass
-
-Now we can subclass  ``TimerInterface`` and all contracts
-will be automatically inherited: ::
-
-    class Timer(TimerInterface):
-  
-        def start(self, interval):
-            time.sleep()
-
-
-    t = Timer()
-    t.start(-1) # raises ContractNotRespected
-
-    # contracts.interface.ContractNotRespected: Breach for argument 'interval' to Timer:start().
-    # Condition -1 >= 0 not respected
-    # checking: >=0               for value: Instance of int: -1
-    # checking: (float|int),>=0   for value: Instance of int: -1
-
-
+.. include:: menu.txt
 

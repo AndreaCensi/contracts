@@ -1,3 +1,5 @@
+.. include:: menu.txt
+
 .. _api_reference:
 
 PyContracts public API reference
@@ -63,4 +65,5 @@ Miscellaneous
 
    A PyParsing expression that can be used to include
    contracts expression in your own PyParsing grammar.
-   
+
+.. include:: menu.txt

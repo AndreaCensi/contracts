@@ -1,3 +1,5 @@
+.. include:: menu.txt
+
 .. _credits:
 
 Credits
@@ -13,3 +15,5 @@ Credits
 .. _`William Furr`: http://www.ccs.neu.edu/home/furrwf/
 .. _`Karol Kuczmarski`:  http://xion.org.pl/
 .. _`Brett Graham`: https://github.com/braingram
+
+.. include:: menu.txt

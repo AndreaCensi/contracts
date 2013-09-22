@@ -1,3 +1,7 @@
+.. include:: menu.txt
+
+.. _the_changelog:
+
 Changelog
 =========
 
@@ -157,3 +161,5 @@ Various fixes:
 ----------------------------
 
 (changelog not available)
+
+.. include:: menu.txt

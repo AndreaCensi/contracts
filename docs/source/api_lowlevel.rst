@@ -1,5 +1,8 @@
+.. include:: menu.txt
 
-PyContracts Low-level API
+.. _api_lowlevel:
+
+PyContracts low-level API
 -------------------------------------------------
 
 .. py:currentmodule:: contracts
@@ -214,3 +217,4 @@ to your PyParsing-based grammar: ::
 
 
 
+.. include:: menu.txt

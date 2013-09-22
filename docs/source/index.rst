@@ -8,6 +8,13 @@
 PyContracts
 ===========
 
+.. include:: menu.txt
+
+.. _introduction: 
+
+Introduction to PyContracts
+---------------------------
+
 |pycontracts| is a Python package that allows to declare constraints on function parameters and
 return values. It supports a basic type system, variables binding, arithmetic constraints, and
 has several specialized contracts (notably for Numpy arrays). 
@@ -27,9 +34,15 @@ typecheck_. If you find that |pycontracts| is not *enough* for you, you probably
 using Haskell_ instead of Python.
 
 
-Contracts can be specified in three ways:
+**Specifying contracts**: Contracts can be specified in three ways:
 
-- Using annotations (for Python 3) ---this is perhaps the most 
+1. Using **arguments to the decorators**; the least intrusive way: ::
+   
+      @contract(a='int,>0', b='list[N],N>0', returns='list[N]')
+      def my_function(a, b):
+          ...
+
+2. Using **annotations (for Python 3)** ---this is perhaps the most 
   intuitive way: :: 
   
       @contract
@@ -38,7 +51,7 @@ Contracts can be specified in three ways:
            # value to have the same length.
            ...
       
-- Using ``:type:`` and ``:rtype:`` tags in docstrings. In this way, they will be included
+3. Using **docstrings**, with the ``:type:`` and ``:rtype:`` tags. In this way, they will be included
   in your Sphinx documentation: ::
    
       @contract
@@ -50,46 +63,21 @@ Contracts can be specified in three ways:
           """
           ...
           
-- Using arguments to the decorators; the least intrusive way: ::
-   
-      @contract(a='int,>0', b='list[N],N>0', returns='list[N]')
-      def my_function(a, b):
-          ...
           
-Moreover, there are utility functions for manual checking of values: ::
-
-    check('array[HxWx3](uint8),H>10,W>10', image)
-
-as well as hooks to extend |pycontracts| with new contracts types: ::
+**Specifying new contracts**:  There are hooks to extend |pycontracts| with new contracts types: ::
 
     new_contract('valid_name', lambda s: isinstance(s, str) and len(s)>0)
     check('dict(int: (valid_name, int))', employees)
 
+**Numpy-specific**:  There is specific support for Numpy's ``array``: ::
 
-**Support**: use the GitHub issue tracker_ or email me_.
+    @contract(image='array[HxWx3](uint8),H>10,W>10')
+    def f(image):
+        ...
 
-**Documentation index**
+**Deployment**: In production, all checks can be disabled using the function ``contracts.disable_all()``, so the performance hit is 0.
 
-- :ref:`installation`
-- :ref:`quick_tour`
-- :ref:`api`
-- :ref:`contracts_language_reference`
-- :ref:`api_reference`
-- :ref:`credits`
-
-.. _typecheck: http://oakwinter.com/code/typecheck/
-.. _Haskell: http://www.haskell.org/
-.. _tracker: http://github.com/AndreaCensi/contracts/issues
-
-.. _me: http://www.cds.caltech.edu/~andrea/
-
-
-.. _installation:
-
-Installation
-------------
-
-Install |pycontracts| using: ::
+**Installation**:  Install |pycontracts| using: ::
 
     $ pip install PyContracts
     
@@ -102,21 +90,14 @@ or from GitHub: ::
 
 The beautiful library pyparsing_ is required.
 
+**Support**: use the GitHub issue tracker_ or email me_.
 
+.. _typecheck: http://oakwinter.com/code/typecheck/
+.. _Haskell: http://www.haskell.org/
+.. _tracker: http://github.com/AndreaCensi/contracts/issues
+.. _me: http://purl.org/censi/web
 
-.. include:: tour.txt
+.. include:: menu.txt
 
-.. include:: api.txt
-
-.. include:: reference.txt
-
-.. include:: api_reference.txt
-
-.. include:: api_lowlevel.txt
-
-
- 
 .. raw:: html
    :file: tracking.html
-
-

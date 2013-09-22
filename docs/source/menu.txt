@@ -1,0 +1,28 @@
+
+.. container:: col1
+  
+  **User documentation**
+
+  - :ref:`introduction`
+  - :ref:`quick_tour`
+  - Reference:
+
+    * :ref:`api`
+    * :ref:`contractsmeta`
+    * :ref:`new_contract`
+  
+  - :ref:`contracts_language_reference`
+  
+.. container:: col2
+
+  **Developer documentation**
+  
+  - :ref:`the_changelog`
+  - :ref:`overhead`
+  - :ref:`api_reference`
+  - :ref:`api_lowlevel`
+  - :ref:`credits`
+
+.. raw:: html
+
+   <div style="clear:left"/>

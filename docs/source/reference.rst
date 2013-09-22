@@ -1,3 +1,5 @@
+.. include:: menu.txt
+
 
 .. _contracts_language_reference:
 
@@ -474,4 +476,5 @@ are not propagated outside.
      - A list whose elements
        are tuples with two elements, of two different types ``x`` and ``y``.
        (``x`` and ``y`` are not joined among the list elements ).
-       
+
+.. include:: menu.txt
