@@ -140,7 +140,6 @@ def my_function(a : 'int,&gt;0', b : 'list[N],N&gt;0') -&gt; 'list[N]':
 </div>
 </li>
 </ol>
-<p>In any case, PyContracts will include the spec in the <tt class="docutils literal"><span class="pre">__doc__</span></tt> attribute.</p>
 <p><strong>Deployment</strong>: In production, all checks can be disabled using the function <tt class="docutils literal"><span class="pre">contracts.disable_all()</span></tt>, so the performance hit is 0.</p>
 <p><strong>Extensions:</strong> You can extend PyContracts with new contracts types:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;valid_name&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
@@ -157,7 +156,7 @@ def my_function(a : 'int,&gt;0', b : 'list[N],N&gt;0') -&gt; 'list[N]':
     <span class="o">...</span>
 </pre></div>
 </div>
-<p><strong>Enforcing interfaces</strong>: The metaclass &#8216;ContractsMeta&#8217; is like ABCMeta, but it propagates contracts to the subclasses:</p>
+<p><strong>Enforcing interfaces</strong>:  <tt class="docutils literal"><span class="pre">ContractsMeta</span></tt> is a metaclass like ABCMeta that propagates contracts to the subclasses:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contract</span><span class="p">,</span> <span class="n">ContractsMeta</span>
 
 <span class="k">class</span> <span class="nc">Base</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -166,10 +165,11 @@ def my_function(a : 'int,&gt;0', b : 'list[N],N&gt;0') -&gt; 'list[N]':
     <span class="nd">@abstractmethod</span>
     <span class="nd">@contract</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="s">&#39;float,&gt;=0,&lt;=1&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="n">probability</span><span class="p">):</span>
-        <span class="n">passs</span>
+        <span class="k">pass</span>
 
 <span class="k">class</span> <span class="nc">Derived</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
-    <span class="c"># The contract is automatically enforced for all children!</span>
+    <span class="c"># The contract above is automatically enforced,</span>
+    <span class="c"># without this class having to know about PyContracts at all!</span>
     <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="n">probability</span><span class="p">):</span>
         <span class="o">....</span>
 </pre></div>
