@@ -42,8 +42,8 @@ using Haskell_ instead of Python.
           """
           ...
           
-
-In any case, PyContracts will include the spec in the ``__doc__`` attribute.
+..
+   In any case, PyContracts will include the spec in the ``__doc__`` attribute.
 
 **Deployment**: In production, all checks can be disabled using the function ``contracts.disable_all()``, so the performance hit is 0.
 
@@ -62,7 +62,7 @@ Any Python type is a contract: ::
     def f(a, b):
         ...
 
-**Enforcing interfaces**: The metaclass 'ContractsMeta' is like ABCMeta, but it propagates contracts to the subclasses: ::
+**Enforcing interfaces**:  ``ContractsMeta`` is a metaclass like ABCMeta that propagates contracts to the subclasses: ::
 
     from contracts import contract, ContractsMeta
     
@@ -72,10 +72,11 @@ Any Python type is a contract: ::
         @abstractmethod
         @contract(probability='float,>=0,<=1')
         def sample(probability):
-            passs
+            pass
 
     class Derived(Base):
-        # The contract is automatically enforced for all children!
+        # The contract above is automatically enforced, 
+        # without this class having to know about PyContracts at all!
         def sample(probability):
             ....
 
@@ -85,9 +86,9 @@ Any Python type is a contract: ::
     def recolor(image):
         ...
 
+**Status:** PyContracts is very well tested and documented. The syntax is stable and it won't be changed.
 
 .. _typecheck: http://oakwinter.com/code/typecheck/
 .. _Haskell: http://www.haskell.org/
 
-**Status:** PyContracts is very well tested and documented. The syntax is stable and it won't be changed.
 
