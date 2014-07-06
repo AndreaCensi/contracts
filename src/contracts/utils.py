@@ -1,5 +1,7 @@
 import warnings
+
 from contracts import describe_value, describe_type
+
 
 __all__ = [
    'indent',
@@ -31,17 +33,19 @@ def check_isinstance(ob, expected, **kwargs):
         kwargs['object'] = ob
         raise_type_mismatch(ob, expected, **kwargs)
     
+
 def raise_type_mismatch(ob, expected, **kwargs):
     """ Raises an exception concerning ob having the wrong type. """
     e = 'Expected type %s, obtained %s.' % (expected, type(ob))
     e = e + '\n' + indent(format_obs(kwargs), ' ')
     raise ValueError(e)
 
+
 def format_obs(d):
-    """ Shows objectd for the given dictionary """
+    """ Shows objects values and typed for the given dictionary """
     lines = []
     for name, value in d.items():
         lines.append('%15s: %s' % (name, describe_value(value)))
-        lines.append('%15s: %s' % ('of type', describe_type(value)))
+        lines.append('%15s  %s' % ('of type', describe_type(value)))
     return '\n'.join(lines)
 
