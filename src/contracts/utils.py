@@ -36,8 +36,10 @@ def check_isinstance(ob, expected, **kwargs):
 
 def raise_type_mismatch(ob, expected, **kwargs):
     """ Raises an exception concerning ob having the wrong type. """
-    e = 'Expected type %s, obtained %s.' % (expected, type(ob))
-    e = e + '\n' + indent(format_obs(kwargs), ' ')
+    e = 'Object not of expected type:'
+    e +='\n  expected: %s' % expected
+    e +='\n  obtained: %s' % type(ob)
+    e += '\n' + indent(format_obs(kwargs), ' ')
     raise ValueError(e)
 
 
