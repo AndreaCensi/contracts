@@ -1,18 +1,16 @@
 from .backported import getcallargs, getfullargspec
-from .docstring_parsing import DocStringInfo, Arg
+from .docstring_parsing import Arg, DocStringInfo
 from .enabling import all_disabled
-from .interface import (Contract, ContractSyntaxError, Where,
-                        ContractException, ContractNotRespected,
-                        describe_value, MissingContract)
-from .library import (identifier_expression, Extension, CheckCallable,
-                      SeparateContext)
+from .interface import (CannotDecorateClassmethods, Contract, ContractException, 
+    ContractNotRespected, ContractSyntaxError, MissingContract, Where, 
+    describe_value)
+from .library import (CheckCallable, Extension, SeparateContext, 
+    identifier_expression)
 from .library.extensions import CheckCallableWithSelf
-from .syntax import contract_expression, ParseException, ParseFatalException
+from .syntax import ParseException, ParseFatalException, contract_expression
 import inspect
 import sys
 import types
-from contracts.interface import ContractDefinitionError, \
-    CannotDecorateClassmethods
 
 
 def check_contracts(contracts, values, context_variables=None):

@@ -47,7 +47,7 @@ def format_obs(d):
     """ Shows objects values and typed for the given dictionary """
     lines = []
     for name, value in d.items():
-        lines.append('%15s: %s' % (name, describe_value(value)))
+        lines.append('%15s: %s' % (name, describe_value(value, clip=100)))
         lines.append('%15s  %s' % ('of type', describe_type(value)))
     return '\n'.join(lines)
 

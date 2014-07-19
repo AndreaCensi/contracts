@@ -349,7 +349,7 @@ def describe_type(x):
     return class_name
 
 
-def describe_value(x, clip=50):
+def describe_value(x, clip=80):
     ''' Describes an object, for use in the error messages. '''
     if hasattr(x, 'shape') and hasattr(x, 'dtype'):
         shape_desc = 'x'.join(str(i) for i in x.shape)
