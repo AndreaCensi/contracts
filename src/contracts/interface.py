@@ -350,7 +350,9 @@ def describe_type(x):
 
 
 def describe_value(x, clip=80):
-    ''' Describes an object, for use in the error messages. '''
+    ''' Describes an object, for use in the error messages. 
+        Short description, no multiline.
+    '''
     if hasattr(x, 'shape') and hasattr(x, 'dtype'):
         shape_desc = 'x'.join(str(i) for i in x.shape)
         desc = 'array[%r](%s) ' % (shape_desc, x.dtype)
@@ -361,5 +363,22 @@ def describe_value(x, clip=80):
         desc = 'Instance of %s: ' % class_name
         final = desc + clipped_repr(x, clip - len(desc))
         return remove_newlines(final)
+
+
+def describe_value_multiline(x):
+    ''' Describes an object, for use in the error messages. '''
+    if hasattr(x, 'shape') and hasattr(x, 'dtype'):
+        shape_desc = 'x'.join(str(i) for i in x.shape)
+        desc = 'array[%r](%s) ' % (shape_desc, x.dtype)
+        final = desc + '\n', x.__repr__()
+        return final
+    else:
+        class_name = describe_type(x)
+        # TODO: add all types
+        desc = 'Instance of %s.' % class_name
+        final = desc +'\n' + x.__repr__()
+#         final = desc +'\n' +str(x)
+        return final
+
 
 
