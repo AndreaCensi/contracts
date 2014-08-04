@@ -15,9 +15,18 @@ class IsInstance(Contract):
     def check_contract(self, context, value):
         class_name, bases_names = get_all_super_names(value) 
         
-        if not self.name in bases_names + [class_name]:
+        options = bases_names + [class_name]
+        if not self.name in options:
+            
             msg = ('Failed check isinstance(%s) for type %r and superclasses %r.' 
                    % (self.name, class_name, bases_names))
+            
+            # Check it is just a case problem
+            lc_name = self.name.lower()
+            lc_options = [x.lower() for x in options]
+            if lc_name in lc_options:
+                msg += '\n***Note: this is just a lower/upper case error!***'
+
             raise ContractNotRespected(self, msg, value, context)
 
     def __str__(self):

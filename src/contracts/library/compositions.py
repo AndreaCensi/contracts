@@ -1,8 +1,8 @@
-from ..syntax import simple_contract, W, ParsingTmp, opAssoc
 from ..interface import Contract, ContractNotRespected, add_prefix
 from ..pyparsing_utils import myOperatorPrecedence
-from .suggester import create_suggester
+from ..syntax import ParsingTmp, W, opAssoc, simple_contract
 from .extensions import Extension
+from .suggester import create_suggester
 
 
 class Logical(object):

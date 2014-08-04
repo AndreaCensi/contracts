@@ -268,11 +268,13 @@ you can achieve the same goal by inverting the two decorators:
         if not do_checks:
             return function_(*args, **kwargs)
 
-        nice_function_display = '%s()' % function_.__name__
-        if is_bound_method:
-            klass = type(args[0]).__name__
-            nice_function_display = klass + ':' + nice_function_display  
-
+        def get_nice_function_display():
+            nice_function_display = '%s()' % function_.__name__
+            if is_bound_method:
+                klass = type(args[0]).__name__
+                nice_function_display = klass + ':' + nice_function_display  
+            return nice_function_display
+        
         bound = getcallargs(function_, *args, **kwargs)
 
         try:
@@ -287,7 +289,7 @@ you can achieve the same goal by inverting the two decorators:
 
         except ContractNotRespected as e:
             msg = ('Breach for argument %r to %s.\n'
-                   % (arg, nice_function_display))
+                   % (arg, get_nice_function_display()))
             e.error = msg + e.error
             raise e
 
@@ -298,7 +300,7 @@ you can achieve the same goal by inverting the two decorators:
                 returns_parsed._check_contract(context, result)
             except ContractNotRespected as e:
                 msg = ('Breach for return value of %s.\n'
-                       % (nice_function_display))
+                       % (get_nice_function_display()))
                 e.error = msg + e.error
                 raise e
 
