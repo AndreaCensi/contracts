@@ -17,7 +17,7 @@ python:
 #   - mkdir -p shippable/codecoverage
 
 script:
-  - nosetests reprep
+  - nosetests contracts
   #  test.py --with-xunit --xunit-file=shippable/testresults/nosetests.xml
   # - which python && coverage run --branch test.py
   # - which python && coverage xml -o shippable/codecoverage/coverage.xml test.py
