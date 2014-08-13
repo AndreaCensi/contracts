@@ -29,6 +29,7 @@ from .enabling import disable_all, enable_all, all_disabled
 
 # A couple of useful functions
 from .interface import describe_value, describe_type
+from .utils import *
 
 # For backwards compatibility
 # contracts = contract

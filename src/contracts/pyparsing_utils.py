@@ -33,7 +33,7 @@ def myOperatorPrecedence(baseExpr, opList):
 #    parenthesis = Suppress('(') + ret + FollowedBy(NotAny(oneOf(allops))) - Suppress(')')
     parenthesis = Suppress('(') - ret - Suppress(')')
     lastExpr = parenthesis.setName('parenthesis(%s)' % opnames) | baseExpr
-    lastExpr.setName('Base operand (%s) or parenthesis' % baseExpr.name)
+    #lastExpr.setName('Base operand (%s) or parenthesis' % str(baseExpr))
     for operDef in opList:
         opExpr, arity, rightLeftAssoc, pa = (operDef + (None,))[:4]
         if arity == 3:

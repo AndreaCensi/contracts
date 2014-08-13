@@ -8,7 +8,8 @@ __all__ = [
    'indent',
    'deprecated',
    'raise_type_mismatch',
-   'raise_wrapped'
+   'raise_wrapped',
+   'check_isinstance',
 ]
 
 def indent(s, prefix, first=None):
