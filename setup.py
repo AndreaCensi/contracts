@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-version = "1.6.0"
+version = "1.6.2"
 
 description = (
 'PyContracts is a Python package that allows to declare '
@@ -26,7 +26,7 @@ pyparsing = 'pyparsing%s2.0.0' % pyparsing_version_condition
 
 setup(name='PyContracts',
       author="Andrea Censi",
-      author_email="andrea@cds.caltech.edu",
+      author_email="censi@mit.edu",
       url='http://andreacensi.github.com/contracts/',
 
       description=description,
