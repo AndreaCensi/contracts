@@ -8,8 +8,8 @@ python:
   - 3.4
   - pypy
   
-# install:
-#   - pip install -r requirements.txt
+install:
+  - pip install nose pyparsing decorator
 
 # # Make folders for the reports
 # before_script:
