@@ -13,7 +13,3 @@ install:
 
 script:
   - nosetests contracts
-
-notifications:
-  email:
-   - censi@mit.edu
