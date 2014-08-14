@@ -94,7 +94,14 @@ def raise_wrapped(etype, e, msg, **kwargs):
     s = msg 
     s += '\n' + format_obs(kwargs)
     
-    es =  traceback.format_exc(e)
+    
+    import sys
+    if sys.version_info[0] >= 3:
+        es = str(e)
+    else:
+        es =  traceback.format_exc(e)
+
+    
     s += '\n' + indent( es, '| ')
     
     raise etype(s)

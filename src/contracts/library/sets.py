@@ -1,7 +1,6 @@
-from ..interface import Contract, ContractNotRespected
-from ..syntax import (add_contract, W, contract_expression, O, S, add_keyword,
-    Keyword)
-from ..interface import describe_type
+from ..interface import Contract, ContractNotRespected, describe_type
+from ..syntax import (Keyword, O, S, W, add_contract, add_keyword, 
+    contract_expression)
 
 
 class ASet(Contract):

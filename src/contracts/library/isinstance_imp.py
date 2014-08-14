@@ -1,4 +1,4 @@
-from contracts.interface import Contract, ContractNotRespected
+from ..interface import Contract, ContractNotRespected
 from contracts.syntax import W, S, Keyword, add_contract, add_keyword
 from pyparsing import alphanums, Word
 
