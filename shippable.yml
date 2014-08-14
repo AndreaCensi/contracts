@@ -1,4 +1,5 @@
 language: python
+reset_minion: true
 
 python:
   - 2.7
@@ -10,16 +11,8 @@ python:
 install:
   - pip install nose pyparsing decorator
 
-# # Make folders for the reports
-# before_script:
-#   - mkdir -p shippable/testresults
-#   - mkdir -p shippable/codecoverage
-
 script:
   - nosetests contracts
-  #  test.py --with-xunit --xunit-file=shippable/testresults/nosetests.xml
-  # - which python && coverage run --branch test.py
-  # - which python && coverage xml -o shippable/codecoverage/coverage.xml test.py
 
 notifications:
   email:
