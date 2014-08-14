@@ -1,7 +1,2 @@
-PyContracts
-termcolor
-setproctitle
-PyYaml
-psutil
+pyparsing 
 decorator
-SystemCmd%

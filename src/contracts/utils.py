@@ -99,7 +99,7 @@ def raise_wrapped(etype, e, msg, **kwargs):
     if sys.version_info[0] >= 3:
         es = str(e)
     else:
-        es =  traceback.format_exc(e)
+        es = traceback.format_exc(e)
 
     
     s += '\n' + indent( es, '| ')

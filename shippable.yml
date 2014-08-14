@@ -9,7 +9,7 @@ python:
   - pypy
   
 install:
-  - pip install nose pyparsing decorator
+  - pip install -r requirements.txt
 
 script:
   - nosetests contracts
