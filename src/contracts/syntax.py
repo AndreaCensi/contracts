@@ -13,14 +13,20 @@ from pyparsing import (delimitedList, Forward, Literal,  # @UnusedImport
 
 
 from .pyparsing_utils import myOperatorPrecedence
+import warnings
 
 # Enable memoization (much faster!)
-ParserElement.enablePackrat()
+if True:
+    ParserElement.enablePackrat()
+else:
+    # Pyparsing 2.0
+    from pyparsing import infixNotation
+    myOperatorPrecendence = infixNotation
 
 from .interface import Where
 
 
-class ParsingTmp:
+class ParsingTmp():
     # TODO: FIXME: decide on an order, if we do the opposite it doesn't work.
     contract_types = []
     rvalues_types = []
@@ -51,6 +57,7 @@ point = Literal('.')
 e = CaselessLiteral('E')
 plusorminus = Literal('+') | Literal('-')
 integer = Combine(O(plusorminus) + number)
+warnings.warn('TODO: negative float number')
 floatnumber = Combine(integer + (point + O(number)) ^ (e + integer))
 integer.setParseAction(lambda tokens: SimpleRValue(int(tokens[0])))
 floatnumber.setParseAction(lambda tokens: SimpleRValue(float(tokens[0])))
@@ -93,6 +100,8 @@ rvalue << myOperatorPrecedence(operand, [
              ('-', 2, opAssoc.LEFT, Binary.parse_action),
              ('+', 2, opAssoc.LEFT, Binary.parse_action),
           ])
+
+
 
 # I want 
 # - BindVariable to have precedence to EqualTo(VariableRef)

@@ -23,11 +23,12 @@ class Attr(Contract):
 
 
     def __str__(self):
-        sattrs = ";".join(['%s:%s' % (k, v) for (k, v) in self.attrs.items()]) 
+        sattrs = ";".join(['%s:%s' % (k, self.attrs[k]) for k in sorted(self.attrs)]) 
         return 'attr(%s)' % sattrs
 
     def __repr__(self):
-        return 'Attr(%r)' % self.attrs
+        rattrs = ",".join(['%r:%r' % (k, self.attrs[k]) for k in sorted(self.attrs)]) 
+        return 'Attr({%s})' % rattrs
 
     @staticmethod
     def parse_action(s, loc, tokens):

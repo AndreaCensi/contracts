@@ -1,7 +1,7 @@
-from ..interface import Contract, ContractNotRespected, RValue
+from ..interface import Contract, ContractNotRespected, RValue, eval_in_context
 from ..syntax import W, add_contract, O, Literal, isnumber, rvalue
 import math
-from contracts.interface import eval_in_context
+
 
 
 class CheckOrder(Contract):

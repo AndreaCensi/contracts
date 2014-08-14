@@ -20,6 +20,11 @@ good('<=0', -1)
 good('<=0', 0)
 fail('<=0', +1)
 
+good('<=1', 1)
+good('>=1', 1)
+good('=1', 1)
+good('<=1', 0)
+
 # wrong types
 good('=1', 1)
 semantic_fail('=1', [1])
