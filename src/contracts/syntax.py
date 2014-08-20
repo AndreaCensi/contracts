@@ -13,7 +13,7 @@ from pyparsing import (delimitedList, Forward, Literal,  # @UnusedImport
 
 
 from .pyparsing_utils import myOperatorPrecedence
-import warnings
+
 
 # Enable memoization (much faster!)
 if True:
