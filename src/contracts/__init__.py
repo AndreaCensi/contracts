@@ -28,7 +28,7 @@ new_contract.__doc__ = new_contract_main.__doc__
 from .enabling import disable_all, enable_all, all_disabled
 
 # A couple of useful functions
-from .interface import describe_value, describe_type
+from .interface import describe_value, describe_type, describe_value_multiline
 from .utils import *
 
 # For backwards compatibility
