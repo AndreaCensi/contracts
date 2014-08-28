@@ -370,13 +370,19 @@ def describe_value_multiline(x):
     if hasattr(x, 'shape') and hasattr(x, 'dtype'):
         shape_desc = 'x'.join(str(i) for i in x.shape)
         desc = 'array[%r](%s) ' % (shape_desc, x.dtype)
-        final = desc + '\n', x.__repr__()
+        final = desc + '\n' + x.__repr__()
         return final
     else:
         class_name = describe_type(x)
         # TODO: add all types
         desc = 'Instance of %s.' % class_name
-        final = desc +'\n' + x.__repr__()
+        
+        try:
+            # This fails for classes
+            final = desc + '\n' + x.__repr__()
+        except:
+            final = desc + '\n' + str(x)
+            
 #         final = desc +'\n' +str(x)
         return final
 
