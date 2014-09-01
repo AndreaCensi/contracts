@@ -17,10 +17,10 @@ class Where(object):
             assert line is not None and column is not None
             self.line = line
             self.col = column
-            self.character = None
+#             self.character = None
         else:
             assert line is None and column is None
-            self.character = character
+#             self.character = character
             self.line = lineno(character, string)
             self.col = col(character, string)
 

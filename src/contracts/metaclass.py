@@ -36,7 +36,7 @@ class ContractsMeta(ABCMeta):
             if k == '__init__': 
                 continue
             
-            this_function = '%s:%s()' % (clsname, k)  # @UnusedVariable
+            # this_function = '%s:%s()' % (clsname, k)  # @UnusedVariable
             # print('considering %s' % this_function)
 
             superclasses = cls.mro()[1:]
