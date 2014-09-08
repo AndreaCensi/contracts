@@ -1,6 +1,6 @@
-from .syntax import lineno, col
+from .syntax import col, lineno
+from abc import ABCMeta, abstractmethod
 import sys
-from abc import abstractmethod, ABCMeta
 
 
 class Where(object):
@@ -17,10 +17,10 @@ class Where(object):
             assert line is not None and column is not None
             self.line = line
             self.col = column
-#             self.character = None
+            # self.character = None
         else:
             assert line is None and column is None
-#             self.character = character
+            # self.character = character
             self.line = lineno(character, string)
             self.col = col(character, string)
 
@@ -383,7 +383,6 @@ def describe_value_multiline(x):
         except:
             final = desc + '\n' + str(x)
             
-#         final = desc +'\n' +str(x)
         return final
 
 
