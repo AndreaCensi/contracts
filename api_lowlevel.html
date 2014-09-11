@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>PyContracts low-level API &mdash; PyContracts 1.6.0 documentation</title>
+    <title>PyContracts low-level API &mdash; PyContracts 1.6.5 documentation</title>
     
     <link rel="stylesheet" href="static/default.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.6.0',
+        VERSION:     '1.6.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.6.0 documentation" href="index.html" />
+    <link rel="top" title="PyContracts 1.6.5 documentation" href="index.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -59,7 +59,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">PyContracts 1.6.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">PyContracts 1.6.5 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -141,10 +141,11 @@ be descriptive enough.</p>
 </pre></div>
 </div>
 <p>is</p>
-<div class="highlight-python"><pre>contracts.ContractNotRespected: Expected a string, got 'int'.
+<div class="highlight-python"><div class="highlight"><pre>contracts.ContractNotRespected: Expected a string, got &#39;int&#39;.
  context: checking: str                       for value: Instance of int: 2
  context: checking: tuple(*,str)              for value: Instance of tuple: (1, 2)
- context: checking: tuple(int,tuple(*,str))   for value: Instance of tuple: (0, (1, 2))</pre>
+ context: checking: tuple(int,tuple(*,str))   for value: Instance of tuple: (0, (1, 2))
+</pre></div>
 </div>
 <p>The message shows the recursive matches of expressions, and should be enough
 to diagnose the problem. Nevertheless, you can add a third argument to specify a message that will be included
@@ -168,10 +169,11 @@ This can be expressed as:</p>
 first list, binds the variable <tt class="docutils literal"><span class="pre">N</span></tt> to the length of that list (=2),
 then checks that <tt class="docutils literal"><span class="pre">list[N]</span></tt> describes the second list. Now, however,
 <tt class="docutils literal"><span class="pre">N</span></tt> has already been bound, and the matching fails. The error you would see is:</p>
-<div class="highlight-python"><pre>contracts.ContractNotRespected: Expected that 'N' = 2, got 3.
+<div class="highlight-python"><div class="highlight"><pre>contracts.ContractNotRespected: Expected that &#39;N&#39; = 2, got 3.
 checking: N                        (N=2)   for value: Instance of int: 3
 checking: list[N]                  (N=2)   for value: Instance of list: [1, 2, 3]
-checking: tuple(list[N],list[N])           for value: Instance of tuple: ([0, 1], [1, 2, 3])</pre>
+checking: tuple(list[N],list[N])           for value: Instance of tuple: ([0, 1], [1, 2, 3])
+</pre></div>
 </div>
 <p><span class="brand">PyContracts</span> tries hard to give you a readable message even with complicated contracts.
 For example, consider the complicated expression:</p>
@@ -180,19 +182,20 @@ For example, consider the complicated expression:</p>
 </div>
 <p>Because there is an OR (<tt class="docutils literal"><span class="pre">|</span></tt>), <span class="brand">PyContracts</span> will have to explain to you why
 none of the three OR clauses was satisfied.</p>
-<div class="highlight-python"><pre>contracts.interface.ContractNotRespected: Could not satisfy any of the 3 clauses in int|str|tuple(str,int).
+<div class="highlight-python"><div class="highlight"><pre>contracts.interface.ContractNotRespected: Could not satisfy any of the 3 clauses in int|str|tuple(str,int).
  ---- Clause #1:   int
- | Expected type 'int', got 'tuple'.
- | checking: int      for value: Instance of tuple: ('a', 'b')
+ | Expected type &#39;int&#39;, got &#39;tuple&#39;.
+ | checking: int      for value: Instance of tuple: (&#39;a&#39;, &#39;b&#39;)
  ---- Clause #2:   str
- | Expected a string, got 'tuple'.
- | checking: str      for value: Instance of tuple: ('a', 'b')
+ | Expected a string, got &#39;tuple&#39;.
+ | checking: str      for value: Instance of tuple: (&#39;a&#39;, &#39;b&#39;)
  ---- Clause #3:   tuple(str,int)
- | Expected type 'int', got 'str'.
- | checking: int                 for value: Instance of str: 'b'
- | checking: tuple(str,int)      for value: Instance of tuple: ('a', 'b')
+ | Expected type &#39;int&#39;, got &#39;str&#39;.
+ | checking: int                 for value: Instance of str: &#39;b&#39;
+ | checking: tuple(str,int)      for value: Instance of tuple: (&#39;a&#39;, &#39;b&#39;)
  ------- (end clauses) -------
-checking: int|str|tuple(str,int)      for value: Instance of tuple: ('a', 'b')</pre>
+checking: int|str|tuple(str,int)      for value: Instance of tuple: (&#39;a&#39;, &#39;b&#39;)
+</pre></div>
 </div>
 </div>
 <div class="section" id="explicit-parsing-and-checking">
@@ -358,13 +361,13 @@ to your PyParsing-based grammar:</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">PyContracts 1.6.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">PyContracts 1.6.5 documentation</a> &raquo;</li> 
       </ul>
     </div>
 	
     <div class="footer">
         &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
 	
     <script type="text/javascript">

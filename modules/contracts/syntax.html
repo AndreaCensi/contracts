@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>contracts.syntax &mdash; PyContracts 1.6.0 documentation</title>
+    <title>contracts.syntax &mdash; PyContracts 1.6.5 documentation</title>
     
     <link rel="stylesheet" href="../../static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.6.0',
+        VERSION:     '1.6.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../static/jquery.js"></script>
     <script type="text/javascript" src="../../static/underscore.js"></script>
     <script type="text/javascript" src="../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.6.0 documentation" href="../../index.html" />
+    <link rel="top" title="PyContracts 1.6.5 documentation" href="../../index.html" />
     <link rel="up" title="contracts" href="../contracts.html" />
 	 
 
@@ -60,7 +60,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">PyContracts 1.6.0 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li>
           <li><a href="../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
       </ul>
@@ -88,16 +88,21 @@
 
 <span class="kn">from</span> <span class="nn">.pyparsing_utils</span> <span class="kn">import</span> <span class="n">myOperatorPrecedence</span>
 
+
 <span class="c"># Enable memoization (much faster!)</span>
-<span class="n">ParserElement</span><span class="o">.</span><span class="n">enablePackrat</span><span class="p">()</span>
+<span class="k">if</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="n">ParserElement</span><span class="o">.</span><span class="n">enablePackrat</span><span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="c"># Pyparsing 2.0</span>
+    <span class="kn">from</span> <span class="nn">pyparsing</span> <span class="kn">import</span> <span class="n">infixNotation</span>
+    <span class="n">myOperatorPrecendence</span> <span class="o">=</span> <span class="n">infixNotation</span>
 
 <span class="kn">from</span> <span class="nn">.interface</span> <span class="kn">import</span> <span class="n">Where</span>
 
 
-<div class="viewcode-block" id="ParsingTmp"><a class="viewcode-back" href="../../api/contracts.html#contracts.syntax.ParsingTmp">[docs]</a><span class="k">class</span> <span class="nc">ParsingTmp</span><span class="p">:</span>
+<div class="viewcode-block" id="ParsingTmp"><a class="viewcode-back" href="../../api/contracts.html#contracts.syntax.ParsingTmp">[docs]</a><span class="k">class</span> <span class="nc">ParsingTmp</span><span class="p">():</span>
     <span class="c"># TODO: FIXME: decide on an order, if we do the opposite it doesn&#39;t work.</span>
     <span class="n">contract_types</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">rvalues_types</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">keywords</span> <span class="o">=</span> <span class="p">[]</span>
 
 </div>
@@ -125,6 +130,7 @@
 <span class="n">e</span> <span class="o">=</span> <span class="n">CaselessLiteral</span><span class="p">(</span><span class="s">&#39;E&#39;</span><span class="p">)</span>
 <span class="n">plusorminus</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">(</span><span class="s">&#39;+&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">)</span>
 <span class="n">integer</span> <span class="o">=</span> <span class="n">Combine</span><span class="p">(</span><span class="n">O</span><span class="p">(</span><span class="n">plusorminus</span><span class="p">)</span> <span class="o">+</span> <span class="n">number</span><span class="p">)</span>
+<span class="c"># warnings.warn(&#39;TODO: negative float number&#39;)</span>
 <span class="n">floatnumber</span> <span class="o">=</span> <span class="n">Combine</span><span class="p">(</span><span class="n">integer</span> <span class="o">+</span> <span class="p">(</span><span class="n">point</span> <span class="o">+</span> <span class="n">O</span><span class="p">(</span><span class="n">number</span><span class="p">))</span> <span class="o">^</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="n">integer</span><span class="p">))</span>
 <span class="n">integer</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="k">lambda</span> <span class="n">tokens</span><span class="p">:</span> <span class="n">SimpleRValue</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
 <span class="n">floatnumber</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="k">lambda</span> <span class="n">tokens</span><span class="p">:</span> <span class="n">SimpleRValue</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
@@ -167,6 +173,8 @@
              <span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">opAssoc</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">Binary</span><span class="o">.</span><span class="n">parse_action</span><span class="p">),</span>
              <span class="p">(</span><span class="s">&#39;+&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">opAssoc</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">Binary</span><span class="o">.</span><span class="n">parse_action</span><span class="p">),</span>
           <span class="p">])</span>
+
+
 
 <span class="c"># I want </span>
 <span class="c"># - BindVariable to have precedence to EqualTo(VariableRef)</span>
@@ -219,7 +227,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">PyContracts 1.6.0 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li>
           <li><a href="../contracts.html" >contracts</a> &raquo;</li> 
       </ul>
@@ -227,7 +235,7 @@
 	
     <div class="footer">
         &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
 	
     <script type="text/javascript">

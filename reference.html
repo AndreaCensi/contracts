@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Language reference &mdash; PyContracts 1.6.0 documentation</title>
+    <title>Language reference &mdash; PyContracts 1.6.5 documentation</title>
     
     <link rel="stylesheet" href="static/default.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.6.0',
+        VERSION:     '1.6.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.6.0 documentation" href="index.html" />
+    <link rel="top" title="PyContracts 1.6.5 documentation" href="index.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -59,7 +59,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">PyContracts 1.6.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">PyContracts 1.6.5 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -120,10 +120,12 @@ of a value. These are the supported primitive types:</p>
 and reuse later (it is simpler than it sounds).</p>
 <p>There are two kinds of variables. The first kind is denoted
 by an uppercase letter, and it is constrained to bind to integer values.</p>
-<div class="highlight-python"><pre>A B C D E F G H I J K L M N O P Q R S T U W V X Y Z</pre>
+<div class="highlight-python"><div class="highlight"><pre>A B C D E F G H I J K L M N O P Q R S T U W V X Y Z
+</pre></div>
 </div>
 <p>Lower-case letters denote general-purpose variables that can bind to any type:</p>
-<div class="highlight-python"><pre>a b c d e f g h i j k l m n o p q r s t u w v x y z</pre>
+<div class="highlight-python"><div class="highlight"><pre>a b c d e f g h i j k l m n o p q r s t u w v x y z
+</pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -157,12 +159,13 @@ bind to integers, which helps in catching mistakes.</p>
 </pre></div>
 </div>
 <p>is roughly equivalent to:</p>
-<div class="last highlight-python"><pre>if value respects "contract1":
+<div class="last highlight-python"><div class="highlight"><pre>if value respects &quot;contract1&quot;:
    return True
-elif value respects "contract2":
+elif value respects &quot;contract2&quot;:
    return True
 else:
-   return False</pre>
+   return False
+</pre></div>
 </div>
 </dd>
 </dl>
@@ -321,13 +324,14 @@ should be an integer, and the second must be positive (but not necessarily integ
 <h2>Dictionaries<a class="headerlink" href="#dictionaries" title="Permalink to this headline">¶</a></h2>
 <p>For dictionary, you can specify a length contract, as well as a contract
 for its keys and values:</p>
-<div class="highlight-python"><pre>dict
+<div class="highlight-python"><div class="highlight"><pre>dict
 
 dict[length_contract]
 
 dict(key_contract: value_contract)
 
-dict[length_contract](key_contract: value_contract)</pre>
+dict[length_contract](key_contract: value_contract)
+</pre></div>
 </div>
 <table border="1" class="docutils">
 <caption>Examples of <tt class="docutils literal"><span class="pre">dict</span></tt> contracts</caption>
@@ -366,13 +370,14 @@ are tuples with two elements, of two different types <tt class="docutils literal
 <div class="section" id="mappings">
 <h2>Mappings<a class="headerlink" href="#mappings" title="Permalink to this headline">¶</a></h2>
 <p>The contract <tt class="docutils literal"><span class="pre">map</span></tt> has the same syntax as <tt class="docutils literal"><span class="pre">dict</span></tt> but matches any mapping.</p>
-<div class="highlight-python"><pre>map
+<div class="highlight-python"><div class="highlight"><pre>map
 
 map[length_contract]
 
 map(key_contract: value_contract)
 
-map[length_contract](key_contract: value_contract)</pre>
+map[length_contract](key_contract: value_contract)
+</pre></div>
 </div>
 </div>
 <div class="section" id="numpy-arrays">
@@ -459,13 +464,15 @@ Right now, we support:</p>
 <dl class="docutils">
 <dt>Datatype contracts</dt>
 <dd><p class="first">These specify the datatype of the array. Available:</p>
-<div class="last highlight-python"><pre>uint8 uint16 uint32 uint64 int8 int16 int32  int64 float32 float64</pre>
+<div class="last highlight-python"><div class="highlight"><pre>uint8 uint16 uint32 uint64 int8 int16 int32  int64 float32 float64
+</pre></div>
 </div>
 </dd>
 <dt>Arithmetic comparisons</dt>
 <dd><p class="first">These have the semantics that <strong>all</strong> elements must satisfy the contract.
 They appear similar to the normal <span class="brand">PyContracts</span> comparison:</p>
-<div class="last highlight-python"><pre>&gt;0   &lt;0   &lt;=1   =0</pre>
+<div class="last highlight-python"><div class="highlight"><pre>&gt;0   &lt;0   &lt;=1   =0
+</pre></div>
 </div>
 </dd>
 </dl>
@@ -660,13 +667,13 @@ are tuples with two elements, of two different types <tt class="docutils literal
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">PyContracts 1.6.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">PyContracts 1.6.5 documentation</a> &raquo;</li> 
       </ul>
     </div>
 	
     <div class="footer">
         &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
 	
     <script type="text/javascript">

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>API for specifying contracts &mdash; PyContracts 1.6.0 documentation</title>
+    <title>API for specifying contracts &mdash; PyContracts 1.6.5 documentation</title>
     
     <link rel="stylesheet" href="static/default.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.6.0',
+        VERSION:     '1.6.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.6.0 documentation" href="index.html" />
+    <link rel="top" title="PyContracts 1.6.5 documentation" href="index.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -59,7 +59,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">PyContracts 1.6.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">PyContracts 1.6.5 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -145,11 +145,12 @@ This is slightly more clear if the contract is simple:</p>
 <div class="section" id="using-python-annotations">
 <h3>Using Python annotations<a class="headerlink" href="#using-python-annotations" title="Permalink to this headline">¶</a></h3>
 <p>The same rules apply. In this case the syntax would look like this:</p>
-<div class="highlight-python"><pre>from contracts import contract
+<div class="highlight-python"><div class="highlight"><pre>from contracts import contract
 
 @contract
-def my_function(a:'int,&gt;0', b:'list[N],N&gt;0') -&gt; 'list[N]':
-    ...</pre>
+def my_function(a:&#39;int,&gt;0&#39;, b:&#39;list[N],N&gt;0&#39;) -&gt; &#39;list[N]&#39;:
+    ...
+</pre></div>
 </div>
 </div>
 <div class="section" id="using-functions-docstrings">
@@ -274,13 +275,13 @@ for <span class="brand">PyContracts</span>, but the latter is better for Sphinx:
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">PyContracts 1.6.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">PyContracts 1.6.5 documentation</a> &raquo;</li> 
       </ul>
     </div>
 	
     <div class="footer">
         &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
 	
     <script type="text/javascript">

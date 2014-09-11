@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>PyContracts &mdash; PyContracts 1.6.0 documentation</title>
+    <title>PyContracts &mdash; PyContracts 1.6.5 documentation</title>
     
     <link rel="stylesheet" href="static/default.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.6.0',
+        VERSION:     '1.6.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.6.0 documentation" href="#" />
+    <link rel="top" title="PyContracts 1.6.5 documentation" href="#" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -59,7 +59,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">PyContracts 1.6.0 documentation</a> &raquo;</li> 
+        <li><a href="#">PyContracts 1.6.5 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -120,11 +120,12 @@ using <a class="reference external" href="http://www.haskell.org/">Haskell</a> i
 </div>
 </li>
 <li><p class="first"><strong>Using annotations</strong> (for Python 3):</p>
-<div class="highlight-python"><pre>@contract
-def my_function(a : 'int,&gt;0', b : 'list[N],N&gt;0') -&gt; 'list[N]':
+<div class="highlight-python"><div class="highlight"><pre>@contract
+def my_function(a : &#39;int,&gt;0&#39;, b : &#39;list[N],N&gt;0&#39;) -&gt; &#39;list[N]&#39;:
      # Requires b to be a nonempty list, and the return
      # value to have the same length.
-     ...</pre>
+     ...
+</pre></div>
 </div>
 </li>
 <li><p class="first"><strong>Using docstrings</strong>, with the <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags:</p>
@@ -164,13 +165,13 @@ def my_function(a : 'int,&gt;0', b : 'list[N],N&gt;0') -&gt; 'list[N]':
 
     <span class="nd">@abstractmethod</span>
     <span class="nd">@contract</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="s">&#39;float,&gt;=0,&lt;=1&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="n">probability</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">probability</span><span class="p">):</span>
         <span class="k">pass</span>
 
 <span class="k">class</span> <span class="nc">Derived</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
     <span class="c"># The contract above is automatically enforced,</span>
     <span class="c"># without this class having to know about PyContracts at all!</span>
-    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="n">probability</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">probability</span><span class="p">):</span>
         <span class="o">....</span>
 </pre></div>
 </div>
@@ -265,13 +266,13 @@ def my_function(a : 'int,&gt;0', b : 'list[N],N&gt;0') -&gt; 'list[N]':
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">PyContracts 1.6.0 documentation</a> &raquo;</li> 
+        <li><a href="#">PyContracts 1.6.5 documentation</a> &raquo;</li> 
       </ul>
     </div>
 	
     <div class="footer">
         &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
 	
     <script type="text/javascript">

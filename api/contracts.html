@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>contracts Package &mdash; PyContracts 1.6.0 documentation</title>
+    <title>contracts Package &mdash; PyContracts 1.6.5 documentation</title>
     
     <link rel="stylesheet" href="../static/default.css" type="text/css" />
     <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.6.0',
+        VERSION:     '1.6.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../static/jquery.js"></script>
     <script type="text/javascript" src="../static/underscore.js"></script>
     <script type="text/javascript" src="../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.6.0 documentation" href="../index.html" />
+    <link rel="top" title="PyContracts 1.6.5 documentation" href="../index.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -59,7 +59,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../index.html">PyContracts 1.6.0 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -97,10 +97,11 @@ arguments and keyword arguments.</p>
 </div>
 </li>
 <li><p class="first">As annotations (supported only in Python 3):</p>
-<div class="highlight-python"><pre>@contract
-def my_function(a:'int,&gt;0', b:'list[N],N&gt;0') -&gt; 'list[N]': 
+<div class="highlight-python"><div class="highlight"><pre>@contract
+def my_function(a:&#39;int,&gt;0&#39;, b:&#39;list[N],N&gt;0&#39;) -&gt; &#39;list[N]&#39;: 
     # ...
-    pass</pre>
+    pass
+</pre></div>
 </div>
 </li>
 <li><p class="first">Using <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags in the function&#8217;s docstring:</p>
@@ -148,9 +149,9 @@ for <a href="#id4"><span class="problematic" id="id5">|pycontracts|</span></a>, 
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raise :</th><td class="field-body">ContractException, if arguments are not coherent</td>
+<tr class="field-odd field"><th class="field-name">Raise:</th><td class="field-body">ContractException, if arguments are not coherent</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raise :</th><td class="field-body">ContractSyntaxError</td>
+<tr class="field-even field"><th class="field-name">Raise:</th><td class="field-body">ContractSyntaxError</td>
 </tr>
 </tbody>
 </table>
@@ -361,7 +362,7 @@ for names.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raise :</th><td class="field-body">ContractNotRespected</td>
+<tr class="field-odd field"><th class="field-name">Raise:</th><td class="field-body">ContractNotRespected</td>
 </tr>
 </tbody>
 </table>
@@ -406,7 +407,7 @@ Raises an exception if it does.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raise :</th><td class="field-body">ValueError</td>
+<tr class="field-odd field"><th class="field-name">Raise:</th><td class="field-body">ValueError</td>
 </tr>
 </tbody>
 </table>
@@ -424,7 +425,7 @@ Raises an exception if it does.</p>
 <dl class="exception">
 <dt id="contracts.interface.ContractException">
 <em class="property">exception </em><tt class="descclassname">contracts.interface.</tt><tt class="descname">ContractException</tt><a class="reference internal" href="../modules/contracts/interface.html#ContractException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.interface.ContractException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+<dd><p>Bases: <a class="reference external" href="http://docs.python.org/library/exceptions.html#exceptions.Exception" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></a></p>
 <p>The base class for the exceptions thrown by this module.</p>
 </dd></dl>
 
@@ -487,7 +488,14 @@ so that we can output pretty error messages.</p>
 
 <dl class="function">
 <dt id="contracts.interface.describe_value">
-<tt class="descclassname">contracts.interface.</tt><tt class="descname">describe_value</tt><big>(</big><em>x</em>, <em>clip=50</em><big>)</big><a class="reference internal" href="../modules/contracts/interface.html#describe_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.interface.describe_value" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">contracts.interface.</tt><tt class="descname">describe_value</tt><big>(</big><em>x</em>, <em>clip=80</em><big>)</big><a class="reference internal" href="../modules/contracts/interface.html#describe_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.interface.describe_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes an object, for use in the error messages. 
+Short description, no multiline.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="contracts.interface.describe_value_multiline">
+<tt class="descclassname">contracts.interface.</tt><tt class="descname">describe_value_multiline</tt><big>(</big><em>x</em><big>)</big><a class="reference internal" href="../modules/contracts/interface.html#describe_value_multiline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.interface.describe_value_multiline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Describes an object, for use in the error messages.</p>
 </dd></dl>
 
@@ -584,13 +592,13 @@ Not a public function &#8211; no friendly messages.</p>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">type(Context)</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raise :</th><td class="field-body"><p class="first">ContractSyntaxError</p>
+<tr class="field-even field"><th class="field-name">Raise:</th><td class="field-body"><p class="first">ContractSyntaxError</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Raise :</th><td class="field-body"><p class="first">ContractNotRespected</p>
+<tr class="field-odd field"><th class="field-name">Raise:</th><td class="field-body"><p class="first">ContractNotRespected</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raise :</th><td class="field-body"><p class="first last">ValueError</p>
+<tr class="field-even field"><th class="field-name">Raise:</th><td class="field-body"><p class="first last">ValueError</p>
 </td>
 </tr>
 </tbody>
@@ -635,10 +643,11 @@ arguments and keyword arguments.</p>
 </div>
 </li>
 <li><p class="first">As annotations (supported only in Python 3):</p>
-<div class="highlight-python"><pre>@contract
-def my_function(a:'int,&gt;0', b:'list[N],N&gt;0') -&gt; 'list[N]': 
+<div class="highlight-python"><div class="highlight"><pre>@contract
+def my_function(a:&#39;int,&gt;0&#39;, b:&#39;list[N],N&gt;0&#39;) -&gt; &#39;list[N]&#39;: 
     # ...
-    pass</pre>
+    pass
+</pre></div>
 </div>
 </li>
 <li><p class="first">Using <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags in the function&#8217;s docstring:</p>
@@ -686,9 +695,9 @@ for <a href="#id8"><span class="problematic" id="id9">|pycontracts|</span></a>, 
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raise :</th><td class="field-body">ContractException, if arguments are not coherent</td>
+<tr class="field-odd field"><th class="field-name">Raise:</th><td class="field-body">ContractException, if arguments are not coherent</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raise :</th><td class="field-body">ContractSyntaxError</td>
+<tr class="field-even field"><th class="field-name">Raise:</th><td class="field-body">ContractSyntaxError</td>
 </tr>
 </tbody>
 </table>
@@ -712,7 +721,7 @@ The decorator <tt class="xref py py-func docutils literal"><span class="pre">dec
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raise :</th><td class="field-body">ValueError</td>
+<tr class="field-odd field"><th class="field-name">Raise:</th><td class="field-body">ValueError</td>
 </tr>
 </tbody>
 </table>
@@ -880,11 +889,6 @@ parse action tuple member may be omitted)</p>
 <tt class="descname">keywords</tt><em class="property"> = ['Int', 'Float', 'Number', 'bool', 'type', 'string', 'str', 'unicode', 'list', 'seq', 'tuple', 'dict', 'map', 'set', 'attr', 'np_uint16', 'np_int64', 'np_int8', 'np_complex128', 'np_uint8', 'np_complex64', 'np_float16', 'np_complex', 'np_int', 'np_uint32', 'np_float32', 'np_float', 'np_int32', 'np_int16', 'np_uint64', 'np_float64', 'array', 'ndarray', 'shape', 'isinstance']</em><a class="headerlink" href="#contracts.syntax.ParsingTmp.keywords" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="contracts.syntax.ParsingTmp.rvalues_types">
-<tt class="descname">rvalues_types</tt><em class="property"> = []</em><a class="headerlink" href="#contracts.syntax.ParsingTmp.rvalues_types" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="function">
@@ -1021,9 +1025,7 @@ and the discussion of the &#8220;-&#8221; operator in the docs.</p>
 <li><a class="reference internal" href="#module-contracts.pyparsing_utils"><tt class="docutils literal"><span class="pre">pyparsing_utils</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-contracts.syntax"><tt class="docutils literal"><span class="pre">syntax</span></tt> Module</a></li>
 <li><a class="reference internal" href="#module-contracts.test_registrar"><tt class="docutils literal"><span class="pre">test_registrar</span></tt> Module</a></li>
-<li><a class="reference internal" href="#subpackages">Subpackages</a><ul>
-</ul>
-</li>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
 </ul>
 </li>
 </ul>
@@ -1059,13 +1061,13 @@ and the discussion of the &#8220;-&#8221; operator in the docs.</p>
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../index.html">PyContracts 1.6.0 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li> 
       </ul>
     </div>
 	
     <div class="footer">
         &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
 	
     <script type="text/javascript">
