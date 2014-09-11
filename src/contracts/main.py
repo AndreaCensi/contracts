@@ -454,6 +454,9 @@ def check(contract, object, desc=None, **context):  # @ReservedAssignment
                      it is included in the error message.
         :type desc: ``None|str``
     '''
+    if all_disabled():
+        return {}
+
     if not isinstance(contract, str):
         # XXX: make it more liberal?
         raise ValueError('I expect a string (contract spec) as the first '
