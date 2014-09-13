@@ -71,13 +71,13 @@ Any Python type is a contract: ::
 
         @abstractmethod
         @contract(probability='float,>=0,<=1')
-        def sample(probability):
+        def sample(self, probability):
             pass
 
     class Derived(Base):
         # The contract above is automatically enforced, 
         # without this class having to know about PyContracts at all!
-        def sample(probability):
+        def sample(self, probability):
             ....
 
 **Numpy**: There is special support for Numpy: ::
