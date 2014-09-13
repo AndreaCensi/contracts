@@ -9,6 +9,17 @@ Changelog
 
 .. _changelog: 
 
+1.6.5 -- 2014-09-11
+-------------------
+
+* If ``disable_all()`` is checked, ``check()`` does not anything.
+  (contributed by Calen Pennington / cpennington)
+
+1.6.1 to 1.6.4
+--------------
+
+Mainly performance improvements and cosmetic changes.
+
 1.6.0 -- 2013-09-10
 -------------------
 
@@ -31,8 +42,6 @@ Changelog
   (Contributed by Brett Graham)
 * Fixed handling of missing specs in docstrings.
 * Numpy types are treated as numbers in comparisons.
-
-
 
 1.4.0 -- 2012-07-15
 -------------------
