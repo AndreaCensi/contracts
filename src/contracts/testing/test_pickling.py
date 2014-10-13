@@ -14,10 +14,10 @@ def check_exception_pickable(contract, value):
     except TypeError as e:
         print('While pickling: %s' % exception)
         raise e
-        msg = 'Could not pickle exception.\n'
-        msg += str(exception)
-        msg += 'Raised: %s' % e
-        raise Exception(msg)
+        # msg = 'Could not pickle exception.\n'
+        # msg += str(exception)
+        # msg += 'Raised: %s' % e
+        # raise Exception(msg)
 
 
 def test_exceptions_are_pickable():

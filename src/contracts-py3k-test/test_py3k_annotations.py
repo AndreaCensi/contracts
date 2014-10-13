@@ -1,6 +1,10 @@
+
 # FIXME: how can I not parse this with python2?
+
 import unittest
 from contracts import decorate, ContractException, contract, ContractNotRespected
+
+
 #@PydevCodeAnalysisIgnore
 class Py3kAnnotationsTest(unittest.TestCase):
 
@@ -23,7 +27,7 @@ class Py3kAnnotationsTest(unittest.TestCase):
         self.assertRaises(ContractException, decorate, f)
     
     def test_not_specified1(self):
-        ''' No docstring specified, but annotation is. '''
+        """ No docstring specified, but annotation is. """
         def f() -> "int":
             pass
     
@@ -40,12 +44,12 @@ class Py3kAnnotationsTest(unittest.TestCase):
 
 
     def not_supported2(self):
-        ''' Cannot do with **args ''' 
+        """ Cannot do with **args """
         def f(a, **b):
-            ''' 
+            """
                 :type a: int
                 :rtype: int
-            '''
+            """
             pass
     
         self.assertRaises(ContractException, decorate, f)
@@ -54,11 +58,11 @@ class Py3kAnnotationsTest(unittest.TestCase):
     def test_ok1(self):
         @contract
         def f(a, b):
-            ''' This is good
+            """ This is good
                 :type a: int
                 :type b: int
                 :rtype: int
-            '''
+            """
             pass
 
     def test_types1(self):
@@ -71,7 +75,7 @@ class Py3kAnnotationsTest(unittest.TestCase):
         self.assertRaises(ContractNotRespected, f, 1, 2.0)
 
     def test_types2(self):
-        ''' Testing return value contract '''
+        """ Testing return value contract """
         @contract
         def f(a: int, b: int) -> int:
             return (a + b) * 2.1
@@ -99,7 +103,9 @@ class Py3kAnnotationsTest(unittest.TestCase):
         f2(0, 7, 0, 7)
 
     def test_varargs2(self):
-        def f(a, b, *c: "tuple"):
+        def f(a, b, *c: """tuple"""
+
+        ):
             assert c == (a, b)
     
         f2 = decorate(f)

@@ -64,6 +64,7 @@ class Binary(RValue):
             assert isinstance(expr, RValue)
             exprs.append(expr)
 
+        # noinspection PyUnboundLocalVariable
         return Binary(exprs, glyph, where=where)
 
 

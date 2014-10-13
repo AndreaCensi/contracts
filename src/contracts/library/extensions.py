@@ -4,7 +4,6 @@ from ..syntax import (Combine, Word, W, alphas, alphanums, oneOf,
 
 
 class Extension(Contract):
-
     registrar = {}
 
     def __init__(self, identifier, where=None):
@@ -15,11 +14,9 @@ class Extension(Contract):
 
     def __str__(self):
         return self.identifier
-#         return Extension.registrar[self.identifier].__str__()
 
     def __repr__(self):
         return "Extension(%r)" % self.identifier
-        # return "new_contract(%r,%s)" % (self.identifier, Extension.registrar[self.identifier])
 
     def check_contract(self, context, value):
         self.contract._check_contract(context, value)
@@ -45,8 +42,7 @@ class Extension(Contract):
 
 
 class CheckCallable(Contract):
-
-    def __init__(self, callable):  # @ReservedAssignment
+    def __init__(self, callable):
         self.callable = callable
         Contract.__init__(self, where=None)
 
@@ -61,23 +57,23 @@ class CheckCallable(Contract):
             # passed
             pass
         elif result == False:
-            msg = ('Value does not pass criteria of %s() (module: %s).' % 
+            msg = ('Value does not pass criteria of %s() (module: %s).' %
                    (self.callable.__name__, self.callable.__module__))
             raise ContractNotRespected(self, msg, value, context)
         else:
             msg = ('I expect that %r returns either True, False, None; or '
-                   'raises a ValueError exception. Instead, I got %s.' % 
+                   'raises a ValueError exception. Instead, I got %s.' %
                    (self.callable, describe_value(value)))
             raise ValueError(msg)
 
     def __repr__(self):
-        ''' Note: this contract is not representable, but anyway it is 
-            only used by Extension, which serializes using the identifier. '''
+        """ Note: this contract is not representable, but anyway it is
+            only used by Extension, which serializes using the identifier. """
         return 'CheckCallable(%r)' % self.callable
 
     def __str__(self):
-        ''' Note: this contract is not representable, but anyway it is only 
-            used by Extension, which serializes using the identifier. '''
+        """ Note: this contract is not representable, but anyway it is only
+            used by Extension, which serializes using the identifier. """
         return 'function %s()' % self.callable.__name__
 
 
@@ -103,23 +99,23 @@ class CheckCallableWithSelf(Contract):
             # passed
             pass
         elif result == False:
-            msg = ('Value does not pass criteria of %s() (module: %s).' % 
+            msg = ('Value does not pass criteria of %s() (module: %s).' %
                    (self.callable.__name__, self.callable.__module__))
             raise ContractNotRespected(self, msg, value, context)
         else:
             msg = ('I expect that %r returns either True, False, None; or '
-                   'raises a ValueError exception. Instead, I got %s.' % 
+                   'raises a ValueError exception. Instead, I got %s.' %
                    (self.callable, describe_value(value)))
             raise ValueError(msg)
 
     def __repr__(self):
-        ''' Note: this contract is not representable, but anyway it is only 
-            used by Extension, which serializes using the identifier. '''
+        """ Note: this contract is not representable, but anyway it is only
+            used by Extension, which serializes using the identifier. """
         return 'CheckCallableWithSelf(%r)' % self.callable
 
     def __str__(self):
-        ''' Note: this contract is not representable, but anyway it is only 
-            used by Extension, which serializes using the identifier. '''
+        """ Note: this contract is not representable, but anyway it is only
+            used by Extension, which serializes using the identifier. """
         return 'function %s()' % self.callable.__name__
 
 
@@ -127,5 +123,4 @@ class CheckCallableWithSelf(Contract):
 identifier_expression = Combine(oneOf(list(alphas)) + Word('_' + alphanums))
 
 identifier_contract = identifier_expression.copy().setParseAction(
-                                                        Extension.parse_action)
-
+    Extension.parse_action)

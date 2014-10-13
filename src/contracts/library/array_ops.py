@@ -10,10 +10,11 @@ class ArrayElementsTest(Contract):
 
     @abstractmethod
     def test_elements(self, context, value):
-        ''' Returns either a bool or an array of bool. '''
+        """ Returns either a bool or an array of bool. """
 
     def check_contract(self, context, value):
         result = self.test_elements(context, value)
+
         if np.all(result):
             return
         result = np.array(result)  # for simple bool
@@ -133,8 +134,8 @@ class ArrayAnd(ArrayLogical):
 
 
 class ArrayConstraint(ArrayElementsTest):
-    ''' Comparisons for numpy array elements. They check that
-        the condition is respected for all the entries in the array. '''
+    """ Comparisons for numpy array elements. They check that
+        the condition is respected for all the entries in the array. """
 
     constraints = {
         '=': lambda x, rvalue: x == rvalue,
@@ -154,7 +155,7 @@ class ArrayConstraint(ArrayElementsTest):
         self.rvalue = rvalue
 
     def test_elements(self, context, value):
-        ''' Returns either a bool or an array of bool. '''
+        """ Returns either a bool or an array of bool. """
         assert isinstance(value, np.ndarray)
         bound = eval_in_context(context=context, value=self.rvalue,
                                 contract=self)
@@ -178,7 +179,7 @@ class ArrayConstraint(ArrayElementsTest):
 
 
 class DType(ArrayElementsTest):
-    ''' Checks that the value is an array with the given dtype. '''
+    """ Checks that the value is an array with the given dtype. """
     def __init__(self, dtype, dtype_string=None, where=None):
         assert isinstance(dtype, np.dtype)
         Contract.__init__(self, where)

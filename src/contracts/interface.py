@@ -1,15 +1,17 @@
-from .syntax import col, lineno
 from abc import ABCMeta, abstractmethod
 import sys
 
+from .syntax import col, lineno
+
 
 class Where(object):
-    '''
+    """
         An object of this class represents a place in a file.
 
         All parsed elements contain a reference to a :py:class:`Where` object
         so that we can output pretty error messages.
-    '''
+    """
+
     def __init__(self, string,
                  character=None, line=None, column=None):
         self.string = string
@@ -30,6 +32,7 @@ class Where(object):
         lines = self.string.split('\n')
         start = max(0, self.line - context)
         pattern = 'line %2d >'
+        i = 0
         for i in range(start, self.line):
             s += ("%s%s\n" % (pattern % (i + 1), lines[i]))
         fill = len(pattern % (i + 1))
@@ -37,7 +40,7 @@ class Where(object):
         s += space + '^\n'
         s += space + '|\n'
         s += space + 'here or nearby'
-        return  s
+        return s
 
 
 def add_prefix(s, prefix):
@@ -50,20 +53,24 @@ def add_prefix(s, prefix):
 
 
 class ContractException(Exception):
-    ''' The base class for the exceptions thrown by this module. '''
+    """ The base class for the exceptions thrown by this module. """
     pass
+
 
 class MissingContract(ContractException):
     pass
 
+
 class ContractDefinitionError(ContractException):
     """ Thrown when defining the contracts """
 
+
 class CannotDecorateClassmethods(ContractDefinitionError):
     pass
-    
+
+
 class ContractSyntaxError(ContractDefinitionError):
-    ''' Exception thrown when there is a syntax error in the contracts. '''
+    """ Exception thrown when there is a syntax error in the contracts. """
 
     def __init__(self, error, where=None):
         self.error = error
@@ -76,7 +83,7 @@ class ContractSyntaxError(ContractDefinitionError):
 
 
 class ContractNotRespected(ContractException):
-    ''' Exception thrown when a value does not respect a contract. '''
+    """ Exception thrown when a value does not respect a contract. """
 
     def __init__(self, contract, error, value, context):
         # XXX: solves pickling problem in multiprocess problem, but not the
@@ -94,11 +101,11 @@ class ContractNotRespected(ContractException):
 
     def __str__(self):
         msg = str(self.error)
-        
-        def context_to_string(context):
+
+        def context_to_string(context_):
             try:
                 varss = ['- %s: %s' % (k, describe_value(v, clip=70))
-                         for k, v in context.items()]
+                         for k, v in context_.items()]
                 contexts = "\n".join(varss)
             except:
                 contexts = '! cannot write context'
@@ -108,16 +115,16 @@ class ContractNotRespected(ContractException):
         for (contract, context, value) in self.stack:  # @UnusedVariable
             # cons = ("%s %s" % (contract, contexts)).ljust(30)
             row = ['checking: %s' % contract,
-                    'for value: %s' % describe_value(value, clip=70)]
+                   'for value: %s' % describe_value(value, clip=70)]
             align.append(row)
-            
+
         msg += format_table(align, colspacing=3)
-        
+
         context0 = self.stack[0][1]
         if context0:
-            msg += ('\nVariables bound in inner context:\n%s' 
+            msg += ('\nVariables bound in inner context:\n%s'
                     % context_to_string(self.stack[0][1]))
-            
+
         return msg
 
 
@@ -139,7 +146,7 @@ class RValue(object):
 
     @abstractmethod
     def eval(self, context):  # @UnusedVariable @ReservedAssignment
-        ''' Can raise ValueError; will be wrapped in ContractNotRespected. '''
+        """ Can raise ValueError; will be wrapped in ContractNotRespected. """
 
     def __eq__(self, other):
         return (self.__class__ == other.__class__ and
@@ -147,11 +154,11 @@ class RValue(object):
 
     @abstractmethod
     def __repr__(self):
-        ''' Same constraints as :py:func:`Contract.__repr__()`. '''
+        """ Same constraints as :py:func:`Contract.__repr__()`. """
 
     @abstractmethod
     def __str__(self):
-        ''' Same constraints as :py:func:`Contract.__str__()`. '''
+        """ Same constraints as :py:func:`Contract.__str__()`. """
 
 
 def eval_in_context(context, value, contract):
@@ -183,20 +190,20 @@ class Contract(object):
         return self._enabled
 
     def check(self, value):
-        '''
+        """
             Checks that the value satisfies this contract.
 
             :raise: ContractNotRespected
-        '''
+        """
         return self.check_contract({}, value)
 
     def fail(self, value):
-        '''
+        """
             Checks that the value **does not** respect this contract.
             Raises an exception if it does.
 
             :raise: ValueError
-        '''
+        """
         try:
             context = self.check(value)
         except ContractNotRespected:
@@ -211,19 +218,19 @@ class Contract(object):
 
     @abstractmethod
     def check_contract(self, context, value):  # @UnusedVariable
-        ''' 
-            Checks that value is ok with this contract in the specific 
+        """
+            Checks that value is ok with this contract in the specific
             context. This is the function that subclasses must implement.
-            
+
             :param context: The context in which expressions are evaluated.
             :type context: ``class(Contract)``
-        '''
+        """
 
     def _check_contract(self, context, value):
-        ''' Recursively checks the contracts; it calls check_contract,
+        """ Recursively checks the contracts; it calls check_contract,
             but the error is wrapped recursively. This is the function
-            that subclasses must call when checking their sub-contracts. 
-        '''
+            that subclasses must call when checking their sub-contracts.
+        """
         if not self._enabled:
             return
 
@@ -236,79 +243,79 @@ class Contract(object):
 
     @abstractmethod
     def __repr__(self):
-        ''' 
-            Returns a string representation of a contract that can be 
+        """
+            Returns a string representation of a contract that can be
             evaluated by Python's :py:func:`eval()`.
-            
+
             It must hold that: ``eval(contract.__repr__()) == contract``.
             This is checked in the unit-tests.
 
             Example:
-            
+
             >>> from contracts import parse
             >>> contract = parse('list[N]')
             >>> contract.__repr__()
             "List(BindVariable('N',int),None)"
-            
-            All the symbols you need to eval() the expression are in 
+
+            All the symbols you need to eval() the expression are in
             :py:mod:`contracts.library`.
-            
+
             >>> from contracts.library import *
             >>> contract == eval("%r"%contract)
             True
 
-        '''
+        """
 
     @abstractmethod
     def __str__(self):
-        ''' Returns a string representation of a contract that can be 
+        """ Returns a string representation of a contract that can be
             reparsed by :py:func:`contracts.parse()`.
-            
+
             It must hold that: ``parse(str(contract)) == contract``.
             This is checked in the unit-tests.
-            
+
             Example:
-            
+
             >>> from contracts import parse
-            >>> spec = 'list[N]' 
+            >>> spec = 'list[N]'
             >>> contract = parse(spec)
             >>> contract
             List(BindVariable('N',int),None)
             >>> str(contract) == spec
             True
-            
+
             The expressions generated by :py:func:`Contract.__str__` will be
-            exactly the same as what was parsed (this is checked in the 
-            unittests as well) if and only if the expression is "minimal". 
-            If it isn't (there is whitespace or redundant symbols), 
+            exactly the same as what was parsed (this is checked in the
+            unittests as well) if and only if the expression is "minimal".
+            If it isn't (there is whitespace or redundant symbols),
             the returned expression will be an equivalent minimal one.
-            
+
             Example with extra parenthesis and whitespace:
-            
+
             >>> from contracts import parse
-            >>> verbose_spec = 'list[((N))]( int, > 0)' 
+            >>> verbose_spec = 'list[((N))]( int, > 0)'
             >>> contract = parse(verbose_spec)
             >>> str(contract)
             'list[N](int,>0)'
-            
+
             Example that removes extra parentheses around arithmetic operators:
-            
-            >>> verbose_spec = '=1+(1*2)+(2+4)' 
+
+            >>> verbose_spec = '=1+(1*2)+(2+4)'
             >>> str(parse(verbose_spec))
             '=1+1*2+2+4'
-            
+
             This is an example with logical operators precedence. The AND
             operator ``,`` (comma) has more precedence than the OR (``|``).
-            
-            >>> verbose_spec = '(a|(b,c)),e' 
+
+            >>> verbose_spec = '(a|(b,c)),e'
             >>> str(parse(verbose_spec))
             '(a|b,c),e'
-            
-            Not that only the outer parenthesis is kept as it is the only one 
+
+            Not that only the outer parenthesis is kept as it is the only one
             needed.
-            
-            
-        '''
+
+
+        """
 
     def __eq__(self, other):
         return (self.__class__ == other.__class__ and
@@ -328,6 +335,7 @@ def clipped_repr(x, clip):
         s = "%s%s" % (s[:cut], clip_tag)
     return s
 
+
 # TODO: add checks for these functions
 
 
@@ -336,7 +344,7 @@ def remove_newlines(s):
 
 
 def describe_type(x):
-    ''' Returns a friendly description of the type of x. '''
+    """ Returns a friendly description of the type of x. """
     if inPy2 and isinstance(x, ClassType):
         class_name = '(old-style class) %s' % x
     else:
@@ -350,9 +358,9 @@ def describe_type(x):
 
 
 def describe_value(x, clip=80):
-    ''' Describes an object, for use in the error messages. 
+    """ Describes an object, for use in the error messages.
         Short description, no multiline.
-    '''
+    """
     if hasattr(x, 'shape') and hasattr(x, 'dtype'):
         shape_desc = 'x'.join(str(i) for i in x.shape)
         desc = 'array[%r](%s) ' % (shape_desc, x.dtype)
@@ -366,7 +374,7 @@ def describe_value(x, clip=80):
 
 
 def describe_value_multiline(x):
-    ''' Describes an object, for use in the error messages. '''
+    """ Describes an object, for use in the error messages. """
     if hasattr(x, 'shape') and hasattr(x, 'dtype'):
         shape_desc = 'x'.join(str(i) for i in x.shape)
         desc = 'array[%r](%s) ' % (shape_desc, x.dtype)
@@ -376,13 +384,13 @@ def describe_value_multiline(x):
         class_name = describe_type(x)
         # TODO: add all types
         desc = 'Instance of %s.' % class_name
-        
+
         try:
             # This fails for classes
             final = desc + '\n' + x.__repr__()
         except:
             final = desc + '\n' + str(x)
-            
+
         return final
 
 

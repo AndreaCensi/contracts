@@ -10,28 +10,28 @@ class DecoratorTests(unittest.TestCase):
 
     def test_malformed(self):
         def f():
-            ''' 
-                Wrong syntax 
-            
+            """
+                Wrong syntax
+
                 :rtype okok
-            '''
+            """
             pass
 
         self.assertRaises(ContractException, decorate, f)
 
     def test_malformed2(self):
         def f():
-            ''' 
-                Wrong syntax 
-            
+            """
+                Wrong syntax
+
                 :rtype: okok
-            '''
+            """
             pass
 
         self.assertRaises(ContractException, decorate, f)
 
     def test_not_specified1(self):
-        ''' No docstring specified '''
+        """ No docstring specified """
         def f():
             pass
 
@@ -39,74 +39,74 @@ class DecoratorTests(unittest.TestCase):
 
     def test_not_specified2(self):
         def f():
-            ''' No types specified in the docstring '''
+            """ No types specified in the docstring """
             pass
 
         self.assertRaises(ContractException, decorate, f)
 
     def test_too_many(self):
         def f():
-            ''' 
+            """
                 Too many rtype clauses.
                 :rtype: int
                 :rtype: int
-            '''
+            """
             pass
 
         self.assertRaises(ContractException, decorate, f)
 
     def test_invalid1(self):
         def f(a):
-            ''' Unknown b.
+            """ Unknown b.
                 :type a: int
                 :type b: int
-            '''
+            """
             pass
 
         self.assertRaises(ContractException, decorate, f)
 
     def test_parse_error1(self):
         def f(a, b):
-            ''' Same with optional
+            """ Same with optional
                 :type a: in
                 :type b: int
-            '''
+            """
             pass
 
         self.assertRaises(ContractException, decorate, f)
 
     def test_parse_error2(self):
         def f(a, b):
-            ''' Same with optional
+            """ Same with optional
                 :type a: int
                 :type b: int
                 :rtype: in
-            '''
+            """
             pass
 
         self.assertRaises(ContractException, decorate, f)
 
     def not_supported1(self):
-        ''' Support of *args '''
+        """ Support of *args """
 
         def f(a, *b):  # @UnusedVariable
-            ''' 
+            """
                 :type a: int
                 :type b: tuple(int)
                 :rtype: int
-            '''
+            """
             pass
 
             decorate(f)
 
     def not_supported2(self):
-        ''' Support of **args '''
+        """ Support of **args """
         def f(a, **b):
-            ''' 
+            """
                 :type a: int
                 :type b: dict(int:int)
                 :rtype: int
-            '''
+            """
             pass
 
         self.assertRaises(ContractException, decorate, f)
@@ -114,42 +114,42 @@ class DecoratorTests(unittest.TestCase):
     def test_ok1(self):
         @contract
         def f(a, b):
-            ''' This is good
+            """ This is good
                 :type a: int
                 :type b: int
                 :rtype: int
-            '''
+            """
             pass
 
     def test_ok3(self):
-        ''' Trying the quoting thing. '''
+        """ Trying the quoting thing. """
         @contract
         def f(a, b):
-            ''' This is good
+            """ This is good
                 :type a: ``int``
                 :type b: ``int``
                 :rtype: ``int``
-            '''
+            """
             pass
 
     def test_bad_quoting(self):
         def f(a, b):
-            ''' 
+            """
                 :type a: ``int``
                 :type b: ``int``
                 :rtype: ``int`
-            '''
+            """
             pass
 
         self.assertRaises(ContractException, decorate, f)
 
     def test_bad_quoting2(self):
         def f(a, b):
-            ''' 
+            """
                 :type a: ``int``
                 :type b: `int``
                 :rtype: ``int``
-            '''
+            """
             pass
 
         self.assertRaises(ContractException, decorate, f)
@@ -167,7 +167,7 @@ class DecoratorTests(unittest.TestCase):
         self.assertRaises(ContractException, f)
 
     def test_invalid_args2(self):
-        ''' unknown parameter '''
+        """ unknown parameter """
         def f():
             @contract(c=2)
             def g(a, b):
@@ -189,7 +189,7 @@ class DecoratorTests(unittest.TestCase):
         self.assertRaises(ContractNotRespected, f, 1, 2.0)
 
     def test_check_it_works2b(self):
-        ''' Nothing for b '''
+        """ Nothing for b """
         @contract(a='int', returns='int')
         def f(a, b):  # @UnusedVariable
             return int(a + b)
@@ -197,7 +197,7 @@ class DecoratorTests(unittest.TestCase):
         f(1, 2.0)
 
     def test_check_it_works2c(self):
-        ''' Nothing for b '''
+        """ Nothing for b """
         def f1(a, b):  # @UnusedVariable
             return int(a + b)
 
@@ -219,11 +219,11 @@ class DecoratorTests(unittest.TestCase):
     def test_check_it_works3(self):
         @contract
         def f(a, b):
-            ''' This is good
+            """ This is good
                 :type a: int
                 :type b: int
                 :rtype: int
-            '''
+            """
             return a + b
         f(1, 2)
         self.assertRaises(ContractNotRespected, f, 1.0, 2)
@@ -231,11 +231,11 @@ class DecoratorTests(unittest.TestCase):
 
     def test_check_docstring_maintained(self):
         def f1(a, b):
-            ''' This is good
+            """ This is good
                 :type a: int
                 :type b: int
                 :rtype: int
-            '''
+            """
             return a + b
 
         def f2(string):
@@ -259,11 +259,11 @@ class DecoratorTests(unittest.TestCase):
 
         @contract
         def f1b(a, b):
-            ''' This is good
+            """ This is good
                 :type a: int
                 :type b: int
                 :rtype: int
-            '''
+            """
             return a + b
 
         @contract(string='str')
@@ -272,11 +272,11 @@ class DecoratorTests(unittest.TestCase):
 
         @contract(modify_docstring=False)
         def f1b_p(a, b):
-            ''' This is good
+            """ This is good
                 :type a: int
                 :type b: int
                 :rtype: int
-            '''
+            """
             return a + b
 
         @contract(modify_docstring=False, string='str')
@@ -290,11 +290,11 @@ class DecoratorTests(unittest.TestCase):
 
     def test_kwargs(self):
         def f(a, b, c=7):  # @UnusedVariable
-            ''' Same with optional
+            """ Same with optional
                 :type a: int
                 :type b: int
                 :type c: int
-            '''
+            """
             if c != b:
                 raise Exception()
 
@@ -306,11 +306,11 @@ class DecoratorTests(unittest.TestCase):
 
     def test_varargs(self):
         def f(a, b, *c):
-            ''' Same with optional
+            """ Same with optional
                 :type a: int
                 :type b: int
                 :type c: tuple
-            '''
+            """
             assert c == (a, b)
 
         f2 = decorate(f)
@@ -318,11 +318,11 @@ class DecoratorTests(unittest.TestCase):
 
     def test_keywords(self):
         def f(A, B, **c):
-            ''' Same with optional
+            """ Same with optional
                 :type A: int
                 :type B: int
                 :type c: dict
-            '''
+            """
             assert c['a'] == A
             assert c['b'] == B
 

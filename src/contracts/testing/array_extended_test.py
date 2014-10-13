@@ -12,9 +12,9 @@ else:
     new_contract('rgba', 'array[HxWx4],H>0,W>0')
 
     def blend_function(image1, image2, bug=False):
-        '''
+        """
             Blends two RGB or RGBA images together.
-            
+
              :param image1: The first image to blend.
              :type image1: (rgb|rgba),array[HxWx*]
              :param image2: The second image to blend.
@@ -24,7 +24,7 @@ else:
 
              :return: The blended image.
              :rtype: rgb,array[HxWx3]
-        '''
+        """
         H, W = image1.shape[0], image1.shape[1]
 
         if bug:

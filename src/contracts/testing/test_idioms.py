@@ -40,7 +40,7 @@ class TestIdioms(unittest.TestCase):
             s = str(e)
             assert msg in s
         else:
-            self.assertFalse()
+            assert False
 
     def test_repr_1(self):
         contract = parse(' list[N](int), N > 0')
@@ -111,7 +111,7 @@ class TestIdioms(unittest.TestCase):
         self.assertRaises(ValueError, fail, 'N', 1, N=1)
 
     def test_check_context2(self):
-        ''' Variable names must have only one letter. '''
+        """ Variable names must have only one letter. """
         self.assertRaises(ValueError, check, 'N', 1, NN=2)
         self.assertRaises(ValueError, check, 'N', 1, nn=2)
 
