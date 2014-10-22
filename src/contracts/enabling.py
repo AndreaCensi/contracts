@@ -1,8 +1,10 @@
 from . import logger
+import os
 
 
 class Switches:
-    disable_all = False
+    # default to ENV variable
+    disable_all = os.environ.get('DISABLE_CONTRACTS', False)
 
 
 def disable_all():
@@ -12,9 +14,13 @@ def disable_all():
 
 
 def enable_all():
-    """ Enables all contracts checks. """
-    Switches.disable_all = False
-    logger.info('All contracts checking enabled.')
+    """
+    Enables all contracts checks.
+    Can be overridden by an environment variable.
+    """
+    if not os.environ.get('DISABLE_CONTRACTS', False):
+        Switches.disable_all = False
+        logger.info('All contracts checking enabled.')
 
 
 def all_disabled():
