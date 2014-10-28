@@ -13,7 +13,7 @@ Contributors:
 
 (Please let me know if I forgot somebody.)
 
-.. _`asharp`_:  https://github.com/asharp
+.. _`asharp`:  https://github.com/asharp
 .. _`Maarten Derickx`: http://mderickx.nl/
 .. _`Ryan Heimbuch`: https://github.com/ryanheimbuch-wf
 .. _`Calen Pennington`: https://github.com/cpennington
