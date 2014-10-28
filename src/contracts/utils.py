@@ -52,8 +52,8 @@ def check_isinstance(ob, expected, **kwargs):
 def raise_type_mismatch(ob, expected, **kwargs):
     """ Raises an exception concerning ob having the wrong type. """
     e = 'Object not of expected type:'
-    e +='\n  expected: %s' % expected
-    e +='\n  obtained: %s' % type(ob)
+    e +='\n  expected: %s' % str(expected)
+    e +='\n  obtained: %s' % str(type(ob))
     e += '\n' + indent(format_obs(kwargs), ' ')
     raise ValueError(e)
 
@@ -92,8 +92,8 @@ def raise_wrapped(etype, e, msg, **kwargs):
     assert isinstance(e, BaseException), type(e)
     assert isinstance(msg, str), type(msg)
     s = msg 
-    s += '\n' + format_obs(kwargs)
-    
+    if kwargs:
+        s += '\n' + format_obs(kwargs)
     
     import sys
     if sys.version_info[0] >= 3:
@@ -102,7 +102,7 @@ def raise_wrapped(etype, e, msg, **kwargs):
         es = traceback.format_exc(e)
 
     
-    s += '\n' + indent( es, '| ')
+    s += '\n' + indent(es.strip(), '| ')
     
     raise etype(s)
 
