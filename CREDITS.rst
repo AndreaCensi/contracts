@@ -4,7 +4,7 @@ Contributors:
 - `Brett Graham`_: ``attr(name:type)`` syntax for checking types of attributes.
 - `William Furr`_: bug reports and performance improvements
 - `Karol Kuczmarski`_: implementation of "string" and "unicode" contracts
-- `Maarten Derickx`: documentation fixes
+- `Maarten Derickx`_: documentation fixes
 - `Calen Pennington`_ (EdX): disabling checks inside check() function.
 - `Adam Palay`_ (EdX): implementation of environment variable enabling/disabling override
 - `Ryan Heimbuch`_: bug reports 
