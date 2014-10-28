@@ -4,7 +4,7 @@ has several specialized contracts (notably for Numpy arrays).
 
 .. container:: brief_summary
   
-    A brief summary follows. See the full documentation at: <http://andreacensi.github.com/contracts/>
+    A brief summary follows. See the full documentation at: <http://andreacensi.github.io/contracts/>
 
 **Why**: The purpose of PyContracts is **not** to turn Python into a statically-typed language
 (albeit you can be as strict as you wish), but, rather, to avoid the time-consuming and
