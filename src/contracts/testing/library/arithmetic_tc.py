@@ -42,3 +42,5 @@ fail('x,-x=0', 'ciao')
 
 # Binding to non-existing variable
 fail('N+1=0', 1)
+
+

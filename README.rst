@@ -2,7 +2,22 @@ PyContracts is a Python package that allows to declare constraints on function p
 return values. It supports a basic type system, variables binding, arithmetic constraints, and
 has several specialized contracts (notably for Numpy arrays). 
 
-A brief summary follows. See the full documentation at: http://andreacensi.github.io/contracts/
+
+As a quick intro, please see `this presentation about PyContracts`_.
+
+.. _`this presentation about PyContracts`: http://censi.mit.edu/pub/research/201410-pycontracts/201410-pycontracts.pdf 
+
+.. image:: http://censi.mit.edu/pub/research/201410-pycontracts/201410-pycontracts.border.png
+   :height: 100px
+   :target: http://censi.mit.edu/pub/research/201410-pycontracts/201410-pycontracts.pdf 
+   :alt: A presentation about PyContracts
+
+
+
+.. container:: brief_summary
+  
+    A brief summary follows. See the full documentation at: <http://andreacensi.github.com/contracts/>
+
 
 **Why**: The purpose of PyContracts is **not** to turn Python into a statically-typed language
 (albeit you can be as strict as you wish), but, rather, to avoid the time-consuming and

@@ -101,11 +101,12 @@ class ContractNotRespected(ContractException):
 
     def __str__(self):
         msg = str(self.error)
-
-        def context_to_string(context_):
+        
+        def context_to_string(context):
+            keys = sorted(context)
             try:
-                varss = ['- %s: %s' % (k, describe_value(v, clip=70))
-                         for k, v in context_.items()]
+                varss = ['- %s: %s' % (k, describe_value(context[k], clip=70))
+                         for k in keys]
                 contexts = "\n".join(varss)
             except:
                 contexts = '! cannot write context'

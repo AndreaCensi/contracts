@@ -1,7 +1,6 @@
 import traceback
 
 from ..main import parse_contract_string
-from ..interface import ContractNotRespected
 from ..test_registrar import (good_examples, semantic_fail_examples,
                               syntax_fail_examples, contract_fail_examples)
 from .utils import check_contracts_ok, check_syntax_fail, check_contracts_fail

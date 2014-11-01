@@ -11,8 +11,13 @@ def ist(C):
     return f
 
 new_contract('Container', ist(collections.Container))
-new_contract('Hashable', ist(collections.Hashable))
+# todo: Iterable(x)
 new_contract('Iterable', ist(collections.Iterable))
+
+new_contract('Hashable', ist(collections.Hashable))
+
+
+
 new_contract('Iterator', ist(collections.Iterator))
 new_contract('Sized', ist(collections.Sized))
 new_contract('Callable', ist(collections.Callable))
