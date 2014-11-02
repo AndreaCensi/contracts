@@ -9,6 +9,7 @@ from .compositions import And, OR
 from .suggester import create_suggester
 from numpy import ndarray, dtype  # @UnusedImport
 import numpy
+from pyparsing import operatorPrecedence
 
 
 class Array(Contract):
@@ -216,7 +217,9 @@ suggester = create_suggester(get_options=lambda: atomic + composite)
 baseExpr = ndarray_simple_contract | suggester
 baseExpr.setName('numpy contract (with recovery)')
 
-ndarray_composite_contract = myOperatorPrecedence(baseExpr, [
+op = myOperatorPrecedence
+# op = operatorPrecedence
+ndarray_composite_contract = op(baseExpr, [
     (',', 2, opAssoc.LEFT, ArrayAnd.parse_action),  # @UndefinedVariable
     ('|', 2, opAssoc.LEFT, ArrayOR.parse_action),  # @UndefinedVariable
 ])

@@ -1,13 +1,13 @@
 from .syntax import (Forward, Suppress, FollowedBy, Group, OneOrMore, Optional,
                      opAssoc)
-
-
+ 
+ 
 def myOperatorPrecedence(baseExpr, opList):
     """Helper method for constructing grammars of expressions made up of
        operators working in a precedence hierarchy.  Operators may be unary or
        binary, left- or right-associative.  Parse actions can also be attached
        to operator expressions.
-
+ 
        Parameters:
         - baseExpr - expression representing the most basic element for the
         - opList - list of tuples, one for each operator precedence level in 

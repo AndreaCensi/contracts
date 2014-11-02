@@ -17,11 +17,11 @@ def read(fname):
 
 long_description = read('README.rst')
 
-import sys
-pyparsing_version_condition = '<'
-if sys.version_info[0] >= 3:
-    pyparsing_version_condition = '>='
-pyparsing = 'pyparsing%s2.0.0' % pyparsing_version_condition
+# import sys
+# pyparsing_version_condition = '<'
+# if sys.version_info[0] >= 3:
+#     pyparsing_version_condition = '>='
+# pyparsing = 'pyparsing%s2.0.0' % pyparsing_version_condition
 
 
 setup(name='PyContracts',
@@ -48,7 +48,7 @@ setup(name='PyContracts',
 
       package_dir={'':'src'},
       packages=find_packages('src'),
-      install_requires=[pyparsing, 'decorator'],
+      install_requires=['pyparsing', 'decorator'],
       tests_require=['nose'],
       entry_points={},
 )

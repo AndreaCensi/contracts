@@ -12,7 +12,7 @@ from pyparsing import (delimitedList, Forward, Literal,  # @UnusedImport
   MatchFirst, Keyword, Group, White, lineno, col)  # @UnusedImport
 
 
-from .pyparsing_utils import myOperatorPrecedence
+# from .pyparsing_utils import myOperatorPrecedence
 
 
 # Enable memoization (much faster!)
@@ -92,9 +92,11 @@ number = pi | floatnumber | integer
 operand = number | int_variables_ref | misc_variables_ref
 operand.setName('r-value')
 
-
-rvalue << myOperatorPrecedence(operand, [
-             ('-', 1, opAssoc.RIGHT, Unary.parse_action),
+ 
+op = operatorPrecedence
+# op  = myOperatorPrecedence
+rvalue << op(operand, [
+            ('-', 1, opAssoc.RIGHT, Unary.parse_action),
              ('*', 2, opAssoc.LEFT, Binary.parse_action),
              ('-', 2, opAssoc.LEFT, Binary.parse_action),
              ('+', 2, opAssoc.LEFT, Binary.parse_action),

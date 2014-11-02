@@ -104,13 +104,16 @@ suggester = create_suggester(get_options=lambda: ParsingTmp.keywords +
 baseExpr = simple_contract | suggester
 baseExpr.setName('Simple contract (recovering)')
 
-composite_contract = myOperatorPrecedence(baseExpr, [
+
+op = myOperatorPrecedence
+# op = operatorPrecedence
+composite_contract = op(baseExpr, [
                          (',', 2, opAssoc.LEFT, And.parse_action),
                          ('|', 2, opAssoc.LEFT, OR.parse_action),
                     ])
 composite_contract.setName('OR/AND contract')
 
-or_contract = myOperatorPrecedence(baseExpr, [
+or_contract = op(baseExpr, [
                          ('|', 2, opAssoc.LEFT, OR.parse_action),
                     ])
 or_contract.setName('OR contract')
