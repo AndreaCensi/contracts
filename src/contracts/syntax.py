@@ -1,5 +1,9 @@
 from numbers import Number
 import math
+try:
+    import numpy
+except ImportError:
+    numpy = None
 
 
 # All the imports from pyparsing go here
@@ -67,13 +71,9 @@ def isnumber(x):
     # These are scalar quantities that we can compare (=,>,>=, etc.)
     if isinstance(x, Number):
         return True
-    try: 
-        # Slow, do it only once (TODO)
-        import numpy
-        return isinstance(x, numpy.number)
-    except:
-        return False
-    
+    if numpy is not None and isinstance(x, numpy.number):
+        return True
+    return False
 
 rvalue = Forward()
 rvalue.setName('rvalue')
