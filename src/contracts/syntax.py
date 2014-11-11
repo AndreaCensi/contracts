@@ -63,17 +63,49 @@ integer.setParseAction(lambda tokens: SimpleRValue(int(tokens[0])))
 floatnumber.setParseAction(lambda tokens: SimpleRValue(float(tokens[0])))
 pi = Keyword('pi').setParseAction(lambda tokens: SimpleRValue(math.pi, 'pi'))  # @UnusedVariable
 
+
+def _isnumpynumber():
+    """
+    :rtype: (T) -> Bool
+    """
+    numpy_import_failed = [False]
+    tried_numpy_import = [False]
+
+    def g(x):
+        """
+        :type x: T
+        :rtype : Bool
+        """
+
+        if not tried_numpy_import[0]:
+            try:
+                import numpy
+                tried_numpy_import[0] = True
+            except:
+                tried_numpy_import[0] = True
+                numpy_import_failed[0] = True
+
+        if not numpy_import_failed[0]:
+            return isinstance(x, numpy.number)
+
+        return False
+
+    return g
+
+isnumpynumber = _isnumpynumber()
+
+
 def isnumber(x):
     # These are scalar quantities that we can compare (=,>,>=, etc.)
+    """
+    :type x: T
+    :rtype : Bool
+    """
     if isinstance(x, Number):
         return True
-    try: 
-        # Slow, do it only once (TODO)
-        import numpy
-        return isinstance(x, numpy.number)
-    except:
-        return False
-    
+    if isnumpynumber(x):
+        return True
+    return False
 
 rvalue = Forward()
 rvalue.setName('rvalue')
