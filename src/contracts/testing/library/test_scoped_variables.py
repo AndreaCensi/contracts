@@ -1,5 +1,6 @@
-import pytest
-from contracts import contract, parse, check, fail, decorate
+from nose.tools import raises
+
+from contracts import contract, parse, check, fail, decorate, ContractException
 
 
 def test_raw_parse():
@@ -30,10 +31,9 @@ def test_algebra():
     assert c.length_contract.rvalue.value == 2
 
 
+@raises(ContractException)
 def test_invalid():
-
-    with pytest.raises(NameError):
-        c = parse('!not_found')
+    parse('!not_found')
 
 
 def test_check():
