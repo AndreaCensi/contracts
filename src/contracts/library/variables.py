@@ -206,5 +206,5 @@ misc_variables_contract = misc_variables2.setParseAction(
                                             BindVariable.parse_action(object))
 
 
-scoped_variables = (S('!') + Word(alphanums + '_'))
+scoped_variables = (S('$') + Word(alphanums + '_'))
 scoped_variables_ref = scoped_variables.setParseAction(ScopedVariableRef.parse_action)

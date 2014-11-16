@@ -69,7 +69,7 @@ class Storage:
 def _cacheable(string, c):
     # XXX need a more general way of indicating
     #     whether a contract is safely cacheable
-    return '!' not in string
+    return '$' not in string
 
 
 def parse_contract_string(string):

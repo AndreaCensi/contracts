@@ -25,7 +25,7 @@ class SeparateContext(Contract):
         return SeparateContext(tokens[0]['child'], where=where)
 
 
-sepcon = (Group(Literal('$') - Literal('(') -
+sepcon = (Group(Literal('$') + Literal('(') -
                 contract_expression('child') - Literal(')')))
 sepcon.setParseAction(SeparateContext.parse_action)
 sepcon.setName('Context separation construct')
