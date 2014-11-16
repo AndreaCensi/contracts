@@ -85,12 +85,13 @@ simple_contract.setName('simple_contract')
 # Import all expressions -- they will call add_contract()
 from .library import (EqualTo, Unary, Binary, composite_contract,
                       identifier_contract, misc_variables_contract,
+                      scoped_variables_ref,
                       int_variables_contract, int_variables_ref,
                       misc_variables_ref, SimpleRValue)
 
 
 number = pi | floatnumber | integer
-operand = number | int_variables_ref | misc_variables_ref
+operand = number | int_variables_ref | misc_variables_ref | scoped_variables_ref
 operand.setName('r-value')
 
 

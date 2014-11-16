@@ -66,6 +66,12 @@ class Storage:
     string2contract = {}
 
 
+def _cacheable(string, c):
+    # XXX need a more general way of indicating
+    #     whether a contract is safely cacheable
+    return '$' not in string
+
+
 def parse_contract_string(string):
     assert isinstance(string, str), type(string)
     if string in Storage.string2contract:
@@ -74,7 +80,8 @@ def parse_contract_string(string):
         c = contract_expression.parseString(string,
                                             parseAll=True)[0]
         assert isinstance(c, Contract), 'Want Contract, not %r' % c
-        Storage.string2contract[string] = c
+        if _cacheable(string, c):
+            Storage.string2contract[string] = c
         return c
     except ParseException as e:
         where = Where(string, line=e.lineno, column=e.col)
