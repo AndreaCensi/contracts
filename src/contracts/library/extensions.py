@@ -1,55 +1,79 @@
 from ..interface import Contract, ContractNotRespected, describe_value
 from ..syntax import (Combine, Word, W, alphas, alphanums, oneOf,
-                      ParseException)
+                      ParseException, ZeroOrMore, S, rvalue,
+                      delimitedList, Or, Optional)
 
 
 class Extension(Contract):
     registrar = {}
 
-    def __init__(self, identifier, where=None):
+    def __init__(self, identifier, where=None, args=tuple(), kwargs=None):
         assert identifier in Extension.registrar
         self.contract = Extension.registrar[identifier]
         self.identifier = identifier
+        self.args = args
+        self.kwargs = kwargs or {}
         Contract.__init__(self, where)
 
     def __str__(self):
         return self.identifier
 
     def __repr__(self):
+        if self.args or self.kwargs:
+            return ("Extension(%r, args=%r, kwargs=%r)" %
+                    (self.identifier, self.args, self.kwargs))
+
         return "Extension(%r)" % self.identifier
 
     def check_contract(self, context, value):
+        context['args'] = tuple(a.eval(context) for a in self.args)
+        context['kwargs'] = dict((k, v.eval(context)) for
+                                 k, v in self.kwargs.items())
+
         self.contract._check_contract(context, value)
 
     @staticmethod
     def parse_action(s, loc, tokens):
         identifier = tokens[0]
+        args = tuple()
+        kwargs = {}
+
+        if len(tokens) == 2:
+            args, kwargs = tokens[1]
+            args = tuple(args)
 
         if not identifier in Extension.registrar:
             raise ParseException('Not matching %r' % identifier)
 
         where = W(s, loc)
-        return Extension(identifier, where)
+        return Extension(identifier, where, args, kwargs)
 
     # We want to be pickable so we do not save self.contract
     # which might point to a lambda
     def __getstate__(self):
-        return {'identifier': self.identifier}
+        return {'identifier': self.identifier,
+                'args': self.args,
+                'kwargs': self.kwargs}
 
     def __setstate__(self, d):
         self.identifier = d['identifier']
         self.contract = Extension.registrar[self.identifier]
+        self.args = d['args']
+        self.kwargs = d['kwargs']
 
 
 class CheckCallable(Contract):
+
     def __init__(self, callable):
         self.callable = callable
         Contract.__init__(self, where=None)
 
     def check_contract(self, context, value):
         allowed = (ValueError, AssertionError)
+        args = context.get('args', tuple())
+        kwargs = context.get('kwargs', {})
         try:
-            result = self.callable(value)
+            result = self.callable(value, *args, **kwargs)
         except allowed as e:  # failed
             raise ContractNotRespected(self, str(e), value, context)
 
@@ -78,20 +102,24 @@ class CheckCallable(Contract):
 
 
 class CheckCallableWithSelf(Contract):
+
     def __init__(self, callable):  # @ReservedAssignment
         self.callable = callable
         Contract.__init__(self, where=None)
 
     def check_contract(self, context, value):
+        args = context.get('args', tuple())
+        kwargs = context.get('kwargs', {})
+
         if not 'self' in context:
             msg = ('You can only call this contract in the context of '
                    ' a function call to a regular method.')
             raise ContractNotRespected(self, msg, value, context)
 
-        args = (context['self'], value)
+        args = (context['self'], value) + args
         allowed = (ValueError, AssertionError)
         try:
-            result = self.callable(*args)
+            result = self.callable(*args, **kwargs)
         except allowed as e:  # failed
             raise ContractNotRespected(self, str(e), value, context)
 
@@ -120,7 +148,25 @@ class CheckCallableWithSelf(Contract):
 
 
 # lowercase = alphas.lower()
-identifier_expression = Combine(oneOf(list(alphas)) + Word('_' + alphanums))
+
+w = Word('_' + alphanums)
+arg = rvalue.copy()
+
+kwarg = w + ZeroOrMore(' ') + S('=') + ZeroOrMore(' ') + rvalue
+kwarg.setParseAction(lambda s, loc, tokens: {tokens[0]: tokens[1]})
+
+
+def build_args_kwargs(s, loc, tokens):
+    return (tuple(t for t in tokens if not isinstance(t, dict)),
+            dict((k, v) for t in tokens if isinstance(t, dict)
+                 for k, v in t.items()))
+
+arglist = delimitedList(kwarg | arg)
+arglist.setParseAction(build_args_kwargs)
+
+identifier_expression = (Combine(oneOf(list(alphas)) + Word('_' + alphanums)) +
+                         Optional(S('(') + arglist + S(')')))
+
 
 identifier_contract = identifier_expression.copy().setParseAction(
     Extension.parse_action)
