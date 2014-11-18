@@ -727,6 +727,22 @@ def can_accept_self_plus_one_argument(callable_thing):
 class ContractAttribute(object):
     """ A function descriptor for object attributes that enforces a
         contract check on whatever static function the attribute is set to.
+        Usage example:
+        
+        class spam(object):
+           f=ContractAttribute(contract(arg='float,>0'))
+        
+        eggs=spam()
+
+        from math import log, exp
+        eggs.f=lambda (arg): log(arg)
+
+        print "eggs.f(e)=" + str(eggs.f(exp(1.0)))
+
+        try:
+           print "eggs.f=" + str(eggs.f(-1.0))
+        except ContractNotRespected as detail:
+           print detail 
     """
     
     def __init__(self, contract_instance):
