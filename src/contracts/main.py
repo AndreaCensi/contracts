@@ -749,17 +749,18 @@ class ContractAttribute(object):
         self.contract=contract_instance
         
     def __get__(self, instance, owner):
-        if instance.__dict__.get('__type_checked__')==None:
-            instance.__type_checked__={}
+        if instance.__dict__.get('__contracts__')==None:
+            instance.__contracts__={}
         
-        assert instance.__type_checked__.get(self)!=None, \
+        assert instance.__contracts__.get(self)!=None, \
         "Function not set yet."
         
-        return instance.__type_checked__.get(self)
+        return instance.__contracts__.get(self)
+        # return the method without binding it to the instance.
 
     def __set__(self, instance, func):
-        if instance.__dict__.get('__type_checked__')==None:
-            instance.__type_checked__={}
+        if instance.__dict__.get('__contracts__')==None:
+            instance.__contracts__={}
                 
-        instance.__type_checked__[self]=self.__dict__['contract'](func)
-      
+        instance.__contracts__[self]=self.__dict__['contract'](func)
+        # use dict to accsess the unbound contract 
