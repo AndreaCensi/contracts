@@ -160,6 +160,14 @@ def contracts_decorate(function_, modify_docstring=True, **kwargs):
         The decorator :py:func:`decorate` calls this function internally.
     """
 
+    if hasattr(function_,'__call__') and hasattr(function_.__call__,'im_func'):
+        """ For classes that implement __call__ replace the object with 
+            a bound __call__.
+        """
+        class_name=function_.__class__.__name__
+        function_=function_.__call__
+        function_.__dict__['__name__']=class_name +'.__call__'
+
     if isinstance(function_, classmethod):
         msg = """
 The function is a classmethod; PyContracts cannot decorate a classmethod. 
@@ -308,11 +316,8 @@ you can achieve the same goal by inverting the two decorators:
     contracts_checker.__name__ = 'checker-for-%s' % function_.__name__
     contracts_checker.__module__ = function_.__module__
 
-    # TODO: is using functools.wraps better?
-    # from decorator import decorator
     from functools import partial,wraps
 
-    # wrapper = decorator(contracts_checker,function_)
     wrapper = wraps(function_)(partial(contracts_checker,function_))
 
     wrapper.__doc__ = new_docs
