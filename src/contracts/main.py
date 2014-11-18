@@ -726,7 +726,15 @@ def can_accept_self_plus_one_argument(callable_thing):
 
 class ContractAttribute(object):
     """ A function descriptor for object attributes that enforces a
-        contract check on whatever static function the attribute is set to.
+        contract check on whatever function the attribute is set
+        to. The function would not be passed the self argument because
+        that breaks encapsulation. You can still actively pass self if
+        you want (just add it to the contract). Setting up an attribute
+        like this is useful when an API expressed as an object
+        requires a client function to work with and you want to both
+        communicate expectations with regards to that function and
+        check them.
+        
         Usage example:
         
         class spam(object):
