@@ -724,4 +724,26 @@ def can_accept_self_plus_one_argument(callable_thing):
         return True
 
 
+class ContractAttribute(object):
+    """ A function descriptor for object attributes that enforces a
+        contract check on whatever static function the attribute is set to.
+    """
+    
+    def __init__(self, contract_instance):
+        self.contract=contract_instance
+        
+    def __get__(self, instance, owner):
+        if instance.__dict__.get('__type_checked__')==None:
+            instance.__type_checked__={}
+        
+        assert instance.__type_checked__.get(self)!=None, \
+        "Function not set yet."
+        
+        return instance.__type_checked__.get(self)
 
+    def __set__(self, instance, func):
+        if instance.__dict__.get('__type_checked__')==None:
+            instance.__type_checked__={}
+                
+        instance.__type_checked__[self]=self.__dict__['contract'](func)
+      
