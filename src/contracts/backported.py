@@ -8,11 +8,13 @@ else:  # pragma: no cover
     from collections import namedtuple
     FullArgSpec = namedtuple('FullArgSpec', 'args varargs varkw defaults'
                              ' kwonlyargs kwonlydefaults annotations')
-    from inspect import getargspec as _getargspec
+    from inspect import getargspec as _getargspec, isfunction
 
     def getargspec(function):
         # print 'hasattr im_func', hasattr(function, 'im_func')
-        if hasattr(function, 'im_func'):
+        if (hasattr(function, 'im_func') or \
+            (hasattr(function,'__call__') and \
+             hasattr(function.__call__,'im_func'))):
             # print('this is a special function : %s' % function)
             # For methods or classmethods drop the first
             # argument from the returned list because
@@ -21,7 +23,12 @@ else:  # pragma: no cover
             # inspect.getargspec() returns for methods.
             # NB: We use im_func so we work with
             #     instancemethod objects also.
-            x = _getargspec(function.im_func)
+            
+            if hasattr(function, 'im_func'):
+                x = _getargspec(function.im_func)
+            else:
+                x = _getargspec(function.__call__.im_func)
+
             new_args = x.args[1:]
             spec = ArgSpec(args=new_args, varargs=x.varargs,
                            keywords=x.keywords, defaults=x.defaults)

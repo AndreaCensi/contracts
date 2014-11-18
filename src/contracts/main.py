@@ -309,9 +309,11 @@ you can achieve the same goal by inverting the two decorators:
     contracts_checker.__module__ = function_.__module__
 
     # TODO: is using functools.wraps better?
-    from decorator import decorator
+    # from decorator import decorator
+    from functools import partial,wraps
 
-    wrapper = decorator(contracts_checker, function_)
+    # wrapper = decorator(contracts_checker,function_)
+    wrapper = wraps(function_)(partial(contracts_checker,function_))
 
     wrapper.__doc__ = new_docs
     wrapper.__name__ = function_.__name__
