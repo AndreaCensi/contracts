@@ -725,50 +725,99 @@ def can_accept_self_plus_one_argument(callable_thing):
 
 
 class ContractAttribute(object):
-    """ A function descriptor for object attributes that enforces a
-        contract check on whatever function the attribute is set
-        to. The function would not be passed the self argument because
-        that breaks encapsulation. You can still actively pass self if
-        you want (just add it to the contract). Setting up an attribute
-        like this is useful when an API expressed as an object
-        requires a client function to work with and you want to both
-        communicate expectations with regards to that function and
-        check them.
+    """ A descriptor for object attributes that enforces a contract
+        check on whatever object or function the attribute is set
+        to. For a function, the function would not be passed the self
+        argument (because that breaks encapsulation - you can still
+        actively pass self if you want). Setting up an attribute like
+        this is useful when an API that is expressed as an object
+        requires a client function to work with. In such cases you
+        want to both communicate expectations with regards to the
+        needed function and verify that they are met.
         
         Usage example:
         
-        class spam(object):
-           f=ContractAttribute(contract(arg='float,>0'))
-        
-        eggs=spam()
+from contracts import ContractAttribute, contract, ContractNotRespected
 
-        from math import log, exp
-        eggs.f=lambda (arg): log(arg)
+class spam(object): 
+    f=ContractAttribute(contract(arg='float,>0')) #for functions
+    x=ContractAttribute('float,>0')               #for scalars using string
+    y=ContractAttribute(float)                    #for scalars using type
+    
+eggs=spam()                                                             
 
-        print "eggs.f(e)=" + str(eggs.f(exp(1.0)))
+from math import log, exp, pi                                               
+eggs.f=lambda (arg): log(arg)                                           
 
-        try:
-           print "eggs.f=" + str(eggs.f(-1.0))
-        except ContractNotRespected as detail:
-           print detail 
+print "eggs.f(e)=" + str(eggs.f(exp(1.0)))                              
+
+try:                                                                    
+   print "eggs.f=" + str(eggs.f(-1.0))                                  
+except ContractNotRespected as detail:                                  
+   print detail                                                         
+
+print "Attempting eggs.x=pi" 
+eggs.x=pi
+print "eggs.x=" + str(eggs.x) 
+
+print "Attempting eggs.x=-pi" 
+try:                                                                    
+   eggs.x=-pi                                  
+except ContractNotRespected as detail:                                  
+   print detail                                                         
+
+print "Attempting eggs.y=2*pi" 
+eggs.y=2*pi
+print "eggs.y=" + str(eggs.y) 
+print "eggs.x=" + str(eggs.x) 
+
+print "Attempting eggs.y=3" 
+try:                                                                    
+   eggs.y=3                                  
+except ContractNotRespected as detail:                                  
+   print str(detail)[:180]                                                         
     """
     
+    def _check(self,check_string,value):
+        check(check_string, value)
+        return value
+
     def __init__(self, contract_instance):
-        self.contract=contract_instance
+    
+        from functools import partial
+        from types import FunctionType, StringType
+
+        if isinstance(contract_instance,FunctionType):
+            # If it is a contract store the contract
+            self.contract=contract_instance
+
+        elif isinstance(contract_instance,StringType):
+            # If it is a string send it to check and store the partial
+            self.contract=partial(self._check,contract_instance)
+
+        else:
+            # Assume it is a type. Get the name of the type, send
+            # it to check and store the result.
+            self.contract=partial(self._check,contract_instance.__name__)
+        
         
     def __get__(self, instance, owner):
         if instance.__dict__.get('__contracts__')==None:
             instance.__contracts__={}
         
         assert instance.__contracts__.get(self)!=None, \
-        "Function not set yet."
+        "Attribute not set yet."
         
         return instance.__contracts__.get(self)
-        # return the method without binding it to the instance.
+        # return the stored data.
 
-    def __set__(self, instance, func):
+    def __set__(self, instance, value):
         if instance.__dict__.get('__contracts__')==None:
             instance.__contracts__={}
-                
-        instance.__contracts__[self]=self.__dict__['contract'](func)
-        # use dict to accsess the unbound contract 
+
+        instance.__contracts__[self]=self.__dict__['contract'](value)
+        # Use __dict__ to accsess the contract without binding to
+        # self.  Apply the contract/check. Store the result with the
+        # descriptor as the key.
+
+
