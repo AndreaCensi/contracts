@@ -99,26 +99,23 @@
 <ul>
 <li><p class="first">Implemented custom contracts with arguments (&#64;ChrisBeaumont):</p>
 <div class="highlight-python"><div class="highlight"><pre>@new_contract
+def greater_than(value, thresh):
+    return value &gt; thresh
+
+@contract(x=&#39;greater_than(3)&#39;&#39;)
+def f(x):
+    ...
 </pre></div>
 </div>
-<dl class="docutils">
-<dt>def greater_than(value, thresh):</dt>
-<dd><p class="first last">return value &gt; thresh</p>
-</dd>
-</dl>
-<p>&#64;contract(x=&#8217;greater_than(3)&#8217;&#8216;)
-def f(x):</p>
-<blockquote>
-<div><p>...</p>
-</div></blockquote>
 </li>
 <li><p class="first">Implemented variable binding from Python scope (&#64;ChrisBeaumont):</p>
-<p>a = 1</p>
-<p>&#64;contract(x=&#8217;&gt;$a&#8217;)
-def f(x):</p>
-<blockquote>
-<div><p>...</p>
-</div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="nd">@contract</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">&#39;&gt;$a&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
 </li>
 </ul>
 </div>
