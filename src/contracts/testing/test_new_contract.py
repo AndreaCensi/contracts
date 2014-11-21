@@ -194,11 +194,8 @@ class TestNewContract(unittest.TestCase):
         new_contract(cname(), lambda x: None)  # @UnusedVariable
 
     def test_lambda_invalid(self):
-        f = lambda x, y: True  # @UnusedVariable
+        f = lambda: True  # @UnusedVariable
         self.assertRaises(ValueError, new_contract, cname(), f)
-
-    def test_lambda_invalid2(self):
-        self.assertRaises(ValueError, new_contract, cname(), lambda: True)
 
     def test_idioms(self):
         color = new_contract('color', 'list[3](number,>=0,<=1)')
@@ -275,6 +272,39 @@ class TestNewContract(unittest.TestCase):
                 pass
 
         assert can_be_used_as_a_type(NewStyleClass)
+
+    def test_as_decorator_with_args(self):
+        from contracts import parse
+
+        @new_contract
+        def greater_than(value, thresh):
+            return value > thresh
+
+        p = parse('greater_than(5)')
+        p.check(6)
+        p.fail(5)
+
+    def test_as_decorator_with_kwargs(self):
+        from contracts import parse
+
+        @new_contract
+        def less_than(value, thresh=1):
+            return value < thresh
+
+        p = parse('less_than(thresh=2)')
+        p.check(1)
+        p.fail(2)
+
+    def test_as_decorator_with_args_and_kwargs(self):
+        from contracts import parse
+
+        @new_contract
+        def less_than_all(value, a, b, c=1, d=5):
+            return value < min(a, b, c, d)
+
+        p = parse('less_than_all(3, 4, c=5)')
+        p.check(2)
+        p.fail(3)
 
     def test_capital_name1(self):
         # some problems with identifiers starting with capitals
