@@ -1,18 +1,20 @@
 
 Contributors:
 
-- `Brett Graham`_: ``attr(name:type)`` syntax for checking types of attributes.
+- `Chris Beaumont`_ (Harvard-Smithsonian Center for Astrophysics): ``$var`` syntax; kwargs/args for extensions.
+- `Brett Graham`_ (Rowland Institute at Harvard University): ``attr(name:type)`` syntax for checking types of attributes.
 - `William Furr`_: bug reports and performance improvements
-- `Karol Kuczmarski`_: implementation of "string" and "unicode" contracts
-- `Maarten Derickx`_: documentation fixes
+- `Karol Kuczmarski`_ (Google Zurich): implementation of "string" and "unicode" contracts
+- `Maarten Derickx`_ (Leiden U.): documentation fixes
 - `Calen Pennington`_ (EdX): disabling checks inside check() function.
-- `Adam Palay`_ (EdX): implementation of environment variable enabling/disabling override
+- `Adam Palay`_ (EdX): implementation of environment variable enabling/disabling override.
 - `Ryan Heimbuch`_: bug reports 
 - Bernhard Biskup: bug reports
 - `asharp`_: bug fixes
 
-(Please let me know if I forgot somebody.)
+(Please let me know if I forgot anybody.)
 
+.. _`Chris Beaumont`: http://chrisbeaumont.org/
 .. _`asharp`:  https://github.com/asharp
 .. _`Maarten Derickx`: http://mderickx.nl/
 .. _`Ryan Heimbuch`: https://github.com/ryanheimbuch-wf
