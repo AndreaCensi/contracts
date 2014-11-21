@@ -18,6 +18,8 @@ from . import attr_tc
 
 from . import isinstance_tc 
 
+from . import extensions_tc
+
 try:
     import numpy
 except ImportError:  # pragma: no cover
