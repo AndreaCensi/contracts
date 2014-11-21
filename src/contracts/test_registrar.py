@@ -1,4 +1,3 @@
-
 good_examples = []
 syntax_fail_examples = []
 semantic_fail_examples = []

@@ -3,13 +3,14 @@ import math
 
 
 # All the imports from pyparsing go here
-from pyparsing import (delimitedList, Forward, Literal,  # @UnusedImport
-  stringEnd, nums, Word, CaselessLiteral, Combine,  # @UnusedImport
-  Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc,  # @UnusedImport
-  operatorPrecedence, oneOf, ParseException, ParserElement,  # @UnusedImport
-  alphas, alphanums, ParseFatalException,  # @UnusedImport
-  ParseSyntaxException, FollowedBy, NotAny, Or,  # @UnusedImport
-  MatchFirst, Keyword, Group, White, lineno, col)  # @UnusedImport
+from pyparsing import (delimitedList, Forward, Literal,
+                       stringEnd, nums, Word, CaselessLiteral, Combine,
+                       Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc,
+                       operatorPrecedence, oneOf, ParseException,
+                       ParserElement,
+                       alphas, alphanums, ParseFatalException,
+                       ParseSyntaxException, FollowedBy, NotAny, Or,
+                       MatchFirst, Keyword, Group, White, lineno, col)
 
 
 # from .pyparsing_utils import myOperatorPrecedence
@@ -37,12 +38,12 @@ def add_contract(x):
 
 
 def add_keyword(x):
-    ''' Declares that x is a keyword --- this is useful to have more
+    """ Declares that x is a keyword --- this is useful to have more
         clear messages. "keywords" are not parsed by Extension.
         (see extensions.py) and allows to have "deep" error indications.
         See http://pyparsing.wikispaces.com/message/view/home/620225
         and the discussion of the "-" operator in the docs.
-    '''
+    """
     ParsingTmp.keywords.append(x)
 
 W = Where
@@ -84,12 +85,13 @@ simple_contract.setName('simple_contract')
 # Import all expressions -- they will call add_contract()
 from .library import (EqualTo, Unary, Binary, composite_contract,
                       identifier_contract, misc_variables_contract,
+                      scoped_variables_ref,
                       int_variables_contract, int_variables_ref,
                       misc_variables_ref, SimpleRValue)
 
 
 number = pi | floatnumber | integer
-operand = number | int_variables_ref | misc_variables_ref
+operand = number | int_variables_ref | misc_variables_ref | scoped_variables_ref
 operand.setName('r-value')
 
  

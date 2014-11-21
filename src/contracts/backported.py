@@ -2,14 +2,14 @@ import sys
 from inspect import ArgSpec
 
 if sys.version_info[0] == 3:  # pragma: no cover
-    from inspect import getfullargspec  # @UnresolvedImport
+    from inspect import getfullargspec
 
 else:  # pragma: no cover
     from collections import namedtuple
     FullArgSpec = namedtuple('FullArgSpec', 'args varargs varkw defaults'
                              ' kwonlyargs kwonlydefaults annotations')
     from inspect import getargspec as _getargspec
-    
+
     def getargspec(function):
         # print 'hasattr im_func', hasattr(function, 'im_func')
         if hasattr(function, 'im_func'):
@@ -26,7 +26,7 @@ else:  # pragma: no cover
             spec = ArgSpec(args=new_args, varargs=x.varargs,
                            keywords=x.keywords, defaults=x.defaults)
             return spec
-        
+
         # print 'calling normal %s' % function
         return _getargspec(function)
 
@@ -41,9 +41,9 @@ else:  # pragma: no cover
 
 
 # Backport inspect.getcallargs from Python 2.7 to 2.6
-if sys.version_info[:2] == (2, 7):  # pragma: no cover
-    from inspect import getcallargs  # @UnresolvedImport @UnusedImport
-
+if sys.version_info[:2] == (2, 7):
+    # noinspection PyUnresolvedReferences
+    from inspect import getcallargs
 else:  # pragma: no cover
     inPy3k = sys.version_info[0] == 3
 
@@ -54,9 +54,10 @@ else:  # pragma: no cover
     
         A dict is returned, with keys the function argument names (including the
         names of the * and ** arguments, if any), and values the respective bound
-        values from 'positional' and 'named'."""
+        values from 'positional' and 'named'.
+        """
         args, varargs, varkw, defaults, \
-            kwonlyargs, kwonlydefaults, annotations = getfullargspec(func)  # @UnusedVariable
+            kwonlyargs, kwonlydefaults, annotations = getfullargspec(func)
 
         if kwonlyargs:
             raise ValueError("I'm sorry, I don't have the logic to use kwonlyargs. "
@@ -65,9 +66,10 @@ else:  # pragma: no cover
         f_name = func.__name__
         arg2value = {}
 
-        # The following closures are basically because of tuple parameter unpacking.
+        # The following closures are basically because of tuple
+        # parameter unpacking.
         assigned_tuple_params = []
-        
+
         def assign(arg, value):
             if isinstance(arg, str):
                 arg2value[arg] = value
@@ -78,7 +80,7 @@ else:  # pragma: no cover
                     try:
                         subvalue = next(value)
                     except StopIteration:
-                        raise ValueError('need more than %d %s to unpack' % 
+                        raise ValueError('need more than %d %s to unpack' %
                                          (i, 'values' if i > 1 else 'value'))
                     assign(subarg, subvalue)
                 try:
@@ -87,7 +89,7 @@ else:  # pragma: no cover
                     pass
                 else:
                     raise ValueError('too many values to unpack')
-        
+
         def is_assigned(arg):
             if isinstance(arg, str):
                 return arg in arg2value
@@ -117,7 +119,7 @@ else:  # pragma: no cover
                 f_name, 'at most' if defaults else 'exactly', num_args,
                 'arguments' if num_args > 1 else 'argument', num_total))
         elif num_args == 0 and num_total:
-            raise TypeError('%s() takes no arguments (%d given)' % 
+            raise TypeError('%s() takes no arguments (%d given)' %
                             (f_name, num_total))
         for arg in args:
             if isinstance(arg, str) and arg in named:
@@ -136,7 +138,7 @@ else:  # pragma: no cover
             unexpected = next(iter(named))
             if isinstance(unexpected, unicode):
                 unexpected = unexpected.encode(sys.getdefaultencoding(), 'replace')
-            raise TypeError("%s() got an unexpected keyword argument '%s'" % 
+            raise TypeError("%s() got an unexpected keyword argument '%s'" %
                             (f_name, unexpected))
         unassigned = num_args - len([arg for arg in args if is_assigned(arg)])
         if unassigned:

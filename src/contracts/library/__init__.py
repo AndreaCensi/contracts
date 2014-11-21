@@ -17,7 +17,7 @@ from .arithmetic import Binary, Unary
 from .compositions import OR, And, composite_contract, or_contract
 from .variables import (BindVariable, VariableRef, misc_variables_contract,
                         int_variables_contract, misc_variables_ref,
-                        int_variables_ref)
+                        int_variables_ref, scoped_variables_ref)
 from .simple_values import EqualTo, SimpleRValue
 
 try:

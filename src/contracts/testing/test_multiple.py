@@ -1,4 +1,4 @@
-''' Other testing examples '''
+""" Other testing examples """
 
 from ..test_registrar import good, fail
 

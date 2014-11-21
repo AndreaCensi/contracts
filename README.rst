@@ -2,8 +2,8 @@ PyContracts is a Python package that allows to declare constraints on function p
 return values. It supports a basic type system, variables binding, arithmetic constraints, and
 has several specialized contracts (notably for Numpy arrays). 
 
-As a quick intro, please see `this presentation about PyContracts`_.
 
+As a quick intro, please see `this presentation about PyContracts`_.
 
 .. _`this presentation about PyContracts`: http://censi.mit.edu/pub/research/201410-pycontracts/201410-pycontracts.pdf 
 
@@ -19,7 +19,6 @@ As a quick intro, please see `this presentation about PyContracts`_.
     A brief summary follows. See the full documentation at: <http://andreacensi.github.com/contracts/>
 
 
-
 **Why**: The purpose of PyContracts is **not** to turn Python into a statically-typed language
 (albeit you can be as strict as you wish), but, rather, to avoid the time-consuming and
 obfuscating checking of various preconditions. In fact, more than the type constraints, I found
@@ -31,7 +30,7 @@ using Haskell_ instead of Python.
 
 **Specifying contracts**: Contracts can be specified in three ways:
 
-1. **Using the ``@contract`` decorator:** ::
+1. **Using the ``@contract`` decorator**: ::
    
       @contract(a='int,>0', b='list[N],N>0', returns='list[N]')
       def my_function(a, b):
@@ -76,7 +75,8 @@ Any Python type is a contract: ::
     def f(a, b):
         ...
 
-**Enforcing interfaces**:  ``ContractsMeta`` is a metaclass like ABCMeta that propagates contracts to the subclasses: ::
+**Enforcing interfaces**:  ``ContractsMeta`` (available for Python 2.x) is a metaclass 
+like ABCMeta that propagates contracts to the subclasses: ::
 
     from contracts import contract, ContractsMeta
     
@@ -100,7 +100,18 @@ Any Python type is a contract: ::
     def recolor(image):
         ...
 
-**Status:** PyContracts is very well tested and documented. The syntax is stable and it won't be changed.
+**Status:** The syntax is stable and it won't be changed. PyContracts is very well tested on Python 2.x. 
+
+**Status on Python 3.x:**
+
+- The basics work, but probably haven't been stress-tested enough. 
+
+- ContractsMeta does not work. 
+
+- Arithmetics construct do not work. This is because of PyParsing 2.x not being backwards compatible with PyParsing 1.6.
+
+Any help is welcome! (I don't use Python 3 myself.) Start by running ``nosetests contracts``.
+
 
 .. _typecheck: http://oakwinter.com/code/typecheck/
 .. _Haskell: http://www.haskell.org/

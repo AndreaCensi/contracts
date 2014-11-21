@@ -24,7 +24,7 @@ assert 2 == find_longest_match('fl6', ['float32', 'float64'])[1]
 
 # http://hetland.org/coding/python/levenshtein.py
 def levenshtein(a, b):
-    "Calculates the Levenshtein distance between a and b."
+    """Calculates the Levenshtein distance between a and b."""
     n, m = len(a), len(b)
     if n > m:  # pragma: no cover
         # Make sure n <= m, to use O(min(n,m)) space

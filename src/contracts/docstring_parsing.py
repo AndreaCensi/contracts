@@ -1,7 +1,4 @@
-from collections import namedtuple
 import re
-
-Arg = namedtuple('Arg', 'name type')
 
 
 class Arg(object):
@@ -57,7 +54,7 @@ class DocStringInfo(object):
                       % (param, self.params[param].desc))
             if self.params[param].type is not None:
                 s += (prefix + ':type %s:  %s'
-                       % (param, self.params[param].type))
+                      % (param, self.params[param].type))
             s += prefix
 
         if self.returns:
@@ -93,22 +90,22 @@ class DocStringInfo(object):
         names = set(list(params_ann.keys()) + list(types_ann.keys()))
         for name in names:
             params[name] = Arg(params_ann.get(name, None),
-                                types_ann.get(name, None))
+                               types_ann.get(name, None))
 
         returns = []
         for i in range(max(len(returns_ann), len(rtype_ann))):
             returns.append(Arg(returns_ann.get(i, None),
-                                rtype_ann.get(i, None)))
+                               rtype_ann.get(i, None)))
 
         return DocStringInfo(docstring, params=params, returns=returns)
 
 
 def parse_annotations(docstring, keys, empty=False):
-    '''
+    """
         Returns docstring_without, dictionary.
         If empty specified, will look for empty statements, and give integers
         for names.
-    '''
+    """
     assert docstring is not None
 
     found = {}
