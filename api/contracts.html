@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>contracts Package &mdash; PyContracts 1.6.5 documentation</title>
+    <title>contracts Package &mdash; PyContracts 1.6.6 documentation</title>
     
     <link rel="stylesheet" href="../static/default.css" type="text/css" />
     <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.6.5',
+        VERSION:     '1.6.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../static/jquery.js"></script>
     <script type="text/javascript" src="../static/underscore.js"></script>
     <script type="text/javascript" src="../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.6.5 documentation" href="../index.html" />
+    <link rel="top" title="PyContracts 1.6.6 documentation" href="../index.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -59,7 +59,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -84,7 +84,7 @@ Very useful for abstract commands.</p>
 <dt id="contracts.contract">
 <tt class="descclassname">contracts.</tt><tt class="descname">contract</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../modules/contracts.html#contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.contract" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator for adding contracts to functions.</p>
-<p>It is smart enough to support functions with variable number of 
+<p>It is smart enough to support functions with variable number of
 arguments and keyword arguments.</p>
 <p>There are three ways to specify the contracts. In order of precedence:</p>
 <ul>
@@ -98,86 +98,42 @@ arguments and keyword arguments.</p>
 </li>
 <li><p class="first">As annotations (supported only in Python 3):</p>
 <div class="highlight-python"><div class="highlight"><pre>@contract
-def my_function(a:&#39;int,&gt;0&#39;, b:&#39;list[N],N&gt;0&#39;) -&gt; &#39;list[N]&#39;: 
+def my_function(a:&#39;int,&gt;0&#39;, b:&#39;list[N],N&gt;0&#39;) -&gt; &#39;list[N]&#39;:
     # ...
     pass
 </pre></div>
 </div>
 </li>
 <li><p class="first">Using <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags in the function&#8217;s docstring:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span>
-<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span> 
-    <span class="sd">&quot;&quot;&quot; Function description.</span>
-<span class="sd">        :type a: int,&gt;0</span>
-<span class="sd">        :type b: list[N],N&gt;0</span>
-<span class="sd">        :rtype: list[N]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span>
+<div class="highlight-python"><div class="highlight"><pre>@contract
+def my_function(a, b):
 </pre></div>
 </div>
 </li>
 </ul>
-<p><strong>Signature and docstrings</strong>: The signature of the decorated
-function is conserved. By default, the docstring is modified
-by adding <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> definitions. To avoid that,
-pass <tt class="docutils literal"><span class="pre">modify_docstring=False</span></tt> as a parameter.</p>
-<p><strong>Contracts evaluation</strong>: Note that all contracts for the arguments 
-and the return values
-are evaluated in the same context. This make it possible to use
-common variables in the contract expression. For example, in the 
-example above, the return value is constrained to be a list of the same 
-length (<tt class="docutils literal"><span class="pre">N</span></tt>) as the parameter <tt class="docutils literal"><span class="pre">b</span></tt>.</p>
-<p><strong>Using docstrings</strong> Note that, by convention, those annotations must 
-be parseable as RestructuredText. This is relevant if you are using 
-Sphinx.
-If the contract string has special RST characters in it, like <tt class="docutils literal"><span class="pre">*</span></tt>,
-you can include it in double ticks. <a href="#id2"><span class="problematic" id="id3">|pycontracts|</span></a> will remove
-the double ticks before interpreting the string.</p>
-<p>For example, the two annotations in this docstring are equivalent
-for <a href="#id4"><span class="problematic" id="id5">|pycontracts|</span></a>, but the latter is better for Sphinx:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot; My function </span>
-
-<span class="sd">    :param a: First parameter</span>
-<span class="sd">    :type a: list(tuple(str,*))</span>
-<span class="sd">    </span>
-<span class="sd">    :param b: First parameter</span>
-<span class="sd">    :type b: ``list(tuple(str,*))``</span>
-<span class="sd">&quot;&quot;&quot;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raise:</th><td class="field-body">ContractException, if arguments are not coherent</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raise:</th><td class="field-body">ContractSyntaxError</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="contracts.new_contract">
-<tt class="descclassname">contracts.</tt><tt class="descname">new_contract</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../modules/contracts.html#new_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.new_contract" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines a new contract type. Used both as a decorator and as 
+<tt class="descclassname">contracts.</tt><tt class="descname">new_contract</tt><big>(</big><em>*args</em><big>)</big><a class="reference internal" href="../modules/contracts.html#new_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.new_contract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a new contract type. Used both as a decorator and as
 a function.</p>
-<p><strong>1) Use as a function.</strong> The first parameter must be a string. 
+<p><strong>1) Use as a function.</strong> The first parameter must be a string.
 The second parameter can be either
 a string or a callable function.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;new_contract_name&#39;</span><span class="p">,</span> <span class="s">&#39;list[N]&#39;</span><span class="p">)</span> 
+<div class="highlight-python"><div class="highlight"><pre><span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;new_contract_name&#39;</span><span class="p">,</span> <span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
 <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;new_contract_name&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="p">)</span>
 </pre></div>
 </div>
 <ul>
-<li><p class="first">If it is a string, it is interpreted as contract expression; 
+<li><p class="first">If it is a string, it is interpreted as contract expression;
 the given identifier will become an alias
 for that expression.</p>
 </li>
 <li><p class="first">If it is a callable, it must accept one parameter, and either:</p>
 <ul class="simple">
 <li>return True or None, to signify it accepts.</li>
-<li>return False or raise ValueError or AssertionError, 
+<li>return False or raise ValueError or AssertionError,
 to signify it doesn&#8217;t.</li>
 </ul>
 <p>If ValueError is raised, its message is used in the error.</p>
@@ -338,7 +294,8 @@ for names.</p>
 <dl class="function">
 <dt id="contracts.enabling.enable_all">
 <tt class="descclassname">contracts.enabling.</tt><tt class="descname">enable_all</tt><big>(</big><big>)</big><a class="reference internal" href="../modules/contracts/enabling.html#enable_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.enabling.enable_all" title="Permalink to this definition">¶</a></dt>
-<dd><p>Enables all contracts checks.</p>
+<dd><p>Enables all contracts checks.
+Can be overridden by an environment variable.</p>
 </dd></dl>
 
 </div>
@@ -371,7 +328,7 @@ for names.</p>
 <dl class="method">
 <dt id="contracts.interface.Contract.check_contract">
 <tt class="descname">check_contract</tt><big>(</big><em>context</em>, <em>value</em><big>)</big><a class="reference internal" href="../modules/contracts/interface.html#Contract.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.interface.Contract.check_contract" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks that value is ok with this contract in the specific 
+<dd><p>Checks that value is ok with this contract in the specific
 context. This is the function that subclasses must implement.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -489,7 +446,7 @@ so that we can output pretty error messages.</p>
 <dl class="function">
 <dt id="contracts.interface.describe_value">
 <tt class="descclassname">contracts.interface.</tt><tt class="descname">describe_value</tt><big>(</big><em>x</em>, <em>clip=80</em><big>)</big><a class="reference internal" href="../modules/contracts/interface.html#describe_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.interface.describe_value" title="Permalink to this definition">¶</a></dt>
-<dd><p>Describes an object, for use in the error messages. 
+<dd><p>Describes an object, for use in the error messages.
 Short description, no multiline.</p>
 </dd></dl>
 
@@ -528,10 +485,23 @@ Short description, no multiline.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="contracts.main.can_accept_at_least_one_argument">
+<tt class="descclassname">contracts.main.</tt><tt class="descname">can_accept_at_least_one_argument</tt><big>(</big><em>callable_thing</em><big>)</big><a class="reference internal" href="../modules/contracts/main.html#can_accept_at_least_one_argument"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.main.can_accept_at_least_one_argument" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks that a callable can accept at least one argument
+using introspection.</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="contracts.main.can_accept_exactly_one_argument">
 <tt class="descclassname">contracts.main.</tt><tt class="descname">can_accept_exactly_one_argument</tt><big>(</big><em>callable_thing</em><big>)</big><a class="reference internal" href="../modules/contracts/main.html#can_accept_exactly_one_argument"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.main.can_accept_exactly_one_argument" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks that a callable can accept exactly one argument
 using introspection.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="contracts.main.can_accept_self">
+<tt class="descclassname">contracts.main.</tt><tt class="descname">can_accept_self</tt><big>(</big><em>callable_thing</em><big>)</big><a class="reference internal" href="../modules/contracts/main.html#can_accept_self"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.main.can_accept_self" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks that a callable&#8217;s first argument is self</p>
 </dd></dl>
 
 <dl class="function">
@@ -545,14 +515,14 @@ using introspection.</p>
 <dt id="contracts.main.can_be_used_as_a_type">
 <tt class="descclassname">contracts.main.</tt><tt class="descname">can_be_used_as_a_type</tt><big>(</big><em>x</em><big>)</big><a class="reference internal" href="../modules/contracts/main.html#can_be_used_as_a_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.main.can_be_used_as_a_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks that x can be used as a type; specifically,
-we can write isintance(y,x). 
+we can write isintance(y,x).
 Here we support old-style classes.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="contracts.main.check">
 <tt class="descclassname">contracts.main.</tt><tt class="descname">check</tt><big>(</big><em>contract</em>, <em>object</em>, <em>desc=None</em>, <em>**context</em><big>)</big><a class="reference internal" href="../modules/contracts/main.html#check"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.main.check" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks that <tt class="docutils literal"><span class="pre">object</span></tt> satisfies the contract 
+<dd><p>Checks that <tt class="docutils literal"><span class="pre">object</span></tt> satisfies the contract
 described by <tt class="docutils literal"><span class="pre">contract</span></tt>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -561,7 +531,7 @@ described by <tt class="docutils literal"><span class="pre">contract</span></tt>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>contract</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The contract string.</li>
 <li><strong>object</strong> (<tt class="docutils literal"><span class="pre">*</span></tt>) &#8211; Any object.</li>
-<li><strong>desc</strong> (<tt class="docutils literal"><span class="pre">None|str</span></tt>) &#8211; An optional description of the error. If given, 
+<li><strong>desc</strong> (<tt class="docutils literal"><span class="pre">None|str</span></tt>) &#8211; An optional description of the error. If given,
 it is included in the error message.</li>
 </ul>
 </td>
@@ -609,7 +579,7 @@ Not a public function &#8211; no friendly messages.</p>
 <dt id="contracts.main.check_multiple">
 <tt class="descclassname">contracts.main.</tt><tt class="descname">check_multiple</tt><big>(</big><em>couples</em>, <em>desc=None</em><big>)</big><a class="reference internal" href="../modules/contracts/main.html#check_multiple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.main.check_multiple" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks multiple couples of (contract, value) in the same context.</p>
-<p>This means that the variables in each contract are shared with 
+<p>This means that the variables in each contract are shared with
 the others.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -617,7 +587,7 @@ the others.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>couples</strong> (<tt class="docutils literal"><span class="pre">list[&gt;0](tuple(str,</span> <span class="pre">*))</span></tt>) &#8211; A list of tuple (contract, value) to check.</li>
-<li><strong>desc</strong> (<tt class="docutils literal"><span class="pre">None|str</span></tt>) &#8211; An optional description of the error. If given, 
+<li><strong>desc</strong> (<tt class="docutils literal"><span class="pre">None|str</span></tt>) &#8211; An optional description of the error. If given,
 it is included in the error message.</li>
 </ul>
 </td>
@@ -630,7 +600,7 @@ it is included in the error message.</li>
 <dt id="contracts.main.contract_decorator">
 <tt class="descclassname">contracts.main.</tt><tt class="descname">contract_decorator</tt><big>(</big><em>*arg</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../modules/contracts/main.html#contract_decorator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.main.contract_decorator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator for adding contracts to functions.</p>
-<p>It is smart enough to support functions with variable number of 
+<p>It is smart enough to support functions with variable number of
 arguments and keyword arguments.</p>
 <p>There are three ways to specify the contracts. In order of precedence:</p>
 <ul>
@@ -644,63 +614,19 @@ arguments and keyword arguments.</p>
 </li>
 <li><p class="first">As annotations (supported only in Python 3):</p>
 <div class="highlight-python"><div class="highlight"><pre>@contract
-def my_function(a:&#39;int,&gt;0&#39;, b:&#39;list[N],N&gt;0&#39;) -&gt; &#39;list[N]&#39;: 
+def my_function(a:&#39;int,&gt;0&#39;, b:&#39;list[N],N&gt;0&#39;) -&gt; &#39;list[N]&#39;:
     # ...
     pass
 </pre></div>
 </div>
 </li>
 <li><p class="first">Using <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags in the function&#8217;s docstring:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span>
-<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span> 
-    <span class="sd">&quot;&quot;&quot; Function description.</span>
-<span class="sd">        :type a: int,&gt;0</span>
-<span class="sd">        :type b: list[N],N&gt;0</span>
-<span class="sd">        :rtype: list[N]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span>
+<div class="highlight-python"><div class="highlight"><pre>@contract
+def my_function(a, b):
 </pre></div>
 </div>
 </li>
 </ul>
-<p><strong>Signature and docstrings</strong>: The signature of the decorated
-function is conserved. By default, the docstring is modified
-by adding <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> definitions. To avoid that,
-pass <tt class="docutils literal"><span class="pre">modify_docstring=False</span></tt> as a parameter.</p>
-<p><strong>Contracts evaluation</strong>: Note that all contracts for the arguments 
-and the return values
-are evaluated in the same context. This make it possible to use
-common variables in the contract expression. For example, in the 
-example above, the return value is constrained to be a list of the same 
-length (<tt class="docutils literal"><span class="pre">N</span></tt>) as the parameter <tt class="docutils literal"><span class="pre">b</span></tt>.</p>
-<p><strong>Using docstrings</strong> Note that, by convention, those annotations must 
-be parseable as RestructuredText. This is relevant if you are using 
-Sphinx.
-If the contract string has special RST characters in it, like <tt class="docutils literal"><span class="pre">*</span></tt>,
-you can include it in double ticks. <a href="#id6"><span class="problematic" id="id7">|pycontracts|</span></a> will remove
-the double ticks before interpreting the string.</p>
-<p>For example, the two annotations in this docstring are equivalent
-for <a href="#id8"><span class="problematic" id="id9">|pycontracts|</span></a>, but the latter is better for Sphinx:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot; My function </span>
-
-<span class="sd">    :param a: First parameter</span>
-<span class="sd">    :type a: list(tuple(str,*))</span>
-<span class="sd">    </span>
-<span class="sd">    :param b: First parameter</span>
-<span class="sd">    :type b: ``list(tuple(str,*))``</span>
-<span class="sd">&quot;&quot;&quot;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raise:</th><td class="field-body">ContractException, if arguments are not coherent</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raise:</th><td class="field-body">ContractSyntaxError</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
 <dl class="function">
@@ -740,24 +666,24 @@ The decorator <tt class="xref py py-func docutils literal"><span class="pre">dec
 <dl class="function">
 <dt id="contracts.main.new_contract">
 <tt class="descclassname">contracts.main.</tt><tt class="descname">new_contract</tt><big>(</big><em>*args</em><big>)</big><a class="reference internal" href="../modules/contracts/main.html#new_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.main.new_contract" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines a new contract type. Used both as a decorator and as 
+<dd><p>Defines a new contract type. Used both as a decorator and as
 a function.</p>
-<p><strong>1) Use as a function.</strong> The first parameter must be a string. 
+<p><strong>1) Use as a function.</strong> The first parameter must be a string.
 The second parameter can be either
 a string or a callable function.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;new_contract_name&#39;</span><span class="p">,</span> <span class="s">&#39;list[N]&#39;</span><span class="p">)</span> 
+<div class="highlight-python"><div class="highlight"><pre><span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;new_contract_name&#39;</span><span class="p">,</span> <span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
 <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;new_contract_name&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="p">)</span>
 </pre></div>
 </div>
 <ul>
-<li><p class="first">If it is a string, it is interpreted as contract expression; 
+<li><p class="first">If it is a string, it is interpreted as contract expression;
 the given identifier will become an alias
 for that expression.</p>
 </li>
 <li><p class="first">If it is a callable, it must accept one parameter, and either:</p>
 <ul class="simple">
 <li>return True or None, to signify it accepts.</li>
-<li>return False or raise ValueError or AssertionError, 
+<li>return False or raise ValueError or AssertionError,
 to signify it doesn&#8217;t.</li>
 </ul>
 <p>If ValueError is raised, its message is used in the error.</p>
@@ -813,7 +739,7 @@ using <tt class="xref py py-func docutils literal"><span class="pre">Contract.ch
 <dl class="function">
 <dt id="contracts.main.parse_flexible_spec">
 <tt class="descclassname">contracts.main.</tt><tt class="descname">parse_flexible_spec</tt><big>(</big><em>spec</em><big>)</big><a class="reference internal" href="../modules/contracts/main.html#parse_flexible_spec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.main.parse_flexible_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>spec can be either a Contract, a type, or a contract string. 
+<dd><p>spec can be either a Contract, a type, or a contract string.
 In the latter case, the usual parsing takes place</p>
 </dd></dl>
 
@@ -1061,7 +987,7 @@ and the discussion of the &#8220;-&#8221; operator in the docs.</p>
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li> 
       </ul>
     </div>
 	

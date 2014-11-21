@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>contracts.testing.test_new_contract &mdash; PyContracts 1.6.5 documentation</title>
+    <title>contracts.testing.test_new_contract &mdash; PyContracts 1.6.6 documentation</title>
     
     <link rel="stylesheet" href="../../../static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '1.6.5',
+        VERSION:     '1.6.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../static/jquery.js"></script>
     <script type="text/javascript" src="../../../static/underscore.js"></script>
     <script type="text/javascript" src="../../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.6.5 documentation" href="../../../index.html" />
+    <link rel="top" title="PyContracts 1.6.6 documentation" href="../../../index.html" />
     <link rel="up" title="contracts" href="../../contracts.html" />
 	 
 
@@ -60,7 +60,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li>
           <li><a href="../../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
       </ul>
@@ -268,11 +268,8 @@
         <span class="n">new_contract</span><span class="p">(</span><span class="n">cname</span><span class="p">(),</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">None</span><span class="p">)</span>  <span class="c"># @UnusedVariable</span>
 </div>
 <div class="viewcode-block" id="TestNewContract.test_lambda_invalid"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_lambda_invalid">[docs]</a>    <span class="k">def</span> <span class="nf">test_lambda_invalid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="bp">True</span>  <span class="c"># @UnusedVariable</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">True</span>  <span class="c"># @UnusedVariable</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">new_contract</span><span class="p">,</span> <span class="n">cname</span><span class="p">(),</span> <span class="n">f</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="TestNewContract.test_lambda_invalid2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_lambda_invalid2">[docs]</a>    <span class="k">def</span> <span class="nf">test_lambda_invalid2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">new_contract</span><span class="p">,</span> <span class="n">cname</span><span class="p">(),</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">True</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="TestNewContract.test_idioms"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_idioms">[docs]</a>    <span class="k">def</span> <span class="nf">test_idioms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">color</span> <span class="o">=</span> <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;color&#39;</span><span class="p">,</span> <span class="s">&#39;list[3](number,&gt;=0,&lt;=1)&#39;</span><span class="p">)</span>
@@ -350,6 +347,39 @@
 
         <span class="k">assert</span> <span class="n">can_be_used_as_a_type</span><span class="p">(</span><span class="n">NewStyleClass</span><span class="p">)</span>
 </div>
+<div class="viewcode-block" id="TestNewContract.test_as_decorator_with_args"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_as_decorator_with_args">[docs]</a>    <span class="k">def</span> <span class="nf">test_as_decorator_with_args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">parse</span>
+
+        <span class="nd">@new_contract</span>
+        <span class="k">def</span> <span class="nf">greater_than</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">thresh</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="n">thresh</span>
+
+        <span class="n">p</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&#39;greater_than(5)&#39;</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_as_decorator_with_kwargs"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_as_decorator_with_kwargs">[docs]</a>    <span class="k">def</span> <span class="nf">test_as_decorator_with_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">parse</span>
+
+        <span class="nd">@new_contract</span>
+        <span class="k">def</span> <span class="nf">less_than</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="n">thresh</span>
+
+        <span class="n">p</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&#39;less_than(thresh=2)&#39;</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNewContract.test_as_decorator_with_args_and_kwargs"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_as_decorator_with_args_and_kwargs">[docs]</a>    <span class="k">def</span> <span class="nf">test_as_decorator_with_args_and_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">parse</span>
+
+        <span class="nd">@new_contract</span>
+        <span class="k">def</span> <span class="nf">less_than_all</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="nb">min</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+
+        <span class="n">p</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&#39;less_than_all(3, 4, c=5)&#39;</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="TestNewContract.test_capital_name1"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_capital_name1">[docs]</a>    <span class="k">def</span> <span class="nf">test_capital_name1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c"># some problems with identifiers starting with capitals</span>
         <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;SEn&#39;</span><span class="p">,</span> <span class="s">&#39;int&#39;</span><span class="p">)</span>
@@ -418,7 +448,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li>
           <li><a href="../../contracts.html" >contracts</a> &raquo;</li> 
       </ul>

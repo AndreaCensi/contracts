@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>contracts.testing.array_extended_test &mdash; PyContracts 1.6.5 documentation</title>
+    <title>contracts.testing.array_extended_test &mdash; PyContracts 1.6.6 documentation</title>
     
     <link rel="stylesheet" href="../../../static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '1.6.5',
+        VERSION:     '1.6.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../static/jquery.js"></script>
     <script type="text/javascript" src="../../../static/underscore.js"></script>
     <script type="text/javascript" src="../../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.6.5 documentation" href="../../../index.html" />
+    <link rel="top" title="PyContracts 1.6.6 documentation" href="../../../index.html" />
     <link rel="up" title="contracts" href="../../contracts.html" />
 	 
 
@@ -60,7 +60,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li>
           <li><a href="../../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
       </ul>
@@ -86,9 +86,9 @@
     <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;rgba&#39;</span><span class="p">,</span> <span class="s">&#39;array[HxWx4],H&gt;0,W&gt;0&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="blend_function"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.array_extended_test.blend_function">[docs]</a>    <span class="k">def</span> <span class="nf">blend_function</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">image2</span><span class="p">,</span> <span class="n">bug</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Blends two RGB or RGBA images together.</span>
-<span class="sd">            </span>
+
 <span class="sd">             :param image1: The first image to blend.</span>
 <span class="sd">             :type image1: (rgb|rgba),array[HxWx*]</span>
 <span class="sd">             :param image2: The second image to blend.</span>
@@ -98,7 +98,7 @@
 
 <span class="sd">             :return: The blended image.</span>
 <span class="sd">             :rtype: rgb,array[HxWx3]</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">image1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">image1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">bug</span><span class="p">:</span>
@@ -187,7 +187,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li>
           <li><a href="../../contracts.html" >contracts</a> &raquo;</li> 
       </ul>

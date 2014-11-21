@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>contracts.library.variables &mdash; PyContracts 1.6.5 documentation</title>
+    <title>contracts.library.variables &mdash; PyContracts 1.6.6 documentation</title>
     
     <link rel="stylesheet" href="../../../static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '1.6.5',
+        VERSION:     '1.6.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../static/jquery.js"></script>
     <script type="text/javascript" src="../../../static/underscore.js"></script>
     <script type="text/javascript" src="../../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.6.5 documentation" href="../../../index.html" />
+    <link rel="top" title="PyContracts 1.6.6 documentation" href="../../../index.html" />
     <link rel="up" title="contracts" href="../../contracts.html" />
 	 
 
@@ -60,7 +60,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li>
           <li><a href="../../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
       </ul>
@@ -72,8 +72,10 @@
           <div class="body">
             
   <h1>Source code for contracts.library.variables</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">..interface</span> <span class="kn">import</span> <span class="n">Contract</span><span class="p">,</span> <span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">RValue</span><span class="p">,</span> <span class="n">describe_value</span>
-<span class="kn">from</span> <span class="nn">..syntax</span> <span class="kn">import</span> <span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">oneOf</span><span class="p">,</span> <span class="n">FollowedBy</span><span class="p">,</span> <span class="n">NotAny</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+
+<span class="kn">from</span> <span class="nn">..interface</span> <span class="kn">import</span> <span class="n">Contract</span><span class="p">,</span> <span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">RValue</span><span class="p">,</span> <span class="n">describe_value</span><span class="p">,</span> <span class="n">ContractException</span>
+<span class="kn">from</span> <span class="nn">..syntax</span> <span class="kn">import</span> <span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">oneOf</span><span class="p">,</span> <span class="n">FollowedBy</span><span class="p">,</span> <span class="n">NotAny</span><span class="p">,</span> <span class="n">Word</span><span class="p">,</span> <span class="n">alphanums</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="BindVariable"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.variables.BindVariable">[docs]</a><span class="k">class</span> <span class="nc">BindVariable</span><span class="p">(</span><span class="n">Contract</span><span class="p">):</span>
@@ -153,6 +155,94 @@
         <span class="k">return</span> <span class="n">VariableRef</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
 
 </div></div>
+<div class="viewcode-block" id="ScopedVariableRef"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.variables.ScopedVariableRef">[docs]</a><span class="k">class</span> <span class="nc">ScopedVariableRef</span><span class="p">(</span><span class="n">RValue</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A variable whose value is extracted by name from the scope where the spec is defined.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">where</span> <span class="o">=</span> <span class="n">where</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+
+<div class="viewcode-block" id="ScopedVariableRef.eval"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.variables.ScopedVariableRef.eval">[docs]</a>    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+</div>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;ScopedVariableRef(</span><span class="si">%r</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_lookup_from_calling_scope</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">token</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extract the value of the token from the scope where the spec is defined</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># We walk the callstack from the outside in, searching for the</span>
+        <span class="c"># frame where the spec is defined</span>
+        <span class="c">#</span>
+        <span class="c"># XXX Check if there are other places where a spec might be defined</span>
+        <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">parse</span><span class="p">,</span> <span class="n">check</span><span class="p">,</span> <span class="n">fail</span>
+
+        <span class="k">def</span> <span class="nf">_code</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>  <span class="c"># py2</span>
+                <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">func_code</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span> <span class="c"># py3</span>
+                <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">__code__</span>
+
+        <span class="n">frames</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getouterframes</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">())</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">frames</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="n">fcodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">f_code</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">frames</span><span class="p">]</span>
+
+        <span class="k">def</span> <span class="nf">find_invokation</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+            <span class="c"># return the first frame where func is called, or raise ValueError</span>
+            <span class="c"># find first frame inside function, step out 1</span>
+            <span class="k">return</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">frames</span><span class="p">[</span><span class="n">fcodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">_code</span><span class="p">(</span><span class="n">func</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">def</span> <span class="nf">find_decorate</span><span class="p">():</span>
+            <span class="c"># return the first frame where decorate is called, or raise ValueError</span>
+
+            <span class="c"># Brittle: We must to determine whether user calls decorate</span>
+            <span class="c">#          directly (in which case relevant scope is 1 frame out)</span>
+            <span class="c">#          or indirectly via @contract() (scope is 2 frames out)</span>
+            <span class="c">#          The implementation relies on the name `tmp_wrap` of the</span>
+            <span class="c">#          hidden function inside @contract.</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">fcodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">_code</span><span class="p">(</span><span class="n">decorate</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">frames</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span> <span class="o">==</span> <span class="s">&#39;tmp_wrap&#39;</span><span class="p">:</span>
+                <span class="c"># decorate() called via @contract, Step out 2 frames</span>
+                <span class="k">return</span> <span class="n">frames</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span>
+
+            <span class="c"># decorate() called oustide of @contract, step out 1 frame</span>
+            <span class="k">return</span> <span class="n">frames</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="c"># search order important</span>
+        <span class="n">searchers</span> <span class="o">=</span> <span class="p">[</span><span class="n">find_decorate</span><span class="p">,</span>
+                     <span class="n">find_invokation</span><span class="p">(</span><span class="n">check</span><span class="p">),</span>
+                     <span class="n">find_invokation</span><span class="p">(</span><span class="n">fail</span><span class="p">),</span>
+                     <span class="n">find_invokation</span><span class="p">(</span><span class="n">parse</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">searchers</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="n">s</span><span class="p">()</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">f</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">f_locals</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">f_globals</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ContractException</span><span class="p">(</span><span class="s">&quot;Variable not found: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">token</span><span class="p">)</span>
+
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;Cound not find a scope to lookup </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">token</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ScopedVariableRef.parse_action"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.variables.ScopedVariableRef.parse_action">[docs]</a>    <span class="k">def</span> <span class="nf">parse_action</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_lookup_from_calling_scope</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">where</span> <span class="o">=</span> <span class="n">W</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
+</div></div>
 <span class="n">alphabetu</span> <span class="o">=</span> <span class="s">&#39;A B C D E F G H I J K L M N O P Q R S T U W V X Y Z &#39;</span>
 <span class="n">alphabetl</span> <span class="o">=</span> <span class="s">&#39;a b c d e f g h i j k l m n o p q r s t u w v x y z &#39;</span>
 
@@ -188,6 +278,10 @@
                                                 <span class="n">BindVariable</span><span class="o">.</span><span class="n">parse_action</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
 <span class="n">misc_variables_contract</span> <span class="o">=</span> <span class="n">misc_variables2</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span>
                                             <span class="n">BindVariable</span><span class="o">.</span><span class="n">parse_action</span><span class="p">(</span><span class="nb">object</span><span class="p">))</span>
+
+
+<span class="n">scoped_variables</span> <span class="o">=</span> <span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s">&#39;$&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Word</span><span class="p">(</span><span class="n">alphanums</span> <span class="o">+</span> <span class="s">&#39;_&#39;</span><span class="p">))</span>
+<span class="n">scoped_variables_ref</span> <span class="o">=</span> <span class="n">scoped_variables</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">ScopedVariableRef</span><span class="o">.</span><span class="n">parse_action</span><span class="p">)</span>
 </pre></div>
 
           </div>
@@ -221,7 +315,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li>
           <li><a href="../../contracts.html" >contracts</a> &raquo;</li> 
       </ul>

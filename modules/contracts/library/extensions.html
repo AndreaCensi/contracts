@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>contracts.library.extensions &mdash; PyContracts 1.6.5 documentation</title>
+    <title>contracts.library.extensions &mdash; PyContracts 1.6.6 documentation</title>
     
     <link rel="stylesheet" href="../../../static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '1.6.5',
+        VERSION:     '1.6.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../static/jquery.js"></script>
     <script type="text/javascript" src="../../../static/underscore.js"></script>
     <script type="text/javascript" src="../../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.6.5 documentation" href="../../../index.html" />
+    <link rel="top" title="PyContracts 1.6.6 documentation" href="../../../index.html" />
     <link rel="up" title="contracts" href="../../contracts.html" />
 	 
 
@@ -60,7 +60,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li>
           <li><a href="../../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
       </ul>
@@ -74,60 +74,80 @@
   <h1>Source code for contracts.library.extensions</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">..interface</span> <span class="kn">import</span> <span class="n">Contract</span><span class="p">,</span> <span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">describe_value</span>
 <span class="kn">from</span> <span class="nn">..syntax</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Combine</span><span class="p">,</span> <span class="n">Word</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">alphas</span><span class="p">,</span> <span class="n">alphanums</span><span class="p">,</span> <span class="n">oneOf</span><span class="p">,</span>
-                      <span class="n">ParseException</span><span class="p">)</span>
+                      <span class="n">ParseException</span><span class="p">,</span> <span class="n">ZeroOrMore</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">rvalue</span><span class="p">,</span>
+                      <span class="n">delimitedList</span><span class="p">,</span> <span class="n">Or</span><span class="p">,</span> <span class="n">Optional</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Extension"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.extensions.Extension">[docs]</a><span class="k">class</span> <span class="nc">Extension</span><span class="p">(</span><span class="n">Contract</span><span class="p">):</span>
-
     <span class="n">registrar</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(),</span> <span class="n">kwargs</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="k">assert</span> <span class="n">identifier</span> <span class="ow">in</span> <span class="n">Extension</span><span class="o">.</span><span class="n">registrar</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">contract</span> <span class="o">=</span> <span class="n">Extension</span><span class="o">.</span><span class="n">registrar</span><span class="p">[</span><span class="n">identifier</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span> <span class="o">=</span> <span class="n">identifier</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span> <span class="ow">or</span> <span class="p">{}</span>
         <span class="n">Contract</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span>
-<span class="c">#         return Extension.registrar[self.identifier].__str__()</span>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="s">&quot;Extension(</span><span class="si">%r</span><span class="s">, args=</span><span class="si">%r</span><span class="s">, kwargs=</span><span class="si">%r</span><span class="s">)&quot;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">))</span>
+
         <span class="k">return</span> <span class="s">&quot;Extension(</span><span class="si">%r</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span>
-        <span class="c"># return &quot;new_contract(%r,%s)&quot; % (self.identifier, Extension.registrar[self.identifier])</span>
 
 <div class="viewcode-block" id="Extension.check_contract"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.extensions.Extension.check_contract">[docs]</a>    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">context</span><span class="p">[</span><span class="s">&#39;args&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s">&#39;kwargs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">context</span><span class="p">))</span> <span class="k">for</span>
+                                 <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">contract</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 </div>
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="Extension.parse_action"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.extensions.Extension.parse_action">[docs]</a>    <span class="k">def</span> <span class="nf">parse_action</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
         <span class="n">identifier</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">()</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">identifier</span> <span class="ow">in</span> <span class="n">Extension</span><span class="o">.</span><span class="n">registrar</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ParseException</span><span class="p">(</span><span class="s">&#39;Not matching </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">identifier</span><span class="p">)</span>
 
         <span class="n">where</span> <span class="o">=</span> <span class="n">W</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Extension</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Extension</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">where</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
 
     <span class="c"># We want to be pickable so we do not save self.contract</span>
     <span class="c"># which might point to a lambda</span></div>
     <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s">&#39;identifier&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">&#39;identifier&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span>
+                <span class="s">&#39;args&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span>
+                <span class="s">&#39;kwargs&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;identifier&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">contract</span> <span class="o">=</span> <span class="n">Extension</span><span class="o">.</span><span class="n">registrar</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;args&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;kwargs&#39;</span><span class="p">]</span>
 
 </div>
 <div class="viewcode-block" id="CheckCallable"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.extensions.CheckCallable">[docs]</a><span class="k">class</span> <span class="nc">CheckCallable</span><span class="p">(</span><span class="n">Contract</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">callable</span><span class="p">):</span>  <span class="c"># @ReservedAssignment</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">callable</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">callable</span> <span class="o">=</span> <span class="nb">callable</span>
         <span class="n">Contract</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
 
 <div class="viewcode-block" id="CheckCallable.check_contract"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.extensions.CheckCallable.check_contract">[docs]</a>    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">allowed</span> <span class="o">=</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">AssertionError</span><span class="p">)</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;args&#39;</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">())</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;kwargs&#39;</span><span class="p">,</span> <span class="p">{})</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">callable</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">callable</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">allowed</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c"># failed</span>
             <span class="k">raise</span> <span class="n">ContractNotRespected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
 
@@ -135,41 +155,45 @@
             <span class="c"># passed</span>
             <span class="k">pass</span>
         <span class="k">elif</span> <span class="n">result</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;Value does not pass criteria of </span><span class="si">%s</span><span class="s">() (module: </span><span class="si">%s</span><span class="s">).&#39;</span> <span class="o">%</span> 
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;Value does not pass criteria of </span><span class="si">%s</span><span class="s">() (module: </span><span class="si">%s</span><span class="s">).&#39;</span> <span class="o">%</span>
                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">callable</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">callable</span><span class="o">.</span><span class="n">__module__</span><span class="p">))</span>
             <span class="k">raise</span> <span class="n">ContractNotRespected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;I expect that </span><span class="si">%r</span><span class="s"> returns either True, False, None; or &#39;</span>
-                   <span class="s">&#39;raises a ValueError exception. Instead, I got </span><span class="si">%s</span><span class="s">.&#39;</span> <span class="o">%</span> 
+                   <span class="s">&#39;raises a ValueError exception. Instead, I got </span><span class="si">%s</span><span class="s">.&#39;</span> <span class="o">%</span>
                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">callable</span><span class="p">,</span> <span class="n">describe_value</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 </div>
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Note: this contract is not representable, but anyway it is </span>
-<span class="sd">            only used by Extension, which serializes using the identifier. &#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot; Note: this contract is not representable, but anyway it is</span>
+<span class="sd">            only used by Extension, which serializes using the identifier. &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s">&#39;CheckCallable(</span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">callable</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Note: this contract is not representable, but anyway it is only </span>
-<span class="sd">            used by Extension, which serializes using the identifier. &#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot; Note: this contract is not representable, but anyway it is only</span>
+<span class="sd">            used by Extension, which serializes using the identifier. &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s">&#39;function </span><span class="si">%s</span><span class="s">()&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">callable</span><span class="o">.</span><span class="n">__name__</span>
 
 </div>
 <div class="viewcode-block" id="CheckCallableWithSelf"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.extensions.CheckCallableWithSelf">[docs]</a><span class="k">class</span> <span class="nc">CheckCallableWithSelf</span><span class="p">(</span><span class="n">Contract</span><span class="p">):</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">callable</span><span class="p">):</span>  <span class="c"># @ReservedAssignment</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">callable</span> <span class="o">=</span> <span class="nb">callable</span>
         <span class="n">Contract</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
 
 <div class="viewcode-block" id="CheckCallableWithSelf.check_contract"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.extensions.CheckCallableWithSelf.check_contract">[docs]</a>    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;args&#39;</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">())</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;kwargs&#39;</span><span class="p">,</span> <span class="p">{})</span>
+
         <span class="k">if</span> <span class="ow">not</span> <span class="s">&#39;self&#39;</span> <span class="ow">in</span> <span class="n">context</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;You can only call this contract in the context of &#39;</span>
                    <span class="s">&#39; a function call to a regular method.&#39;</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">ContractNotRespected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
 
-        <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">context</span><span class="p">[</span><span class="s">&#39;self&#39;</span><span class="p">],</span> <span class="n">value</span><span class="p">)</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">context</span><span class="p">[</span><span class="s">&#39;self&#39;</span><span class="p">],</span> <span class="n">value</span><span class="p">)</span> <span class="o">+</span> <span class="n">args</span>
         <span class="n">allowed</span> <span class="o">=</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">AssertionError</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">callable</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">callable</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">allowed</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c"># failed</span>
             <span class="k">raise</span> <span class="n">ContractNotRespected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
 
@@ -177,31 +201,49 @@
             <span class="c"># passed</span>
             <span class="k">pass</span>
         <span class="k">elif</span> <span class="n">result</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;Value does not pass criteria of </span><span class="si">%s</span><span class="s">() (module: </span><span class="si">%s</span><span class="s">).&#39;</span> <span class="o">%</span> 
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;Value does not pass criteria of </span><span class="si">%s</span><span class="s">() (module: </span><span class="si">%s</span><span class="s">).&#39;</span> <span class="o">%</span>
                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">callable</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">callable</span><span class="o">.</span><span class="n">__module__</span><span class="p">))</span>
             <span class="k">raise</span> <span class="n">ContractNotRespected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;I expect that </span><span class="si">%r</span><span class="s"> returns either True, False, None; or &#39;</span>
-                   <span class="s">&#39;raises a ValueError exception. Instead, I got </span><span class="si">%s</span><span class="s">.&#39;</span> <span class="o">%</span> 
+                   <span class="s">&#39;raises a ValueError exception. Instead, I got </span><span class="si">%s</span><span class="s">.&#39;</span> <span class="o">%</span>
                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">callable</span><span class="p">,</span> <span class="n">describe_value</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 </div>
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Note: this contract is not representable, but anyway it is only </span>
-<span class="sd">            used by Extension, which serializes using the identifier. &#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot; Note: this contract is not representable, but anyway it is only</span>
+<span class="sd">            used by Extension, which serializes using the identifier. &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s">&#39;CheckCallableWithSelf(</span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">callable</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Note: this contract is not representable, but anyway it is only </span>
-<span class="sd">            used by Extension, which serializes using the identifier. &#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot; Note: this contract is not representable, but anyway it is only</span>
+<span class="sd">            used by Extension, which serializes using the identifier. &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s">&#39;function </span><span class="si">%s</span><span class="s">()&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">callable</span><span class="o">.</span><span class="n">__name__</span>
 
 
-<span class="c"># lowercase = alphas.lower()</span></div>
-<span class="n">identifier_expression</span> <span class="o">=</span> <span class="n">Combine</span><span class="p">(</span><span class="n">oneOf</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">alphas</span><span class="p">))</span> <span class="o">+</span> <span class="n">Word</span><span class="p">(</span><span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">alphanums</span><span class="p">))</span>
+<span class="c"># lowercase = alphas.lower()</span>
+</div>
+<span class="n">w</span> <span class="o">=</span> <span class="n">Word</span><span class="p">(</span><span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">alphanums</span><span class="p">)</span>
+<span class="n">arg</span> <span class="o">=</span> <span class="n">rvalue</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">kwarg</span> <span class="o">=</span> <span class="n">w</span> <span class="o">+</span> <span class="n">ZeroOrMore</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="s">&#39;=&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">ZeroOrMore</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">rvalue</span>
+<span class="n">kwarg</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">tokens</span><span class="p">:</span> <span class="p">{</span><span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">1</span><span class="p">]})</span>
+
+
+<div class="viewcode-block" id="build_args_kwargs"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.extensions.build_args_kwargs">[docs]</a><span class="k">def</span> <span class="nf">build_args_kwargs</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tokens</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)),</span>
+            <span class="nb">dict</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tokens</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
+                 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+</div>
+<span class="n">arglist</span> <span class="o">=</span> <span class="n">delimitedList</span><span class="p">(</span><span class="n">kwarg</span> <span class="o">|</span> <span class="n">arg</span><span class="p">)</span>
+<span class="n">arglist</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">build_args_kwargs</span><span class="p">)</span>
+
+<span class="n">identifier_expression</span> <span class="o">=</span> <span class="p">(</span><span class="n">Combine</span><span class="p">(</span><span class="n">oneOf</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">alphas</span><span class="p">))</span> <span class="o">+</span> <span class="n">Word</span><span class="p">(</span><span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">alphanums</span><span class="p">))</span> <span class="o">+</span>
+                         <span class="n">Optional</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s">&#39;(&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">arglist</span> <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">)))</span>
+
 
 <span class="n">identifier_contract</span> <span class="o">=</span> <span class="n">identifier_expression</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span>
-                                                        <span class="n">Extension</span><span class="o">.</span><span class="n">parse_action</span><span class="p">)</span>
+    <span class="n">Extension</span><span class="o">.</span><span class="n">parse_action</span><span class="p">)</span>
 </pre></div>
 
           </div>
@@ -235,7 +277,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li>
           <li><a href="../../contracts.html" >contracts</a> &raquo;</li> 
       </ul>

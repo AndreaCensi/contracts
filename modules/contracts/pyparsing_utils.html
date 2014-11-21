@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>contracts.pyparsing_utils &mdash; PyContracts 1.6.5 documentation</title>
+    <title>contracts.pyparsing_utils &mdash; PyContracts 1.6.6 documentation</title>
     
     <link rel="stylesheet" href="../../static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.6.5',
+        VERSION:     '1.6.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../static/jquery.js"></script>
     <script type="text/javascript" src="../../static/underscore.js"></script>
     <script type="text/javascript" src="../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.6.5 documentation" href="../../index.html" />
+    <link rel="top" title="PyContracts 1.6.6 documentation" href="../../index.html" />
     <link rel="up" title="contracts" href="../contracts.html" />
 	 
 
@@ -60,7 +60,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li>
           <li><a href="../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
       </ul>
@@ -74,14 +74,14 @@
   <h1>Source code for contracts.pyparsing_utils</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">.syntax</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Forward</span><span class="p">,</span> <span class="n">Suppress</span><span class="p">,</span> <span class="n">FollowedBy</span><span class="p">,</span> <span class="n">Group</span><span class="p">,</span> <span class="n">OneOrMore</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span>
                      <span class="n">opAssoc</span><span class="p">)</span>
-
-
+ 
+ 
 <div class="viewcode-block" id="myOperatorPrecedence"><a class="viewcode-back" href="../../api/contracts.html#contracts.pyparsing_utils.myOperatorPrecedence">[docs]</a><span class="k">def</span> <span class="nf">myOperatorPrecedence</span><span class="p">(</span><span class="n">baseExpr</span><span class="p">,</span> <span class="n">opList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Helper method for constructing grammars of expressions made up of</span>
 <span class="sd">       operators working in a precedence hierarchy.  Operators may be unary or</span>
 <span class="sd">       binary, left- or right-associative.  Parse actions can also be attached</span>
 <span class="sd">       to operator expressions.</span>
-
+<span class="sd"> </span>
 <span class="sd">       Parameters:</span>
 <span class="sd">        - baseExpr - expression representing the most basic element for the</span>
 <span class="sd">        - opList - list of tuples, one for each operator precedence level in </span>
@@ -104,7 +104,8 @@
     <span class="n">allops</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">opList</span><span class="p">]</span>
     <span class="n">opnames</span> <span class="o">=</span> <span class="s">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">allops</span><span class="p">)</span>
     <span class="n">ret</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&#39;operatorSystem(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="n">opnames</span><span class="p">)</span>
-<span class="c">#    parenthesis = Suppress(&#39;(&#39;) + ret + FollowedBy(NotAny(oneOf(allops))) - Suppress(&#39;)&#39;)</span>
+    <span class="c"># parenthesis = Suppress(&#39;(&#39;) + ret + FollowedBy(NotAny(oneOf(allops)))</span>
+    <span class="c"># - Suppress(&#39;)&#39;)</span>
     <span class="n">parenthesis</span> <span class="o">=</span> <span class="n">Suppress</span><span class="p">(</span><span class="s">&#39;(&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">ret</span> <span class="o">-</span> <span class="n">Suppress</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">)</span>
     <span class="n">lastExpr</span> <span class="o">=</span> <span class="n">parenthesis</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&#39;parenthesis(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="n">opnames</span><span class="p">)</span> <span class="o">|</span> <span class="n">baseExpr</span>
     <span class="c">#lastExpr.setName(&#39;Base operand (%s) or parenthesis&#39; % str(baseExpr))</span>
@@ -112,44 +113,66 @@
         <span class="n">opExpr</span><span class="p">,</span> <span class="n">arity</span><span class="p">,</span> <span class="n">rightLeftAssoc</span><span class="p">,</span> <span class="n">pa</span> <span class="o">=</span> <span class="p">(</span><span class="n">operDef</span> <span class="o">+</span> <span class="p">(</span><span class="bp">None</span><span class="p">,))[:</span><span class="mi">4</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">arity</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">opExpr</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">opExpr</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;if numterms=3, opExpr must be a tuple or list of two expressions&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s">&quot;if numterms=3, opExpr must be a tuple or list of two &quot;</span>
+                    <span class="s">&quot;expressions&quot;</span><span class="p">)</span>
             <span class="n">opExpr1</span><span class="p">,</span> <span class="n">opExpr2</span> <span class="o">=</span> <span class="n">opExpr</span>
         <span class="n">thisExpr</span> <span class="o">=</span> <span class="n">Forward</span><span class="p">()</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&quot;operation_with(</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="n">opExpr</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">rightLeftAssoc</span> <span class="o">==</span> <span class="n">opAssoc</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">arity</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">matchExpr</span> <span class="o">=</span> <span class="n">FollowedBy</span><span class="p">(</span><span class="n">lastExpr</span> <span class="o">+</span> <span class="n">opExpr</span><span class="p">)</span> <span class="o">+</span> <span class="n">Group</span><span class="p">(</span><span class="n">lastExpr</span> <span class="o">+</span> <span class="n">OneOrMore</span><span class="p">(</span><span class="n">opExpr</span><span class="p">))</span>
+                <span class="n">matchExpr</span> <span class="o">=</span> <span class="n">FollowedBy</span><span class="p">(</span><span class="n">lastExpr</span> <span class="o">+</span> <span class="n">opExpr</span><span class="p">)</span> <span class="o">+</span> <span class="n">Group</span><span class="p">(</span>
+                    <span class="n">lastExpr</span> <span class="o">+</span> <span class="n">OneOrMore</span><span class="p">(</span><span class="n">opExpr</span><span class="p">))</span>
             <span class="k">elif</span> <span class="n">arity</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">opExpr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-<span class="c">#                    matchExpr = Group(lastExpr + FollowedBy(opExpr) + OneOrMore(opExpr - lastExpr))                </span>
-                    <span class="n">matchExpr</span> <span class="o">=</span> <span class="n">Group</span><span class="p">(</span><span class="n">lastExpr</span> <span class="o">+</span> <span class="n">FollowedBy</span><span class="p">(</span><span class="n">opExpr</span><span class="p">)</span> <span class="o">-</span> <span class="n">OneOrMore</span><span class="p">(</span><span class="n">opExpr</span> <span class="o">-</span> <span class="n">lastExpr</span><span class="p">))</span>
+                    <span class="c">#                    matchExpr = Group(lastExpr +</span>
+                    <span class="c"># FollowedBy(opExpr) + OneOrMore(opExpr - lastExpr))</span>
+
+                    <span class="n">matchExpr</span> <span class="o">=</span> <span class="n">Group</span><span class="p">(</span>
+                        <span class="n">lastExpr</span> <span class="o">+</span> <span class="n">FollowedBy</span><span class="p">(</span><span class="n">opExpr</span><span class="p">)</span> <span class="o">-</span> <span class="n">OneOrMore</span><span class="p">(</span>
+                            <span class="n">opExpr</span> <span class="o">-</span> <span class="n">lastExpr</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">matchExpr</span> <span class="o">=</span> <span class="n">FollowedBy</span><span class="p">(</span><span class="n">lastExpr</span> <span class="o">+</span> <span class="n">lastExpr</span><span class="p">)</span> <span class="o">+</span> <span class="n">Group</span><span class="p">(</span><span class="n">lastExpr</span> <span class="o">+</span> <span class="n">OneOrMore</span><span class="p">(</span><span class="n">lastExpr</span><span class="p">))</span>
+                    <span class="n">matchExpr</span> <span class="o">=</span> <span class="n">FollowedBy</span><span class="p">(</span><span class="n">lastExpr</span> <span class="o">+</span> <span class="n">lastExpr</span><span class="p">)</span> <span class="o">+</span> <span class="n">Group</span><span class="p">(</span>
+                        <span class="n">lastExpr</span> <span class="o">+</span> <span class="n">OneOrMore</span><span class="p">(</span><span class="n">lastExpr</span><span class="p">))</span>
             <span class="k">elif</span> <span class="n">arity</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="n">matchExpr</span> <span class="o">=</span> <span class="n">FollowedBy</span><span class="p">(</span><span class="n">lastExpr</span> <span class="o">+</span> <span class="n">opExpr1</span> <span class="o">+</span> <span class="n">lastExpr</span> <span class="o">+</span> <span class="n">opExpr2</span> <span class="o">+</span> <span class="n">lastExpr</span><span class="p">)</span> <span class="o">+</span> \
-                            <span class="n">Group</span><span class="p">(</span><span class="n">lastExpr</span> <span class="o">+</span> <span class="n">opExpr1</span> <span class="o">+</span> <span class="n">lastExpr</span> <span class="o">+</span> <span class="n">opExpr2</span> <span class="o">+</span> <span class="n">lastExpr</span><span class="p">)</span>
+                <span class="n">matchExpr</span> <span class="o">=</span> <span class="n">FollowedBy</span><span class="p">(</span>
+                    <span class="n">lastExpr</span> <span class="o">+</span> <span class="n">opExpr1</span> <span class="o">+</span> <span class="n">lastExpr</span> <span class="o">+</span> <span class="n">opExpr2</span> <span class="o">+</span> <span class="n">lastExpr</span><span class="p">)</span> <span class="o">+</span> \
+                            <span class="n">Group</span><span class="p">(</span>
+                                <span class="n">lastExpr</span> <span class="o">+</span> <span class="n">opExpr1</span> <span class="o">+</span> <span class="n">lastExpr</span> <span class="o">+</span> <span class="n">opExpr2</span> <span class="o">+</span>
+                                <span class="n">lastExpr</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;operator must be unary (1), binary (2), or ternary (3)&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s">&quot;operator must be unary (1), binary (2), or ternary (3)&quot;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">rightLeftAssoc</span> <span class="o">==</span> <span class="n">opAssoc</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">arity</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="c"># try to avoid LR with this extra test</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opExpr</span><span class="p">,</span> <span class="n">Optional</span><span class="p">):</span>
                     <span class="n">opExpr</span> <span class="o">=</span> <span class="n">Optional</span><span class="p">(</span><span class="n">opExpr</span><span class="p">)</span>
-                <span class="n">matchExpr</span> <span class="o">=</span> <span class="n">FollowedBy</span><span class="p">(</span><span class="n">opExpr</span><span class="o">.</span><span class="n">expr</span> <span class="o">-</span> <span class="n">thisExpr</span><span class="p">)</span> <span class="o">-</span> <span class="n">Group</span><span class="p">(</span><span class="n">opExpr</span> <span class="o">-</span> <span class="n">thisExpr</span><span class="p">)</span>
+                <span class="n">matchExpr</span> <span class="o">=</span> <span class="n">FollowedBy</span><span class="p">(</span><span class="n">opExpr</span><span class="o">.</span><span class="n">expr</span> <span class="o">-</span> <span class="n">thisExpr</span><span class="p">)</span> <span class="o">-</span> <span class="n">Group</span><span class="p">(</span>
+                    <span class="n">opExpr</span> <span class="o">-</span> <span class="n">thisExpr</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">arity</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">opExpr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                    <span class="n">matchExpr</span> <span class="o">=</span> <span class="n">FollowedBy</span><span class="p">(</span><span class="n">lastExpr</span> <span class="o">+</span> <span class="n">opExpr</span> <span class="o">-</span> <span class="n">thisExpr</span><span class="p">)</span> <span class="o">+</span> <span class="n">Group</span><span class="p">(</span><span class="n">lastExpr</span> <span class="o">+</span> <span class="n">OneOrMore</span><span class="p">(</span><span class="n">opExpr</span> <span class="o">-</span> <span class="n">thisExpr</span><span class="p">))</span>
+                    <span class="n">matchExpr</span> <span class="o">=</span> <span class="n">FollowedBy</span><span class="p">(</span>
+                        <span class="n">lastExpr</span> <span class="o">+</span> <span class="n">opExpr</span> <span class="o">-</span> <span class="n">thisExpr</span><span class="p">)</span> <span class="o">+</span> <span class="n">Group</span><span class="p">(</span>
+                        <span class="n">lastExpr</span> <span class="o">+</span> <span class="n">OneOrMore</span><span class="p">(</span><span class="n">opExpr</span> <span class="o">-</span> <span class="n">thisExpr</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">matchExpr</span> <span class="o">=</span> <span class="n">FollowedBy</span><span class="p">(</span><span class="n">lastExpr</span> <span class="o">+</span> <span class="n">thisExpr</span><span class="p">)</span> <span class="o">+</span> <span class="n">Group</span><span class="p">(</span><span class="n">lastExpr</span> <span class="o">+</span> <span class="n">OneOrMore</span><span class="p">(</span><span class="n">thisExpr</span><span class="p">))</span>
+                    <span class="n">matchExpr</span> <span class="o">=</span> <span class="n">FollowedBy</span><span class="p">(</span><span class="n">lastExpr</span> <span class="o">+</span> <span class="n">thisExpr</span><span class="p">)</span> <span class="o">+</span> <span class="n">Group</span><span class="p">(</span>
+                        <span class="n">lastExpr</span> <span class="o">+</span> <span class="n">OneOrMore</span><span class="p">(</span><span class="n">thisExpr</span><span class="p">))</span>
             <span class="k">elif</span> <span class="n">arity</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="n">matchExpr</span> <span class="o">=</span> <span class="n">FollowedBy</span><span class="p">(</span><span class="n">lastExpr</span> <span class="o">+</span> <span class="n">opExpr1</span> <span class="o">+</span> <span class="n">thisExpr</span> <span class="o">+</span> <span class="n">opExpr2</span> <span class="o">+</span> <span class="n">thisExpr</span><span class="p">)</span> <span class="o">+</span> \
-                            <span class="n">Group</span><span class="p">(</span><span class="n">lastExpr</span> <span class="o">+</span> <span class="n">opExpr1</span> <span class="o">+</span> <span class="n">thisExpr</span> <span class="o">+</span> <span class="n">opExpr2</span> <span class="o">+</span> <span class="n">thisExpr</span><span class="p">)</span>
+                <span class="n">matchExpr</span> <span class="o">=</span> <span class="n">FollowedBy</span><span class="p">(</span>
+                    <span class="n">lastExpr</span> <span class="o">+</span> <span class="n">opExpr1</span> <span class="o">+</span> <span class="n">thisExpr</span> <span class="o">+</span> <span class="n">opExpr2</span> <span class="o">+</span> <span class="n">thisExpr</span><span class="p">)</span> <span class="o">+</span> \
+                            <span class="n">Group</span><span class="p">(</span>
+                                <span class="n">lastExpr</span> <span class="o">+</span> <span class="n">opExpr1</span> <span class="o">+</span> <span class="n">thisExpr</span> <span class="o">+</span> <span class="n">opExpr2</span> <span class="o">+</span>
+                                <span class="n">thisExpr</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;operator must be unary (1), binary (2), or ternary (3)&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s">&quot;operator must be unary (1), binary (2), or ternary (3)&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;operator must indicate right or left associativity&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s">&quot;operator must indicate right or left associativity&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">pa</span><span class="p">:</span>
             <span class="n">matchExpr</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">pa</span><span class="p">)</span>
-        <span class="n">thisExpr</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">matchExpr</span> <span class="o">|</span> <span class="n">lastExpr</span><span class="p">)</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&#39;operation with </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">opExpr</span><span class="p">)</span>
+        <span class="n">thisExpr</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">matchExpr</span> <span class="o">|</span> <span class="n">lastExpr</span><span class="p">)</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span>
+            <span class="s">&#39;operation with </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">opExpr</span><span class="p">)</span>
         <span class="n">lastExpr</span> <span class="o">=</span> <span class="n">thisExpr</span>
     <span class="n">ret</span> <span class="o">&lt;&lt;</span> <span class="n">lastExpr</span>
     <span class="k">return</span> <span class="n">ret</span></div>
@@ -186,7 +209,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li>
           <li><a href="../contracts.html" >contracts</a> &raquo;</li> 
       </ul>

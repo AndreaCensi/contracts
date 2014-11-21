@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>contracts.backported &mdash; PyContracts 1.6.5 documentation</title>
+    <title>contracts.backported &mdash; PyContracts 1.6.6 documentation</title>
     
     <link rel="stylesheet" href="../../static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.6.5',
+        VERSION:     '1.6.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../static/jquery.js"></script>
     <script type="text/javascript" src="../../static/underscore.js"></script>
     <script type="text/javascript" src="../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.6.5 documentation" href="../../index.html" />
+    <link rel="top" title="PyContracts 1.6.6 documentation" href="../../index.html" />
     <link rel="up" title="contracts" href="../contracts.html" />
 	 
 
@@ -60,7 +60,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li>
           <li><a href="../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
       </ul>
@@ -76,14 +76,14 @@
 <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">ArgSpec</span>
 
 <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>  <span class="c"># pragma: no cover</span>
-    <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">getfullargspec</span>  <span class="c"># @UnresolvedImport</span>
+    <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">getfullargspec</span>
 
 <span class="k">else</span><span class="p">:</span>  <span class="c"># pragma: no cover</span>
     <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
     <span class="n">FullArgSpec</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s">&#39;FullArgSpec&#39;</span><span class="p">,</span> <span class="s">&#39;args varargs varkw defaults&#39;</span>
                              <span class="s">&#39; kwonlyargs kwonlydefaults annotations&#39;</span><span class="p">)</span>
     <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">getargspec</span> <span class="k">as</span> <span class="n">_getargspec</span>
-    
+
 <div class="viewcode-block" id="getargspec"><a class="viewcode-back" href="../../api/contracts.html#contracts.backported.getargspec">[docs]</a>    <span class="k">def</span> <span class="nf">getargspec</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
         <span class="c"># print &#39;hasattr im_func&#39;, hasattr(function, &#39;im_func&#39;)</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="s">&#39;im_func&#39;</span><span class="p">):</span>
@@ -100,7 +100,7 @@
             <span class="n">spec</span> <span class="o">=</span> <span class="n">ArgSpec</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="n">new_args</span><span class="p">,</span> <span class="n">varargs</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">varargs</span><span class="p">,</span>
                            <span class="n">keywords</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">keywords</span><span class="p">,</span> <span class="n">defaults</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">defaults</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">spec</span>
-        
+
         <span class="c"># print &#39;calling normal %s&#39; % function</span>
         <span class="k">return</span> <span class="n">_getargspec</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
 </div>
@@ -115,9 +115,9 @@
 
 
 <span class="c"># Backport inspect.getcallargs from Python 2.7 to 2.6</span></div>
-<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">):</span>  <span class="c"># pragma: no cover</span>
-    <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">getcallargs</span>  <span class="c"># @UnresolvedImport @UnusedImport</span>
-
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">):</span>
+    <span class="c"># noinspection PyUnresolvedReferences</span>
+    <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">getcallargs</span>
 <span class="k">else</span><span class="p">:</span>  <span class="c"># pragma: no cover</span>
     <span class="n">inPy3k</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span>
 
@@ -128,9 +128,10 @@
 <span class="sd">    </span>
 <span class="sd">        A dict is returned, with keys the function argument names (including the</span>
 <span class="sd">        names of the * and ** arguments, if any), and values the respective bound</span>
-<span class="sd">        values from &#39;positional&#39; and &#39;named&#39;.&quot;&quot;&quot;</span>
+<span class="sd">        values from &#39;positional&#39; and &#39;named&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">args</span><span class="p">,</span> <span class="n">varargs</span><span class="p">,</span> <span class="n">varkw</span><span class="p">,</span> <span class="n">defaults</span><span class="p">,</span> \
-            <span class="n">kwonlyargs</span><span class="p">,</span> <span class="n">kwonlydefaults</span><span class="p">,</span> <span class="n">annotations</span> <span class="o">=</span> <span class="n">getfullargspec</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>  <span class="c"># @UnusedVariable</span>
+            <span class="n">kwonlyargs</span><span class="p">,</span> <span class="n">kwonlydefaults</span><span class="p">,</span> <span class="n">annotations</span> <span class="o">=</span> <span class="n">getfullargspec</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">kwonlyargs</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;I&#39;m sorry, I don&#39;t have the logic to use kwonlyargs. &quot;</span>
@@ -139,9 +140,10 @@
         <span class="n">f_name</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="n">__name__</span>
         <span class="n">arg2value</span> <span class="o">=</span> <span class="p">{}</span>
 
-        <span class="c"># The following closures are basically because of tuple parameter unpacking.</span>
+        <span class="c"># The following closures are basically because of tuple</span>
+        <span class="c"># parameter unpacking.</span>
         <span class="n">assigned_tuple_params</span> <span class="o">=</span> <span class="p">[]</span>
-        
+
         <span class="k">def</span> <span class="nf">assign</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
                 <span class="n">arg2value</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
@@ -152,7 +154,7 @@
                     <span class="k">try</span><span class="p">:</span>
                         <span class="n">subvalue</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
                     <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
-                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;need more than </span><span class="si">%d</span><span class="s"> </span><span class="si">%s</span><span class="s"> to unpack&#39;</span> <span class="o">%</span> 
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;need more than </span><span class="si">%d</span><span class="s"> </span><span class="si">%s</span><span class="s"> to unpack&#39;</span> <span class="o">%</span>
                                          <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s">&#39;values&#39;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s">&#39;value&#39;</span><span class="p">))</span>
                     <span class="n">assign</span><span class="p">(</span><span class="n">subarg</span><span class="p">,</span> <span class="n">subvalue</span><span class="p">)</span>
                 <span class="k">try</span><span class="p">:</span>
@@ -161,7 +163,7 @@
                     <span class="k">pass</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;too many values to unpack&#39;</span><span class="p">)</span>
-        
+
         <span class="k">def</span> <span class="nf">is_assigned</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">arg2value</span>
@@ -191,7 +193,7 @@
                 <span class="n">f_name</span><span class="p">,</span> <span class="s">&#39;at most&#39;</span> <span class="k">if</span> <span class="n">defaults</span> <span class="k">else</span> <span class="s">&#39;exactly&#39;</span><span class="p">,</span> <span class="n">num_args</span><span class="p">,</span>
                 <span class="s">&#39;arguments&#39;</span> <span class="k">if</span> <span class="n">num_args</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s">&#39;argument&#39;</span><span class="p">,</span> <span class="n">num_total</span><span class="p">))</span>
         <span class="k">elif</span> <span class="n">num_args</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">num_total</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">() takes no arguments (</span><span class="si">%d</span><span class="s"> given)&#39;</span> <span class="o">%</span> 
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">() takes no arguments (</span><span class="si">%d</span><span class="s"> given)&#39;</span> <span class="o">%</span>
                             <span class="p">(</span><span class="n">f_name</span><span class="p">,</span> <span class="n">num_total</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">named</span><span class="p">:</span>
@@ -210,7 +212,7 @@
             <span class="n">unexpected</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">named</span><span class="p">))</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">unexpected</span><span class="p">,</span> <span class="nb">unicode</span><span class="p">):</span>
                 <span class="n">unexpected</span> <span class="o">=</span> <span class="n">unexpected</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getdefaultencoding</span><span class="p">(),</span> <span class="s">&#39;replace&#39;</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">() got an unexpected keyword argument &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span> 
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">() got an unexpected keyword argument &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span>
                             <span class="p">(</span><span class="n">f_name</span><span class="p">,</span> <span class="n">unexpected</span><span class="p">))</span>
         <span class="n">unassigned</span> <span class="o">=</span> <span class="n">num_args</span> <span class="o">-</span> <span class="nb">len</span><span class="p">([</span><span class="n">arg</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span> <span class="k">if</span> <span class="n">is_assigned</span><span class="p">(</span><span class="n">arg</span><span class="p">)])</span>
         <span class="k">if</span> <span class="n">unassigned</span><span class="p">:</span>
@@ -252,7 +254,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li>
           <li><a href="../contracts.html" >contracts</a> &raquo;</li> 
       </ul>

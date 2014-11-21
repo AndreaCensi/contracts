@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>contracts.library.separate_context &mdash; PyContracts 1.6.5 documentation</title>
+    <title>contracts.library.separate_context &mdash; PyContracts 1.6.6 documentation</title>
     
     <link rel="stylesheet" href="../../../static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '1.6.5',
+        VERSION:     '1.6.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../static/jquery.js"></script>
     <script type="text/javascript" src="../../../static/underscore.js"></script>
     <script type="text/javascript" src="../../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.6.5 documentation" href="../../../index.html" />
+    <link rel="top" title="PyContracts 1.6.6 documentation" href="../../../index.html" />
     <link rel="up" title="contracts" href="../../contracts.html" />
 	 
 
@@ -60,7 +60,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li>
           <li><a href="../../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
       </ul>
@@ -99,7 +99,7 @@
         <span class="k">return</span> <span class="n">SeparateContext</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;child&#39;</span><span class="p">],</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
 
 </div></div>
-<span class="n">sepcon</span> <span class="o">=</span> <span class="p">(</span><span class="n">Group</span><span class="p">(</span><span class="n">Literal</span><span class="p">(</span><span class="s">&#39;$&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">Literal</span><span class="p">(</span><span class="s">&#39;(&#39;</span><span class="p">)</span> <span class="o">-</span>
+<span class="n">sepcon</span> <span class="o">=</span> <span class="p">(</span><span class="n">Group</span><span class="p">(</span><span class="n">Literal</span><span class="p">(</span><span class="s">&#39;$&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Literal</span><span class="p">(</span><span class="s">&#39;(&#39;</span><span class="p">)</span> <span class="o">-</span>
                 <span class="n">contract_expression</span><span class="p">(</span><span class="s">&#39;child&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">Literal</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">)))</span>
 <span class="n">sepcon</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">SeparateContext</span><span class="o">.</span><span class="n">parse_action</span><span class="p">)</span>
 <span class="n">sepcon</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&#39;Context separation construct&#39;</span><span class="p">)</span>
@@ -137,7 +137,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li>
           <li><a href="../../contracts.html" >contracts</a> &raquo;</li> 
       </ul>

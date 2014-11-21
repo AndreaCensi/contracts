@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>contracts.enabling &mdash; PyContracts 1.6.5 documentation</title>
+    <title>contracts.enabling &mdash; PyContracts 1.6.6 documentation</title>
     
     <link rel="stylesheet" href="../../static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.6.5',
+        VERSION:     '1.6.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../static/jquery.js"></script>
     <script type="text/javascript" src="../../static/underscore.js"></script>
     <script type="text/javascript" src="../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.6.5 documentation" href="../../index.html" />
+    <link rel="top" title="PyContracts 1.6.6 documentation" href="../../index.html" />
     <link rel="up" title="contracts" href="../contracts.html" />
 	 
 
@@ -60,7 +60,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li>
           <li><a href="../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
       </ul>
@@ -73,26 +73,32 @@
             
   <h1>Source code for contracts.enabling</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">import</span> <span class="nn">os</span>
 
 
 <div class="viewcode-block" id="Switches"><a class="viewcode-back" href="../../api/contracts.html#contracts.enabling.Switches">[docs]</a><span class="k">class</span> <span class="nc">Switches</span><span class="p">:</span>
-    <span class="n">disable_all</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="c"># default to ENV variable</span>
+    <span class="n">disable_all</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;DISABLE_CONTRACTS&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
 
 </div>
 <div class="viewcode-block" id="disable_all"><a class="viewcode-back" href="../../api/contracts.html#contracts.enabling.disable_all">[docs]</a><span class="k">def</span> <span class="nf">disable_all</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39; Disables all contracts checks. &#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot; Disables all contracts checks. &quot;&quot;&quot;</span>
     <span class="n">Switches</span><span class="o">.</span><span class="n">disable_all</span> <span class="o">=</span> <span class="bp">True</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;All contracts checking disabled.&#39;</span><span class="p">)</span>
 
 </div>
 <div class="viewcode-block" id="enable_all"><a class="viewcode-back" href="../../api/contracts.html#contracts.enabling.enable_all">[docs]</a><span class="k">def</span> <span class="nf">enable_all</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39; Enables all contracts checks. &#39;&#39;&#39;</span>
-    <span class="n">Switches</span><span class="o">.</span><span class="n">disable_all</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;All contracts checking enabled.&#39;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Enables all contracts checks.</span>
+<span class="sd">    Can be overridden by an environment variable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;DISABLE_CONTRACTS&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">):</span>
+        <span class="n">Switches</span><span class="o">.</span><span class="n">disable_all</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;All contracts checking enabled.&#39;</span><span class="p">)</span>
 
 </div>
 <div class="viewcode-block" id="all_disabled"><a class="viewcode-back" href="../../api/contracts.html#contracts.enabling.all_disabled">[docs]</a><span class="k">def</span> <span class="nf">all_disabled</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39; Returns true if all contracts checks are disabled. &#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot; Returns true if all contracts checks are disabled. &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">Switches</span><span class="o">.</span><span class="n">disable_all</span>
 </pre></div></div>
 
@@ -127,7 +133,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li>
           <li><a href="../contracts.html" >contracts</a> &raquo;</li> 
       </ul>

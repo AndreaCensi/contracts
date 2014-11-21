@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>PyContracts &mdash; PyContracts 1.6.5 documentation</title>
+    <title>PyContracts &mdash; PyContracts 1.6.6 documentation</title>
     
     <link rel="stylesheet" href="static/default.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.6.5',
+        VERSION:     '1.6.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.6.5 documentation" href="#" />
+    <link rel="top" title="PyContracts 1.6.6 documentation" href="#" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -59,7 +59,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">PyContracts 1.6.5 documentation</a> &raquo;</li> 
+        <li><a href="#">PyContracts 1.6.6 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -114,7 +114,7 @@ PyContracts is overkill for you, you might want to try a simpler alternative, su
 using <a class="reference external" href="http://www.haskell.org/">Haskell</a> instead of Python.</p>
 <p><strong>Specifying contracts</strong>: Contracts can be specified in three ways:</p>
 <ol class="arabic">
-<li><p class="first"><strong>Using the ``&#64;contract`` decorator:</strong></p>
+<li><p class="first"><strong>Using the ``&#64;contract`` decorator</strong>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int,&gt;0&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;0&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="o">...</span>
@@ -159,7 +159,8 @@ def my_function(a : &#39;int,&gt;0&#39;, b : &#39;list[N],N&gt;0&#39;) -&gt; &#3
     <span class="o">...</span>
 </pre></div>
 </div>
-<p><strong>Enforcing interfaces</strong>:  <tt class="docutils literal"><span class="pre">ContractsMeta</span></tt> is a metaclass like ABCMeta that propagates contracts to the subclasses:</p>
+<p><strong>Enforcing interfaces</strong>:  <tt class="docutils literal"><span class="pre">ContractsMeta</span></tt> (available for Python 2.x) is a metaclass
+like ABCMeta that propagates contracts to the subclasses:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contract</span><span class="p">,</span> <span class="n">ContractsMeta</span>
 
 <span class="k">class</span> <span class="nc">Base</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -183,7 +184,14 @@ def my_function(a : &#39;int,&gt;0&#39;, b : &#39;list[N],N&gt;0&#39;) -&gt; &#3
     <span class="o">...</span>
 </pre></div>
 </div>
-<p><strong>Status:</strong> PyContracts is very well tested and documented. The syntax is stable and it won&#8217;t be changed.</p>
+<p><strong>Status:</strong> The syntax is stable and it won&#8217;t be changed. PyContracts is very well tested on Python 2.x.</p>
+<p><strong>Status on Python 3.x:</strong></p>
+<ul class="simple">
+<li>The basics work, but probably haven&#8217;t been stress-tested enough.</li>
+<li>ContractsMeta does not work.</li>
+<li>Arithmetics construct do not work. This is because of PyParsing 2.x not being backwards compatible with PyParsing 1.6.</li>
+</ul>
+<p>Any help is welcome! (I don&#8217;t use Python 3 myself.) Start by running <tt class="docutils literal"><span class="pre">nosetests</span> <span class="pre">contracts</span></tt>.</p>
 <div class="col1 container">
 <p><strong>User documentation</strong></p>
 <ul class="simple">
@@ -268,7 +276,7 @@ def my_function(a : &#39;int,&gt;0&#39;, b : &#39;list[N],N&gt;0&#39;) -&gt; &#3
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">PyContracts 1.6.5 documentation</a> &raquo;</li> 
+        <li><a href="#">PyContracts 1.6.6 documentation</a> &raquo;</li> 
       </ul>
     </div>
 	

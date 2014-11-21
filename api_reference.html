@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>PyContracts public API reference &mdash; PyContracts 1.6.5 documentation</title>
+    <title>PyContracts public API reference &mdash; PyContracts 1.6.6 documentation</title>
     
     <link rel="stylesheet" href="static/default.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.6.5',
+        VERSION:     '1.6.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.6.5 documentation" href="index.html" />
+    <link rel="top" title="PyContracts 1.6.6 documentation" href="index.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -59,7 +59,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">PyContracts 1.6.5 documentation</a> &raquo;</li> 
+        <li><a href="index.html">PyContracts 1.6.6 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -105,7 +105,7 @@
 <dt id="contracts.contract">
 <tt class="descclassname">contracts.</tt><tt class="descname">contract</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="modules/contracts.html#contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.contract" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator for adding contracts to functions.</p>
-<p>It is smart enough to support functions with variable number of 
+<p>It is smart enough to support functions with variable number of
 arguments and keyword arguments.</p>
 <p>There are three ways to specify the contracts. In order of precedence:</p>
 <ul>
@@ -119,63 +119,19 @@ arguments and keyword arguments.</p>
 </li>
 <li><p class="first">As annotations (supported only in Python 3):</p>
 <div class="highlight-python"><div class="highlight"><pre>@contract
-def my_function(a:&#39;int,&gt;0&#39;, b:&#39;list[N],N&gt;0&#39;) -&gt; &#39;list[N]&#39;: 
+def my_function(a:&#39;int,&gt;0&#39;, b:&#39;list[N],N&gt;0&#39;) -&gt; &#39;list[N]&#39;:
     # ...
     pass
 </pre></div>
 </div>
 </li>
 <li><p class="first">Using <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags in the function&#8217;s docstring:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span>
-<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span> 
-    <span class="sd">&quot;&quot;&quot; Function description.</span>
-<span class="sd">        :type a: int,&gt;0</span>
-<span class="sd">        :type b: list[N],N&gt;0</span>
-<span class="sd">        :rtype: list[N]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span>
+<div class="highlight-python"><div class="highlight"><pre>@contract
+def my_function(a, b):
 </pre></div>
 </div>
 </li>
 </ul>
-<p><strong>Signature and docstrings</strong>: The signature of the decorated
-function is conserved. By default, the docstring is modified
-by adding <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> definitions. To avoid that,
-pass <tt class="docutils literal"><span class="pre">modify_docstring=False</span></tt> as a parameter.</p>
-<p><strong>Contracts evaluation</strong>: Note that all contracts for the arguments 
-and the return values
-are evaluated in the same context. This make it possible to use
-common variables in the contract expression. For example, in the 
-example above, the return value is constrained to be a list of the same 
-length (<tt class="docutils literal"><span class="pre">N</span></tt>) as the parameter <tt class="docutils literal"><span class="pre">b</span></tt>.</p>
-<p><strong>Using docstrings</strong> Note that, by convention, those annotations must 
-be parseable as RestructuredText. This is relevant if you are using 
-Sphinx.
-If the contract string has special RST characters in it, like <tt class="docutils literal"><span class="pre">*</span></tt>,
-you can include it in double ticks. <span class="brand">PyContracts</span> will remove
-the double ticks before interpreting the string.</p>
-<p>For example, the two annotations in this docstring are equivalent
-for <span class="brand">PyContracts</span>, but the latter is better for Sphinx:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot; My function </span>
-
-<span class="sd">    :param a: First parameter</span>
-<span class="sd">    :type a: list(tuple(str,*))</span>
-<span class="sd">    </span>
-<span class="sd">    :param b: First parameter</span>
-<span class="sd">    :type b: ``list(tuple(str,*))``</span>
-<span class="sd">&quot;&quot;&quot;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raise:</th><td class="field-body">ContractException, if arguments are not coherent</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raise:</th><td class="field-body">ContractSyntaxError</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
 <dl class="function">
@@ -221,7 +177,7 @@ The decorator <a class="reference internal" href="#contracts.decorate" title="co
 <dl class="function">
 <dt id="contracts.check">
 <tt class="descclassname">contracts.</tt><tt class="descname">check</tt><big>(</big><em>contract</em>, <em>object</em>, <em>desc=None</em>, <em>**context</em><big>)</big><a class="headerlink" href="#contracts.check" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks that <tt class="docutils literal"><span class="pre">object</span></tt> satisfies the contract 
+<dd><p>Checks that <tt class="docutils literal"><span class="pre">object</span></tt> satisfies the contract
 described by <tt class="docutils literal"><span class="pre">contract</span></tt>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -230,7 +186,7 @@ described by <tt class="docutils literal"><span class="pre">contract</span></tt>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>contract</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The contract string.</li>
 <li><strong>object</strong> (<tt class="docutils literal"><span class="pre">*</span></tt>) &#8211; Any object.</li>
-<li><strong>desc</strong> (<tt class="docutils literal"><span class="pre">None|str</span></tt>) &#8211; An optional description of the error. If given, 
+<li><strong>desc</strong> (<tt class="docutils literal"><span class="pre">None|str</span></tt>) &#8211; An optional description of the error. If given,
 it is included in the error message.</li>
 </ul>
 </td>
@@ -243,7 +199,7 @@ it is included in the error message.</li>
 <dt id="contracts.check_multiple">
 <tt class="descclassname">contracts.</tt><tt class="descname">check_multiple</tt><big>(</big><em>couples</em>, <em>desc=None</em><big>)</big><a class="headerlink" href="#contracts.check_multiple" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks multiple couples of (contract, value) in the same context.</p>
-<p>This means that the variables in each contract are shared with 
+<p>This means that the variables in each contract are shared with
 the others.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -251,7 +207,7 @@ the others.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>couples</strong> (<tt class="docutils literal"><span class="pre">list[&gt;0](tuple(str,</span> <span class="pre">*))</span></tt>) &#8211; A list of tuple (contract, value) to check.</li>
-<li><strong>desc</strong> (<tt class="docutils literal"><span class="pre">None|str</span></tt>) &#8211; An optional description of the error. If given, 
+<li><strong>desc</strong> (<tt class="docutils literal"><span class="pre">None|str</span></tt>) &#8211; An optional description of the error. If given,
 it is included in the error message.</li>
 </ul>
 </td>
@@ -263,31 +219,31 @@ it is included in the error message.</li>
 <dl class="function">
 <dt id="contracts.parse">
 <tt class="descclassname">contracts.</tt><tt class="descname">parse</tt><big>(</big><em>spec</em><big>)</big><a class="headerlink" href="#contracts.parse" title="Permalink to this definition">¶</a></dt>
-<dd><p>spec can be either a Contract, a type, or a contract string. 
+<dd><p>spec can be either a Contract, a type, or a contract string.
 In the latter case, the usual parsing takes place</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="contracts.new_contract">
-<tt class="descclassname">contracts.</tt><tt class="descname">new_contract</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="modules/contracts.html#new_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.new_contract" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines a new contract type. Used both as a decorator and as 
+<tt class="descclassname">contracts.</tt><tt class="descname">new_contract</tt><big>(</big><em>*args</em><big>)</big><a class="reference internal" href="modules/contracts.html#new_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.new_contract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a new contract type. Used both as a decorator and as
 a function.</p>
-<p><strong>1) Use as a function.</strong> The first parameter must be a string. 
+<p><strong>1) Use as a function.</strong> The first parameter must be a string.
 The second parameter can be either
 a string or a callable function.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;new_contract_name&#39;</span><span class="p">,</span> <span class="s">&#39;list[N]&#39;</span><span class="p">)</span> 
+<div class="highlight-python"><div class="highlight"><pre><span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;new_contract_name&#39;</span><span class="p">,</span> <span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
 <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;new_contract_name&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="p">)</span>
 </pre></div>
 </div>
 <ul>
-<li><p class="first">If it is a string, it is interpreted as contract expression; 
+<li><p class="first">If it is a string, it is interpreted as contract expression;
 the given identifier will become an alias
 for that expression.</p>
 </li>
 <li><p class="first">If it is a callable, it must accept one parameter, and either:</p>
 <ul class="simple">
 <li>return True or None, to signify it accepts.</li>
-<li>return False or raise ValueError or AssertionError, 
+<li>return False or raise ValueError or AssertionError,
 to signify it doesn&#8217;t.</li>
 </ul>
 <p>If ValueError is raised, its message is used in the error.</p>
@@ -360,7 +316,7 @@ Raises an exception if it does.</p>
 <dl class="method">
 <dt id="contracts.Contract.__repr__">
 <tt class="descname">__repr__</tt><big>(</big><big>)</big><a class="headerlink" href="#contracts.Contract.__repr__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a string representation of a contract that can be 
+<dd><p>Returns a string representation of a contract that can be
 evaluated by Python&#8217;s <a class="reference external" href="http://docs.python.org/library/functions.html#eval" title="(in Python v2.7)"><tt class="xref py py-func docutils literal"><span class="pre">eval()</span></tt></a>.</p>
 <p>It must hold that: <tt class="docutils literal"><span class="pre">eval(contract.__repr__())</span> <span class="pre">==</span> <span class="pre">contract</span></tt>.
 This is checked in the unit-tests.</p>
@@ -371,7 +327,7 @@ This is checked in the unit-tests.</p>
 <span class="go">&quot;List(BindVariable(&#39;N&#39;,int),None)&quot;</span>
 </pre></div>
 </div>
-<p>All the symbols you need to eval() the expression are in 
+<p>All the symbols you need to eval() the expression are in
 <a class="reference internal" href="api/contracts.library.html#module-contracts.library" title="contracts.library"><tt class="xref py py-mod docutils literal"><span class="pre">contracts.library</span></tt></a>.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contracts.library</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span> <span class="o">==</span> <span class="nb">eval</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%r</span><span class="s">&quot;</span><span class="o">%</span><span class="n">contract</span><span class="p">)</span>
@@ -383,13 +339,13 @@ This is checked in the unit-tests.</p>
 <dl class="method">
 <dt id="contracts.Contract.__str__">
 <tt class="descname">__str__</tt><big>(</big><big>)</big><a class="headerlink" href="#contracts.Contract.__str__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a string representation of a contract that can be 
+<dd><p>Returns a string representation of a contract that can be
 reparsed by <a class="reference internal" href="#contracts.parse" title="contracts.parse"><tt class="xref py py-func docutils literal"><span class="pre">contracts.parse()</span></tt></a>.</p>
 <p>It must hold that: <tt class="docutils literal"><span class="pre">parse(str(contract))</span> <span class="pre">==</span> <span class="pre">contract</span></tt>.
 This is checked in the unit-tests.</p>
 <p>Example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">parse</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span> <span class="o">=</span> <span class="s">&#39;list[N]&#39;</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span> <span class="o">=</span> <span class="s">&#39;list[N]&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span>
 <span class="go">List(BindVariable(&#39;N&#39;,int),None)</span>
@@ -398,32 +354,32 @@ This is checked in the unit-tests.</p>
 </pre></div>
 </div>
 <p>The expressions generated by <a class="reference internal" href="#contracts.Contract.__str__" title="contracts.Contract.__str__"><tt class="xref py py-func docutils literal"><span class="pre">Contract.__str__()</span></tt></a> will be
-exactly the same as what was parsed (this is checked in the 
-unittests as well) if and only if the expression is &#8220;minimal&#8221;. 
-If it isn&#8217;t (there is whitespace or redundant symbols), 
+exactly the same as what was parsed (this is checked in the
+unittests as well) if and only if the expression is &#8220;minimal&#8221;.
+If it isn&#8217;t (there is whitespace or redundant symbols),
 the returned expression will be an equivalent minimal one.</p>
 <p>Example with extra parenthesis and whitespace:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">parse</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">verbose_spec</span> <span class="o">=</span> <span class="s">&#39;list[((N))]( int, &gt; 0)&#39;</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">verbose_spec</span> <span class="o">=</span> <span class="s">&#39;list[((N))]( int, &gt; 0)&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">verbose_spec</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span>
 <span class="go">&#39;list[N](int,&gt;0)&#39;</span>
 </pre></div>
 </div>
 <p>Example that removes extra parentheses around arithmetic operators:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">verbose_spec</span> <span class="o">=</span> <span class="s">&#39;=1+(1*2)+(2+4)&#39;</span> 
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">verbose_spec</span> <span class="o">=</span> <span class="s">&#39;=1+(1*2)+(2+4)&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">parse</span><span class="p">(</span><span class="n">verbose_spec</span><span class="p">))</span>
 <span class="go">&#39;=1+1*2+2+4&#39;</span>
 </pre></div>
 </div>
 <p>This is an example with logical operators precedence. The AND
 operator <tt class="docutils literal"><span class="pre">,</span></tt> (comma) has more precedence than the OR (<tt class="docutils literal"><span class="pre">|</span></tt>).</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">verbose_spec</span> <span class="o">=</span> <span class="s">&#39;(a|(b,c)),e&#39;</span> 
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">verbose_spec</span> <span class="o">=</span> <span class="s">&#39;(a|(b,c)),e&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">parse</span><span class="p">(</span><span class="n">verbose_spec</span><span class="p">))</span>
 <span class="go">&#39;(a|b,c),e&#39;</span>
 </pre></div>
 </div>
-<p>Not that only the outer parenthesis is kept as it is the only one 
+<p>Not that only the outer parenthesis is kept as it is the only one
 needed.</p>
 </dd></dl>
 
@@ -515,7 +471,7 @@ contracts expression in your own PyParsing grammar.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">PyContracts 1.6.5 documentation</a> &raquo;</li> 
+        <li><a href="index.html">PyContracts 1.6.6 documentation</a> &raquo;</li> 
       </ul>
     </div>
 	

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>contracts.syntax &mdash; PyContracts 1.6.5 documentation</title>
+    <title>contracts.syntax &mdash; PyContracts 1.6.6 documentation</title>
     
     <link rel="stylesheet" href="../../static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.6.5',
+        VERSION:     '1.6.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../static/jquery.js"></script>
     <script type="text/javascript" src="../../static/underscore.js"></script>
     <script type="text/javascript" src="../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.6.5 documentation" href="../../index.html" />
+    <link rel="top" title="PyContracts 1.6.6 documentation" href="../../index.html" />
     <link rel="up" title="contracts" href="../contracts.html" />
 	 
 
@@ -60,7 +60,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li>
           <li><a href="../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
       </ul>
@@ -77,16 +77,17 @@
 
 
 <span class="c"># All the imports from pyparsing go here</span>
-<span class="kn">from</span> <span class="nn">pyparsing</span> <span class="kn">import</span> <span class="p">(</span><span class="n">delimitedList</span><span class="p">,</span> <span class="n">Forward</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span>  <span class="c"># @UnusedImport</span>
-  <span class="n">stringEnd</span><span class="p">,</span> <span class="n">nums</span><span class="p">,</span> <span class="n">Word</span><span class="p">,</span> <span class="n">CaselessLiteral</span><span class="p">,</span> <span class="n">Combine</span><span class="p">,</span>  <span class="c"># @UnusedImport</span>
-  <span class="n">Optional</span><span class="p">,</span> <span class="n">Suppress</span><span class="p">,</span> <span class="n">OneOrMore</span><span class="p">,</span> <span class="n">ZeroOrMore</span><span class="p">,</span> <span class="n">opAssoc</span><span class="p">,</span>  <span class="c"># @UnusedImport</span>
-  <span class="n">operatorPrecedence</span><span class="p">,</span> <span class="n">oneOf</span><span class="p">,</span> <span class="n">ParseException</span><span class="p">,</span> <span class="n">ParserElement</span><span class="p">,</span>  <span class="c"># @UnusedImport</span>
-  <span class="n">alphas</span><span class="p">,</span> <span class="n">alphanums</span><span class="p">,</span> <span class="n">ParseFatalException</span><span class="p">,</span>  <span class="c"># @UnusedImport</span>
-  <span class="n">ParseSyntaxException</span><span class="p">,</span> <span class="n">FollowedBy</span><span class="p">,</span> <span class="n">NotAny</span><span class="p">,</span> <span class="n">Or</span><span class="p">,</span>  <span class="c"># @UnusedImport</span>
-  <span class="n">MatchFirst</span><span class="p">,</span> <span class="n">Keyword</span><span class="p">,</span> <span class="n">Group</span><span class="p">,</span> <span class="n">White</span><span class="p">,</span> <span class="n">lineno</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span>  <span class="c"># @UnusedImport</span>
+<span class="kn">from</span> <span class="nn">pyparsing</span> <span class="kn">import</span> <span class="p">(</span><span class="n">delimitedList</span><span class="p">,</span> <span class="n">Forward</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span>
+                       <span class="n">stringEnd</span><span class="p">,</span> <span class="n">nums</span><span class="p">,</span> <span class="n">Word</span><span class="p">,</span> <span class="n">CaselessLiteral</span><span class="p">,</span> <span class="n">Combine</span><span class="p">,</span>
+                       <span class="n">Optional</span><span class="p">,</span> <span class="n">Suppress</span><span class="p">,</span> <span class="n">OneOrMore</span><span class="p">,</span> <span class="n">ZeroOrMore</span><span class="p">,</span> <span class="n">opAssoc</span><span class="p">,</span>
+                       <span class="n">operatorPrecedence</span><span class="p">,</span> <span class="n">oneOf</span><span class="p">,</span> <span class="n">ParseException</span><span class="p">,</span>
+                       <span class="n">ParserElement</span><span class="p">,</span>
+                       <span class="n">alphas</span><span class="p">,</span> <span class="n">alphanums</span><span class="p">,</span> <span class="n">ParseFatalException</span><span class="p">,</span>
+                       <span class="n">ParseSyntaxException</span><span class="p">,</span> <span class="n">FollowedBy</span><span class="p">,</span> <span class="n">NotAny</span><span class="p">,</span> <span class="n">Or</span><span class="p">,</span>
+                       <span class="n">MatchFirst</span><span class="p">,</span> <span class="n">Keyword</span><span class="p">,</span> <span class="n">Group</span><span class="p">,</span> <span class="n">White</span><span class="p">,</span> <span class="n">lineno</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span>
 
 
-<span class="kn">from</span> <span class="nn">.pyparsing_utils</span> <span class="kn">import</span> <span class="n">myOperatorPrecedence</span>
+<span class="c"># from .pyparsing_utils import myOperatorPrecedence</span>
 
 
 <span class="c"># Enable memoization (much faster!)</span>
@@ -111,12 +112,12 @@
 
 </div>
 <div class="viewcode-block" id="add_keyword"><a class="viewcode-back" href="../../api/contracts.html#contracts.syntax.add_keyword">[docs]</a><span class="k">def</span> <span class="nf">add_keyword</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Declares that x is a keyword --- this is useful to have more</span>
+    <span class="sd">&quot;&quot;&quot; Declares that x is a keyword --- this is useful to have more</span>
 <span class="sd">        clear messages. &quot;keywords&quot; are not parsed by Extension.</span>
 <span class="sd">        (see extensions.py) and allows to have &quot;deep&quot; error indications.</span>
 <span class="sd">        See http://pyparsing.wikispaces.com/message/view/home/620225</span>
 <span class="sd">        and the discussion of the &quot;-&quot; operator in the docs.</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ParsingTmp</span><span class="o">.</span><span class="n">keywords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </div>
 <span class="n">W</span> <span class="o">=</span> <span class="n">Where</span>
@@ -158,17 +159,20 @@
 <span class="c"># Import all expressions -- they will call add_contract()</span>
 <span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="p">(</span><span class="n">EqualTo</span><span class="p">,</span> <span class="n">Unary</span><span class="p">,</span> <span class="n">Binary</span><span class="p">,</span> <span class="n">composite_contract</span><span class="p">,</span>
                       <span class="n">identifier_contract</span><span class="p">,</span> <span class="n">misc_variables_contract</span><span class="p">,</span>
+                      <span class="n">scoped_variables_ref</span><span class="p">,</span>
                       <span class="n">int_variables_contract</span><span class="p">,</span> <span class="n">int_variables_ref</span><span class="p">,</span>
                       <span class="n">misc_variables_ref</span><span class="p">,</span> <span class="n">SimpleRValue</span><span class="p">)</span>
 
 
 <span class="n">number</span> <span class="o">=</span> <span class="n">pi</span> <span class="o">|</span> <span class="n">floatnumber</span> <span class="o">|</span> <span class="n">integer</span>
-<span class="n">operand</span> <span class="o">=</span> <span class="n">number</span> <span class="o">|</span> <span class="n">int_variables_ref</span> <span class="o">|</span> <span class="n">misc_variables_ref</span>
+<span class="n">operand</span> <span class="o">=</span> <span class="n">number</span> <span class="o">|</span> <span class="n">int_variables_ref</span> <span class="o">|</span> <span class="n">misc_variables_ref</span> <span class="o">|</span> <span class="n">scoped_variables_ref</span>
 <span class="n">operand</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&#39;r-value&#39;</span><span class="p">)</span>
 
-
-<span class="n">rvalue</span> <span class="o">&lt;&lt;</span> <span class="n">myOperatorPrecedence</span><span class="p">(</span><span class="n">operand</span><span class="p">,</span> <span class="p">[</span>
-             <span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">opAssoc</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span> <span class="n">Unary</span><span class="o">.</span><span class="n">parse_action</span><span class="p">),</span>
+ 
+<span class="n">op</span> <span class="o">=</span> <span class="n">operatorPrecedence</span>
+<span class="c"># op  = myOperatorPrecedence</span>
+<span class="n">rvalue</span> <span class="o">&lt;&lt;</span> <span class="n">op</span><span class="p">(</span><span class="n">operand</span><span class="p">,</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">opAssoc</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span> <span class="n">Unary</span><span class="o">.</span><span class="n">parse_action</span><span class="p">),</span>
              <span class="p">(</span><span class="s">&#39;*&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">opAssoc</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">Binary</span><span class="o">.</span><span class="n">parse_action</span><span class="p">),</span>
              <span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">opAssoc</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">Binary</span><span class="o">.</span><span class="n">parse_action</span><span class="p">),</span>
              <span class="p">(</span><span class="s">&#39;+&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">opAssoc</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">Binary</span><span class="o">.</span><span class="n">parse_action</span><span class="p">),</span>
@@ -227,7 +231,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">PyContracts 1.6.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li>
           <li><a href="../contracts.html" >contracts</a> &raquo;</li> 
       </ul>
