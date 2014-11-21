@@ -9,6 +9,29 @@ Changelog
 
 .. _changelog: 
 
+
+1.7.0 -- 2014-11-20
+--------------------
+
+* Implemented custom contracts with arguments (@ChrisBeaumont): ::
+
+     @new_contract
+     def greater_than(value, thresh):
+         return value > thresh
+     
+     @contract(x='greater_than(3)'')
+     def f(x):
+         ...
+
+* Implemented variable binding from Python scope (@ChrisBeaumont): ::
+
+      a = 1
+
+      @contract(x='>$a')
+      def f(x):
+          ...
+
+
 1.6.5 -- 2014-09-11
 -------------------
 
