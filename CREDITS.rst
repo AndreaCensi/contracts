@@ -1,15 +1,24 @@
 
-Contributors:
+Contributors to Compmake:
 
-- `Chris Beaumont`_ (Harvard-Smithsonian Center for Astrophysics): ``$var`` syntax; kwargs/args for extensions.
-- `Brett Graham`_ (Rowland Institute at Harvard University): ``attr(name:type)`` syntax for checking types of attributes.
-- `William Furr`_: bug reports and performance improvements
-- `Karol Kuczmarski`_ (Google Zurich): implementation of "string" and "unicode" contracts
-- `Maarten Derickx`_ (Leiden U.): documentation fixes
-- `Calen Pennington`_ (EdX): disabling checks inside check() function.
-- `Adam Palay`_ (EdX): implementation of environment variable enabling/disabling override.
-- `Ryan Heimbuch`_: bug reports 
-- Bernhard Biskup: bug reports
+- `Chris Beaumont`_ (Harvard-Smithsonian Center for Astrophysics): 
+   ``$var`` syntax; kwargs/args for extensions.
+- `Brett Graham`_ (Rowland Institute at Harvard University): 
+  ``attr(name:type)`` syntax for checking types of attributes.
+- `William Furr`_: 
+   bug reports and performance improvements
+- `Karol Kuczmarski`_ (Google Zurich): 
+   implementation of "string" and "unicode" contracts
+- `Maarten Derickx`_ (Leiden U.): 
+   documentation fixes
+- `Calen Pennington`_ (EdX): 
+   disabling checks inside check() function.
+- `Adam Palay`_ (EdX): 
+   implementation of environment variable enabling/disabling override.
+- `Ryan Heimbuch`_: 
+   bug reports 
+- Bernhard Biskup: 
+   bug reports
 - `asharp`_: bug fixes
 
 (Please let me know if I forgot anybody.)
