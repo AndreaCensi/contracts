@@ -726,14 +726,19 @@ def can_accept_self_plus_one_argument(callable_thing):
 
 class ContractAttribute(object):
     """ ContractAttribute is a descriptor for object attributes that
-        enforces a contract check on whatever object or function the
-        attribute is set to. For a function, the function would not be
+        enforces a contract check on any object or function the
+        attribute is set to. 
+
+        For a function attribute the function will get decorated with
+        the contract, so that it will check its inputs and outputs
+        when it is called. When called the function would not be
         passed the self argument (because that breaks encapsulation -
-        you can still actively pass self if you want). Setting up an
-        attribute like this is useful when an API that is expressed as
-        an object requires a client function to work with. In such
-        cases you want to both communicate expectations with regards
-        to the needed function and verify that they are met.
+        you can still actively pass self if you want, just add it to
+        the contract). Setting up a function attribute in this way is
+        useful when an API that is expressed as an object requires a
+        client function to work with. In such cases you want to both
+        communicate expectations with regards to the needed function
+        and verify that they are met.
         
         Usage example:
         
@@ -775,14 +780,18 @@ print "Attempting eggs.y=3"
 try:                                                                    
    eggs.y=3                                  
 except ContractNotRespected as detail:                                  
-   print str(detail)[:180]                                                         
-    """
+   print str(detail)[:180]
+
+     """
     
     def _check(self,check_string,value):
         check(check_string, value)
         return value
 
     def __init__(self, contract_instance):
+    
+        if all_disabled():
+            return
     
         from functools import partial
         from types import FunctionType, StringType
@@ -802,22 +811,25 @@ except ContractNotRespected as detail:
         
         
     def __get__(self, instance, owner):
-        if instance.__dict__.get('__contracts__')==None:
-            instance.__contracts__={}
-        
-        assert instance.__contracts__.get(self)!=None, \
-        "Attribute not set yet."
-        
+        if not hasattr(instance, '__contracts__'):
+            instance.__contracts__ = {}
+
+        if self not in instance.__contracts__:
+            raise AttributeError("Attribute not set yet.")
+
         return instance.__contracts__.get(self)
         # return the stored data.
 
     def __set__(self, instance, value):
-        if instance.__dict__.get('__contracts__')==None:
-            instance.__contracts__={}
+        if not hasattr(instance, '__contracts__'):
+            instance.__contracts__ = {}
 
-        instance.__contracts__[self]=self.__dict__['contract'](value)
-        # Use __dict__ to accsess the contract without binding to
-        # self.  Apply the contract/check. Store the result with the
-        # descriptor as the key.
+        if all_disabled():
+            instance.__contracts__[self]=value
+        else:
+            instance.__contracts__[self]=self.__dict__['contract'](value)
+            # Use __dict__ to accsess the contract without binding to
+            # self.  Apply the contract/check. Store the result with the
+            # descriptor as the key.
 
 
