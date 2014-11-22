@@ -160,6 +160,14 @@ def contracts_decorate(function_, modify_docstring=True, **kwargs):
         The decorator :py:func:`decorate` calls this function internally.
     """
 
+    if hasattr(function_,'__call__') and hasattr(function_.__call__,'im_func'):
+        """ For classes that implement __call__ replace the object with 
+            a bound __call__.
+        """
+        class_name=function_.__class__.__name__
+        function_=function_.__call__
+        function_.__dict__['__name__']=class_name +'.__call__'
+
     if isinstance(function_, classmethod):
         msg = """
 The function is a classmethod; PyContracts cannot decorate a classmethod. 
@@ -308,10 +316,9 @@ you can achieve the same goal by inverting the two decorators:
     contracts_checker.__name__ = 'checker-for-%s' % function_.__name__
     contracts_checker.__module__ = function_.__module__
 
-    # TODO: is using functools.wraps better?
-    from decorator import decorator
+    from functools import partial,wraps
 
-    wrapper = decorator(contracts_checker, function_)
+    wrapper = wraps(function_)(partial(contracts_checker,function_))
 
     wrapper.__doc__ = new_docs
     wrapper.__name__ = function_.__name__
@@ -751,4 +758,55 @@ def can_accept_self_plus_one_argument(callable_thing):
         return True
 
 
+class Attribute(object):
+    """ Attribute is a descriptor for object attributes that
+        enforces a check on any object the attribute is set
+        to.
+        
+        Usage example:
+        
+from contracts import Attribute, ContractNotRespected
+
+class spam(object): 
+    x=Attribute('float,>0')         
+    
+eggs=spam()                                                             
+
+print "Attempting eggs.x=1.0" 
+eggs.x=1.0
+print "eggs.x=" + str(eggs.x) 
+
+print "Attempting eggs.x=-1.0" 
+try:                                                                    
+   eggs.x=-1.0                  
+except ContractNotRespected as detail:                                  
+   print detail                     
+    """
+
+    def __init__(self, check_string):
+    
+        if all_disabled():
+            return
+        
+        self.check_string=check_string
+        
+    def __get__(self, instance, owner):
+        if not hasattr(instance, '__contracts__'):
+            instance.__contracts__ = {}
+
+        if self not in instance.__contracts__:
+            raise AttributeError("Attribute not set yet.")
+
+        return instance.__contracts__.get(self)
+        # return the stored data.
+
+    def __set__(self, instance, value):
+        if not hasattr(instance, '__contracts__'):
+            instance.__contracts__ = {}
+
+        if not all_disabled():
+            check(self.check_string,value)
+
+        instance.__contracts__[self]=value
+        
 

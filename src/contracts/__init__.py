@@ -15,7 +15,7 @@ from .interface import (Contract, ContractNotRespected,
 
 from .main import (check, fail, check_multiple, contract_decorator,
                    contracts_decorate as decorate,
-                   parse_flexible_spec as parse)
+                   parse_flexible_spec as parse, Attribute)
 
 
 # Just make them appear as belonging to the "contracts" Module
