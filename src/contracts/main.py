@@ -724,91 +724,37 @@ def can_accept_self_plus_one_argument(callable_thing):
         return True
 
 
-class ContractAttribute(object):
-    """ ContractAttribute is a descriptor for object attributes that
-        enforces a contract check on any object or function the
-        attribute is set to. 
-
-        For a function attribute the function will get decorated with
-        the contract, so that it will check its inputs and outputs
-        when it is called. When called the function would not be
-        passed the self argument (because that breaks encapsulation -
-        you can still actively pass self if you want, just add it to
-        the contract). Setting up a function attribute in this way is
-        useful when an API that is expressed as an object requires a
-        client function to work with. In such cases you want to both
-        communicate expectations with regards to the needed function
-        and verify that they are met.
+class Attribute(object):
+    """ Attribute is a descriptor for object attributes that
+        enforces a check on any object the attribute is set
+        to.
         
         Usage example:
         
-from contracts import ContractAttribute, contract, ContractNotRespected
+from contracts import Attribute, ContractNotRespected
 
 class spam(object): 
-    f=ContractAttribute(contract(arg='float,>0')) #for functions
-    x=ContractAttribute('float,>0')               #for scalars using string
-    y=ContractAttribute(float)                    #for scalars using type
+    x=Attribute('float,>0')         
     
 eggs=spam()                                                             
 
-from math import log, exp, pi                                               
-eggs.f=lambda (arg): log(arg)                                           
-
-print "eggs.f(e)=" + str(eggs.f(exp(1.0)))                              
-
-try:                                                                    
-   print "eggs.f=" + str(eggs.f(-1.0))                                  
-except ContractNotRespected as detail:                                  
-   print detail                                                         
-
-print "Attempting eggs.x=pi" 
-eggs.x=pi
+print "Attempting eggs.x=1.0" 
+eggs.x=1.0
 print "eggs.x=" + str(eggs.x) 
 
-print "Attempting eggs.x=-pi" 
+print "Attempting eggs.x=-1.0" 
 try:                                                                    
-   eggs.x=-pi                                  
+   eggs.x=-1.0                  
 except ContractNotRespected as detail:                                  
-   print detail                                                         
+   print detail                     
+    """
 
-print "Attempting eggs.y=2*pi" 
-eggs.y=2*pi
-print "eggs.y=" + str(eggs.y) 
-print "eggs.x=" + str(eggs.x) 
-
-print "Attempting eggs.y=3" 
-try:                                                                    
-   eggs.y=3                                  
-except ContractNotRespected as detail:                                  
-   print str(detail)[:180]
-
-     """
-    
-    def _check(self,check_string,value):
-        check(check_string, value)
-        return value
-
-    def __init__(self, contract_instance):
+    def __init__(self, check_string):
     
         if all_disabled():
             return
-    
-        from functools import partial
-        from types import FunctionType, StringType
-
-        if isinstance(contract_instance,FunctionType):
-            # If it is a contract store the contract
-            self.contract=contract_instance
-
-        elif isinstance(contract_instance,StringType):
-            # If it is a string send it to check and store the partial
-            self.contract=partial(self._check,contract_instance)
-
-        else:
-            # Assume it is a type. Get the name of the type, send
-            # it to check and store the result.
-            self.contract=partial(self._check,contract_instance.__name__)
         
+        self.check_string=check_string
         
     def __get__(self, instance, owner):
         if not hasattr(instance, '__contracts__'):
@@ -824,12 +770,9 @@ except ContractNotRespected as detail:
         if not hasattr(instance, '__contracts__'):
             instance.__contracts__ = {}
 
-        if all_disabled():
-            instance.__contracts__[self]=value
-        else:
-            instance.__contracts__[self]=self.__dict__['contract'](value)
-            # Use __dict__ to accsess the contract without binding to
-            # self.  Apply the contract/check. Store the result with the
-            # descriptor as the key.
+        if not all_disabled():
+            check(self.check_string,value)
 
+        instance.__contracts__[self]=value
+        
 
