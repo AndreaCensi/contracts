@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>contracts.main &mdash; PyContracts 1.6.6 documentation</title>
+    <title>contracts.main &mdash; PyContracts 1.7.1 documentation</title>
     
     <link rel="stylesheet" href="../../static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.6.6',
+        VERSION:     '1.7.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../static/jquery.js"></script>
     <script type="text/javascript" src="../../static/underscore.js"></script>
     <script type="text/javascript" src="../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.6.6 documentation" href="../../index.html" />
+    <link rel="top" title="PyContracts 1.7.1 documentation" href="../../index.html" />
     <link rel="up" title="contracts" href="../contracts.html" />
 	 
 
@@ -60,7 +60,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">PyContracts 1.7.1 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li>
           <li><a href="../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
       </ul>
@@ -649,9 +649,7 @@
 
     <span class="c"># Make sure it corresponds to our idea of identifier</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">identifier_expression</span><span class="o">.</span><span class="n">parseString</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span>
-                                              <span class="n">parseAll</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  <span class="c">#</span>
-                                              <span class="c"># @UndefinedVariable</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">identifier_expression</span><span class="o">.</span><span class="n">parseString</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">parseAll</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">ParseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">where</span> <span class="o">=</span> <span class="n">Where</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">lineno</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">col</span><span class="p">)</span>
         <span class="c"># msg = &#39;Error in parsing string: %s&#39; % e </span>
@@ -706,14 +704,18 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">Extension</span><span class="o">.</span><span class="n">registrar</span><span class="p">[</span><span class="n">identifier</span><span class="p">]</span> <span class="o">=</span> <span class="n">contract</span>
 
-    <span class="c"># Check that we can parse it now</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">parse_contract_string</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span>
-        <span class="n">expected</span> <span class="o">=</span> <span class="n">Extension</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="n">c</span> <span class="o">==</span> <span class="n">expected</span><span class="p">,</span> \
-            <span class="s">&#39;Expected </span><span class="si">%r</span><span class="s">, got </span><span class="si">%r</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>  <span class="c"># pragma: no cover</span>
-    <span class="k">except</span> <span class="n">ContractSyntaxError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c"># pragma: no cover</span>
-        <span class="k">assert</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&#39;Cannot parse </span><span class="si">%r</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+    <span class="c"># Before, we check that we can parse it now</span>
+    <span class="c"># - not anymore, because since there are possible args/kwargs,</span>
+    <span class="c"># - it might be that the keyword alone is not a valid contract</span>
+    <span class="k">if</span> <span class="bp">False</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">parse_contract_string</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span>
+            <span class="n">expected</span> <span class="o">=</span> <span class="n">Extension</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">c</span> <span class="o">==</span> <span class="n">expected</span><span class="p">,</span> \
+                <span class="s">&#39;Expected </span><span class="si">%r</span><span class="s">, got </span><span class="si">%r</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>  <span class="c"># pragma: no cover</span>
+        <span class="k">except</span> <span class="n">ContractSyntaxError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c"># pragma: no cover</span>
+            <span class="c">#assert False, &#39;Cannot parse %r: %s&#39; % (identifier, e)</span>
+            <span class="k">raise</span> <span class="n">e</span>
 
     <span class="k">return</span> <span class="n">contract</span>
 
@@ -823,6 +825,35 @@
         <span class="k">return</span> <span class="bp">False</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">True</span>
+
+</div>
+<div class="viewcode-block" id="InvalidArgs"><a class="viewcode-back" href="../../api/contracts.html#contracts.main.InvalidArgs">[docs]</a><span class="k">class</span> <span class="nc">InvalidArgs</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="check_callable_accepts_these_arguments"><a class="viewcode-back" href="../../api/contracts.html#contracts.main.check_callable_accepts_these_arguments">[docs]</a><span class="k">def</span> <span class="nf">check_callable_accepts_these_arguments</span><span class="p">(</span><span class="n">callable_thing</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Checks that a callable can accept the args and kwargs. </span>
+<span class="sd">    </span>
+<span class="sd">        Returns either None or raises InvalidArgs. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">ismethod</span><span class="p">(</span><span class="n">callable_thing</span><span class="p">):</span>  <span class="c"># bound method</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">callable_thing</span><span class="o">.</span><span class="n">__func__</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isfunction</span><span class="p">(</span><span class="n">callable_thing</span><span class="p">):</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">callable_thing</span><span class="o">.</span><span class="n">__call__</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">callable_thing</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">bound</span> <span class="o">=</span> <span class="n">getcallargs</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="c">#         print(&#39;bound: %r &#39; % bound)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c"># @UnusedVariable</span>
+<span class="c">#         print(&#39;no!: %s&#39; % e)</span>
+        <span class="k">raise</span> <span class="n">InvalidArgs</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> does not accept </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">args</span><span class="p">,</span><span class="n">kwargs</span><span class="p">,</span><span class="n">e</span><span class="p">))</span>
+<span class="c">#         return False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">True</span>
+
+    <span class="k">return</span> <span class="bp">False</span>
 </pre></div></div>
 
           </div>
@@ -856,7 +887,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">PyContracts 1.6.6 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">PyContracts 1.7.1 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li>
           <li><a href="../contracts.html" >contracts</a> &raquo;</li> 
       </ul>
