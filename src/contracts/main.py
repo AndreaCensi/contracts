@@ -575,9 +575,7 @@ def new_contract_impl(identifier, condition):
 
     # Make sure it corresponds to our idea of identifier
     try:
-        c = identifier_expression.parseString(identifier,
-                                              parseAll=True)  #
-                                              # @UndefinedVariable
+        c = identifier_expression.parseString(identifier, parseAll=True)
     except ParseException as e:
         where = Where(identifier, line=e.lineno, column=e.col)
         # msg = 'Error in parsing string: %s' % e 
@@ -632,14 +630,18 @@ def new_contract_impl(identifier, condition):
     else:
         Extension.registrar[identifier] = contract
 
-    # Check that we can parse it now
-    try:
-        c = parse_contract_string(identifier)
-        expected = Extension(identifier)
-        assert c == expected, \
-            'Expected %r, got %r.' % (c, expected)  # pragma: no cover
-    except ContractSyntaxError as e:  # pragma: no cover
-        assert False, 'Cannot parse %r: %s' % (identifier, e)
+    # Before, we check that we can parse it now
+    # - not anymore, because since there are possible args/kwargs,
+    # - it might be that the keyword alone is not a valid contract
+    if False:
+        try:
+            c = parse_contract_string(identifier)
+            expected = Extension(identifier)
+            assert c == expected, \
+                'Expected %r, got %r.' % (c, expected)  # pragma: no cover
+        except ContractSyntaxError as e:  # pragma: no cover
+            #assert False, 'Cannot parse %r: %s' % (identifier, e)
+            raise e
 
     return contract
 
@@ -749,6 +751,37 @@ def can_accept_self_plus_one_argument(callable_thing):
         return False
     else:
         return True
+
+
+class InvalidArgs(Exception):
+    pass
+
+def check_callable_accepts_these_arguments(callable_thing, args, kwargs):
+    """ Checks that a callable can accept the args and kwargs. 
+    
+        Returns either None or raises InvalidArgs. 
+    """
+    if inspect.ismethod(callable_thing):  # bound method
+        f = callable_thing.__func__
+    else:
+        if not inspect.isfunction(callable_thing):
+            f = callable_thing.__call__
+        else:
+            f = callable_thing
+
+    try:
+        bound = getcallargs(f, *args, **kwargs)
+#         print('bound: %r ' % bound)
+    except (TypeError, ValueError) as e:  # @UnusedVariable
+#         print('no!: %s' % e)
+        raise InvalidArgs('%s does not accept %s, %s: %s' % (f,args,kwargs,e))
+#         return False
+    else:
+        return True
+
+    return False
+
+
 
 
 
