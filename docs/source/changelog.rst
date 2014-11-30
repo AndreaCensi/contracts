@@ -9,6 +9,10 @@ Changelog
 
 .. _changelog: 
 
+1.7.1 -- 2014-11-30
+--------------------
+* Fixed regressions on tests for contracts with arguments.
+
 
 1.7.0 -- 2014-11-20
 --------------------

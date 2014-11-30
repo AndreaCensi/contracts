@@ -65,8 +65,7 @@ class Extension(Contract):
         contract_ext = Extension.registrar[identifier]
         
         if isinstance(contract_ext, CheckCallable):
-            callable_thing = contract_ext.callable
-            print(callable_thing) 
+            callable_thing = contract_ext.callable 
          
             test_args = ('value',) + args
             from contracts.main import check_callable_accepts_these_arguments
