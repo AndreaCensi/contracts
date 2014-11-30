@@ -53,3 +53,5 @@ ContractsMeta.__module__ = 'contracts'
 
 # And after everything else is loaded, load the  utils
 from .useful_contracts import *
+
+from .attribute import MyAttribute
