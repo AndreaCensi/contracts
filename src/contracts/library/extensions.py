@@ -1,7 +1,7 @@
 from ..interface import Contract, ContractNotRespected, describe_value
 from ..syntax import (Combine, Word, W, alphas, alphanums, oneOf,
                       ParseException, ZeroOrMore, S, rvalue,
-                      delimitedList, Or, Optional)
+                      delimitedList, Optional)
 
 
 class Extension(Contract):
@@ -16,7 +16,21 @@ class Extension(Contract):
         Contract.__init__(self, where)
 
     def __str__(self):
-        return self.identifier
+        inside = []
+        if self.args:
+            inside.extend(map(str, self.args))
+            
+        if self.kwargs:
+            ks = sorted(self.kwargs)
+            inside.extend(["%s=%s" % (k, self.kwargs[k]) for k in ks])
+        
+        
+        s = self.identifier
+    
+        if inside:
+            return self.identifier + "(" + ",".join(inside) + ")"
+        else:
+            return s
 
     def __repr__(self):
         if self.args or self.kwargs:
