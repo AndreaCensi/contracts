@@ -154,19 +154,22 @@ def contract_decorator(*arg, **kwargs):
                     raise ContractSyntaxError(e.error, e.where)
         return tmp_wrap
 
+# Activate changes needed by Yaniv patch 
+Yaniv = True
 
 def contracts_decorate(function_, modify_docstring=True, **kwargs):
     """ An explicit way to decorate a given function.
         The decorator :py:func:`decorate` calls this function internally.
     """
 
-    if hasattr(function_,'__call__') and hasattr(function_.__call__,'im_func'):
-        """ For classes that implement __call__ replace the object with 
-            a bound __call__.
-        """
-        class_name=function_.__class__.__name__
-        function_=function_.__call__
-        function_.__dict__['__name__']=class_name +'.__call__'
+    if Yaniv:
+        if hasattr(function_,'__call__') and hasattr(function_.__call__,'im_func'):
+            """ For classes that implement __call__ replace the object with 
+                a bound __call__.
+            """
+            class_name=function_.__class__.__name__
+            function_=function_.__call__
+            function_.__dict__['__name__']=class_name +'.__call__'
 
     if isinstance(function_, classmethod):
         msg = """
@@ -316,9 +319,14 @@ you can achieve the same goal by inverting the two decorators:
     contracts_checker.__name__ = 'checker-for-%s' % function_.__name__
     contracts_checker.__module__ = function_.__module__
 
-    from functools import partial,wraps
+    
+    if not Yaniv:
+        from decorator import decorator
+        wrapper = decorator(contracts_checker, function_)
+    else:
+        from functools import partial,wraps
+        wrapper = wraps(function_)(partial(contracts_checker,function_)) 
 
-    wrapper = wraps(function_)(partial(contracts_checker,function_))
 
     wrapper.__doc__ = new_docs
     wrapper.__name__ = function_.__name__
