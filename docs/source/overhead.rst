@@ -9,6 +9,8 @@ PyContracts overhead in production and in testing
 
 In production, all checks can be disabled using the function ``contracts.disable_all()``. 
 
+All checks can also be disabled via the ``DISABLE_CONTRACTS`` environment variable. If the variable is defined, then checks are disabled and cannot be enabled via ``contracts.enable_all()``.
+
 Overhead when disabled
 ^^^^^^^^^^^^^^^^^^^^^^
 
