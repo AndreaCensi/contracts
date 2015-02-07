@@ -125,6 +125,7 @@ Any help is welcome! (I don't use Python 3 myself.) Start by running ``nosetests
 - `Ryan Heimbuch`_:  bug reports 
 - Bernhard Biskup:  bug reports
 - `asharp`_: bug fixes
+- `Dennis Kempin`_ (Google mothership): Sphinx-style constraints specs
 
 (Please let me know if I forgot anybody.)
 
@@ -137,7 +138,7 @@ Any help is welcome! (I don't use Python 3 myself.) Start by running ``nosetests
 .. _`William Furr`: http://www.ccs.neu.edu/home/furrwf/
 .. _`Karol Kuczmarski`:  http://xion.org.pl/
 .. _`Brett Graham`: https://github.com/braingram
-
+.. _`Dennis Kempin`: https://github.com/denniskempin
 
 .. _typecheck: http://oakwinter.com/code/typecheck/
 .. _Haskell: http://www.haskell.org/
