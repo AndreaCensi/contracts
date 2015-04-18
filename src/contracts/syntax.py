@@ -69,11 +69,9 @@ pi = Keyword('pi').setParseAction(lambda tokens: SimpleRValue(math.pi, 'pi'))  #
 
 def isnumber(x):
     # These are scalar quantities that we can compare (=,>,>=, etc.)
-    if isinstance(x, Number):
-        return True
-    if numpy is not None and isinstance(x, numpy.number):
-        return True
-    return False
+    return (
+        isinstance(x, Number) or
+        (numpy is not None and isinstance(x, numpy.number)))
 
 rvalue = Forward()
 rvalue.setName('rvalue')
