@@ -17,18 +17,18 @@ def indent(s, prefix, first=None):
     assert isinstance(prefix, str)
     lines = s.split('\n')
     if not lines: return ''
-    
+
     if first is None:
         first= prefix
-    
+
     m = max(len(prefix), len(first))
-    
+
     prefix = ' ' * (m-len(prefix)) + prefix
     first = ' ' * (m-len(first)) +first
-    
+
     # differnet first prefix
     res = ['%s%s' % (prefix, line.rstrip()) for line in lines]
-    res[0] = '%s%s' % (first, lines[0].rstrip())     
+    res[0] = '%s%s' % (first, lines[0].rstrip())
     return '\n'.join(res)
 
 def deprecated(func):
@@ -48,7 +48,7 @@ def check_isinstance(ob, expected, **kwargs):
     if not isinstance(ob, expected):
         kwargs['object'] = ob
         raise_type_mismatch(ob, expected, **kwargs)
-    
+
 def raise_type_mismatch(ob, expected, **kwargs):
     """ Raises an exception concerning ob having the wrong type. """
     e = 'Object not of expected type:'
@@ -65,57 +65,56 @@ def format_obs(d):
     from contracts.interface import describe_value_multiline
 
 
-    
+
     maxlen = 0
     for name in d:
         maxlen = max(len(name), maxlen)
-        
+
     def pad(pre):
         return ' ' * (maxlen-len(pre)) + pre
-    
+
     res = ''
     for i, (name, value) in enumerate(d.items()):
         prefix = pad('%s: ' % name)
         if i > 0:
             res += '\n'
-        res +=  indent(describe_value_multiline(value), 
+        res +=  indent(describe_value_multiline(value),
                              ' ', first=prefix)
-        
+
     return res
 
 
 def raise_wrapped(etype, e, msg, **kwargs):
-    """ Raises an exception of type etype by wrapping 
+    """ Raises an exception of type etype by wrapping
         another exception "e" with its backtrace and adding
         the objects in kwargs as formatted by format_obs.
     """
     assert isinstance(e, BaseException), type(e)
     assert isinstance(msg, str), type(msg)
-    s = msg 
+    s = msg
     if kwargs:
         s += '\n' + format_obs(kwargs)
-    
+
     import sys
     if sys.version_info[0] >= 3:
         es = str(e)
     else:
         es = traceback.format_exc(e)
 
-    
-    s += '\n' + indent(es.strip(), '| ')
-    
-    raise etype(s)
 
-# 
-# 
-# 
+    s += '\n' + indent(es.strip(), '| ')
+
+    raise etype(s)
+#
+#
+#
 # def format_tb(tb, limit = None):
 #     """A shorthand for 'format_list(extract_stack(f, limit))."""
 #     return format_list(extract_tb(tb, limit))
-# 
+#
 # def extract_tb(tb, limit = None):
 #     """Return list of up to limit pre-processed entries from traceback.
-# 
+#
 #     This is useful for alternate formatting of stack traces.  If
 #     'limit' is omitted or None, all entries are extracted.  A
 #     pre-processed stack trace entry is a quadruple (filename, line

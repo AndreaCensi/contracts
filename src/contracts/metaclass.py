@@ -1,7 +1,4 @@
-from .main import contracts_decorate
-from .utils import indent
 from abc import ABCMeta
-from contracts import ContractException
 from types import FunctionType
 import traceback
 
@@ -14,28 +11,28 @@ def is_function_or_static(f):
     is_staticmethod = isinstance(f, staticmethod)
     is_classmethod = isinstance(f, classmethod)
     return is_normal_function or is_staticmethod or is_classmethod
-    
+
 class ContractsMeta(ABCMeta):
-    """ 
-        This metaclass lets the subclasses inherit the specifications. 
+    """
+        This metaclass lets the subclasses inherit the specifications.
         Very useful for abstract commands.
-    
+
     """
 
     def __init__(cls, clsname, bases, clsdict):  # @UnusedVariable @NoSelf
         ABCMeta.__init__(cls, clsname, bases, clsdict)
-        
+
         for k, f in clsdict.items():
             is_normal_function = isinstance(f, FunctionType)
             is_staticmethod = isinstance(f, staticmethod)
             is_classmethod = isinstance(f, classmethod)
-            
+
             if not (is_normal_function or is_staticmethod or is_classmethod):
                 # print('skipping %s:%s, %s' % (clsname, k, f))
                 continue
-            if k == '__init__': 
+            if k == '__init__':
                 continue
-            
+
             # this_function = '%s:%s()' % (clsname, k)  # @UnusedVariable
             # print('considering %s' % this_function)
 
@@ -57,9 +54,12 @@ class ContractsMeta(ABCMeta):
                                 # msg = 'inherit contracts for %s:%s() from %s' % (clsname, k, b.__name__)
                                 # print(msg)
                                 # TODO: check that the contracts are a subtype
+                                from contracts import ContractException
                                 try:
+                                    from .main import contracts_decorate
                                     f1 = contracts_decorate(f, **spec)
                                 except ContractException as e:
+                                    from .utils import indent
                                     msg = 'Error while applying ContractsMeta magic.\n'
                                     msg += '  subclass:  %s\n' % clsname
                                     msg += '      base:  %s\n' % b.__name__
@@ -67,7 +67,7 @@ class ContractsMeta(ABCMeta):
                                     msg += 'Exception:\n'
                                     msg += indent(traceback.format_exc(e), '| ') + '\n'
                                     msg += '(most likely parameters names are different?)'
-                                    raise ContractException(msg)       
+                                    raise ContractException(msg)
                                 setattr(cls, k, f1)
                                 break
                     else:
@@ -75,9 +75,27 @@ class ContractsMeta(ABCMeta):
                 else:
                     # print(' X not found in %s' % b.__name__)
                     pass
-                    
-                        
+
+
             else:
                 pass
                 # print(' -> No inheritance for %s' % this_function)
-        
+
+# This function is taken from six.
+# https://bitbucket.org/gutworth/six
+# six's permissive license allows us to include the following snippet.
+def with_metaclass(meta, *bases):
+    """Create a base class with a metaclass.
+
+    This allows metaclasses with both python 2 and 3, which have different
+    syntaxes for this functionality. Python 3's metaclass syntax is a
+    SyntaxError in python 2.
+    """
+    # This requires a bit of explanation: the basic idea is to make a dummy
+    # metaclass for one level of class instantiation that replaces itself with
+    # the actual metaclass.
+    class metaclass(meta):
+        def __new__(cls, name, this_bases, d):
+            return meta(name, bases, d)
+    return type.__new__(metaclass, 'temporary_class', (), {})
+
