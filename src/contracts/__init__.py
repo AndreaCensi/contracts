@@ -47,7 +47,7 @@ from .utils import *
 # After everything is loaded, load aliases
 from .library import miscellaneous_aliases
 
-from .metaclass import ContractsMeta
+from .metaclass import ContractsMeta, with_metaclass
 
 ContractsMeta.__module__ = 'contracts'
 

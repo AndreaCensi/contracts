@@ -4,7 +4,7 @@ from contracts import new_contract, check, Contract, contract
 from contracts.library.extensions import identifier_expression
 
 from .utils import check_contracts_fail, check_contracts_ok
-from contracts.main import  can_be_used_as_a_type
+from contracts.main import can_be_used_as_a_type, Storage
 from contracts.syntax import ParsingTmp
 
 # The different patterns
@@ -38,6 +38,9 @@ def cname():
 
 class TestNewContract(unittest.TestCase):
     counter = 0
+
+    #def setup(self):
+    #    Storage.string2contract = {}
 
     def test_inverted_args(self):
         self.assertRaises(ValueError, new_contract, ok1, 'list')
@@ -117,7 +120,7 @@ class TestNewContract(unittest.TestCase):
     def test_other_pass(self):
         class Ex1(Exception):
             pass
-        
+
         def invalid(x):
             raise Ex1()
         c = cname()
@@ -126,7 +129,7 @@ class TestNewContract(unittest.TestCase):
 
     def test_callable(self):
         class MyTest_ok(object):
-            def __call__(self, x):  # @UnusedVariable 
+            def __call__(self, x):  # @UnusedVariable
                 return True
         o = MyTest_ok()
         assert o('value') == True
@@ -134,7 +137,7 @@ class TestNewContract(unittest.TestCase):
 
     def test_callable_old_style(self):
         class MyTest_ok():
-            def __call__(self, x):  # @UnusedVariable 
+            def __call__(self, x):  # @UnusedVariable
                 return True
         o = MyTest_ok()
         assert o('value') == True
@@ -144,31 +147,31 @@ class TestNewContract(unittest.TestCase):
         # This should be interpreted as a type
         # init(x,y) so it is not mistaken for a valid callable
         class NewStyleClass(object):
-            def __init__(self, x, y):  # @UnusedVariable 
+            def __init__(self, x, y):  # @UnusedVariable
                 pass
         new_contract(cname(), NewStyleClass)
 
     def test_class_as_contract2(self):
         # old sytle class
         class OldStyleClass():
-            def __init__(self, x, y):  # @UnusedVariable 
+            def __init__(self, x, y):  # @UnusedVariable
                 pass
         new_contract(cname(), OldStyleClass)
 
     def test_class_as_contract3(self):
         class NewStyleClass(object):
-            def __init__(self, x, y):  # @UnusedVariable 
+            def __init__(self, x, y):  # @UnusedVariable
                 pass
-            
+
         @contract(x=NewStyleClass)
         def f(x):
             pass
 
     def test_class_as_contract4(self):
         class OldStyleClass():
-            def __init__(self, x, y):  # @UnusedVariable 
+            def __init__(self, x, y):  # @UnusedVariable
                 pass
-            
+
         @contract(x=OldStyleClass)
         def f(x):
             pass
@@ -186,7 +189,7 @@ class TestNewContract(unittest.TestCase):
 #        class MyTest_fail(object):
 #            def __call__(self, x, y):  # @UnusedVariable
 #                return True
-#            
+#
 #        self.assertRaises(ValueError, new_contract, cname(), MyTest_fail())
 
     def test_lambda_2(self):
@@ -198,6 +201,7 @@ class TestNewContract(unittest.TestCase):
         self.assertRaises(ValueError, new_contract, cname(), f)
 
     def test_idioms(self):
+        Storage.string2contract = {}  # TODO remove this hack
         color = new_contract('color', 'list[3](number,>=0,<=1)')
         # Make sure we got it right
         color.check([0, 0, 0])
@@ -211,7 +215,7 @@ class TestNewContract(unittest.TestCase):
         @contract
         def fill_area(inside, border):
             """ Fill the area inside the current figure.
-            
+
                 :type border: color
                 :type inside: color
             """
@@ -220,7 +224,7 @@ class TestNewContract(unittest.TestCase):
         @contract
         def fill_gradient(colors):
             """ Use a gradient to fill the area.
-            
+
                 :type colors: list(color)
             """
             pass
@@ -246,7 +250,7 @@ class TestNewContract(unittest.TestCase):
         p = parse('even2')
         p.check(2)
         p.fail(3)
-        p.fail(2.0) # now fails 
+        p.fail(2.0) # now fails
 
     def test_types_as_contracts(self):
         c = cname()
@@ -262,13 +266,13 @@ class TestNewContract(unittest.TestCase):
 
     def test_well_recognized(self):
         class OldStyleClass():
-            def __init__(self, x, y):  # @UnusedVariable 
+            def __init__(self, x, y):  # @UnusedVariable
                 pass
 
         assert can_be_used_as_a_type(OldStyleClass)
 
         class NewStyleClass():
-            def __init__(self, x, y):  # @UnusedVariable 
+            def __init__(self, x, y):  # @UnusedVariable
                 pass
 
         assert can_be_used_as_a_type(NewStyleClass)

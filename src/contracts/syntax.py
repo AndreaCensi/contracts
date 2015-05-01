@@ -67,13 +67,13 @@ def isnumber(x):
     # These are scalar quantities that we can compare (=,>,>=, etc.)
     if isinstance(x, Number):
         return True
-    try: 
+    try:
         # Slow, do it only once (TODO)
         import numpy
         return isinstance(x, numpy.number)
-    except:
+    except ImportError:
         return False
-    
+
 
 rvalue = Forward()
 rvalue.setName('rvalue')
@@ -94,7 +94,7 @@ number = pi | floatnumber | integer
 operand = number | int_variables_ref | misc_variables_ref | scoped_variables_ref
 operand.setName('r-value')
 
- 
+
 op = operatorPrecedence
 # op  = myOperatorPrecedence
 rvalue << op(operand, [
@@ -106,10 +106,10 @@ rvalue << op(operand, [
 
 
 
-# I want 
+# I want
 # - BindVariable to have precedence to EqualTo(VariableRef)
 # but I also want:
-# - Arithmetic to have precedence w.r.t BindVariable 
+# - Arithmetic to have precedence w.r.t BindVariable
 # last is variables
 add_contract(misc_variables_contract)
 add_contract(int_variables_contract)

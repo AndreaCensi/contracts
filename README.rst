@@ -75,13 +75,12 @@ Any Python type is a contract: ::
     def f(a, b):
         ...
 
-**Enforcing interfaces**:  ``ContractsMeta`` (available for Python 2.x) is a metaclass 
-like ABCMeta that propagates contracts to the subclasses: ::
+**Enforcing interfaces**:  ``ContractsMeta`` is a metaclass,
+like ABCMeta, which propagates contracts to the subclasses: ::
 
-    from contracts import contract, ContractsMeta
+    from contracts import contract, ContractsMeta, with_metaclass
     
-    class Base(object):
-        __metaclass__ = ContractsMeta
+    class Base(with_metaclass(ContractsMeta, object)):
 
         @abstractmethod
         @contract(probability='float,>=0,<=1')
