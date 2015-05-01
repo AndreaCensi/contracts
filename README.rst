@@ -125,8 +125,11 @@ Any help is welcome! (I don't use Python 3 myself.) Start by running ``nosetests
 - Bernhard Biskup:  bug reports
 - `asharp`_: bug fixes
 - `Dennis Kempin`_ (Google mothership): Sphinx-style constraints specs
+- `Andy Hayden`_: Python 3 support
+
 
 (Please let me know if I forgot anybody.)
+
 
 .. _`Chris Beaumont`: http://chrisbeaumont.org/
 .. _`asharp`:  https://github.com/asharp
@@ -138,6 +141,7 @@ Any help is welcome! (I don't use Python 3 myself.) Start by running ``nosetests
 .. _`Karol Kuczmarski`:  http://xion.org.pl/
 .. _`Brett Graham`: https://github.com/braingram
 .. _`Dennis Kempin`: https://github.com/denniskempin
+.. _`Andy Hayden`: http://careers.stackoverflow.com/hayd
 
 .. _typecheck: http://oakwinter.com/code/typecheck/
 .. _Haskell: http://www.haskell.org/
