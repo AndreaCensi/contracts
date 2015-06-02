@@ -60,7 +60,7 @@ class Extension(Contract):
         if not identifier in Extension.registrar:
             raise ParseException('Unknown extension contract %r' % identifier)
         
-        from contracts.library.separate_context import SeparateContext
+        # from contracts.library.separate_context import SeparateContext
         
         contract_ext = Extension.registrar[identifier]
         
@@ -78,7 +78,6 @@ class Extension(Contract):
                 msg += 'args = %s, kwargs = %s ' % (test_args, kwargs)
                 msg += '%s' % e
                 raise ParseFatalException(msg)
-
 
         where = W(s, loc)
         return Extension(identifier, where, args, kwargs)

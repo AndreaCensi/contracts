@@ -323,7 +323,7 @@ you can achieve the same goal by inverting the two decorators:
     contracts_checker.__module__ = function_.__module__
 
     # TODO: is using functools.wraps better?
-    from decorator import decorator
+    from decorator import decorator  # @UnresolvedImport
 
     wrapper = decorator(contracts_checker, function_)
 
@@ -344,7 +344,6 @@ def parse_flexible_spec(spec):
         return parse_contract_string(spec)
     elif can_be_used_as_a_type(spec):
         from .library import CheckType
-
         return CheckType(spec)
     else:
         msg = 'I want either a string or a type, not %s.' % describe_value(spec)

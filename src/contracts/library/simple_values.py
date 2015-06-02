@@ -6,12 +6,11 @@ from ..interface import eval_in_context
 class EqualTo(Contract):
     def __init__(self, rvalue, where=None):
         Contract.__init__(self, where)
-        assert isinstance(rvalue, RValue)
+        assert isinstance(rvalue, RValue), "Expected RValue for EqualTo, got %r" % rvalue
         self.rvalue = rvalue
 
     def check_contract(self, context, value):
         val = eval_in_context(context, self.rvalue, self)
-#        val = context.eval(self.rvalue, self)
         if not(val == value):
             error = ('EqualTo: Condition %s == %s not respected.'
                      % (val, value))
@@ -28,7 +27,12 @@ class EqualTo(Contract):
     def parse_action(s, loc, tokens):
         where = W(s, loc)
         rvalue = tokens[0]
-        return EqualTo(rvalue, where)
+        from contracts.library.types_misc import CheckType
+        if isinstance(rvalue, CheckType):
+            return rvalue
+        else:
+            assert isinstance(rvalue, RValue)
+            return EqualTo(rvalue, where)
 
 
 class SimpleRValue(RValue):
@@ -37,10 +41,6 @@ class SimpleRValue(RValue):
         self.value = value
         self.where = where
         self.representation = representation
-#
-#    def __eq__(self, other):
-#        return (self.__class__ == other.__class__ and 
-#                self.value == other.value)
 
     def __str__(self):
         if self.representation is None:

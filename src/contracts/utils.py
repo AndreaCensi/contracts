@@ -145,3 +145,16 @@ def raise_wrapped(etype, e, msg, **kwargs):
 
 
 
+
+from decorator import decorator  # @UnresolvedImport
+
+def ignore_typeerror(f):
+    """ Recasts TypeError as Exception; otherwise pyparsing gets confused. """
+    def f2(*args, **kwargs):
+        try:
+            return f(*args, **kwargs)
+        except TypeError as e:
+            raise Exception(traceback.format_exc(e))
+    return f2
+
+

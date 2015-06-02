@@ -1,7 +1,11 @@
 from nose.tools import raises
 
 from contracts import contract, parse, check, fail, decorate, ContractException
-from contracts.interface import ExternalScopedVariableNotFound
+from contracts.interface import ExternalScopedVariableNotFound, \
+    ContractNotRespected, RValue
+from contracts.library.types_misc import CheckType
+from contracts.utils import check_isinstance
+from contracts.library.simple_values import EqualTo
 
 
 def test_raw_parse():
@@ -14,14 +18,18 @@ def test_value_frozen_at_parsetime():
     p = 2
     c = parse('$p')
     p = 3
+
+    check_isinstance(c, EqualTo)
     assert c.rvalue.value == 2
 
 
 def test_holds_reference():
     class Foo(object):
         pass
-
-    assert parse('$Foo').rvalue.value is Foo
+    c = parse('$Foo')
+    check_isinstance(c, CheckType)
+    
+    assert c.types == Foo
 
 
 def test_algebra():
@@ -89,6 +97,26 @@ def test_self_referential():
                 pass
     except ExternalScopedVariableNotFound as e:
         assert e.get_token() == 'MyClass'
+    else:
+        raise ValueError()
+
+
+
+def test_class_ref():
+    class MyClass():
+        def __init__(self, a):
+            self.a = a
+              
+    @contract(x='$MyClass')  
+    def f1(x):
+        pass
+    
+    f1(MyClass(1))  # OK
+
+    try:
+        f1(1)  # raise
+    except ContractNotRespected as e:
+        pass
     else:
         raise ValueError()
 

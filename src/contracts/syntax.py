@@ -117,6 +117,7 @@ rvalue << op(operand, [
 # last is variables
 add_contract(misc_variables_contract)
 add_contract(int_variables_contract)
+
 add_contract(rvalue.copy().setParseAction(EqualTo.parse_action))
 
 hardwired = MatchFirst(ParsingTmp.contract_types)
