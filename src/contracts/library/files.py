@@ -1,15 +1,21 @@
+# TODO: handle file mode?
+
 import io
 import sys
 
 from ..interface import Contract, ContractNotRespected
 from ..syntax import (add_contract, add_keyword, Keyword, W)
 
-if sys.version_info[0] > 2:
-    file_type = io.IOBase
-else:
+inPy2 = sys.version_info[0] == 2
+if inPy2:
     file_type = (file, io.IOBase)
+else:
+    file_type = io.IOBase
 
 class File(Contract):
+
+    def __init__(self, where=None):
+        Contract.__init__(self, where)
 
     def check_contract(self, context, value):
         if not isinstance(value, file_type):
