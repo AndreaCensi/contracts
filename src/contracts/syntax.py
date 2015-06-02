@@ -58,7 +58,6 @@ e = CaselessLiteral('E')
 plusorminus = Literal('+') | Literal('-')
 integer = Combine(O(plusorminus) + basenumber)
 integer.setParseAction(lambda tokens: SimpleRValue(int(tokens[0])))
-# warnings.warn('TODO: negative float number')
 floatnumber = Combine(
     O(plusorminus) + integer + (point + O(basenumber)) ^ (e + integer))
 floatnumber.setParseAction(lambda tokens: SimpleRValue(float(tokens[0])))
