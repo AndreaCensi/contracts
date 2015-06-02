@@ -101,16 +101,7 @@ like ABCMeta, which propagates contracts to the subclasses: ::
 
 **Status:** The syntax is stable and it won't be changed. PyContracts is very well tested on Python 2.x. 
 
-**Status on Python 3.x:**
-
-- The basics work, but probably haven't been stress-tested enough. 
-
-- ContractsMeta does not work. 
-
-- Arithmetics construct do not work. This is because of PyParsing 2.x not being backwards compatible with PyParsing 1.6.
-
-Any help is welcome! (I don't use Python 3 myself.) Start by running ``nosetests contracts``.
-
+**Status on Python 3.x:** We reached feature parity! Everything works on Python 3 now.
 
 **Compmake Contributors**:
 
