@@ -8,13 +8,25 @@ Changelog
 =========
 
 .. _changelog: 
-
-1.7.5 -- 2015-06-01
+ 
+1.7.6 -- 2015-06-01
 -------------------
 
 * Full Python 3 support.
 
 * Now contract strings can be unicode.
+
+* Clarified the semantics of ``$`` when referring to types.
+
+
+This does what is expected: ::
+
+    from module import MyClass
+ 
+    @contract(x='list($MyClass)')
+    def f(x):
+      pass
+
 
 1.7.2 -- 2015-05-01
 -------------------
