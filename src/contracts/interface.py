@@ -101,7 +101,7 @@ class ContractNotRespected(ContractException):
 
     def __str__(self):
         msg = str(self.error)
-        
+
         def context_to_string(context):
             keys = sorted(context)
             try:
@@ -393,6 +393,3 @@ def describe_value_multiline(x):
             final = desc + '\n' + str(x)
 
         return final
-
-
-
