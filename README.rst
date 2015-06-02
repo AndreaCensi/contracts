@@ -103,7 +103,7 @@ like ABCMeta, which propagates contracts to the subclasses: ::
 
 **Status on Python 3.x:** We reached feature parity! Everything works on Python 3 now.
 
-**Compmake Contributors**:
+**Contributors**:
 
 - `Chris Beaumont`_ (Harvard-Smithsonian Center for Astrophysics): ``$var`` syntax; kwargs/args for extensions.
 - `Brett Graham`_ (Rowland Institute at Harvard University):  ``attr(name:type)`` syntax for checking types of attributes.
