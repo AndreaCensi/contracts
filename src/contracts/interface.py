@@ -55,16 +55,29 @@ def add_prefix(s, prefix):
 
 class ContractException(Exception):
     """ The base class for the exceptions thrown by this module. """
-    pass
-
 
 class MissingContract(ContractException):
     pass
 
-
 class ContractDefinitionError(ContractException):
     """ Thrown when defining the contracts """
 
+    def copy(self):
+        """ Returns a copy of the exception so we can re-raise it by erasing the stack. """
+#         print('type is %r' % type(self))
+        return type(self)(*self.args)
+
+class ExternalScopedVariableNotFound(ContractDefinitionError):
+
+    def __init__(self, token):
+        ContractDefinitionError.__init__(self, token)
+
+    def __str__(self):
+        token = self.get_token()
+        return 'Token not found: %r.' % (token)
+
+    def get_token(self):
+        return self.args[0]
 
 class CannotDecorateClassmethods(ContractDefinitionError):
     pass
@@ -76,10 +89,12 @@ class ContractSyntaxError(ContractDefinitionError):
     def __init__(self, error, where=None):
         self.error = error
         self.where = where
+        ContractDefinitionError.__init__(self, error, where)
 
     def __str__(self):
-        s = self.error
-        s += "\n\n" + add_prefix(self.where.__str__(), ' ')
+        error, where = self.args
+        s = error
+        s += "\n\n" + add_prefix(where.__str__(), ' ')
         return s
 
 

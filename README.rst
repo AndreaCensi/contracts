@@ -116,7 +116,7 @@ like ABCMeta, which propagates contracts to the subclasses: ::
 - Bernhard Biskup:  bug reports
 - `asharp`_: bug fixes
 - `Dennis Kempin`_ (Google mothership): Sphinx-style constraints specs
-- `Andy Hayden`_: Python 3 support
+- `Andy Hayden`_: Python 3 support, more efficient Numpy checks
 
 
 (Please let me know if I forgot anybody.)

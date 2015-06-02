@@ -2,6 +2,7 @@ import inspect
 
 from ..interface import Contract, ContractNotRespected, RValue, describe_value, ContractException
 from ..syntax import (W, oneOf, FollowedBy, NotAny, Word, alphanums, S)
+from contracts.interface import ExternalScopedVariableNotFound
 
 
 class BindVariable(Contract):
@@ -159,7 +160,7 @@ class ScopedVariableRef(RValue):
             try:
                 return eval(token, f.f_locals, f.f_globals)
             except NameError:
-                raise ContractException("Variable not found: %s" % token)
+                raise ExternalScopedVariableNotFound(token)
 
         raise RuntimeError("Cound not find a scope to lookup %s" % token)
 

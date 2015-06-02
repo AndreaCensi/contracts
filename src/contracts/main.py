@@ -14,6 +14,8 @@ from .library import (CheckCallable, Extension, SeparateContext,
                       identifier_expression)
 from .library.extensions import CheckCallableWithSelf
 from .syntax import ParseException, ParseFatalException, contract_expression
+from contracts.interface import ContractDefinitionError
+import traceback
 
 
 def check_contracts(contracts, values, context_variables=None):
@@ -93,6 +95,8 @@ def parse_contract_string(string):
         if _cacheable(string, c):
             Storage.string2contract[string] = c
         return c
+    except ContractDefinitionError as e:
+        raise
     except ParseException as e:
         where = Where(string, line=e.lineno, column=e.col)
         msg = '%s' % e
@@ -151,17 +155,20 @@ def contract_decorator(*arg, **kwargs):
                    'only keyword arguments (passed: %r)' % arg)
             raise ContractException(msg)
     else:
+        # !!! Do not change "tmp_wrap" name; we need it for the definition
+        # of scoped variable
+
         # We were called *with* parameters.
         if all_disabled():
-            def tmp_wrap(f):
+            def tmp_wrap(f):  # do not change name (see above)
                 return f
         else:
-            def tmp_wrap(f):
+            def tmp_wrap(f):  # do not change name (see above)
                 try:
                     return contracts_decorate(f, **kwargs)
-                except ContractSyntaxError as e:
-                    # Erase the stack
-                    raise ContractSyntaxError(e.error, e.where)
+                except ContractDefinitionError as e:
+                    # erase the stack
+                    raise e.copy()
         return tmp_wrap
 
 
@@ -343,8 +350,8 @@ def parse_flexible_spec(spec):
 
         return CheckType(spec)
     else:
-        raise ContractException('I want either a string or a type, not %s.'
-                                % describe_value(spec))
+        msg = 'I want either a string or a type, not %s.' % describe_value(spec)
+        raise ContractException(msg)
 
 
 def parse_contracts_from_docstring(function):
@@ -708,13 +715,13 @@ def can_accept_at_least_one_argument(callable_thing):
     """
     if inspect.ismethod(callable_thing):  # bound method
         f = callable_thing.__func__
-        args = (callable_thing.__self__, 'test',)
+        # args = (callable_thing.__self__, 'test',)
     else:
         if not inspect.isfunction(callable_thing):
             f = callable_thing.__call__
         else:
             f = callable_thing
-        args = ('test',)
+        # args = ('test',)
 
     spec = getfullargspec(f)
     return len(spec.args) > 0 or spec.varargs

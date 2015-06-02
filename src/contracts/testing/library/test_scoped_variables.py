@@ -1,6 +1,7 @@
 from nose.tools import raises
 
 from contracts import contract, parse, check, fail, decorate, ContractException
+from contracts.interface import ExternalScopedVariableNotFound
 
 
 def test_raw_parse():
@@ -37,7 +38,6 @@ def test_invalid():
 
 
 def test_check():
-
     p = 2
     q = 4
     c = parse('list[$p](>$q)')
@@ -47,7 +47,6 @@ def test_check():
 
 
 def test_contract_decorator():
-
     z = 1
 
     @contract(x='$z')
@@ -58,7 +57,6 @@ def test_contract_decorator():
 
 
 def test_contract_decorate():
-
     z = 1
 
     def foo(x):
@@ -69,7 +67,6 @@ def test_contract_decorate():
 
 
 def test_check_fail():
-
     z = 2
     check('$z', 2)
     fail('$z', 3)
@@ -80,3 +77,18 @@ def test_contract_not_cached():
     check('$z', 2)
     z = 3
     check('$z', 3)
+
+
+def test_self_referential():
+    try:
+        class MyClass():
+            def __init__(self):
+                pass
+            @contract(other='$MyClass')
+            def compare(self, other):
+                pass
+    except ExternalScopedVariableNotFound as e:
+        assert e.get_token() == 'MyClass'
+    else:
+        raise ValueError()
+
