@@ -9,6 +9,11 @@ Changelog
 
 .. _changelog: 
 
+1.7.2 -- 2015-05-01
+-------------------
+
+* Better Python 3 support; metaclasses now supported on Python 3.2. Python 3.3 has problems with PyParsing probably due to randomization of data structures.
+
 1.7.1 -- 2014-11-30
 --------------------
 * Fixed regressions on tests for contracts with arguments.

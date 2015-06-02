@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>contracts.interface &mdash; PyContracts 1.7.1 documentation</title>
+    <title>contracts.interface &mdash; PyContracts 1.7.2 documentation</title>
     
-    <link rel="stylesheet" href="../../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.7.1',
+        VERSION:     '1.7.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../static/jquery.js"></script>
     <script type="text/javascript" src="../../static/underscore.js"></script>
     <script type="text/javascript" src="../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.7.1 documentation" href="../../index.html" />
+    <link rel="top" title="PyContracts 1.7.2 documentation" href="../../index.html" />
     <link rel="up" title="contracts" href="../contracts.html" />
 	 
 
@@ -50,8 +50,8 @@
 
 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -60,22 +60,23 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">PyContracts 1.7.1 documentation</a> &raquo;</li>
-          <li><a href="../index.html" >Module code</a> &raquo;</li>
-          <li><a href="../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">PyContracts 1.7.2 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for contracts.interface</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="kn">from</span> <span class="nn">.syntax</span> <span class="kn">import</span> <span class="n">col</span><span class="p">,</span> <span class="n">lineno</span>
+<span class="kn">from</span> <span class="nn">.metaclass</span> <span class="kn">import</span> <span class="n">with_metaclass</span>
 
 
 <div class="viewcode-block" id="Where"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.Where">[docs]</a><span class="k">class</span> <span class="nc">Where</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -126,7 +127,7 @@
     <span class="k">return</span> <span class="n">result</span>
 
 </div>
-<div class="viewcode-block" id="ContractException"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.ContractException">[docs]</a><span class="k">class</span> <span class="nc">ContractException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="ContractException"><a class="viewcode-back" href="../../api_reference.html#contracts.interface.ContractException">[docs]</a><span class="k">class</span> <span class="nc">ContractException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; The base class for the exceptions thrown by this module. &quot;&quot;&quot;</span>
     <span class="k">pass</span>
 
@@ -143,7 +144,7 @@
     <span class="k">pass</span>
 
 </div>
-<div class="viewcode-block" id="ContractSyntaxError"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.ContractSyntaxError">[docs]</a><span class="k">class</span> <span class="nc">ContractSyntaxError</span><span class="p">(</span><span class="n">ContractDefinitionError</span><span class="p">):</span>
+<div class="viewcode-block" id="ContractSyntaxError"><a class="viewcode-back" href="../../api_reference.html#contracts.interface.ContractSyntaxError">[docs]</a><span class="k">class</span> <span class="nc">ContractSyntaxError</span><span class="p">(</span><span class="n">ContractDefinitionError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Exception thrown when there is a syntax error in the contracts. &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
@@ -156,7 +157,7 @@
         <span class="k">return</span> <span class="n">s</span>
 
 </div>
-<div class="viewcode-block" id="ContractNotRespected"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.ContractNotRespected">[docs]</a><span class="k">class</span> <span class="nc">ContractNotRespected</span><span class="p">(</span><span class="n">ContractException</span><span class="p">):</span>
+<div class="viewcode-block" id="ContractNotRespected"><a class="viewcode-back" href="../../api_reference.html#contracts.interface.ContractNotRespected">[docs]</a><span class="k">class</span> <span class="nc">ContractNotRespected</span><span class="p">(</span><span class="n">ContractException</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Exception thrown when a value does not respect a contract. &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
@@ -175,7 +176,7 @@
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">)</span>
-        
+
         <span class="k">def</span> <span class="nf">context_to_string</span><span class="p">(</span><span class="n">context</span><span class="p">):</span>
             <span class="n">keys</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
@@ -216,8 +217,7 @@
     <span class="k">return</span> <span class="n">s</span>
 
 </div>
-<div class="viewcode-block" id="RValue"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.RValue">[docs]</a><span class="k">class</span> <span class="nc">RValue</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">ABCMeta</span>
+<div class="viewcode-block" id="RValue"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.RValue">[docs]</a><span class="k">class</span> <span class="nc">RValue</span><span class="p">(</span><span class="n">with_metaclass</span><span class="p">(</span><span class="n">ABCMeta</span><span class="p">,</span> <span class="nb">object</span><span class="p">)):</span>
 
     <span class="nd">@abstractmethod</span>
 <div class="viewcode-block" id="RValue.eval"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.RValue.eval">[docs]</a>    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>  <span class="c"># @UnusedVariable @ReservedAssignment</span>
@@ -246,8 +246,7 @@
         <span class="k">raise</span> <span class="n">ContractNotRespected</span><span class="p">(</span><span class="n">contract</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="Contract"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.Contract">[docs]</a><span class="k">class</span> <span class="nc">Contract</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">ABCMeta</span>
+<div class="viewcode-block" id="Contract"><a class="viewcode-back" href="../../api_reference.html#contracts.interface.Contract">[docs]</a><span class="k">class</span> <span class="nc">Contract</span><span class="p">(</span><span class="n">with_metaclass</span><span class="p">(</span><span class="n">ABCMeta</span><span class="p">,</span> <span class="nb">object</span><span class="p">)):</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">):</span>
         <span class="k">assert</span> <span class="p">((</span><span class="n">where</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">or</span>
@@ -264,7 +263,7 @@
 <div class="viewcode-block" id="Contract.enabled"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.Contract.enabled">[docs]</a>    <span class="k">def</span> <span class="nf">enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enabled</span>
 </div>
-<div class="viewcode-block" id="Contract.check"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.Contract.check">[docs]</a>    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Contract.check"><a class="viewcode-back" href="../../api_reference.html#contracts.interface.Contract.check">[docs]</a>    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Checks that the value satisfies this contract.</span>
 
@@ -272,7 +271,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_contract</span><span class="p">({},</span> <span class="n">value</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Contract.fail"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.Contract.fail">[docs]</a>    <span class="k">def</span> <span class="nf">fail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Contract.fail"><a class="viewcode-back" href="../../api_reference.html#contracts.interface.Contract.fail">[docs]</a>    <span class="k">def</span> <span class="nf">fail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Checks that the value **does not** respect this contract.</span>
 <span class="sd">            Raises an exception if it does.</span>
@@ -317,7 +316,7 @@
             <span class="k">raise</span>
 
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Contract.__repr__"><a class="viewcode-back" href="../../api_reference.html#contracts.interface.Contract.__repr__">[docs]</a>    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns a string representation of a contract that can be</span>
 <span class="sd">            evaluated by Python&#39;s :py:func:`eval()`.</span>
@@ -340,9 +339,9 @@
 <span class="sd">            True</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-
+</div>
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Contract.__str__"><a class="viewcode-back" href="../../api_reference.html#contracts.interface.Contract.__str__">[docs]</a>    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Returns a string representation of a contract that can be</span>
 <span class="sd">            reparsed by :py:func:`contracts.parse()`.</span>
 
@@ -391,7 +390,7 @@
 
 
 <span class="sd">        &quot;&quot;&quot;</span>
-
+</div>
     <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">and</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__repr__</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__repr__</span><span class="p">())</span>
@@ -472,9 +471,9 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
       <input type="text" name="q" />
@@ -491,7 +490,7 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -500,15 +499,15 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">PyContracts 1.7.1 documentation</a> &raquo;</li>
-          <li><a href="../index.html" >Module code</a> &raquo;</li>
-          <li><a href="../contracts.html" >contracts</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">PyContracts 1.7.2 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../contracts.html" >contracts</a> &raquo;</li> 
       </ul>
     </div>
 	
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
 	
     <script type="text/javascript">

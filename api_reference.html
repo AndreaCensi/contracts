@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>PyContracts public API reference &mdash; PyContracts 1.7.1 documentation</title>
+    <title>PyContracts public API reference &mdash; PyContracts 1.7.2 documentation</title>
     
-    <link rel="stylesheet" href="static/default.css" type="text/css" />
+    <link rel="stylesheet" href="static/classic.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.7.1',
+        VERSION:     '1.7.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.7.1 documentation" href="index.html" />
+    <link rel="top" title="PyContracts 1.7.2 documentation" href="index.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -49,8 +49,8 @@
 
 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -59,51 +59,51 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">PyContracts 1.7.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PyContracts 1.7.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="col1 container">
 <p><strong>User documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="index.html#introduction"><em>Introduction to PyContracts</em></a></li>
-<li><a class="reference internal" href="tour.html#quick-tour"><em>Quick tour</em></a></li>
+<li><a class="reference internal" href="index.html#introduction"><span>Introduction to PyContracts</span></a></li>
+<li><a class="reference internal" href="tour.html#quick-tour"><span>Quick tour</span></a></li>
 <li>Reference:<ul>
-<li><a class="reference internal" href="api.html#api"><em>API for specifying contracts</em></a></li>
-<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><em>Using the ContractsMeta meta-class</em></a></li>
-<li><a class="reference internal" href="new_contract.html#new-contract"><em>Creating new contracts using new_contract</em></a></li>
+<li><a class="reference internal" href="api.html#api"><span>API for specifying contracts</span></a></li>
+<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><span>Using the ContractsMeta meta-class</span></a></li>
+<li><a class="reference internal" href="new_contract.html#new-contract"><span>Creating new contracts using new_contract</span></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="reference.html#contracts-language-reference"><em>Language reference</em></a></li>
+<li><a class="reference internal" href="reference.html#contracts-language-reference"><span>Language reference</span></a></li>
 </ul>
 </div>
 <div class="col2 container">
 <p><strong>Developer documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="changelog.html#the-changelog"><em>Changelog</em></a></li>
-<li><a class="reference internal" href="overhead.html#overhead"><em>PyContracts overhead in production and in testing</em></a></li>
-<li><a class="reference internal" href="#api-reference"><em>PyContracts public API reference</em></a></li>
-<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><em>PyContracts low-level API</em></a></li>
-<li><a class="reference internal" href="credits.html#credits"><em>Credits</em></a></li>
+<li><a class="reference internal" href="changelog.html#the-changelog"><span>Changelog</span></a></li>
+<li><a class="reference internal" href="overhead.html#overhead"><span>PyContracts overhead in production and in testing</span></a></li>
+<li><a class="reference internal" href="#api-reference"><span>PyContracts public API reference</span></a></li>
+<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><span>PyContracts low-level API</span></a></li>
+<li><a class="reference internal" href="credits.html#credits"><span>Credits</span></a></li>
 </ul>
 </div>
 <div style="clear:left"/><div class="section" id="pycontracts-public-api-reference">
 <span id="api-reference"></span><h1>PyContracts public API reference<a class="headerlink" href="#pycontracts-public-api-reference" title="Permalink to this headline">¶</a></h1>
 <p>This section provides a reference to <span class="brand">PyContracts</span>&#8216; public interface.</p>
 <ul class="simple">
-<li>See <a class="reference internal" href="api.html#api"><em>API for specifying contracts</em></a> for a more friendly discussion.</li>
-<li>See <a class="reference internal" href="reference.html#contracts-language-reference"><em>Language reference</em></a> for a reference on the domain-specific language.</li>
+<li>See <a class="reference internal" href="api.html#api"><span>API for specifying contracts</span></a> for a more friendly discussion.</li>
+<li>See <a class="reference internal" href="reference.html#contracts-language-reference"><span>Language reference</span></a> for a reference on the domain-specific language.</li>
 </ul>
 <span class="target" id="module-contracts"></span><div class="section" id="decorating-a-function">
 <h2>Decorating a function<a class="headerlink" href="#decorating-a-function" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="contracts.contract">
-<tt class="descclassname">contracts.</tt><tt class="descname">contract</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="modules/contracts.html#contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.contract" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">contracts.</code><code class="descname">contract</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="modules/contracts.html#contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.contract" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator for adding contracts to functions.</p>
 <p>It is smart enough to support functions with variable number of
 arguments and keyword arguments.</p>
@@ -125,7 +125,7 @@ def my_function(a:&#39;int,&gt;0&#39;, b:&#39;list[N],N&gt;0&#39;) -&gt; &#39;li
 </pre></div>
 </div>
 </li>
-<li><p class="first">Using <tt class="docutils literal"><span class="pre">:type:</span></tt> and <tt class="docutils literal"><span class="pre">:rtype:</span></tt> tags in the function&#8217;s docstring:</p>
+<li><p class="first">Using <code class="docutils literal"><span class="pre">:type:</span></code> and <code class="docutils literal"><span class="pre">:rtype:</span></code> tags in the function&#8217;s docstring:</p>
 <div class="highlight-python"><div class="highlight"><pre>@contract
 def my_function(a, b):
 </pre></div>
@@ -136,9 +136,9 @@ def my_function(a, b):
 
 <dl class="function">
 <dt id="contracts.decorate">
-<tt class="descclassname">contracts.</tt><tt class="descname">decorate</tt><big>(</big><em>function_</em>, <em>modify_docstring=True</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#contracts.decorate" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">contracts.</code><code class="descname">decorate</code><span class="sig-paren">(</span><em>function_</em>, <em>modify_docstring=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#contracts.decorate" title="Permalink to this definition">¶</a></dt>
 <dd><p>An explicit way to decorate a given function.
-The decorator <a class="reference internal" href="#contracts.decorate" title="contracts.decorate"><tt class="xref py py-func docutils literal"><span class="pre">decorate()</span></tt></a> calls this function internally.</p>
+The decorator <a class="reference internal" href="#contracts.decorate" title="contracts.decorate"><code class="xref py py-func docutils literal"><span class="pre">decorate()</span></code></a> calls this function internally.</p>
 </dd></dl>
 
 </div>
@@ -146,7 +146,7 @@ The decorator <a class="reference internal" href="#contracts.decorate" title="co
 <h2>Enabling/disabling<a class="headerlink" href="#enabling-disabling" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="contracts.disable_all">
-<tt class="descclassname">contracts.</tt><tt class="descname">disable_all</tt><big>(</big><big>)</big><a class="headerlink" href="#contracts.disable_all" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">contracts.</code><code class="descname">disable_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/contracts/enabling.html#disable_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.disable_all" title="Permalink to this definition">¶</a></dt>
 <dd><p>Disables all contracts checks.</p>
 </dd></dl>
 
@@ -155,19 +155,19 @@ The decorator <a class="reference internal" href="#contracts.decorate" title="co
 <h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="contracts.ContractException">
-<em class="property">class </em><tt class="descclassname">contracts.</tt><tt class="descname">ContractException</tt><a class="headerlink" href="#contracts.ContractException" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">contracts.</code><code class="descname">ContractException</code><a class="reference internal" href="modules/contracts/interface.html#ContractException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.ContractException" title="Permalink to this definition">¶</a></dt>
 <dd><p>The base class for the exceptions thrown by this module.</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="contracts.ContractSyntaxError">
-<em class="property">class </em><tt class="descclassname">contracts.</tt><tt class="descname">ContractSyntaxError</tt><big>(</big><em>error</em>, <em>where=None</em><big>)</big><a class="headerlink" href="#contracts.ContractSyntaxError" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">contracts.</code><code class="descname">ContractSyntaxError</code><span class="sig-paren">(</span><em>error</em>, <em>where=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/contracts/interface.html#ContractSyntaxError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.ContractSyntaxError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Exception thrown when there is a syntax error in the contracts.</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="contracts.ContractNotRespected">
-<em class="property">class </em><tt class="descclassname">contracts.</tt><tt class="descname">ContractNotRespected</tt><big>(</big><em>contract</em>, <em>error</em>, <em>value</em>, <em>context</em><big>)</big><a class="headerlink" href="#contracts.ContractNotRespected" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">contracts.</code><code class="descname">ContractNotRespected</code><span class="sig-paren">(</span><em>contract</em>, <em>error</em>, <em>value</em>, <em>context</em><span class="sig-paren">)</span><a class="reference internal" href="modules/contracts/interface.html#ContractNotRespected"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.ContractNotRespected" title="Permalink to this definition">¶</a></dt>
 <dd><p>Exception thrown when a value does not respect a contract.</p>
 </dd></dl>
 
@@ -176,17 +176,17 @@ The decorator <a class="reference internal" href="#contracts.decorate" title="co
 <h2>Manually checking values<a class="headerlink" href="#manually-checking-values" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="contracts.check">
-<tt class="descclassname">contracts.</tt><tt class="descname">check</tt><big>(</big><em>contract</em>, <em>object</em>, <em>desc=None</em>, <em>**context</em><big>)</big><a class="headerlink" href="#contracts.check" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks that <tt class="docutils literal"><span class="pre">object</span></tt> satisfies the contract
-described by <tt class="docutils literal"><span class="pre">contract</span></tt>.</p>
+<code class="descclassname">contracts.</code><code class="descname">check</code><span class="sig-paren">(</span><em>contract</em>, <em>object</em>, <em>desc=None</em>, <em>**context</em><span class="sig-paren">)</span><a class="reference internal" href="modules/contracts/main.html#check"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks that <code class="docutils literal"><span class="pre">object</span></code> satisfies the contract
+described by <code class="docutils literal"><span class="pre">contract</span></code>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>contract</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The contract string.</li>
-<li><strong>object</strong> (<tt class="docutils literal"><span class="pre">*</span></tt>) &#8211; Any object.</li>
-<li><strong>desc</strong> (<tt class="docutils literal"><span class="pre">None|str</span></tt>) &#8211; An optional description of the error. If given,
+<li><strong>object</strong> (<code class="docutils literal"><span class="pre">*</span></code>) &#8211; Any object.</li>
+<li><strong>desc</strong> (<code class="docutils literal"><span class="pre">None|str</span></code>) &#8211; An optional description of the error. If given,
 it is included in the error message.</li>
 </ul>
 </td>
@@ -197,7 +197,7 @@ it is included in the error message.</li>
 
 <dl class="function">
 <dt id="contracts.check_multiple">
-<tt class="descclassname">contracts.</tt><tt class="descname">check_multiple</tt><big>(</big><em>couples</em>, <em>desc=None</em><big>)</big><a class="headerlink" href="#contracts.check_multiple" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">contracts.</code><code class="descname">check_multiple</code><span class="sig-paren">(</span><em>couples</em>, <em>desc=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/contracts/main.html#check_multiple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.check_multiple" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks multiple couples of (contract, value) in the same context.</p>
 <p>This means that the variables in each contract are shared with
 the others.</p>
@@ -206,8 +206,8 @@ the others.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>couples</strong> (<tt class="docutils literal"><span class="pre">list[&gt;0](tuple(str,</span> <span class="pre">*))</span></tt>) &#8211; A list of tuple (contract, value) to check.</li>
-<li><strong>desc</strong> (<tt class="docutils literal"><span class="pre">None|str</span></tt>) &#8211; An optional description of the error. If given,
+<li><strong>couples</strong> (<code class="docutils literal"><span class="pre">list[&gt;0](tuple(str,</span> <span class="pre">*))</span></code>) &#8211; A list of tuple (contract, value) to check.</li>
+<li><strong>desc</strong> (<code class="docutils literal"><span class="pre">None|str</span></code>) &#8211; An optional description of the error. If given,
 it is included in the error message.</li>
 </ul>
 </td>
@@ -218,14 +218,14 @@ it is included in the error message.</li>
 
 <dl class="function">
 <dt id="contracts.parse">
-<tt class="descclassname">contracts.</tt><tt class="descname">parse</tt><big>(</big><em>spec</em><big>)</big><a class="headerlink" href="#contracts.parse" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">contracts.</code><code class="descname">parse</code><span class="sig-paren">(</span><em>spec</em><span class="sig-paren">)</span><a class="headerlink" href="#contracts.parse" title="Permalink to this definition">¶</a></dt>
 <dd><p>spec can be either a Contract, a type, or a contract string.
 In the latter case, the usual parsing takes place</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="contracts.new_contract">
-<tt class="descclassname">contracts.</tt><tt class="descname">new_contract</tt><big>(</big><em>*args</em><big>)</big><a class="reference internal" href="modules/contracts.html#new_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.new_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">contracts.</code><code class="descname">new_contract</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="modules/contracts.html#new_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.new_contract" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines a new contract type. Used both as a decorator and as
 a function.</p>
 <p><strong>1) Use as a function.</strong> The first parameter must be a string.
@@ -257,24 +257,24 @@ The function name is used as the identifier.</p>
     <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This function returns a <a class="reference internal" href="#contracts.Contract" title="contracts.Contract"><tt class="xref py py-class docutils literal"><span class="pre">Contract</span></tt></a> object. It might be
+<p>This function returns a <a class="reference internal" href="#contracts.Contract" title="contracts.Contract"><code class="xref py py-class docutils literal"><span class="pre">Contract</span></code></a> object. It might be
 useful to check right away if the declaration is what you meant,
-using <a class="reference internal" href="#contracts.Contract.check" title="contracts.Contract.check"><tt class="xref py py-func docutils literal"><span class="pre">Contract.check()</span></tt></a> and <a class="reference internal" href="#contracts.Contract.fail" title="contracts.Contract.fail"><tt class="xref py py-func docutils literal"><span class="pre">Contract.fail()</span></tt></a>.</p>
+using <a class="reference internal" href="#contracts.Contract.check" title="contracts.Contract.check"><code class="xref py py-func docutils literal"><span class="pre">Contract.check()</span></code></a> and <a class="reference internal" href="#contracts.Contract.fail" title="contracts.Contract.fail"><code class="xref py py-func docutils literal"><span class="pre">Contract.fail()</span></code></a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>identifier</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The identifier must be a string not already in use
-(you cannot redefine <tt class="docutils literal"><span class="pre">list</span></tt>, <tt class="docutils literal"><span class="pre">tuple</span></tt>, etc.).</li>
-<li><strong>condition</strong> (<tt class="docutils literal"><span class="pre">type|callable|str</span></tt>) &#8211; Definition of the new contract.</li>
+(you cannot redefine <code class="docutils literal"><span class="pre">list</span></code>, <code class="docutils literal"><span class="pre">tuple</span></code>, etc.).</li>
+<li><strong>condition</strong> (<code class="docutils literal"><span class="pre">type|callable|str</span></code>) &#8211; Definition of the new contract.</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The equivalent contract &#8211; might be useful for debugging.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Contract</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="api/contracts.html#contracts.interface.Contract" title="contracts.interface.Contract">Contract</a></p>
 </td>
 </tr>
 </tbody>
@@ -283,10 +283,10 @@ using <a class="reference internal" href="#contracts.Contract.check" title="cont
 
 <dl class="class">
 <dt id="contracts.Contract">
-<em class="property">class </em><tt class="descclassname">contracts.</tt><tt class="descname">Contract</tt><big>(</big><em>where</em><big>)</big><a class="headerlink" href="#contracts.Contract" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">contracts.</code><code class="descname">Contract</code><span class="sig-paren">(</span><em>where</em><span class="sig-paren">)</span><a class="reference internal" href="modules/contracts/interface.html#Contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.Contract" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
 <dt id="contracts.Contract.check">
-<tt class="descname">check</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#contracts.Contract.check" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="modules/contracts/interface.html#Contract.check"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.Contract.check" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks that the value satisfies this contract.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -300,7 +300,7 @@ using <a class="reference internal" href="#contracts.Contract.check" title="cont
 
 <dl class="method">
 <dt id="contracts.Contract.fail">
-<tt class="descname">fail</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#contracts.Contract.fail" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fail</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="modules/contracts/interface.html#Contract.fail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.Contract.fail" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks that the value <strong>does not</strong> respect this contract.
 Raises an exception if it does.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -315,10 +315,10 @@ Raises an exception if it does.</p>
 
 <dl class="method">
 <dt id="contracts.Contract.__repr__">
-<tt class="descname">__repr__</tt><big>(</big><big>)</big><a class="headerlink" href="#contracts.Contract.__repr__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/contracts/interface.html#Contract.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.Contract.__repr__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a string representation of a contract that can be
-evaluated by Python&#8217;s <a class="reference external" href="http://docs.python.org/library/functions.html#eval" title="(in Python v2.7)"><tt class="xref py py-func docutils literal"><span class="pre">eval()</span></tt></a>.</p>
-<p>It must hold that: <tt class="docutils literal"><span class="pre">eval(contract.__repr__())</span> <span class="pre">==</span> <span class="pre">contract</span></tt>.
+evaluated by Python&#8217;s <a class="reference external" href="http://docs.python.org/library/functions.html#eval" title="(in Python v2.7)"><code class="xref py py-func docutils literal"><span class="pre">eval()</span></code></a>.</p>
+<p>It must hold that: <code class="docutils literal"><span class="pre">eval(contract.__repr__())</span> <span class="pre">==</span> <span class="pre">contract</span></code>.
 This is checked in the unit-tests.</p>
 <p>Example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">parse</span>
@@ -328,7 +328,7 @@ This is checked in the unit-tests.</p>
 </pre></div>
 </div>
 <p>All the symbols you need to eval() the expression are in
-<a class="reference internal" href="api/contracts.library.html#module-contracts.library" title="contracts.library"><tt class="xref py py-mod docutils literal"><span class="pre">contracts.library</span></tt></a>.</p>
+<a class="reference internal" href="api/contracts.library.html#module-contracts.library" title="contracts.library"><code class="xref py py-mod docutils literal"><span class="pre">contracts.library</span></code></a>.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contracts.library</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span> <span class="o">==</span> <span class="nb">eval</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%r</span><span class="s">&quot;</span><span class="o">%</span><span class="n">contract</span><span class="p">)</span>
 <span class="go">True</span>
@@ -338,10 +338,10 @@ This is checked in the unit-tests.</p>
 
 <dl class="method">
 <dt id="contracts.Contract.__str__">
-<tt class="descname">__str__</tt><big>(</big><big>)</big><a class="headerlink" href="#contracts.Contract.__str__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/contracts/interface.html#Contract.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.Contract.__str__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a string representation of a contract that can be
-reparsed by <a class="reference internal" href="#contracts.parse" title="contracts.parse"><tt class="xref py py-func docutils literal"><span class="pre">contracts.parse()</span></tt></a>.</p>
-<p>It must hold that: <tt class="docutils literal"><span class="pre">parse(str(contract))</span> <span class="pre">==</span> <span class="pre">contract</span></tt>.
+reparsed by <a class="reference internal" href="#contracts.parse" title="contracts.parse"><code class="xref py py-func docutils literal"><span class="pre">contracts.parse()</span></code></a>.</p>
+<p>It must hold that: <code class="docutils literal"><span class="pre">parse(str(contract))</span> <span class="pre">==</span> <span class="pre">contract</span></code>.
 This is checked in the unit-tests.</p>
 <p>Example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">parse</span>
@@ -353,7 +353,7 @@ This is checked in the unit-tests.</p>
 <span class="go">True</span>
 </pre></div>
 </div>
-<p>The expressions generated by <a class="reference internal" href="#contracts.Contract.__str__" title="contracts.Contract.__str__"><tt class="xref py py-func docutils literal"><span class="pre">Contract.__str__()</span></tt></a> will be
+<p>The expressions generated by <a class="reference internal" href="#contracts.Contract.__str__" title="contracts.Contract.__str__"><code class="xref py py-func docutils literal"><span class="pre">Contract.__str__()</span></code></a> will be
 exactly the same as what was parsed (this is checked in the
 unittests as well) if and only if the expression is &#8220;minimal&#8221;.
 If it isn&#8217;t (there is whitespace or redundant symbols),
@@ -373,7 +373,7 @@ the returned expression will be an equivalent minimal one.</p>
 </pre></div>
 </div>
 <p>This is an example with logical operators precedence. The AND
-operator <tt class="docutils literal"><span class="pre">,</span></tt> (comma) has more precedence than the OR (<tt class="docutils literal"><span class="pre">|</span></tt>).</p>
+operator <code class="docutils literal"><span class="pre">,</span></code> (comma) has more precedence than the OR (<code class="docutils literal"><span class="pre">|</span></code>).</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">verbose_spec</span> <span class="o">=</span> <span class="s">&#39;(a|(b,c)),e&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">parse</span><span class="p">(</span><span class="n">verbose_spec</span><span class="p">))</span>
 <span class="go">&#39;(a|b,c),e&#39;</span>
@@ -390,7 +390,7 @@ needed.</p>
 <h2>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h2>
 <dl class="data">
 <dt id="contracts.contract_expression">
-<tt class="descclassname">contracts.</tt><tt class="descname">contract_expression</tt><a class="headerlink" href="#contracts.contract_expression" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">contracts.</code><code class="descname">contract_expression</code><a class="headerlink" href="#contracts.contract_expression" title="Permalink to this definition">¶</a></dt>
 <dd><p>A PyParsing expression that can be used to include
 contracts expression in your own PyParsing grammar.</p>
 </dd></dl>
@@ -398,25 +398,25 @@ contracts expression in your own PyParsing grammar.</p>
 <div class="col1 container">
 <p><strong>User documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="index.html#introduction"><em>Introduction to PyContracts</em></a></li>
-<li><a class="reference internal" href="tour.html#quick-tour"><em>Quick tour</em></a></li>
+<li><a class="reference internal" href="index.html#introduction"><span>Introduction to PyContracts</span></a></li>
+<li><a class="reference internal" href="tour.html#quick-tour"><span>Quick tour</span></a></li>
 <li>Reference:<ul>
-<li><a class="reference internal" href="api.html#api"><em>API for specifying contracts</em></a></li>
-<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><em>Using the ContractsMeta meta-class</em></a></li>
-<li><a class="reference internal" href="new_contract.html#new-contract"><em>Creating new contracts using new_contract</em></a></li>
+<li><a class="reference internal" href="api.html#api"><span>API for specifying contracts</span></a></li>
+<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><span>Using the ContractsMeta meta-class</span></a></li>
+<li><a class="reference internal" href="new_contract.html#new-contract"><span>Creating new contracts using new_contract</span></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="reference.html#contracts-language-reference"><em>Language reference</em></a></li>
+<li><a class="reference internal" href="reference.html#contracts-language-reference"><span>Language reference</span></a></li>
 </ul>
 </div>
 <div class="col2 container">
 <p><strong>Developer documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="changelog.html#the-changelog"><em>Changelog</em></a></li>
-<li><a class="reference internal" href="overhead.html#overhead"><em>PyContracts overhead in production and in testing</em></a></li>
-<li><a class="reference internal" href="#api-reference"><em>PyContracts public API reference</em></a></li>
-<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><em>PyContracts low-level API</em></a></li>
-<li><a class="reference internal" href="credits.html#credits"><em>Credits</em></a></li>
+<li><a class="reference internal" href="changelog.html#the-changelog"><span>Changelog</span></a></li>
+<li><a class="reference internal" href="overhead.html#overhead"><span>PyContracts overhead in production and in testing</span></a></li>
+<li><a class="reference internal" href="#api-reference"><span>PyContracts public API reference</span></a></li>
+<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><span>PyContracts low-level API</span></a></li>
+<li><a class="reference internal" href="credits.html#credits"><span>Credits</span></a></li>
 </ul>
 </div>
 <div style="clear:left"/></div>
@@ -426,7 +426,7 @@ contracts expression in your own PyParsing grammar.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -440,12 +440,14 @@ contracts expression in your own PyParsing grammar.</p>
 </li>
 </ul>
 
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="sources/api_reference.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="sources/api_reference.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -462,7 +464,7 @@ contracts expression in your own PyParsing grammar.</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -471,13 +473,13 @@ contracts expression in your own PyParsing grammar.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">PyContracts 1.7.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PyContracts 1.7.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
 	
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
 	
     <script type="text/javascript">

@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>contracts.testing.test_new_contract &mdash; PyContracts 1.7.1 documentation</title>
+    <title>contracts.testing.test_new_contract &mdash; PyContracts 1.7.2 documentation</title>
     
-    <link rel="stylesheet" href="../../../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '1.7.1',
+        VERSION:     '1.7.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../static/jquery.js"></script>
     <script type="text/javascript" src="../../../static/underscore.js"></script>
     <script type="text/javascript" src="../../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.7.1 documentation" href="../../../index.html" />
+    <link rel="top" title="PyContracts 1.7.2 documentation" href="../../../index.html" />
     <link rel="up" title="contracts" href="../../contracts.html" />
 	 
 
@@ -50,8 +50,8 @@
 
 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -60,16 +60,16 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyContracts 1.7.1 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li><a href="../../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.2 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for contracts.testing.test_new_contract</h1><div class="highlight"><pre>
 <span class="kn">import</span> <span class="nn">unittest</span>
@@ -78,7 +78,7 @@
 <span class="kn">from</span> <span class="nn">contracts.library.extensions</span> <span class="kn">import</span> <span class="n">identifier_expression</span>
 
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">check_contracts_fail</span><span class="p">,</span> <span class="n">check_contracts_ok</span>
-<span class="kn">from</span> <span class="nn">contracts.main</span> <span class="kn">import</span>  <span class="n">can_be_used_as_a_type</span>
+<span class="kn">from</span> <span class="nn">contracts.main</span> <span class="kn">import</span> <span class="n">can_be_used_as_a_type</span><span class="p">,</span> <span class="n">Storage</span>
 <span class="kn">from</span> <span class="nn">contracts.syntax</span> <span class="kn">import</span> <span class="n">ParsingTmp</span>
 
 <span class="c"># The different patterns</span>
@@ -112,6 +112,9 @@
 </div>
 <div class="viewcode-block" id="TestNewContract"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract">[docs]</a><span class="k">class</span> <span class="nc">TestNewContract</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
     <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c">#def setup(self):</span>
+    <span class="c">#    Storage.string2contract = {}</span>
 
 <div class="viewcode-block" id="TestNewContract.test_inverted_args"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_inverted_args">[docs]</a>    <span class="k">def</span> <span class="nf">test_inverted_args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">new_contract</span><span class="p">,</span> <span class="n">ok1</span><span class="p">,</span> <span class="s">&#39;list&#39;</span><span class="p">)</span>
@@ -191,7 +194,7 @@
 <div class="viewcode-block" id="TestNewContract.test_other_pass"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_other_pass">[docs]</a>    <span class="k">def</span> <span class="nf">test_other_pass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">class</span> <span class="nc">Ex1</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
             <span class="k">pass</span>
-        
+
         <span class="k">def</span> <span class="nf">invalid</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">Ex1</span><span class="p">()</span>
         <span class="n">c</span> <span class="o">=</span> <span class="n">cname</span><span class="p">()</span>
@@ -200,7 +203,7 @@
 </div>
 <div class="viewcode-block" id="TestNewContract.test_callable"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_callable">[docs]</a>    <span class="k">def</span> <span class="nf">test_callable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">class</span> <span class="nc">MyTest_ok</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-            <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>  <span class="c"># @UnusedVariable </span>
+            <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
                 <span class="k">return</span> <span class="bp">True</span>
         <span class="n">o</span> <span class="o">=</span> <span class="n">MyTest_ok</span><span class="p">()</span>
         <span class="k">assert</span> <span class="n">o</span><span class="p">(</span><span class="s">&#39;value&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span>
@@ -208,7 +211,7 @@
 </div>
 <div class="viewcode-block" id="TestNewContract.test_callable_old_style"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_callable_old_style">[docs]</a>    <span class="k">def</span> <span class="nf">test_callable_old_style</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">class</span> <span class="nc">MyTest_ok</span><span class="p">():</span>
-            <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>  <span class="c"># @UnusedVariable </span>
+            <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
                 <span class="k">return</span> <span class="bp">True</span>
         <span class="n">o</span> <span class="o">=</span> <span class="n">MyTest_ok</span><span class="p">()</span>
         <span class="k">assert</span> <span class="n">o</span><span class="p">(</span><span class="s">&#39;value&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span>
@@ -218,31 +221,31 @@
         <span class="c"># This should be interpreted as a type</span>
         <span class="c"># init(x,y) so it is not mistaken for a valid callable</span>
         <span class="k">class</span> <span class="nc">NewStyleClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-            <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>  <span class="c"># @UnusedVariable </span>
+            <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
                 <span class="k">pass</span>
         <span class="n">new_contract</span><span class="p">(</span><span class="n">cname</span><span class="p">(),</span> <span class="n">NewStyleClass</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="TestNewContract.test_class_as_contract2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_class_as_contract2">[docs]</a>    <span class="k">def</span> <span class="nf">test_class_as_contract2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c"># old sytle class</span>
         <span class="k">class</span> <span class="nc">OldStyleClass</span><span class="p">():</span>
-            <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>  <span class="c"># @UnusedVariable </span>
+            <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
                 <span class="k">pass</span>
         <span class="n">new_contract</span><span class="p">(</span><span class="n">cname</span><span class="p">(),</span> <span class="n">OldStyleClass</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="TestNewContract.test_class_as_contract3"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_class_as_contract3">[docs]</a>    <span class="k">def</span> <span class="nf">test_class_as_contract3</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">class</span> <span class="nc">NewStyleClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-            <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>  <span class="c"># @UnusedVariable </span>
+            <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
                 <span class="k">pass</span>
-            
+
         <span class="nd">@contract</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">NewStyleClass</span><span class="p">)</span>
         <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
             <span class="k">pass</span>
 </div>
 <div class="viewcode-block" id="TestNewContract.test_class_as_contract4"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_class_as_contract4">[docs]</a>    <span class="k">def</span> <span class="nf">test_class_as_contract4</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">class</span> <span class="nc">OldStyleClass</span><span class="p">():</span>
-            <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>  <span class="c"># @UnusedVariable </span>
+            <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
                 <span class="k">pass</span>
-            
+
         <span class="nd">@contract</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">OldStyleClass</span><span class="p">)</span>
         <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
             <span class="k">pass</span>
@@ -260,7 +263,7 @@
 <span class="c">#        class MyTest_fail(object):</span>
 <span class="c">#            def __call__(self, x, y):  # @UnusedVariable</span>
 <span class="c">#                return True</span>
-<span class="c">#            </span>
+<span class="c">#</span>
 <span class="c">#        self.assertRaises(ValueError, new_contract, cname(), MyTest_fail())</span>
 </div>
 <div class="viewcode-block" id="TestNewContract.test_lambda_2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_lambda_2">[docs]</a>    <span class="k">def</span> <span class="nf">test_lambda_2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -272,6 +275,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">new_contract</span><span class="p">,</span> <span class="n">cname</span><span class="p">(),</span> <span class="n">f</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="TestNewContract.test_idioms"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_idioms">[docs]</a>    <span class="k">def</span> <span class="nf">test_idioms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Storage</span><span class="o">.</span><span class="n">string2contract</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c"># TODO remove this hack</span>
         <span class="n">color</span> <span class="o">=</span> <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;color&#39;</span><span class="p">,</span> <span class="s">&#39;list[3](number,&gt;=0,&lt;=1)&#39;</span><span class="p">)</span>
         <span class="c"># Make sure we got it right</span>
         <span class="n">color</span><span class="o">.</span><span class="n">check</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
@@ -285,7 +289,7 @@
         <span class="nd">@contract</span>
         <span class="k">def</span> <span class="nf">fill_area</span><span class="p">(</span><span class="n">inside</span><span class="p">,</span> <span class="n">border</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot; Fill the area inside the current figure.</span>
-<span class="sd">            </span>
+
 <span class="sd">                :type border: color</span>
 <span class="sd">                :type inside: color</span>
 <span class="sd">            &quot;&quot;&quot;</span>
@@ -294,7 +298,7 @@
         <span class="nd">@contract</span>
         <span class="k">def</span> <span class="nf">fill_gradient</span><span class="p">(</span><span class="n">colors</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot; Use a gradient to fill the area.</span>
-<span class="sd">            </span>
+
 <span class="sd">                :type colors: list(color)</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="k">pass</span>
@@ -320,7 +324,7 @@
         <span class="n">p</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&#39;even2&#39;</span><span class="p">)</span>
         <span class="n">p</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">p</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span> <span class="c"># now fails </span>
+        <span class="n">p</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span> <span class="c"># now fails</span>
 </div>
 <div class="viewcode-block" id="TestNewContract.test_types_as_contracts"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_types_as_contracts">[docs]</a>    <span class="k">def</span> <span class="nf">test_types_as_contracts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">c</span> <span class="o">=</span> <span class="n">cname</span><span class="p">()</span>
@@ -336,13 +340,13 @@
 </div>
 <div class="viewcode-block" id="TestNewContract.test_well_recognized"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_new_contract.TestNewContract.test_well_recognized">[docs]</a>    <span class="k">def</span> <span class="nf">test_well_recognized</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">class</span> <span class="nc">OldStyleClass</span><span class="p">():</span>
-            <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>  <span class="c"># @UnusedVariable </span>
+            <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
                 <span class="k">pass</span>
 
         <span class="k">assert</span> <span class="n">can_be_used_as_a_type</span><span class="p">(</span><span class="n">OldStyleClass</span><span class="p">)</span>
 
         <span class="k">class</span> <span class="nc">NewStyleClass</span><span class="p">():</span>
-            <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>  <span class="c"># @UnusedVariable </span>
+            <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
                 <span class="k">pass</span>
 
         <span class="k">assert</span> <span class="n">can_be_used_as_a_type</span><span class="p">(</span><span class="n">NewStyleClass</span><span class="p">)</span>
@@ -420,9 +424,9 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
       <input type="text" name="q" />
@@ -439,7 +443,7 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -448,15 +452,15 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PyContracts 1.7.1 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li><a href="../../contracts.html" >contracts</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.2 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../../contracts.html" >contracts</a> &raquo;</li> 
       </ul>
     </div>
 	
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
 	
     <script type="text/javascript">

@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>PyContracts overhead in production and in testing &mdash; PyContracts 1.7.1 documentation</title>
+    <title>PyContracts overhead in production and in testing &mdash; PyContracts 1.7.2 documentation</title>
     
-    <link rel="stylesheet" href="static/default.css" type="text/css" />
+    <link rel="stylesheet" href="static/classic.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.7.1',
+        VERSION:     '1.7.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.7.1 documentation" href="index.html" />
+    <link rel="top" title="PyContracts 1.7.2 documentation" href="index.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -49,8 +49,8 @@
 
 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -59,46 +59,47 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">PyContracts 1.7.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PyContracts 1.7.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="col1 container">
 <p><strong>User documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="index.html#introduction"><em>Introduction to PyContracts</em></a></li>
-<li><a class="reference internal" href="tour.html#quick-tour"><em>Quick tour</em></a></li>
+<li><a class="reference internal" href="index.html#introduction"><span>Introduction to PyContracts</span></a></li>
+<li><a class="reference internal" href="tour.html#quick-tour"><span>Quick tour</span></a></li>
 <li>Reference:<ul>
-<li><a class="reference internal" href="api.html#api"><em>API for specifying contracts</em></a></li>
-<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><em>Using the ContractsMeta meta-class</em></a></li>
-<li><a class="reference internal" href="new_contract.html#new-contract"><em>Creating new contracts using new_contract</em></a></li>
+<li><a class="reference internal" href="api.html#api"><span>API for specifying contracts</span></a></li>
+<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><span>Using the ContractsMeta meta-class</span></a></li>
+<li><a class="reference internal" href="new_contract.html#new-contract"><span>Creating new contracts using new_contract</span></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="reference.html#contracts-language-reference"><em>Language reference</em></a></li>
+<li><a class="reference internal" href="reference.html#contracts-language-reference"><span>Language reference</span></a></li>
 </ul>
 </div>
 <div class="col2 container">
 <p><strong>Developer documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="changelog.html#the-changelog"><em>Changelog</em></a></li>
-<li><a class="reference internal" href="#overhead"><em>PyContracts overhead in production and in testing</em></a></li>
-<li><a class="reference internal" href="api_reference.html#api-reference"><em>PyContracts public API reference</em></a></li>
-<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><em>PyContracts low-level API</em></a></li>
-<li><a class="reference internal" href="credits.html#credits"><em>Credits</em></a></li>
+<li><a class="reference internal" href="changelog.html#the-changelog"><span>Changelog</span></a></li>
+<li><a class="reference internal" href="#overhead"><span>PyContracts overhead in production and in testing</span></a></li>
+<li><a class="reference internal" href="api_reference.html#api-reference"><span>PyContracts public API reference</span></a></li>
+<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><span>PyContracts low-level API</span></a></li>
+<li><a class="reference internal" href="credits.html#credits"><span>Credits</span></a></li>
 </ul>
 </div>
 <div style="clear:left"/><div class="section" id="pycontracts-overhead-in-production-and-in-testing">
 <span id="overhead"></span><h1>PyContracts overhead in production and in testing<a class="headerlink" href="#pycontracts-overhead-in-production-and-in-testing" title="Permalink to this headline">¶</a></h1>
-<p>In production, all checks can be disabled using the function <tt class="docutils literal"><span class="pre">contracts.disable_all()</span></tt>.</p>
+<p>In production, all checks can be disabled using the function <code class="docutils literal"><span class="pre">contracts.disable_all()</span></code>.</p>
+<p>All checks can also be disabled via the <code class="docutils literal"><span class="pre">DISABLE_CONTRACTS</span></code> environment variable. If the variable is defined, then checks are disabled and cannot be enabled via <code class="docutils literal"><span class="pre">contracts.enable_all()</span></code>.</p>
 <div class="section" id="overhead-when-disabled">
 <h2>Overhead when disabled<a class="headerlink" href="#overhead-when-disabled" title="Permalink to this headline">¶</a></h2>
-<p>The performance in disabled mode depends on whether <tt class="docutils literal"><span class="pre">contracts.disable_all()</span></tt> is called before or after the decorated function is loaded.</p>
-<p>If <tt class="docutils literal"><span class="pre">disable_all()</span></tt> is called <em>before</em>, then the decorator gets ignored and the overhead is 0. Example:</p>
+<p>The performance in disabled mode depends on whether <code class="docutils literal"><span class="pre">contracts.disable_all()</span></code> is called before or after the decorated function is loaded.</p>
+<p>If <code class="docutils literal"><span class="pre">disable_all()</span></code> is called <em>before</em>, then the decorator gets ignored and the overhead is 0. Example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">contracts</span><span class="o">.</span><span class="n">disable_all</span><span class="p">()</span>
 
 <span class="nd">@contract</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">&#39;int,&gt;=0&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;int,&gt;=1&#39;</span><span class="p">)</span>
@@ -108,7 +109,7 @@
 <span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c"># no overhead</span>
 </pre></div>
 </div>
-<p>If <tt class="docutils literal"><span class="pre">disable_all()</span></tt> is called <em>after</em>, then there is some overhead, because PyContracts will call the function as <tt class="docutils literal"><span class="pre">f(*args,**kwargs)</span></tt>, which has some overhead. Example:</p>
+<p>If <code class="docutils literal"><span class="pre">disable_all()</span></code> is called <em>after</em>, then there is some overhead, because PyContracts will call the function as <code class="docutils literal"><span class="pre">f(*args,**kwargs)</span></code>, which has some overhead. Example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">&#39;int,&gt;=0&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;int,&gt;=1&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
@@ -123,10 +124,10 @@
 <h2>Performance hit when enabled<a class="headerlink" href="#performance-hit-when-enabled" title="Permalink to this headline">¶</a></h2>
 <p>I haven&#8217;t done any rigorous benchmarking,  but PyContract&#8217;s performance hit depends mainly on two factors:</p>
 <ol class="arabic">
-<li><p class="first">PyContracts calls <tt class="docutils literal"><span class="pre">inspect</span></tt>  methods to associate arguments to arguments names. This takes a surprising amount of time and probably there is a smarter way to do it.</p>
+<li><p class="first">PyContracts calls <code class="docutils literal"><span class="pre">inspect</span></code>  methods to associate arguments to arguments names. This takes a surprising amount of time and probably there is a smarter way to do it.</p>
 </li>
 <li><p class="first">The time to check the contract for each argument. This depends on the complexity of the contract.</p>
-<p>Each contract is parsed only once and then represented as a syntactic tree. For example, the representation of <tt class="docutils literal"><span class="pre">int,&gt;0</span></tt> is:</p>
+<p>Each contract is parsed only once and then represented as a syntactic tree. For example, the representation of <code class="docutils literal"><span class="pre">int,&gt;0</span></code> is:</p>
 <div class="highlight-python"><div class="highlight"><pre>python -c &quot;import contracts; print &#39;%r&#39; % contracts.parse(&#39;int,&gt;=0&#39;)&quot;
 And([CheckType(int), CheckOrder(None,&#39;&gt;=&#39;,SimpleRValue(0))])
 </pre></div>
@@ -137,25 +138,25 @@ And([CheckType(int), CheckOrder(None,&#39;&gt;=&#39;,SimpleRValue(0))])
 <div class="col1 container">
 <p><strong>User documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="index.html#introduction"><em>Introduction to PyContracts</em></a></li>
-<li><a class="reference internal" href="tour.html#quick-tour"><em>Quick tour</em></a></li>
+<li><a class="reference internal" href="index.html#introduction"><span>Introduction to PyContracts</span></a></li>
+<li><a class="reference internal" href="tour.html#quick-tour"><span>Quick tour</span></a></li>
 <li>Reference:<ul>
-<li><a class="reference internal" href="api.html#api"><em>API for specifying contracts</em></a></li>
-<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><em>Using the ContractsMeta meta-class</em></a></li>
-<li><a class="reference internal" href="new_contract.html#new-contract"><em>Creating new contracts using new_contract</em></a></li>
+<li><a class="reference internal" href="api.html#api"><span>API for specifying contracts</span></a></li>
+<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><span>Using the ContractsMeta meta-class</span></a></li>
+<li><a class="reference internal" href="new_contract.html#new-contract"><span>Creating new contracts using new_contract</span></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="reference.html#contracts-language-reference"><em>Language reference</em></a></li>
+<li><a class="reference internal" href="reference.html#contracts-language-reference"><span>Language reference</span></a></li>
 </ul>
 </div>
 <div class="col2 container">
 <p><strong>Developer documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="changelog.html#the-changelog"><em>Changelog</em></a></li>
-<li><a class="reference internal" href="#overhead"><em>PyContracts overhead in production and in testing</em></a></li>
-<li><a class="reference internal" href="api_reference.html#api-reference"><em>PyContracts public API reference</em></a></li>
-<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><em>PyContracts low-level API</em></a></li>
-<li><a class="reference internal" href="credits.html#credits"><em>Credits</em></a></li>
+<li><a class="reference internal" href="changelog.html#the-changelog"><span>Changelog</span></a></li>
+<li><a class="reference internal" href="#overhead"><span>PyContracts overhead in production and in testing</span></a></li>
+<li><a class="reference internal" href="api_reference.html#api-reference"><span>PyContracts public API reference</span></a></li>
+<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><span>PyContracts low-level API</span></a></li>
+<li><a class="reference internal" href="credits.html#credits"><span>Credits</span></a></li>
 </ul>
 </div>
 <div style="clear:left"/></div>
@@ -165,7 +166,7 @@ And([CheckType(int), CheckOrder(None,&#39;&gt;=&#39;,SimpleRValue(0))])
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -176,12 +177,14 @@ And([CheckType(int), CheckOrder(None,&#39;&gt;=&#39;,SimpleRValue(0))])
 </li>
 </ul>
 
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="sources/overhead.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="sources/overhead.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -198,7 +201,7 @@ And([CheckType(int), CheckOrder(None,&#39;&gt;=&#39;,SimpleRValue(0))])
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -207,13 +210,13 @@ And([CheckType(int), CheckOrder(None,&#39;&gt;=&#39;,SimpleRValue(0))])
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">PyContracts 1.7.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PyContracts 1.7.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
 	
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
 	
     <script type="text/javascript">
