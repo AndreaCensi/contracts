@@ -1,13 +1,14 @@
 from ..interface import Contract, ContractNotRespected, RValue, eval_in_context
 from ..syntax import W, add_contract, O, Literal, isnumber, rvalue
 import math
+from pyparsing import Or
 
 
 
 class CheckOrder(Contract):
 
     conditions = {
-        '=': (False, True, False),
+        '=': (False, True, False),  # smaller, equal, larger flags
         '==': (False, True, False),
         '!=': (True, False, True),
         '>': (False, False, True),
@@ -102,6 +103,7 @@ class CheckOrder(Contract):
         return CheckOrder(expr1, glyph, expr2, where=where)
 
 
+comparisons_expr = {}
 for glyph in CheckOrder.conditions:
     if glyph == '!=':
         # special case: ! must be followed by =
@@ -110,7 +112,14 @@ for glyph in CheckOrder.conditions:
     else:
         glyph_expression = Literal(glyph)
 
-    expr = O(rvalue('expr1')) + glyph_expression('glyph') - rvalue('expr2')
+    # 2015-05: not sure why this doesn't work and the alternative with + does
+    # expr = O(rvalue('expr1')) + glyph_expression('glyph') - rvalue('expr2')
+    expr = O(rvalue('expr1')) + glyph_expression('glyph') + rvalue('expr2')
+
     expr.setParseAction(CheckOrder.parse_action)
     add_contract(expr)
 
+    comparisons_expr[glyph] = expr
+
+
+comparison_expr = Or(exprs=list(comparisons_expr.values()))

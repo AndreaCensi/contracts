@@ -52,16 +52,19 @@ W = Where
 O = Optional
 S = Suppress
 
-number = Word(nums)
+basenumber = Word(nums)
 point = Literal('.')
 e = CaselessLiteral('E')
 plusorminus = Literal('+') | Literal('-')
-integer = Combine(O(plusorminus) + number)
-# warnings.warn('TODO: negative float number')
-floatnumber = Combine(integer + (point + O(number)) ^ (e + integer))
+integer = Combine(O(plusorminus) + basenumber)
 integer.setParseAction(lambda tokens: SimpleRValue(int(tokens[0])))
+# warnings.warn('TODO: negative float number')
+floatnumber = Combine(
+    O(plusorminus) + integer + (point + O(basenumber)) ^ (e + integer))
 floatnumber.setParseAction(lambda tokens: SimpleRValue(float(tokens[0])))
-pi = Keyword('pi').setParseAction(lambda tokens: SimpleRValue(math.pi, 'pi'))  # @UnusedVariable
+pi = Keyword('pi').setParseAction(
+    lambda tokens: SimpleRValue(math.pi, 'pi'))  # @UnusedVariable
+
 
 def isnumber(x):
     # These are scalar quantities that we can compare (=,>,>=, etc.)
@@ -98,12 +101,11 @@ operand.setName('r-value')
 op = operatorPrecedence
 # op  = myOperatorPrecedence
 rvalue << op(operand, [
-            ('-', 1, opAssoc.RIGHT, Unary.parse_action),
-             ('*', 2, opAssoc.LEFT, Binary.parse_action),
-             ('-', 2, opAssoc.LEFT, Binary.parse_action),
-             ('+', 2, opAssoc.LEFT, Binary.parse_action),
-          ])
-
+    ('-', 1, opAssoc.RIGHT, Unary.parse_action),
+    ('*', 2, opAssoc.LEFT, Binary.parse_action),
+    ('-', 2, opAssoc.LEFT, Binary.parse_action),
+    ('+', 2, opAssoc.LEFT, Binary.parse_action),
+])
 
 
 # I want
@@ -124,4 +126,3 @@ simple_contract.setName('simple contract expression')
 any_contract = composite_contract | simple_contract
 any_contract.setName('Any simple or composite contract')
 contract_expression << (any_contract)  # Parentheses before << !!
-
