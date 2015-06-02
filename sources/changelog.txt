@@ -9,6 +9,13 @@ Changelog
 
 .. _changelog: 
 
+1.7.5 -- 2015-06-01
+-------------------
+
+* Full Python 3 support.
+
+* Now contract strings can be unicode.
+
 1.7.2 -- 2015-05-01
 -------------------
 
