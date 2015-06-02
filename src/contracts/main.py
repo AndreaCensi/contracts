@@ -71,9 +71,10 @@ def _cacheable(string, c):
     #     whether a contract is safely cacheable
     return '$' not in string
 
+import six
 
 def parse_contract_string(string):
-    assert isinstance(string, str), type(string)
+    assert isinstance(string, six.string_types), type(string)
     if string in Storage.string2contract:
         return Storage.string2contract[string]
     try:

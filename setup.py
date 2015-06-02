@@ -48,7 +48,7 @@ setup(name='PyContracts',
 
       package_dir={'':'src'},
       packages=find_packages('src'),
-      install_requires=['pyparsing', 'decorator'],
+      install_requires=['pyparsing', 'decorator', 'six'],
       tests_require=['nose'],
       entry_points={},
 )
