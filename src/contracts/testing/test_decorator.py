@@ -209,7 +209,7 @@ class DecoratorTests(unittest.TestCase):
 
     # def test_module_as_decorator(self):
     #     import contracts as contract_module
-    # 
+    #
     #     @contract_module
     #     def f(a, b): #@UnusedVariable
     #         return a + b
@@ -228,6 +228,19 @@ class DecoratorTests(unittest.TestCase):
         f(1, 2)
         self.assertRaises(ContractNotRespected, f, 1.0, 2)
         self.assertRaises(ContractNotRespected, f, 1, 2.0)
+
+    def test_inline_docstring_format_works(self):
+        @contract
+        def f(a, b):
+            """ This is good
+                :param int,>0 a: Description
+                :param int,>0 b: Description
+                :returns int,>0: Description
+            """
+            return a + b
+        f(1, 2)
+        self.assertRaises(ContractNotRespected, f, 1.0, 2)
+        self.assertRaises(ContractNotRespected, f, -1, 2)
 
     def test_check_docstring_maintained(self):
         def f1(a, b):

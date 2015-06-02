@@ -1,8 +1,9 @@
 import sys
 from inspect import ArgSpec
 
-if sys.version_info[0] == 3:  # pragma: no cover
+if sys.version_info[0] >= 3:  # pragma: no cover
     from inspect import getfullargspec
+    unicode = str
 
 else:  # pragma: no cover
     from collections import namedtuple
@@ -51,7 +52,7 @@ else:  # pragma: no cover
 
     def getcallargs(func, *positional, **named):
         """Get the mapping of arguments to values.
-    
+
         A dict is returned, with keys the function argument names (including the
         names of the * and ** arguments, if any), and values the respective bound
         values from 'positional' and 'named'.

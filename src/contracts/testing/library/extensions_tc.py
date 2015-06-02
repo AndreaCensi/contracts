@@ -16,11 +16,11 @@ good('ext0_positive', 1)
 fail('ext0_positive', -1)
 
 
-good('ext1_lessthan(0)', 1)  
-fail('ext1_lessthan(0)', -1)
+good('ext1_lessthan(0)', -1)  
+fail('ext1_lessthan(0)', +1)
 # named
-good('ext1_lessthan(threshold=0)', 1)  
-fail('ext1_lessthan(threshold=0)', -1)
+good('ext1_lessthan(threshold=0)', -1)  
+fail('ext1_lessthan(threshold=0)', +1)
 
 
 # needs to fail parsing because we didn't provide argument

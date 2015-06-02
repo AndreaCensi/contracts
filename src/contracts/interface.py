@@ -2,6 +2,7 @@ from abc import ABCMeta, abstractmethod
 import sys
 
 from .syntax import col, lineno
+from .metaclass import with_metaclass
 
 
 class Where(object):
@@ -142,8 +143,7 @@ def format_table(rows, colspacing=1):
     return s
 
 
-class RValue(object):
-    __metaclass__ = ABCMeta
+class RValue(with_metaclass(ABCMeta, object)):
 
     @abstractmethod
     def eval(self, context):  # @UnusedVariable @ReservedAssignment
@@ -172,8 +172,7 @@ def eval_in_context(context, value, contract):
         raise ContractNotRespected(contract, msg, value, context)
 
 
-class Contract(object):
-    __metaclass__ = ABCMeta
+class Contract(with_metaclass(ABCMeta, object)):
 
     def __init__(self, where):
         assert ((where is None) or

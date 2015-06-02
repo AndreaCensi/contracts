@@ -1,4 +1,4 @@
-__version__ = '1.6.6'
+__version__ = '1.7.2'
 
 import logging
 
@@ -47,7 +47,7 @@ from .utils import *
 # After everything is loaded, load aliases
 from .library import miscellaneous_aliases
 
-from .metaclass import ContractsMeta
+from .metaclass import ContractsMeta, with_metaclass
 
 ContractsMeta.__module__ = 'contracts'
 

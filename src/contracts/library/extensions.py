@@ -1,7 +1,8 @@
 from ..interface import Contract, ContractNotRespected, describe_value
 from ..syntax import (Combine, Word, W, alphas, alphanums, oneOf,
                       ParseException, ZeroOrMore, S, rvalue,
-                      delimitedList, Or, Optional)
+                      delimitedList, Optional)
+from pyparsing import ParseFatalException
 
 
 class Extension(Contract):
@@ -16,7 +17,21 @@ class Extension(Contract):
         Contract.__init__(self, where)
 
     def __str__(self):
-        return self.identifier
+        inside = []
+        if self.args:
+            inside.extend(map(str, self.args))
+            
+        if self.kwargs:
+            ks = sorted(self.kwargs)
+            inside.extend(["%s=%s" % (k, self.kwargs[k]) for k in ks])
+        
+        
+        s = self.identifier
+    
+        if inside:
+            return self.identifier + "(" + ",".join(inside) + ")"
+        else:
+            return s
 
     def __repr__(self):
         if self.args or self.kwargs:
@@ -43,7 +58,28 @@ class Extension(Contract):
             args = tuple(args)
 
         if not identifier in Extension.registrar:
-            raise ParseException('Not matching %r' % identifier)
+            raise ParseException('Unknown extension contract %r' % identifier)
+        
+        from contracts.library.separate_context import SeparateContext
+        
+        contract_ext = Extension.registrar[identifier]
+        
+        if isinstance(contract_ext, CheckCallable):
+            callable_thing = contract_ext.callable 
+         
+            test_args = ('value',) + args
+            from contracts.main import check_callable_accepts_these_arguments
+            from contracts.main import InvalidArgs
+         
+            try:
+                check_callable_accepts_these_arguments(callable_thing, test_args, kwargs)
+             
+            except InvalidArgs as e:
+                msg = 'The callable %s cannot accept these arguments ' % callable_thing
+                msg += 'args = %s, kwargs = %s ' % (test_args, kwargs)
+                msg += '%s' % e
+                raise ParseFatalException(msg)
+
 
         where = W(s, loc)
         return Extension(identifier, where, args, kwargs)
@@ -82,7 +118,8 @@ class CheckCallable(Contract):
             pass
         elif result == False:
             msg = ('Value does not pass criteria of %s() (module: %s).' %
-                   (self.callable.__name__, self.callable.__module__))
+                   (get_callable_name(self.callable), 
+                    get_callable_module(self.callable)))
             raise ContractNotRespected(self, msg, value, context)
         else:
             msg = ('I expect that %r returns either True, False, None; or '
@@ -98,8 +135,24 @@ class CheckCallable(Contract):
     def __str__(self):
         """ Note: this contract is not representable, but anyway it is only
             used by Extension, which serializes using the identifier. """
-        return 'function %s()' % self.callable.__name__
+        return get_callable_name(callable)
 
+def get_callable_name(c):
+    """ Get a displayable name for the callable even if __name__
+        is not available. """
+    try:
+        return c.__name__ + '()'
+    except:
+        return str(c)
+
+def get_callable_module(c):
+    try:
+        return c.__module__
+    except:
+        return '(No __module__ attr)'
+    
+def describe_callable(c):
+    return get_callable_name(c) + ' module: %s' % get_callable_module(c)
 
 class CheckCallableWithSelf(Contract):
 
@@ -127,8 +180,8 @@ class CheckCallableWithSelf(Contract):
             # passed
             pass
         elif result == False:
-            msg = ('Value does not pass criteria of %s() (module: %s).' %
-                   (self.callable.__name__, self.callable.__module__))
+            msg = ('Value does not pass criteria of %s.' %
+                   describe_callable(self.callable))
             raise ContractNotRespected(self, msg, value, context)
         else:
             msg = ('I expect that %r returns either True, False, None; or '
@@ -144,10 +197,9 @@ class CheckCallableWithSelf(Contract):
     def __str__(self):
         """ Note: this contract is not representable, but anyway it is only
             used by Extension, which serializes using the identifier. """
-        return 'function %s()' % self.callable.__name__
+        return 'function %s()' % get_callable_name(self.callable)
 
 
-# lowercase = alphas.lower()
 
 w = Word('_' + alphanums)
 arg = rvalue.copy()

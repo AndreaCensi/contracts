@@ -80,31 +80,41 @@ class DocStringInfo(object):
         # var_keys = ['var', 'ivar', 'cvar']
         # raises, raise, except, exception
 
-        docstring, params_ann = parse_annotations(docstring, param_keys, False)
-        docstring, types_ann = parse_annotations(docstring, type_keys, False)
-        docstring, returns_ann = \
-            parse_annotations(docstring, return_keys, True)
-        docstring, rtype_ann = parse_annotations(docstring, rtype_keys, True)
+        docstring, params_ann = parse_annotations(docstring, param_keys, False,
+                                                  True)
+        docstring, types_ann = parse_annotations(docstring, type_keys, False,
+                                                 False)
+        docstring, returns_ann = parse_annotations(docstring, return_keys,
+                                                   True, True)
+        docstring, rtype_ann = parse_annotations(docstring, rtype_keys, True,
+                                                 False)
 
         params = {}
         names = set(list(params_ann.keys()) + list(types_ann.keys()))
         for name in names:
-            params[name] = Arg(params_ann.get(name, None),
-                               types_ann.get(name, None))
+            param_type, param_desc = params_ann.get(name, (None, None))
+            params[name] = Arg(param_desc,
+                               param_type or types_ann.get(name, None))
 
         returns = []
         for i in range(max(len(returns_ann), len(rtype_ann))):
-            returns.append(Arg(returns_ann.get(i, None),
-                               rtype_ann.get(i, None)))
+            return_type, return_desc = returns_ann.get(i, (None, None))
+            returns.append(Arg(return_desc,
+                               return_type or rtype_ann.get(i, None)))
 
         return DocStringInfo(docstring, params=params, returns=returns)
 
 
-def parse_annotations(docstring, keys, empty=False):
+def parse_annotations(docstring, keys, empty=False, inline_type=False):
     """
-        Returns docstring_without, dictionary.
-        If empty specified, will look for empty statements, and give integers
-        for names.
+        Parses ":key name: description" lines into a dictionary mapping name to
+        a description.
+
+        If empty is specified, look statements without a name such as
+        ":key: description".
+
+        If inline_type is specified, allow an optional type to be specified
+        parsing ":key type name: description" or ":key type: description".
     """
     assert docstring is not None
 
@@ -112,10 +122,11 @@ def parse_annotations(docstring, keys, empty=False):
 
     for key in keys:
         if empty:
-            regexp = '^\s*:\s*%s\s*:\s*(?P<desc>.*?)\s*$' % key
-        else:
-            regexp = ('^\s*:\s*%s\s+(?P<name>\w*?)\s*:\s*(?P<desc>.*?)\s*$'
+            regexp = ('^\s*:\s*%s(?P<type>[^:]*?)\s*:\s*(?P<desc>.*?)\s*$'
                       % key)
+        else:
+            regexp = ('^\s*:\s*%s\s+(?P<type>[^:]*?)(?P<name>[^\s:]+)\s*:'
+                      '\s*(?P<desc>.*?)\s*$' % key)
         regexp = re.compile(regexp, re.MULTILINE)
 
         def replace(match):
@@ -124,10 +135,12 @@ def parse_annotations(docstring, keys, empty=False):
             if empty:
                 name = len(found)
             else:
-                name = d['name']
+                name = d['name'] or None
 
-            found[name] = d['desc']
-
+            if inline_type:
+                found[name] = (d['type'] or None, d['desc'] or None)
+            else:
+                found[name] = d['desc'] or None
             return ""
 
         docstring = regexp.sub(repl=replace, string=docstring)
