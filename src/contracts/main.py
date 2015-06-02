@@ -73,8 +73,17 @@ def _cacheable(string, c):
 
 import six
 
+def is_param_string(x):
+    return isinstance(x, six.string_types)
+
+def check_param_is_string(x):
+    if not is_param_string(x):
+        msg = 'Expected a string, obtained %s' % type(x)
+        raise ValueError(msg)
+
 def parse_contract_string(string):
-    assert isinstance(string, six.string_types), type(string)
+    check_param_is_string(string)
+
     if string in Storage.string2contract:
         return Storage.string2contract[string]
     try:
@@ -327,7 +336,7 @@ def parse_flexible_spec(spec):
         In the latter case, the usual parsing takes place"""
     if isinstance(spec, Contract):
         return spec
-    elif isinstance(spec, str):
+    elif is_param_string(spec):
         return parse_contract_string(spec)
     elif can_be_used_as_a_type(spec):
         from .library import CheckType
@@ -431,7 +440,7 @@ def check(contract, object, desc=None, **context):  # @ReservedAssignment
     if all_disabled():
         return {}
 
-    if not isinstance(contract, str):
+    if not is_param_string(contract):
         # XXX: make it more liberal?
         raise ValueError('I expect a string (contract spec) as the first '
                          'argument, not a %s.' % describe_value(contract))
