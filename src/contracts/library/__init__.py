@@ -9,7 +9,8 @@ from .tuple import Tuple
 from .dicts import Dict
 from .map import Map
 from .sets import *
-from .attributes import Attr 
+from .attributes import Attr
+from .files import File
 
 
 from .comparison import CheckOrder
