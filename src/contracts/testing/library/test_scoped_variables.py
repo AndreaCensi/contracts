@@ -1,11 +1,10 @@
-from nose.tools import raises
-
-from contracts import contract, parse, check, fail, decorate, ContractException
-from contracts.interface import ExternalScopedVariableNotFound, \
-    ContractNotRespected, RValue
+from contracts import ContractException, check, contract, decorate, fail, parse
+from contracts.interface import (ContractNotRespected,
+    ExternalScopedVariableNotFound)
+from contracts.library.simple_values import EqualTo
 from contracts.library.types_misc import CheckType
 from contracts.utils import check_isinstance
-from contracts.library.simple_values import EqualTo
+from nose.tools import raises
 
 
 def test_raw_parse():
@@ -22,6 +21,9 @@ def test_value_frozen_at_parsetime():
     check_isinstance(c, EqualTo)
     assert c.rvalue.value == 2
 
+    c = parse('$p')
+    check_isinstance(c, EqualTo)
+    assert c.rvalue.value == 3
 
 def test_holds_reference():
     class Foo(object):

@@ -4,6 +4,9 @@ from ..syntax import ParsingTmp, W, opAssoc, simple_contract
 from .extensions import Extension
 from .suggester import create_suggester
 
+NOT_GLYPH = '!'
+AND_GLYPH = ','
+OR_GLYPH = '|'
 
 class Logical(object):
     def __init__(self, glyph, precedence):
@@ -24,7 +27,7 @@ class OR(Logical, Contract):
         assert isinstance(clauses, list)
         assert len(clauses) >= 2
         Contract.__init__(self, where)
-        Logical.__init__(self, '|', 1)
+        Logical.__init__(self, OR_GLYPH, 1)
         self.clauses = clauses
 
     def check_contract(self, context, value):
@@ -61,7 +64,7 @@ class OR(Logical, Contract):
         clauses = [l.pop(0)]
         while l:
             glyph = l.pop(0)  # @UnusedVariable
-            assert glyph == '|'
+            assert glyph == OR_GLYPH
             operand = l.pop(0)
             clauses.append(operand)
         where = W(string, location)
@@ -73,7 +76,7 @@ class And(Logical, Contract):
         assert isinstance(clauses, list)
         assert len(clauses) >= 2, clauses
         Contract.__init__(self, where)
-        Logical.__init__(self, ',', 2)
+        Logical.__init__(self, AND_GLYPH, 2)
         self.clauses = clauses
 
     def check_contract(self, context, value):
@@ -90,7 +93,7 @@ class And(Logical, Contract):
         clauses = [l.pop(0)]
         while l:
             glyph = l.pop(0)  # @UnusedVariable
-            assert glyph == ','
+            assert glyph == AND_GLYPH
             operand = l.pop(0)
             clauses.append(operand)
         where = W(string, location)
@@ -102,7 +105,7 @@ class Not(Logical, Contract):
         assert isinstance(clauses, list)
         assert len(clauses) == 1, clauses
         Contract.__init__(self, where)
-        Logical.__init__(self, 'not', 3)
+        Logical.__init__(self, NOT_GLYPH, 3)
         self.clauses = clauses
 
     def check_contract(self, context, value):
@@ -119,7 +122,7 @@ class Not(Logical, Contract):
     @staticmethod
     def parse_action(string, location, tokens):
         l = list(tokens[0])
-        assert l.pop(0) == 'not'
+        assert l.pop(0) == NOT_GLYPH
         where = W(string, location)
         return Not(l, where=where)
 
@@ -140,13 +143,13 @@ baseExpr.setName('Simple contract (recovering)')
 op = myOperatorPrecedence
 # op = operatorPrecedence
 composite_contract = op(baseExpr, [
-                         ('not', 1, opAssoc.RIGHT, Not.parse_action),
-                         (',', 2, opAssoc.LEFT, And.parse_action),
-                         ('|', 2, opAssoc.LEFT, OR.parse_action),
+                         (NOT_GLYPH, 1, opAssoc.RIGHT, Not.parse_action),
+                         (AND_GLYPH, 2, opAssoc.LEFT, And.parse_action),
+                         (OR_GLYPH, 2, opAssoc.LEFT, OR.parse_action),
                     ])
 composite_contract.setName('NOT/OR/AND contract')
 
 or_contract = op(baseExpr, [
-                         ('|', 2, opAssoc.LEFT, OR.parse_action),
+                         (OR_GLYPH, 2, opAssoc.LEFT, OR.parse_action),
                     ])
 or_contract.setName('OR contract')

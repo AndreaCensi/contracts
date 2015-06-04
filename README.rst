@@ -117,10 +117,11 @@ like ABCMeta, which propagates contracts to the subclasses: ::
 - `asharp`_: bug fixes
 - `Dennis Kempin`_ (Google mothership): Sphinx-style constraints specs
 - `Andy Hayden`_: Python 3 support, more efficient Numpy checks
-
+- `Jonathan Sharpe`_: contracts for file-like objects, not operator
 
 (Please let me know if I forgot anybody.)
 
+.. _`Jonathan Sharpe`: http://jonathansharpe.me.uk/
 
 .. _`Chris Beaumont`: http://chrisbeaumont.org/
 .. _`asharp`:  https://github.com/asharp
