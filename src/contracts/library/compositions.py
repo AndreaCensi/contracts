@@ -11,15 +11,13 @@ class Logical(object):
         self.precedence = precedence
 
     def __str__(self):
-        def convert(x):
-            if isinstance(x, Logical) and x.precedence < self.precedence:
-                return '(%s)' % x
-            else:
-                return '%s' % x
-
-        s = self.glyph.join(convert(x) for x in self.clauses)
+        s = self.glyph.join(self._convert(x) for x in self.clauses)
         return s
 
+    def _convert(self, x):
+        if isinstance(x, Logical) and x.precedence < self.precedence:
+            return '(%s)' % x
+        return '%s' % x
 
 class OR(Logical, Contract):
     def __init__(self, clauses, where=None):
@@ -99,6 +97,40 @@ class And(Logical, Contract):
         return And(clauses, where=where)
 
 
+class Not(Logical, Contract):
+    def __init__(self, clauses, where=None):
+        assert isinstance(clauses, list)
+        assert len(clauses) == 1, clauses
+        Contract.__init__(self, where)
+        Logical.__init__(self, 'not', 3)
+        self.clauses = clauses
+
+    def check_contract(self, context, value):
+        clause = self.clauses[0]
+        try:
+            clause._check_contract(context, value)
+        except ContractNotRespected:
+            pass
+        else:
+            msg = "Shouldn't have satisfied the clause %s." % clause
+            raise ContractNotRespected(contract=self, error=msg,
+                                       value=value, context=context)
+
+    @staticmethod
+    def parse_action(string, location, tokens):
+        l = list(tokens[0])
+        assert l.pop(0) == 'not'
+        where = W(string, location)
+        return Not(l, where=where)
+
+    def __repr__(self):
+        s = 'Not(%r)' % self.clauses
+        return s
+
+    def __str__(self):
+        return self.glyph + self._convert(self.clauses[0])
+
+
 suggester = create_suggester(get_options=lambda: ParsingTmp.keywords +
                              list(Extension.registrar.keys()))
 baseExpr = simple_contract | suggester
@@ -108,13 +140,13 @@ baseExpr.setName('Simple contract (recovering)')
 op = myOperatorPrecedence
 # op = operatorPrecedence
 composite_contract = op(baseExpr, [
+                         ('not', 1, opAssoc.RIGHT, Not.parse_action),
                          (',', 2, opAssoc.LEFT, And.parse_action),
                          ('|', 2, opAssoc.LEFT, OR.parse_action),
                     ])
-composite_contract.setName('OR/AND contract')
+composite_contract.setName('NOT/OR/AND contract')
 
 or_contract = op(baseExpr, [
                          ('|', 2, opAssoc.LEFT, OR.parse_action),
                     ])
 or_contract.setName('OR contract')
-
