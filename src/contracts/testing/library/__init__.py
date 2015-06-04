@@ -15,6 +15,7 @@ from . import simple_values_tc
 from . import map_tc
 from . import seq_tc
 from . import attr_tc
+from . import files_tc
 
 from . import isinstance_tc 
 
