@@ -9,6 +9,12 @@ good('=0|=1', 0)
 good('=0|=1', 1)
 fail('=0|=1', 2)
 
+# NOT
+fail('not1', 1)
+good('notNone', 1)
+fail('not(1|2)', 1)
+good('not(0|None)', 3)
+
 
 good('0|1|2', 2)
 good('0|1|2', 1)
@@ -37,3 +43,10 @@ good('*|#|*', None)
 fail('*,#,*', None)
 fail('*,#|#', None)
 good('#|*,(#|*)', None)
+
+
+# ! has lower precedence than | or &
+good('not#|*', None)
+fail('not(#|*)', None)
+fail('not*,#', None)
+good('not(*,#)', None)

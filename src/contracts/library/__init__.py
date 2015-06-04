@@ -14,7 +14,7 @@ from .attributes import Attr
 
 from .comparison import CheckOrder
 from .arithmetic import Binary, Unary
-from .compositions import OR, And, composite_contract, or_contract
+from .compositions import OR, And, Not, composite_contract, or_contract
 from .variables import (BindVariable, VariableRef, misc_variables_contract,
                         int_variables_contract, misc_variables_ref,
                         int_variables_ref, scoped_variables_ref)
