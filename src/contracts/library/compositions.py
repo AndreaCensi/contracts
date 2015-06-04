@@ -4,6 +4,9 @@ from ..syntax import ParsingTmp, W, opAssoc, simple_contract
 from .extensions import Extension
 from .suggester import create_suggester
 
+NOT_GLYPH = '!'
+AND_GLYPH = ','
+OR_GLYPH = '|'
 
 class Logical(object):
     def __init__(self, glyph, precedence):
@@ -11,22 +14,20 @@ class Logical(object):
         self.precedence = precedence
 
     def __str__(self):
-        def convert(x):
-            if isinstance(x, Logical) and x.precedence < self.precedence:
-                return '(%s)' % x
-            else:
-                return '%s' % x
-
-        s = self.glyph.join(convert(x) for x in self.clauses)
+        s = self.glyph.join(self._convert(x) for x in self.clauses)
         return s
 
+    def _convert(self, x):
+        if isinstance(x, Logical) and x.precedence < self.precedence:
+            return '(%s)' % x
+        return '%s' % x
 
 class OR(Logical, Contract):
     def __init__(self, clauses, where=None):
         assert isinstance(clauses, list)
         assert len(clauses) >= 2
         Contract.__init__(self, where)
-        Logical.__init__(self, '|', 1)
+        Logical.__init__(self, OR_GLYPH, 1)
         self.clauses = clauses
 
     def check_contract(self, context, value):
@@ -63,7 +64,7 @@ class OR(Logical, Contract):
         clauses = [l.pop(0)]
         while l:
             glyph = l.pop(0)  # @UnusedVariable
-            assert glyph == '|'
+            assert glyph == OR_GLYPH
             operand = l.pop(0)
             clauses.append(operand)
         where = W(string, location)
@@ -75,7 +76,7 @@ class And(Logical, Contract):
         assert isinstance(clauses, list)
         assert len(clauses) >= 2, clauses
         Contract.__init__(self, where)
-        Logical.__init__(self, ',', 2)
+        Logical.__init__(self, AND_GLYPH, 2)
         self.clauses = clauses
 
     def check_contract(self, context, value):
@@ -92,11 +93,45 @@ class And(Logical, Contract):
         clauses = [l.pop(0)]
         while l:
             glyph = l.pop(0)  # @UnusedVariable
-            assert glyph == ','
+            assert glyph == AND_GLYPH
             operand = l.pop(0)
             clauses.append(operand)
         where = W(string, location)
         return And(clauses, where=where)
+
+
+class Not(Logical, Contract):
+    def __init__(self, clauses, where=None):
+        assert isinstance(clauses, list)
+        assert len(clauses) == 1, clauses
+        Contract.__init__(self, where)
+        Logical.__init__(self, NOT_GLYPH, 3)
+        self.clauses = clauses
+
+    def check_contract(self, context, value):
+        clause = self.clauses[0]
+        try:
+            clause._check_contract(context, value)
+        except ContractNotRespected:
+            pass
+        else:
+            msg = "Shouldn't have satisfied the clause %s." % clause
+            raise ContractNotRespected(contract=self, error=msg,
+                                       value=value, context=context)
+
+    @staticmethod
+    def parse_action(string, location, tokens):
+        l = list(tokens[0])
+        assert l.pop(0) == NOT_GLYPH
+        where = W(string, location)
+        return Not(l, where=where)
+
+    def __repr__(self):
+        s = 'Not(%r)' % self.clauses
+        return s
+
+    def __str__(self):
+        return self.glyph + self._convert(self.clauses[0])
 
 
 suggester = create_suggester(get_options=lambda: ParsingTmp.keywords +
@@ -108,13 +143,13 @@ baseExpr.setName('Simple contract (recovering)')
 op = myOperatorPrecedence
 # op = operatorPrecedence
 composite_contract = op(baseExpr, [
-                         (',', 2, opAssoc.LEFT, And.parse_action),
-                         ('|', 2, opAssoc.LEFT, OR.parse_action),
+                         (NOT_GLYPH, 1, opAssoc.RIGHT, Not.parse_action),
+                         (AND_GLYPH, 2, opAssoc.LEFT, And.parse_action),
+                         (OR_GLYPH, 2, opAssoc.LEFT, OR.parse_action),
                     ])
-composite_contract.setName('OR/AND contract')
+composite_contract.setName('NOT/OR/AND contract')
 
 or_contract = op(baseExpr, [
-                         ('|', 2, opAssoc.LEFT, OR.parse_action),
+                         (OR_GLYPH, 2, opAssoc.LEFT, OR.parse_action),
                     ])
 or_contract.setName('OR contract')
-

@@ -138,9 +138,10 @@ class ContractNotRespected(ContractException):
         msg += format_table(align, colspacing=3)
 
         context0 = self.stack[0][1]
+
         if context0:
             msg += ('\nVariables bound in inner context:\n%s'
-                    % context_to_string(self.stack[0][1]))
+                    % context_to_string(context0))
 
         return msg
 
