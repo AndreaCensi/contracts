@@ -12,7 +12,7 @@ class IsInstance(Contract):
         Contract.__init__(self, where)
         self.name = name
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         class_name, bases_names = get_all_super_names(value) 
         
         options = bases_names + [class_name]

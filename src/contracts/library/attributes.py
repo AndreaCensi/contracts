@@ -12,10 +12,10 @@ class Attr(Contract):
             raise ValueError('Need some attributes') 
         self.attrs = attrs
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         for k in self.attrs:
             if hasattr(value, k):
-                self.attrs[k]._check_contract(context, getattr(value, k))
+                self.attrs[k]._check_contract(context, getattr(value, k), silent)
             else:
                 error = 'Expected an attribute %r.' % k
                 raise ContractNotRespected(contract=self, error=error,

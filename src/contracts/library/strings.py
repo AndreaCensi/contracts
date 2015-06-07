@@ -11,7 +11,7 @@ class StringBase(Contract):
         self.length = length
         assert length is None or isinstance(length, Contract)
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         if not isinstance(value, self.TYPE):
             error = 'Expected %s, got %r.' % (
                 self.DESCRIPTION, value.__class__.__name__)
@@ -19,7 +19,7 @@ class StringBase(Contract):
                                        value=value, context=context)
 
         if self.length is not None:
-            self.length._check_contract(context, len(value))
+            self.length._check_contract(context, len(value), silent)
 
     def __repr__(self):
         return '%s(%r)' % (self.__class__.__name__, self.length)

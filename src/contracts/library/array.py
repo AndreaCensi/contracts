@@ -20,17 +20,17 @@ class Array(Contract):
         self.shape_contract = shape_contract
         self.elements_contract = elements_contract
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         if not isinstance(value, ndarray):
             error = 'Expected an array, got a %s.' % describe_type(value)
             raise ContractNotRespected(contract=self, error=error,
                                        value=value, context=context)
 
         if self.shape_contract is not None:
-            self.shape_contract._check_contract(context, value.shape)
+            self.shape_contract._check_contract(context, value.shape, silent)
 
         if self.elements_contract is not None:
-            self.elements_contract._check_contract(context, value)
+            self.elements_contract._check_contract(context, value, silent)
 
     def __str__(self):
         s = 'array'
@@ -65,7 +65,7 @@ class ShapeContract(Contract):
         self.dimensions = dimensions
         self.ellipsis = ellipsis
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         assert isinstance(value, tuple)  # Guaranteed by construction
 
         expected = len(self.dimensions)
@@ -82,7 +82,7 @@ class ShapeContract(Contract):
                                        value=value, context=context)
 
         for i in range(expected):
-            self.dimensions[i]._check_contract(context, value[i])
+            self.dimensions[i]._check_contract(context, value[i], silent)
 
     def __str__(self):
         be_careful = self.ellipsis or len(self.dimensions) > 1
@@ -127,7 +127,7 @@ class Shape(Contract):
         self.contract = contract
         self.length = length
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         if not isinstance(value, ndarray):
             error = 'Expected an array, got %r.' % value.__class__.__name__
             raise ContractNotRespected(contract=self, error=error,
@@ -137,10 +137,10 @@ class Shape(Contract):
             value = value.shape
 
         if self.length is not None:
-            self.length._check_contract(context, len(value))
+            self.length._check_contract(context, len(value), silent)
 
         if self.contract is not None:
-            self.contract._check_contract(context, value)
+            self.contract._check_contract(context, value, silent)
 
     def __str__(self):
         s = 'shape'

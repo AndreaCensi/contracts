@@ -19,12 +19,12 @@ class Seq(Contract):
         self.length_contract = length_contract
         self.elements_contract = elements_contract
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         if has_numpy and isinstance(value, numpy.ndarray):
             # TODO: check basic datatypes
             # use value.size and value.flat for iteration
             if self.length_contract is not None:
-                self.length_contract._check_contract(context, value.size)
+                self.length_contract._check_contract(context, value.size, silent)
 
             if self.elements_contract is not None:
                 n = value.size
@@ -34,7 +34,7 @@ class Seq(Contract):
                         (element.dtype == numpy.int64)):
                         element = int(element)
                     # XXX: hack
-                    self.elements_contract._check_contract(context, element)
+                    self.elements_contract._check_contract(context, element, silent)
 
             return
 
@@ -43,11 +43,11 @@ class Seq(Contract):
             raise ContractNotRespected(self, error, value, context)
 
         if self.length_contract is not None:
-            self.length_contract._check_contract(context, len(value))
+            self.length_contract._check_contract(context, len(value), silent)
 
         if self.elements_contract is not None:
             for element in value:
-                self.elements_contract._check_contract(context, element)
+                self.elements_contract._check_contract(context, element, silent)
 
     def __str__(self):
         s = 'seq'

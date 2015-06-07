@@ -1,9 +1,5 @@
-import inspect
-
 from ..interface import Contract, ContractNotRespected, RValue, describe_value
-from ..syntax import (W, oneOf, FollowedBy, NotAny, Word, alphanums, S)
-from ..interface import ExternalScopedVariableNotFound
-
+from ..syntax import (W, oneOf, FollowedBy, NotAny)
 
 class BindVariable(Contract):
 
@@ -14,7 +10,7 @@ class BindVariable(Contract):
         self.variable = variable
         self.allowed_types = allowed_types
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         if self.variable in context:
             expected = context[self.variable]
             if not (expected == value):

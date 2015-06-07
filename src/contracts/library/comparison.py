@@ -27,7 +27,7 @@ class CheckOrder(Contract):
         self.expr2 = expr2
         self.smaller, self.equal, self.larger = CheckOrder.conditions[glyph]
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         if self.expr1 is None:
             val1 = value
         else:

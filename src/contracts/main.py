@@ -57,7 +57,7 @@ def check_contracts(contracts, values, context_variables=None):
 
     context = context_variables.copy()
     for i in range(len(contracts)):
-        C[i]._check_contract(context, values[i])
+        C[i]._check_contract(context, values[i], silent=False)
 
     return context
 
@@ -270,7 +270,7 @@ you can achieve the same goal by inverting the two decorators:
         for arg in all_args:
             if arg in accepts_parsed:
                 try:
-                    accepts_parsed[arg]._check_contract(context, bound[arg])
+                    accepts_parsed[arg]._check_contract(context, bound[arg], silent=False)
                 except ContractNotRespected as e:
                     msg = ('Breach for argument %r to %s.\n'
                            % (arg, get_nice_function_display()))
@@ -281,7 +281,7 @@ you can achieve the same goal by inverting the two decorators:
 
         if returns_parsed is not None:
             try:
-                returns_parsed._check_contract(context, result)
+                returns_parsed._check_contract(context, result, silent=False)
             except ContractNotRespected as e:
                 msg = ('Breach for return value of %s.\n'
                        % (get_nice_function_display()))

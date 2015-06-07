@@ -14,7 +14,7 @@ class Any(Contract):
     def __str__(self):
         return '*'
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         pass
 
     @staticmethod
@@ -34,7 +34,7 @@ class Never(Contract):
     def __str__(self):
         return '#'
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         raise ContractNotRespected(self, 'No value can match this',
                                    value, context)
 

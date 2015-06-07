@@ -12,20 +12,20 @@ class Map(Contract):
         self.key_c = key_c
         self.value_c = value_c
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         if not isinstance(value, collections.Mapping):
             error = 'Expected a Mapping, got %r.' % value.__class__.__name__
             raise ContractNotRespected(contract=self, error=error,
                                        value=value, context=context)
 
         if self.length is not None:
-            self.length._check_contract(context, len(value))
+            self.length._check_contract(context, len(value), silent)
 
         for k in value:
             if self.key_c is not None:
-                self.key_c._check_contract(context, k)
+                self.key_c._check_contract(context, k, silent)
             if self.value_c is not None:
-                self.value_c._check_contract(context, value[k])
+                self.value_c._check_contract(context, value[k], silent)
 
     def __str__(self):
         s = 'map'

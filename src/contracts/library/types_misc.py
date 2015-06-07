@@ -16,7 +16,7 @@ class CheckType(Contract):
         else:
             self.type_string = type_string
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         if not isinstance(value, self.types):
             error = 'Expected type %r, got %r.' % (self.types.__name__,
                                                    value.__class__.__name__)
@@ -59,9 +59,9 @@ class Type(Contract):
         Contract.__init__(self, where)
         self.type_constraint = type_constraint
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         #  self.type_constraint._check_contract(context, type(value))
-        self.type_constraint._check_contract(context, value.__class__)
+        self.type_constraint._check_contract(context, value.__class__, silent)
 
     def __str__(self):
         return 'type(%s)' % self.type_constraint

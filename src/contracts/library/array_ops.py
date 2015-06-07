@@ -12,7 +12,7 @@ class ArrayElementsTest(Contract):
     def test_elements(self, context, value):
         """ Returns either a bool or an array of bool. """
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         result = self.test_elements(context, value)
 
         if np.all(result):

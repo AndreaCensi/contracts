@@ -11,17 +11,17 @@ class ASet(Contract):
         self.length_contract = length_contract
         self.elements_contract = elements_contract
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         if not isinstance(value, set):
             error = 'Expected a set, got %r.' % describe_type(value)
             raise ContractNotRespected(self, error, value, context)
 
         if self.length_contract is not None:
-            self.length_contract._check_contract(context, len(value))
+            self.length_contract._check_contract(context, len(value), silent)
 
         if self.elements_contract is not None:
             for element in value:
-                self.elements_contract._check_contract(context, element)
+                self.elements_contract._check_contract(context, element, silent)
 
     def __str__(self):
         s = 'set'

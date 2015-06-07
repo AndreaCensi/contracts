@@ -9,7 +9,7 @@ class EqualTo(Contract):
         assert isinstance(rvalue, RValue), "Expected RValue for EqualTo, got %r" % rvalue
         self.rvalue = rvalue
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         val = eval_in_context(context, self.rvalue, self)
         if not(val == value):
             error = ('EqualTo: Condition %s == %s not respected.'

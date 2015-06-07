@@ -40,12 +40,12 @@ class Extension(Contract):
 
         return "Extension(%r)" % self.identifier
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         context['args'] = tuple(a.eval(context) for a in self.args)
         context['kwargs'] = dict((k, v.eval(context)) for
                                  k, v in self.kwargs.items())
 
-        self.contract._check_contract(context, value)
+        self.contract._check_contract(context, value, silent)
 
     @staticmethod
     def parse_action(s, loc, tokens):
@@ -102,7 +102,7 @@ class CheckCallable(Contract):
         self.callable = callable
         Contract.__init__(self, where=None)
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         allowed = (ValueError, AssertionError)
         args = context.get('args', tuple())
         kwargs = context.get('kwargs', {})
@@ -158,7 +158,7 @@ class CheckCallableWithSelf(Contract):
         self.callable = callable
         Contract.__init__(self, where=None)
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         args = context.get('args', tuple())
         kwargs = context.get('kwargs', {})
 

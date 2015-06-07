@@ -120,6 +120,11 @@ class ContractNotRespected(ContractException):
 
         def context_to_string(context):
             keys = sorted(context)
+
+            # don't display these two if are not used
+            for x in ['args', 'kwargs']:
+                if x in keys and not context[x]: keys.remove(x)
+
             try:
                 varss = ['- %s: %s' % (k, describe_value(context[k], clip=70))
                          for k in keys]
@@ -211,7 +216,7 @@ class Contract(with_metaclass(ABCMeta, object)):
 
             :raise: ContractNotRespected
         """
-        return self.check_contract({}, value)
+        return self.check_contract({}, value, silent=False)
 
     def fail(self, value):
         """
@@ -233,16 +238,19 @@ class Contract(with_metaclass(ABCMeta, object)):
             raise ValueError(msg)
 
     @abstractmethod
-    def check_contract(self, context, value):  # @UnusedVariable
+    def check_contract(self, context, value, silent):  # @UnusedVariable
         """
             Checks that value is ok with this contract in the specific
             context. This is the function that subclasses must implement.
 
+            If silent = False, do not bother with creating detailed error messages yet.
+            This is for performance optimization. 
+            
             :param context: The context in which expressions are evaluated.
-            :type context: ``class(Contract)``
+            :type context:
         """
 
-    def _check_contract(self, context, value):
+    def _check_contract(self, context, value, silent):
         """ Recursively checks the contracts; it calls check_contract,
             but the error is wrapped recursively. This is the function
             that subclasses must call when checking their sub-contracts.
@@ -252,7 +260,7 @@ class Contract(with_metaclass(ABCMeta, object)):
 
         variables = context.copy()
         try:
-            self.check_contract(context, value)
+            self.check_contract(context, value, silent)
         except ContractNotRespected as e:
             e.stack.append((self, variables, value))
             raise

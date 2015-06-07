@@ -30,29 +30,68 @@ class OR(Logical, Contract):
         Logical.__init__(self, OR_GLYPH, 1)
         self.clauses = clauses
 
-    def check_contract(self, context, value):
+    def _check_quick(self, context, value):
+        """ Returns True if this checks out. """
+
+        # first make a quick pass
+        for c in self.clauses:
+            try:
+                # try with fake context
+                c._check_contract(context.copy(), value, silent=True)
+                # if ok, do with main context
+                c._check_contract(context, value, silent=True)
+                return True
+            except ContractNotRespected as e:
+                pass
+        
+        return False
+
+
+    def check_contract(self, context, value, silent):
+        orig = context.copy()
+
+        if self._check_quick(context, value):
+            return
+        else:
+            if silent:
+                msg = '(Error description suppressed.)'
+                raise ContractNotRespected(contract=self, error=msg,
+                        value=value, context=context)
+
+            # otherwise need to do it again with detailed error messages
+            self.get_error(orig, value)
+
+    def get_error(self, context, value):
+        """ This assumes that we are going to fail """
         exceptions = []
         for c in self.clauses:
             try:
                 # try with fake context
-                c._check_contract(context.copy(), value)
+                c._check_contract(context.copy(), value, silent=False)
                 # if ok, do with main context
-                c._check_contract(context, value)
-                break
+                c._check_contract(context, value, silent=False)
+
+                assert False, "We should not be here."
             except ContractNotRespected as e:
                 exceptions.append((c, e))
         else:
-            msg = ('Could not satisfy any of the %d clauses in %s.'
-                   % (len(self.clauses), self))
-
-            for i, ex in enumerate(exceptions):
-                c, e = ex
-                msg += '\n ---- Clause #%d:   %s\n' % (i + 1, c)
-                msg += add_prefix('%s' % e, ' | ')
-
-            msg += '\n ------- (end clauses) -------'
+            msg = self._format_exceptions(exceptions)
             raise ContractNotRespected(contract=self, error=msg,
                         value=value, context=context)
+
+
+
+    def _format_exceptions(self, exceptions):
+        msg = ('Could not satisfy any of the %d clauses in %s.'
+               % (len(self.clauses), self))
+
+        for i, ex in enumerate(exceptions):
+            c, e = ex
+            msg += '\n ---- Clause #%d:   %s\n' % (i + 1, c)
+            msg += add_prefix('%s' % e, ' | ')
+
+        msg += '\n ------- (end clauses) -------'
+        return msg
 
     def __repr__(self):
         s = 'OR(%r)' % self.clauses
@@ -79,9 +118,9 @@ class And(Logical, Contract):
         Logical.__init__(self, AND_GLYPH, 2)
         self.clauses = clauses
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         for c in self.clauses:
-            c._check_contract(context, value)
+            c._check_contract(context, value, silent)
 
     def __repr__(self):
         s = 'And(%r)' % self.clauses
@@ -108,10 +147,10 @@ class Not(Logical, Contract):
         Logical.__init__(self, NOT_GLYPH, 3)
         self.clauses = clauses
 
-    def check_contract(self, context, value):
+    def check_contract(self, context, value, silent):
         clause = self.clauses[0]
         try:
-            clause._check_contract(context, value)
+            clause._check_contract(context, value, silent)
         except ContractNotRespected:
             pass
         else:
