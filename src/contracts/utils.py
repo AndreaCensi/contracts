@@ -101,10 +101,23 @@ def raise_wrapped(etype, e, msg, **kwargs):
     else:
         es = traceback.format_exc(e)
 
-
     s += '\n' + indent(es.strip(), '| ')
 
     raise etype(s)
+
+def raise_desc(etype, msg, **kwargs):
+    """
+    
+        Example:
+            raise_desc(ValueError, "I don't know", a=a, b=b)
+    """
+    assert isinstance(msg, str), type(msg)
+    s = msg
+    if kwargs:
+        s += '\n' + format_obs(kwargs)
+    raise etype(s)
+
+
 #
 #
 #
@@ -146,7 +159,7 @@ def raise_wrapped(etype, e, msg, **kwargs):
 
 
 
-from decorator import decorator  # @UnresolvedImport
+# from decorator import decorator  # @UnresolvedImport
 
 def ignore_typeerror(f):
     """ Recasts TypeError as Exception; otherwise pyparsing gets confused. """

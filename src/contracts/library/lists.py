@@ -13,7 +13,7 @@ class List(Contract):
 
     def check_contract(self, context, value, silent):
         if not isinstance(value, list):
-            error = 'Expected a sequence, got %r.' % value.__class__.__name__
+            error = 'Expected a list, got %r.' % value.__class__.__name__
             raise ContractNotRespected(self, error, value, context)
 
         if self.length_contract is not None:
