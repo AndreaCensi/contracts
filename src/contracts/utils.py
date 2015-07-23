@@ -78,16 +78,18 @@ def format_obs(d):
         prefix = pad('%s: ' % name)
         if i > 0:
             res += '\n'
-        res +=  indent(describe_value_multiline(value),
+        res += indent(describe_value_multiline(value),
                              ' ', first=prefix)
 
     return res
 
 
-def raise_wrapped(etype, e, msg, **kwargs):
+def raise_wrapped(etype, e, msg, compact=False, **kwargs):
     """ Raises an exception of type etype by wrapping
         another exception "e" with its backtrace and adding
         the objects in kwargs as formatted by format_obs.
+        
+        if compact = False, write the whole traceback, otherwise just str(e).
     """
     assert isinstance(e, BaseException), type(e)
     assert isinstance(msg, str), type(msg)
@@ -99,7 +101,10 @@ def raise_wrapped(etype, e, msg, **kwargs):
     if sys.version_info[0] >= 3:
         es = str(e)
     else:
-        es = traceback.format_exc(e)
+        if compact:
+            es = str(e)
+        else:
+            es = traceback.format_exc(e)
 
     s += '\n' + indent(es.strip(), '| ')
 

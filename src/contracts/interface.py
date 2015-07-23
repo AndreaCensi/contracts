@@ -405,14 +405,16 @@ def describe_value_multiline(x):
         final = desc + '\n' + x.__repr__()
         return final
     else:
-        class_name = describe_type(x)
-        # TODO: add all types
-        desc = 'Instance of %s.' % class_name
+        if isinstance(x, str):
+            return x.__repr__()
+        else:
+            class_name = describe_type(x)
+            # TODO: add all types
+            desc = 'Instance of %s.' % class_name
+            try:
+                # This fails for classes
+                final = desc + '\n' + x.__repr__()
+            except:
+                final = desc + '\n' + str(x)
 
-        try:
-            # This fails for classes
-            final = desc + '\n' + x.__repr__()
-        except:
-            final = desc + '\n' + str(x)
-
-        return final
+            return final
