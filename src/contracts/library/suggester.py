@@ -1,8 +1,5 @@
 import operator
 
-from ..syntax import (Combine, Word, alphas, alphanums, oneOf,
-                      ParseSyntaxException, ParseException)
-
 
 def find_longest_match(s, options):
     matches = [(x, longest_match(s, x)) for x in options]
@@ -55,7 +52,14 @@ def default_message(identifier):
 
 
 def create_suggester(get_options, get_message=default_message,
-            pattern=Combine(oneOf(list(alphas)) + Word('_' + alphanums))):
+            pattern=None):
+
+    from ..syntax import (Combine, Word, alphas, alphanums, oneOf,
+                      ParseSyntaxException, ParseException)
+    if pattern is None:
+        pattern = Combine(oneOf(list(alphas)) + Word('_' + alphanums))
+
+
     pattern = pattern.copy()
 
     def find_match(identifier, options, local_string):

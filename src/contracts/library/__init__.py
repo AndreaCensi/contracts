@@ -34,3 +34,5 @@ from .extensions import (identifier_expression, identifier_contract,
 
 from .isinstance_imp import *
 from .scoped_variables import scoped_variables_ref
+
+from .miscellaneous_aliases import *

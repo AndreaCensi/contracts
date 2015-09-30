@@ -80,8 +80,8 @@ class TestIdioms(unittest.TestCase):
         self.assertRaises(ContractNotRespected, check_multiple, spec,
                           'my message')
 
-    def test_symbols(self):
-        from contracts import contract_expression  # @UnusedImport
+#     def test_symbols(self):
+#         from contracts import contract_expression  # @UnusedImport
         # TODO: type
 
     def test_equality_contract(self):

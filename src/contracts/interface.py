@@ -1,7 +1,6 @@
 from abc import ABCMeta, abstractmethod
 import sys
 
-from .syntax import col, lineno
 from .metaclass import with_metaclass
 
 
@@ -23,6 +22,8 @@ class Where(object):
             # self.character = None
         else:
             assert line is None and column is None
+            from .syntax import col, lineno
+
             # self.character = character
             self.line = lineno(character, string)
             self.col = col(character, string)

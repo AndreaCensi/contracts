@@ -17,6 +17,7 @@ class ArrayElementsTest(Contract):
 
         if np.all(result):
             return
+
         result = np.array(result)  # for simple bool
         resultf = result.flatten()
         valuef = value.flatten()

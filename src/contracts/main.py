@@ -6,10 +6,9 @@ from .inspection import (can_accept_at_least_one_argument, can_accept_self,
 from .interface import (CannotDecorateClassmethods, Contract,
     ContractDefinitionError, ContractException, ContractNotRespected,
     ContractSyntaxError, MissingContract, Where, describe_value)
-from .library import (CheckCallable, Extension, SeparateContext,
-    identifier_expression)
-from .library.extensions import CheckCallableWithSelf
-from .syntax import ParseException, ParseFatalException, contract_expression
+# from .library import (CheckCallable, Extension, SeparateContext,
+#     identifier_expression)
+
 import six
 import sys
 import types
@@ -79,30 +78,6 @@ def check_param_is_string(x):
     if not is_param_string(x):
         msg = 'Expected a string, obtained %s' % type(x)
         raise ValueError(msg)
-
-def parse_contract_string(string):
-    check_param_is_string(string)
-
-    if string in Storage.string2contract:
-        return Storage.string2contract[string]
-    try:
-        c = contract_expression.parseString(string,
-                                            parseAll=True)[0]
-        assert isinstance(c, Contract), 'Want Contract, not %r' % c
-        if _cacheable(string, c):
-            Storage.string2contract[string] = c
-        return c
-    except ContractDefinitionError as e:
-        raise
-    except ParseException as e:
-        where = Where(string, line=e.lineno, column=e.col)
-        msg = '%s' % e
-        raise ContractSyntaxError(msg, where=where)
-    except ParseFatalException as e:
-        where = Where(string, line=e.lineno, column=e.col)
-        msg = '%s' % e
-        raise ContractSyntaxError(msg, where=where)
-
 
 # TODO: add decorator-specific exception
 
@@ -561,6 +536,12 @@ def new_contract(*args):
 
 
 def new_contract_impl(identifier, condition):
+
+    from .syntax import ParseException
+    from .library.extensions import CheckCallableWithSelf
+    from .library import (CheckCallable, Extension, SeparateContext,
+        identifier_expression)
+
     # Be friendly
     if not isinstance(identifier, str):
         raise ValueError('I expect the identifier to be a string; '
@@ -587,6 +568,8 @@ def new_contract_impl(identifier, condition):
             pass
 
     # Make sure it corresponds to our idea of identifier
+
+
     try:
         c = identifier_expression.parseString(identifier, parseAll=True)
     except ParseException as e:
@@ -659,5 +642,10 @@ def new_contract_impl(identifier, condition):
     return contract
 
 
+
+
+def parse_contract_string(string):
+    from .main_actual import parse_contract_string_actual
+    return parse_contract_string_actual(string)
 
 

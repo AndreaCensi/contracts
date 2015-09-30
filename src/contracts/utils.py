@@ -110,16 +110,24 @@ def raise_wrapped(etype, e, msg, compact=False, **kwargs):
 
     raise etype(s)
 
-def raise_desc(etype, msg, **kwargs):
+def raise_desc(etype, msg, args_first=False, **kwargs):
     """
     
         Example:
             raise_desc(ValueError, "I don't know", a=a, b=b)
     """
     assert isinstance(msg, str), type(msg)
-    s = msg
+    s1 = msg
     if kwargs:
-        s += '\n' + format_obs(kwargs)
+        s2 = format_obs(kwargs)
+    else:
+        s2 = ""
+
+    if args_first:
+        s = s2 + "\n" + s1
+    else:
+        s = s1 + "\n" + s2
+
     raise etype(s)
 
 
