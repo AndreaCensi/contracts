@@ -18,8 +18,9 @@ class CheckType(Contract):
 
     def check_contract(self, context, value, silent):
         if not isinstance(value, self.types):
-            error = 'Expected type %r, got %r.' % (self.types.__name__,
-                                                   value.__class__.__name__)
+            from contracts.interface import describe_type
+            error = 'Expected type %r, got %s.' % (self.types.__name__,
+                                                   describe_type(value))
             raise ContractNotRespected(contract=self, error=error,
                                        value=value, context=context)
 

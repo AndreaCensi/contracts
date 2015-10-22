@@ -95,7 +95,8 @@ class ContractSyntaxError(ContractDefinitionError):
     def __str__(self):
         error, where = self.args
         s = error
-        s += "\n\n" + add_prefix(where.__str__(), ' ')
+        if where is not None:
+            s += "\n\n" + add_prefix(where.__str__(), ' ')
         return s
 
 
@@ -374,7 +375,11 @@ def describe_type(x):
         class_name = '(old-style class) %s' % x
     else:
         if hasattr(x, '__class__'):
-            class_name = '%s' % x.__class__.__name__
+            c = x.__class__
+            if hasattr(x, '__name__'):
+                class_name = '%s' % c.__name__
+            else:
+                class_name = str(c)
         else:
             # for extension classes (spmatrix)
             class_name = str(type(x))
@@ -407,7 +412,16 @@ def describe_value_multiline(x):
         return final
     else:
         if isinstance(x, str):
-            return x.__repr__()
+            if x == '': return "''"
+            return x
+        # XXX: this does not represent strings
+
+#             if '\n' in x:
+#                 # long multiline
+#                 return x
+#             else:
+#                 # short string
+#                 return x.__repr__()
         else:
             class_name = describe_type(x)
             # TODO: add all types

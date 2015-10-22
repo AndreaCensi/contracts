@@ -57,14 +57,56 @@ def raise_type_mismatch(ob, expected, **kwargs):
     e += '\n' + indent(format_obs(kwargs), ' ')
     raise ValueError(e)
 
+def format_dict_long(d, informal=False):
+    """
+        k: value
+           kooked
+        k: value
+    """
+    if not d:
+        return '{}'
 
-def format_obs(d):
+    maxlen = max([len(n) for n in d]) + 2
+    def pad(pre):
+        return ' ' * (maxlen - len(pre)) + pre
+
+    res = ""
+    for i, (name, value) in enumerate(d.items()):
+        prefix = pad('%s: ' % name)
+        if i > 0:
+            res += '\n'
+            
+        s = _get_str(value, informal)
+        res += indent(s, ' ', first=prefix)
+    return res
+
+def _get_str(x, informal):
+    from contracts.interface import describe_value_multiline
+    if informal:
+        s = str(x)
+    else:
+        s = describe_value_multiline(x)
+    return s
+
+def format_list_long(l, informal=False):
+    """
+        - My 
+          first
+        - Second
+    """
+    res = ""
+    for i, value in enumerate(l):
+        prefix = '- '
+        if i > 0:
+            res += '\n'
+        s = _get_str(value, informal)
+        res += indent(s, ' ', first=prefix)
+    return res
+
+def format_obs(d, informal=False):
     """ Shows objects values and typed for the given dictionary """
     if not d:
-        return ''
-    from contracts.interface import describe_value_multiline
-
-
+        return str(d)
 
     maxlen = 0
     for name in d:
@@ -74,12 +116,17 @@ def format_obs(d):
         return ' ' * (maxlen-len(pre)) + pre
 
     res = ''
-    for i, (name, value) in enumerate(d.items()):
+
+    S = sorted(d)
+    for i, name in enumerate(S):
+        value = d[name]
         prefix = pad('%s: ' % name)
         if i > 0:
             res += '\n'
-        res += indent(describe_value_multiline(value),
-                             ' ', first=prefix)
+
+        s = _get_str(value, informal)
+
+        res += indent(s, ' ', first=prefix)
 
     return res
 
