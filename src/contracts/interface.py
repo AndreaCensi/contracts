@@ -13,8 +13,16 @@ class Where(object):
     """
 
     def __init__(self, string,
-                 character=None, line=None, column=None):
+                 character=None, line=None, column=None, character_end=None):
+
         self.string = string
+        self.character = character
+        self.character_end = character_end
+
+        if character_end is not None:
+            if not character_end >= self.character:
+                raise ValueError('Invalid interval [%d,%d)' % (character, character_end))
+
         if character is None:
             assert line is not None and column is not None
             self.line = line
@@ -27,6 +35,13 @@ class Where(object):
             # self.character = character
             self.line = lineno(character, string)
             self.col = col(character, string)
+
+    def __repr__(self):
+        if self.character_end is not None:
+            part = self.string[self.character:self.character_end]
+            return 'Where(%d:%r:%d)' % (self.character, part, self.character_end)
+        else:
+            return 'Where(s=...,char=%s-%s,line=%s,col=%s)' % (self.character, self.character_end, self.line, self.col)
 
     def __str__(self):
         s = ''
@@ -98,6 +113,7 @@ class ContractSyntaxError(ContractDefinitionError):
         if where is not None:
             s += "\n\n" + add_prefix(where.__str__(), ' ')
         return s
+
 
 
 class ContractNotRespected(ContractException):
