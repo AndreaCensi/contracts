@@ -39,7 +39,8 @@ class Where(object):
     def __repr__(self):
         if self.character_end is not None:
             part = self.string[self.character:self.character_end]
-            return 'Where(%d:%r:%d)' % (self.character, part, self.character_end)
+#             return 'Where(%d:%r:%d)' % (self.character, part, self.character_end)
+            return 'Where(%r)' % part
         else:
             return 'Where(s=...,char=%s-%s,line=%s,col=%s)' % (self.character, self.character_end, self.line, self.col)
 
