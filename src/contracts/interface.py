@@ -28,24 +28,40 @@ class Where(object):
             self.line = line
             self.col = column
             # self.character = None
-        else:
+        else:  # character is not none
             assert line is None and column is None
             from .syntax import col, lineno
 
             # self.character = character
             self.line = lineno(character, string)
             self.col = col(character, string)
+            assert self.line is not None and self.col is not None
+
+        self.filename = None
 
     def __repr__(self):
         if self.character_end is not None:
             part = self.string[self.character:self.character_end]
-#             return 'Where(%d:%r:%d)' % (self.character, part, self.character_end)
             return 'Where(%r)' % part
         else:
             return 'Where(s=...,char=%s-%s,line=%s,col=%s)' % (self.character, self.character_end, self.line, self.col)
 
+    def with_filename(self, filename):
+#         print(dict(string=self.string,
+#                    character=self.character, character_end=self.character_end,
+#                    line=self.line, col=self.col))
+        if self.character is not  None:
+            w2 = Where(string=self.string,
+                   character=self.character, character_end=self.character_end)
+        else:
+            w2 = Where(string=self.string, line=self.line, column=self.col)
+        w2.filename = filename
+        return w2
+
     def __str__(self):
         s = ''
+        if self.filename:
+            s += 'In file %r:\n' % self.filename
         context = 3
         lines = self.string.split('\n')
         start = max(0, self.line - context)
