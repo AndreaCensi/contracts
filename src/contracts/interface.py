@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from abc import ABCMeta, abstractmethod
 import sys
 
@@ -6,38 +7,61 @@ from .metaclass import with_metaclass
 
 class Where(object):
     """
-        An object of this class represents a place in a file.
+        An object of this class represents a place in a file, or an interval.
 
         All parsed elements contain a reference to a :py:class:`Where` object
         so that we can output pretty error messages.
+        
+        
+        Character should be >= len(string) (possibly outside the string).
+        Character_end should be > character (so that you can splice with 
+        string[character:character_end])
     """
 
-    def __init__(self, string,
-                 character=None, line=None, column=None, character_end=None):
+    def __init__(self, string, character, character_end=None):
+        
+        if not isinstance(string, str):
+            raise ValueError('I expect the string to be a str, not %r' % string)
+        
+        if not (0 <= character <= len(string)):
+            msg = 'Invalid character loc %s for string %r' % (character, string)
+            print msg
+            raise ValueError(msg)
+#             if False:
+#                 while string[character] == ' ':
+#                     if character_end is not None:
+#                         assert character < character_end
+#                     if (character < (len(string) - 2)) and ((character_end is None)
+#                                                         or (character < character_end - 1)):
+#                         character += 1
+# #                         print('now string is %r' % string[character:character_end])
+#                     else:
+#                         break  
+        self.line, self.col = line_and_col(character, string)
 
+        if character_end is not None:
+            if not (0 <= character_end <= len(string)):
+                msg = 'Invalid character_end loc %s for string %r' % (character, string)
+                raise ValueError(msg)
+        
+            if not (character_end > character):
+                msg=  'Invalid interval [%d,%d)' % (character, character_end)
+                raise ValueError(msg)
+
+            self.line_end, self.col_end = line_and_col(character_end, string)
+#             assert self.col_end >= self.col, ((self.line, self.col), (self.line_end, self.col_end),
+#                                               string[character:character_end])
+    
+        else:
+            self.line_end, self.col_end = None, None
+            
         self.string = string
         self.character = character
         self.character_end = character_end
-
-        if character_end is not None:
-            if not character_end >= self.character:
-                raise ValueError('Invalid interval [%d,%d)' % (character, character_end))
-
-        if character is None:
-            assert line is not None and column is not None
-            self.line = line
-            self.col = column
-            # self.character = None
-        else:  # character is not none
-            assert line is None and column is None
-            from .syntax import col, lineno
-
-            # self.character = character
-            self.line = lineno(character, string)
-            self.col = col(character, string)
-            assert self.line is not None and self.col is not None
-
         self.filename = None
+        
+#         if self.line != self.line_end:
+#                 print self.__str__()
 
     def __repr__(self):
         if self.character_end is not None:
@@ -59,23 +83,87 @@ class Where(object):
         return w2
 
     def __str__(self):
-        s = ''
-        if self.filename:
-            s += 'In file %r:\n' % self.filename
-        context = 3
-        lines = self.string.split('\n')
-        start = max(0, self.line - context)
-        pattern = 'line %2d >'
-        i = 0
-        for i in range(start, self.line):
-            s += ("%s%s\n" % (pattern % (i + 1), lines[i]))
-        fill = len(pattern % (i + 1))
-        space = ' ' * fill + ' ' * (self.col - 1)
-        s += space + '^\n'
-        s += space + '|\n'
+        return format_where(self)
+        
+def format_where(w, context_before=3, mark='here or nearby', arrow=True, use_unicode=True):
+    s = ''
+    if w.filename:
+        s += 'In file %r:\n' % w.filename
+    lines = w.string.split('\n')
+    start = max(0, w.line - context_before)
+    pattern = 'line %2d >'
+    i = 0
+    maxi = i  + 1
+    assert 0 <= w.line < len(lines), (w.character, w.line,  w.string.__repr__())
+    for i in range(start, w.line + 1):
+        s += ("%s%s\n" % (pattern % (i+1), lines[i]))
+        
+    fill = len(pattern % maxi)
+    space = ' ' * fill + ' ' * w.col
+    if w.col_end is not None:
+        if w.line == w.line_end:
+            num_highlight = w.col_end - w.col
+            s += space + '~' * num_highlight + '\n'
+            space += ' ' * (num_highlight/2)
+        else:
+            # cannot highlight if on different lines
+            pass
+    
+    if arrow:
+        if use_unicode:
+            s += space + '↑\n'
+        else:
+            s += space + '^\n'
+            s += space + '|\n'
+        
+    if mark is not None:
         s += space + 'here or nearby'
-        return s
+        
+    s = s.rstrip()
+    return s
 
+def line_and_col(loc, strg):
+    """Returns (line, col), both 0 based."""
+    # first find the line 
+    lines = strg.split('\n')
+    
+    if loc == len(strg):
+        # Special case: we mark the end of the string
+        last_line = len(lines) - 1
+        last_char = len(lines[-1]) 
+        return last_line, last_char + 1 
+        
+    if loc > len(strg):
+        raise ValueError('Invalid loc = %d for s of len %d (%r)' % 
+                         (loc, len(strg), strg))
+    res_line = 0
+    l = loc
+    while True:
+        if not lines:
+            assert loc == 0, (loc, strg.__repr__())
+            break
+
+        first = lines[0]
+        if l > len(first) + len('\n'):
+            lines = lines[1:]
+            l -= (len(first) + len('\n'))
+            res_line += 1
+        else:
+            break
+    res_col = l
+    inverse = location(res_line, res_col, strg)
+    if inverse != loc:
+        msg = 'Could not find line and col'
+        from .utils import raise_desc
+        raise_desc(AssertionError, msg, s=strg, loc=loc, res_line=res_line,
+                   res_col=res_col, loc_recon=inverse)
+    return (res_line, res_col)
+
+def location(line, col, s):
+    lines = s.split('\n')
+    previous_lines = sum(len(l) + len('\n') for l in lines[:line])
+    offset = col
+    return previous_lines+ offset
 
 def add_prefix(s, prefix):
     result = ""
@@ -439,6 +527,7 @@ def describe_value(x, clip=80):
 def describe_value_multiline(x):
     """ Describes an object, for use in the error messages. """
     if hasattr(x, 'shape') and hasattr(x, 'dtype'):
+        # XXX this fails for bs4, Tag
         shape_desc = 'x'.join(str(i) for i in x.shape)
         desc = 'array[%r](%s) ' % (shape_desc, x.dtype)
         final = desc + '\n' + x.__repr__()

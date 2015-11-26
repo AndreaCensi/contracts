@@ -71,7 +71,9 @@ def format_dict_long(d, informal=False):
         return ' ' * (maxlen - len(pre)) + pre
 
     res = ""
-    for i, (name, value) in enumerate(d.items()):
+    order = sorted(d)
+    for i, name in enumerate(order):
+        value = d[name]
         prefix = pad('%s: ' % name)
         if i > 0:
             res += '\n'
@@ -131,13 +133,26 @@ def format_obs(d, informal=False):
     return res
 
 
-def raise_wrapped(etype, e, msg, compact=False, **kwargs):
+def raise_wrapped(etype, e, msg, compact=False, exc=None, **kwargs):
     """ Raises an exception of type etype by wrapping
         another exception "e" with its backtrace and adding
         the objects in kwargs as formatted by format_obs.
         
         if compact = False, write the whole traceback, otherwise just str(e).
+    
+        exc = output of sys.exc_info()
     """
+    
+    e = raise_wrapped_make(etype, e, msg, compact=compact, **kwargs)
+    
+    if exc is not None:
+        _, _, trace = exc
+        raise etype, e.args, trace
+    else:
+        raise e
+    
+def raise_wrapped_make(etype, e, msg, compact=False, **kwargs):
+    """ Constructs the exception to be thrown by raise_wrapped() """
     assert isinstance(e, BaseException), type(e)
     assert isinstance(msg, str), type(msg)
     s = msg
@@ -155,7 +170,7 @@ def raise_wrapped(etype, e, msg, compact=False, **kwargs):
 
     s += '\n' + indent(es.strip(), '| ')
 
-    raise etype(s)
+    return etype(s)
 
 def raise_desc(etype, msg, args_first=False, **kwargs):
     """
