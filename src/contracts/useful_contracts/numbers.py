@@ -7,7 +7,7 @@ try:
 except ImportError:  # pragma: no cover
     new_contract('float', 'Float')
     new_contract('int', 'Int')
-    new_contract('number', 'float|int')    
+    new_contract('number', 'float|int|long')
 else:
     new_contract('float', 'Float|np_scalar_float|(np_scalar, array(float))')
     new_contract('int', 'Int|np_scalar_int|(np_scalar,array(int))')

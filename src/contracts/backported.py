@@ -4,6 +4,7 @@ from inspect import ArgSpec
 if sys.version_info[0] >= 3:  # pragma: no cover
     from inspect import getfullargspec
     unicode = str
+    long_type = int
 
 else:  # pragma: no cover
     from collections import namedtuple
@@ -40,6 +41,7 @@ else:  # pragma: no cover
                                annotations={})
         return fullspec
 
+    long_type = long
 
 # Backport inspect.getcallargs from Python 2.7 to 2.6
 if sys.version_info[:2] == (2, 7):
