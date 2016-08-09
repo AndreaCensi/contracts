@@ -13,7 +13,7 @@ from ..library import *  # @UnusedWildImport @UnresolvedImport
 
 
 ## If you want to try only some tests, set select to True, and add them below.
-## Remove the other tests
+## Remove the other mcdp_lang_tests
 #good_examples[:] = []
 #syntax_fail_examples[:] = []
 #semantic_fail_examples[:] = []

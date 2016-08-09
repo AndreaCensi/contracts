@@ -138,6 +138,11 @@ def raise_wrapped(etype, e, msg, compact=False, **kwargs):
         
         if compact = False, write the whole traceback, otherwise just str(e).
     """
+    e = raise_wrapped_make(etype, e, msg, compact=compact, **kwargs)
+    raise e
+    
+def raise_wrapped_make(etype, e, msg, compact=False, **kwargs):
+    """ Constructs the exception to be thrown by raise_wrapped() """
     assert isinstance(e, BaseException), type(e)
     assert isinstance(msg, str), type(msg)
     s = msg
@@ -155,7 +160,7 @@ def raise_wrapped(etype, e, msg, compact=False, **kwargs):
 
     s += '\n' + indent(es.strip(), '| ')
 
-    raise etype(s)
+    return etype(s)
 
 def raise_desc(etype, msg, args_first=False, **kwargs):
     """

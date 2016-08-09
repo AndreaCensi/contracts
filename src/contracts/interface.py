@@ -14,7 +14,8 @@ class Where(object):
 
     def __init__(self, string,
                  character=None, line=None, column=None, character_end=None):
-
+        if not isinstance(string, str):
+            raise ValueError('I expect the string to be a str, not %r' % string)
         self.string = string
         self.character = character
         self.character_end = character_end
@@ -439,6 +440,7 @@ def describe_value(x, clip=80):
 def describe_value_multiline(x):
     """ Describes an object, for use in the error messages. """
     if hasattr(x, 'shape') and hasattr(x, 'dtype'):
+        # XXX this fails for bs4, Tag
         shape_desc = 'x'.join(str(i) for i in x.shape)
         desc = 'array[%r](%s) ' % (shape_desc, x.dtype)
         final = desc + '\n' + x.__repr__()
