@@ -71,7 +71,9 @@ def format_dict_long(d, informal=False):
         return ' ' * (maxlen - len(pre)) + pre
 
     res = ""
-    for i, (name, value) in enumerate(d.items()):
+    order = sorted(d)
+    for i, name in enumerate(order):
+        value = d[name]
         prefix = pad('%s: ' % name)
         if i > 0:
             res += '\n'
