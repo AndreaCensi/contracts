@@ -133,15 +133,23 @@ def format_obs(d, informal=False):
     return res
 
 
-def raise_wrapped(etype, e, msg, compact=False, **kwargs):
+def raise_wrapped(etype, e, msg, compact=False, exc=None, **kwargs):
     """ Raises an exception of type etype by wrapping
         another exception "e" with its backtrace and adding
         the objects in kwargs as formatted by format_obs.
         
         if compact = False, write the whole traceback, otherwise just str(e).
+    
+        exc = output of sys.exc_info()
     """
+    
     e = raise_wrapped_make(etype, e, msg, compact=compact, **kwargs)
-    raise e
+    
+    if exc is not None:
+        _, _, trace = exc
+        raise etype, e.args, trace
+    else:
+        raise e
     
 def raise_wrapped_make(etype, e, msg, compact=False, **kwargs):
     """ Constructs the exception to be thrown by raise_wrapped() """
