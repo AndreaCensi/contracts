@@ -48,3 +48,9 @@ test-parallel-stop:
 test-coverage:
 	$(nose) $(package) $(NOSE_PARAMS) $(nose_coverage) 
 
+
+bump-upload:
+	bumpversion patch
+	git push --tags
+	python setup.py sdist upload
+	
