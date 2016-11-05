@@ -83,38 +83,44 @@ class Where(object):
         return w2
 
     def __str__(self):
-        s = ''
-        if self.filename:
-            s += 'In file %r:\n' % self.filename
-        context = 3
-        lines = self.string.split('\n')
-        start = max(0, self.line - context)
-        pattern = 'line %2d >'
-        i = 0
-        maxi = i  + 1
-        assert 0 <= self.line < len(lines), (self.character, self.line,  self.string.__repr__())
-        for i in range(start, self.line + 1):
-            s += ("%s%s\n" % (pattern % (i+1), lines[i]))
-            
-        fill = len(pattern % maxi)
-        space = ' ' * fill + ' ' * self.col
-        if self.col_end is not None:
-            if self.line == self.line_end:
-                num_highlight = self.col_end - self.col
-                s += space + '~' * num_highlight + '\n'
-                space += ' ' * (num_highlight/2)
-            else:
-                # cannot highlight if on different lines
-                pass
-        use_unicode = True
+        return format_where(self)
+        
+def format_where(w, context_before=3, mark='here or nearby', arrow=True, use_unicode=True):
+    s = ''
+    if w.filename:
+        s += 'In file %r:\n' % w.filename
+    lines = w.string.split('\n')
+    start = max(0, w.line - context_before)
+    pattern = 'line %2d >'
+    i = 0
+    maxi = i  + 1
+    assert 0 <= w.line < len(lines), (w.character, w.line,  w.string.__repr__())
+    for i in range(start, w.line + 1):
+        s += ("%s%s\n" % (pattern % (i+1), lines[i]))
+        
+    fill = len(pattern % maxi)
+    space = ' ' * fill + ' ' * w.col
+    if w.col_end is not None:
+        if w.line == w.line_end:
+            num_highlight = w.col_end - w.col
+            s += space + '~' * num_highlight + '\n'
+            space += ' ' * (num_highlight/2)
+        else:
+            # cannot highlight if on different lines
+            pass
+    
+    if arrow:
         if use_unicode:
             s += space + '↑\n'
         else:
             s += space + '^\n'
             s += space + '|\n'
-            
+        
+    if mark is not None:
         s += space + 'here or nearby'
-        return s
+        
+    s = s.rstrip()
+    return s
 
 def line_and_col(loc, strg):
     """Returns (line, col), both 0 based."""
