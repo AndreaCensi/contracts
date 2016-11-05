@@ -41,7 +41,10 @@ class Where(object):
                 raise ValueError(msg)
 
             self.line_end, self.col_end = line_and_col(character_end, string)
-            assert self.col_end >= self.col
+#             assert self.col_end >= self.col, ((self.line, self.col), (self.line_end, self.col_end),
+#                                               string[character:character_end])
+        
+            
         else:
             self.line_end, self.col_end = None, None
             
@@ -50,6 +53,8 @@ class Where(object):
         self.character_end = character_end
         self.filename = None
         
+#         if self.line != self.line_end:
+#                 print self.__str__()
 
     def __repr__(self):
         if self.character_end is not None:
@@ -82,15 +87,18 @@ class Where(object):
         maxi = i  + 1
         assert 0 <= self.line < len(lines), (self.character, self.line,  self.string.__repr__())
         for i in range(start, self.line + 1):
-            s += ("%s%s\n" % (pattern % maxi, lines[i]))
+            s += ("%s%s\n" % (pattern % (i+1), lines[i]))
             
         fill = len(pattern % maxi)
         space = ' ' * fill + ' ' * self.col
         if self.col_end is not None:
-            num_highlight = self.col_end - self.col
-            s += space + '~' * num_highlight + '\n'
-
-            space += ' ' * (num_highlight/2)        
+            if self.line == self.line_end:
+                num_highlight = self.col_end - self.col
+                s += space + '~' * num_highlight + '\n'
+                space += ' ' * (num_highlight/2)
+            else:
+                # cannot highlight if on different lines
+                pass
         use_unicode = True
         if use_unicode:
             s += space + '↑\n'
