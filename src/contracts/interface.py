@@ -7,17 +7,24 @@ from .metaclass import with_metaclass
 
 class Where(object):
     """
-        An object of this class represents a place in a file.
+        An object of this class represents a place in a file, or an interval.
 
         All parsed elements contain a reference to a :py:class:`Where` object
         so that we can output pretty error messages.
+        
+        
+        Both character and character_end should be inside the string.
+        They can be the same.
     """
 
     def __init__(self, string, character, character_end=None):
         
         if not isinstance(string, str):
             raise ValueError('I expect the string to be a str, not %r' % string)
-                
+        
+        if not (0 <= character < len(string)):
+            msg = 'Invalid character loc %s for string %r' % (character, string)
+            raise ValueError(msg)
 #             if False:
 #                 while string[character] == ' ':
 #                     if character_end is not None:
@@ -31,7 +38,7 @@ class Where(object):
         self.line, self.col = line_and_col(character, string)
 
         if character_end is not None:
-            if not (character_end > character):
+            if not (character_end >= character):
                 msg=  'Invalid interval [%d,%d)' % (character, character_end)
                 raise ValueError(msg)
 
