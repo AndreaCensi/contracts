@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from abc import ABCMeta, abstractmethod
 import sys
 
@@ -12,33 +13,43 @@ class Where(object):
         so that we can output pretty error messages.
     """
 
-    def __init__(self, string,
-                 character=None, line=None, column=None, character_end=None):
+    def __init__(self, string, character, character_end=None):
+        
         if not isinstance(string, str):
             raise ValueError('I expect the string to be a str, not %r' % string)
+                
+#             if False:
+#                 while string[character] == ' ':
+#                     if character_end is not None:
+#                         assert character < character_end
+#                     if (character < (len(string) - 2)) and ((character_end is None)
+#                                                         or (character < character_end - 1)):
+#                         character += 1
+# #                         print('now string is %r' % string[character:character_end])
+#                     else:
+#                         break  
+        self.line, self.col = line_and_col(character, string)
+
+        if character_end is not None:
+            if not (character_end > character):
+                msg=  'Invalid interval [%d,%d)' % (character, character_end)
+                raise ValueError(msg)
+
+            if character_end >= len(string):
+                msg = ('Invalid char = %d for s of len %d (%r)' % 
+                                 (character_end, len(string), string))
+                raise ValueError(msg)
+
+            self.line_end, self.col_end = line_and_col(character_end, string)
+            assert self.col_end >= self.col
+        else:
+            self.line_end, self.col_end = None, None
+            
         self.string = string
         self.character = character
         self.character_end = character_end
-
-        if character_end is not None:
-            if not character_end >= self.character:
-                raise ValueError('Invalid interval [%d,%d)' % (character, character_end))
-
-        if character is None:
-            assert line is not None and column is not None
-            self.line = line
-            self.col = column
-            # self.character = None
-        else:  # character is not none
-            assert line is None and column is None
-            from .syntax import col, lineno
-
-            # self.character = character
-            self.line = lineno(character, string)
-            self.col = col(character, string)
-            assert self.line is not None and self.col is not None
-
         self.filename = None
+        
 
     def __repr__(self):
         if self.character_end is not None:
@@ -68,15 +79,63 @@ class Where(object):
         start = max(0, self.line - context)
         pattern = 'line %2d >'
         i = 0
-        for i in range(start, self.line):
-            s += ("%s%s\n" % (pattern % (i + 1), lines[i]))
-        fill = len(pattern % (i + 1))
-        space = ' ' * fill + ' ' * (self.col - 1)
-        s += space + '^\n'
-        s += space + '|\n'
+        maxi = i  + 1
+        assert 0 <= self.line < len(lines), (self.character, self.line,  self.string.__repr__())
+        for i in range(start, self.line + 1):
+            s += ("%s%s\n" % (pattern % maxi, lines[i]))
+            
+        fill = len(pattern % maxi)
+        space = ' ' * fill + ' ' * self.col
+        if self.col_end is not None:
+            num_highlight = self.col_end - self.col
+            s += space + '~' * num_highlight + '\n'
+
+            space += ' ' * (num_highlight/2)        
+        use_unicode = True
+        if use_unicode:
+            s += space + '↑\n'
+        else:
+            s += space + '^\n'
+            s += space + '|\n'
+            
         s += space + 'here or nearby'
         return s
 
+def line_and_col(loc, strg):
+    """Returns (line, col), both 0 based."""
+    if loc >= len(strg):
+        raise ValueError('Invalid loc = %d for s of len %d (%r)' % 
+                         (loc, len(strg), strg))
+    # first find the line 
+    lines = strg.split('\n')
+    res_line = 0
+    l = loc
+    while True:
+        if not lines:
+            assert loc == 0, (loc, strg.__repr__())
+            break
+
+        first = lines[0]
+        if l > len(first) + len('\n'):
+            lines = lines[1:]
+            l -= (len(first) + len('\n'))
+            res_line += 1
+        else:
+            break
+    res_col = l
+    inverse = location(res_line, res_col, strg)
+    if inverse != loc:
+        msg = 'Could not find line and col'
+        from .utils import raise_desc
+        raise_desc(ValueError, msg, s=strg, loc=loc, res_line=res_line,
+                   res_col=res_col, loc_recon=inverse)
+    return (res_line, res_col)
+
+def location(line, col, s):
+    lines = s.split('\n')
+    previous_lines = sum(len(l) + len('\n') for l in lines[:line])
+    offset = col
+    return previous_lines+ offset
 
 def add_prefix(s, prefix):
     result = ""

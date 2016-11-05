@@ -568,12 +568,13 @@ def new_contract_impl(identifier, condition):
             pass
 
     # Make sure it corresponds to our idea of identifier
-
-
     try:
         c = identifier_expression.parseString(identifier, parseAll=True)
     except ParseException as e:
-        where = Where(identifier, line=e.lineno, column=e.col)
+        loc = e.loc
+        if loc >= len(identifier):
+            loc -= 1
+        where = Where(identifier, character=loc) #line=e.lineno, column=e.col)
         # msg = 'Error in parsing string: %s' % e 
         msg = ('The given identifier %r does not correspond to my idea '
                'of what an identifier should look like;\n%s\n%s'

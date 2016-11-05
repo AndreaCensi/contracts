@@ -18,9 +18,6 @@ def parse_contract_string_actual(string):
     from .main import Storage, _cacheable, check_param_is_string
     from .syntax import ParseException, ParseFatalException, contract_expression
 
-
-#     load_extra()
-
     check_param_is_string(string)
 
     if string in Storage.string2contract:
@@ -35,11 +32,19 @@ def parse_contract_string_actual(string):
     except ContractDefinitionError as e:
         raise
     except ParseException as e:
-        where = Where(string, line=e.lineno, column=e.col)
+        loc = e.loc
+        if loc >= len(string):
+            # last character
+            loc -= 1
+        where = Where(string, character=loc)
         msg = '%s' % e
         raise ContractSyntaxError(msg, where=where)
     except ParseFatalException as e:
-        where = Where(string, line=e.lineno, column=e.col)
+        loc = e.loc
+        if loc >= len(string):
+            # last character
+            loc -= 1
+        where = Where(string, character=loc)
         msg = '%s' % e
         raise ContractSyntaxError(msg, where=where)
 
