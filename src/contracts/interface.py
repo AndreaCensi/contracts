@@ -14,7 +14,7 @@ class Where(object):
         
         
         Character should be >= len(string) (possibly outside the string).
-        Character_end should be > character (so that you can splice with 
+        Character_end should be >= character (so that you can splice with 
         string[character:character_end])
     """
 
@@ -25,18 +25,17 @@ class Where(object):
         
         if not (0 <= character <= len(string)):
             msg = 'Invalid character loc %s for string %r' % (character, string)
-            print msg
             raise ValueError(msg)
-#             if False:
-#                 while string[character] == ' ':
-#                     if character_end is not None:
-#                         assert character < character_end
-#                     if (character < (len(string) - 2)) and ((character_end is None)
-#                                                         or (character < character_end - 1)):
-#                         character += 1
-# #                         print('now string is %r' % string[character:character_end])
-#                     else:
-#                         break  
+            # Advance pointer if whitespace
+            # if False:
+            #     while string[character] == ' ':
+            #         if character_end is not None:
+            #             assert character <= character_end
+            #         if (character < (len(string) - 2)) and ((character_end is None)
+            #                                             or (character <= character_end - 1)):
+            #             character += 1
+            #         else:
+            #             break  
         self.line, self.col = line_and_col(character, string)
 
         if character_end is not None:
@@ -44,14 +43,11 @@ class Where(object):
                 msg = 'Invalid character_end loc %s for string %r' % (character, string)
                 raise ValueError(msg)
         
-            if not (character_end > character):
-                msg=  'Invalid interval [%d,%d)' % (character, character_end)
+            if not (character_end >= character):
+                msg=  'Invalid interval [%d:%d]' % (character, character_end)
                 raise ValueError(msg)
 
             self.line_end, self.col_end = line_and_col(character_end, string)
-#             assert self.col_end >= self.col, ((self.line, self.col), (self.line_end, self.col_end),
-#                                               string[character:character_end])
-    
         else:
             self.line_end, self.col_end = None, None
             
