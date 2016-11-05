@@ -13,8 +13,9 @@ class Where(object):
         so that we can output pretty error messages.
         
         
-        Both character and character_end should be inside the string.
-        They can be the same.
+        Character should be >= len(string) (possibly outside the string).
+        Character_end should be > character (so that you can splice with 
+        string[character:character_end])
     """
 
     def __init__(self, string, character, character_end=None):
@@ -22,8 +23,9 @@ class Where(object):
         if not isinstance(string, str):
             raise ValueError('I expect the string to be a str, not %r' % string)
         
-        if not (0 <= character < len(string)):
+        if not (0 <= character <= len(string)):
             msg = 'Invalid character loc %s for string %r' % (character, string)
+            print msg
             raise ValueError(msg)
 #             if False:
 #                 while string[character] == ' ':
@@ -38,20 +40,18 @@ class Where(object):
         self.line, self.col = line_and_col(character, string)
 
         if character_end is not None:
-            if not (character_end >= character):
-                msg=  'Invalid interval [%d,%d)' % (character, character_end)
+            if not (0 <= character_end <= len(string)):
+                msg = 'Invalid character_end loc %s for string %r' % (character, string)
                 raise ValueError(msg)
-
-            if character_end >= len(string):
-                msg = ('Invalid char = %d for s of len %d (%r)' % 
-                                 (character_end, len(string), string))
+        
+            if not (character_end > character):
+                msg=  'Invalid interval [%d,%d)' % (character, character_end)
                 raise ValueError(msg)
 
             self.line_end, self.col_end = line_and_col(character_end, string)
 #             assert self.col_end >= self.col, ((self.line, self.col), (self.line_end, self.col_end),
 #                                               string[character:character_end])
-        
-            
+    
         else:
             self.line_end, self.col_end = None, None
             
@@ -118,11 +118,18 @@ class Where(object):
 
 def line_and_col(loc, strg):
     """Returns (line, col), both 0 based."""
-    if loc >= len(strg):
-        raise ValueError('Invalid loc = %d for s of len %d (%r)' % 
-                         (loc, len(strg), strg))
     # first find the line 
     lines = strg.split('\n')
+    
+    if loc == len(strg):
+        # Special case: we mark the end of the string
+        last_line = len(lines) - 1
+        last_char = len(lines[-1]) 
+        return last_line, last_char + 1 
+        
+    if loc > len(strg):
+        raise ValueError('Invalid loc = %d for s of len %d (%r)' % 
+                         (loc, len(strg), strg))
     res_line = 0
     l = loc
     while True:
@@ -142,7 +149,7 @@ def line_and_col(loc, strg):
     if inverse != loc:
         msg = 'Could not find line and col'
         from .utils import raise_desc
-        raise_desc(ValueError, msg, s=strg, loc=loc, res_line=res_line,
+        raise_desc(AssertionError, msg, s=strg, loc=loc, res_line=res_line,
                    res_col=res_col, loc_recon=inverse)
     return (res_line, res_col)
 

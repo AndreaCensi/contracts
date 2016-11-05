@@ -32,19 +32,11 @@ def parse_contract_string_actual(string):
     except ContractDefinitionError as e:
         raise
     except ParseException as e:
-        loc = e.loc
-        if loc >= len(string):
-            # last character
-            loc -= 1
-        where = Where(string, character=loc)
+        where = Where(string, character=e.loc)
         msg = '%s' % e
         raise ContractSyntaxError(msg, where=where)
     except ParseFatalException as e:
-        loc = e.loc
-        if loc >= len(string):
-            # last character
-            loc -= 1
-        where = Where(string, character=loc)
+        where = Where(string, character=e.loc)
         msg = '%s' % e
         raise ContractSyntaxError(msg, where=where)
 

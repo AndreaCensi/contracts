@@ -21,11 +21,11 @@ def expression_parses(expression, string, all=True):  # @ReservedAssignment
     try:
         expression.parseString(string, parseAll=all)
     except ParseException as e:
-        where = Where(string, line=e.lineno, column=e.col)
+        where = Where(string, e.loc)
         msg = 'Error in parsing string: %s' % e
         raise ContractSyntaxError(msg, where=where)
     except ParseFatalException as e:
-        where = Where(string, line=e.lineno, column=e.col)
+        where = Where(string, e.loc)
         msg = 'Fatal error in parsing string: %s' % e
         raise ContractSyntaxError(msg, where=where)
 
