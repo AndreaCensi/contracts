@@ -145,11 +145,11 @@ def raise_wrapped(etype, e, msg, compact=False, exc=None, **kwargs):
     
     e = raise_wrapped_make(etype, e, msg, compact=compact, **kwargs)
     
-    if exc is not None:
-        _, _, trace = exc
-        raise etype, e.args, trace
-    else:
-        raise e
+#     if exc is not None:
+#         _, _, trace = exc
+#         raise etype, e.args, trace
+#     else:
+    raise e
     
 def raise_wrapped_make(etype, e, msg, compact=False, **kwargs):
     """ Constructs the exception to be thrown by raise_wrapped() """
