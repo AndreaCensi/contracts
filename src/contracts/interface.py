@@ -19,7 +19,6 @@ class Where(object):
     """
 
     def __init__(self, string, character, character_end=None):
-        
         if not isinstance(string, str):
             raise ValueError('I expect the string to be a str, not %r' % string)
         
@@ -54,10 +53,7 @@ class Where(object):
         self.string = string
         self.character = character
         self.character_end = character_end
-        self.filename = None
-        
-#         if self.line != self.line_end:
-#                 print self.__str__()
+        self.filename = None 
 
     def __repr__(self):
         if self.character_end is not None:
@@ -67,9 +63,6 @@ class Where(object):
             return 'Where(s=...,char=%s-%s,line=%s,col=%s)' % (self.character, self.character_end, self.line, self.col)
 
     def with_filename(self, filename):
-#         print(dict(string=self.string,
-#                    character=self.character, character_end=self.character_end,
-#                    line=self.line, col=self.col))
         if self.character is not  None:
             w2 = Where(string=self.string,
                    character=self.character, character_end=self.character_end)
@@ -81,7 +74,9 @@ class Where(object):
     def __str__(self):
         return format_where(self)
         
-def format_where(w, context_before=3, mark='here or nearby', arrow=True, use_unicode=True):
+# mark = 'here or nearby'
+def format_where(w, context_before=3, mark=None, arrow=True, 
+                 use_unicode=True, no_mark_arrow_if_longer_than=3):
     s = ''
     if w.filename:
         s += 'In file %r:\n' % w.filename
@@ -103,17 +98,24 @@ def format_where(w, context_before=3, mark='here or nearby', arrow=True, use_uni
             space += ' ' * (num_highlight/2)
         else:
             # cannot highlight if on different lines
+            num_highlight = None
             pass
+    else:
+        num_highlight = None
+    # Do not add the arrow and the mark if we have a long underline string 
     
-    if arrow:
-        if use_unicode:
-            s += space + '↑\n'
-        else:
-            s += space + '^\n'
-            s += space + '|\n'
-        
-    if mark is not None:
-        s += space + 'here or nearby'
+    disable_mark_arrow  = (num_highlight is not None) and (no_mark_arrow_if_longer_than <num_highlight) 
+    
+    if not disable_mark_arrow:
+        if arrow:
+            if use_unicode:
+                s += space + '↑\n'
+            else:
+                s += space + '^\n'
+                s += space + '|\n'
+            
+        if mark is not None:
+            s += space + mark
         
     s = s.rstrip()
     return s

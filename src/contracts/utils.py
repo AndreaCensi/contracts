@@ -1,8 +1,8 @@
+import traceback
 import warnings
 
-import traceback
+from .interface import describe_type, describe_value  # @UnusedImport # old interface
 
-from .interface import describe_type, describe_value # @UnusedImport # old interface
 
 __all__ = [
    'indent',
