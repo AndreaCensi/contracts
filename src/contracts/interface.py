@@ -23,7 +23,7 @@ class Where(object):
             raise ValueError('I expect the string to be a str, not %r' % string)
         
         if not (0 <= character <= len(string)):
-            msg = 'Invalid character loc %s for string %r' % (character, string)
+            msg = 'Invalid character loc %s for string %r of len %s.' % (character, string, len(string))
             raise ValueError(msg)
             # Advance pointer if whitespace
             # if False:
@@ -82,12 +82,18 @@ def format_where(w, context_before=3, mark=None, arrow=True,
         s += 'In file %r:\n' % w.filename
     lines = w.string.split('\n')
     start = max(0, w.line - context_before)
-    pattern = 'line %2d >'
+    pattern = 'line %2d |'
     i = 0
     maxi = i  + 1
     assert 0 <= w.line < len(lines), (w.character, w.line,  w.string.__repr__())
+    
+    # skip only initial empty lines - if one was written do not skip
+    one_written = False 
     for i in range(start, w.line + 1):
-        s += ("%s%s\n" % (pattern % (i+1), lines[i]))
+        # suppress empty lines
+        if one_written or lines[i].strip():
+            s += ("%s%s\n" % (pattern % (i+1), lines[i]))
+            one_written = True
         
     fill = len(pattern % maxi)
     space = ' ' * fill + ' ' * w.col
@@ -129,11 +135,13 @@ def line_and_col(loc, strg):
         # Special case: we mark the end of the string
         last_line = len(lines) - 1
         last_char = len(lines[-1]) 
-        return last_line, last_char + 1 
+        return last_line, last_char  
         
     if loc > len(strg):
-        raise ValueError('Invalid loc = %d for s of len %d (%r)' % 
+        msg = ('Invalid loc = %d for s of len %d (%r)' % 
                          (loc, len(strg), strg))
+        raise ValueError(msg)
+    
     res_line = 0
     l = loc
     while True:
@@ -142,7 +150,7 @@ def line_and_col(loc, strg):
             break
 
         first = lines[0]
-        if l > len(first) + len('\n'):
+        if l >= len(first) + len('\n'):
             lines = lines[1:]
             l -= (len(first) + len('\n'))
             res_line += 1
@@ -161,7 +169,7 @@ def location(line, col, s):
     lines = s.split('\n')
     previous_lines = sum(len(l) + len('\n') for l in lines[:line])
     offset = col
-    return previous_lines+ offset
+    return previous_lines + offset
 
 def add_prefix(s, prefix):
     result = ""
