@@ -19,12 +19,14 @@ class Where(object):
     """
 
     def __init__(self, string, character, character_end=None):
+        from contracts.utils import raise_desc
         if not isinstance(string, str):
             raise ValueError('I expect the string to be a str, not %r' % string)
         
         if not (0 <= character <= len(string)):
-            msg = 'Invalid character loc %s for string %r of len %s.' % (character, string, len(string))
-            raise ValueError(msg)
+            msg = ('Invalid character loc %s for string of len %s.' %
+                    (character, len(string)))
+            raise_desc(ValueError, msg, string=string.__repr__())
             # Advance pointer if whitespace
             # if False:
             #     while string[character] == ' ':
@@ -39,8 +41,10 @@ class Where(object):
 
         if character_end is not None:
             if not (0 <= character_end <= len(string)):
-                msg = 'Invalid character_end loc %s for string %r' % (character, string)
-                raise ValueError(msg)
+                msg = ('Invalid character_end loc %s for string of len %s.'% 
+                       (character_end, len(string)))
+                
+                raise_desc(ValueError, msg, string=string.__repr__())
         
             if not (character_end >= character):
                 msg=  'Invalid interval [%d:%d]' % (character, character_end)
@@ -166,6 +170,11 @@ def line_and_col(loc, strg):
     return (res_line, res_col)
 
 def location(line, col, s):
+    from .utils import check_isinstance
+    check_isinstance(line, int)
+    check_isinstance(col, int)
+    check_isinstance(s, str)
+    
     lines = s.split('\n')
     previous_lines = sum(len(l) + len('\n') for l in lines[:line])
     offset = col
