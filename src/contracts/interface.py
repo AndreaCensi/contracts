@@ -19,13 +19,14 @@ class Where(object):
     """
 
     def __init__(self, string, character, character_end=None):
-        
+        from contracts.utils import raise_desc
         if not isinstance(string, str):
             raise ValueError('I expect the string to be a str, not %r' % string)
         
         if not (0 <= character <= len(string)):
-            msg = 'Invalid character loc %s for string %r' % (character, string)
-            raise ValueError(msg)
+            msg = ('Invalid character loc %s for string of len %s.' %
+                    (character, len(string)))
+            raise_desc(ValueError, msg, string=string.__repr__())
             # Advance pointer if whitespace
             # if False:
             #     while string[character] == ' ':
@@ -40,8 +41,10 @@ class Where(object):
 
         if character_end is not None:
             if not (0 <= character_end <= len(string)):
-                msg = 'Invalid character_end loc %s for string %r' % (character, string)
-                raise ValueError(msg)
+                msg = ('Invalid character_end loc %s for string of len %s.'% 
+                       (character_end, len(string)))
+                
+                raise_desc(ValueError, msg, string=string.__repr__())
         
             if not (character_end >= character):
                 msg=  'Invalid interval [%d:%d]' % (character, character_end)
@@ -54,10 +57,7 @@ class Where(object):
         self.string = string
         self.character = character
         self.character_end = character_end
-        self.filename = None
-        
-#         if self.line != self.line_end:
-#                 print self.__str__()
+        self.filename = None 
 
     def __repr__(self):
         if self.character_end is not None:
@@ -67,9 +67,6 @@ class Where(object):
             return 'Where(s=...,char=%s-%s,line=%s,col=%s)' % (self.character, self.character_end, self.line, self.col)
 
     def with_filename(self, filename):
-#         print(dict(string=self.string,
-#                    character=self.character, character_end=self.character_end,
-#                    line=self.line, col=self.col))
         if self.character is not  None:
             w2 = Where(string=self.string,
                    character=self.character, character_end=self.character_end)
@@ -81,18 +78,26 @@ class Where(object):
     def __str__(self):
         return format_where(self)
         
-def format_where(w, context_before=3, mark='here or nearby', arrow=True, use_unicode=True):
+# mark = 'here or nearby'
+def format_where(w, context_before=3, mark=None, arrow=True, 
+                 use_unicode=True, no_mark_arrow_if_longer_than=3):
     s = ''
     if w.filename:
         s += 'In file %r:\n' % w.filename
     lines = w.string.split('\n')
     start = max(0, w.line - context_before)
-    pattern = 'line %2d >'
+    pattern = 'line %2d |'
     i = 0
     maxi = i  + 1
     assert 0 <= w.line < len(lines), (w.character, w.line,  w.string.__repr__())
+    
+    # skip only initial empty lines - if one was written do not skip
+    one_written = False 
     for i in range(start, w.line + 1):
-        s += ("%s%s\n" % (pattern % (i+1), lines[i]))
+        # suppress empty lines
+        if one_written or lines[i].strip():
+            s += ("%s%s\n" % (pattern % (i+1), lines[i]))
+            one_written = True
         
     fill = len(pattern % maxi)
     space = ' ' * fill + ' ' * w.col
@@ -103,23 +108,33 @@ def format_where(w, context_before=3, mark='here or nearby', arrow=True, use_uni
             space += ' ' * (num_highlight/2)
         else:
             # cannot highlight if on different lines
+            num_highlight = None
             pass
+    else:
+        num_highlight = None
+    # Do not add the arrow and the mark if we have a long underline string 
     
-    if arrow:
-        if use_unicode:
-            s += space + '↑\n'
-        else:
-            s += space + '^\n'
-            s += space + '|\n'
-        
-    if mark is not None:
-        s += space + 'here or nearby'
+    disable_mark_arrow  = (num_highlight is not None) and (no_mark_arrow_if_longer_than <num_highlight) 
+    
+    if not disable_mark_arrow:
+        if arrow:
+            if use_unicode:
+                s += space + '↑\n'
+            else:
+                s += space + '^\n'
+                s += space + '|\n'
+            
+        if mark is not None:
+            s += space + mark
         
     s = s.rstrip()
     return s
 
 def line_and_col(loc, strg):
     """Returns (line, col), both 0 based."""
+    from .utils import check_isinstance
+    check_isinstance(loc, int)
+    check_isinstance(strg, str)
     # first find the line 
     lines = strg.split('\n')
     
@@ -127,11 +142,13 @@ def line_and_col(loc, strg):
         # Special case: we mark the end of the string
         last_line = len(lines) - 1
         last_char = len(lines[-1]) 
-        return last_line, last_char + 1 
+        return last_line, last_char  
         
     if loc > len(strg):
-        raise ValueError('Invalid loc = %d for s of len %d (%r)' % 
+        msg = ('Invalid loc = %d for s of len %d (%r)' % 
                          (loc, len(strg), strg))
+        raise ValueError(msg)
+    
     res_line = 0
     l = loc
     while True:
@@ -140,7 +157,7 @@ def line_and_col(loc, strg):
             break
 
         first = lines[0]
-        if l > len(first) + len('\n'):
+        if l >= len(first) + len('\n'):
             lines = lines[1:]
             l -= (len(first) + len('\n'))
             res_line += 1
@@ -153,13 +170,19 @@ def line_and_col(loc, strg):
         from .utils import raise_desc
         raise_desc(AssertionError, msg, s=strg, loc=loc, res_line=res_line,
                    res_col=res_col, loc_recon=inverse)
+        
     return (res_line, res_col)
 
 def location(line, col, s):
+    from .utils import check_isinstance
+    check_isinstance(line, int)
+    check_isinstance(col, int)
+    check_isinstance(s, str)
+    
     lines = s.split('\n')
     previous_lines = sum(len(l) + len('\n') for l in lines[:line])
     offset = col
-    return previous_lines+ offset
+    return previous_lines + offset
 
 def add_prefix(s, prefix):
     result = ""
