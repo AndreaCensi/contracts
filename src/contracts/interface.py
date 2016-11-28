@@ -132,6 +132,9 @@ def format_where(w, context_before=3, mark=None, arrow=True,
 
 def line_and_col(loc, strg):
     """Returns (line, col), both 0 based."""
+    from .utils import check_isinstance
+    check_isinstance(loc, int)
+    check_isinstance(strg, str)
     # first find the line 
     lines = strg.split('\n')
     
@@ -167,6 +170,7 @@ def line_and_col(loc, strg):
         from .utils import raise_desc
         raise_desc(AssertionError, msg, s=strg, loc=loc, res_line=res_line,
                    res_col=res_col, loc_recon=inverse)
+        
     return (res_line, res_col)
 
 def location(line, col, s):
