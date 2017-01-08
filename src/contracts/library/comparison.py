@@ -1,8 +1,9 @@
-from ..interface import Contract, ContractNotRespected, RValue, eval_in_context
-from ..syntax import W, add_contract, O, Literal, isnumber, rvalue
 import math
+
 from pyparsing import Or
 
+from ..interface import Contract, ContractNotRespected, RValue, eval_in_context
+from ..syntax import W, add_contract, O, Literal, isnumber, rvalue
 
 
 class CheckOrder(Contract):

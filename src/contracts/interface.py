@@ -5,6 +5,7 @@ import sys
 from .metaclass import with_metaclass
 
 
+
 class Where(object):
     """
         An object of this class represents a place in a file, or an interval.
@@ -58,7 +59,16 @@ class Where(object):
         self.character = character
         self.character_end = character_end
         self.filename = None 
+    
+    def get_substring(self):
+        """ Returns the substring to which we refer. Raises error if character_end is None """
+        from contracts.utils import raise_desc
 
+        if self.character_end is None:
+            msg = 'Character end is None'
+            raise_desc(ValueError, msg, where=self)
+        return self.string[self.character:self.character_end]
+    
     def __repr__(self):
         if self.character_end is not None:
             part = self.string[self.character:self.character_end]
@@ -100,10 +110,17 @@ def format_where(w, context_before=3, mark=None, arrow=True,
             one_written = True
         
     fill = len(pattern % maxi)
-    space = ' ' * fill + ' ' * w.col
+    
+    # select the space before the string in the same column
+    char0 = location(w.line, 0, w.string) # from col 0
+    char0_end = location(w.line, w.col, w.string) # to w.col
+    space_before = Where(w.string, char0, char0_end)
+    
+    nindent = printable_length_where(space_before)
+    space = ' ' * fill + ' ' * nindent
     if w.col_end is not None:
         if w.line == w.line_end:
-            num_highlight = w.col_end - w.col
+            num_highlight = printable_length_where(w)
             s += space + '~' * num_highlight + '\n'
             space += ' ' * (num_highlight/2)
         else:
@@ -128,7 +145,21 @@ def format_where(w, context_before=3, mark=None, arrow=True,
             s += space + mark
         
     s = s.rstrip()
+    
+#     from .utils import indent
+#     s +='\n' + indent(w.string, '> ')
     return s
+
+
+def printable_length_where(w):
+    """ Returns the printable length of the substring """
+    if sys.version_info[0] >= 3:  # pragma: no cover
+        stype = str  
+    else:
+        stype = unicode
+    sub = w.string[w.character:w.character_end]
+    return len(stype(sub, 'utf-8'))
+
 
 def line_and_col(loc, strg):
     """Returns (line, col), both 0 based."""
