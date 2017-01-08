@@ -2,7 +2,6 @@ __version__ = '1.7.15'
 
 import logging
 
-logging.basicConfig()
 logger = logging.getLogger(__name__)
 
 from .interface import (Contract, ContractNotRespected,
