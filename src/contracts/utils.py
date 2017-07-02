@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import traceback
 import warnings
 
@@ -79,6 +80,9 @@ def format_dict_long(d, informal=False):
             res += '\n'
             
         s = _get_str(value, informal)
+        
+        if len(s) > 512:
+            s = s[:512] + ' [truncated]'
         res += indent(s, ' ', first=prefix)
     return res
 
