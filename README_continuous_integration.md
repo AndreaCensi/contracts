@@ -1,17 +1,17 @@
 # On continuous integration
 
-I have configured these two:
+I have configured these two CI services:
 
 - Travis
 - Shippable
 
-which allow to run on multiple versions of Python.
+because hey allow to run on multiple versions of Python.
 
 Patches are welcome to fix the failing cases!
 
 ## Travis
 
-Configuration in `.travis.yml`.
+Configuration in [`.travis.yml`](.travis.yml).
 
 Results: https://travis-ci.org/AndreaCensi/contracts/
 
@@ -19,6 +19,6 @@ Results: https://travis-ci.org/AndreaCensi/contracts/
 
 ## Shippable
 
-Configuration in `shippable.yml`.
+Configuration in [`shippable.yml`](shippable.yml).
 
 Results: https://app.shippable.com/github/AndreaCensi/contracts
