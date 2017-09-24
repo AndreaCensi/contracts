@@ -107,6 +107,7 @@ rvalue << op(operand, [
     ('*', 2, opAssoc.LEFT, Binary.parse_action),
     ('-', 2, opAssoc.LEFT, Binary.parse_action),
     ('+', 2, opAssoc.LEFT, Binary.parse_action),
+    ('^', 2, opAssoc.LEFT, Binary.parse_action),
 ])
 
 
