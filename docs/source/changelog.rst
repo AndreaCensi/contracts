@@ -7,13 +7,33 @@
 Changelog
 =========
 
-.. _changelog: 
+.. _changelog:
 
-1.7.7 
--------
+1.8 -- 2017-09-24
+-----------------
+
+Summary of changes:
+
+* Added "a^b" notation (Stefan Ulbrich) - needs tests.
+
+* now logging.basicConfig() is not changed anymore.
+
+* contracts for file-like objects (Jonathan Sharpe)
+
+* Disabled the line ".library import miscellaneous_aliases"; things
+  that were not documented and nobody missed.
+
+* Many little improvements in the way errors are visualized.
+
+* Moved to twine.
+
+
+
+1.7.7 -- 2016-02-03
+-------------------
 
 * Not operator ``!``.
- 
+
 1.7.6 -- 2015-06-01
 -------------------
 
@@ -27,7 +47,7 @@ Changelog
 This does what is expected: ::
 
     from module import MyClass
- 
+
     @contract(x='list($MyClass)')
     def f(x):
       pass
@@ -51,7 +71,7 @@ This does what is expected: ::
      @new_contract
      def greater_than(value, thresh):
          return value > thresh
-     
+
      @contract(x='greater_than(3)'')
      def f(x):
          ...
@@ -103,7 +123,7 @@ Mainly performance improvements and cosmetic changes.
 -------------------
 
 * Various minor internal improvements on speed and better error messages
-* Introduced new "string" and "unicode" keywords (due to Xion) and 
+* Introduced new "string" and "unicode" keywords (due to Xion) and
   clarified the meaning of strings in general.
 
 New behavior:
@@ -112,7 +132,7 @@ New behavior:
 * "str" matches the "str" type only (so ANSI strings in 2.x and all/Unicode strings in 3.x)
 * "string" matches both str and unicode in 2.x and just "str" in 3.X
 
-Because the new behavior should not break any existing usage, 
+Because the new behavior should not break any existing usage,
 this remains a "1.x" release.
 
 
@@ -136,7 +156,7 @@ Main changes:
 
 * Fixed bug that did not allow to define new contracts with name such as `list_`` if ``list``
   is already defined.
-  
+
 * Performance much improved when contracts is disabled; now the overhead is only an extra function call.
 
 
@@ -155,9 +175,9 @@ Performance improvements:
 
 New experimental features:
 
-* Contracts for class methods (suggestion by William Furr). 
+* Contracts for class methods (suggestion by William Furr).
   Documentation still to write; here's an example: ::
-  
+
     from contracts import new_contract, contract
 
     class Game(object):
@@ -174,7 +194,7 @@ New experimental features:
         @contract(move='legal_move')
         def take_turn(self, move):
             pass
-        
+
     game = Game(legal_moves=[1,2,3])
     game.take_turn(1) # ok
     game.take_turn(5) # raises exception
@@ -189,20 +209,20 @@ New features:
 * Interface change: the decorator is now called ``contract`` instead of ``contracts``,
   because ``from contracts import contracts`` looked quite clumsy
   (the old form is still available).
-  
+
 * The ``@contract`` decorator now changes the function's docstring to show the contracts for the parameters. See `an example application`__.
 
 * Implemented the generic contracts ``seq`` and ``map`` that
-  generalize ``list`` and ``dict`` when any Sequence or Mapping will do. 
-  
+  generalize ``list`` and ``dict`` when any Sequence or Mapping will do.
+
 * Added element-by-element tests in ``array``. Now in an expression of the
   kind ``array(>=0|<-1)`` the expression will be evaluate element by element.
 
 * Implemented ``pi`` as a special constant that can be used in the contracts.
 
-* Now it is possible to give more context to calls to ``check`` and ``fail`` 
-  through the use of keywords variable. For example:: 
-  
+* Now it is possible to give more context to calls to ``check`` and ``fail``
+  through the use of keywords variable. For example::
+
       check('array[*xM]', a,  M=2)
 
 * Added a function ``disable_all()`` that disables all testing done by PyContracts.
@@ -214,9 +234,9 @@ Various fixes:
 
 * Much better error messages.
 
-* The functions signatures are now conserved  (using the ``decorator`` module). 
-      
-* ``Contract`` objects and Exceptions can be safely pickled. 
+* The functions signatures are now conserved  (using the ``decorator`` module).
+
+* ``Contract`` objects and Exceptions can be safely pickled.
 
 * In many cases, the exceptions are caught and re-raised to give a clearer stack trace.
 
