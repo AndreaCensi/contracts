@@ -158,7 +158,10 @@ def printable_length_where(w):
     else:
         stype = unicode
     sub = w.string[w.character:w.character_end]
-    return len(stype(sub, 'utf-8'))
+    # return len(stype(sub, 'utf-8'))
+    # I am not really sure this is what we want
+    return len(stype(sub))
+    
 
 
 def line_and_col(loc, strg):
