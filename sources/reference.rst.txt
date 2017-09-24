@@ -52,6 +52,22 @@ Lower-case letters denote general-purpose variables that can bind to any type::
    bind to integers, which helps in catching mistakes.
 
 
+
+Scoped variables
+---------------------------------------------
+
+Contracts can refer to external variables using ``$PythonVariable``. For example, a typical application is the following: ::
+
+
+    from module import MyClass
+ 
+    @contract(x='list($MyClass)')
+    def f(x):
+      pass
+
+
+.. include:: menu.txt
+
 Logical expressions
 -------------------
 

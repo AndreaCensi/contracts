@@ -1,30 +1,28 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>contracts.testing.test_idioms &mdash; PyContracts 1.7.2 documentation</title>
-    
+    <title>contracts.testing.test_idioms &#8212; PyContracts 1.7.16 documentation</title>
     <link rel="stylesheet" href="../../../static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '1.7.2',
+        VERSION:     '1.7.16',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../static/jquery.js"></script>
     <script type="text/javascript" src="../../../static/underscore.js"></script>
     <script type="text/javascript" src="../../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.7.2 documentation" href="../../../index.html" />
-    <link rel="up" title="contracts" href="../../contracts.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -50,7 +48,7 @@
 
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -60,9 +58,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.2 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.16 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../contracts.html" accesskey="U">contracts</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -72,123 +70,124 @@
           <div class="body" role="main">
             
   <h1>Source code for contracts.testing.test_idioms</h1><div class="highlight"><pre>
-<span class="kn">import</span> <span class="nn">unittest</span>
+<span></span><span class="kn">import</span> <span class="nn">unittest</span>
 
-<span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="p">(</span><span class="n">check</span><span class="p">,</span> <span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">Contract</span><span class="p">,</span> <span class="n">parse</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">contracts</span> <span class="k">import</span> <span class="p">(</span><span class="n">check</span><span class="p">,</span> <span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">Contract</span><span class="p">,</span> <span class="n">parse</span><span class="p">,</span>
                        <span class="n">check_multiple</span><span class="p">,</span> <span class="n">ContractSyntaxError</span><span class="p">,</span> <span class="n">fail</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="TestIdioms"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_idioms.TestIdioms">[docs]</a><span class="k">class</span> <span class="nc">TestIdioms</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
 
 <div class="viewcode-block" id="TestIdioms.test_check_1"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_idioms.TestIdioms.test_check_1">[docs]</a>    <span class="k">def</span> <span class="nf">test_check_1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple(int,int)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s1">&#39;tuple(int,int)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
-</div>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="TestIdioms.test_check_1a"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_idioms.TestIdioms.test_check_1a">[docs]</a>    <span class="k">def</span> <span class="nf">test_check_1a</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">check</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">check</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="TestIdioms.test_parse_1"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_idioms.TestIdioms.test_parse_1">[docs]</a>    <span class="k">def</span> <span class="nf">test_parse_1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">contract</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&#39;&gt;0&#39;</span><span class="p">)</span>
+        <span class="n">contract</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s1">&#39;&gt;0&#39;</span><span class="p">)</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">contract</span><span class="p">,</span> <span class="n">Contract</span><span class="p">)</span>
         <span class="n">contract</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">contract</span><span class="o">.</span><span class="n">check</span><span class="p">,</span> <span class="s">&#39;ciao&#39;</span><span class="p">)</span>
-</div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">contract</span><span class="o">.</span><span class="n">check</span><span class="p">,</span> <span class="s1">&#39;ciao&#39;</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="TestIdioms.test_parse_2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_idioms.TestIdioms.test_parse_2">[docs]</a>    <span class="k">def</span> <span class="nf">test_parse_2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractSyntaxError</span><span class="p">,</span> <span class="n">parse</span><span class="p">,</span> <span class="s">&#39;&gt;&gt;&#39;</span><span class="p">)</span>
-</div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractSyntaxError</span><span class="p">,</span> <span class="n">parse</span><span class="p">,</span> <span class="s1">&#39;&gt;&gt;&#39;</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="TestIdioms.test_check_2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_idioms.TestIdioms.test_check_2">[docs]</a>    <span class="k">def</span> <span class="nf">test_check_2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractNotRespected</span><span class="p">,</span>
-                          <span class="n">check</span><span class="p">,</span> <span class="s">&#39;tuple(int,int)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-</div>
+                          <span class="n">check</span><span class="p">,</span> <span class="s1">&#39;tuple(int,int)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span></div>
+
 <div class="viewcode-block" id="TestIdioms.test_check_3"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_idioms.TestIdioms.test_check_3">[docs]</a>    <span class="k">def</span> <span class="nf">test_check_3</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractSyntaxError</span><span class="p">,</span>
-                          <span class="n">check</span><span class="p">,</span> <span class="s">&#39;tuple(&gt;&gt;int,int)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-</div>
+                          <span class="n">check</span><span class="p">,</span> <span class="s1">&#39;tuple(&gt;&gt;int,int)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span></div>
+
 <div class="viewcode-block" id="TestIdioms.test_check_4"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_idioms.TestIdioms.test_check_4">[docs]</a>    <span class="k">def</span> <span class="nf">test_check_4</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;Player score must be a tuple of 2 int.&#39;</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Player score must be a tuple of 2 int.&#39;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple(int,int)&#39;</span><span class="p">,</span> <span class="n">score</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+            <span class="n">check</span><span class="p">(</span><span class="s1">&#39;tuple(int,int)&#39;</span><span class="p">,</span> <span class="n">score</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">ContractNotRespected</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
             <span class="k">assert</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">s</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="bp">False</span>
-</div>
+            <span class="k">assert</span> <span class="kc">False</span></div>
+
 <div class="viewcode-block" id="TestIdioms.test_repr_1"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_idioms.TestIdioms.test_repr_1">[docs]</a>    <span class="k">def</span> <span class="nf">test_repr_1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">contract</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&#39; list[N](int), N &gt; 0&#39;</span><span class="p">)</span>
+        <span class="n">contract</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s1">&#39; list[N](int), N &gt; 0&#39;</span><span class="p">)</span>
 
-        <span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">contract</span><span class="p">)</span>   <span class="c"># =&gt; &#39;list[N](int),N&gt;0&#39;</span>
-        <span class="p">(</span><span class="s">&quot;</span><span class="si">%r</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">contract</span><span class="p">)</span>   <span class="c"># =&gt; And([List(BindVariable(&#39;N&#39;,int),...</span>
-</div>
+        <span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">contract</span><span class="p">)</span>   <span class="c1"># =&gt; &#39;list[N](int),N&gt;0&#39;</span>
+        <span class="p">(</span><span class="s2">&quot;</span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">contract</span><span class="p">)</span>   <span class="c1"># =&gt; And([List(BindVariable(&#39;N&#39;,int),...</span></div>
+
 <div class="viewcode-block" id="TestIdioms.test_binding"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_idioms.TestIdioms.test_binding">[docs]</a>    <span class="k">def</span> <span class="nf">test_binding</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">context</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s">&#39;list[N](str), N&gt;0&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">])</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="s1">&#39;list[N](str), N&gt;0&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">])</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="s">&#39;N&#39;</span> <span class="ow">in</span> <span class="n">context</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">context</span><span class="p">[</span><span class="s">&#39;N&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
-</div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="s1">&#39;N&#39;</span> <span class="ow">in</span> <span class="n">context</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">context</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="TestIdioms.test_check_multiple_1"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_idioms.TestIdioms.test_check_multiple_1">[docs]</a>    <span class="k">def</span> <span class="nf">test_check_multiple_1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
                 <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]</span>
-        <span class="n">row_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;first season&#39;</span><span class="p">,</span> <span class="s">&#39;second season&#39;</span><span class="p">]</span>
-        <span class="n">col_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Team1&#39;</span><span class="p">,</span> <span class="s">&#39;Team2&#39;</span><span class="p">,</span> <span class="s">&#39;Team3&#39;</span><span class="p">]</span>
+        <span class="n">row_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;first season&#39;</span><span class="p">,</span> <span class="s1">&#39;second season&#39;</span><span class="p">]</span>
+        <span class="n">col_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Team1&#39;</span><span class="p">,</span> <span class="s1">&#39;Team2&#39;</span><span class="p">,</span> <span class="s1">&#39;Team3&#39;</span><span class="p">]</span>
 
-        <span class="n">spec</span> <span class="o">=</span> <span class="p">[(</span><span class="s">&#39;list[C](str),C&gt;0&#39;</span><span class="p">,</span> <span class="n">col_labels</span><span class="p">),</span>
-                <span class="p">(</span><span class="s">&#39;list[R](str),R&gt;0&#39;</span><span class="p">,</span> <span class="n">row_labels</span><span class="p">),</span>
-                <span class="p">(</span><span class="s">&#39;list[R](list[C])&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)]</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;list[C](str),C&gt;0&#39;</span><span class="p">,</span> <span class="n">col_labels</span><span class="p">),</span>
+                <span class="p">(</span><span class="s1">&#39;list[R](str),R&gt;0&#39;</span><span class="p">,</span> <span class="n">row_labels</span><span class="p">),</span>
+                <span class="p">(</span><span class="s1">&#39;list[R](list[C])&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)]</span>
         <span class="n">check_multiple</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
 
-        <span class="c"># now with description </span>
+        <span class="c1"># now with description </span>
         <span class="n">check_multiple</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span>
-                        <span class="s">&#39;I expect col_labels, row_labels, data to &#39;</span>
-                        <span class="s">&#39;have coherent dimensions.&#39;</span><span class="p">)</span>
+                        <span class="s1">&#39;I expect col_labels, row_labels, data to &#39;</span>
+                        <span class="s1">&#39;have coherent dimensions.&#39;</span><span class="p">)</span>
 
         <span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
-        <span class="n">spec</span> <span class="o">=</span> <span class="p">[(</span><span class="s">&#39;list[C](str),C&gt;0&#39;</span><span class="p">,</span> <span class="n">col_labels</span><span class="p">),</span>
-                <span class="p">(</span><span class="s">&#39;list[R](str),R&gt;0&#39;</span><span class="p">,</span> <span class="n">row_labels</span><span class="p">),</span>
-                <span class="p">(</span><span class="s">&#39;list[R](list[C])&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)]</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;list[C](str),C&gt;0&#39;</span><span class="p">,</span> <span class="n">col_labels</span><span class="p">),</span>
+                <span class="p">(</span><span class="s1">&#39;list[R](str),R&gt;0&#39;</span><span class="p">,</span> <span class="n">row_labels</span><span class="p">),</span>
+                <span class="p">(</span><span class="s1">&#39;list[R](list[C])&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">check_multiple</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">check_multiple</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span>
-                          <span class="s">&#39;my message&#39;</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="TestIdioms.test_symbols"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_idioms.TestIdioms.test_symbols">[docs]</a>    <span class="k">def</span> <span class="nf">test_symbols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contract_expression</span>  <span class="c"># @UnusedImport</span>
-        <span class="c"># TODO: type</span>
-</div>
+                          <span class="s1">&#39;my message&#39;</span><span class="p">)</span></div>
+
+<span class="c1">#     def test_symbols(self):</span>
+<span class="c1">#         from contracts import contract_expression  # @UnusedImport</span>
+        <span class="c1"># TODO: type</span>
+
 <div class="viewcode-block" id="TestIdioms.test_equality_contract"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_idioms.TestIdioms.test_equality_contract">[docs]</a>    <span class="k">def</span> <span class="nf">test_equality_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">c1</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&#39;list[C](str),C&gt;0&#39;</span><span class="p">)</span>
-        <span class="n">c2</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&#39;list[C](str),C&gt;0&#39;</span><span class="p">)</span>
-        <span class="n">c3</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&#39;list[R](str),R&gt;0&#39;</span><span class="p">)</span>
+        <span class="n">c1</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s1">&#39;list[C](str),C&gt;0&#39;</span><span class="p">)</span>
+        <span class="n">c2</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s1">&#39;list[C](str),C&gt;0&#39;</span><span class="p">)</span>
+        <span class="n">c3</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s1">&#39;list[R](str),R&gt;0&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c3</span><span class="p">)</span>
-</div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c3</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="TestIdioms.test_equality_rvalue"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_idioms.TestIdioms.test_equality_rvalue">[docs]</a>    <span class="k">def</span> <span class="nf">test_equality_rvalue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">c1</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&#39;N+1&#39;</span><span class="p">)</span>
-        <span class="n">c2</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&#39;N+2&#39;</span><span class="p">)</span>
-        <span class="n">c3</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&#39;P+1&#39;</span><span class="p">)</span>
+        <span class="n">c1</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s1">&#39;N+1&#39;</span><span class="p">)</span>
+        <span class="n">c2</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s1">&#39;N+2&#39;</span><span class="p">)</span>
+        <span class="n">c3</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s1">&#39;P+1&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span> <span class="n">c2</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">c3</span><span class="p">,</span> <span class="n">c3</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c3</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span> <span class="n">c3</span><span class="p">)</span>
-</div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span> <span class="n">c3</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="TestIdioms.test_check_context"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_idioms.TestIdioms.test_check_context">[docs]</a>    <span class="k">def</span> <span class="nf">test_check_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">check</span><span class="p">(</span><span class="s">&#39;N&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">fail</span><span class="p">(</span><span class="s">&#39;N&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">check</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">fail</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">check</span><span class="p">,</span> <span class="s">&#39;N&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">check</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">fail</span><span class="p">,</span> <span class="s">&#39;N&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">fail</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="TestIdioms.test_check_context2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.test_idioms.TestIdioms.test_check_context2">[docs]</a>    <span class="k">def</span> <span class="nf">test_check_context2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Variable names must have only one letter. &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">check</span><span class="p">,</span> <span class="s">&#39;N&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NN</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">check</span><span class="p">,</span> <span class="s">&#39;N&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nn</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</pre></div></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">check</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NN</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">check</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nn</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div></div>
+
+</pre></div>
 
           </div>
         </div>
@@ -198,14 +197,11 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -221,15 +217,15 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.2 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../../contracts.html" >contracts</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.16 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../contracts.html" >contracts</a> &#187;</li> 
       </ul>
     </div>
 	
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+        &#169; Copyright 2010, Andrea Censi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
 	
     <script type="text/javascript">

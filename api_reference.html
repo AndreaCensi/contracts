@@ -1,29 +1,28 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>PyContracts public API reference &mdash; PyContracts 1.7.2 documentation</title>
-    
+    <title>PyContracts public API reference &#8212; PyContracts 1.7.16 documentation</title>
     <link rel="stylesheet" href="static/classic.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.7.2',
+        VERSION:     '1.7.16',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.7.2 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -49,7 +48,7 @@
 
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -59,7 +58,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PyContracts 1.7.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PyContracts 1.7.16 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -68,36 +67,36 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="col1 container">
+  <div class="col1 docutils container">
 <p><strong>User documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="index.html#introduction"><span>Introduction to PyContracts</span></a></li>
-<li><a class="reference internal" href="tour.html#quick-tour"><span>Quick tour</span></a></li>
+<li><a class="reference internal" href="index.html#introduction"><span class="std std-ref">Introduction to PyContracts</span></a></li>
+<li><a class="reference internal" href="tour.html#quick-tour"><span class="std std-ref">Quick tour</span></a></li>
 <li>Reference:<ul>
-<li><a class="reference internal" href="api.html#api"><span>API for specifying contracts</span></a></li>
-<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><span>Using the ContractsMeta meta-class</span></a></li>
-<li><a class="reference internal" href="new_contract.html#new-contract"><span>Creating new contracts using new_contract</span></a></li>
+<li><a class="reference internal" href="api.html#api"><span class="std std-ref">API for specifying contracts</span></a></li>
+<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><span class="std std-ref">Using the ContractsMeta meta-class</span></a></li>
+<li><a class="reference internal" href="new_contract.html#new-contract"><span class="std std-ref">Creating new contracts using new_contract</span></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="reference.html#contracts-language-reference"><span>Language reference</span></a></li>
+<li><a class="reference internal" href="reference.html#contracts-language-reference"><span class="std std-ref">Language reference</span></a></li>
 </ul>
 </div>
-<div class="col2 container">
+<div class="col2 docutils container">
 <p><strong>Developer documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="changelog.html#the-changelog"><span>Changelog</span></a></li>
-<li><a class="reference internal" href="overhead.html#overhead"><span>PyContracts overhead in production and in testing</span></a></li>
-<li><a class="reference internal" href="#api-reference"><span>PyContracts public API reference</span></a></li>
-<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><span>PyContracts low-level API</span></a></li>
-<li><a class="reference internal" href="credits.html#credits"><span>Credits</span></a></li>
+<li><a class="reference internal" href="changelog.html#the-changelog"><span class="std std-ref">Changelog</span></a></li>
+<li><a class="reference internal" href="overhead.html#overhead"><span class="std std-ref">PyContracts overhead in production and in testing</span></a></li>
+<li><a class="reference internal" href="#api-reference"><span class="std std-ref">PyContracts public API reference</span></a></li>
+<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><span class="std std-ref">PyContracts low-level API</span></a></li>
+<li><a class="reference internal" href="credits.html#credits"><span class="std std-ref">Credits</span></a></li>
 </ul>
 </div>
 <div style="clear:left"/><div class="section" id="pycontracts-public-api-reference">
 <span id="api-reference"></span><h1>PyContracts public API reference<a class="headerlink" href="#pycontracts-public-api-reference" title="Permalink to this headline">¶</a></h1>
-<p>This section provides a reference to <span class="brand">PyContracts</span>&#8216; public interface.</p>
+<p>This section provides a reference to <span class="brand">PyContracts</span>’ public interface.</p>
 <ul class="simple">
-<li>See <a class="reference internal" href="api.html#api"><span>API for specifying contracts</span></a> for a more friendly discussion.</li>
-<li>See <a class="reference internal" href="reference.html#contracts-language-reference"><span>Language reference</span></a> for a reference on the domain-specific language.</li>
+<li>See <a class="reference internal" href="api.html#api"><span class="std std-ref">API for specifying contracts</span></a> for a more friendly discussion.</li>
+<li>See <a class="reference internal" href="reference.html#contracts-language-reference"><span class="std std-ref">Language reference</span></a> for a reference on the domain-specific language.</li>
 </ul>
 <span class="target" id="module-contracts"></span><div class="section" id="decorating-a-function">
 <h2>Decorating a function<a class="headerlink" href="#decorating-a-function" title="Permalink to this headline">¶</a></h2>
@@ -110,24 +109,24 @@ arguments and keyword arguments.</p>
 <p>There are three ways to specify the contracts. In order of precedence:</p>
 <ul>
 <li><p class="first">As arguments to this decorator. For example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int,&gt;0&#39;</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;0&#39;</span><span class="p">,</span><span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s1">&#39;int,&gt;0&#39;</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="s1">&#39;list[N],N&gt;0&#39;</span><span class="p">,</span><span class="n">returns</span><span class="o">=</span><span class="s1">&#39;list[N]&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-    <span class="c"># ...</span>
+    <span class="c1"># ...</span>
     <span class="k">pass</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first">As annotations (supported only in Python 3):</p>
-<div class="highlight-python"><div class="highlight"><pre>@contract
-def my_function(a:&#39;int,&gt;0&#39;, b:&#39;list[N],N&gt;0&#39;) -&gt; &#39;list[N]&#39;:
-    # ...
-    pass
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@contract</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="s1">&#39;int,&gt;0&#39;</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span><span class="s1">&#39;list[N],N&gt;0&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;list[N]&#39;</span><span class="p">:</span>
+    <span class="c1"># ...</span>
+    <span class="k">pass</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">Using <code class="docutils literal"><span class="pre">:type:</span></code> and <code class="docutils literal"><span class="pre">:rtype:</span></code> tags in the function&#8217;s docstring:</p>
-<div class="highlight-python"><div class="highlight"><pre>@contract
-def my_function(a, b):
+<li><p class="first">Using <code class="docutils literal"><span class="pre">:type:</span></code> and <code class="docutils literal"><span class="pre">:rtype:</span></code> tags in the function’s docstring:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@contract</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
 </pre></div>
 </div>
 </li>
@@ -184,9 +183,9 @@ described by <code class="docutils literal"><span class="pre">contract</span></c
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>contract</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The contract string.</li>
-<li><strong>object</strong> (<code class="docutils literal"><span class="pre">*</span></code>) &#8211; Any object.</li>
-<li><strong>desc</strong> (<code class="docutils literal"><span class="pre">None|str</span></code>) &#8211; An optional description of the error. If given,
+<li><strong>contract</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The contract string.</li>
+<li><strong>object</strong> (<code class="docutils literal"><span class="pre">*</span></code>) – Any object.</li>
+<li><strong>desc</strong> (<code class="docutils literal"><span class="pre">None|str</span></code>) – An optional description of the error. If given,
 it is included in the error message.</li>
 </ul>
 </td>
@@ -206,8 +205,8 @@ the others.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>couples</strong> (<code class="docutils literal"><span class="pre">list[&gt;0](tuple(str,</span> <span class="pre">*))</span></code>) &#8211; A list of tuple (contract, value) to check.</li>
-<li><strong>desc</strong> (<code class="docutils literal"><span class="pre">None|str</span></code>) &#8211; An optional description of the error. If given,
+<li><strong>couples</strong> (<code class="docutils literal"><span class="pre">list[&gt;0](tuple(str,</span> <span class="pre">*))</span></code>) – A list of tuple (contract, value) to check.</li>
+<li><strong>desc</strong> (<code class="docutils literal"><span class="pre">None|str</span></code>) – An optional description of the error. If given,
 it is included in the error message.</li>
 </ul>
 </td>
@@ -231,8 +230,8 @@ a function.</p>
 <p><strong>1) Use as a function.</strong> The first parameter must be a string.
 The second parameter can be either
 a string or a callable function.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;new_contract_name&#39;</span><span class="p">,</span> <span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
-<span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;new_contract_name&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">new_contract</span><span class="p">(</span><span class="s1">&#39;new_contract_name&#39;</span><span class="p">,</span> <span class="s1">&#39;list[N]&#39;</span><span class="p">)</span>
+<span class="n">new_contract</span><span class="p">(</span><span class="s1">&#39;new_contract_name&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="p">)</span>
 </pre></div>
 </div>
 <ul>
@@ -244,7 +243,7 @@ for that expression.</p>
 <ul class="simple">
 <li>return True or None, to signify it accepts.</li>
 <li>return False or raise ValueError or AssertionError,
-to signify it doesn&#8217;t.</li>
+to signify it doesn’t.</li>
 </ul>
 <p>If ValueError is raised, its message is used in the error.</p>
 </li>
@@ -252,7 +251,7 @@ to signify it doesn&#8217;t.</li>
 <p><strong>2) Use as a decorator.</strong></p>
 <p>Or, it can be used as a decorator (without arguments).
 The function name is used as the identifier.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@new_contract</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@new_contract</span>
 <span class="k">def</span> <span class="nf">new_contract_name</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
 </pre></div>
@@ -265,13 +264,13 @@ using <a class="reference internal" href="#contracts.Contract.check" title="cont
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>identifier</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The identifier must be a string not already in use
+<li><strong>identifier</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The identifier must be a string not already in use
 (you cannot redefine <code class="docutils literal"><span class="pre">list</span></code>, <code class="docutils literal"><span class="pre">tuple</span></code>, etc.).</li>
-<li><strong>condition</strong> (<code class="docutils literal"><span class="pre">type|callable|str</span></code>) &#8211; Definition of the new contract.</li>
+<li><strong>condition</strong> (<code class="docutils literal"><span class="pre">type|callable|str</span></code>) – Definition of the new contract.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The equivalent contract &#8211; might be useful for debugging.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The equivalent contract – might be useful for debugging.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="api/contracts.html#contracts.interface.Contract" title="contracts.interface.Contract">Contract</a></p>
@@ -317,20 +316,20 @@ Raises an exception if it does.</p>
 <dt id="contracts.Contract.__repr__">
 <code class="descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/contracts/interface.html#Contract.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.Contract.__repr__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a string representation of a contract that can be
-evaluated by Python&#8217;s <a class="reference external" href="http://docs.python.org/library/functions.html#eval" title="(in Python v2.7)"><code class="xref py py-func docutils literal"><span class="pre">eval()</span></code></a>.</p>
+evaluated by Python’s <a class="reference external" href="https://docs.python.org/2/library/functions.html#eval" title="(in Python v2.7)"><code class="xref py py-func docutils literal"><span class="pre">eval()</span></code></a>.</p>
 <p>It must hold that: <code class="docutils literal"><span class="pre">eval(contract.__repr__())</span> <span class="pre">==</span> <span class="pre">contract</span></code>.
 This is checked in the unit-tests.</p>
 <p>Example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">parse</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span><span class="o">.</span><span class="n">__repr__</span><span class="p">()</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contracts</span> <span class="k">import</span> <span class="n">parse</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s1">&#39;list[N]&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
 <span class="go">&quot;List(BindVariable(&#39;N&#39;,int),None)&quot;</span>
 </pre></div>
 </div>
 <p>All the symbols you need to eval() the expression are in
 <a class="reference internal" href="api/contracts.library.html#module-contracts.library" title="contracts.library"><code class="xref py py-mod docutils literal"><span class="pre">contracts.library</span></code></a>.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contracts.library</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span> <span class="o">==</span> <span class="nb">eval</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%r</span><span class="s">&quot;</span><span class="o">%</span><span class="n">contract</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contracts.library</span> <span class="k">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span> <span class="o">==</span> <span class="nb">eval</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%r</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">contract</span><span class="p">)</span>
 <span class="go">True</span>
 </pre></div>
 </div>
@@ -344,8 +343,8 @@ reparsed by <a class="reference internal" href="#contracts.parse" title="contrac
 <p>It must hold that: <code class="docutils literal"><span class="pre">parse(str(contract))</span> <span class="pre">==</span> <span class="pre">contract</span></code>.
 This is checked in the unit-tests.</p>
 <p>Example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">parse</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span> <span class="o">=</span> <span class="s">&#39;list[N]&#39;</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contracts</span> <span class="k">import</span> <span class="n">parse</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span> <span class="o">=</span> <span class="s1">&#39;list[N]&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span>
 <span class="go">List(BindVariable(&#39;N&#39;,int),None)</span>
@@ -355,26 +354,26 @@ This is checked in the unit-tests.</p>
 </div>
 <p>The expressions generated by <a class="reference internal" href="#contracts.Contract.__str__" title="contracts.Contract.__str__"><code class="xref py py-func docutils literal"><span class="pre">Contract.__str__()</span></code></a> will be
 exactly the same as what was parsed (this is checked in the
-unittests as well) if and only if the expression is &#8220;minimal&#8221;.
-If it isn&#8217;t (there is whitespace or redundant symbols),
+unittests as well) if and only if the expression is “minimal”.
+If it isn’t (there is whitespace or redundant symbols),
 the returned expression will be an equivalent minimal one.</p>
 <p>Example with extra parenthesis and whitespace:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">parse</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">verbose_spec</span> <span class="o">=</span> <span class="s">&#39;list[((N))]( int, &gt; 0)&#39;</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contracts</span> <span class="k">import</span> <span class="n">parse</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">verbose_spec</span> <span class="o">=</span> <span class="s1">&#39;list[((N))]( int, &gt; 0)&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">verbose_spec</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">contract</span><span class="p">)</span>
 <span class="go">&#39;list[N](int,&gt;0)&#39;</span>
 </pre></div>
 </div>
 <p>Example that removes extra parentheses around arithmetic operators:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">verbose_spec</span> <span class="o">=</span> <span class="s">&#39;=1+(1*2)+(2+4)&#39;</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">verbose_spec</span> <span class="o">=</span> <span class="s1">&#39;=1+(1*2)+(2+4)&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">parse</span><span class="p">(</span><span class="n">verbose_spec</span><span class="p">))</span>
 <span class="go">&#39;=1+1*2+2+4&#39;</span>
 </pre></div>
 </div>
 <p>This is an example with logical operators precedence. The AND
 operator <code class="docutils literal"><span class="pre">,</span></code> (comma) has more precedence than the OR (<code class="docutils literal"><span class="pre">|</span></code>).</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">verbose_spec</span> <span class="o">=</span> <span class="s">&#39;(a|(b,c)),e&#39;</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">verbose_spec</span> <span class="o">=</span> <span class="s1">&#39;(a|(b,c)),e&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">parse</span><span class="p">(</span><span class="n">verbose_spec</span><span class="p">))</span>
 <span class="go">&#39;(a|b,c),e&#39;</span>
 </pre></div>
@@ -395,28 +394,28 @@ needed.</p>
 contracts expression in your own PyParsing grammar.</p>
 </dd></dl>
 
-<div class="col1 container">
+<div class="col1 docutils container">
 <p><strong>User documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="index.html#introduction"><span>Introduction to PyContracts</span></a></li>
-<li><a class="reference internal" href="tour.html#quick-tour"><span>Quick tour</span></a></li>
+<li><a class="reference internal" href="index.html#introduction"><span class="std std-ref">Introduction to PyContracts</span></a></li>
+<li><a class="reference internal" href="tour.html#quick-tour"><span class="std std-ref">Quick tour</span></a></li>
 <li>Reference:<ul>
-<li><a class="reference internal" href="api.html#api"><span>API for specifying contracts</span></a></li>
-<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><span>Using the ContractsMeta meta-class</span></a></li>
-<li><a class="reference internal" href="new_contract.html#new-contract"><span>Creating new contracts using new_contract</span></a></li>
+<li><a class="reference internal" href="api.html#api"><span class="std std-ref">API for specifying contracts</span></a></li>
+<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><span class="std std-ref">Using the ContractsMeta meta-class</span></a></li>
+<li><a class="reference internal" href="new_contract.html#new-contract"><span class="std std-ref">Creating new contracts using new_contract</span></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="reference.html#contracts-language-reference"><span>Language reference</span></a></li>
+<li><a class="reference internal" href="reference.html#contracts-language-reference"><span class="std std-ref">Language reference</span></a></li>
 </ul>
 </div>
-<div class="col2 container">
+<div class="col2 docutils container">
 <p><strong>Developer documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="changelog.html#the-changelog"><span>Changelog</span></a></li>
-<li><a class="reference internal" href="overhead.html#overhead"><span>PyContracts overhead in production and in testing</span></a></li>
-<li><a class="reference internal" href="#api-reference"><span>PyContracts public API reference</span></a></li>
-<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><span>PyContracts low-level API</span></a></li>
-<li><a class="reference internal" href="credits.html#credits"><span>Credits</span></a></li>
+<li><a class="reference internal" href="changelog.html#the-changelog"><span class="std std-ref">Changelog</span></a></li>
+<li><a class="reference internal" href="overhead.html#overhead"><span class="std std-ref">PyContracts overhead in production and in testing</span></a></li>
+<li><a class="reference internal" href="#api-reference"><span class="std std-ref">PyContracts public API reference</span></a></li>
+<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><span class="std std-ref">PyContracts low-level API</span></a></li>
+<li><a class="reference internal" href="credits.html#credits"><span class="std std-ref">Credits</span></a></li>
 </ul>
 </div>
 <div style="clear:left"/></div>
@@ -443,21 +442,18 @@ contracts expression in your own PyParsing grammar.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="sources/api_reference.txt"
+      <li><a href="sources/api_reference.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -473,13 +469,13 @@ contracts expression in your own PyParsing grammar.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PyContracts 1.7.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PyContracts 1.7.16 documentation</a> &#187;</li> 
       </ul>
     </div>
 	
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+        &#169; Copyright 2010, Andrea Censi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
 	
     <script type="text/javascript">

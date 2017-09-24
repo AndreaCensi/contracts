@@ -1,30 +1,28 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>contracts.docstring_parsing &mdash; PyContracts 1.7.2 documentation</title>
-    
+    <title>contracts.docstring_parsing &#8212; PyContracts 1.7.16 documentation</title>
     <link rel="stylesheet" href="../../static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.7.2',
+        VERSION:     '1.7.16',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../static/jquery.js"></script>
     <script type="text/javascript" src="../../static/underscore.js"></script>
     <script type="text/javascript" src="../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.7.2 documentation" href="../../index.html" />
-    <link rel="up" title="contracts" href="../contracts.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -50,7 +48,7 @@
 
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -60,9 +58,9 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">PyContracts 1.7.2 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">PyContracts 1.7.16 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../contracts.html" accesskey="U">contracts</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -72,16 +70,16 @@
           <div class="body" role="main">
             
   <h1>Source code for contracts.docstring_parsing</h1><div class="highlight"><pre>
-<span class="kn">import</span> <span class="nn">re</span>
+<span></span><span class="kn">import</span> <span class="nn">re</span>
 
 
 <div class="viewcode-block" id="Arg"><a class="viewcode-back" href="../../api/contracts.html#contracts.docstring_parsing.Arg">[docs]</a><span class="k">class</span> <span class="nc">Arg</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>  <span class="c"># @ReservedAssignment</span>
-        <span class="k">if</span> <span class="n">desc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>  <span class="c1"># @ReservedAssignment</span>
+        <span class="k">if</span> <span class="n">desc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">desc</span> <span class="o">=</span> <span class="n">desc</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">desc</span> <span class="o">=</span> <span class="n">desc</span>
-        <span class="k">if</span> <span class="nb">type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="nb">type</span> <span class="o">=</span> <span class="nb">type</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>  <span class="c"># @ReservedAssignment</span>
+        <span class="k">if</span> <span class="nb">type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">type</span> <span class="o">=</span> <span class="nb">type</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>  <span class="c1"># @ReservedAssignment</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span>
 
     <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -89,14 +87,14 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">desc</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">desc</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s">&quot;Arg(</span><span class="si">%r</span><span class="s">,</span><span class="si">%r</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">desc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;Arg(</span><span class="si">%r</span><span class="s2">,</span><span class="si">%r</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">desc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="DocStringInfo"><a class="viewcode-back" href="../../api/contracts.html#contracts.docstring_parsing.DocStringInfo">[docs]</a><span class="k">class</span> <span class="nc">DocStringInfo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docstring</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docstring</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">if</span> <span class="n">returns</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">returns</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">returns</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">docstring</span> <span class="o">=</span> <span class="n">docstring</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
@@ -108,78 +106,78 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">returns</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">returns</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="s">&quot;DocString(</span><span class="se">\n\t</span><span class="si">%r</span><span class="s">,</span><span class="se">\n\t</span><span class="si">%r</span><span class="s">,</span><span class="se">\n\t</span><span class="si">%r</span><span class="s">)&quot;</span> <span class="o">%</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;DocString(</span><span class="se">\n\t</span><span class="si">%r</span><span class="s2">,</span><span class="se">\n\t</span><span class="si">%r</span><span class="s2">,</span><span class="se">\n\t</span><span class="si">%r</span><span class="s2">)&quot;</span> <span class="o">%</span>
                 <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">docstring</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">returns</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">docstring</span>
-        <span class="n">valid_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">docstring</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">]</span>
+        <span class="n">valid_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">docstring</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">valid_lines</span><span class="p">:</span>
             <span class="n">last_line</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">indentation</span> <span class="o">=</span> <span class="n">number_of_spaces</span><span class="p">(</span><span class="n">last_line</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">indentation</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="c"># ORDER?</span>
-        <span class="n">s</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span>
-        <span class="n">prefix</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="p">(</span><span class="s">&#39; &#39;</span> <span class="o">*</span> <span class="n">indentation</span><span class="p">)</span>
+        <span class="c1"># ORDER?</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">indentation</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">param</span><span class="p">]</span><span class="o">.</span><span class="n">desc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s">&#39;:param </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">param</span><span class="p">]</span><span class="o">.</span><span class="n">desc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;:param </span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span>
                       <span class="o">%</span> <span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">param</span><span class="p">]</span><span class="o">.</span><span class="n">desc</span><span class="p">))</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">param</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s">&#39;:type </span><span class="si">%s</span><span class="s">:  </span><span class="si">%s</span><span class="s">&#39;</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">param</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;:type </span><span class="si">%s</span><span class="s1">:  </span><span class="si">%s</span><span class="s1">&#39;</span>
                       <span class="o">%</span> <span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">param</span><span class="p">]</span><span class="o">.</span><span class="n">type</span><span class="p">))</span>
             <span class="n">s</span> <span class="o">+=</span> <span class="n">prefix</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">returns</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">returns</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">desc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                    <span class="n">s</span> <span class="o">+=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s">&#39;:returns: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">desc</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                    <span class="n">s</span> <span class="o">+=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s">&#39;:rtype:  </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">desc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">s</span> <span class="o">+=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;:returns: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">desc</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">s</span> <span class="o">+=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;:rtype:  </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
                 <span class="n">s</span> <span class="o">+=</span> <span class="n">prefix</span>
 
         <span class="k">return</span> <span class="n">s</span>
 
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="DocStringInfo.parse"><a class="viewcode-back" href="../../api/contracts.html#contracts.docstring_parsing.DocStringInfo.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">docstring</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="n">docstring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+<div class="viewcode-block" id="DocStringInfo.parse"><a class="viewcode-back" href="../../api/contracts.html#contracts.docstring_parsing.DocStringInfo.parse">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">docstring</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">docstring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 
-        <span class="n">param_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;param&#39;</span><span class="p">,</span> <span class="s">&#39;parameter&#39;</span><span class="p">,</span> <span class="s">&#39;arg&#39;</span><span class="p">,</span>
-                      <span class="s">&#39;argument&#39;</span><span class="p">,</span> <span class="s">&#39;key&#39;</span><span class="p">,</span> <span class="s">&#39;keyword&#39;</span><span class="p">]</span>
-        <span class="n">type_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span>
-        <span class="n">return_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;returns&#39;</span><span class="p">,</span> <span class="s">&#39;return&#39;</span><span class="p">]</span>
-        <span class="n">rtype_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;rtype&#39;</span><span class="p">]</span>
-        <span class="c"># TODO: document state?</span>
-        <span class="c"># var_keys = [&#39;var&#39;, &#39;ivar&#39;, &#39;cvar&#39;]</span>
-        <span class="c"># raises, raise, except, exception</span>
+        <span class="n">param_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;param&#39;</span><span class="p">,</span> <span class="s1">&#39;parameter&#39;</span><span class="p">,</span> <span class="s1">&#39;arg&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;argument&#39;</span><span class="p">,</span> <span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;keyword&#39;</span><span class="p">]</span>
+        <span class="n">type_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
+        <span class="n">return_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;returns&#39;</span><span class="p">,</span> <span class="s1">&#39;return&#39;</span><span class="p">]</span>
+        <span class="n">rtype_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;rtype&#39;</span><span class="p">]</span>
+        <span class="c1"># TODO: document state?</span>
+        <span class="c1"># var_keys = [&#39;var&#39;, &#39;ivar&#39;, &#39;cvar&#39;]</span>
+        <span class="c1"># raises, raise, except, exception</span>
 
-        <span class="n">docstring</span><span class="p">,</span> <span class="n">params_ann</span> <span class="o">=</span> <span class="n">parse_annotations</span><span class="p">(</span><span class="n">docstring</span><span class="p">,</span> <span class="n">param_keys</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span>
-                                                  <span class="bp">True</span><span class="p">)</span>
-        <span class="n">docstring</span><span class="p">,</span> <span class="n">types_ann</span> <span class="o">=</span> <span class="n">parse_annotations</span><span class="p">(</span><span class="n">docstring</span><span class="p">,</span> <span class="n">type_keys</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span>
-                                                 <span class="bp">False</span><span class="p">)</span>
+        <span class="n">docstring</span><span class="p">,</span> <span class="n">params_ann</span> <span class="o">=</span> <span class="n">parse_annotations</span><span class="p">(</span><span class="n">docstring</span><span class="p">,</span> <span class="n">param_keys</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>
+                                                  <span class="kc">True</span><span class="p">)</span>
+        <span class="n">docstring</span><span class="p">,</span> <span class="n">types_ann</span> <span class="o">=</span> <span class="n">parse_annotations</span><span class="p">(</span><span class="n">docstring</span><span class="p">,</span> <span class="n">type_keys</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>
+                                                 <span class="kc">False</span><span class="p">)</span>
         <span class="n">docstring</span><span class="p">,</span> <span class="n">returns_ann</span> <span class="o">=</span> <span class="n">parse_annotations</span><span class="p">(</span><span class="n">docstring</span><span class="p">,</span> <span class="n">return_keys</span><span class="p">,</span>
-                                                   <span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-        <span class="n">docstring</span><span class="p">,</span> <span class="n">rtype_ann</span> <span class="o">=</span> <span class="n">parse_annotations</span><span class="p">(</span><span class="n">docstring</span><span class="p">,</span> <span class="n">rtype_keys</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span>
-                                                 <span class="bp">False</span><span class="p">)</span>
+                                                   <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">docstring</span><span class="p">,</span> <span class="n">rtype_ann</span> <span class="o">=</span> <span class="n">parse_annotations</span><span class="p">(</span><span class="n">docstring</span><span class="p">,</span> <span class="n">rtype_keys</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span>
+                                                 <span class="kc">False</span><span class="p">)</span>
 
         <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">names</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">params_ann</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">types_ann</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
-            <span class="n">param_type</span><span class="p">,</span> <span class="n">param_desc</span> <span class="o">=</span> <span class="n">params_ann</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">))</span>
+            <span class="n">param_type</span><span class="p">,</span> <span class="n">param_desc</span> <span class="o">=</span> <span class="n">params_ann</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
             <span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Arg</span><span class="p">(</span><span class="n">param_desc</span><span class="p">,</span>
-                               <span class="n">param_type</span> <span class="ow">or</span> <span class="n">types_ann</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">None</span><span class="p">))</span>
+                               <span class="n">param_type</span> <span class="ow">or</span> <span class="n">types_ann</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
 
         <span class="n">returns</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">returns_ann</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">rtype_ann</span><span class="p">))):</span>
-            <span class="n">return_type</span><span class="p">,</span> <span class="n">return_desc</span> <span class="o">=</span> <span class="n">returns_ann</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">))</span>
+            <span class="n">return_type</span><span class="p">,</span> <span class="n">return_desc</span> <span class="o">=</span> <span class="n">returns_ann</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
             <span class="n">returns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Arg</span><span class="p">(</span><span class="n">return_desc</span><span class="p">,</span>
-                               <span class="n">return_type</span> <span class="ow">or</span> <span class="n">rtype_ann</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">None</span><span class="p">)))</span>
+                               <span class="n">return_type</span> <span class="ow">or</span> <span class="n">rtype_ann</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="kc">None</span><span class="p">)))</span>
 
-        <span class="k">return</span> <span class="n">DocStringInfo</span><span class="p">(</span><span class="n">docstring</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="n">returns</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">DocStringInfo</span><span class="p">(</span><span class="n">docstring</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="n">returns</span><span class="p">)</span></div></div>
 
-</div></div>
-<div class="viewcode-block" id="parse_annotations"><a class="viewcode-back" href="../../api/contracts.html#contracts.docstring_parsing.parse_annotations">[docs]</a><span class="k">def</span> <span class="nf">parse_annotations</span><span class="p">(</span><span class="n">docstring</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">empty</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">inline_type</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="parse_annotations"><a class="viewcode-back" href="../../api/contracts.html#contracts.docstring_parsing.parse_annotations">[docs]</a><span class="k">def</span> <span class="nf">parse_annotations</span><span class="p">(</span><span class="n">docstring</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">empty</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inline_type</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parses &quot;:key name: description&quot; lines into a dictionary mapping name to</span>
 <span class="sd">        a description.</span>
@@ -190,17 +188,17 @@
 <span class="sd">        If inline_type is specified, allow an optional type to be specified</span>
 <span class="sd">        parsing &quot;:key type name: description&quot; or &quot;:key type: description&quot;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">docstring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+    <span class="k">assert</span> <span class="n">docstring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 
     <span class="n">found</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">empty</span><span class="p">:</span>
-            <span class="n">regexp</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;^\s*:\s*</span><span class="si">%s</span><span class="s">(?P&lt;type&gt;[^:]*?)\s*:\s*(?P&lt;desc&gt;.*?)\s*$&#39;</span>
+            <span class="n">regexp</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;^\s*:\s*</span><span class="si">%s</span><span class="s1">(?P&lt;type&gt;[^:]*?)\s*:\s*(?P&lt;desc&gt;.*?)\s*$&#39;</span>
                       <span class="o">%</span> <span class="n">key</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">regexp</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;^\s*:\s*</span><span class="si">%s</span><span class="s">\s+(?P&lt;type&gt;[^:]*?)(?P&lt;name&gt;[^\s:]+)\s*:&#39;</span>
-                      <span class="s">&#39;\s*(?P&lt;desc&gt;.*?)\s*$&#39;</span> <span class="o">%</span> <span class="n">key</span><span class="p">)</span>
+            <span class="n">regexp</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;^\s*:\s*</span><span class="si">%s</span><span class="s1">\s+(?P&lt;type&gt;[^:]*?)(?P&lt;name&gt;[^\s:]+)\s*:&#39;</span>
+                      <span class="s1">&#39;\s*(?P&lt;desc&gt;.*?)\s*$&#39;</span> <span class="o">%</span> <span class="n">key</span><span class="p">)</span>
         <span class="n">regexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">regexp</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">MULTILINE</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">replace</span><span class="p">(</span><span class="n">match</span><span class="p">):</span>
@@ -209,22 +207,22 @@
             <span class="k">if</span> <span class="n">empty</span><span class="p">:</span>
                 <span class="n">name</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">found</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">name</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="bp">None</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="kc">None</span>
 
             <span class="k">if</span> <span class="n">inline_type</span><span class="p">:</span>
-                <span class="n">found</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="bp">None</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;desc&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="bp">None</span><span class="p">)</span>
+                <span class="n">found</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;desc&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">found</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;desc&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="bp">None</span>
-            <span class="k">return</span> <span class="s">&quot;&quot;</span>
+                <span class="n">found</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;desc&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
 
         <span class="n">docstring</span> <span class="o">=</span> <span class="n">regexp</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">repl</span><span class="o">=</span><span class="n">replace</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="n">docstring</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">docstring</span><span class="p">,</span> <span class="n">found</span>
+    <span class="k">return</span> <span class="n">docstring</span><span class="p">,</span> <span class="n">found</span></div>
 
-</div>
+
 <div class="viewcode-block" id="number_of_spaces"><a class="viewcode-back" href="../../api/contracts.html#contracts.docstring_parsing.number_of_spaces">[docs]</a><span class="k">def</span> <span class="nf">number_of_spaces</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)):</span>
-        <span class="k">if</span> <span class="n">x</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span> <span class="o">*</span> <span class="n">i</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">x</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">i</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
 </pre></div>
@@ -237,14 +235,11 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -260,15 +255,15 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">PyContracts 1.7.2 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../contracts.html" >contracts</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">PyContracts 1.7.16 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../contracts.html" >contracts</a> &#187;</li> 
       </ul>
     </div>
 	
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+        &#169; Copyright 2010, Andrea Censi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
 	
     <script type="text/javascript">

@@ -1,29 +1,28 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Creating new contracts using new_contract &mdash; PyContracts 1.7.2 documentation</title>
-    
+    <title>Creating new contracts using new_contract &#8212; PyContracts 1.7.16 documentation</title>
     <link rel="stylesheet" href="static/classic.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.7.2',
+        VERSION:     '1.7.16',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.7.2 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -49,7 +48,7 @@
 
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -59,7 +58,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PyContracts 1.7.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PyContracts 1.7.16 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -68,28 +67,28 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="col1 container">
+  <div class="col1 docutils container">
 <p><strong>User documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="index.html#introduction"><span>Introduction to PyContracts</span></a></li>
-<li><a class="reference internal" href="tour.html#quick-tour"><span>Quick tour</span></a></li>
+<li><a class="reference internal" href="index.html#introduction"><span class="std std-ref">Introduction to PyContracts</span></a></li>
+<li><a class="reference internal" href="tour.html#quick-tour"><span class="std std-ref">Quick tour</span></a></li>
 <li>Reference:<ul>
-<li><a class="reference internal" href="api.html#api"><span>API for specifying contracts</span></a></li>
-<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><span>Using the ContractsMeta meta-class</span></a></li>
-<li><a class="reference internal" href="#new-contract"><span>Creating new contracts using new_contract</span></a></li>
+<li><a class="reference internal" href="api.html#api"><span class="std std-ref">API for specifying contracts</span></a></li>
+<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><span class="std std-ref">Using the ContractsMeta meta-class</span></a></li>
+<li><a class="reference internal" href="#new-contract"><span class="std std-ref">Creating new contracts using new_contract</span></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="reference.html#contracts-language-reference"><span>Language reference</span></a></li>
+<li><a class="reference internal" href="reference.html#contracts-language-reference"><span class="std std-ref">Language reference</span></a></li>
 </ul>
 </div>
-<div class="col2 container">
+<div class="col2 docutils container">
 <p><strong>Developer documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="changelog.html#the-changelog"><span>Changelog</span></a></li>
-<li><a class="reference internal" href="overhead.html#overhead"><span>PyContracts overhead in production and in testing</span></a></li>
-<li><a class="reference internal" href="api_reference.html#api-reference"><span>PyContracts public API reference</span></a></li>
-<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><span>PyContracts low-level API</span></a></li>
-<li><a class="reference internal" href="credits.html#credits"><span>Credits</span></a></li>
+<li><a class="reference internal" href="changelog.html#the-changelog"><span class="std std-ref">Changelog</span></a></li>
+<li><a class="reference internal" href="overhead.html#overhead"><span class="std std-ref">PyContracts overhead in production and in testing</span></a></li>
+<li><a class="reference internal" href="api_reference.html#api-reference"><span class="std std-ref">PyContracts public API reference</span></a></li>
+<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><span class="std std-ref">PyContracts low-level API</span></a></li>
+<li><a class="reference internal" href="credits.html#credits"><span class="std std-ref">Credits</span></a></li>
 </ul>
 </div>
 <div style="clear:left"/><div class="section" id="creating-new-contracts-using-new-contract">
@@ -97,12 +96,12 @@
 <p>The function  <code class="xref py py-func docutils literal"><span class="pre">new_contract()</span></code>  is used to define new contracts.
 It takes two arguments. The first argument is the name
 of the new contract, and the second is the value:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;color&#39;</span><span class="p">,</span> <span class="s">&#39;list[3](float)&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">new_contract</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="s1">&#39;list[3](float)&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Once defined, the new contracts can be used as part of more complicated
 expressions:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">colors</span><span class="o">=</span><span class="s">&#39;list(color)&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@contract</span><span class="p">(</span><span class="n">colors</span><span class="o">=</span><span class="s1">&#39;list(color)&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">average_colors</span><span class="p">(</span><span class="n">colors</span><span class="p">):</span>
     <span class="k">pass</span>
 </pre></div>
@@ -116,7 +115,7 @@ like any parameter to <code class="xref py py-func docutils literal"><span class
 <li><p class="first">If it is a callable, it must accept one parameter, and either:</p>
 <ul class="simple">
 <li>return True or None, to signify it accepts.</li>
-<li>return False or raise ValueError, to signify it doesn&#8217;t.</li>
+<li>return False or raise ValueError, to signify it doesn’t.</li>
 </ul>
 <p>If ValueError is raised, its message is used in the error.</p>
 </li>
@@ -128,14 +127,14 @@ using <code class="xref py py-func docutils literal"><span class="pre">Contract.
 and that many of your functions need arguments representing colors.
 It might be a good idea to declare once and for all what is a color,
 and then reuse that definition. For example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">color</span> <span class="o">=</span> <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;color&#39;</span><span class="p">,</span> <span class="s">&#39;list[3](number,&gt;=0,&lt;=1)&#39;</span><span class="p">)</span>
-<span class="c"># Make sure we got it right</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">color</span> <span class="o">=</span> <span class="n">new_contract</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="s1">&#39;list[3](number,&gt;=0,&lt;=1)&#39;</span><span class="p">)</span>
+<span class="c1"># Make sure we got it right</span>
 <span class="n">color</span><span class="o">.</span><span class="n">check</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">color</span><span class="o">.</span><span class="n">check</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
 <span class="n">color</span><span class="o">.</span><span class="n">fail</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">color</span><span class="o">.</span><span class="n">fail</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
 
-<span class="c"># Now use ``color`` in other contracts.</span>
+<span class="c1"># Now use ``color`` in other contracts.</span>
 <span class="nd">@contract</span>
 <span class="k">def</span> <span class="nf">fill_area</span><span class="p">(</span><span class="n">inside</span><span class="p">,</span> <span class="n">border</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Fill the area inside the current figure.</span>
@@ -152,28 +151,28 @@ and then reuse that definition. For example:</p>
     <span class="o">...</span>
 </pre></div>
 </div>
-<div class="col1 container">
+<div class="col1 docutils container">
 <p><strong>User documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="index.html#introduction"><span>Introduction to PyContracts</span></a></li>
-<li><a class="reference internal" href="tour.html#quick-tour"><span>Quick tour</span></a></li>
+<li><a class="reference internal" href="index.html#introduction"><span class="std std-ref">Introduction to PyContracts</span></a></li>
+<li><a class="reference internal" href="tour.html#quick-tour"><span class="std std-ref">Quick tour</span></a></li>
 <li>Reference:<ul>
-<li><a class="reference internal" href="api.html#api"><span>API for specifying contracts</span></a></li>
-<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><span>Using the ContractsMeta meta-class</span></a></li>
-<li><a class="reference internal" href="#new-contract"><span>Creating new contracts using new_contract</span></a></li>
+<li><a class="reference internal" href="api.html#api"><span class="std std-ref">API for specifying contracts</span></a></li>
+<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><span class="std std-ref">Using the ContractsMeta meta-class</span></a></li>
+<li><a class="reference internal" href="#new-contract"><span class="std std-ref">Creating new contracts using new_contract</span></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="reference.html#contracts-language-reference"><span>Language reference</span></a></li>
+<li><a class="reference internal" href="reference.html#contracts-language-reference"><span class="std std-ref">Language reference</span></a></li>
 </ul>
 </div>
-<div class="col2 container">
+<div class="col2 docutils container">
 <p><strong>Developer documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="changelog.html#the-changelog"><span>Changelog</span></a></li>
-<li><a class="reference internal" href="overhead.html#overhead"><span>PyContracts overhead in production and in testing</span></a></li>
-<li><a class="reference internal" href="api_reference.html#api-reference"><span>PyContracts public API reference</span></a></li>
-<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><span>PyContracts low-level API</span></a></li>
-<li><a class="reference internal" href="credits.html#credits"><span>Credits</span></a></li>
+<li><a class="reference internal" href="changelog.html#the-changelog"><span class="std std-ref">Changelog</span></a></li>
+<li><a class="reference internal" href="overhead.html#overhead"><span class="std std-ref">PyContracts overhead in production and in testing</span></a></li>
+<li><a class="reference internal" href="api_reference.html#api-reference"><span class="std std-ref">PyContracts public API reference</span></a></li>
+<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><span class="std std-ref">PyContracts low-level API</span></a></li>
+<li><a class="reference internal" href="credits.html#credits"><span class="std std-ref">Credits</span></a></li>
 </ul>
 </div>
 <div style="clear:left"/></div>
@@ -187,21 +186,18 @@ and then reuse that definition. For example:</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="sources/new_contract.txt"
+      <li><a href="sources/new_contract.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -217,13 +213,13 @@ and then reuse that definition. For example:</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PyContracts 1.7.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PyContracts 1.7.16 documentation</a> &#187;</li> 
       </ul>
     </div>
 	
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+        &#169; Copyright 2010, Andrea Censi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
 	
     <script type="text/javascript">

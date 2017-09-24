@@ -1,29 +1,28 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>PyContracts &mdash; PyContracts 1.7.2 documentation</title>
-    
+    <title>PyContracts &#8212; PyContracts 1.7.16 documentation</title>
     <link rel="stylesheet" href="static/classic.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.7.2',
+        VERSION:     '1.7.16',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.7.2 documentation" href="#" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -49,7 +48,7 @@
 
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -59,7 +58,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">PyContracts 1.7.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">PyContracts 1.7.16 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -71,28 +70,28 @@
   <a href="http://github.com/AndreaCensi/contracts"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 <div class="section" id="pycontracts">
 <h1>PyContracts<a class="headerlink" href="#pycontracts" title="Permalink to this headline">¶</a></h1>
-<div class="col1 container">
+<div class="col1 docutils container">
 <p><strong>User documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="#introduction"><span>Introduction to PyContracts</span></a></li>
-<li><a class="reference internal" href="tour.html#quick-tour"><span>Quick tour</span></a></li>
+<li><a class="reference internal" href="#introduction"><span class="std std-ref">Introduction to PyContracts</span></a></li>
+<li><a class="reference internal" href="tour.html#quick-tour"><span class="std std-ref">Quick tour</span></a></li>
 <li>Reference:<ul>
-<li><a class="reference internal" href="api.html#api"><span>API for specifying contracts</span></a></li>
-<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><span>Using the ContractsMeta meta-class</span></a></li>
-<li><a class="reference internal" href="new_contract.html#new-contract"><span>Creating new contracts using new_contract</span></a></li>
+<li><a class="reference internal" href="api.html#api"><span class="std std-ref">API for specifying contracts</span></a></li>
+<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><span class="std std-ref">Using the ContractsMeta meta-class</span></a></li>
+<li><a class="reference internal" href="new_contract.html#new-contract"><span class="std std-ref">Creating new contracts using new_contract</span></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="reference.html#contracts-language-reference"><span>Language reference</span></a></li>
+<li><a class="reference internal" href="reference.html#contracts-language-reference"><span class="std std-ref">Language reference</span></a></li>
 </ul>
 </div>
-<div class="col2 container">
+<div class="col2 docutils container">
 <p><strong>Developer documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="changelog.html#the-changelog"><span>Changelog</span></a></li>
-<li><a class="reference internal" href="overhead.html#overhead"><span>PyContracts overhead in production and in testing</span></a></li>
-<li><a class="reference internal" href="api_reference.html#api-reference"><span>PyContracts public API reference</span></a></li>
-<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><span>PyContracts low-level API</span></a></li>
-<li><a class="reference internal" href="credits.html#credits"><span>Credits</span></a></li>
+<li><a class="reference internal" href="changelog.html#the-changelog"><span class="std std-ref">Changelog</span></a></li>
+<li><a class="reference internal" href="overhead.html#overhead"><span class="std std-ref">PyContracts overhead in production and in testing</span></a></li>
+<li><a class="reference internal" href="api_reference.html#api-reference"><span class="std std-ref">PyContracts public API reference</span></a></li>
+<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><span class="std std-ref">PyContracts low-level API</span></a></li>
+<li><a class="reference internal" href="credits.html#credits"><span class="std std-ref">Credits</span></a></li>
 </ul>
 </div>
 <div style="clear:left"/><div class="section" id="introduction-to-pycontracts">
@@ -102,36 +101,36 @@ return values. It supports a basic type system, variables binding, arithmetic co
 has several specialized contracts (notably for Numpy arrays).</p>
 <p>As a quick intro, please see <a class="reference external" href="http://censi.mit.edu/pub/research/201410-pycontracts/201410-pycontracts.pdf">this presentation about PyContracts</a>.</p>
 <a class="reference external image-reference" href="http://censi.mit.edu/pub/research/201410-pycontracts/201410-pycontracts.pdf"><img alt="A presentation about PyContracts" src="http://censi.mit.edu/pub/research/201410-pycontracts/201410-pycontracts.border.png" style="height: 100px;" /></a>
-<div class="brief-summary container">
+<div class="brief-summary docutils container">
 A brief summary follows. See the full documentation at: &lt;<a class="reference external" href="http://andreacensi.github.com/contracts/">http://andreacensi.github.com/contracts/</a>&gt;</div>
 <p><strong>Why</strong>: The purpose of PyContracts is <strong>not</strong> to turn Python into a statically-typed language
 (albeit you can be as strict as you wish), but, rather, to avoid the time-consuming and
 obfuscating checking of various preconditions. In fact, more than the type constraints, I found
-useful the ability to impose value and size constraints. For example, &#8220;I need a list of at least
-3 positive numbers&#8221; can be expressed as <code class="docutils literal"><span class="pre">list[&gt;=3](number,</span> <span class="pre">&gt;0))</span></code>. If you find that
+useful the ability to impose value and size constraints. For example, “I need a list of at least
+3 positive numbers” can be expressed as <code class="docutils literal"><span class="pre">list[&gt;=3](number,</span> <span class="pre">&gt;0))</span></code>. If you find that
 PyContracts is overkill for you, you might want to try a simpler alternative, such as
 <a class="reference external" href="http://oakwinter.com/code/typecheck/">typecheck</a>. If you find that PyContracts is not <em>enough</em> for you, you probably want to be
 using <a class="reference external" href="http://www.haskell.org/">Haskell</a> instead of Python.</p>
 <p><strong>Specifying contracts</strong>: Contracts can be specified in three ways:</p>
 <ol class="arabic">
 <li><p class="first"><strong>Using the ``&#64;contract`` decorator</strong>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s">&#39;int,&gt;0&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s">&#39;list[N],N&gt;0&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s">&#39;list[N]&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s1">&#39;int,&gt;0&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s1">&#39;list[N],N&gt;0&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="o">=</span><span class="s1">&#39;list[N]&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="o">...</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first"><strong>Using annotations</strong> (for Python 3):</p>
-<div class="highlight-python"><div class="highlight"><pre>@contract
-def my_function(a : &#39;int,&gt;0&#39;, b : &#39;list[N],N&gt;0&#39;) -&gt; &#39;list[N]&#39;:
-     # Requires b to be a nonempty list, and the return
-     # value to have the same length.
-     ...
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@contract</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span> <span class="p">:</span> <span class="s1">&#39;int,&gt;0&#39;</span><span class="p">,</span> <span class="n">b</span> <span class="p">:</span> <span class="s1">&#39;list[N],N&gt;0&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;list[N]&#39;</span><span class="p">:</span>
+     <span class="c1"># Requires b to be a nonempty list, and the return</span>
+     <span class="c1"># value to have the same length.</span>
+     <span class="o">...</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first"><strong>Using docstrings</strong>, with the <code class="docutils literal"><span class="pre">:type:</span></code> and <code class="docutils literal"><span class="pre">:rtype:</span></code> tags:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@contract</span>
 <span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Function description.</span>
 <span class="sd">        :type a: int,&gt;0</span>
@@ -145,15 +144,15 @@ def my_function(a : &#39;int,&gt;0&#39;, b : &#39;list[N],N&gt;0&#39;) -&gt; &#3
 </ol>
 <p><strong>Deployment</strong>: In production, all checks can be disabled using the function <code class="docutils literal"><span class="pre">contracts.disable_all()</span></code>, so the performance hit is 0.</p>
 <p><strong>Extensions:</strong> You can extend PyContracts with new contracts types:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;valid_name&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
-<span class="nd">@contract</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="s">&#39;dict(int: (valid_name, int))&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">new_contract</span><span class="p">(</span><span class="s1">&#39;valid_name&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+<span class="nd">@contract</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="s1">&#39;dict(int: (valid_name, int))&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">process_accounting</span><span class="p">(</span><span class="n">records</span><span class="p">):</span>
     <span class="o">...</span>
 </pre></div>
 </div>
 <p>Any Python type is a contract:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="c"># simple contract</span>
-          <span class="n">b</span><span class="o">=</span><span class="s">&#39;int,&gt;0&#39;</span> <span class="c"># more complicated</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@contract</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="c1"># simple contract</span>
+          <span class="n">b</span><span class="o">=</span><span class="s1">&#39;int,&gt;0&#39;</span> <span class="c1"># more complicated</span>
           <span class="p">)</span>
 <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="o">...</span>
@@ -161,36 +160,36 @@ def my_function(a : &#39;int,&gt;0&#39;, b : &#39;list[N],N&gt;0&#39;) -&gt; &#3
 </div>
 <p><strong>Enforcing interfaces</strong>:  <code class="docutils literal"><span class="pre">ContractsMeta</span></code> is a metaclass,
 like ABCMeta, which propagates contracts to the subclasses:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">contract</span><span class="p">,</span> <span class="n">ContractsMeta</span><span class="p">,</span> <span class="n">with_metaclass</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">contracts</span> <span class="k">import</span> <span class="n">contract</span><span class="p">,</span> <span class="n">ContractsMeta</span><span class="p">,</span> <span class="n">with_metaclass</span>
 
 <span class="k">class</span> <span class="nc">Base</span><span class="p">(</span><span class="n">with_metaclass</span><span class="p">(</span><span class="n">ContractsMeta</span><span class="p">,</span> <span class="nb">object</span><span class="p">)):</span>
 
     <span class="nd">@abstractmethod</span>
-    <span class="nd">@contract</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="s">&#39;float,&gt;=0,&lt;=1&#39;</span><span class="p">)</span>
+    <span class="nd">@contract</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="s1">&#39;float,&gt;=0,&lt;=1&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">probability</span><span class="p">):</span>
         <span class="k">pass</span>
 
 <span class="k">class</span> <span class="nc">Derived</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
-    <span class="c"># The contract above is automatically enforced,</span>
-    <span class="c"># without this class having to know about PyContracts at all!</span>
+    <span class="c1"># The contract above is automatically enforced,</span>
+    <span class="c1"># without this class having to know about PyContracts at all!</span>
     <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">probability</span><span class="p">):</span>
         <span class="o">....</span>
 </pre></div>
 </div>
 <p><strong>Numpy</strong>: There is special support for Numpy:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@contract</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="s">&#39;array[HxWx3](uint8),H&gt;10,W&gt;10&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@contract</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="s1">&#39;array[HxWx3](uint8),H&gt;10,W&gt;10&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">recolor</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
     <span class="o">...</span>
 </pre></div>
 </div>
-<p><strong>Status:</strong> The syntax is stable and it won&#8217;t be changed. PyContracts is very well tested on Python 2.x.</p>
+<p><strong>Status:</strong> The syntax is stable and it won’t be changed. PyContracts is very well tested on Python 2.x.</p>
 <p><strong>Status on Python 3.x:</strong> We reached feature parity! Everything works on Python 3 now.</p>
-<p><strong>Compmake Contributors</strong>:</p>
+<p><strong>Contributors</strong>:</p>
 <ul class="simple">
 <li><a class="reference external" href="http://chrisbeaumont.org/">Chris Beaumont</a> (Harvard-Smithsonian Center for Astrophysics): <code class="docutils literal"><span class="pre">$var</span></code> syntax; kwargs/args for extensions.</li>
 <li><a class="reference external" href="https://github.com/braingram">Brett Graham</a> (Rowland Institute at Harvard University):  <code class="docutils literal"><span class="pre">attr(name:type)</span></code> syntax for checking types of attributes.</li>
 <li><a class="reference external" href="http://www.ccs.neu.edu/home/furrwf/">William Furr</a>: bug reports and performance improvements</li>
-<li><a class="reference external" href="http://xion.org.pl/">Karol Kuczmarski</a> (Google Zurich):  implementation of &#8220;string&#8221; and &#8220;unicode&#8221; contracts</li>
+<li><a class="reference external" href="http://xion.org.pl/">Karol Kuczmarski</a> (Google Zurich):  implementation of “string” and “unicode” contracts</li>
 <li><a class="reference external" href="http://mderickx.nl/">Maarten Derickx</a> (Leiden U.):  documentation fixes</li>
 <li><a class="reference external" href="https://github.com/cpennington">Calen Pennington</a> (EdX):  disabling checks inside check() function.</li>
 <li><a class="reference external" href="https://github.com/adampalay">Adam Palay</a> (EdX): implementation of environment variable enabling/disabling override.</li>
@@ -198,31 +197,32 @@ like ABCMeta, which propagates contracts to the subclasses:</p>
 <li>Bernhard Biskup:  bug reports</li>
 <li><a class="reference external" href="https://github.com/asharp">asharp</a>: bug fixes</li>
 <li><a class="reference external" href="https://github.com/denniskempin">Dennis Kempin</a> (Google mothership): Sphinx-style constraints specs</li>
-<li><a class="reference external" href="http://careers.stackoverflow.com/hayd">Andy Hayden</a>: Python 3 support</li>
+<li><a class="reference external" href="http://careers.stackoverflow.com/hayd">Andy Hayden</a>: Python 3 support, more efficient Numpy checks</li>
+<li><a class="reference external" href="http://jonathansharpe.me.uk/">Jonathan Sharpe</a>: contracts for file-like objects, not operator</li>
 </ul>
 <p>(Please let me know if I forgot anybody.)</p>
-<div class="col1 container">
+<div class="col1 docutils container">
 <p><strong>User documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="#introduction"><span>Introduction to PyContracts</span></a></li>
-<li><a class="reference internal" href="tour.html#quick-tour"><span>Quick tour</span></a></li>
+<li><a class="reference internal" href="#introduction"><span class="std std-ref">Introduction to PyContracts</span></a></li>
+<li><a class="reference internal" href="tour.html#quick-tour"><span class="std std-ref">Quick tour</span></a></li>
 <li>Reference:<ul>
-<li><a class="reference internal" href="api.html#api"><span>API for specifying contracts</span></a></li>
-<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><span>Using the ContractsMeta meta-class</span></a></li>
-<li><a class="reference internal" href="new_contract.html#new-contract"><span>Creating new contracts using new_contract</span></a></li>
+<li><a class="reference internal" href="api.html#api"><span class="std std-ref">API for specifying contracts</span></a></li>
+<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><span class="std std-ref">Using the ContractsMeta meta-class</span></a></li>
+<li><a class="reference internal" href="new_contract.html#new-contract"><span class="std std-ref">Creating new contracts using new_contract</span></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="reference.html#contracts-language-reference"><span>Language reference</span></a></li>
+<li><a class="reference internal" href="reference.html#contracts-language-reference"><span class="std std-ref">Language reference</span></a></li>
 </ul>
 </div>
-<div class="col2 container">
+<div class="col2 docutils container">
 <p><strong>Developer documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="changelog.html#the-changelog"><span>Changelog</span></a></li>
-<li><a class="reference internal" href="overhead.html#overhead"><span>PyContracts overhead in production and in testing</span></a></li>
-<li><a class="reference internal" href="api_reference.html#api-reference"><span>PyContracts public API reference</span></a></li>
-<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><span>PyContracts low-level API</span></a></li>
-<li><a class="reference internal" href="credits.html#credits"><span>Credits</span></a></li>
+<li><a class="reference internal" href="changelog.html#the-changelog"><span class="std std-ref">Changelog</span></a></li>
+<li><a class="reference internal" href="overhead.html#overhead"><span class="std std-ref">PyContracts overhead in production and in testing</span></a></li>
+<li><a class="reference internal" href="api_reference.html#api-reference"><span class="std std-ref">PyContracts public API reference</span></a></li>
+<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><span class="std std-ref">PyContracts low-level API</span></a></li>
+<li><a class="reference internal" href="credits.html#credits"><span class="std std-ref">Credits</span></a></li>
 </ul>
 </div>
 <div style="clear:left"/><script type="text/javascript">
@@ -257,21 +257,18 @@ like ABCMeta, which propagates contracts to the subclasses:</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="sources/index.txt"
+      <li><a href="sources/index.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -287,13 +284,13 @@ like ABCMeta, which propagates contracts to the subclasses:</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">PyContracts 1.7.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">PyContracts 1.7.16 documentation</a> &#187;</li> 
       </ul>
     </div>
 	
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+        &#169; Copyright 2010, Andrea Censi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
 	
     <script type="text/javascript">

@@ -1,30 +1,28 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>contracts.library.tuple &mdash; PyContracts 1.7.2 documentation</title>
-    
+    <title>contracts.library.tuple &#8212; PyContracts 1.7.16 documentation</title>
     <link rel="stylesheet" href="../../../static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '1.7.2',
+        VERSION:     '1.7.16',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../static/jquery.js"></script>
     <script type="text/javascript" src="../../../static/underscore.js"></script>
     <script type="text/javascript" src="../../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.7.2 documentation" href="../../../index.html" />
-    <link rel="up" title="contracts" href="../../contracts.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -50,7 +48,7 @@
 
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -60,9 +58,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.2 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.16 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../contracts.html" accesskey="U">contracts</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -72,102 +70,103 @@
           <div class="body" role="main">
             
   <h1>Source code for contracts.library.tuple</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">..interface</span> <span class="kn">import</span> <span class="n">Contract</span><span class="p">,</span> <span class="n">ContractNotRespected</span>
-<span class="kn">from</span> <span class="nn">..syntax</span> <span class="kn">import</span><span class="p">(</span><span class="n">add_contract</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">contract_expression</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">ZeroOrMore</span><span class="p">,</span>
+<span></span><span class="kn">from</span> <span class="nn">..interface</span> <span class="k">import</span> <span class="n">Contract</span><span class="p">,</span> <span class="n">ContractNotRespected</span>
+<span class="kn">from</span> <span class="nn">..syntax</span> <span class="k">import</span><span class="p">(</span><span class="n">add_contract</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">contract_expression</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">ZeroOrMore</span><span class="p">,</span>
                       <span class="n">Group</span><span class="p">,</span> <span class="n">add_keyword</span><span class="p">,</span> <span class="n">Keyword</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">.compositions</span> <span class="kn">import</span> <span class="n">or_contract</span>
+<span class="kn">from</span> <span class="nn">.compositions</span> <span class="k">import</span> <span class="n">or_contract</span>
 
 
 <div class="viewcode-block" id="Tuple"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.tuple.Tuple">[docs]</a><span class="k">class</span> <span class="nc">Tuple</span><span class="p">(</span><span class="n">Contract</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">elements</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="n">Contract</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">elements</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">Contract</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="n">length</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="o">=</span> <span class="n">elements</span>
-        <span class="k">assert</span> <span class="n">elements</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">elements</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">elements</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">elements</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">elements</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
                 <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">Contract</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Tuple.check_contract"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.tuple.Tuple.check_contract">[docs]</a>    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Tuple.check_contract"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.tuple.Tuple.check_contract">[docs]</a>    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">silent</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
-            <span class="n">error</span> <span class="o">=</span> <span class="s">&#39;Expected a tuple, got </span><span class="si">%r</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="n">value</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="s1">&#39;Expected a tuple, got </span><span class="si">%r</span><span class="s1">.&#39;</span> <span class="o">%</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
             <span class="k">raise</span> <span class="n">ContractNotRespected</span><span class="p">(</span><span class="n">contract</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="n">error</span><span class="p">,</span>
                                        <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">silent</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">):</span>
-                <span class="n">error</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;Expected a tuple of length &#39;</span>
-                         <span class="s">&#39;</span><span class="si">%s</span><span class="s">, got </span><span class="si">%r</span><span class="s"> of length </span><span class="si">%s</span><span class="s">.&#39;</span> <span class="o">%</span>
+                <span class="n">error</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Expected a tuple of length &#39;</span>
+                         <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">, got </span><span class="si">%r</span><span class="s1"> of length </span><span class="si">%s</span><span class="s1">.&#39;</span> <span class="o">%</span>
                          <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">),</span> <span class="n">value</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
                 <span class="k">raise</span> <span class="n">ContractNotRespected</span><span class="p">(</span><span class="n">contract</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="n">error</span><span class="p">,</span>
                                            <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
 
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-</div>
+                <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">silent</span><span class="p">)</span></div>
+
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s">&#39;Tuple(</span><span class="si">%r</span><span class="s">,</span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;Tuple(</span><span class="si">%r</span><span class="s1">,</span><span class="si">%r</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;tuple&#39;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="s">&#39;[</span><span class="si">%s</span><span class="s">]&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;tuple&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;[</span><span class="si">%s</span><span class="s1">]&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span>
 
         <span class="k">def</span> <span class="nf">rep</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-            <span class="kn">from</span> <span class="nn">.compositions</span> <span class="kn">import</span> <span class="n">And</span>
+            <span class="kn">from</span> <span class="nn">.compositions</span> <span class="k">import</span> <span class="n">And</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">And</span><span class="p">):</span>
-                <span class="k">return</span> <span class="s">&quot;(</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="n">x</span>
+                <span class="k">return</span> <span class="s2">&quot;(</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="n">x</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">x</span>
+                <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">x</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="s">&#39;(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="s">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rep</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;(</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rep</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">s</span>
 
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="Tuple.parse_action"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.tuple.Tuple.parse_action">[docs]</a>    <span class="k">def</span> <span class="nf">parse_action</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
+<div class="viewcode-block" id="Tuple.parse_action"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.tuple.Tuple.parse_action">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">parse_action</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
         <span class="n">where</span> <span class="o">=</span> <span class="n">W</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
-        <span class="n">length</span> <span class="o">=</span> <span class="n">tokens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;length&#39;</span><span class="p">,</span> <span class="p">[</span><span class="bp">None</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
-<span class="c">#        elements = tokens.get(&#39;elements&#39;, [None])[0]</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="n">tokens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;length&#39;</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1">#        elements = tokens.get(&#39;elements&#39;, [None])[0]</span>
 
-        <span class="k">if</span> <span class="s">&#39;elements&#39;</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
-            <span class="n">elements</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="s">&#39;elements&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s1">&#39;elements&#39;</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+            <span class="n">elements</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">elements</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="k">assert</span> <span class="n">elements</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">length</span> <span class="ow">is</span> <span class="bp">None</span>
-        <span class="k">assert</span> <span class="n">length</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">Contract</span><span class="p">),</span> <span class="p">(</span><span class="s">&quot;Wrong type </span><span class="si">%r</span><span class="s">&quot;</span>
+            <span class="n">elements</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">assert</span> <span class="n">elements</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">length</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="k">assert</span> <span class="n">length</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">Contract</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;Wrong type </span><span class="si">%r</span><span class="s2">&quot;</span>
                                                                 <span class="o">%</span> <span class="n">length</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">elements</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
-                <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">Contract</span><span class="p">),</span> <span class="p">(</span><span class="s">&quot;Wrong type </span><span class="si">%s</span><span class="s"> (</span><span class="si">%r</span><span class="s">)&quot;</span>
+                <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">Contract</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;Wrong type </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%r</span><span class="s2">)&quot;</span>
                                                  <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">e</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">Tuple</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">elements</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Tuple</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">elements</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span></div></div>
 
 
-<span class="c"># if you use contract instead of simple_contract, it will be matched as And</span>
-
-</div></div>
-<span class="n">inside</span> <span class="o">=</span> <span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s">&#39;(&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">contract_expression</span> <span class="o">-</span> <span class="n">S</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">))</span> <span class="o">|</span> <span class="n">or_contract</span>
-<span class="n">inside</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&#39;Any contract for tuple elements (use parenthesis for AND)&#39;</span><span class="p">)</span>
-
-<span class="n">elements</span> <span class="o">=</span> <span class="p">(</span><span class="n">Group</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s">&#39;(&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">inside</span> <span class="o">-</span> <span class="n">ZeroOrMore</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)</span>
-                                            <span class="o">-</span> <span class="n">inside</span><span class="p">)</span> <span class="o">-</span> <span class="n">S</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">))(</span><span class="s">&#39;elements&#39;</span><span class="p">))</span>
-<span class="n">elements</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&#39;Tuple elements contract.&#39;</span><span class="p">)</span>
+<span class="c1"># if you use contract instead of simple_contract, it will be matched as And</span>
 
 
-<span class="n">length</span> <span class="o">=</span> <span class="n">Group</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s">&#39;[&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">contract_expression</span> <span class="o">-</span> <span class="n">S</span><span class="p">(</span><span class="s">&#39;]&#39;</span><span class="p">))(</span><span class="s">&#39;length&#39;</span><span class="p">)</span>
-<span class="n">length</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&#39;Tuple length contract.&#39;</span><span class="p">)</span>
+<span class="n">inside</span> <span class="o">=</span> <span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">contract_expression</span> <span class="o">-</span> <span class="n">S</span><span class="p">(</span><span class="s1">&#39;)&#39;</span><span class="p">))</span> <span class="o">|</span> <span class="n">or_contract</span>
+<span class="n">inside</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;Any contract for tuple elements (use parenthesis for AND)&#39;</span><span class="p">)</span>
 
-<span class="n">tuple_contract</span> <span class="o">=</span> <span class="n">Keyword</span><span class="p">(</span><span class="s">&#39;tuple&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">O</span><span class="p">(</span><span class="n">length</span> <span class="o">|</span> <span class="n">elements</span><span class="p">)</span>
-<span class="n">tuple_contract</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&#39;tuple contract&#39;</span><span class="p">)</span>
+<span class="n">elements</span> <span class="o">=</span> <span class="p">(</span><span class="n">Group</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">inside</span> <span class="o">-</span> <span class="n">ZeroOrMore</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+                                            <span class="o">-</span> <span class="n">inside</span><span class="p">)</span> <span class="o">-</span> <span class="n">S</span><span class="p">(</span><span class="s1">&#39;)&#39;</span><span class="p">))(</span><span class="s1">&#39;elements&#39;</span><span class="p">))</span>
+<span class="n">elements</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;Tuple elements contract.&#39;</span><span class="p">)</span>
+
+
+<span class="n">length</span> <span class="o">=</span> <span class="n">Group</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">contract_expression</span> <span class="o">-</span> <span class="n">S</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">))(</span><span class="s1">&#39;length&#39;</span><span class="p">)</span>
+<span class="n">length</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;Tuple length contract.&#39;</span><span class="p">)</span>
+
+<span class="n">tuple_contract</span> <span class="o">=</span> <span class="n">Keyword</span><span class="p">(</span><span class="s1">&#39;tuple&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">O</span><span class="p">(</span><span class="n">length</span> <span class="o">|</span> <span class="n">elements</span><span class="p">)</span>
+<span class="n">tuple_contract</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;tuple contract&#39;</span><span class="p">)</span>
 
 <span class="n">add_contract</span><span class="p">(</span><span class="n">tuple_contract</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">Tuple</span><span class="o">.</span><span class="n">parse_action</span><span class="p">))</span>
-<span class="n">add_keyword</span><span class="p">(</span><span class="s">&#39;tuple&#39;</span><span class="p">)</span>
+<span class="n">add_keyword</span><span class="p">(</span><span class="s1">&#39;tuple&#39;</span><span class="p">)</span>
+
 </pre></div>
 
           </div>
@@ -178,14 +177,11 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -201,15 +197,15 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.2 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../../contracts.html" >contracts</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.16 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../contracts.html" >contracts</a> &#187;</li> 
       </ul>
     </div>
 	
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+        &#169; Copyright 2010, Andrea Censi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
 	
     <script type="text/javascript">

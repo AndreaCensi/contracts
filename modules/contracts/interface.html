@@ -1,30 +1,28 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>contracts.interface &mdash; PyContracts 1.7.2 documentation</title>
-    
+    <title>contracts.interface &#8212; PyContracts 1.7.16 documentation</title>
     <link rel="stylesheet" href="../../static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.7.2',
+        VERSION:     '1.7.16',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../static/jquery.js"></script>
     <script type="text/javascript" src="../../static/underscore.js"></script>
     <script type="text/javascript" src="../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.7.2 documentation" href="../../index.html" />
-    <link rel="up" title="contracts" href="../contracts.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -50,7 +48,7 @@
 
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -60,9 +58,9 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">PyContracts 1.7.2 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">PyContracts 1.7.16 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../contracts.html" accesskey="U">contracts</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -72,98 +70,289 @@
           <div class="body" role="main">
             
   <h1>Source code for contracts.interface</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="k">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
-<span class="kn">from</span> <span class="nn">.syntax</span> <span class="kn">import</span> <span class="n">col</span><span class="p">,</span> <span class="n">lineno</span>
-<span class="kn">from</span> <span class="nn">.metaclass</span> <span class="kn">import</span> <span class="n">with_metaclass</span>
+<span class="kn">from</span> <span class="nn">.metaclass</span> <span class="k">import</span> <span class="n">with_metaclass</span>
+
 
 
 <div class="viewcode-block" id="Where"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.Where">[docs]</a><span class="k">class</span> <span class="nc">Where</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        An object of this class represents a place in a file.</span>
+<span class="sd">        An object of this class represents a place in a file, or an interval.</span>
 
 <span class="sd">        All parsed elements contain a reference to a :py:class:`Where` object</span>
 <span class="sd">        so that we can output pretty error messages.</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        Character should be &gt;= len(string) (possibly outside the string).</span>
+<span class="sd">        Character_end should be &gt;= character (so that you can splice with </span>
+<span class="sd">        string[character:character_end])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span>
-                 <span class="n">character</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">string</span> <span class="o">=</span> <span class="n">string</span>
-        <span class="k">if</span> <span class="n">character</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="n">line</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">column</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">line</span> <span class="o">=</span> <span class="n">line</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">col</span> <span class="o">=</span> <span class="n">column</span>
-            <span class="c"># self.character = None</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">character</span><span class="p">,</span> <span class="n">character_end</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">contracts.utils</span> <span class="k">import</span> <span class="n">raise_desc</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;I expect the string to be a str, not </span><span class="si">%r</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">string</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">character</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Invalid character loc </span><span class="si">%s</span><span class="s1"> for string of len </span><span class="si">%s</span><span class="s1">.&#39;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">character</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)))</span>
+            <span class="n">raise_desc</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">())</span>
+            <span class="c1"># Advance pointer if whitespace</span>
+            <span class="c1"># if False:</span>
+            <span class="c1">#     while string[character] == &#39; &#39;:</span>
+            <span class="c1">#         if character_end is not None:</span>
+            <span class="c1">#             assert character &lt;= character_end</span>
+            <span class="c1">#         if (character &lt; (len(string) - 2)) and ((character_end is None)</span>
+            <span class="c1">#                                             or (character &lt;= character_end - 1)):</span>
+            <span class="c1">#             character += 1</span>
+            <span class="c1">#         else:</span>
+            <span class="c1">#             break  </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">col</span> <span class="o">=</span> <span class="n">line_and_col</span><span class="p">(</span><span class="n">character</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">character_end</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">character_end</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)):</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Invalid character_end loc </span><span class="si">%s</span><span class="s1"> for string of len </span><span class="si">%s</span><span class="s1">.&#39;</span><span class="o">%</span> 
+                       <span class="p">(</span><span class="n">character_end</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)))</span>
+                
+                <span class="n">raise_desc</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">())</span>
+        
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">character_end</span> <span class="o">&gt;=</span> <span class="n">character</span><span class="p">):</span>
+                <span class="n">msg</span><span class="o">=</span>  <span class="s1">&#39;Invalid interval [</span><span class="si">%d</span><span class="s1">:</span><span class="si">%d</span><span class="s1">]&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">character</span><span class="p">,</span> <span class="n">character_end</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">line_end</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">col_end</span> <span class="o">=</span> <span class="n">line_and_col</span><span class="p">(</span><span class="n">character_end</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="n">line</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">column</span> <span class="ow">is</span> <span class="bp">None</span>
-            <span class="c"># self.character = character</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">line</span> <span class="o">=</span> <span class="n">lineno</span><span class="p">(</span><span class="n">character</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="p">(</span><span class="n">character</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">line_end</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">col_end</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">string</span> <span class="o">=</span> <span class="n">string</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">character</span> <span class="o">=</span> <span class="n">character</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">character_end</span> <span class="o">=</span> <span class="n">character_end</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span> 
+    
+<div class="viewcode-block" id="Where.get_substring"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.Where.get_substring">[docs]</a>    <span class="k">def</span> <span class="nf">get_substring</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns the substring to which we refer. Raises error if character_end is None &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">contracts.utils</span> <span class="k">import</span> <span class="n">raise_desc</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">character_end</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Character end is None&#39;</span>
+            <span class="n">raise_desc</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">string</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">character</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">character_end</span><span class="p">]</span></div>
+    
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">character_end</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">part</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">string</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">character</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">character_end</span><span class="p">]</span>
+            <span class="k">return</span> <span class="s1">&#39;Where(</span><span class="si">%r</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="n">part</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;Where(s=...,char=</span><span class="si">%s</span><span class="s1">-</span><span class="si">%s</span><span class="s1">,line=</span><span class="si">%s</span><span class="s1">,col=</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">character</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">character_end</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">col</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Where.with_filename"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.Where.with_filename">[docs]</a>    <span class="k">def</span> <span class="nf">with_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">character</span> <span class="ow">is</span> <span class="ow">not</span>  <span class="kc">None</span><span class="p">:</span>
+            <span class="n">w2</span> <span class="o">=</span> <span class="n">Where</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">string</span><span class="p">,</span>
+                   <span class="n">character</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">character</span><span class="p">,</span> <span class="n">character_end</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">character_end</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">w2</span> <span class="o">=</span> <span class="n">Where</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">string</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">col</span><span class="p">)</span>
+        <span class="n">w2</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
+        <span class="k">return</span> <span class="n">w2</span></div>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
-        <span class="n">context</span> <span class="o">=</span> <span class="mi">3</span>
-        <span class="n">lines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">line</span> <span class="o">-</span> <span class="n">context</span><span class="p">)</span>
-        <span class="n">pattern</span> <span class="o">=</span> <span class="s">&#39;line </span><span class="si">%2d</span><span class="s"> &gt;&#39;</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">):</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span><span class="s">&quot;</span><span class="si">%s%s</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pattern</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
-        <span class="n">fill</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pattern</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="n">space</span> <span class="o">=</span> <span class="s">&#39; &#39;</span> <span class="o">*</span> <span class="n">fill</span> <span class="o">+</span> <span class="s">&#39; &#39;</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">col</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">s</span> <span class="o">+=</span> <span class="n">space</span> <span class="o">+</span> <span class="s">&#39;^</span><span class="se">\n</span><span class="s">&#39;</span>
-        <span class="n">s</span> <span class="o">+=</span> <span class="n">space</span> <span class="o">+</span> <span class="s">&#39;|</span><span class="se">\n</span><span class="s">&#39;</span>
-        <span class="n">s</span> <span class="o">+=</span> <span class="n">space</span> <span class="o">+</span> <span class="s">&#39;here or nearby&#39;</span>
-        <span class="k">return</span> <span class="n">s</span>
+        <span class="k">return</span> <span class="n">format_where</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+        
+<span class="c1"># mark = &#39;here or nearby&#39;</span>
+<div class="viewcode-block" id="format_where"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.format_where">[docs]</a><span class="k">def</span> <span class="nf">format_where</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">context_before</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">mark</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">arrow</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                 <span class="n">use_unicode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">no_mark_arrow_if_longer_than</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">w</span><span class="o">.</span><span class="n">filename</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;In file </span><span class="si">%r</span><span class="s1">:</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">w</span><span class="o">.</span><span class="n">filename</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">line</span> <span class="o">-</span> <span class="n">context_before</span><span class="p">)</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="s1">&#39;line </span><span class="si">%2d</span><span class="s1"> |&#39;</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">maxi</span> <span class="o">=</span> <span class="n">i</span>  <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">w</span><span class="o">.</span><span class="n">line</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">),</span> <span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">character</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">line</span><span class="p">,</span>  <span class="n">w</span><span class="o">.</span><span class="n">string</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">())</span>
+    
+    <span class="c1"># skip only initial empty lines - if one was written do not skip</span>
+    <span class="n">one_written</span> <span class="o">=</span> <span class="kc">False</span> 
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">line</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># suppress empty lines</span>
+        <span class="k">if</span> <span class="n">one_written</span> <span class="ow">or</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">%s%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pattern</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+            <span class="n">one_written</span> <span class="o">=</span> <span class="kc">True</span>
+        
+    <span class="n">fill</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pattern</span> <span class="o">%</span> <span class="n">maxi</span><span class="p">)</span>
+    
+    <span class="c1"># select the space before the string in the same column</span>
+    <span class="n">char0</span> <span class="o">=</span> <span class="n">location</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">line</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">string</span><span class="p">)</span> <span class="c1"># from col 0</span>
+    <span class="n">char0_end</span> <span class="o">=</span> <span class="n">location</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">line</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">col</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">string</span><span class="p">)</span> <span class="c1"># to w.col</span>
+    <span class="n">space_before</span> <span class="o">=</span> <span class="n">Where</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">string</span><span class="p">,</span> <span class="n">char0</span><span class="p">,</span> <span class="n">char0_end</span><span class="p">)</span>
+    
+    <span class="n">nindent</span> <span class="o">=</span> <span class="n">printable_length_where</span><span class="p">(</span><span class="n">space_before</span><span class="p">)</span>
+    <span class="n">space</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">fill</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">nindent</span>
+    <span class="k">if</span> <span class="n">w</span><span class="o">.</span><span class="n">col_end</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">w</span><span class="o">.</span><span class="n">line</span> <span class="o">==</span> <span class="n">w</span><span class="o">.</span><span class="n">line_end</span><span class="p">:</span>
+            <span class="n">num_highlight</span> <span class="o">=</span> <span class="n">printable_length_where</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="n">space</span> <span class="o">+</span> <span class="s1">&#39;~&#39;</span> <span class="o">*</span> <span class="n">num_highlight</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">space</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">num_highlight</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># cannot highlight if on different lines</span>
+            <span class="n">num_highlight</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">num_highlight</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># Do not add the arrow and the mark if we have a long underline string </span>
+    
+    <span class="n">disable_mark_arrow</span>  <span class="o">=</span> <span class="p">(</span><span class="n">num_highlight</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">no_mark_arrow_if_longer_than</span> <span class="o">&lt;</span><span class="n">num_highlight</span><span class="p">)</span> 
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">disable_mark_arrow</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">arrow</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">use_unicode</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="n">space</span> <span class="o">+</span> <span class="s1">&#39;↑</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="n">space</span> <span class="o">+</span> <span class="s1">&#39;^</span><span class="se">\n</span><span class="s1">&#39;</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="n">space</span> <span class="o">+</span> <span class="s1">&#39;|</span><span class="se">\n</span><span class="s1">&#39;</span>
+            
+        <span class="k">if</span> <span class="n">mark</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="n">space</span> <span class="o">+</span> <span class="n">mark</span>
+        
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+    
+<span class="c1">#     from .utils import indent</span>
+<span class="c1">#     s +=&#39;\n&#39; + indent(w.string, &#39;&gt; &#39;)</span>
+    <span class="k">return</span> <span class="n">s</span></div>
 
-</div>
+
+<div class="viewcode-block" id="printable_length_where"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.printable_length_where">[docs]</a><span class="k">def</span> <span class="nf">printable_length_where</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Returns the printable length of the substring &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+        <span class="n">stype</span> <span class="o">=</span> <span class="nb">str</span>  
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">stype</span> <span class="o">=</span> <span class="n">unicode</span>
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">string</span><span class="p">[</span><span class="n">w</span><span class="o">.</span><span class="n">character</span><span class="p">:</span><span class="n">w</span><span class="o">.</span><span class="n">character_end</span><span class="p">]</span>
+    <span class="c1"># return len(stype(sub, &#39;utf-8&#39;))</span>
+    <span class="c1"># I am not really sure this is what we want</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">stype</span><span class="p">(</span><span class="n">sub</span><span class="p">))</span></div>
+    
+
+
+<div class="viewcode-block" id="line_and_col"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.line_and_col">[docs]</a><span class="k">def</span> <span class="nf">line_and_col</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">strg</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns (line, col), both 0 based.&quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">check_isinstance</span>
+    <span class="n">check_isinstance</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+    <span class="n">check_isinstance</span><span class="p">(</span><span class="n">strg</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="c1"># first find the line </span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">strg</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">loc</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">strg</span><span class="p">):</span>
+        <span class="c1"># Special case: we mark the end of the string</span>
+        <span class="n">last_line</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">last_char</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> 
+        <span class="k">return</span> <span class="n">last_line</span><span class="p">,</span> <span class="n">last_char</span>  
+        
+    <span class="k">if</span> <span class="n">loc</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">strg</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Invalid loc = </span><span class="si">%d</span><span class="s1"> for s of len </span><span class="si">%d</span><span class="s1"> (</span><span class="si">%r</span><span class="s1">)&#39;</span> <span class="o">%</span> 
+                         <span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">strg</span><span class="p">),</span> <span class="n">strg</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    
+    <span class="n">res_line</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="n">loc</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">lines</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">loc</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">strg</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">())</span>
+            <span class="k">break</span>
+
+        <span class="n">first</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">l</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">first</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="n">l</span> <span class="o">-=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">first</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">))</span>
+            <span class="n">res_line</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">break</span>
+    <span class="n">res_col</span> <span class="o">=</span> <span class="n">l</span>
+    <span class="n">inverse</span> <span class="o">=</span> <span class="n">location</span><span class="p">(</span><span class="n">res_line</span><span class="p">,</span> <span class="n">res_col</span><span class="p">,</span> <span class="n">strg</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">inverse</span> <span class="o">!=</span> <span class="n">loc</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Could not find line and col&#39;</span>
+        <span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">raise_desc</span>
+        <span class="n">raise_desc</span><span class="p">(</span><span class="ne">AssertionError</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">strg</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">loc</span><span class="p">,</span> <span class="n">res_line</span><span class="o">=</span><span class="n">res_line</span><span class="p">,</span>
+                   <span class="n">res_col</span><span class="o">=</span><span class="n">res_col</span><span class="p">,</span> <span class="n">loc_recon</span><span class="o">=</span><span class="n">inverse</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="p">(</span><span class="n">res_line</span><span class="p">,</span> <span class="n">res_col</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="location"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.location">[docs]</a><span class="k">def</span> <span class="nf">location</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">check_isinstance</span>
+    <span class="n">check_isinstance</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+    <span class="n">check_isinstance</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+    <span class="n">check_isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+    
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">previous_lines</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[:</span><span class="n">line</span><span class="p">])</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="n">col</span>
+    <span class="k">return</span> <span class="n">previous_lines</span> <span class="o">+</span> <span class="n">offset</span></div>
+
 <div class="viewcode-block" id="add_prefix"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.add_prefix">[docs]</a><span class="k">def</span> <span class="nf">add_prefix</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">prefix</span><span class="p">):</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">):</span>
-        <span class="n">result</span> <span class="o">+=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
-    <span class="c"># chop last newline</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">+=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="c1"># chop last newline</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">result</span>
+    <span class="k">return</span> <span class="n">result</span></div>
 
-</div>
+
 <div class="viewcode-block" id="ContractException"><a class="viewcode-back" href="../../api_reference.html#contracts.interface.ContractException">[docs]</a><span class="k">class</span> <span class="nc">ContractException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The base class for the exceptions thrown by this module. &quot;&quot;&quot;</span>
-    <span class="k">pass</span>
+    <span class="sd">&quot;&quot;&quot; The base class for the exceptions thrown by this module. &quot;&quot;&quot;</span></div>
 
-</div>
 <div class="viewcode-block" id="MissingContract"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.MissingContract">[docs]</a><span class="k">class</span> <span class="nc">MissingContract</span><span class="p">(</span><span class="n">ContractException</span><span class="p">):</span>
-    <span class="k">pass</span>
+    <span class="k">pass</span></div>
 
-</div>
 <div class="viewcode-block" id="ContractDefinitionError"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.ContractDefinitionError">[docs]</a><span class="k">class</span> <span class="nc">ContractDefinitionError</span><span class="p">(</span><span class="n">ContractException</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Thrown when defining the contracts &quot;&quot;&quot;</span>
 
-</div>
-<div class="viewcode-block" id="CannotDecorateClassmethods"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.CannotDecorateClassmethods">[docs]</a><span class="k">class</span> <span class="nc">CannotDecorateClassmethods</span><span class="p">(</span><span class="n">ContractDefinitionError</span><span class="p">):</span>
-    <span class="k">pass</span>
+<div class="viewcode-block" id="ContractDefinitionError.copy"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.ContractDefinitionError.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns a copy of the exception so we can re-raise it by erasing the stack. &quot;&quot;&quot;</span>
+<span class="c1">#         print(&#39;type is %r&#39; % type(self))</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">)</span></div></div>
 
-</div>
+<div class="viewcode-block" id="ExternalScopedVariableNotFound"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.ExternalScopedVariableNotFound">[docs]</a><span class="k">class</span> <span class="nc">ExternalScopedVariableNotFound</span><span class="p">(</span><span class="n">ContractDefinitionError</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">):</span>
+        <span class="n">ContractDefinitionError</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_token</span><span class="p">()</span>
+        <span class="k">return</span> <span class="s1">&#39;Token not found: </span><span class="si">%r</span><span class="s1">.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">token</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ExternalScopedVariableNotFound.get_token"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.ExternalScopedVariableNotFound.get_token">[docs]</a>    <span class="k">def</span> <span class="nf">get_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div></div>
+
+<div class="viewcode-block" id="CannotDecorateClassmethods"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.CannotDecorateClassmethods">[docs]</a><span class="k">class</span> <span class="nc">CannotDecorateClassmethods</span><span class="p">(</span><span class="n">ContractDefinitionError</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
 <div class="viewcode-block" id="ContractSyntaxError"><a class="viewcode-back" href="../../api_reference.html#contracts.interface.ContractSyntaxError">[docs]</a><span class="k">class</span> <span class="nc">ContractSyntaxError</span><span class="p">(</span><span class="n">ContractDefinitionError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Exception thrown when there is a syntax error in the contracts. &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="n">error</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">where</span> <span class="o">=</span> <span class="n">where</span>
+        <span class="n">ContractDefinitionError</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">error</span>
-        <span class="n">s</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\n\n</span><span class="s">&quot;</span> <span class="o">+</span> <span class="n">add_prefix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">where</span><span class="o">.</span><span class="n">__str__</span><span class="p">(),</span> <span class="s">&#39; &#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">s</span>
+        <span class="n">error</span><span class="p">,</span> <span class="n">where</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">error</span>
+        <span class="k">if</span> <span class="n">where</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">add_prefix</span><span class="p">(</span><span class="n">where</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(),</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span></div>
 
-</div>
+
+
 <div class="viewcode-block" id="ContractNotRespected"><a class="viewcode-back" href="../../api_reference.html#contracts.interface.ContractNotRespected">[docs]</a><span class="k">class</span> <span class="nc">ContractNotRespected</span><span class="p">(</span><span class="n">ContractException</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Exception thrown when a value does not respect a contract. &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
-        <span class="c"># XXX: solves pickling problem in multiprocess problem, but not the</span>
-        <span class="c"># real solution</span>
-        <span class="ne">Exception</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+        <span class="c1"># XXX: solves pickling problem in multiprocess problem, but not the</span>
+        <span class="c1"># real solution</span>
+        <span class="ne">Exception</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">contract</span><span class="p">,</span> <span class="n">Contract</span><span class="p">),</span> <span class="n">contract</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="nb">dict</span><span class="p">),</span> <span class="n">context</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="nb">str</span><span class="p">),</span> <span class="n">error</span>
@@ -179,53 +368,59 @@
 
         <span class="k">def</span> <span class="nf">context_to_string</span><span class="p">(</span><span class="n">context</span><span class="p">):</span>
             <span class="n">keys</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+
+            <span class="c1"># don&#39;t display these two if are not used</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">,</span> <span class="s1">&#39;kwargs&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">keys</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">context</span><span class="p">[</span><span class="n">x</span><span class="p">]:</span> <span class="n">keys</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">varss</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;- </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">describe_value</span><span class="p">(</span><span class="n">context</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">clip</span><span class="o">=</span><span class="mi">70</span><span class="p">))</span>
+                <span class="n">varss</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;- </span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">describe_value</span><span class="p">(</span><span class="n">context</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">clip</span><span class="o">=</span><span class="mi">70</span><span class="p">))</span>
                          <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]</span>
-                <span class="n">contexts</span> <span class="o">=</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">varss</span><span class="p">)</span>
+                <span class="n">contexts</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">varss</span><span class="p">)</span>
             <span class="k">except</span><span class="p">:</span>
-                <span class="n">contexts</span> <span class="o">=</span> <span class="s">&#39;! cannot write context&#39;</span>
+                <span class="n">contexts</span> <span class="o">=</span> <span class="s1">&#39;! cannot write context&#39;</span>
             <span class="k">return</span> <span class="n">contexts</span>
 
         <span class="n">align</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="p">(</span><span class="n">contract</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="p">:</span>  <span class="c"># @UnusedVariable</span>
-            <span class="c"># cons = (&quot;%s %s&quot; % (contract, contexts)).ljust(30)</span>
-            <span class="n">row</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;checking: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">contract</span><span class="p">,</span>
-                   <span class="s">&#39;for value: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">describe_value</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="mi">70</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">contract</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="p">:</span>  <span class="c1"># @UnusedVariable</span>
+            <span class="c1"># cons = (&quot;%s %s&quot; % (contract, contexts)).ljust(30)</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;checking: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">contract</span><span class="p">,</span>
+                   <span class="s1">&#39;for value: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">describe_value</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="mi">70</span><span class="p">)]</span>
             <span class="n">align</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
 
         <span class="n">msg</span> <span class="o">+=</span> <span class="n">format_table</span><span class="p">(</span><span class="n">align</span><span class="p">,</span> <span class="n">colspacing</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 
         <span class="n">context0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+
         <span class="k">if</span> <span class="n">context0</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">+=</span> <span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">Variables bound in inner context:</span><span class="se">\n</span><span class="si">%s</span><span class="s">&#39;</span>
-                    <span class="o">%</span> <span class="n">context_to_string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Variables bound in inner context:</span><span class="se">\n</span><span class="si">%s</span><span class="s1">&#39;</span>
+                    <span class="o">%</span> <span class="n">context_to_string</span><span class="p">(</span><span class="n">context0</span><span class="p">))</span>
 
-        <span class="k">return</span> <span class="n">msg</span>
+        <span class="k">return</span> <span class="n">msg</span></div>
 
-</div>
+
 <div class="viewcode-block" id="format_table"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.format_table">[docs]</a><span class="k">def</span> <span class="nf">format_table</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">colspacing</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="n">sizes</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
         <span class="n">sizes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">))</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
     <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-        <span class="n">s</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
         <span class="k">for</span> <span class="n">size</span><span class="p">,</span> <span class="n">cell</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sizes</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
             <span class="n">s</span> <span class="o">+=</span> <span class="n">cell</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="s">&#39; &#39;</span> <span class="o">*</span> <span class="n">colspacing</span>
-    <span class="k">return</span> <span class="n">s</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">colspacing</span>
+    <span class="k">return</span> <span class="n">s</span></div>
 
-</div>
+
 <div class="viewcode-block" id="RValue"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.RValue">[docs]</a><span class="k">class</span> <span class="nc">RValue</span><span class="p">(</span><span class="n">with_metaclass</span><span class="p">(</span><span class="n">ABCMeta</span><span class="p">,</span> <span class="nb">object</span><span class="p">)):</span>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="RValue.eval"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.RValue.eval">[docs]</a>    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>  <span class="c"># @UnusedVariable @ReservedAssignment</span>
-        <span class="sd">&quot;&quot;&quot; Can raise ValueError; will be wrapped in ContractNotRespected. &quot;&quot;&quot;</span>
-</div>
+<div class="viewcode-block" id="RValue.eval"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.RValue.eval">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>  <span class="c1"># @UnusedVariable @ReservedAssignment</span>
+        <span class="sd">&quot;&quot;&quot; Can raise ValueError; will be wrapped in ContractNotRespected. &quot;&quot;&quot;</span></div>
+
     <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">and</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__repr__</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__repr__</span><span class="p">())</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">and</span>
+                <span class="bp">self</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">())</span>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -233,44 +428,44 @@
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Same constraints as :py:func:`Contract.__str__()`. &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot; Same constraints as :py:func:`Contract.__str__()`. &quot;&quot;&quot;</span></div>
 
-</div>
+
 <div class="viewcode-block" id="eval_in_context"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.eval_in_context">[docs]</a><span class="k">def</span> <span class="nf">eval_in_context</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">contract</span><span class="p">):</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">contract</span><span class="p">,</span> <span class="n">Contract</span><span class="p">)</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">RValue</span><span class="p">),</span> <span class="n">describe_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;Error while evaluating RValue </span><span class="si">%r</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="n">ContractNotRespected</span><span class="p">(</span><span class="n">contract</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Error while evaluating RValue </span><span class="si">%r</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">ContractNotRespected</span><span class="p">(</span><span class="n">contract</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="Contract"><a class="viewcode-back" href="../../api_reference.html#contracts.interface.Contract">[docs]</a><span class="k">class</span> <span class="nc">Contract</span><span class="p">(</span><span class="n">with_metaclass</span><span class="p">(</span><span class="n">ABCMeta</span><span class="p">,</span> <span class="nb">object</span><span class="p">)):</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="p">((</span><span class="n">where</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">or</span>
-                <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">where</span><span class="p">,</span> <span class="n">Where</span><span class="p">),</span> <span class="s">&#39;Wrong type </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">where</span><span class="p">))</span>
+        <span class="k">assert</span> <span class="p">((</span><span class="n">where</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span>
+                <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">where</span><span class="p">,</span> <span class="n">Where</span><span class="p">),</span> <span class="s1">&#39;Wrong type </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">where</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">where</span> <span class="o">=</span> <span class="n">where</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">enable</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Contract.enable"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.Contract.enable">[docs]</a>    <span class="k">def</span> <span class="nf">enable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_enabled</span> <span class="o">=</span> <span class="bp">True</span>
-</div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_enabled</span> <span class="o">=</span> <span class="kc">True</span></div>
+
 <div class="viewcode-block" id="Contract.disable"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.Contract.disable">[docs]</a>    <span class="k">def</span> <span class="nf">disable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_enabled</span> <span class="o">=</span> <span class="bp">False</span>
-</div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_enabled</span> <span class="o">=</span> <span class="kc">False</span></div>
+
 <div class="viewcode-block" id="Contract.enabled"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.Contract.enabled">[docs]</a>    <span class="k">def</span> <span class="nf">enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enabled</span>
-</div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enabled</span></div>
+
 <div class="viewcode-block" id="Contract.check"><a class="viewcode-back" href="../../api_reference.html#contracts.interface.Contract.check">[docs]</a>    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Checks that the value satisfies this contract.</span>
 
 <span class="sd">            :raise: ContractNotRespected</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_contract</span><span class="p">({},</span> <span class="n">value</span><span class="p">)</span>
-</div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_contract</span><span class="p">({},</span> <span class="n">value</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="Contract.fail"><a class="viewcode-back" href="../../api_reference.html#contracts.interface.Contract.fail">[docs]</a>    <span class="k">def</span> <span class="nf">fail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Checks that the value **does not** respect this contract.</span>
@@ -283,24 +478,27 @@
         <span class="k">except</span> <span class="n">ContractNotRespected</span><span class="p">:</span>
             <span class="k">pass</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;I did not expect that this value would &#39;</span>
-                   <span class="s">&#39;satisfy this contract.</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-            <span class="n">msg</span> <span class="o">+=</span> <span class="s">&#39;-    value: </span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">describe_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-            <span class="n">msg</span> <span class="o">+=</span> <span class="s">&#39;- contract: </span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span>
-            <span class="n">msg</span> <span class="o">+=</span> <span class="s">&#39;-  context: </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">context</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-</div>
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="Contract.check_contract"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.Contract.check_contract">[docs]</a>    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;I did not expect that this value would &#39;</span>
+                   <span class="s1">&#39;satisfy this contract.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s1">&#39;-    value: </span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">describe_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s1">&#39;- contract: </span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s1">&#39;-  context: </span><span class="si">%r</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">context</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Contract.check_contract"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.Contract.check_contract">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">silent</span><span class="p">):</span>  <span class="c1"># @UnusedVariable</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Checks that value is ok with this contract in the specific</span>
 <span class="sd">            context. This is the function that subclasses must implement.</span>
 
+<span class="sd">            If silent = False, do not bother with creating detailed error messages yet.</span>
+<span class="sd">            This is for performance optimization. </span>
+<span class="sd">            </span>
 <span class="sd">            :param context: The context in which expressions are evaluated.</span>
-<span class="sd">            :type context: ``class(Contract)``</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-</div>
-    <span class="k">def</span> <span class="nf">_check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="sd">            :type context:</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+    <span class="k">def</span> <span class="nf">_check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">silent</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Recursively checks the contracts; it calls check_contract,</span>
 <span class="sd">            but the error is wrapped recursively. This is the function</span>
 <span class="sd">            that subclasses must call when checking their sub-contracts.</span>
@@ -310,13 +508,13 @@
 
         <span class="n">variables</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">silent</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">ContractNotRespected</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">e</span><span class="o">.</span><span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
             <span class="k">raise</span>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="Contract.__repr__"><a class="viewcode-back" href="../../api_reference.html#contracts.interface.Contract.__repr__">[docs]</a>    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Contract.__repr__"><a class="viewcode-back" href="../../api_reference.html#contracts.interface.Contract.__repr__">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns a string representation of a contract that can be</span>
 <span class="sd">            evaluated by Python&#39;s :py:func:`eval()`.</span>
@@ -338,10 +536,10 @@
 <span class="sd">            &gt;&gt;&gt; contract == eval(&quot;%r&quot;%contract)</span>
 <span class="sd">            True</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
-</div>
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="Contract.__str__"><a class="viewcode-back" href="../../api_reference.html#contracts.interface.Contract.__str__">[docs]</a>    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="Contract.__str__"><a class="viewcode-back" href="../../api_reference.html#contracts.interface.Contract.__str__">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Returns a string representation of a contract that can be</span>
 <span class="sd">            reparsed by :py:func:`contracts.parse()`.</span>
 
@@ -389,84 +587,100 @@
 <span class="sd">            needed.</span>
 
 
-<span class="sd">        &quot;&quot;&quot;</span>
-</div>
-    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">and</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__repr__</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__repr__</span><span class="p">())</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
 
-</div>
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">and</span>
+                <span class="bp">self</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">())</span></div>
+
+
 <span class="n">inPy2</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span>
 <span class="k">if</span> <span class="n">inPy2</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">ClassType</span>
+    <span class="kn">from</span> <span class="nn">types</span> <span class="k">import</span> <span class="n">ClassType</span>
 
 
 <div class="viewcode-block" id="clipped_repr"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.clipped_repr">[docs]</a><span class="k">def</span> <span class="nf">clipped_repr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">clip</span><span class="p">):</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;{0!r}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">clip</span><span class="p">:</span>
-        <span class="n">clip_tag</span> <span class="o">=</span> <span class="s">&#39;... [clip]&#39;</span>
+        <span class="n">clip_tag</span> <span class="o">=</span> <span class="s1">&#39;... [clip]&#39;</span>
         <span class="n">cut</span> <span class="o">=</span> <span class="n">clip</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">clip_tag</span><span class="p">)</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">s</span><span class="p">[:</span><span class="n">cut</span><span class="p">],</span> <span class="n">clip_tag</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">s</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">s</span><span class="p">[:</span><span class="n">cut</span><span class="p">],</span> <span class="n">clip_tag</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">s</span></div>
 
 
-<span class="c"># TODO: add checks for these functions</span>
+<span class="c1"># TODO: add checks for these functions</span>
 
-</div>
+
 <div class="viewcode-block" id="remove_newlines"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.remove_newlines">[docs]</a><span class="k">def</span> <span class="nf">remove_newlines</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="describe_type"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.describe_type">[docs]</a><span class="k">def</span> <span class="nf">describe_type</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Returns a friendly description of the type of x. &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">inPy2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ClassType</span><span class="p">):</span>
-        <span class="n">class_name</span> <span class="o">=</span> <span class="s">&#39;(old-style class) </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">x</span>
+        <span class="n">class_name</span> <span class="o">=</span> <span class="s1">&#39;(old-style class) </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">x</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s">&#39;__class__&#39;</span><span class="p">):</span>
-            <span class="n">class_name</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">x</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;__class__&#39;</span><span class="p">):</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="vm">__class__</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">):</span>
+                <span class="n">class_name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">c</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">class_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c"># for extension classes (spmatrix)</span>
+            <span class="c1"># for extension classes (spmatrix)</span>
             <span class="n">class_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 
-    <span class="k">return</span> <span class="n">class_name</span>
+    <span class="k">return</span> <span class="n">class_name</span></div>
 
-</div>
+
 <div class="viewcode-block" id="describe_value"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.describe_value">[docs]</a><span class="k">def</span> <span class="nf">describe_value</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="mi">80</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Describes an object, for use in the error messages.</span>
 <span class="sd">        Short description, no multiline.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s">&#39;shape&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s">&#39;dtype&#39;</span><span class="p">):</span>
-        <span class="n">shape_desc</span> <span class="o">=</span> <span class="s">&#39;x&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-        <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;array[</span><span class="si">%r</span><span class="s">](</span><span class="si">%s</span><span class="s">) &#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">shape_desc</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;shape&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;dtype&#39;</span><span class="p">):</span>
+        <span class="n">shape_desc</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">desc</span> <span class="o">=</span> <span class="s1">&#39;array[</span><span class="si">%r</span><span class="s1">](</span><span class="si">%s</span><span class="s1">) &#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">shape_desc</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="n">final</span> <span class="o">=</span> <span class="n">desc</span> <span class="o">+</span> <span class="n">clipped_repr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">clip</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">desc</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">remove_newlines</span><span class="p">(</span><span class="n">final</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">class_name</span> <span class="o">=</span> <span class="n">describe_type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;Instance of </span><span class="si">%s</span><span class="s">: &#39;</span> <span class="o">%</span> <span class="n">class_name</span>
+        <span class="n">desc</span> <span class="o">=</span> <span class="s1">&#39;Instance of </span><span class="si">%s</span><span class="s1">: &#39;</span> <span class="o">%</span> <span class="n">class_name</span>
         <span class="n">final</span> <span class="o">=</span> <span class="n">desc</span> <span class="o">+</span> <span class="n">clipped_repr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">clip</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">desc</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">remove_newlines</span><span class="p">(</span><span class="n">final</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">remove_newlines</span><span class="p">(</span><span class="n">final</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="describe_value_multiline"><a class="viewcode-back" href="../../api/contracts.html#contracts.interface.describe_value_multiline">[docs]</a><span class="k">def</span> <span class="nf">describe_value_multiline</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Describes an object, for use in the error messages. &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s">&#39;shape&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s">&#39;dtype&#39;</span><span class="p">):</span>
-        <span class="n">shape_desc</span> <span class="o">=</span> <span class="s">&#39;x&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-        <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;array[</span><span class="si">%r</span><span class="s">](</span><span class="si">%s</span><span class="s">) &#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">shape_desc</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
-        <span class="n">final</span> <span class="o">=</span> <span class="n">desc</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">__repr__</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;shape&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;dtype&#39;</span><span class="p">):</span>
+        <span class="c1"># XXX this fails for bs4, Tag</span>
+        <span class="n">shape_desc</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">desc</span> <span class="o">=</span> <span class="s1">&#39;array[</span><span class="si">%r</span><span class="s1">](</span><span class="si">%s</span><span class="s1">) &#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">shape_desc</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">final</span> <span class="o">=</span> <span class="n">desc</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">final</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">class_name</span> <span class="o">=</span> <span class="n">describe_type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="c"># TODO: add all types</span>
-        <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;Instance of </span><span class="si">%s</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="n">class_name</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;&#39;&#39;&quot;</span>
+            <span class="k">return</span> <span class="n">x</span>
+        <span class="c1"># XXX: this does not represent strings</span>
 
-        <span class="k">try</span><span class="p">:</span>
-            <span class="c"># This fails for classes</span>
-            <span class="n">final</span> <span class="o">=</span> <span class="n">desc</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">__repr__</span><span class="p">()</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="n">final</span> <span class="o">=</span> <span class="n">desc</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="c1">#             if &#39;\n&#39; in x:</span>
+<span class="c1">#                 # long multiline</span>
+<span class="c1">#                 return x</span>
+<span class="c1">#             else:</span>
+<span class="c1">#                 # short string</span>
+<span class="c1">#                 return x.__repr__()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">class_name</span> <span class="o">=</span> <span class="n">describe_type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="c1"># TODO: add all types</span>
+            <span class="n">desc</span> <span class="o">=</span> <span class="s1">&#39;Instance of </span><span class="si">%s</span><span class="s1">.&#39;</span> <span class="o">%</span> <span class="n">class_name</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># This fails for classes</span>
+                <span class="n">final</span> <span class="o">=</span> <span class="n">desc</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">final</span> <span class="o">=</span> <span class="n">desc</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">final</span>
-</pre></div></div>
+            <span class="k">return</span> <span class="n">final</span></div>
+</pre></div>
 
           </div>
         </div>
@@ -476,14 +690,11 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -499,15 +710,15 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">PyContracts 1.7.2 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../contracts.html" >contracts</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">PyContracts 1.7.16 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../contracts.html" >contracts</a> &#187;</li> 
       </ul>
     </div>
 	
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+        &#169; Copyright 2010, Andrea Censi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
 	
     <script type="text/javascript">

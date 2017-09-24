@@ -1,30 +1,28 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>contracts.testing.array_extended_test &mdash; PyContracts 1.7.2 documentation</title>
-    
+    <title>contracts.testing.array_extended_test &#8212; PyContracts 1.7.16 documentation</title>
     <link rel="stylesheet" href="../../../static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '1.7.2',
+        VERSION:     '1.7.16',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../static/jquery.js"></script>
     <script type="text/javascript" src="../../../static/underscore.js"></script>
     <script type="text/javascript" src="../../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.7.2 documentation" href="../../../index.html" />
-    <link rel="up" title="contracts" href="../../contracts.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -50,7 +48,7 @@
 
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -60,9 +58,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.2 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.16 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../contracts.html" accesskey="U">contracts</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -72,7 +70,7 @@
           <div class="body" role="main">
             
   <h1>Source code for contracts.testing.array_extended_test</h1><div class="highlight"><pre>
-<span class="k">try</span><span class="p">:</span>
+<span></span><span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">numpy</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="k">pass</span>
@@ -80,12 +78,12 @@
 
     <span class="kn">import</span> <span class="nn">unittest</span>
 
-    <span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">new_contract</span><span class="p">,</span> <span class="n">ContractNotRespected</span>
+    <span class="kn">from</span> <span class="nn">contracts</span> <span class="k">import</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">new_contract</span><span class="p">,</span> <span class="n">ContractNotRespected</span>
 
-    <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;rgb&#39;</span><span class="p">,</span> <span class="s">&#39;array[HxWx3],H&gt;0,W&gt;0&#39;</span><span class="p">)</span>
-    <span class="n">new_contract</span><span class="p">(</span><span class="s">&#39;rgba&#39;</span><span class="p">,</span> <span class="s">&#39;array[HxWx4],H&gt;0,W&gt;0&#39;</span><span class="p">)</span>
+    <span class="n">new_contract</span><span class="p">(</span><span class="s1">&#39;rgb&#39;</span><span class="p">,</span> <span class="s1">&#39;array[HxWx3],H&gt;0,W&gt;0&#39;</span><span class="p">)</span>
+    <span class="n">new_contract</span><span class="p">(</span><span class="s1">&#39;rgba&#39;</span><span class="p">,</span> <span class="s1">&#39;array[HxWx4],H&gt;0,W&gt;0&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="blend_function"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.array_extended_test.blend_function">[docs]</a>    <span class="k">def</span> <span class="nf">blend_function</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">image2</span><span class="p">,</span> <span class="n">bug</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="blend_function"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.array_extended_test.blend_function">[docs]</a>    <span class="k">def</span> <span class="nf">blend_function</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">image2</span><span class="p">,</span> <span class="n">bug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Blends two RGB or RGBA images together.</span>
 
@@ -102,59 +100,60 @@
         <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">image1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">image1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">bug</span><span class="p">:</span>
-            <span class="c"># if we want to show a bug, return a different shape</span>
+            <span class="c1"># if we want to show a bug, return a different shape</span>
             <span class="n">W</span> <span class="o">+=</span> <span class="mi">1</span>
 
-        <span class="n">result</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s">&#39;uint8&#39;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;uint8&#39;</span><span class="p">)</span>
 
-        <span class="c"># put here the actual function</span>
+        <span class="c1"># put here the actual function</span>
         <span class="n">image2</span>
 
-        <span class="k">return</span> <span class="n">result</span>
-</div>
-    <span class="n">im_float</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;float32&#39;</span><span class="p">)</span>
-    <span class="n">rgb_small</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;uint8&#39;</span><span class="p">)</span>
-    <span class="n">rgb_large</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;uint8&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
 
-    <span class="n">rgba_small</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;uint8&#39;</span><span class="p">)</span>
-    <span class="n">rgba_large</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;uint8&#39;</span><span class="p">)</span>
+    <span class="n">im_float</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+    <span class="n">rgb_small</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span>
+    <span class="n">rgb_large</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span>
+
+    <span class="n">rgba_small</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span>
+    <span class="n">rgba_large</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ArrayTest"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.array_extended_test.ArrayTest">[docs]</a>    <span class="k">class</span> <span class="nc">ArrayTest</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
 
 <div class="viewcode-block" id="ArrayTest.setUp"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.array_extended_test.ArrayTest.setUp">[docs]</a>        <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">blend</span> <span class="o">=</span> <span class="n">decorate</span><span class="p">(</span><span class="n">blend_function</span><span class="p">)</span>
-</div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">blend</span> <span class="o">=</span> <span class="n">decorate</span><span class="p">(</span><span class="n">blend_function</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="ArrayTest.test_correct_behavior"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.array_extended_test.ArrayTest.test_correct_behavior">[docs]</a>        <span class="k">def</span> <span class="nf">test_correct_behavior</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">blend</span><span class="p">(</span><span class="n">rgb_small</span><span class="p">,</span> <span class="n">rgb_small</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">blend</span><span class="p">(</span><span class="n">rgb_small</span><span class="p">,</span> <span class="n">rgba_small</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">blend</span><span class="p">(</span><span class="n">rgba_small</span><span class="p">,</span> <span class="n">rgb_small</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">blend</span><span class="p">(</span><span class="n">rgb_large</span><span class="p">,</span> <span class="n">rgba_large</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">blend</span><span class="p">(</span><span class="n">rgba_large</span><span class="p">,</span> <span class="n">rgb_large</span><span class="p">)</span>
-</div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">blend</span><span class="p">(</span><span class="n">rgba_large</span><span class="p">,</span> <span class="n">rgb_large</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="ArrayTest.test_incorrect1"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.array_extended_test.ArrayTest.test_incorrect1">[docs]</a>        <span class="k">def</span> <span class="nf">test_incorrect1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractNotRespected</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">blend</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-</div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractNotRespected</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">blend</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="ArrayTest.test_incorrect2"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.array_extended_test.ArrayTest.test_incorrect2">[docs]</a>        <span class="k">def</span> <span class="nf">test_incorrect2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractNotRespected</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">blend</span><span class="p">,</span>
-                              <span class="bp">None</span><span class="p">,</span> <span class="n">rgb_small</span><span class="p">)</span>
-</div>
+                              <span class="kc">None</span><span class="p">,</span> <span class="n">rgb_small</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="ArrayTest.test_incorrect3"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.array_extended_test.ArrayTest.test_incorrect3">[docs]</a>        <span class="k">def</span> <span class="nf">test_incorrect3</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractNotRespected</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">blend</span><span class="p">,</span>
-                              <span class="n">rgb_small</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-</div>
+                              <span class="n">rgb_small</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="ArrayTest.test_incorrect4"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.array_extended_test.ArrayTest.test_incorrect4">[docs]</a>        <span class="k">def</span> <span class="nf">test_incorrect4</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractNotRespected</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">blend</span><span class="p">,</span>
-                              <span class="n">rgb_small</span><span class="p">,</span> <span class="n">rgb_large</span><span class="p">)</span>
-</div>
+                              <span class="n">rgb_small</span><span class="p">,</span> <span class="n">rgb_large</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="ArrayTest.test_incorrect5"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.array_extended_test.ArrayTest.test_incorrect5">[docs]</a>        <span class="k">def</span> <span class="nf">test_incorrect5</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractNotRespected</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">blend</span><span class="p">,</span>
-                              <span class="n">rgb_small</span><span class="p">,</span> <span class="n">rgb_large</span><span class="p">)</span>
-</div>
+                              <span class="n">rgb_small</span><span class="p">,</span> <span class="n">rgb_large</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="ArrayTest.test_incorrect6"><a class="viewcode-back" href="../../../api/contracts.testing.html#contracts.testing.array_extended_test.ArrayTest.test_incorrect6">[docs]</a>        <span class="k">def</span> <span class="nf">test_incorrect6</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="c"># check that rtype checking works, introduce a bug</span>
+            <span class="c1"># check that rtype checking works, introduce a bug</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">ContractNotRespected</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">blend</span><span class="p">,</span> <span class="n">rgb_small</span><span class="p">,</span>
-                              <span class="n">rgb_small</span><span class="p">,</span> <span class="n">bug</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</pre></div></div></div>
+                              <span class="n">rgb_small</span><span class="p">,</span> <span class="n">bug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
+
+</pre></div>
 
           </div>
         </div>
@@ -164,14 +163,11 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -187,15 +183,15 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.2 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../../contracts.html" >contracts</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.16 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../contracts.html" >contracts</a> &#187;</li> 
       </ul>
     </div>
 	
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+        &#169; Copyright 2010, Andrea Censi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
 	
     <script type="text/javascript">

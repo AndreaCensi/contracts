@@ -1,30 +1,28 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>contracts.library.array &mdash; PyContracts 1.7.2 documentation</title>
-    
+    <title>contracts.library.array &#8212; PyContracts 1.7.16 documentation</title>
     <link rel="stylesheet" href="../../../static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '1.7.2',
+        VERSION:     '1.7.16',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../static/jquery.js"></script>
     <script type="text/javascript" src="../../../static/underscore.js"></script>
     <script type="text/javascript" src="../../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.7.2 documentation" href="../../../index.html" />
-    <link rel="up" title="contracts" href="../../contracts.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -50,7 +48,7 @@
 
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -60,9 +58,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.2 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.16 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../contracts.html" accesskey="U">contracts</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -72,192 +70,192 @@
           <div class="body" role="main">
             
   <h1>Source code for contracts.library.array</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">..interface</span> <span class="kn">import</span> <span class="n">Contract</span><span class="p">,</span> <span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">describe_type</span>
-<span class="kn">from</span> <span class="nn">..pyparsing_utils</span> <span class="kn">import</span> <span class="n">myOperatorPrecedence</span>
-<span class="kn">from</span> <span class="nn">..syntax</span> <span class="kn">import</span> <span class="p">(</span><span class="n">add_contract</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">contract_expression</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">rvalue</span><span class="p">,</span>
+<span></span><span class="kn">from</span> <span class="nn">..interface</span> <span class="k">import</span> <span class="n">Contract</span><span class="p">,</span> <span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">describe_type</span>
+<span class="kn">from</span> <span class="nn">..pyparsing_utils</span> <span class="k">import</span> <span class="n">myOperatorPrecedence</span>
+<span class="kn">from</span> <span class="nn">..syntax</span> <span class="k">import</span> <span class="p">(</span><span class="n">add_contract</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">contract_expression</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">rvalue</span><span class="p">,</span>
     <span class="n">simple_contract</span><span class="p">,</span> <span class="n">ZeroOrMore</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">MatchFirst</span><span class="p">,</span> <span class="n">opAssoc</span><span class="p">,</span> <span class="n">FollowedBy</span><span class="p">,</span> <span class="n">NotAny</span><span class="p">,</span>
     <span class="n">Keyword</span><span class="p">,</span> <span class="n">add_keyword</span><span class="p">,</span> <span class="n">Word</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">.array_ops</span> <span class="kn">import</span> <span class="p">(</span><span class="n">ArrayOR</span><span class="p">,</span> <span class="n">ArrayAnd</span><span class="p">,</span> <span class="n">DType</span><span class="p">,</span> <span class="n">ArrayConstraint</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">.array_ops</span> <span class="k">import</span> <span class="p">(</span><span class="n">ArrayOR</span><span class="p">,</span> <span class="n">ArrayAnd</span><span class="p">,</span> <span class="n">DType</span><span class="p">,</span> <span class="n">ArrayConstraint</span><span class="p">,</span>
     <span class="n">ArrayORCustomString</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">.compositions</span> <span class="kn">import</span> <span class="n">And</span><span class="p">,</span> <span class="n">OR</span>
-<span class="kn">from</span> <span class="nn">.suggester</span> <span class="kn">import</span> <span class="n">create_suggester</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">dtype</span>  <span class="c"># @UnusedImport</span>
+<span class="kn">from</span> <span class="nn">.compositions</span> <span class="k">import</span> <span class="n">And</span><span class="p">,</span> <span class="n">OR</span>
+<span class="kn">from</span> <span class="nn">.suggester</span> <span class="k">import</span> <span class="n">create_suggester</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">dtype</span>  <span class="c1"># @UnusedImport</span>
 <span class="kn">import</span> <span class="nn">numpy</span>
-<span class="kn">from</span> <span class="nn">pyparsing</span> <span class="kn">import</span> <span class="n">operatorPrecedence</span>
+<span class="kn">from</span> <span class="nn">pyparsing</span> <span class="k">import</span> <span class="n">operatorPrecedence</span>
 
 
 <div class="viewcode-block" id="Array"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.Array">[docs]</a><span class="k">class</span> <span class="nc">Array</span><span class="p">(</span><span class="n">Contract</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape_contract</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                        <span class="n">elements_contract</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="n">Contract</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape_contract</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">elements_contract</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">Contract</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">shape_contract</span> <span class="o">=</span> <span class="n">shape_contract</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">elements_contract</span> <span class="o">=</span> <span class="n">elements_contract</span>
 
-<div class="viewcode-block" id="Array.check_contract"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.Array.check_contract">[docs]</a>    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Array.check_contract"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.Array.check_contract">[docs]</a>    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">silent</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">):</span>
-            <span class="n">error</span> <span class="o">=</span> <span class="s">&#39;Expected an array, got a </span><span class="si">%s</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="n">describe_type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="s1">&#39;Expected an array, got a </span><span class="si">%s</span><span class="s1">.&#39;</span> <span class="o">%</span> <span class="n">describe_type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">ContractNotRespected</span><span class="p">(</span><span class="n">contract</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="n">error</span><span class="p">,</span>
                                        <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape_contract</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">shape_contract</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape_contract</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shape_contract</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">silent</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements_contract</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">elements_contract</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-</div>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements_contract</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">elements_contract</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">silent</span><span class="p">)</span></div>
+
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;array&#39;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape_contract</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="s">&#39;[</span><span class="si">%s</span><span class="s">]&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape_contract</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements_contract</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="s">&#39;(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements_contract</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;array&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape_contract</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;[</span><span class="si">%s</span><span class="s1">]&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape_contract</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements_contract</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;(</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements_contract</span>
         <span class="k">return</span> <span class="n">s</span>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;Array(</span><span class="si">%r</span><span class="s">,</span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape_contract</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements_contract</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;Array(</span><span class="si">%r</span><span class="s1">,</span><span class="si">%r</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape_contract</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements_contract</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">s</span>
 
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="Array.parse_action"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.Array.parse_action">[docs]</a>    <span class="k">def</span> <span class="nf">parse_action</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
+<div class="viewcode-block" id="Array.parse_action"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.Array.parse_action">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">parse_action</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
         <span class="n">where</span> <span class="o">=</span> <span class="n">W</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
-        <span class="n">shape_contract</span> <span class="o">=</span> <span class="n">tokens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;shape_contract&#39;</span><span class="p">,</span> <span class="p">[</span><span class="bp">None</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">elements_contract</span> <span class="o">=</span> <span class="n">tokens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;elements_contract&#39;</span><span class="p">,</span> <span class="p">[</span><span class="bp">None</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">shape_contract</span> <span class="o">=</span> <span class="n">tokens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;shape_contract&#39;</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">elements_contract</span> <span class="o">=</span> <span class="n">tokens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;elements_contract&#39;</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
 
-        <span class="k">assert</span> <span class="n">shape_contract</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">shape_contract</span><span class="p">,</span>
+        <span class="k">assert</span> <span class="n">shape_contract</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">shape_contract</span><span class="p">,</span>
                                                     <span class="n">ShapeContract</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="n">elements_contract</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">elements_contract</span><span class="p">,</span>
+        <span class="k">assert</span> <span class="n">elements_contract</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">elements_contract</span><span class="p">,</span>
                                                        <span class="n">Contract</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Array</span><span class="p">(</span><span class="n">shape_contract</span><span class="p">,</span> <span class="n">elements_contract</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Array</span><span class="p">(</span><span class="n">shape_contract</span><span class="p">,</span> <span class="n">elements_contract</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span></div></div>
 
-</div></div>
+
 <div class="viewcode-block" id="ShapeContract"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.ShapeContract">[docs]</a><span class="k">class</span> <span class="nc">ShapeContract</span><span class="p">(</span><span class="n">Contract</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dimensions</span><span class="p">,</span> <span class="n">ellipsis</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dimensions</span><span class="p">,</span> <span class="n">ellipsis</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dimensions</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ellipsis</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
-        <span class="n">Contract</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
+        <span class="n">Contract</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dimensions</span> <span class="o">=</span> <span class="n">dimensions</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ellipsis</span> <span class="o">=</span> <span class="n">ellipsis</span>
 
-<div class="viewcode-block" id="ShapeContract.check_contract"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.ShapeContract.check_contract">[docs]</a>    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span>  <span class="c"># Guaranteed by construction</span>
+<div class="viewcode-block" id="ShapeContract.check_contract"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.ShapeContract.check_contract">[docs]</a>    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">silent</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span>  <span class="c1"># Guaranteed by construction</span>
 
         <span class="n">expected</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimensions</span><span class="p">)</span>
         <span class="n">ndim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">ndim</span> <span class="o">&lt;</span> <span class="n">expected</span><span class="p">:</span>  <span class="c"># TODO: write clearer message</span>
-            <span class="n">error</span> <span class="o">=</span> <span class="s">&#39;Expected </span><span class="si">%d</span><span class="s"> dimensions, got </span><span class="si">%d</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">ndim</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ndim</span> <span class="o">&lt;</span> <span class="n">expected</span><span class="p">:</span>  <span class="c1"># TODO: write clearer message</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="s1">&#39;Expected </span><span class="si">%d</span><span class="s1"> dimensions, got </span><span class="si">%d</span><span class="s1">.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">ndim</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">ContractNotRespected</span><span class="p">(</span><span class="n">contract</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="n">error</span><span class="p">,</span>
                                        <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">ndim</span> <span class="o">&gt;</span> <span class="n">expected</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ellipsis</span><span class="p">:</span>
-            <span class="n">error</span> <span class="o">=</span> <span class="s">&#39;Expected </span><span class="si">%d</span><span class="s"> dimensions, got </span><span class="si">%d</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">ndim</span><span class="p">)</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="s1">&#39;Expected </span><span class="si">%d</span><span class="s1"> dimensions, got </span><span class="si">%d</span><span class="s1">.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">ndim</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">ContractNotRespected</span><span class="p">(</span><span class="n">contract</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="n">error</span><span class="p">,</span>
                                        <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">expected</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">dimensions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-</div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dimensions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">silent</span><span class="p">)</span></div>
+
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">be_careful</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ellipsis</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimensions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span>
 
         <span class="k">def</span> <span class="nf">rep</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">be_careful</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">And</span><span class="p">,</span> <span class="n">OR</span><span class="p">)):</span>
-                <span class="k">return</span> <span class="s">&quot;(</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="n">x</span>
+                <span class="k">return</span> <span class="s2">&quot;(</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="n">x</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">x</span>
+                <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">x</span>
 
-        <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;x&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rep</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimensions</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rep</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimensions</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ellipsis</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="s">&#39;x...&#39;</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;x...&#39;</span>
         <span class="k">return</span> <span class="n">s</span>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ellipsis</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;ShapeContract(</span><span class="si">%r</span><span class="s">,</span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimensions</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ellipsis</span><span class="p">)</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;ShapeContract(</span><span class="si">%r</span><span class="s1">,</span><span class="si">%r</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimensions</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ellipsis</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;ShapeContract(</span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimensions</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;ShapeContract(</span><span class="si">%r</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimensions</span>
         <span class="k">return</span> <span class="n">s</span>
 
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="ShapeContract.parse_action"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.ShapeContract.parse_action">[docs]</a>    <span class="k">def</span> <span class="nf">parse_action</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
+<div class="viewcode-block" id="ShapeContract.parse_action"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.ShapeContract.parse_action">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">parse_action</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
         <span class="n">where</span> <span class="o">=</span> <span class="n">W</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
-        <span class="c"># print &quot;in tokens: &quot; % tokens</span>
-        <span class="c"># workaround for some bugs</span>
-        <span class="n">ellipsis</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="c1"># print &quot;in tokens: &quot; % tokens</span>
+        <span class="c1"># workaround for some bugs</span>
+        <span class="n">ellipsis</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">dimensions</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="s">&#39;...&#39;</span><span class="p">:</span>
-                <span class="n">ellipsis</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="s1">&#39;...&#39;</span><span class="p">:</span>
+                <span class="n">ellipsis</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">Contract</span><span class="p">),</span> <span class="s">&#39;Wrong token </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">t</span>
+                <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">Contract</span><span class="p">),</span> <span class="s1">&#39;Wrong token </span><span class="si">%r</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">t</span>
                 <span class="n">dimensions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">ShapeContract</span><span class="p">(</span><span class="n">dimensions</span><span class="p">,</span> <span class="n">ellipsis</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ShapeContract</span><span class="p">(</span><span class="n">dimensions</span><span class="p">,</span> <span class="n">ellipsis</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span></div></div>
 
-</div></div>
+
 <div class="viewcode-block" id="Shape"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.Shape">[docs]</a><span class="k">class</span> <span class="nc">Shape</span><span class="p">(</span><span class="n">Contract</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">contract</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="n">Contract</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">contract</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">Contract</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">contract</span> <span class="o">=</span> <span class="n">contract</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="n">length</span>
 
-<div class="viewcode-block" id="Shape.check_contract"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.Shape.check_contract">[docs]</a>    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Shape.check_contract"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.Shape.check_contract">[docs]</a>    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">silent</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">):</span>
-            <span class="n">error</span> <span class="o">=</span> <span class="s">&#39;Expected an array, got </span><span class="si">%r</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="n">value</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="s1">&#39;Expected an array, got </span><span class="si">%r</span><span class="s1">.&#39;</span> <span class="o">%</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
             <span class="k">raise</span> <span class="n">ContractNotRespected</span><span class="p">(</span><span class="n">contract</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="n">error</span><span class="p">,</span>
                                        <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">):</span>
             <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">silent</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">contract</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">contract</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-</div>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">contract</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">contract</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">silent</span><span class="p">)</span></div>
+
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;shape&#39;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="s">&#39;[</span><span class="si">%s</span><span class="s">]&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">contract</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="s">&#39;(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">contract</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;shape&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;[</span><span class="si">%s</span><span class="s1">]&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">contract</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;(</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">contract</span>
         <span class="k">return</span> <span class="n">s</span>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;Shape(</span><span class="si">%r</span><span class="s">,</span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">contract</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;Shape(</span><span class="si">%r</span><span class="s1">,</span><span class="si">%r</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">contract</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">s</span>
 
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="Shape.parse_action"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.Shape.parse_action">[docs]</a>    <span class="k">def</span> <span class="nf">parse_action</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
+<div class="viewcode-block" id="Shape.parse_action"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.Shape.parse_action">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">parse_action</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
         <span class="n">where</span> <span class="o">=</span> <span class="n">W</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
         <span class="k">assert</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">2</span>
-        <span class="n">length</span> <span class="o">=</span> <span class="n">tokens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;length&#39;</span><span class="p">,</span> <span class="p">[</span><span class="bp">None</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">contract</span> <span class="o">=</span> <span class="n">tokens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;other&#39;</span><span class="p">,</span> <span class="p">[</span><span class="bp">None</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">Shape</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">contract</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="n">tokens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;length&#39;</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">contract</span> <span class="o">=</span> <span class="n">tokens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;other&#39;</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">Shape</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">contract</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span></div></div>
 
-</div></div>
+
 <span class="n">array_constraints</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">glyph</span> <span class="ow">in</span> <span class="n">ArrayConstraint</span><span class="o">.</span><span class="n">constraints</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">glyph</span> <span class="o">==</span> <span class="s">&#39;!=&#39;</span><span class="p">:</span>
-        <span class="c"># special case: ! must be followed by =</span>
-        <span class="n">glyph_expression</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">(</span><span class="s">&#39;!&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">Literal</span><span class="p">(</span><span class="s">&#39;=&#39;</span><span class="p">)</span>
-        <span class="n">glyph_expression</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&#39;!=&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">glyph</span> <span class="o">==</span> <span class="s1">&#39;!=&#39;</span><span class="p">:</span>
+        <span class="c1"># special case: ! must be followed by =</span>
+        <span class="n">glyph_expression</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">(</span><span class="s1">&#39;!&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">Literal</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)</span>
+        <span class="n">glyph_expression</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;!=&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">glyph_expression</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">(</span><span class="n">glyph</span><span class="p">)</span>
 
-    <span class="n">expr</span> <span class="o">=</span> <span class="n">glyph_expression</span><span class="p">(</span><span class="s">&#39;glyph&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">rvalue</span><span class="p">(</span><span class="s">&#39;rvalue&#39;</span><span class="p">)</span>
+    <span class="n">expr</span> <span class="o">=</span> <span class="n">glyph_expression</span><span class="p">(</span><span class="s1">&#39;glyph&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">rvalue</span><span class="p">(</span><span class="s1">&#39;rvalue&#39;</span><span class="p">)</span>
     <span class="n">expr</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">ArrayConstraint</span><span class="o">.</span><span class="n">parse_action</span><span class="p">)</span>
     <span class="n">array_constraints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
 
-<span class="n">np_uint_dtypes</span> <span class="o">=</span> <span class="s">&quot;u1 uint8 uint16 uint32 uint64&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-<span class="n">np_int_dtypes</span> <span class="o">=</span> <span class="s">&quot;i1 int8 int16 int32 int64&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-<span class="n">np_float_dtypes</span> <span class="o">=</span> <span class="s">&quot;float32 float64&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-<span class="n">np_other_dtypes</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;bool&#39;</span><span class="p">]</span>  
+<span class="n">np_uint_dtypes</span> <span class="o">=</span> <span class="s2">&quot;u1 uint8 uint16 uint32 uint64&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">np_int_dtypes</span> <span class="o">=</span> <span class="s2">&quot;i1 int8 int16 int32 int64&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">np_float_dtypes</span> <span class="o">=</span> <span class="s2">&quot;float32 float64&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">np_other_dtypes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bool&#39;</span><span class="p">]</span>  
 <span class="n">atomic</span> <span class="o">=</span> <span class="n">np_uint_dtypes</span> <span class="o">+</span> <span class="n">np_int_dtypes</span> <span class="o">+</span> <span class="n">np_float_dtypes</span> <span class="o">+</span> <span class="n">np_other_dtypes</span>
 
-<span class="c"># in numpy, int = int64, float = float64</span>
-<span class="c"># for us, int = int64|int32| ...</span>
+<span class="c1"># in numpy, int = int64, float = float64</span>
+<span class="c1"># for us, int = int64|int32| ...</span>
 
 <span class="n">dtype_checks</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">atomic</span><span class="p">:</span>
@@ -267,71 +265,75 @@
     
 <div class="viewcode-block" id="np_composite"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.np_composite">[docs]</a><span class="k">def</span> <span class="nf">np_composite</span><span class="p">(</span><span class="n">custom_string</span><span class="p">,</span> <span class="n">alternatives</span><span class="p">):</span>
     <span class="n">alts</span> <span class="o">=</span> <span class="p">[</span><span class="n">DType</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">alternatives</span><span class="p">]</span> 
-    <span class="k">return</span> <span class="n">ArrayORCustomString</span><span class="p">(</span><span class="n">custom_string</span><span class="o">=</span><span class="n">custom_string</span><span class="p">,</span> <span class="n">clauses</span><span class="o">=</span><span class="n">alts</span><span class="p">)</span>
-    </div>
-<div class="viewcode-block" id="np_uint"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.np_uint">[docs]</a><span class="k">def</span> <span class="nf">np_uint</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
-    <span class="k">return</span> <span class="n">np_composite</span><span class="p">(</span><span class="s">&#39;uint&#39;</span><span class="p">,</span> <span class="n">np_uint_dtypes</span><span class="p">)</span>
- </div>
-<div class="viewcode-block" id="np_int"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.np_int">[docs]</a><span class="k">def</span> <span class="nf">np_int</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
-    <span class="k">return</span> <span class="n">np_composite</span><span class="p">(</span><span class="s">&#39;int&#39;</span><span class="p">,</span> <span class="n">np_int_dtypes</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="np_float"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.np_float">[docs]</a><span class="k">def</span> <span class="nf">np_float</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>  <span class="c"># @UnusedVariable</span>
-    <span class="k">return</span> <span class="n">np_composite</span><span class="p">(</span><span class="s">&#39;float&#39;</span><span class="p">,</span> <span class="n">np_float_dtypes</span><span class="p">)</span>
-</div>
-<span class="n">dtype_checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Keyword</span><span class="p">(</span><span class="s">&#39;int&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">np_int</span><span class="p">))</span>
-<span class="n">dtype_checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Keyword</span><span class="p">(</span><span class="s">&#39;uint&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">np_uint</span><span class="p">))</span>
-<span class="n">dtype_checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Keyword</span><span class="p">(</span><span class="s">&#39;float&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">np_float</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">ArrayORCustomString</span><span class="p">(</span><span class="n">custom_string</span><span class="o">=</span><span class="n">custom_string</span><span class="p">,</span> <span class="n">clauses</span><span class="o">=</span><span class="n">alts</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="np_uint"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.np_uint">[docs]</a><span class="k">def</span> <span class="nf">np_uint</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>  <span class="c1"># @UnusedVariable</span>
+    <span class="k">return</span> <span class="n">np_composite</span><span class="p">(</span><span class="s1">&#39;uint&#39;</span><span class="p">,</span> <span class="n">np_uint_dtypes</span><span class="p">)</span></div>
+ 
+<div class="viewcode-block" id="np_int"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.np_int">[docs]</a><span class="k">def</span> <span class="nf">np_int</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>  <span class="c1"># @UnusedVariable</span>
+    <span class="k">return</span> <span class="n">np_composite</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">,</span> <span class="n">np_int_dtypes</span><span class="p">)</span></div>
 
-<span class="n">composite</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;int&#39;</span><span class="p">,</span> <span class="s">&#39;uint&#39;</span><span class="p">,</span> <span class="s">&#39;float&#39;</span><span class="p">]</span>
+<div class="viewcode-block" id="np_float"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.np_float">[docs]</a><span class="k">def</span> <span class="nf">np_float</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>  <span class="c1"># @UnusedVariable</span>
+    <span class="k">return</span> <span class="n">np_composite</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">,</span> <span class="n">np_float_dtypes</span><span class="p">)</span></div>
+
+<span class="n">dtype_checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Keyword</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">np_int</span><span class="p">))</span>
+<span class="n">dtype_checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Keyword</span><span class="p">(</span><span class="s1">&#39;uint&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">np_uint</span><span class="p">))</span>
+<span class="n">dtype_checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Keyword</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">np_float</span><span class="p">))</span>
+
+<span class="n">composite</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;int&#39;</span><span class="p">,</span> <span class="s1">&#39;uint&#39;</span><span class="p">,</span> <span class="s1">&#39;float&#39;</span><span class="p">]</span>
 
 <span class="n">ndarray_simple_contract</span> <span class="o">=</span> <span class="n">MatchFirst</span><span class="p">(</span><span class="n">dtype_checks</span> <span class="o">+</span> <span class="n">array_constraints</span><span class="p">)</span>
-<span class="n">ndarray_simple_contract</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&#39;numpy element contract&#39;</span><span class="p">)</span>
+<span class="n">ndarray_simple_contract</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;numpy element contract&#39;</span><span class="p">)</span>
 
 <span class="n">suggester</span> <span class="o">=</span> <span class="n">create_suggester</span><span class="p">(</span><span class="n">get_options</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">atomic</span> <span class="o">+</span> <span class="n">composite</span><span class="p">)</span>
 <span class="n">baseExpr</span> <span class="o">=</span> <span class="n">ndarray_simple_contract</span> <span class="o">|</span> <span class="n">suggester</span>
-<span class="n">baseExpr</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&#39;numpy contract (with recovery)&#39;</span><span class="p">)</span>
+<span class="n">baseExpr</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;numpy contract (with recovery)&#39;</span><span class="p">)</span>
 
 <span class="n">op</span> <span class="o">=</span> <span class="n">myOperatorPrecedence</span>
-<span class="c"># op = operatorPrecedence</span>
+<span class="c1"># op = operatorPrecedence</span>
 <span class="n">ndarray_composite_contract</span> <span class="o">=</span> <span class="n">op</span><span class="p">(</span><span class="n">baseExpr</span><span class="p">,</span> <span class="p">[</span>
-    <span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">opAssoc</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">ArrayAnd</span><span class="o">.</span><span class="n">parse_action</span><span class="p">),</span>  <span class="c"># @UndefinedVariable</span>
-    <span class="p">(</span><span class="s">&#39;|&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">opAssoc</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">ArrayOR</span><span class="o">.</span><span class="n">parse_action</span><span class="p">),</span>  <span class="c"># @UndefinedVariable</span>
+    <span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">opAssoc</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">ArrayAnd</span><span class="o">.</span><span class="n">parse_action</span><span class="p">),</span>  <span class="c1"># @UndefinedVariable</span>
+    <span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">opAssoc</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">ArrayOR</span><span class="o">.</span><span class="n">parse_action</span><span class="p">),</span>  <span class="c1"># @UndefinedVariable</span>
 <span class="p">])</span>
 
 
 <div class="viewcode-block" id="my_delim_list2"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.array.my_delim_list2">[docs]</a><span class="k">def</span> <span class="nf">my_delim_list2</span><span class="p">(</span><span class="n">what</span><span class="p">,</span> <span class="n">delim</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">what</span> <span class="o">+</span> <span class="n">ZeroOrMore</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="n">delim</span><span class="p">)</span> <span class="o">+</span> <span class="n">FollowedBy</span><span class="p">(</span><span class="n">NotAny</span><span class="p">(</span><span class="n">ellipsis</span><span class="p">))</span> <span class="o">-</span> <span class="n">what</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">what</span> <span class="o">+</span> <span class="n">ZeroOrMore</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="n">delim</span><span class="p">)</span> <span class="o">+</span> <span class="n">FollowedBy</span><span class="p">(</span><span class="n">NotAny</span><span class="p">(</span><span class="n">ellipsis</span><span class="p">))</span> <span class="o">-</span> <span class="n">what</span><span class="p">))</span></div>
 
-</div>
-<span class="n">ellipsis</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">(</span><span class="s">&#39;...&#39;</span><span class="p">)</span>
 
-<span class="n">shape_suggester</span> <span class="o">=</span> <span class="n">create_suggester</span><span class="p">(</span><span class="n">get_options</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;...&#39;</span><span class="p">],</span>
-                                   <span class="n">pattern</span><span class="o">=</span><span class="n">Word</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">))</span>
+<span class="n">ellipsis</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">)</span>
+
+<span class="n">shape_suggester</span> <span class="o">=</span> <span class="n">create_suggester</span><span class="p">(</span><span class="n">get_options</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;...&#39;</span><span class="p">],</span>
+                                   <span class="n">pattern</span><span class="o">=</span><span class="n">Word</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">))</span>
 
 <span class="n">inside_inside1</span> <span class="o">=</span> <span class="n">simple_contract</span> <span class="o">|</span> <span class="n">shape_suggester</span>
 <span class="n">inside_inside2</span> <span class="o">=</span> <span class="n">contract_expression</span> <span class="o">|</span> <span class="n">shape_suggester</span>
-<span class="n">inside</span> <span class="o">=</span> <span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s">&#39;(&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">inside_inside2</span> <span class="o">-</span> <span class="n">S</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">))</span> <span class="o">|</span> <span class="n">inside_inside1</span>  <span class="c"># XXX: ^ and use or_contract?</span>
-<span class="n">shape_contract</span> <span class="o">=</span> <span class="n">my_delim_list2</span><span class="p">(</span><span class="n">inside</span><span class="p">,</span> <span class="n">S</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="n">O</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">ellipsis</span><span class="p">)</span>
+<span class="n">inside</span> <span class="o">=</span> <span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">inside_inside2</span> <span class="o">-</span> <span class="n">S</span><span class="p">(</span><span class="s1">&#39;)&#39;</span><span class="p">))</span> <span class="o">|</span> <span class="n">inside_inside1</span>  <span class="c1"># XXX: ^ and use or_contract?</span>
+<span class="n">shape_contract</span> <span class="o">=</span> <span class="n">my_delim_list2</span><span class="p">(</span><span class="n">inside</span><span class="p">,</span> <span class="n">S</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="n">O</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">ellipsis</span><span class="p">)</span>
 <span class="n">shape_contract</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">ShapeContract</span><span class="o">.</span><span class="n">parse_action</span><span class="p">)</span>
-<span class="n">shape_contract</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&#39;array shape contract&#39;</span><span class="p">)</span>
+<span class="n">shape_contract</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;array shape contract&#39;</span><span class="p">)</span>
 
-<span class="n">name</span> <span class="o">=</span> <span class="n">Keyword</span><span class="p">(</span><span class="s">&#39;array&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Keyword</span><span class="p">(</span><span class="s">&#39;ndarray&#39;</span><span class="p">)</span>
-<span class="n">optional_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s">&#39;[&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">shape_contract</span> <span class="o">-</span> <span class="n">S</span><span class="p">(</span><span class="s">&#39;]&#39;</span><span class="p">))(</span><span class="s">&#39;shape_contract&#39;</span><span class="p">)</span>
-<span class="n">optional_elements</span> <span class="o">=</span> <span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s">&#39;(&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">ndarray_composite_contract</span> <span class="o">-</span> <span class="n">S</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">))(</span><span class="s">&#39;elements_contract&#39;</span><span class="p">)</span>
+<span class="n">name</span> <span class="o">=</span> <span class="n">Keyword</span><span class="p">(</span><span class="s1">&#39;array&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Keyword</span><span class="p">(</span><span class="s1">&#39;ndarray&#39;</span><span class="p">)</span>
+<span class="n">optional_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">shape_contract</span> <span class="o">-</span> <span class="n">S</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">))(</span><span class="s1">&#39;shape_contract&#39;</span><span class="p">)</span>
+<span class="n">optional_elements</span> <span class="o">=</span> <span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">ndarray_composite_contract</span> <span class="o">-</span> <span class="n">S</span><span class="p">(</span><span class="s1">&#39;)&#39;</span><span class="p">))(</span><span class="s1">&#39;elements_contract&#39;</span><span class="p">)</span>
 <span class="n">array_contract</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="n">O</span><span class="p">(</span><span class="n">optional_shape</span><span class="p">)</span> <span class="o">+</span> <span class="n">O</span><span class="p">(</span><span class="n">optional_elements</span><span class="p">)</span>
 <span class="n">array_contract</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">Array</span><span class="o">.</span><span class="n">parse_action</span><span class="p">)</span>
-<span class="n">array_contract</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&#39;array() contract&#39;</span><span class="p">)</span>
+<span class="n">array_contract</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;array() contract&#39;</span><span class="p">)</span>
 <span class="n">add_contract</span><span class="p">(</span><span class="n">array_contract</span><span class="p">)</span>
-<span class="n">add_keyword</span><span class="p">(</span><span class="s">&#39;array&#39;</span><span class="p">)</span>
-<span class="n">add_keyword</span><span class="p">(</span><span class="s">&#39;ndarray&#39;</span><span class="p">)</span>
+<span class="n">add_keyword</span><span class="p">(</span><span class="s1">&#39;array&#39;</span><span class="p">)</span>
+<span class="n">add_keyword</span><span class="p">(</span><span class="s1">&#39;ndarray&#39;</span><span class="p">)</span>
 
-<span class="n">optional_length</span> <span class="o">=</span> <span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s">&#39;[&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">contract_expression</span> <span class="o">-</span> <span class="n">S</span><span class="p">(</span><span class="s">&#39;]&#39;</span><span class="p">))(</span><span class="s">&#39;length&#39;</span><span class="p">)</span>
-<span class="n">optional_other</span> <span class="o">=</span> <span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s">&#39;(&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">contract_expression</span> <span class="o">-</span> <span class="n">S</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">))(</span><span class="s">&#39;other&#39;</span><span class="p">)</span>
-<span class="n">shape</span> <span class="o">=</span> <span class="n">Keyword</span><span class="p">(</span><span class="s">&#39;shape&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">O</span><span class="p">(</span><span class="n">optional_length</span><span class="p">)</span> <span class="o">+</span> <span class="n">O</span><span class="p">(</span><span class="n">optional_other</span><span class="p">)</span>
-<span class="n">shape</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&#39;shape() contract&#39;</span><span class="p">)</span>
+<span class="n">optional_length</span> <span class="o">=</span> <span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">contract_expression</span> <span class="o">-</span> <span class="n">S</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">))(</span><span class="s1">&#39;length&#39;</span><span class="p">)</span>
+<span class="n">optional_other</span> <span class="o">=</span> <span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">contract_expression</span> <span class="o">-</span> <span class="n">S</span><span class="p">(</span><span class="s1">&#39;)&#39;</span><span class="p">))(</span><span class="s1">&#39;other&#39;</span><span class="p">)</span>
+<span class="n">shape</span> <span class="o">=</span> <span class="n">Keyword</span><span class="p">(</span><span class="s1">&#39;shape&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">O</span><span class="p">(</span><span class="n">optional_length</span><span class="p">)</span> <span class="o">+</span> <span class="n">O</span><span class="p">(</span><span class="n">optional_other</span><span class="p">)</span>
+<span class="n">shape</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;shape() contract&#39;</span><span class="p">)</span>
 <span class="n">shape</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">Shape</span><span class="o">.</span><span class="n">parse_action</span><span class="p">)</span>
 <span class="n">add_contract</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
-<span class="n">add_keyword</span><span class="p">(</span><span class="s">&#39;shape&#39;</span><span class="p">)</span>
+<span class="n">add_keyword</span><span class="p">(</span><span class="s1">&#39;shape&#39;</span><span class="p">)</span>
+
+
+
+
 </pre></div>
 
           </div>
@@ -342,14 +344,11 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -365,15 +364,15 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.2 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../../contracts.html" >contracts</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.16 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../contracts.html" >contracts</a> &#187;</li> 
       </ul>
     </div>
 	
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+        &#169; Copyright 2010, Andrea Censi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
 	
     <script type="text/javascript">

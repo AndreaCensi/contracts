@@ -1,29 +1,28 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>library Package &mdash; PyContracts 1.7.2 documentation</title>
-    
+    <title>library Package &#8212; PyContracts 1.7.16 documentation</title>
     <link rel="stylesheet" href="../static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.7.2',
+        VERSION:     '1.7.16',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../static/jquery.js"></script>
     <script type="text/javascript" src="../static/underscore.js"></script>
     <script type="text/javascript" src="../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.7.2 documentation" href="../index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -49,7 +48,7 @@
 
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -59,7 +58,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">PyContracts 1.7.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PyContracts 1.7.16 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -86,7 +85,7 @@
 
 <dl class="attribute">
 <dt id="contracts.library.arithmetic.Binary.operations">
-<code class="descname">operations</code><em class="property"> = {'+': &lt;function &lt;lambda&gt; at 0x107423e60&gt;, '*': &lt;function &lt;lambda&gt; at 0x107423f50&gt;, '-': &lt;function &lt;lambda&gt; at 0x107423ed8&gt;}</em><a class="headerlink" href="#contracts.library.arithmetic.Binary.operations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">operations</code><em class="property"> = {'+': &lt;function &lt;lambda&gt;&gt;, '*': &lt;function &lt;lambda&gt;&gt;, '-': &lt;function &lt;lambda&gt;&gt;, '^': &lt;function &lt;lambda&gt;&gt;}</em><a class="headerlink" href="#contracts.library.arithmetic.Binary.operations" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
@@ -96,7 +95,7 @@
 
 <dl class="attribute">
 <dt id="contracts.library.arithmetic.Binary.precedence">
-<code class="descname">precedence</code><em class="property"> = {'+': 0, '*': 1, '-': 0}</em><a class="headerlink" href="#contracts.library.arithmetic.Binary.precedence" title="Permalink to this definition">¶</a></dt>
+<code class="descname">precedence</code><em class="property"> = {'+': 0, '*': 1, '-': 0, '^': 2}</em><a class="headerlink" href="#contracts.library.arithmetic.Binary.precedence" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -112,7 +111,7 @@
 
 <dl class="attribute">
 <dt id="contracts.library.arithmetic.Unary.operations">
-<code class="descname">operations</code><em class="property"> = {'-': &lt;function &lt;lambda&gt; at 0x107430410&gt;}</em><a class="headerlink" href="#contracts.library.arithmetic.Unary.operations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">operations</code><em class="property"> = {'-': &lt;function &lt;lambda&gt;&gt;}</em><a class="headerlink" href="#contracts.library.arithmetic.Unary.operations" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
@@ -124,14 +123,14 @@
 
 </div>
 <div class="section" id="module-contracts.library.array">
-<span id="array-module"></span><h2><a class="reference external" href="http://docs.python.org/library/array.html#module-array" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">array</span></code></a> Module<a class="headerlink" href="#module-contracts.library.array" title="Permalink to this headline">¶</a></h2>
+<span id="array-module"></span><h2><a class="reference external" href="https://docs.python.org/2/library/array.html#module-array" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">array</span></code></a> Module<a class="headerlink" href="#module-contracts.library.array" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="contracts.library.array.Array">
 <em class="property">class </em><code class="descclassname">contracts.library.array.</code><code class="descname">Array</code><span class="sig-paren">(</span><em>shape_contract=None</em>, <em>elements_contract=None</em>, <em>where=None</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/array.html#Array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.array.Array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
 <dl class="method">
 <dt id="contracts.library.array.Array.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/array.html#Array.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.array.Array.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/array.html#Array.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.array.Array.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
@@ -147,7 +146,7 @@
 <dd><p>Bases: <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
 <dl class="method">
 <dt id="contracts.library.array.Shape.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/array.html#Shape.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.array.Shape.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/array.html#Shape.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.array.Shape.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
@@ -163,7 +162,7 @@
 <dd><p>Bases: <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
 <dl class="method">
 <dt id="contracts.library.array.ShapeContract.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/array.html#ShapeContract.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.array.ShapeContract.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/array.html#ShapeContract.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.array.ShapeContract.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
@@ -225,7 +224,7 @@
 the condition is respected for all the entries in the array.</p>
 <dl class="attribute">
 <dt id="contracts.library.array_ops.ArrayConstraint.constraints">
-<code class="descname">constraints</code><em class="property"> = {'&gt;=': &lt;function &lt;lambda&gt; at 0x1075a62a8&gt;, '==': &lt;function &lt;lambda&gt; at 0x1075a6140&gt;, '=': &lt;function &lt;lambda&gt; at 0x1075a60c8&gt;, '&lt;=': &lt;function &lt;lambda&gt; at 0x1075a6398&gt;, '!=': &lt;function &lt;lambda&gt; at 0x1075a61b8&gt;, '&lt;': &lt;function &lt;lambda&gt; at 0x1075a6320&gt;, '&gt;': &lt;function &lt;lambda&gt; at 0x1075a6230&gt;}</em><a class="headerlink" href="#contracts.library.array_ops.ArrayConstraint.constraints" title="Permalink to this definition">¶</a></dt>
+<code class="descname">constraints</code><em class="property"> = {'&gt;=': &lt;function &lt;lambda&gt;&gt;, '==': &lt;function &lt;lambda&gt;&gt;, '=': &lt;function &lt;lambda&gt;&gt;, '&lt;=': &lt;function &lt;lambda&gt;&gt;, '!=': &lt;function &lt;lambda&gt;&gt;, '&lt;': &lt;function &lt;lambda&gt;&gt;, '&gt;': &lt;function &lt;lambda&gt;&gt;}</em><a class="headerlink" href="#contracts.library.array_ops.ArrayConstraint.constraints" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
@@ -247,7 +246,7 @@ the condition is respected for all the entries in the array.</p>
 <dd><p>Bases: <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
 <dl class="method">
 <dt id="contracts.library.array_ops.ArrayElementsTest.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/array_ops.html#ArrayElementsTest.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.array_ops.ArrayElementsTest.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/array_ops.html#ArrayElementsTest.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.array_ops.ArrayElementsTest.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -312,7 +311,7 @@ the condition is respected for all the entries in the array.</p>
 <dd><p>Bases: <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
 <dl class="method">
 <dt id="contracts.library.comparison.CheckOrder.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/comparison.html#CheckOrder.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.comparison.CheckOrder.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/comparison.html#CheckOrder.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.comparison.CheckOrder.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -336,7 +335,7 @@ the condition is respected for all the entries in the array.</p>
 <dd><p>Bases: <a class="reference internal" href="#contracts.library.compositions.Logical" title="contracts.library.compositions.Logical"><code class="xref py py-class docutils literal"><span class="pre">contracts.library.compositions.Logical</span></code></a>, <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
 <dl class="method">
 <dt id="contracts.library.compositions.And.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/compositions.html#And.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.compositions.And.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/compositions.html#And.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.compositions.And.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
@@ -349,7 +348,23 @@ the condition is respected for all the entries in the array.</p>
 <dl class="class">
 <dt id="contracts.library.compositions.Logical">
 <em class="property">class </em><code class="descclassname">contracts.library.compositions.</code><code class="descname">Logical</code><span class="sig-paren">(</span><em>glyph</em>, <em>precedence</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/compositions.html#Logical"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.compositions.Logical" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="http://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="contracts.library.compositions.Not">
+<em class="property">class </em><code class="descclassname">contracts.library.compositions.</code><code class="descname">Not</code><span class="sig-paren">(</span><em>clauses</em>, <em>where=None</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/compositions.html#Not"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.compositions.Not" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contracts.library.compositions.Logical" title="contracts.library.compositions.Logical"><code class="xref py py-class docutils literal"><span class="pre">contracts.library.compositions.Logical</span></code></a>, <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
+<dl class="method">
+<dt id="contracts.library.compositions.Not.check_contract">
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/compositions.html#Not.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.compositions.Not.check_contract" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="contracts.library.compositions.Not.parse_action">
+<em class="property">static </em><code class="descname">parse_action</code><span class="sig-paren">(</span><em>string</em>, <em>location</em>, <em>tokens</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/compositions.html#Not.parse_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.compositions.Not.parse_action" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -358,8 +373,14 @@ the condition is respected for all the entries in the array.</p>
 <dd><p>Bases: <a class="reference internal" href="#contracts.library.compositions.Logical" title="contracts.library.compositions.Logical"><code class="xref py py-class docutils literal"><span class="pre">contracts.library.compositions.Logical</span></code></a>, <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
 <dl class="method">
 <dt id="contracts.library.compositions.OR.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/compositions.html#OR.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.compositions.OR.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/compositions.html#OR.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.compositions.OR.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="method">
+<dt id="contracts.library.compositions.OR.get_error">
+<code class="descname">get_error</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/compositions.html#OR.get_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.compositions.OR.get_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>This assumes that we are going to fail</p>
+</dd></dl>
 
 <dl class="staticmethod">
 <dt id="contracts.library.compositions.OR.parse_action">
@@ -377,7 +398,7 @@ the condition is respected for all the entries in the array.</p>
 <dd><p>Bases: <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
 <dl class="method">
 <dt id="contracts.library.dicts.Dict.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/dicts.html#Dict.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.dicts.Dict.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/dicts.html#Dict.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.dicts.Dict.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
@@ -397,7 +418,7 @@ the condition is respected for all the entries in the array.</p>
 <p>Always true.</p>
 <dl class="method">
 <dt id="contracts.library.dummy.Any.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/dummy.html#Any.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.dummy.Any.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/dummy.html#Any.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.dummy.Any.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
@@ -414,7 +435,7 @@ the condition is respected for all the entries in the array.</p>
 <p>A contract that does not match anything. Useful for debugging.</p>
 <dl class="method">
 <dt id="contracts.library.dummy.Never.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/dummy.html#Never.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.dummy.Never.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/dummy.html#Never.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.dummy.Never.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
@@ -433,7 +454,7 @@ the condition is respected for all the entries in the array.</p>
 <dd><p>Bases: <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
 <dl class="method">
 <dt id="contracts.library.extensions.CheckCallable.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/extensions.html#CheckCallable.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.extensions.CheckCallable.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/extensions.html#CheckCallable.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.extensions.CheckCallable.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -444,7 +465,7 @@ the condition is respected for all the entries in the array.</p>
 <dd><p>Bases: <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
 <dl class="method">
 <dt id="contracts.library.extensions.CheckCallableWithSelf.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/extensions.html#CheckCallableWithSelf.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.extensions.CheckCallableWithSelf.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/extensions.html#CheckCallableWithSelf.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.extensions.CheckCallableWithSelf.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -455,7 +476,7 @@ the condition is respected for all the entries in the array.</p>
 <dd><p>Bases: <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
 <dl class="method">
 <dt id="contracts.library.extensions.Extension.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/extensions.html#Extension.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.extensions.Extension.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/extensions.html#Extension.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.extensions.Extension.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
@@ -465,7 +486,7 @@ the condition is respected for all the entries in the array.</p>
 
 <dl class="attribute">
 <dt id="contracts.library.extensions.Extension.registrar">
-<code class="descname">registrar</code><em class="property"> = {'Container': CheckCallable(&lt;function f at 0x1075d57d0&gt;), 'int': SeparateContext(OR([CheckType(int,'Int'), Extension('np_scalar_int'), And([Extension('np_scalar'), Array(None,ArrayOR([DType(dtype('int8'),'i1'), DType(dtype('int8')), DType(dtype('int16')), DType(dtype('int32')), DType(dtype('int64'))]))])])), 'MutableMapping': CheckCallable(&lt;function f at 0x1075d5c80&gt;), 'float': SeparateContext(OR([CheckType(float,'Float'), Extension('np_scalar_float'), And([Extension('np_scalar'), Array(None,ArrayOR([DType(dtype('float32')), DType(dtype('float64'))]))])])), 'np_zeroshape_array': CheckCallable(&lt;function np_zeroshape_array at 0x1075df0c8&gt;), 'np_scalar_uint': SeparateContext(OR([CheckType(uint8,'np_uint8'), CheckType(uint16,'np_uint16'), CheckType(uint32,'np_uint32'), CheckType(uint64,'np_uint64')])), 'Mapping': CheckCallable(&lt;function f at 0x1075d5c08&gt;), 'Callable': CheckCallable(&lt;function f at 0x1075d59b0&gt;), 'np_scalar_float': SeparateContext(OR([CheckType(float32,'np_float32'), CheckType(float64,'np_float64')])), 'finite': CheckCallable(&lt;function finite at 0x1075df050&gt;), 'Hashable': CheckCallable(&lt;function f at 0x1075d5848&gt;), 'None': CheckCallable(&lt;function is_None at 0x1075d5cf8&gt;), 'MutableSet': CheckCallable(&lt;function f at 0x1075d5b90&gt;), 'np_scalar_type': SeparateContext(OR([Extension('np_scalar_int'), Extension('np_scalar_uint'), Extension('np_scalar_float')])), 'MutableSequence': CheckCallable(&lt;function f at 0x1075d5b18&gt;), 'number': SeparateContext(OR([Extension('float'), Extension('int'), Extension('uint')])), 'Sized': CheckCallable(&lt;function f at 0x1075d5938&gt;), 'uint': SeparateContext(OR([Extension('np_scalar_uint'), And([Extension('np_scalar'), Array(None,ArrayOR([DType(dtype('uint8'),'u1'), DType(dtype('uint8')), DType(dtype('uint16')), DType(dtype('uint32')), DType(dtype('uint64'))]))])])), 'Set': CheckCallable(&lt;function f at 0x1075d5aa0&gt;), 'Iterator': CheckCallable(&lt;function f at 0x1075d58c0&gt;), 'Sequence': CheckCallable(&lt;function f at 0x1075d5a28&gt;), 'np_scalar': SeparateContext(OR([Extension('np_zeroshape_array'), Extension('np_scalar_type')])), 'Iterable': CheckCallable(&lt;function f at 0x107407398&gt;), 'np_scalar_int': SeparateContext(OR([CheckType(int8,'np_int8'), CheckType(int16,'np_int16'), CheckType(int32,'np_int32'), CheckType(int64,'np_int64')])), 'NoneType': CheckCallable(&lt;function is_None at 0x1075d5cf8&gt;)}</em><a class="headerlink" href="#contracts.library.extensions.Extension.registrar" title="Permalink to this definition">¶</a></dt>
+<code class="descname">registrar</code><em class="property"> = {'Container': CheckCallable(&lt;function f&gt;), 'int': SeparateContext(OR([CheckType(int,'Int'), Extension('np_scalar_int'), And([Extension('np_scalar'), Array(None,ArrayOR([DType(dtype('int8'),'i1'), DType(dtype('int8')), DType(dtype('int16')), DType(dtype('int32')), DType(dtype('int64'))]))])])), 'MutableMapping': CheckCallable(&lt;function f&gt;), 'float': SeparateContext(OR([CheckType(float,'Float'), Extension('np_scalar_float'), And([Extension('np_scalar'), Array(None,ArrayOR([DType(dtype('float32')), DType(dtype('float64'))]))])])), 'np_zeroshape_array': CheckCallable(&lt;function np_zeroshape_array&gt;), 'np_scalar_uint': SeparateContext(OR([CheckType(uint8,'np_uint8'), CheckType(uint16,'np_uint16'), CheckType(uint32,'np_uint32'), CheckType(uint64,'np_uint64')])), 'Mapping': CheckCallable(&lt;function f&gt;), 'Callable': CheckCallable(&lt;function f&gt;), 'np_scalar_float': SeparateContext(OR([CheckType(float32,'np_float32'), CheckType(float64,'np_float64')])), 'finite': CheckCallable(&lt;function finite&gt;), 'Hashable': CheckCallable(&lt;function f&gt;), 'None': CheckCallable(&lt;function is_None&gt;), 'MutableSet': CheckCallable(&lt;function f&gt;), 'np_scalar_type': SeparateContext(OR([Extension('np_scalar_int'), Extension('np_scalar_uint'), Extension('np_scalar_float')])), 'MutableSequence': CheckCallable(&lt;function f&gt;), 'number': SeparateContext(OR([Extension('float'), Extension('int'), Extension('uint')])), 'Sized': CheckCallable(&lt;function f&gt;), 'uint': SeparateContext(OR([Extension('np_scalar_uint'), And([Extension('np_scalar'), Array(None,ArrayOR([DType(dtype('uint8'),'u1'), DType(dtype('uint8')), DType(dtype('uint16')), DType(dtype('uint32')), DType(dtype('uint64'))]))])])), 'Set': CheckCallable(&lt;function f&gt;), 'Iterator': CheckCallable(&lt;function f&gt;), 'Sequence': CheckCallable(&lt;function f&gt;), 'np_scalar': SeparateContext(OR([Extension('np_zeroshape_array'), Extension('np_scalar_type')])), 'Iterable': CheckCallable(&lt;function f&gt;), 'np_scalar_int': SeparateContext(OR([CheckType(int8,'np_int8'), CheckType(int16,'np_int16'), CheckType(int32,'np_int32'), CheckType(int64,'np_int64')])), 'NoneType': CheckCallable(&lt;function is_None&gt;)}</em><a class="headerlink" href="#contracts.library.extensions.Extension.registrar" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -501,7 +522,7 @@ is not available.</p>
 <dd><p>Bases: <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
 <dl class="method">
 <dt id="contracts.library.lists.List.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/lists.html#List.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.lists.List.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/lists.html#List.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.lists.List.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
@@ -520,7 +541,7 @@ is not available.</p>
 <dd><p>Bases: <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
 <dl class="method">
 <dt id="contracts.library.map.Map.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/map.html#Map.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.map.Map.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/map.html#Map.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.map.Map.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
@@ -543,6 +564,11 @@ is not available.</p>
 <code class="descclassname">contracts.library.miscellaneous_aliases.</code><code class="descname">ist</code><span class="sig-paren">(</span><em>C</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/miscellaneous_aliases.html#ist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.miscellaneous_aliases.ist" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="function">
+<dt id="contracts.library.miscellaneous_aliases.m_new_contract">
+<code class="descclassname">contracts.library.miscellaneous_aliases.</code><code class="descname">m_new_contract</code><span class="sig-paren">(</span><em>name</em>, <em>f</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/miscellaneous_aliases.html#m_new_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.miscellaneous_aliases.m_new_contract" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-contracts.library.separate_context">
 <span id="separate-context-module"></span><h2><code class="xref py py-mod docutils literal"><span class="pre">separate_context</span></code> Module<a class="headerlink" href="#module-contracts.library.separate_context" title="Permalink to this headline">¶</a></h2>
@@ -552,7 +578,7 @@ is not available.</p>
 <dd><p>Bases: <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
 <dl class="method">
 <dt id="contracts.library.separate_context.SeparateContext.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/separate_context.html#SeparateContext.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.separate_context.SeparateContext.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/separate_context.html#SeparateContext.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.separate_context.SeparateContext.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
@@ -571,7 +597,7 @@ is not available.</p>
 <dd><p>Bases: <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
 <dl class="method">
 <dt id="contracts.library.seq.Seq.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/seq.html#Seq.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.seq.Seq.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/seq.html#Seq.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.seq.Seq.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
@@ -590,7 +616,7 @@ is not available.</p>
 <dd><p>Bases: <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
 <dl class="method">
 <dt id="contracts.library.simple_values.EqualTo.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/simple_values.html#EqualTo.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.simple_values.EqualTo.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/simple_values.html#EqualTo.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.simple_values.EqualTo.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
@@ -653,7 +679,7 @@ is not available.</p>
 <dl class="attribute">
 <dt id="contracts.library.strings.AnsiString.TYPE">
 <code class="descname">TYPE</code><a class="headerlink" href="#contracts.library.strings.AnsiString.TYPE" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></p>
+<dd><p>alias of <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></p>
 </dd></dl>
 
 </dd></dl>
@@ -685,7 +711,7 @@ is not available.</p>
 <span id="suggester-module"></span><h2><code class="xref py py-mod docutils literal"><span class="pre">suggester</span></code> Module<a class="headerlink" href="#module-contracts.library.suggester" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="contracts.library.suggester.create_suggester">
-<code class="descclassname">contracts.library.suggester.</code><code class="descname">create_suggester</code><span class="sig-paren">(</span><em>get_options</em>, <em>get_message=&lt;function default_message&gt;</em>, <em>pattern=Combine:({Re:('[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ]') W:(_abc...)})</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/suggester.html#create_suggester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.suggester.create_suggester" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">contracts.library.suggester.</code><code class="descname">create_suggester</code><span class="sig-paren">(</span><em>get_options</em>, <em>get_message=&lt;function default_message&gt;</em>, <em>pattern=None</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/suggester.html#create_suggester"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.suggester.create_suggester" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -723,7 +749,7 @@ is not available.</p>
 <dd><p>Bases: <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
 <dl class="method">
 <dt id="contracts.library.tuple.Tuple.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/tuple.html#Tuple.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.tuple.Tuple.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/tuple.html#Tuple.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.tuple.Tuple.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
@@ -742,7 +768,7 @@ is not available.</p>
 <dd><p>Bases: <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
 <dl class="method">
 <dt id="contracts.library.types_misc.CheckType.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/types_misc.html#CheckType.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.types_misc.CheckType.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/types_misc.html#CheckType.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.types_misc.CheckType.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
@@ -758,7 +784,7 @@ is not available.</p>
 <dd><p>Bases: <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
 <dl class="method">
 <dt id="contracts.library.types_misc.Type.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/types_misc.html#Type.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.types_misc.Type.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/types_misc.html#Type.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.types_misc.Type.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
@@ -777,29 +803,12 @@ is not available.</p>
 <dd><p>Bases: <a class="reference internal" href="contracts.html#contracts.interface.Contract" title="contracts.interface.Contract"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.Contract</span></code></a></p>
 <dl class="method">
 <dt id="contracts.library.variables.BindVariable.check_contract">
-<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/variables.html#BindVariable.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.variables.BindVariable.check_contract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_contract</code><span class="sig-paren">(</span><em>context</em>, <em>value</em>, <em>silent</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/variables.html#BindVariable.check_contract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.variables.BindVariable.check_contract" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
 <dt id="contracts.library.variables.BindVariable.parse_action">
 <em class="property">static </em><code class="descname">parse_action</code><span class="sig-paren">(</span><em>allowed_types</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/variables.html#BindVariable.parse_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.variables.BindVariable.parse_action" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="contracts.library.variables.ScopedVariableRef">
-<em class="property">class </em><code class="descclassname">contracts.library.variables.</code><code class="descname">ScopedVariableRef</code><span class="sig-paren">(</span><em>value</em>, <em>where=None</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/variables.html#ScopedVariableRef"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.variables.ScopedVariableRef" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="contracts.html#contracts.interface.RValue" title="contracts.interface.RValue"><code class="xref py py-class docutils literal"><span class="pre">contracts.interface.RValue</span></code></a></p>
-<p>A variable whose value is extracted by name from the scope where the spec is defined.</p>
-<dl class="method">
-<dt id="contracts.library.variables.ScopedVariableRef.eval">
-<code class="descname">eval</code><span class="sig-paren">(</span><em>context</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/variables.html#ScopedVariableRef.eval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.variables.ScopedVariableRef.eval" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="classmethod">
-<dt id="contracts.library.variables.ScopedVariableRef.parse_action">
-<em class="property">classmethod </em><code class="descname">parse_action</code><span class="sig-paren">(</span><em>s</em>, <em>loc</em>, <em>tokens</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/contracts/library/variables.html#ScopedVariableRef.parse_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contracts.library.variables.ScopedVariableRef.parse_action" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -859,21 +868,18 @@ is not available.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../sources/api/contracts.library.txt"
+      <li><a href="../sources/api/contracts.library.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -889,13 +895,13 @@ is not available.</p>
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">PyContracts 1.7.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PyContracts 1.7.16 documentation</a> &#187;</li> 
       </ul>
     </div>
 	
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+        &#169; Copyright 2010, Andrea Censi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
 	
     <script type="text/javascript">

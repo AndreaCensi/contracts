@@ -1,29 +1,28 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Changelog &mdash; PyContracts 1.7.2 documentation</title>
-    
+    <title>Changelog &#8212; PyContracts 1.7.16 documentation</title>
     <link rel="stylesheet" href="static/classic.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.7.2',
+        VERSION:     '1.7.16',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.7.2 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -49,7 +48,7 @@
 
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -59,7 +58,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PyContracts 1.7.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PyContracts 1.7.16 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -68,69 +67,97 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="col1 container">
+  <div class="col1 docutils container">
 <p><strong>User documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="index.html#introduction"><span>Introduction to PyContracts</span></a></li>
-<li><a class="reference internal" href="tour.html#quick-tour"><span>Quick tour</span></a></li>
+<li><a class="reference internal" href="index.html#introduction"><span class="std std-ref">Introduction to PyContracts</span></a></li>
+<li><a class="reference internal" href="tour.html#quick-tour"><span class="std std-ref">Quick tour</span></a></li>
 <li>Reference:<ul>
-<li><a class="reference internal" href="api.html#api"><span>API for specifying contracts</span></a></li>
-<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><span>Using the ContractsMeta meta-class</span></a></li>
-<li><a class="reference internal" href="new_contract.html#new-contract"><span>Creating new contracts using new_contract</span></a></li>
+<li><a class="reference internal" href="api.html#api"><span class="std std-ref">API for specifying contracts</span></a></li>
+<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><span class="std std-ref">Using the ContractsMeta meta-class</span></a></li>
+<li><a class="reference internal" href="new_contract.html#new-contract"><span class="std std-ref">Creating new contracts using new_contract</span></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="reference.html#contracts-language-reference"><span>Language reference</span></a></li>
+<li><a class="reference internal" href="reference.html#contracts-language-reference"><span class="std std-ref">Language reference</span></a></li>
 </ul>
 </div>
-<div class="col2 container">
+<div class="col2 docutils container">
 <p><strong>Developer documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="#the-changelog"><span>Changelog</span></a></li>
-<li><a class="reference internal" href="overhead.html#overhead"><span>PyContracts overhead in production and in testing</span></a></li>
-<li><a class="reference internal" href="api_reference.html#api-reference"><span>PyContracts public API reference</span></a></li>
-<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><span>PyContracts low-level API</span></a></li>
-<li><a class="reference internal" href="credits.html#credits"><span>Credits</span></a></li>
+<li><a class="reference internal" href="#the-changelog"><span class="std std-ref">Changelog</span></a></li>
+<li><a class="reference internal" href="overhead.html#overhead"><span class="std std-ref">PyContracts overhead in production and in testing</span></a></li>
+<li><a class="reference internal" href="api_reference.html#api-reference"><span class="std std-ref">PyContracts public API reference</span></a></li>
+<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><span class="std std-ref">PyContracts low-level API</span></a></li>
+<li><a class="reference internal" href="credits.html#credits"><span class="std std-ref">Credits</span></a></li>
 </ul>
 </div>
 <div style="clear:left"/><div class="section" id="changelog">
 <span id="the-changelog"></span><h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
-<span id="id2"></span><h2>1.7.5 &#8211; 2015-06-01<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2>1.8 – 2017-09-24<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Summary of changes:</p>
 <ul class="simple">
-<li>Full Python 3 support.</li>
-<li>Now contract strings can be unicode.</li>
+<li>Added “a^b” notation (StefanUlbrich) - needs tests.</li>
+<li>now logging.basicConfig() is not changed anymore.</li>
+<li>contracts for file-like objects (Jonathan Sharpe)</li>
+<li>Disabled the line “.library import miscellaneous_aliases”; things
+that were not documented and nobody missed.</li>
+<li>Many little improvements in the way errors are visualized.</li>
+<li>Moved to twine.</li>
 </ul>
 </div>
 <div class="section" id="id3">
-<h2>1.7.2 &#8211; 2015-05-01<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<h2>1.7.7 – 2016-02-03<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Not operator <code class="docutils literal"><span class="pre">!</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h2>1.7.6 – 2015-06-01<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Full Python 3 support.</li>
+<li>Now contract strings can be unicode.</li>
+<li>Clarified the semantics of <code class="docutils literal"><span class="pre">$</span></code> when referring to types.</li>
+</ul>
+<p>This does what is expected:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">module</span> <span class="k">import</span> <span class="n">MyClass</span>
+
+<span class="nd">@contract</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;list($MyClass)&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+  <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>1.7.2 – 2015-05-01<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Better Python 3 support; metaclasses now supported on Python 3.2. Python 3.3 has problems with PyParsing probably due to randomization of data structures.</li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h2>1.7.1 &#8211; 2014-11-30<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h2>1.7.1 – 2014-11-30<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Fixed regressions on tests for contracts with arguments.</li>
 </ul>
 </div>
-<div class="section" id="id5">
-<h2>1.7.0 &#8211; 2014-11-20<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h2>1.7.0 – 2014-11-20<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <ul>
 <li><p class="first">Implemented custom contracts with arguments (&#64;ChrisBeaumont):</p>
-<div class="highlight-python"><div class="highlight"><pre>@new_contract
-def greater_than(value, thresh):
-    return value &gt; thresh
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@new_contract</span>
+<span class="k">def</span> <span class="nf">greater_than</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">thresh</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="n">thresh</span>
 
-@contract(x=&#39;greater_than(3)&#39;&#39;)
-def f(x):
-    ...
+<span class="nd">@contract</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;greater_than(3)&#39;&#39;)</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="o">...</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first">Implemented variable binding from Python scope (&#64;ChrisBeaumont):</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
 
-<span class="nd">@contract</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">&#39;&gt;$a&#39;</span><span class="p">)</span>
+<span class="nd">@contract</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;&gt;$a&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="o">...</span>
 </pre></div>
@@ -138,8 +165,8 @@ def f(x):
 </li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h2>1.6.5 &#8211; 2014-09-11<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h2>1.6.5 – 2014-09-11<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>If <code class="docutils literal"><span class="pre">disable_all()</span></code> is checked, <code class="docutils literal"><span class="pre">check()</span></code> does not anything.
 (contributed by Calen Pennington / cpennington)</li>
@@ -149,12 +176,12 @@ def f(x):
 <h2>1.6.1 to 1.6.4<a class="headerlink" href="#to-1-6-4" title="Permalink to this headline">¶</a></h2>
 <p>Mainly performance improvements and cosmetic changes.</p>
 </div>
-<div class="section" id="id7">
-<h2>1.6.0 &#8211; 2013-09-10<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h2>1.6.0 – 2013-09-10<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>New features:
-- New ContractsMeta metaclass to provide subclasses with contracts. Use like you would ABCMeta. See docs:  <a class="reference internal" href="contractsmeta.html#contractsmeta"><span>Using the ContractsMeta meta-class</span></a>
-- Added a &#8220;isinstance(ClassName)&#8221; contract for generic type checking</li>
+- New ContractsMeta metaclass to provide subclasses with contracts. Use like you would ABCMeta. See docs:  <a class="reference internal" href="contractsmeta.html#contractsmeta"><span class="std std-ref">Using the ContractsMeta meta-class</span></a>
+- Added a “isinstance(ClassName)” contract for generic type checking</li>
 <li>Other fixes:
 - Cleaned up much of the code regarding Numpy arrays
 - Fixed a few incompatibilities with new versions of pyparsing
@@ -162,46 +189,46 @@ def f(x):
 <li>Incomplete list of contributors: Ryan Heimbuch</li>
 </ul>
 </div>
-<div class="section" id="id8">
-<h2>1.5.0 &#8211; 2013-02-07<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id10">
+<h2>1.5.0 – 2013-02-07<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>New &#8220;attr(name:type)&#8221; syntax for checking types of attributes.
+<li>New “attr(name:type)” syntax for checking types of attributes.
 (Contributed by Brett Graham)</li>
 <li>Fixed handling of missing specs in docstrings.</li>
 <li>Numpy types are treated as numbers in comparisons.</li>
 </ul>
 </div>
-<div class="section" id="id9">
-<h2>1.4.0 &#8211; 2012-07-15<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id11">
+<h2>1.4.0 – 2012-07-15<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Various minor internal improvements on speed and better error messages</li>
-<li>Introduced new &#8220;string&#8221; and &#8220;unicode&#8221; keywords (due to Xion) and
+<li>Introduced new “string” and “unicode” keywords (due to Xion) and
 clarified the meaning of strings in general.</li>
 </ul>
 <p>New behavior:</p>
 <ul class="simple">
-<li>&#8220;unicode&#8221; matches unicode strings (only in 2.x)</li>
-<li>&#8220;str&#8221; matches the &#8220;str&#8221; type only (so ANSI strings in 2.x and all/Unicode strings in 3.x)</li>
-<li>&#8220;string&#8221; matches both str and unicode in 2.x and just &#8220;str&#8221; in 3.X</li>
+<li>“unicode” matches unicode strings (only in 2.x)</li>
+<li>“str” matches the “str” type only (so ANSI strings in 2.x and all/Unicode strings in 3.x)</li>
+<li>“string” matches both str and unicode in 2.x and just “str” in 3.X</li>
 </ul>
 <p>Because the new behavior should not break any existing usage,
-this remains a &#8220;1.x&#8221; release.</p>
+this remains a “1.x” release.</p>
 </div>
-<div class="section" id="id10">
-<h2>1.2.0 &#8211; 2011-09-01<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id12">
+<h2>1.2.0 – 2011-09-01<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Mainly speed improvements.</li>
 </ul>
 </div>
-<div class="section" id="id11">
-<h2>1.1.0 &#8211; 2011-06-30<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id13">
+<h2>1.1.0 – 2011-06-30<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Now Numpy array are treated as sequences: <code class="docutils literal"><span class="pre">seq[2](number)</span></code> matches both <code class="docutils literal"><span class="pre">[1,2]</span></code>
 as well as <code class="docutils literal"><span class="pre">np.array([1,2])</span></code>.</li>
 </ul>
 </div>
-<div class="section" id="id12">
-<h2>1.0.0 &#8211; 2011-06-30<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id14">
+<h2>1.0.0 – 2011-06-30<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
 <p>No new features since 0.9.4, mainly performance improvements and some bug fixes.</p>
 <p>Main changes:</p>
 <ul class="simple">
@@ -210,8 +237,8 @@ is already defined.</li>
 <li>Performance much improved when contracts is disabled; now the overhead is only an extra function call.</li>
 </ul>
 </div>
-<div class="section" id="id13">
-<h2>0.9.4 &#8211; 2011-03-19<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id15">
+<h2>0.9.4 – 2011-03-19<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
 <p>Bug fixes:</p>
 <ul class="simple">
 <li>Fixed bugs with <code class="docutils literal"><span class="pre">new_contract</span></code> with new contract names composed
@@ -224,41 +251,41 @@ by only two letters (it confused the parsing rules).</li>
 <p>New experimental features:</p>
 <ul>
 <li><p class="first">Contracts for class methods (suggestion by William Furr).
-Documentation still to write; here&#8217;s an example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contracts</span> <span class="kn">import</span> <span class="n">new_contract</span><span class="p">,</span> <span class="n">contract</span>
+Documentation still to write; here’s an example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">contracts</span> <span class="k">import</span> <span class="n">new_contract</span><span class="p">,</span> <span class="n">contract</span>
 
 <span class="k">class</span> <span class="nc">Game</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">legal_moves</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">legal_moves</span> <span class="o">=</span> <span class="n">legal_moves</span>
 
-    <span class="c"># You can now create a contract from object methods</span>
-    <span class="c"># that can use the object attributes to validate the value.</span>
+    <span class="c1"># You can now create a contract from object methods</span>
+    <span class="c1"># that can use the object attributes to validate the value.</span>
     <span class="nd">@new_contract</span>
     <span class="k">def</span> <span class="nf">legal_move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">move</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">move</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">legal_moves</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Move not valid&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Move not valid&#39;</span><span class="p">)</span>
 
-    <span class="nd">@contract</span><span class="p">(</span><span class="n">move</span><span class="o">=</span><span class="s">&#39;legal_move&#39;</span><span class="p">)</span>
+    <span class="nd">@contract</span><span class="p">(</span><span class="n">move</span><span class="o">=</span><span class="s1">&#39;legal_move&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">take_turn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">move</span><span class="p">):</span>
         <span class="k">pass</span>
 
 <span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">legal_moves</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
-<span class="n">game</span><span class="o">.</span><span class="n">take_turn</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c"># ok</span>
-<span class="n">game</span><span class="o">.</span><span class="n">take_turn</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="c"># raises exception</span>
+<span class="n">game</span><span class="o">.</span><span class="n">take_turn</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># ok</span>
+<span class="n">game</span><span class="o">.</span><span class="n">take_turn</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="c1"># raises exception</span>
 </pre></div>
 </div>
 </li>
 </ul>
 </div>
-<div class="section" id="id14">
-<h2>0.9.3 &#8211; 2011-01-28<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id16">
+<h2>0.9.3 – 2011-01-28<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
 <p>New features:</p>
 <ul>
 <li><p class="first">Interface change: the decorator is now called <code class="docutils literal"><span class="pre">contract</span></code> instead of <code class="docutils literal"><span class="pre">contracts</span></code>,
 because <code class="docutils literal"><span class="pre">from</span> <span class="pre">contracts</span> <span class="pre">import</span> <span class="pre">contracts</span></code> looked quite clumsy
 (the old form is still available).</p>
 </li>
-<li><p class="first">The <code class="docutils literal"><span class="pre">&#64;contract</span></code> decorator now changes the function&#8217;s docstring to show the contracts for the parameters. See <a class="reference external" href="http://andreacensi.github.com/geometry/api.html">an example application</a>.</p>
+<li><p class="first">The <code class="docutils literal"><span class="pre">&#64;contract</span></code> decorator now changes the function’s docstring to show the contracts for the parameters. See <a class="reference external" href="http://andreacensi.github.com/geometry/api.html">an example application</a>.</p>
 </li>
 <li><p class="first">Implemented the generic contracts <code class="docutils literal"><span class="pre">seq</span></code> and <code class="docutils literal"><span class="pre">map</span></code> that
 generalize <code class="docutils literal"><span class="pre">list</span></code> and <code class="docutils literal"><span class="pre">dict</span></code> when any Sequence or Mapping will do.</p>
@@ -270,7 +297,7 @@ kind <code class="docutils literal"><span class="pre">array(&gt;=0|&lt;-1)</span
 </li>
 <li><p class="first">Now it is possible to give more context to calls to <code class="docutils literal"><span class="pre">check</span></code> and <code class="docutils literal"><span class="pre">fail</span></code>
 through the use of keywords variable. For example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">check</span><span class="p">(</span><span class="s">&#39;array[*xM]&#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span>  <span class="n">M</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">check</span><span class="p">(</span><span class="s1">&#39;array[*xM]&#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span>  <span class="n">M</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
@@ -288,30 +315,30 @@ This can be used to make sure that PyContracts is not slowing things down.</p>
 </ul>
 </div>
 <div class="section" id="released-2010-12-27">
-<h2>0.9.2 &#8211; Released 2010-12-27<a class="headerlink" href="#released-2010-12-27" title="Permalink to this headline">¶</a></h2>
+<h2>0.9.2 – Released 2010-12-27<a class="headerlink" href="#released-2010-12-27" title="Permalink to this headline">¶</a></h2>
 <p>(changelog not available)</p>
-<div class="col1 container">
+<div class="col1 docutils container">
 <p><strong>User documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="index.html#introduction"><span>Introduction to PyContracts</span></a></li>
-<li><a class="reference internal" href="tour.html#quick-tour"><span>Quick tour</span></a></li>
+<li><a class="reference internal" href="index.html#introduction"><span class="std std-ref">Introduction to PyContracts</span></a></li>
+<li><a class="reference internal" href="tour.html#quick-tour"><span class="std std-ref">Quick tour</span></a></li>
 <li>Reference:<ul>
-<li><a class="reference internal" href="api.html#api"><span>API for specifying contracts</span></a></li>
-<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><span>Using the ContractsMeta meta-class</span></a></li>
-<li><a class="reference internal" href="new_contract.html#new-contract"><span>Creating new contracts using new_contract</span></a></li>
+<li><a class="reference internal" href="api.html#api"><span class="std std-ref">API for specifying contracts</span></a></li>
+<li><a class="reference internal" href="contractsmeta.html#contractsmeta"><span class="std std-ref">Using the ContractsMeta meta-class</span></a></li>
+<li><a class="reference internal" href="new_contract.html#new-contract"><span class="std std-ref">Creating new contracts using new_contract</span></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="reference.html#contracts-language-reference"><span>Language reference</span></a></li>
+<li><a class="reference internal" href="reference.html#contracts-language-reference"><span class="std std-ref">Language reference</span></a></li>
 </ul>
 </div>
-<div class="col2 container">
+<div class="col2 docutils container">
 <p><strong>Developer documentation</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="#the-changelog"><span>Changelog</span></a></li>
-<li><a class="reference internal" href="overhead.html#overhead"><span>PyContracts overhead in production and in testing</span></a></li>
-<li><a class="reference internal" href="api_reference.html#api-reference"><span>PyContracts public API reference</span></a></li>
-<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><span>PyContracts low-level API</span></a></li>
-<li><a class="reference internal" href="credits.html#credits"><span>Credits</span></a></li>
+<li><a class="reference internal" href="#the-changelog"><span class="std std-ref">Changelog</span></a></li>
+<li><a class="reference internal" href="overhead.html#overhead"><span class="std std-ref">PyContracts overhead in production and in testing</span></a></li>
+<li><a class="reference internal" href="api_reference.html#api-reference"><span class="std std-ref">PyContracts public API reference</span></a></li>
+<li><a class="reference internal" href="api_lowlevel.html#api-lowlevel"><span class="std std-ref">PyContracts low-level API</span></a></li>
+<li><a class="reference internal" href="credits.html#credits"><span class="std std-ref">Credits</span></a></li>
 </ul>
 </div>
 <div style="clear:left"/></div>
@@ -326,21 +353,23 @@ This can be used to make sure that PyContracts is not slowing things down.</p>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog</a><ul>
-<li><a class="reference internal" href="#id1">1.7.5 &#8211; 2015-06-01</a></li>
-<li><a class="reference internal" href="#id3">1.7.2 &#8211; 2015-05-01</a></li>
-<li><a class="reference internal" href="#id4">1.7.1 &#8211; 2014-11-30</a></li>
-<li><a class="reference internal" href="#id5">1.7.0 &#8211; 2014-11-20</a></li>
-<li><a class="reference internal" href="#id6">1.6.5 &#8211; 2014-09-11</a></li>
+<li><a class="reference internal" href="#id1">1.8 – 2017-09-24</a></li>
+<li><a class="reference internal" href="#id3">1.7.7 – 2016-02-03</a></li>
+<li><a class="reference internal" href="#id4">1.7.6 – 2015-06-01</a></li>
+<li><a class="reference internal" href="#id5">1.7.2 – 2015-05-01</a></li>
+<li><a class="reference internal" href="#id6">1.7.1 – 2014-11-30</a></li>
+<li><a class="reference internal" href="#id7">1.7.0 – 2014-11-20</a></li>
+<li><a class="reference internal" href="#id8">1.6.5 – 2014-09-11</a></li>
 <li><a class="reference internal" href="#to-1-6-4">1.6.1 to 1.6.4</a></li>
-<li><a class="reference internal" href="#id7">1.6.0 &#8211; 2013-09-10</a></li>
-<li><a class="reference internal" href="#id8">1.5.0 &#8211; 2013-02-07</a></li>
-<li><a class="reference internal" href="#id9">1.4.0 &#8211; 2012-07-15</a></li>
-<li><a class="reference internal" href="#id10">1.2.0 &#8211; 2011-09-01</a></li>
-<li><a class="reference internal" href="#id11">1.1.0 &#8211; 2011-06-30</a></li>
-<li><a class="reference internal" href="#id12">1.0.0 &#8211; 2011-06-30</a></li>
-<li><a class="reference internal" href="#id13">0.9.4 &#8211; 2011-03-19</a></li>
-<li><a class="reference internal" href="#id14">0.9.3 &#8211; 2011-01-28</a></li>
-<li><a class="reference internal" href="#released-2010-12-27">0.9.2 &#8211; Released 2010-12-27</a></li>
+<li><a class="reference internal" href="#id9">1.6.0 – 2013-09-10</a></li>
+<li><a class="reference internal" href="#id10">1.5.0 – 2013-02-07</a></li>
+<li><a class="reference internal" href="#id11">1.4.0 – 2012-07-15</a></li>
+<li><a class="reference internal" href="#id12">1.2.0 – 2011-09-01</a></li>
+<li><a class="reference internal" href="#id13">1.1.0 – 2011-06-30</a></li>
+<li><a class="reference internal" href="#id14">1.0.0 – 2011-06-30</a></li>
+<li><a class="reference internal" href="#id15">0.9.4 – 2011-03-19</a></li>
+<li><a class="reference internal" href="#id16">0.9.3 – 2011-01-28</a></li>
+<li><a class="reference internal" href="#released-2010-12-27">0.9.2 – Released 2010-12-27</a></li>
 </ul>
 </li>
 </ul>
@@ -348,21 +377,18 @@ This can be used to make sure that PyContracts is not slowing things down.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="sources/changelog.txt"
+      <li><a href="sources/changelog.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -378,13 +404,13 @@ This can be used to make sure that PyContracts is not slowing things down.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PyContracts 1.7.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PyContracts 1.7.16 documentation</a> &#187;</li> 
       </ul>
     </div>
 	
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+        &#169; Copyright 2010, Andrea Censi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
 	
     <script type="text/javascript">

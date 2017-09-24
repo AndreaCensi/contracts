@@ -1,30 +1,28 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>contracts.library.compositions &mdash; PyContracts 1.7.2 documentation</title>
-    
+    <title>contracts.library.compositions &#8212; PyContracts 1.7.16 documentation</title>
     <link rel="stylesheet" href="../../../static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '1.7.2',
+        VERSION:     '1.7.16',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../static/jquery.js"></script>
     <script type="text/javascript" src="../../../static/underscore.js"></script>
     <script type="text/javascript" src="../../../static/doctools.js"></script>
-    <link rel="top" title="PyContracts 1.7.2 documentation" href="../../../index.html" />
-    <link rel="up" title="contracts" href="../../contracts.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
 	 
 
    <meta name="google-site-verification" content="Wu274srIjeOWKp_9iWmydewgQsd8zyTuNSYFZ36fQd4" />
@@ -50,7 +48,7 @@
 
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -60,9 +58,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.2 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../../contracts.html" accesskey="U">contracts</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.16 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../contracts.html" accesskey="U">contracts</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -72,12 +70,15 @@
           <div class="body" role="main">
             
   <h1>Source code for contracts.library.compositions</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">..interface</span> <span class="kn">import</span> <span class="n">Contract</span><span class="p">,</span> <span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">add_prefix</span>
-<span class="kn">from</span> <span class="nn">..pyparsing_utils</span> <span class="kn">import</span> <span class="n">myOperatorPrecedence</span>
-<span class="kn">from</span> <span class="nn">..syntax</span> <span class="kn">import</span> <span class="n">ParsingTmp</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">opAssoc</span><span class="p">,</span> <span class="n">simple_contract</span>
-<span class="kn">from</span> <span class="nn">.extensions</span> <span class="kn">import</span> <span class="n">Extension</span>
-<span class="kn">from</span> <span class="nn">.suggester</span> <span class="kn">import</span> <span class="n">create_suggester</span>
+<span></span><span class="kn">from</span> <span class="nn">..interface</span> <span class="k">import</span> <span class="n">Contract</span><span class="p">,</span> <span class="n">ContractNotRespected</span><span class="p">,</span> <span class="n">add_prefix</span>
+<span class="kn">from</span> <span class="nn">..pyparsing_utils</span> <span class="k">import</span> <span class="n">myOperatorPrecedence</span>
+<span class="kn">from</span> <span class="nn">..syntax</span> <span class="k">import</span> <span class="n">ParsingTmp</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">opAssoc</span><span class="p">,</span> <span class="n">simple_contract</span>
+<span class="kn">from</span> <span class="nn">.extensions</span> <span class="k">import</span> <span class="n">Extension</span>
+<span class="kn">from</span> <span class="nn">.suggester</span> <span class="k">import</span> <span class="n">create_suggester</span>
 
+<span class="n">NOT_GLYPH</span> <span class="o">=</span> <span class="s1">&#39;!&#39;</span>
+<span class="n">AND_GLYPH</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span>
+<span class="n">OR_GLYPH</span> <span class="o">=</span> <span class="s1">&#39;|&#39;</span>
 
 <div class="viewcode-block" id="Logical"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.compositions.Logical">[docs]</a><span class="k">class</span> <span class="nc">Logical</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">glyph</span><span class="p">,</span> <span class="n">precedence</span><span class="p">):</span>
@@ -85,112 +86,184 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">precedence</span> <span class="o">=</span> <span class="n">precedence</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Logical</span><span class="p">)</span> <span class="ow">and</span> <span class="n">x</span><span class="o">.</span><span class="n">precedence</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">precedence</span><span class="p">:</span>
-                <span class="k">return</span> <span class="s">&#39;(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="n">x</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">x</span>
-
-        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">convert</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clauses</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clauses</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">s</span>
 
-</div>
+    <span class="k">def</span> <span class="nf">_convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Logical</span><span class="p">)</span> <span class="ow">and</span> <span class="n">x</span><span class="o">.</span><span class="n">precedence</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">precedence</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;(</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="n">x</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">x</span></div>
+
 <div class="viewcode-block" id="OR"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.compositions.OR">[docs]</a><span class="k">class</span> <span class="nc">OR</span><span class="p">(</span><span class="n">Logical</span><span class="p">,</span> <span class="n">Contract</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clauses</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clauses</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">clauses</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">clauses</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span>
-        <span class="n">Contract</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
-        <span class="n">Logical</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;|&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">Contract</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
+        <span class="n">Logical</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">OR_GLYPH</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">clauses</span> <span class="o">=</span> <span class="n">clauses</span>
 
-<div class="viewcode-block" id="OR.check_contract"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.compositions.OR.check_contract">[docs]</a>    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_check_quick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns True if this checks out. &quot;&quot;&quot;</span>
+
+        <span class="c1"># first make a quick pass</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clauses</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># try with fake context</span>
+                <span class="n">c</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">value</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="c1"># if ok, do with main context</span>
+                <span class="n">c</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">except</span> <span class="n">ContractNotRespected</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">pass</span>
+        
+        <span class="k">return</span> <span class="kc">False</span>
+
+
+<div class="viewcode-block" id="OR.check_contract"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.compositions.OR.check_contract">[docs]</a>    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">silent</span><span class="p">):</span>
+        <span class="n">orig</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_quick</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">silent</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;(Error description suppressed.)&#39;</span>
+                <span class="k">raise</span> <span class="n">ContractNotRespected</span><span class="p">(</span><span class="n">contract</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="n">msg</span><span class="p">,</span>
+                        <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+
+            <span class="c1"># otherwise need to do it again with detailed error messages</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_error</span><span class="p">(</span><span class="n">orig</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OR.get_error"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.compositions.OR.get_error">[docs]</a>    <span class="k">def</span> <span class="nf">get_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; This assumes that we are going to fail &quot;&quot;&quot;</span>
         <span class="n">exceptions</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clauses</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="c"># try with fake context</span>
-                <span class="n">c</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">value</span><span class="p">)</span>
-                <span class="c"># if ok, do with main context</span>
-                <span class="n">c</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-                <span class="k">break</span>
+                <span class="c1"># try with fake context</span>
+                <span class="n">c</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">value</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># if ok, do with main context</span>
+                <span class="n">c</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+                <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;We should not be here.&quot;</span>
             <span class="k">except</span> <span class="n">ContractNotRespected</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="n">exceptions</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;Could not satisfy any of the </span><span class="si">%d</span><span class="s"> clauses in </span><span class="si">%s</span><span class="s">.&#39;</span>
-                   <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clauses</span><span class="p">),</span> <span class="bp">self</span><span class="p">))</span>
-
-            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ex</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">exceptions</span><span class="p">):</span>
-                <span class="n">c</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">ex</span>
-                <span class="n">msg</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s"> ---- Clause #</span><span class="si">%d</span><span class="s">:   </span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-                <span class="n">msg</span> <span class="o">+=</span> <span class="n">add_prefix</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">e</span><span class="p">,</span> <span class="s">&#39; | &#39;</span><span class="p">)</span>
-
-            <span class="n">msg</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s"> ------- (end clauses) -------&#39;</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_exceptions</span><span class="p">(</span><span class="n">exceptions</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">ContractNotRespected</span><span class="p">(</span><span class="n">contract</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="n">msg</span><span class="p">,</span>
-                        <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
-</div>
+                        <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span></div>
+
+
+
+    <span class="k">def</span> <span class="nf">_format_exceptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exceptions</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Could not satisfy any of the </span><span class="si">%d</span><span class="s1"> clauses in </span><span class="si">%s</span><span class="s1">.&#39;</span>
+               <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clauses</span><span class="p">),</span> <span class="bp">self</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ex</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">exceptions</span><span class="p">):</span>
+            <span class="n">c</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">ex</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> ---- Clause #</span><span class="si">%d</span><span class="s1">:   </span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="n">add_prefix</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">e</span><span class="p">,</span> <span class="s1">&#39; | &#39;</span><span class="p">)</span>
+
+        <span class="n">msg</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> ------- (end clauses) -------&#39;</span>
+        <span class="k">return</span> <span class="n">msg</span>
+
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;OR(</span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">clauses</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;OR(</span><span class="si">%r</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">clauses</span>
         <span class="k">return</span> <span class="n">s</span>
 
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="OR.parse_action"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.compositions.OR.parse_action">[docs]</a>    <span class="k">def</span> <span class="nf">parse_action</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
+<div class="viewcode-block" id="OR.parse_action"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.compositions.OR.parse_action">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">parse_action</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
         <span class="n">l</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">clauses</span> <span class="o">=</span> <span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span>
         <span class="k">while</span> <span class="n">l</span><span class="p">:</span>
-            <span class="n">glyph</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c"># @UnusedVariable</span>
-            <span class="k">assert</span> <span class="n">glyph</span> <span class="o">==</span> <span class="s">&#39;|&#39;</span>
+            <span class="n">glyph</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># @UnusedVariable</span>
+            <span class="k">assert</span> <span class="n">glyph</span> <span class="o">==</span> <span class="n">OR_GLYPH</span>
             <span class="n">operand</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
             <span class="n">clauses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">operand</span><span class="p">)</span>
         <span class="n">where</span> <span class="o">=</span> <span class="n">W</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">location</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">OR</span><span class="p">(</span><span class="n">clauses</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">OR</span><span class="p">(</span><span class="n">clauses</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span></div></div>
 
-</div></div>
+
 <div class="viewcode-block" id="And"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.compositions.And">[docs]</a><span class="k">class</span> <span class="nc">And</span><span class="p">(</span><span class="n">Logical</span><span class="p">,</span> <span class="n">Contract</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clauses</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clauses</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">clauses</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">clauses</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">clauses</span>
-        <span class="n">Contract</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
-        <span class="n">Logical</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;,&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">Contract</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
+        <span class="n">Logical</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">AND_GLYPH</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">clauses</span> <span class="o">=</span> <span class="n">clauses</span>
 
-<div class="viewcode-block" id="And.check_contract"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.compositions.And.check_contract">[docs]</a>    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="And.check_contract"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.compositions.And.check_contract">[docs]</a>    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">silent</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clauses</span><span class="p">:</span>
-            <span class="n">c</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-</div>
+            <span class="n">c</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">silent</span><span class="p">)</span></div>
+
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;And(</span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">clauses</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;And(</span><span class="si">%r</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">clauses</span>
         <span class="k">return</span> <span class="n">s</span>
 
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="And.parse_action"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.compositions.And.parse_action">[docs]</a>    <span class="k">def</span> <span class="nf">parse_action</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
+<div class="viewcode-block" id="And.parse_action"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.compositions.And.parse_action">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">parse_action</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
         <span class="n">l</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">clauses</span> <span class="o">=</span> <span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span>
         <span class="k">while</span> <span class="n">l</span><span class="p">:</span>
-            <span class="n">glyph</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c"># @UnusedVariable</span>
-            <span class="k">assert</span> <span class="n">glyph</span> <span class="o">==</span> <span class="s">&#39;,&#39;</span>
+            <span class="n">glyph</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># @UnusedVariable</span>
+            <span class="k">assert</span> <span class="n">glyph</span> <span class="o">==</span> <span class="n">AND_GLYPH</span>
             <span class="n">operand</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
             <span class="n">clauses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">operand</span><span class="p">)</span>
         <span class="n">where</span> <span class="o">=</span> <span class="n">W</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">location</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">And</span><span class="p">(</span><span class="n">clauses</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">And</span><span class="p">(</span><span class="n">clauses</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span></div></div>
 
-</div></div>
+
+<div class="viewcode-block" id="Not"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.compositions.Not">[docs]</a><span class="k">class</span> <span class="nc">Not</span><span class="p">(</span><span class="n">Logical</span><span class="p">,</span> <span class="n">Contract</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clauses</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">clauses</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">clauses</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">clauses</span>
+        <span class="n">Contract</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">)</span>
+        <span class="n">Logical</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">NOT_GLYPH</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clauses</span> <span class="o">=</span> <span class="n">clauses</span>
+
+<div class="viewcode-block" id="Not.check_contract"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.compositions.Not.check_contract">[docs]</a>    <span class="k">def</span> <span class="nf">check_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">silent</span><span class="p">):</span>
+        <span class="n">clause</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clauses</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">clause</span><span class="o">.</span><span class="n">_check_contract</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">silent</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">ContractNotRespected</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Shouldn&#39;t have satisfied the clause </span><span class="si">%s</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="n">clause</span>
+            <span class="k">raise</span> <span class="n">ContractNotRespected</span><span class="p">(</span><span class="n">contract</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="n">msg</span><span class="p">,</span>
+                                       <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Not.parse_action"><a class="viewcode-back" href="../../../api/contracts.library.html#contracts.library.compositions.Not.parse_action">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">parse_action</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">assert</span> <span class="n">l</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="n">NOT_GLYPH</span>
+        <span class="n">where</span> <span class="o">=</span> <span class="n">W</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">location</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Not</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;Not(</span><span class="si">%r</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">clauses</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyph</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clauses</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
+
+
 <span class="n">suggester</span> <span class="o">=</span> <span class="n">create_suggester</span><span class="p">(</span><span class="n">get_options</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">ParsingTmp</span><span class="o">.</span><span class="n">keywords</span> <span class="o">+</span>
                              <span class="nb">list</span><span class="p">(</span><span class="n">Extension</span><span class="o">.</span><span class="n">registrar</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
 <span class="n">baseExpr</span> <span class="o">=</span> <span class="n">simple_contract</span> <span class="o">|</span> <span class="n">suggester</span>
-<span class="n">baseExpr</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&#39;Simple contract (recovering)&#39;</span><span class="p">)</span>
+<span class="n">baseExpr</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;Simple contract (recovering)&#39;</span><span class="p">)</span>
 
 
 <span class="n">op</span> <span class="o">=</span> <span class="n">myOperatorPrecedence</span>
-<span class="c"># op = operatorPrecedence</span>
+<span class="c1"># op = operatorPrecedence</span>
 <span class="n">composite_contract</span> <span class="o">=</span> <span class="n">op</span><span class="p">(</span><span class="n">baseExpr</span><span class="p">,</span> <span class="p">[</span>
-                         <span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">opAssoc</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">And</span><span class="o">.</span><span class="n">parse_action</span><span class="p">),</span>
-                         <span class="p">(</span><span class="s">&#39;|&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">opAssoc</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">OR</span><span class="o">.</span><span class="n">parse_action</span><span class="p">),</span>
+                         <span class="p">(</span><span class="n">NOT_GLYPH</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">opAssoc</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span> <span class="n">Not</span><span class="o">.</span><span class="n">parse_action</span><span class="p">),</span>
+                         <span class="p">(</span><span class="n">AND_GLYPH</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">opAssoc</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">And</span><span class="o">.</span><span class="n">parse_action</span><span class="p">),</span>
+                         <span class="p">(</span><span class="n">OR_GLYPH</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">opAssoc</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">OR</span><span class="o">.</span><span class="n">parse_action</span><span class="p">),</span>
                     <span class="p">])</span>
-<span class="n">composite_contract</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&#39;OR/AND contract&#39;</span><span class="p">)</span>
+<span class="n">composite_contract</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;NOT/OR/AND contract&#39;</span><span class="p">)</span>
 
 <span class="n">or_contract</span> <span class="o">=</span> <span class="n">op</span><span class="p">(</span><span class="n">baseExpr</span><span class="p">,</span> <span class="p">[</span>
-                         <span class="p">(</span><span class="s">&#39;|&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">opAssoc</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">OR</span><span class="o">.</span><span class="n">parse_action</span><span class="p">),</span>
+                         <span class="p">(</span><span class="n">OR_GLYPH</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">opAssoc</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">OR</span><span class="o">.</span><span class="n">parse_action</span><span class="p">),</span>
                     <span class="p">])</span>
-<span class="n">or_contract</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s">&#39;OR contract&#39;</span><span class="p">)</span>
+<span class="n">or_contract</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;OR contract&#39;</span><span class="p">)</span>
 </pre></div>
 
           </div>
@@ -201,14 +274,11 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -224,15 +294,15 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.2 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../../contracts.html" >contracts</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyContracts 1.7.16 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../contracts.html" >contracts</a> &#187;</li> 
       </ul>
     </div>
 	
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2010, Andrea Censi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+        &#169; Copyright 2010, Andrea Censi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
 	
     <script type="text/javascript">
