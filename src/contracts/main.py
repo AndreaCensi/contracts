@@ -1,3 +1,8 @@
+import sys
+import types
+
+import six
+
 from .backported import getcallargs, getfullargspec
 from .docstring_parsing import Arg, DocStringInfo
 from .enabling import all_disabled
@@ -6,15 +11,10 @@ from .inspection import (can_accept_at_least_one_argument, can_accept_self,
 from .interface import (CannotDecorateClassmethods, Contract,
     ContractDefinitionError, ContractException, ContractNotRespected,
     ContractSyntaxError, MissingContract, Where, describe_value)
+
+
 # from .library import (CheckCallable, Extension, SeparateContext,
 #     identifier_expression)
-
-import six
-import sys
-import types
-
-
-
 def check_contracts(contracts, values, context_variables=None):
     """
         Checks that the values respect the contract.
@@ -65,14 +65,17 @@ class Storage:
     # Cache storage
     string2contract = {}
 
+
 def _cacheable(string, c):
     """ Returns whether the contract c defined by string string is cacheable. """
     # XXX need a more general way of indicating
     #     whether a contract is safely cacheable
     return '$' not in string
 
+
 def is_param_string(x):
     return isinstance(x, six.string_types)
+
 
 def check_param_is_string(x):
     if not is_param_string(x):
@@ -132,15 +135,19 @@ def contract_decorator(*arg, **kwargs):
 
         # We were called *with* parameters.
         if all_disabled():
+
             def tmp_wrap(f):  # do not change name (see above)
                 return f
+
         else:
+
             def tmp_wrap(f):  # do not change name (see above)
                 try:
                     return contracts_decorate(f, **kwargs)
                 except ContractDefinitionError as e:
                     # erase the stack
                     raise e.copy()
+
         return tmp_wrap
 
 
@@ -151,14 +158,14 @@ def contracts_decorate(function_, modify_docstring=True, **kwargs):
 
     if isinstance(function_, classmethod):
         msg = """
-The function is a classmethod; PyContracts cannot decorate a classmethod. 
+The function is a classmethod; PyContracts cannot decorate a classmethod.
 You can, however, first decorate a function and then turn it into a
 classmethod.
 
 For example, instead of doing this:
 
     class A():
-    
+
         @contract(a='>0')
         @classmethod
         def f(cls, a):
@@ -167,7 +174,7 @@ For example, instead of doing this:
 you can achieve the same goal by inverting the two decorators:
 
     class A():
-    
+
         @classmethod
         @contract(a='>0')
         def f(cls, a):
@@ -268,6 +275,7 @@ you can achieve the same goal by inverting the two decorators:
     # TODO: add rtype statements if missing
 
     if modify_docstring:
+
         def write_contract_as_rst(c):
             return '``%s``' % c
 
@@ -363,7 +371,7 @@ def parse_contracts_from_docstring(function):
 Note: you can use the asterisk if you do not care about assigning
 a contract to a certain parameter:
 
-    :param x: 
+    :param x:
     :type x: *
 """
         raise MissingContract(msg)
@@ -528,6 +536,8 @@ def new_contract(*args):
         # TODO: add here for class decorator
         # We were called without parameters
         function = args[0]
+        if all_disabled():
+            return function
         identifier = function.__name__
         new_contract_impl(identifier, function)
         return function
@@ -553,7 +563,7 @@ def new_contract_impl(identifier, condition):
     #   skip this test if the identifier is already known, and catch
     #   later if the condition changed.)
     if identifier in Extension.registrar:
-        # already known as identifier; check later if the condition 
+        # already known as identifier; check later if the condition
         # remained the same.
         pass
     else:
@@ -574,8 +584,8 @@ def new_contract_impl(identifier, condition):
         loc = e.loc
         if loc >= len(identifier):
             loc -= 1
-        where = Where(identifier, character=loc) #line=e.lineno, column=e.col)
-        # msg = 'Error in parsing string: %s' % e 
+        where = Where(identifier, character=loc)  #line=e.lineno, column=e.col)
+        # msg = 'Error in parsing string: %s' % e
         msg = ('The given identifier %r does not correspond to my idea '
                'of what an identifier should look like;\n%s\n%s'
                % (identifier, e, where))
@@ -643,10 +653,7 @@ def new_contract_impl(identifier, condition):
     return contract
 
 
-
-
 def parse_contract_string(string):
     from .main_actual import parse_contract_string_actual
     return parse_contract_string_actual(string)
-
 
