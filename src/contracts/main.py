@@ -542,6 +542,8 @@ def new_contract(*args):
         new_contract_impl(identifier, function)
         return function
     else:
+        if all_disabled():
+            return None  # XXX: not really sure about this
         return new_contract_impl(*args)
 
 
