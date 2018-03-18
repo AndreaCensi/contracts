@@ -581,10 +581,13 @@ def describe_value_multiline(x):
     """ Describes an object, for use in the error messages. """
     if hasattr(x, 'shape') and hasattr(x, 'dtype'):
         # XXX this fails for bs4, Tag
-        shape_desc = 'x'.join(str(i) for i in x.shape)
-        desc = 'array[%r](%s) ' % (shape_desc, x.dtype)
-        final = desc + '\n' + x.__repr__()
-        return final
+        if x.shape is not None:
+            shape_desc = 'x'.join(str(i) for i in x.shape)
+            desc = 'array[%r](%s) ' % (shape_desc, x.dtype)
+            final = desc + '\n' + x.__repr__()
+            return final
+        else:
+            return x.__repr__()
     else:
         if isinstance(x, str):
             if x == '': return "''"
