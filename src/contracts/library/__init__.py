@@ -11,7 +11,7 @@ from .map import Map
 from .sets import *
 from .attributes import Attr
 from .files import File
-
+from .collection import Collection
 
 from .comparison import CheckOrder
 from .arithmetic import Binary, Unary
