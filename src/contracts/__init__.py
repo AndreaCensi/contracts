@@ -1,8 +1,8 @@
-__version__ = '1.8.3'
+__version__ = '1.8.4'
 
 import logging
 
-#logging.basicConfig()
+# logging.basicConfig()
 logger = logging.getLogger(__name__)
 
 from .interface import (Contract, ContractNotRespected,
@@ -18,6 +18,7 @@ from .main import (check, fail, check_multiple, contract_decorator,
 # So that Eclipse and other IDEs will not get confused.
 def contract(*args, **kwargs):
     return contract_decorator(*args, **kwargs)
+
 
 contract.__doc__ = contract_decorator.__doc__
 

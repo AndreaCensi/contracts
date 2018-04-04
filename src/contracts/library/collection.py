@@ -1,20 +1,20 @@
-from ..interface import Contract, ContractNotRespected, describe_type
-from ..syntax import (Keyword, O, S, W, add_contract, add_keyword,
-    contract_expression)
+from ..interface import Contract, ContractNotRespected
+from ..syntax import (add_contract, W, contract_expression, O, S, add_keyword,
+    Keyword)
 import collections
 
 
-class ASet(Contract):
+class Collection(Contract):
 
     def __init__(self, length_contract=None,
-                 elements_contract=None, where=None):
+                    elements_contract=None, where=None):
         Contract.__init__(self, where)
         self.length_contract = length_contract
         self.elements_contract = elements_contract
 
     def check_contract(self, context, value, silent):
-        if not isinstance(value, collections.Set):
-            error = 'Expected a set, got %r.' % describe_type(value)
+        if not isinstance(value, collections.Collection):
+            error = 'Expected a Collection, got %r.' % value.__class__.__name__
             raise ContractNotRespected(self, error, value, context)
 
         if self.length_contract is not None:
@@ -25,7 +25,7 @@ class ASet(Contract):
                 self.elements_contract._check_contract(context, element, silent)
 
     def __str__(self):
-        s = 'set'
+        s = 'collection'
         if self.length_contract is not None:
             s += '[%s]' % self.length_contract
         if self.elements_contract is not None:
@@ -33,7 +33,7 @@ class ASet(Contract):
         return s
 
     def __repr__(self):
-        s = 'ASet(%r,%r)' % (self.length_contract, self.elements_contract)
+        s = 'collection(%r,%r)' % (self.length_contract, self.elements_contract)
         return s
 
     @staticmethod
@@ -41,14 +41,23 @@ class ASet(Contract):
         where = W(s, loc)
         length_contract = tokens.get('length_contract', None)
         elements_contract = tokens.get('elements_contract', None)
-        return ASet(length_contract, elements_contract, where=where)
+        return Collection(length_contract, elements_contract, where=where)
 
 
-list_contract = (Keyword('set') -
+list_contract = (Keyword('collection') -
                  O(S('[') - contract_expression('length_contract') - S(']')) +
                  O(S('(') - contract_expression('elements_contract') - S(')')))
-list_contract.setParseAction(ASet.parse_action)
+list_contract.setParseAction(Collection.parse_action)
 
-list_contract.setName('Set contract')
-add_keyword('set')
+list_contract.setName('Collection contract')
+add_keyword('collection')
+add_contract(list_contract)
+
+list_contract = (Keyword('col') -
+                 O(S('[') - contract_expression('length_contract') - S(']')) +
+                 O(S('(') - contract_expression('elements_contract') - S(')')))
+list_contract.setParseAction(Collection.parse_action)
+
+list_contract.setName('Collection contract')
+add_keyword('col')
 add_contract(list_contract)
