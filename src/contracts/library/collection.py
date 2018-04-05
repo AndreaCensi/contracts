@@ -12,8 +12,18 @@ class Collection(Contract):
         self.length_contract = length_contract
         self.elements_contract = elements_contract
 
+        try:
+            # latest python 3.6+
+            self.__collection_types = collections.abc.Collection
+        except:
+            # older python 3
+            self.__collection_types = collections.Collection
+        except:
+            # python 2
+            self.__collection_types = collections.Sequence
+
     def check_contract(self, context, value, silent):
-        if not isinstance(value, collections.Collection):
+        if not isinstance(value, self.__collection_types):
             error = 'Expected a Collection, got %r.' % value.__class__.__name__
             raise ContractNotRespected(self, error, value, context)
 
@@ -33,8 +43,7 @@ class Collection(Contract):
         return s
 
     def __repr__(self):
-        s = 'collection(%r,%r)' % (self.length_contract, self.elements_contract)
-        return s
+        return 'collection(%r,%r)'.format(self.length_contract, self.elements_contract)
 
     @staticmethod
     def parse_action(s, loc, tokens):
