@@ -21,7 +21,7 @@ class Collection(Contract):
                 self.__collection_types = collections.Collection
             except:
                 # python 2
-                self.__collection_types = collections.Sequence
+                self.__collection_types = (collections.Sequence, collections.Set, collections.Mapping,)
 
     def check_contract(self, context, value, silent):
         if not isinstance(value, self.__collection_types):
