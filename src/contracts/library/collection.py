@@ -16,11 +16,12 @@ class Collection(Contract):
             # latest python 3.6+
             self.__collection_types = collections.abc.Collection
         except:
-            # older python 3
-            self.__collection_types = collections.Collection
-        except:
-            # python 2
-            self.__collection_types = collections.Sequence
+            try:
+                # older python 3
+                self.__collection_types = collections.Collection
+            except:
+                # python 2
+                self.__collection_types = collections.Sequence
 
     def check_contract(self, context, value, silent):
         if not isinstance(value, self.__collection_types):
