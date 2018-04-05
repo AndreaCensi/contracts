@@ -44,7 +44,7 @@ class Collection(Contract):
         return s
 
     def __repr__(self):
-        return 'collection({},{})'.format(self.length_contract, self.elements_contract)
+        return 'Collection({0!r},{0!r})'.format(self.length_contract, self.elements_contract)
 
     @staticmethod
     def parse_action(s, loc, tokens):
@@ -61,13 +61,4 @@ list_contract.setParseAction(Collection.parse_action)
 
 list_contract.setName('Collection contract')
 add_keyword('collection')
-add_contract(list_contract)
-
-list_contract = (Keyword('col') -
-                 O(S('[') - contract_expression('length_contract') - S(']')) +
-                 O(S('(') - contract_expression('elements_contract') - S(')')))
-list_contract.setParseAction(Collection.parse_action)
-
-list_contract.setName('Collection contract')
-add_keyword('col')
 add_contract(list_contract)
