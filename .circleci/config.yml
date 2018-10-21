@@ -24,7 +24,7 @@ jobs:
           name: Run tests
           command: |
             pip install --user nose
-            DISABLE_CONTRACTS=1 PATH=~/.local/bin:$PATH nosetests contracts
+            PATH=~/.local/bin:$PATH nosetests contracts
 
   test-3.7:
       <<: *test-template
