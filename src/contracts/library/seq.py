@@ -2,7 +2,7 @@ from ..interface import Contract, ContractNotRespected
 from ..syntax import (add_contract, W, contract_expression, O, S, add_keyword,
     Keyword)
 import collections
-
+from past.builtins import xrange
 
 try:
     import numpy

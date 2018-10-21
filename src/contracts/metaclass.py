@@ -65,7 +65,7 @@ class ContractsMeta(ABCMeta):
                                     msg += '      base:  %s\n' % b.__name__
                                     msg += '  function:  %s()\n' % k
                                     msg += 'Exception:\n'
-                                    msg += indent(traceback.format_exc(e), '| ') + '\n'
+                                    msg += indent(traceback.format_exc(), '| ') + '\n'
                                     msg += '(most likely parameters names are different?)'
                                     raise ContractException(msg)
                                 setattr(cls, k, f1)

@@ -1,6 +1,6 @@
 from ..interface import Contract, ContractNotRespected
 from ..syntax import (add_contract, W, contract_expression, O, add_keyword,
-    Keyword)
+    Keyword, Literal)
 
 
 # Base class for string contracts
@@ -70,6 +70,6 @@ else:  # Python 2.x
 for cls in StringBase.__subclasses__():
     for keyword in cls.KEYWORDS:
         mycontract = (Keyword(keyword) + 
-                    O('[' - contract_expression('length') - ']'))
+                    O(Literal('[') - contract_expression('length') - ']'))
         add_keyword(keyword)
         add_contract(mycontract.setParseAction(cls.parse_action))
