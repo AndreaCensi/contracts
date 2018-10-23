@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from abc import ABCMeta, abstractmethod
 import sys
+from abc import ABCMeta, abstractmethod
 
 from .metaclass import with_metaclass
-
 
 
 class Where(object):
@@ -21,12 +20,12 @@ class Where(object):
 
     def __init__(self, string, character, character_end=None):
         from contracts.utils import raise_desc
-        if not isinstance(string, str):
+        if not isinstance(string, six.string_types):
             raise ValueError('I expect the string to be a str, not %r' % string)
-        
+
         if not (0 <= character <= len(string)):
             msg = ('Invalid character loc %s for string of len %s.' %
-                    (character, len(string)))
+                   (character, len(string)))
             raise_desc(ValueError, msg, string=string.__repr__())
             # Advance pointer if whitespace
             # if False:
@@ -42,24 +41,24 @@ class Where(object):
 
         if character_end is not None:
             if not (0 <= character_end <= len(string)):
-                msg = ('Invalid character_end loc %s for string of len %s.'% 
+                msg = ('Invalid character_end loc %s for string of len %s.' %
                        (character_end, len(string)))
-                
+
                 raise_desc(ValueError, msg, string=string.__repr__())
-        
+
             if not (character_end >= character):
-                msg=  'Invalid interval [%d:%d]' % (character, character_end)
+                msg = 'Invalid interval [%d:%d]' % (character, character_end)
                 raise ValueError(msg)
 
             self.line_end, self.col_end = line_and_col(character_end, string)
         else:
             self.line_end, self.col_end = None, None
-            
+
         self.string = string
         self.character = character
         self.character_end = character_end
-        self.filename = None 
-    
+        self.filename = None
+
     def get_substring(self):
         """ Returns the substring to which we refer. Raises error if character_end is None """
         from contracts.utils import raise_desc
@@ -68,7 +67,7 @@ class Where(object):
             msg = 'Character end is None'
             raise_desc(ValueError, msg, where=self)
         return self.string[self.character:self.character_end]
-    
+
     def __repr__(self):
         if self.character_end is not None:
             part = self.string[self.character:self.character_end]
@@ -77,9 +76,9 @@ class Where(object):
             return 'Where(s=...,char=%s-%s,line=%s,col=%s)' % (self.character, self.character_end, self.line, self.col)
 
     def with_filename(self, filename):
-        if self.character is not  None:
+        if self.character is not None:
             w2 = Where(string=self.string,
-                   character=self.character, character_end=self.character_end)
+                       character=self.character, character_end=self.character_end)
         else:
             w2 = Where(string=self.string, line=self.line, column=self.col)
         w2.filename = filename
@@ -87,9 +86,10 @@ class Where(object):
 
     def __str__(self):
         return format_where(self)
-        
+
+
 # mark = 'here or nearby'
-def format_where(w, context_before=3, mark=None, arrow=True, 
+def format_where(w, context_before=3, mark=None, arrow=True,
                  use_unicode=True, no_mark_arrow_if_longer_than=3):
     s = ''
     if w.filename:
@@ -98,31 +98,31 @@ def format_where(w, context_before=3, mark=None, arrow=True,
     start = max(0, w.line - context_before)
     pattern = 'line %2d |'
     i = 0
-    maxi = i  + 1
-    assert 0 <= w.line < len(lines), (w.character, w.line,  w.string.__repr__())
-    
+    maxi = i + 1
+    assert 0 <= w.line < len(lines), (w.character, w.line, w.string.__repr__())
+
     # skip only initial empty lines - if one was written do not skip
-    one_written = False 
+    one_written = False
     for i in range(start, w.line + 1):
         # suppress empty lines
         if one_written or lines[i].strip():
-            s += ("%s%s\n" % (pattern % (i+1), lines[i]))
+            s += ("%s%s\n" % (pattern % (i + 1), lines[i]))
             one_written = True
-        
+
     fill = len(pattern % maxi)
-    
+
     # select the space before the string in the same column
-    char0 = location(w.line, 0, w.string) # from col 0
-    char0_end = location(w.line, w.col, w.string) # to w.col
+    char0 = location(w.line, 0, w.string)  # from col 0
+    char0_end = location(w.line, w.col, w.string)  # to w.col
     space_before = Where(w.string, char0, char0_end)
-    
+
     nindent = printable_length_where(space_before)
     space = ' ' * fill + ' ' * nindent
     if w.col_end is not None:
         if w.line == w.line_end:
             num_highlight = printable_length_where(w)
             s += space + '~' * num_highlight + '\n'
-            space += ' ' * (num_highlight/2)
+            space += ' ' * (num_highlight / 2)
         else:
             # cannot highlight if on different lines
             num_highlight = None
@@ -130,59 +130,61 @@ def format_where(w, context_before=3, mark=None, arrow=True,
     else:
         num_highlight = None
     # Do not add the arrow and the mark if we have a long underline string 
-    
-    disable_mark_arrow  = (num_highlight is not None) and (no_mark_arrow_if_longer_than <num_highlight) 
-    
+
+    disable_mark_arrow = (num_highlight is not None) and (no_mark_arrow_if_longer_than < num_highlight)
+
     if not disable_mark_arrow:
         if arrow:
             if use_unicode:
-                s += space + '↑\n'
+                s += space + u'↑\n'
             else:
-                s += space + '^\n'
-                s += space + '|\n'
-            
+                s += space + u'^\n'
+                s += space + u'|\n'
+
         if mark is not None:
             s += space + mark
-        
+
     s = s.rstrip()
-    
-#     from .utils import indent
-#     s +='\n' + indent(w.string, '> ')
+
+    #     from .utils import indent
+    #     s +='\n' + indent(w.string, '> ')
     return s
 
 
 def printable_length_where(w):
     """ Returns the printable length of the substring """
     if sys.version_info[0] >= 3:  # pragma: no cover
-        stype = str  
+        stype = str
     else:
         stype = unicode
     sub = w.string[w.character:w.character_end]
     # return len(stype(sub, 'utf-8'))
     # I am not really sure this is what we want
     return len(stype(sub))
-    
+
+
+import six
 
 
 def line_and_col(loc, strg):
     """Returns (line, col), both 0 based."""
     from .utils import check_isinstance
     check_isinstance(loc, int)
-    check_isinstance(strg, str)
+    check_isinstance(strg, six.string_types)
     # first find the line 
     lines = strg.split('\n')
-    
+
     if loc == len(strg):
         # Special case: we mark the end of the string
         last_line = len(lines) - 1
-        last_char = len(lines[-1]) 
-        return last_line, last_char  
-        
+        last_char = len(lines[-1])
+        return last_line, last_char
+
     if loc > len(strg):
-        msg = ('Invalid loc = %d for s of len %d (%r)' % 
-                         (loc, len(strg), strg))
+        msg = ('Invalid loc = %d for s of len %d (%r)' %
+               (loc, len(strg), strg))
         raise ValueError(msg)
-    
+
     res_line = 0
     l = loc
     while True:
@@ -204,19 +206,21 @@ def line_and_col(loc, strg):
         from .utils import raise_desc
         raise_desc(AssertionError, msg, s=strg, loc=loc, res_line=res_line,
                    res_col=res_col, loc_recon=inverse)
-        
+
     return (res_line, res_col)
+
 
 def location(line, col, s):
     from .utils import check_isinstance
     check_isinstance(line, int)
     check_isinstance(col, int)
-    check_isinstance(s, str)
-    
+    check_isinstance(s, six.string_types)
+
     lines = s.split('\n')
     previous_lines = sum(len(l) + len('\n') for l in lines[:line])
     offset = col
     return previous_lines + offset
+
 
 def add_prefix(s, prefix):
     result = ""
@@ -230,16 +234,19 @@ def add_prefix(s, prefix):
 class ContractException(Exception):
     """ The base class for the exceptions thrown by this module. """
 
+
 class MissingContract(ContractException):
     pass
+
 
 class ContractDefinitionError(ContractException):
     """ Thrown when defining the contracts """
 
     def copy(self):
         """ Returns a copy of the exception so we can re-raise it by erasing the stack. """
-#         print('type is %r' % type(self))
+        #         print('type is %r' % type(self))
         return type(self)(*self.args)
+
 
 class ExternalScopedVariableNotFound(ContractDefinitionError):
 
@@ -252,6 +259,7 @@ class ExternalScopedVariableNotFound(ContractDefinitionError):
 
     def get_token(self):
         return self.args[0]
+
 
 class CannotDecorateClassmethods(ContractDefinitionError):
     pass
@@ -273,7 +281,6 @@ class ContractSyntaxError(ContractDefinitionError):
         return s
 
 
-
 class ContractNotRespected(ContractException):
     """ Exception thrown when a value does not respect a contract. """
 
@@ -283,7 +290,7 @@ class ContractNotRespected(ContractException):
         Exception.__init__(self, contract, error, value, context)
         assert isinstance(contract, Contract), contract
         assert isinstance(context, dict), context
-        assert isinstance(error, str), error
+        assert isinstance(error, six.string_types), error
 
         self.contract = contract
         self.error = error
@@ -594,12 +601,12 @@ def describe_value_multiline(x):
             return x
         # XXX: this does not represent strings
 
-#             if '\n' in x:
-#                 # long multiline
-#                 return x
-#             else:
-#                 # short string
-#                 return x.__repr__()
+        #             if '\n' in x:
+        #                 # long multiline
+        #                 return x
+        #             else:
+        #                 # short string
+        #                 return x.__repr__()
         else:
             class_name = describe_type(x)
             # TODO: add all types

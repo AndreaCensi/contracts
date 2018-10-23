@@ -2,6 +2,8 @@
 import traceback
 import warnings
 
+import six
+
 from .interface import describe_type, describe_value  # @UnusedImport # old interface
 
 __all__ = [
