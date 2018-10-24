@@ -155,6 +155,9 @@ good('finite', np.float(1))
 fail('finite', np.inf)
 fail('finite', np.nan)
 
+# some more complex stuff
+good('array[N](>=-pi,<pi)', np.array([0], 'float32'))
+good('array[N](>=0)', np.array([0], 'float32'))
 
 # generalized ideas of numbers
 # np_ints = ['int8', 'int16', 'int32', 'int64',

@@ -1,9 +1,10 @@
-from ..interface import Contract, ContractNotRespected, RValue, eval_in_context
-from ..syntax import W, Keyword, add_contract, add_keyword
-from .types_misc import CheckType
 from abc import abstractmethod
+
 import numpy as np
 
+from .types_misc import CheckType
+from ..interface import Contract, ContractNotRespected, RValue, eval_in_context
+from ..syntax import W, Keyword, add_contract, add_keyword
 
 
 class ArrayElementsTest(Contract):
@@ -87,11 +88,12 @@ class ArrayOR(ArrayLogical):
         where = W(string, location)
         return ArrayOR(clauses, where=where)
 
+
 class ArrayORCustomString(ArrayOR):
     def __init__(self, custom_string, **other):
         self.custom_string = custom_string
         ArrayOR.__init__(self, **other)
-        
+
     def __str__(self):
         return self.custom_string
 
@@ -181,6 +183,7 @@ class ArrayConstraint(ArrayElementsTest):
 
 class DType(ArrayElementsTest):
     """ Checks that the value is an array with the given dtype. """
+
     def __init__(self, dtype, dtype_string=None, where=None):
         assert isinstance(dtype, np.dtype)
         Contract.__init__(self, where)
@@ -191,13 +194,13 @@ class DType(ArrayElementsTest):
 
     def test_elements(self, context, value):  # @UnusedVariable
         assert isinstance(value, np.ndarray)  # Guaranteed by construction
-        return (value.dtype == self.dtype)
+        return value.dtype == self.dtype
 
     def __str__(self):
         return self.dtype_string
 
     def __repr__(self):
-        if  "%s" % self.dtype == self.dtype_string:
+        if "%s" % self.dtype == self.dtype_string:
             return 'DType(%r)' % self.dtype
         else:
             return 'DType(%r,%r)' % (self.dtype, self.dtype_string)
@@ -214,6 +217,7 @@ class DType(ArrayElementsTest):
             else:
                 use_dtype = dtype
             return DType(use_dtype, dtype_string, where)
+
         return parse
 
 
@@ -228,17 +232,13 @@ np_types = {
     'np_uint32': np.uint32,  # Unsigned integer (0 to 4294967295)
     'np_uint64': np.uint64,  # Unsigned integer (0 to 18446744073709551615)
     'np_float': np.float,  # Shorthand for float64.
-    'np_float16': np.float16,  #  Half precision float: sign bit, 5 bits exponent, 10 bits mantissa
-    'np_float32': np.float32,  #  Single precision float: sign bit, 8 bits exponent, 23 bits mantissa
-    'np_float64': np.float64,  #  Double precision float: sign bit, 11 bits exponent, 52 bits mantissa
-    'np_complex': np.complex,  #  Shorthand for complex128.
-    'np_complex64': np.complex64,  #    Complex number, represented by two 32-bit floats (real and imaginary components)
+    'np_float16': np.float16,  # Half precision float: sign bit, 5 bits exponent, 10 bits mantissa
+    'np_float32': np.float32,  # Single precision float: sign bit, 8 bits exponent, 23 bits mantissa
+    'np_float64': np.float64,  # Double precision float: sign bit, 11 bits exponent, 52 bits mantissa
+    'np_complex': np.complex,  # Shorthand for complex128.
+    'np_complex64': np.complex64,  # Complex number, represented by two 32-bit floats (real and imaginary components)
     'np_complex128': np.complex128}
 
 for k, t in np_types.items():
     add_contract(Keyword(k).setParseAction(CheckType.parse_action(t)))
     add_keyword(k)
-
-
-
-
