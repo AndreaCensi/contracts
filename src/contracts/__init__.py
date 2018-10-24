@@ -2,6 +2,9 @@ __version__ = '1.8.6'
 
 import logging
 
+# logging.basicConfig()
+logger = logging.getLogger(__name__)
+
 from .enabling import disable_all, enable_all, all_disabled
 from .interface import (Contract, ContractNotRespected,
                         CannotDecorateClassmethods,
@@ -14,9 +17,6 @@ from .main import new_contract as new_contract_main
 from .metaclass import ContractsMeta, with_metaclass
 from .useful_contracts import *
 from .utils import *
-
-# logging.basicConfig()
-logger = logging.getLogger(__name__)
 
 
 # Just make them appear as belonging to the "contracts" Module
