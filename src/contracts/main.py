@@ -146,7 +146,8 @@ def contract_decorator(*arg, **kwargs):
                     return contracts_decorate(f, **kwargs)
                 except ContractDefinitionError as e:
                     # erase the stack
-                    raise e.copy()
+                    # raise e.copy()
+                    raise
 
         return tmp_wrap
 
