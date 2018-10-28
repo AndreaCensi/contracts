@@ -21,7 +21,8 @@ class Where(object):
     def __init__(self, string, character, character_end=None):
         from contracts.utils import raise_desc
         if not isinstance(string, six.string_types):
-            raise ValueError('I expect the string to be a str, not %r' % string)
+            msg = 'I expect the string to be a str, not %r' % string
+            raise ValueError(msg)
 
         if not (0 <= character <= len(string)):
             msg = ('Invalid character loc %s for string of len %s.' %
@@ -244,7 +245,7 @@ class ContractDefinitionError(ContractException):
 
     def copy(self):
         """ Returns a copy of the exception so we can re-raise it by erasing the stack. """
-        #         print('type is %r' % type(self))
+        # print('type is %r, args = %s' % (type(self), self.args))
         return type(self)(*self.args)
 
 
@@ -272,6 +273,7 @@ class ContractSyntaxError(ContractDefinitionError):
         self.error = error
         self.where = where
         ContractDefinitionError.__init__(self, error, where)
+        self.message = self.__str__()
 
     def __str__(self):
         error, where = self.args

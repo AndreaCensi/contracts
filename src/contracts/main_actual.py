@@ -36,8 +36,6 @@ def parse_contract_string_actual(string):
         msg = '%s' % e
         raise ContractSyntaxError(msg, where=where)
     except ParseFatalException as e:
-        import traceback
-        print traceback.format_exc()
         where = Where(string, character=e.loc)
         msg = '%s' % e
         raise ContractSyntaxError(msg, where=where)

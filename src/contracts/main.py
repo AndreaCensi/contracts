@@ -144,10 +144,16 @@ def contract_decorator(*arg, **kwargs):
             def tmp_wrap(f):  # do not change name (see above)
                 try:
                     return contracts_decorate(f, **kwargs)
-                except ContractDefinitionError as e:
+                except ContractSyntaxError as e:
+                    msg = u"Cannot decorate function %s:" % f.__name__
+                    from .utils import indent
+                    import traceback
+                    msg += u'\n\n' + indent(traceback.format_exc(), u'  ')
+                    raise ContractSyntaxError(msg, e.where)
                     # erase the stack
-                    # raise e.copy()
-                    raise
+                except ContractDefinitionError as e:
+                    raise e.copy()
+                    # raise
 
         return tmp_wrap
 
@@ -556,10 +562,9 @@ def new_contract_impl(identifier, condition):
         identifier_expression)
 
     # Be friendly
-    if not isinstance(identifier, str):
-        raise ValueError('I expect the identifier to be a string; '
-                         'received %s.' %
-                         describe_value(identifier))
+    if not isinstance(identifier, six.string_types):
+        msg = 'I expect the identifier to be a string; received %s.' % describe_value(identifier)
+        raise ValueError(msg)
 
     # Make sure it is not already an expression that we know.
     # (exception: allow redundant definitions. To this purpose,
@@ -649,9 +654,9 @@ def new_contract_impl(identifier, condition):
             expected = Extension(identifier)
             assert c == expected, \
                 'Expected %r, got %r.' % (c, expected)  # pragma: no cover
-        except ContractSyntaxError as e:  # pragma: no cover
+        except ContractSyntaxError:  # pragma: no cover
             #assert False, 'Cannot parse %r: %s' % (identifier, e)
-            raise e
+            raise
 
     return contract
 

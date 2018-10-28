@@ -18,7 +18,7 @@ __all__ = [
 
 def indent(s, prefix, first=None):
     s = str(s)
-    assert isinstance(prefix, str)
+    assert isinstance(prefix, six.string_types)
     lines = s.split('\n')
     if not lines:
         return ''
@@ -185,7 +185,7 @@ def raise_wrapped_make(etype, e, msg, compact=False, **kwargs):
         if compact:
             es = str(e)
         else:
-            es = traceback.format_exc(e) # only PY2
+            es = traceback.format_exc(e)  # only PY2
 
     s += '\n' + indent(es.strip(), '| ')
 
