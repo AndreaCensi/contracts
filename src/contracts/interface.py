@@ -86,7 +86,7 @@ class Where(object):
         return w2
 
     def __str__(self):
-        return format_where(self).encode('utf-8')
+        return format_where(self)
 
 
 # mark = 'here or nearby'
