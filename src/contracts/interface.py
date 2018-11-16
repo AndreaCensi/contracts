@@ -86,13 +86,13 @@ class Where(object):
         return w2
 
     def __str__(self):
-        return format_where(self)
+        return format_where(self).encode('utf-8')
 
 
 # mark = 'here or nearby'
 def format_where(w, context_before=3, mark=None, arrow=True,
                  use_unicode=True, no_mark_arrow_if_longer_than=3):
-    s = ''
+    s = u''
     if w.filename:
         s += 'In file %r:\n' % w.filename
     lines = w.string.split('\n')
@@ -107,7 +107,7 @@ def format_where(w, context_before=3, mark=None, arrow=True,
     for i in range(start, w.line + 1):
         # suppress empty lines
         if one_written or lines[i].strip():
-            s += ("%s%s\n" % (pattern % (i + 1), lines[i]))
+            s += (u"%s%s\n" % (pattern % (i + 1), lines[i]))
             one_written = True
 
     fill = len(pattern % maxi)
@@ -118,12 +118,12 @@ def format_where(w, context_before=3, mark=None, arrow=True,
     space_before = Where(w.string, char0, char0_end)
 
     nindent = printable_length_where(space_before)
-    space = ' ' * fill + ' ' * nindent
+    space = u' ' * fill + u' ' * nindent
     if w.col_end is not None:
         if w.line == w.line_end:
             num_highlight = printable_length_where(w)
-            s += space + '~' * num_highlight + '\n'
-            space += ' ' * (num_highlight / 2)
+            s += space + u'~' * num_highlight + '\n'
+            space += u' ' * (num_highlight / 2)
         else:
             # cannot highlight if on different lines
             num_highlight = None
