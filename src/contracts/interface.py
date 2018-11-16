@@ -77,11 +77,11 @@ class Where(object):
             return 'Where(s=...,char=%s-%s,line=%s,col=%s)' % (self.character, self.character_end, self.line, self.col)
 
     def with_filename(self, filename):
-        if self.character is not None:
-            w2 = Where(string=self.string,
+        # if self.character is not None:
+        w2 = Where(string=self.string,
                        character=self.character, character_end=self.character_end)
-        else:
-            w2 = Where(string=self.string, line=self.line, column=self.col)
+        # else:
+        #     w2 = Where(string=self.string, line=self.line, column=self.col)
         w2.filename = filename
         return w2
 
@@ -224,6 +224,9 @@ def location(line, col, s):
 
 
 def add_prefix(s, prefix):
+    from contracts import check_isinstance
+    check_isinstance(s, six.string_types)
+    check_isinstance(prefix, six.string_types)
     result = ""
     for l in s.split('\n'):
         result += prefix + l + '\n'
