@@ -2,6 +2,8 @@
 import traceback
 import warnings
 
+import six
+
 from .interface import describe_type, describe_value  # @UnusedImport # old interface
 
 __all__ = [
@@ -15,11 +17,13 @@ __all__ = [
 
 
 def indent(s, prefix, first=None):
-    s = str(s)
-    assert isinstance(prefix, str)
+    if not isinstance(s, six.string_types):
+        s = u'{}'.format(s)
+
+    assert isinstance(prefix, six.string_types)
     lines = s.split('\n')
     if not lines:
-        return ''
+        return u''
 
     if first is None:
         first = prefix
@@ -30,8 +34,8 @@ def indent(s, prefix, first=None):
     first = ' ' * (m - len(first)) + first
 
     # differnet first prefix
-    res = ['%s%s' % (prefix, line.rstrip()) for line in lines]
-    res[0] = '%s%s' % (first, lines[0].rstrip())
+    res = [u'%s%s' % (prefix, line.rstrip()) for line in lines]
+    res[0] = u'%s%s' % (first, lines[0].rstrip())
     return '\n'.join(res)
 
 
@@ -183,7 +187,7 @@ def raise_wrapped_make(etype, e, msg, compact=False, **kwargs):
         if compact:
             es = str(e)
         else:
-            es = traceback.format_exc(e) # only PY2
+            es = traceback.format_exc(e)  # only PY2
 
     s += '\n' + indent(es.strip(), '| ')
 
