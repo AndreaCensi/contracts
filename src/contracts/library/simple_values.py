@@ -1,3 +1,5 @@
+import six
+
 from ..interface import Contract, ContractNotRespected, RValue
 from ..syntax import W
 from ..interface import eval_in_context
@@ -37,7 +39,7 @@ class EqualTo(Contract):
 
 class SimpleRValue(RValue):
     def __init__(self, value, representation=None, where=None):
-        assert representation is None or isinstance(representation, str)
+        assert representation is None or isinstance(representation, six.string_types)
         self.value = value
         self.where = where
         self.representation = representation

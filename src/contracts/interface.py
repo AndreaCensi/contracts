@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import sys
 from abc import ABCMeta, abstractmethod
 
@@ -601,7 +602,7 @@ def describe_value_multiline(x):
         else:
             return x.__repr__()
     else:
-        if isinstance(x, str):
+        if isinstance(x, six.string_types):
             if x == '': return "''"
             return x
         # XXX: this does not represent strings
@@ -618,8 +619,18 @@ def describe_value_multiline(x):
             desc = 'Instance of %s.' % class_name
             try:
                 # This fails for classes
-                final = desc + '\n' + x.__repr__()
+                final = "{}\n{}".format(desc, x.__repr__())
             except:
-                final = desc + '\n' + str(x)
+                # print(type(x)) # XXX
+                # for i in x:
+                #     print(type(i))
+                #     print(i.__repr__().__repr__())
+                #     print(i.__str__().__repr__())
+                #     print(i.__repr__().encode('utf-8'))
+                #     print(i)
+                # print(x.__repr__())
+                # print(desc.__repr__())
+                # final = u"{}\n{}".format(desc, x)
+                final = "%s\n%s" % (desc, x)
 
             return final

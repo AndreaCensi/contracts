@@ -1,10 +1,12 @@
+import six
+
 from ..interface import Contract, ContractNotRespected, RValue, describe_value
 from ..syntax import (W, oneOf, FollowedBy, NotAny)
 
 class BindVariable(Contract):
 
     def __init__(self, variable, allowed_types, where=None):
-        assert isinstance(variable, str) and len(variable) == 1
+        assert isinstance(variable, six.string_types) and len(variable) == 1
         assert allowed_types, '%r' % allowed_types
         Contract.__init__(self, where)
         self.variable = variable
@@ -56,7 +58,7 @@ class BindVariable(Contract):
 
 class VariableRef(RValue):
     def __init__(self, variable, where=None):
-        assert isinstance(variable, str)
+        assert isinstance(variable, six.string_types)
         self.where = where
         self.variable = variable
 

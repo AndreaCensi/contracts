@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 import sys
 import types
 
@@ -44,14 +45,14 @@ def check_contracts(contracts, values, context_variables=None):
         context_variables = {}
 
     for var in context_variables:
-        if not (isinstance(var, str) and len(var) == 1):  # XXX: isalpha
+        if not (isinstance(var, six.string_types) and len(var) == 1):  # XXX: isalpha
             msg = ('Invalid name %r for a variable. '
                    'I expect a string of length 1.' % var)
             raise ValueError(msg)
 
     C = []
     for x in contracts:
-        assert isinstance(x, str)
+        assert isinstance(x, six.string_types)
         C.append(parse_contract_string(x))
 
     context = context_variables.copy()
@@ -243,7 +244,7 @@ you can achieve the same goal by inverting the two decorators:
             return function_(*args, **kwargs)
 
         def get_nice_function_display():
-            nice_function_display = '%s()' % function_.__name__
+            nice_function_display = b'%s()' % function_.__name__
             if is_bound_method:
                 klass = type(args[0]).__name__
                 nice_function_display = klass + ':' + nice_function_display
@@ -309,7 +310,7 @@ you can achieve the same goal by inverting the two decorators:
         new_docs = function_.__doc__
 
     # XXX: why doesn't this work?
-    contracts_checker.__name__ = 'checker-for-%s' % function_.__name__
+    contracts_checker.__name__ = b'checker-for-%s' % function_.__name__
     contracts_checker.__module__ = function_.__module__
 
     # TODO: is using functools.wraps better?
@@ -600,7 +601,7 @@ def new_contract_impl(identifier, condition):
         raise ValueError(msg)
 
     # Now let's check the condition
-    if isinstance(condition, str):
+    if isinstance(condition, six.string_types):
         # We assume it is a condition that should parse cleanly
         try:
             # could call parse_flexible_spec as well here
