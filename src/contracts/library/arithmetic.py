@@ -1,5 +1,7 @@
 from functools import reduce
 
+import six
+
 from ..interface import RValue
 from ..syntax import isnumber, W
 
@@ -61,7 +63,7 @@ class Binary(RValue):
         exprs = [l.pop(0)]
         while l:
             glyph = l.pop(0)
-            assert isinstance(glyph, str)
+            assert isinstance(glyph, six.string_types)
             expr = l.pop(0)
             assert isinstance(expr, RValue)
             exprs.append(expr)
@@ -105,7 +107,7 @@ class Unary(RValue):
     def parse_action(s, loc, tokens):
         where = W(s, loc)
         glyph = tokens[0][0]
-        assert isinstance(glyph, str)
+        assert isinstance(glyph, six.string_types)
         expr = tokens[0][1]
         assert isinstance(expr, RValue)
         return Unary(glyph, expr, where=where)

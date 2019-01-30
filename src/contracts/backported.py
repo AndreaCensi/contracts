@@ -1,6 +1,8 @@
 import sys
 from inspect import ArgSpec
 
+import six
+
 if sys.version_info[0] >= 3:  # pragma: no cover
     from inspect import getfullargspec
     unicode = str
@@ -72,7 +74,7 @@ else:  # pragma: no cover
         assigned_tuple_params = []
 
         def assign(arg, value):
-            if isinstance(arg, str):
+            if isinstance(arg, six.string_types):
                 arg2value[arg] = value
             else:
                 assigned_tuple_params.append(arg)
@@ -92,7 +94,7 @@ else:  # pragma: no cover
                     raise ValueError('too many values to unpack')
 
         def is_assigned(arg):
-            if isinstance(arg, str):
+            if isinstance(arg, six.string_types):
                 return arg in arg2value
             return arg in assigned_tuple_params
 
@@ -123,7 +125,7 @@ else:  # pragma: no cover
             raise TypeError('%s() takes no arguments (%d given)' %
                             (f_name, num_total))
         for arg in args:
-            if isinstance(arg, str) and arg in named:
+            if isinstance(arg, six.string_types) and arg in named:
                 if is_assigned(arg):
                     raise TypeError("%s() got multiple values for keyword "
                                     "argument '%s'" % (f_name, arg))
