@@ -244,7 +244,7 @@ you can achieve the same goal by inverting the two decorators:
             return function_(*args, **kwargs)
 
         def get_nice_function_display():
-            nice_function_display = b'%s()' % function_.__name__
+            nice_function_display = '%s()' % function_.__name__
             if is_bound_method:
                 klass = type(args[0]).__name__
                 nice_function_display = klass + ':' + nice_function_display
