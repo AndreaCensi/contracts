@@ -310,7 +310,10 @@ you can achieve the same goal by inverting the two decorators:
         new_docs = function_.__doc__
 
     # XXX: why doesn't this work?
-    contracts_checker.__name__ = ('checker-for-%s' % function_.__name__).encode('utf-8')
+    name = ('checker-for-%s' % function_.__name__)
+    if six.PY2:
+        name = name.encode('utf-8')
+    contracts_checker.__name__ = name
     contracts_checker.__module__ = function_.__module__
 
     # TODO: is using functools.wraps better?
