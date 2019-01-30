@@ -620,17 +620,7 @@ def describe_value_multiline(x):
             try:
                 # This fails for classes
                 final = "{}\n{}".format(desc, x.__repr__())
-            except:
-                # print(type(x)) # XXX
-                # for i in x:
-                #     print(type(i))
-                #     print(i.__repr__().__repr__())
-                #     print(i.__str__().__repr__())
-                #     print(i.__repr__().encode('utf-8'))
-                #     print(i)
-                # print(x.__repr__())
-                # print(desc.__repr__())
-                # final = u"{}\n{}".format(desc, x)
+            except: # XXX
                 final = "%s\n%s" % (desc, x)
 
             return final
