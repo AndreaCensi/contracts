@@ -43,7 +43,7 @@ if sys.version_info[0] == 3:  # Python 3
     __all__ = ['String']
 
     class String(StringBase):
-        KEYWORDS = ['str', 'string']
+        KEYWORDS = ['str', 'string', 'unicode']
         TYPE = str
         DESCRIPTION = "a string"
 
