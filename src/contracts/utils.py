@@ -159,7 +159,7 @@ def format_obs(d, informal=False):
     return res
 
 
-def raise_wrapped(etype, e, msg, compact=False, exc=None, **kwargs):
+def raise_wrapped(etype, e, msg, compact=False, **kwargs):
     """ Raises an exception of type etype by wrapping
         another exception "e" with its backtrace and adding
         the objects in kwargs as formatted by format_obs.
@@ -169,35 +169,44 @@ def raise_wrapped(etype, e, msg, compact=False, exc=None, **kwargs):
         exc = output of sys.exc_info()
     """
 
-    e = raise_wrapped_make(etype, e, msg, compact=compact, **kwargs)
-
-    #     if exc is not None:
-    #         _, _, trace = exc
-    #         raise etype, e.args, trace
-    #     else:
-    raise e
+    if six.PY3:
+        from six import raise_from
+        e2 = etype(_format_exc(msg, **kwargs))
+        # e2 = raise_wrapped_make(etype, e, msg, compact=compact, **kwargs)
+        raise_from(e2, e)
+        # raise e2
+    else:
+        e2 = raise_wrapped_make(etype, e, msg, compact=compact, **kwargs)
+        raise e2
 
 
 def raise_wrapped_make(etype, e, msg, compact=False, **kwargs):
     """ Constructs the exception to be thrown by raise_wrapped() """
     assert isinstance(e, BaseException), type(e)
-    assert isinstance(msg, six.string_types), type(msg)
+    check_isinstance(msg, six.text_type)
     s = msg
     if kwargs:
         s += '\n' + format_obs(kwargs)
 
-    import sys
-    if sys.version_info[0] >= 3:
+    # import sys
+    # if sys.version_info[0] >= 3:
+    #     es = e.__str__()
+    # else:
+    if compact:
         es = e.__str__()
     else:
-        if compact:
-            es = e.__str__()
-        else:
-            es = traceback.format_exc(e)  # only PY2
+        es = traceback.format_exc()  # only PY2
 
     s += '\n' + indent(es.strip(), '| ')
 
     return etype(s)
+
+def _format_exc(msg, **kwargs):
+    check_isinstance(msg, six.text_type)
+    s = msg
+    if kwargs:
+        s += '\n' + format_obs(kwargs)
+    return s
 
 
 def raise_desc(etype, msg, args_first=False, **kwargs):
