@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import traceback
 import warnings
+
+import six
 
 from .interface import describe_type, describe_value  # @UnusedImport # old interface
 
@@ -15,11 +18,18 @@ __all__ = [
 
 
 def indent(s, prefix, first=None):
-    s = str(s)
-    assert isinstance(prefix, str)
-    lines = s.split('\n')
+    if not isinstance(s, six.string_types):
+        s = u'{}'.format(s)
+
+    assert isinstance(prefix, six.string_types)
+    try:
+        lines = s.split('\n')
+    except UnicodeDecodeError:
+        print(type(s)) # XXX
+        print(s) # XXX
+        lines = [s]
     if not lines:
-        return ''
+        return u''
 
     if first is None:
         first = prefix
@@ -30,8 +40,8 @@ def indent(s, prefix, first=None):
     first = ' ' * (m - len(first)) + first
 
     # differnet first prefix
-    res = ['%s%s' % (prefix, line.rstrip()) for line in lines]
-    res[0] = '%s%s' % (first, lines[0].rstrip())
+    res = [u'%s%s' % (prefix, line.rstrip()) for line in lines]
+    res[0] = u'%s%s' % (first, lines[0].rstrip())
     return '\n'.join(res)
 
 
@@ -60,8 +70,8 @@ def check_isinstance(ob, expected, **kwargs):
 def raise_type_mismatch(ob, expected, **kwargs):
     """ Raises an exception concerning ob having the wrong type. """
     e = 'Object not of expected type:'
-    e += '\n  expected: %s' % str(expected)
-    e += '\n  obtained: %s' % str(type(ob))
+    e += '\n  expected: {}'.format(expected)
+    e += '\n  obtained: {}'.format(type(ob))
     e += '\n' + indent(format_obs(kwargs), ' ')
     raise ValueError(e)
 
@@ -99,7 +109,7 @@ def format_dict_long(d, informal=False):
 def _get_str(x, informal):
     from contracts.interface import describe_value_multiline
     if informal:
-        s = str(x)
+        s = x.__str__()
     else:
         s = describe_value_multiline(x)
     return s
@@ -124,7 +134,7 @@ def format_list_long(l, informal=False):
 def format_obs(d, informal=False):
     """ Shows objects values and typed for the given dictionary """
     if not d:
-        return str(d)
+        return d.__str__()
 
     maxlen = 0
     for name in d:
@@ -149,7 +159,7 @@ def format_obs(d, informal=False):
     return res
 
 
-def raise_wrapped(etype, e, msg, compact=False, exc=None, **kwargs):
+def raise_wrapped(etype, e, msg, compact=False, **kwargs):
     """ Raises an exception of type etype by wrapping
         another exception "e" with its backtrace and adding
         the objects in kwargs as formatted by format_obs.
@@ -159,35 +169,45 @@ def raise_wrapped(etype, e, msg, compact=False, exc=None, **kwargs):
         exc = output of sys.exc_info()
     """
 
-    e = raise_wrapped_make(etype, e, msg, compact=compact, **kwargs)
-
-    #     if exc is not None:
-    #         _, _, trace = exc
-    #         raise etype, e.args, trace
-    #     else:
-    raise e
+    if six.PY3:
+        from six import raise_from
+        msg += '\n' + indent(e, '| ')
+        e2 = etype(_format_exc(msg, **kwargs))
+        # e2 = raise_wrapped_make(etype, e, msg, compact=compact, **kwargs)
+        raise_from(e2, e)
+        # raise e2
+    else:
+        e2 = raise_wrapped_make(etype, e, msg, compact=compact, **kwargs)
+        raise e2
 
 
 def raise_wrapped_make(etype, e, msg, compact=False, **kwargs):
     """ Constructs the exception to be thrown by raise_wrapped() """
     assert isinstance(e, BaseException), type(e)
-    assert isinstance(msg, str), type(msg)
+    check_isinstance(msg, six.text_type)
     s = msg
     if kwargs:
         s += '\n' + format_obs(kwargs)
 
-    import sys
-    if sys.version_info[0] >= 3:
-        es = str(e)
+    # import sys
+    # if sys.version_info[0] >= 3:
+    #     es = e.__str__()
+    # else:
+    if compact:
+        es = e.__str__()
     else:
-        if compact:
-            es = str(e)
-        else:
-            es = traceback.format_exc(e) # only PY2
+        es = traceback.format_exc()  # only PY2
 
     s += '\n' + indent(es.strip(), '| ')
 
     return etype(s)
+
+def _format_exc(msg, **kwargs):
+    check_isinstance(msg, six.text_type)
+    s = msg
+    if kwargs:
+        s += '\n' + format_obs(kwargs)
+    return s
 
 
 def raise_desc(etype, msg, args_first=False, **kwargs):
@@ -196,7 +216,7 @@ def raise_desc(etype, msg, args_first=False, **kwargs):
         Example:
             raise_desc(ValueError, "I don't know", a=a, b=b)
     """
-    assert isinstance(msg, str), type(msg)
+    assert isinstance(msg, six.string_types), type(msg)
     s1 = msg
     if kwargs:
         s2 = format_obs(kwargs)

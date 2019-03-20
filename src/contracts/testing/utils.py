@@ -1,10 +1,12 @@
+import six
+
 from ..interface import (ContractSyntaxError, describe_value,
                          ContractNotRespected)
 from ..main import parse_contract_string, check_contracts
 
 
 def check_contracts_ok(contract, value):
-    if isinstance(contract, str):
+    if isinstance(contract, six.string_types):
         contract = [contract]
         value = [value]
     context = check_contracts(contract, value)
@@ -16,7 +18,7 @@ def check_contracts_ok(contract, value):
 
 def check_contracts_fail(contract, value, error=ContractNotRespected):
     """ Returns the exception """
-    if isinstance(contract, str):
+    if isinstance(contract, six.string_types):
         contract = [contract]
         value = [value]
 
@@ -45,7 +47,7 @@ def check_contracts_fail(contract, value, error=ContractNotRespected):
 
 
 def check_syntax_fail(string):
-    assert isinstance(string, str)
+    assert isinstance(string, six.string_types)
 
     try:
         parsed_contract = parse_contract_string(string)

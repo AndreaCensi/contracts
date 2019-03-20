@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 import sys
 import types
 
@@ -44,14 +45,14 @@ def check_contracts(contracts, values, context_variables=None):
         context_variables = {}
 
     for var in context_variables:
-        if not (isinstance(var, str) and len(var) == 1):  # XXX: isalpha
+        if not (isinstance(var, six.string_types) and len(var) == 1):  # XXX: isalpha
             msg = ('Invalid name %r for a variable. '
                    'I expect a string of length 1.' % var)
             raise ValueError(msg)
 
     C = []
     for x in contracts:
-        assert isinstance(x, str)
+        assert isinstance(x, six.string_types)
         C.append(parse_contract_string(x))
 
     context = context_variables.copy()
@@ -144,9 +145,16 @@ def contract_decorator(*arg, **kwargs):
             def tmp_wrap(f):  # do not change name (see above)
                 try:
                     return contracts_decorate(f, **kwargs)
-                except ContractDefinitionError as e:
+                except ContractSyntaxError as e:
+                    msg = u"Cannot decorate function %s:" % f.__name__
+                    from .utils import indent
+                    import traceback
+                    msg += u'\n\n' + indent(traceback.format_exc(), u'  ')
+                    raise ContractSyntaxError(msg, e.where)
                     # erase the stack
+                except ContractDefinitionError as e:
                     raise e.copy()
+                    # raise
 
         return tmp_wrap
 
@@ -302,7 +310,10 @@ you can achieve the same goal by inverting the two decorators:
         new_docs = function_.__doc__
 
     # XXX: why doesn't this work?
-    contracts_checker.__name__ = 'checker-for-%s' % function_.__name__
+    name = ('checker-for-%s' % function_.__name__)
+    if six.PY2:
+        name = name.encode('utf-8')
+    contracts_checker.__name__ = name
     contracts_checker.__module__ = function_.__module__
 
     # TODO: is using functools.wraps better?
@@ -555,10 +566,9 @@ def new_contract_impl(identifier, condition):
         identifier_expression)
 
     # Be friendly
-    if not isinstance(identifier, str):
-        raise ValueError('I expect the identifier to be a string; '
-                         'received %s.' %
-                         describe_value(identifier))
+    if not isinstance(identifier, six.string_types):
+        msg = 'I expect the identifier to be a string; received %s.' % describe_value(identifier)
+        raise ValueError(msg)
 
     # Make sure it is not already an expression that we know.
     # (exception: allow redundant definitions. To this purpose,
@@ -594,7 +604,7 @@ def new_contract_impl(identifier, condition):
         raise ValueError(msg)
 
     # Now let's check the condition
-    if isinstance(condition, str):
+    if isinstance(condition, six.string_types):
         # We assume it is a condition that should parse cleanly
         try:
             # could call parse_flexible_spec as well here
@@ -648,9 +658,9 @@ def new_contract_impl(identifier, condition):
             expected = Extension(identifier)
             assert c == expected, \
                 'Expected %r, got %r.' % (c, expected)  # pragma: no cover
-        except ContractSyntaxError as e:  # pragma: no cover
+        except ContractSyntaxError:  # pragma: no cover
             #assert False, 'Cannot parse %r: %s' % (identifier, e)
-            raise e
+            raise
 
     return contract
 
