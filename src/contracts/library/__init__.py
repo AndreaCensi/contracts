@@ -6,6 +6,8 @@ from .strings import *
 from .lists import List
 from .seq import Seq
 from .tuple import Tuple
+from .collection import Collection
+from .datetime_tz import DatetimeWithTz
 from .dicts import Dict
 from .map import Map
 from .sets import *
