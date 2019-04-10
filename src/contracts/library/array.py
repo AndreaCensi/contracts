@@ -7,9 +7,9 @@ from .array_ops import (ArrayOR, ArrayAnd, DType, ArrayConstraint,
     ArrayORCustomString)
 from .compositions import And, OR
 from .suggester import create_suggester
-from numpy import ndarray, dtype  # @UnusedImport
+from numpy import ndarray, dtype
 import numpy
-from pyparsing import operatorPrecedence
+from pyparsing import operatorPrecedence, Or
 
 
 class Array(Contract):
@@ -195,13 +195,13 @@ def np_composite(custom_string, alternatives):
     alts = [DType(numpy.dtype(a), a) for a in alternatives] 
     return ArrayORCustomString(custom_string=custom_string, clauses=alts)
     
-def np_uint(s, loc, tokens):  # @UnusedVariable
+def np_uint(s, loc, tokens):
     return np_composite('uint', np_uint_dtypes)
  
-def np_int(s, loc, tokens):  # @UnusedVariable
+def np_int(s, loc, tokens):
     return np_composite('int', np_int_dtypes)
 
-def np_float(s, loc, tokens):  # @UnusedVariable
+def np_float(s, loc, tokens):
     return np_composite('float', np_float_dtypes)
 
 dtype_checks.append(Keyword('int').setParseAction(np_int))
@@ -210,7 +210,7 @@ dtype_checks.append(Keyword('float').setParseAction(np_float))
 
 composite = ['int', 'uint', 'float']
 
-ndarray_simple_contract = MatchFirst(dtype_checks + array_constraints)
+ndarray_simple_contract = Or(dtype_checks + array_constraints)
 ndarray_simple_contract.setName('numpy element contract')
 
 suggester = create_suggester(get_options=lambda: atomic + composite)
@@ -220,8 +220,8 @@ baseExpr.setName('numpy contract (with recovery)')
 op = myOperatorPrecedence
 # op = operatorPrecedence
 ndarray_composite_contract = op(baseExpr, [
-    (',', 2, opAssoc.LEFT, ArrayAnd.parse_action),  # @UndefinedVariable
-    ('|', 2, opAssoc.LEFT, ArrayOR.parse_action),  # @UndefinedVariable
+    (',', 2, opAssoc.LEFT, ArrayAnd.parse_action),
+    ('|', 2, opAssoc.LEFT, ArrayOR.parse_action),
 ])
 
 

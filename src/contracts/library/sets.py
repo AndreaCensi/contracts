@@ -1,6 +1,7 @@
 from ..interface import Contract, ContractNotRespected, describe_type
-from ..syntax import (Keyword, O, S, W, add_contract, add_keyword, 
+from ..syntax import (Keyword, O, S, W, add_contract, add_keyword,
     contract_expression)
+import collections
 
 
 class ASet(Contract):
@@ -12,7 +13,7 @@ class ASet(Contract):
         self.elements_contract = elements_contract
 
     def check_contract(self, context, value, silent):
-        if not isinstance(value, set):
+        if not isinstance(value, collections.Set):
             error = 'Expected a set, got %r.' % describe_type(value)
             raise ContractNotRespected(self, error, value, context)
 
@@ -43,8 +44,8 @@ class ASet(Contract):
         return ASet(length_contract, elements_contract, where=where)
 
 
-list_contract = (Keyword('set') - 
-                 O(S('[') - contract_expression('length_contract') - S(']')) + 
+list_contract = (Keyword('set') -
+                 O(S('[') - contract_expression('length_contract') - S(']')) +
                  O(S('(') - contract_expression('elements_contract') - S(')')))
 list_contract.setParseAction(ASet.parse_action)
 
