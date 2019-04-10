@@ -1,8 +1,6 @@
 import os
 from setuptools import setup, find_packages
 
-
-
 description = (
 'PyContracts is a Python package that allows to declare '
 'constraints on function parameters and return values. '
@@ -12,8 +10,10 @@ description = (
 'arithmetic constraints, and has several specialized '
 'contracts (notably for Numpy arrays), as well as an extension API.')
 
+
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
 
 long_description = read('README.rst')
 
@@ -32,8 +32,8 @@ def get_version(filename):
         raise ValueError(filename)
     return version
 
-version = get_version(filename='src/contracts/__init__.py')
 
+version = get_version(filename='src/contracts/__init__.py')
 
 setup(name='PyContracts',
       author="Andrea Censi",
@@ -59,7 +59,7 @@ setup(name='PyContracts',
 
       package_dir={'':'src'},
       packages=find_packages('src'),
-      install_requires=['pyparsing', 'decorator', 'six'],
+      install_requires=['pyparsing', 'decorator', 'six', 'backports.functools-lru-cache'],
       tests_require=['nose'],
       entry_points={},
 )
