@@ -64,7 +64,7 @@ setup(name='PyContracts',
 
       package_dir={'': 'src'},
       packages=find_packages('src'),
-      install_requires=['pyparsing', 'decorator', 'six', 'future', 'backports.functools-lru-cache'],
+      install_requires=['pyparsing', 'decorator', 'six', 'future', 'backports.functools-lru-cache', 'qualname', ],
       tests_require=['nose'],
       entry_points={},
       )
