@@ -1,4 +1,6 @@
-import collections
+from collections import Container, Iterable, Hashable, Iterator, \
+    Sized, Callable, Sequence, Set, MutableSequence, MutableSet, Mapping, MutableMapping
+
 
 
 
@@ -16,23 +18,23 @@ def m_new_contract(name, f):
     Extension.registrar[name] = CheckCallable(f)
     
 
-m_new_contract('Container', ist(collections.Container))
+m_new_contract('Container', ist(Container))
 # todo: Iterable(x)
-m_new_contract('Iterable', ist(collections.Iterable))
+m_new_contract('Iterable', ist(Iterable))
 
-m_new_contract('Hashable', ist(collections.Hashable))
+m_new_contract('Hashable', ist(Hashable))
 
 
 
-m_new_contract('Iterator', ist(collections.Iterator))
-m_new_contract('Sized', ist(collections.Sized))
-m_new_contract('Callable', ist(collections.Callable))
-m_new_contract('Sequence', ist(collections.Sequence))
-m_new_contract('Set', ist(collections.Set))
-m_new_contract('MutableSequence', ist(collections.MutableSequence))
-m_new_contract('MutableSet', ist(collections.MutableSet))
-m_new_contract('Mapping', ist(collections.Mapping))
-m_new_contract('MutableMapping', ist(collections.MutableMapping))
+m_new_contract('Iterator', ist(Iterator))
+m_new_contract('Sized', ist(Sized))
+m_new_contract('Callable', ist(Callable))
+m_new_contract('Sequence', ist(Sequence))
+m_new_contract('Set', ist(Set))
+m_new_contract('MutableSequence', ist(MutableSequence))
+m_new_contract('MutableSet', ist(MutableSet))
+m_new_contract('Mapping', ist(Mapping))
+m_new_contract('MutableMapping', ist(MutableMapping))
 #new_contract('MappingView', ist(collections.MappingView))
 #new_contract('ItemsView', ist(collections.ItemsView))
 #new_contract('ValuesView', ist(collections.ValuesView))
