@@ -108,7 +108,7 @@ def format_where(w, context_before=3, mark=None, arrow=True,
     for i in range(start, w.line + 1):
         # suppress empty lines
         if one_written or lines[i].strip():
-            s += ("%s%s\n".format((pattern % (i + 1), lines[i])))
+            s += ("%s%s\n".format(pattern % (i + 1), lines[i],))
             one_written = True
 
     fill = len(pattern % maxi)
