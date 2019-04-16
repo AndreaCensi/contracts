@@ -1,7 +1,12 @@
 from ..interface import Contract, ContractNotRespected
 from ..syntax import (add_contract, W, contract_expression, O, S, add_keyword,
     Keyword)
-import collections
+
+try:
+    import collections.abc as collectionsAbc  # python 3.6+
+except ImportError:
+    import collections as collectionsAbc
+
 from past.builtins import xrange
 
 try:
@@ -38,7 +43,7 @@ class Seq(Contract):
 
             return
 
-        if not isinstance(value, collections.Sequence):
+        if not isinstance(value, collectionsAbc.Sequence):
             error = 'Expected a Sequence, got %r.' % value.__class__.__name__
             raise ContractNotRespected(self, error, value, context)
 
