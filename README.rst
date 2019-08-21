@@ -138,7 +138,7 @@ like ABCMeta, which propagates contracts to the subclasses: ::
 .. _`Dennis Kempin`: https://github.com/denniskempin
 .. _`Andy Hayden`: http://careers.stackoverflow.com/hayd
 
-.. _typecheck: http://oakwinter.com/code/typecheck/
+.. _typecheck: https://pypi.org/project/typecheck/
 .. _Haskell: http://www.haskell.org/
 
 
