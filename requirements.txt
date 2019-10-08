@@ -1,5 +1,7 @@
 pyparsing==2.2.2
 decorator==4.0.10
 six==1.10.0
+backports.functools-lru-cache==1.5
+qualname==0.1.0
 future
 numpy<1.16
