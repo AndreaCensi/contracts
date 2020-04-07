@@ -19,17 +19,17 @@ __all__ = [
 
 def indent(s, prefix, first=None):
     if not isinstance(s, six.string_types):
-        s = u'{}'.format(s)
+        s = '{}'.format(s)
 
     assert isinstance(prefix, six.string_types)
     try:
         lines = s.split('\n')
     except UnicodeDecodeError:
-        print(type(s)) # XXX
-        print(s) # XXX
+        print(type(s))  # XXX
+        print(s)  # XXX
         lines = [s]
     if not lines:
-        return u''
+        return ''
 
     if first is None:
         first = prefix
@@ -40,8 +40,8 @@ def indent(s, prefix, first=None):
     first = ' ' * (m - len(first)) + first
 
     # differnet first prefix
-    res = [u'%s%s' % (prefix, line.rstrip()) for line in lines]
-    res[0] = u'%s%s' % (first, lines[0].rstrip())
+    res = ['%s%s'.format(prefix, line.rstrip()) for line in lines]
+    res[0] = '%s%s'.format(first, lines[0].rstrip())
     return '\n'.join(res)
 
 
@@ -117,7 +117,7 @@ def _get_str(x, informal):
 
 def format_list_long(l, informal=False):
     """
-        - My 
+        - My
           first
         - Second
     """
@@ -163,9 +163,9 @@ def raise_wrapped(etype, e, msg, compact=False, **kwargs):
     """ Raises an exception of type etype by wrapping
         another exception "e" with its backtrace and adding
         the objects in kwargs as formatted by format_obs.
-        
+
         if compact = False, write the whole traceback, otherwise just str(e).
-    
+
         exc = output of sys.exc_info()
     """
 
@@ -202,6 +202,7 @@ def raise_wrapped_make(etype, e, msg, compact=False, **kwargs):
 
     return etype(s)
 
+
 def _format_exc(msg, **kwargs):
     check_isinstance(msg, six.text_type)
     s = msg
@@ -212,7 +213,7 @@ def _format_exc(msg, **kwargs):
 
 def raise_desc(etype, msg, args_first=False, **kwargs):
     """
-    
+
         Example:
             raise_desc(ValueError, "I don't know", a=a, b=b)
     """
@@ -229,7 +230,6 @@ def raise_desc(etype, msg, args_first=False, **kwargs):
         s = s1 + "\n" + s2
 
     raise etype(s)
-
 
 #
 #
@@ -269,8 +269,8 @@ def raise_desc(etype, msg, args_first=False, **kwargs):
 #         n = n+1
 #     return list
 
-
 # from decorator import decorator  # @UnresolvedImport
+
 
 def ignore_typeerror(f):
     """ Recasts TypeError as Exception; otherwise pyparsing gets confused. """

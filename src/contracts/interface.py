@@ -12,10 +12,10 @@ class Where(object):
 
         All parsed elements contain a reference to a :py:class:`Where` object
         so that we can output pretty error messages.
-        
-        
+
+
         Character should be >= len(string) (possibly outside the string).
-        Character_end should be >= character (so that you can splice with 
+        Character_end should be >= character (so that you can splice with
         string[character:character_end])
     """
 
@@ -38,7 +38,7 @@ class Where(object):
             #                                             or (character <= character_end - 1)):
             #             character += 1
             #         else:
-            #             break  
+            #             break
         self.line, self.col = line_and_col(character, string)
 
         if character_end is not None:
@@ -93,7 +93,7 @@ class Where(object):
 # mark = 'here or nearby'
 def format_where(w, context_before=3, mark=None, arrow=True,
                  use_unicode=True, no_mark_arrow_if_longer_than=3):
-    s = u''
+    s = ''
     if w.filename:
         s += 'In file %r:\n' % w.filename
     lines = w.string.split('\n')
@@ -108,7 +108,7 @@ def format_where(w, context_before=3, mark=None, arrow=True,
     for i in range(start, w.line + 1):
         # suppress empty lines
         if one_written or lines[i].strip():
-            s += (u"%s%s\n" % (pattern % (i + 1), lines[i]))
+            s += ("%s%s\n".format(pattern % (i + 1), lines[i],))
             one_written = True
 
     fill = len(pattern % maxi)
@@ -119,29 +119,29 @@ def format_where(w, context_before=3, mark=None, arrow=True,
     space_before = Where(w.string, char0, char0_end)
 
     nindent = printable_length_where(space_before)
-    space = u' ' * fill + u' ' * nindent
+    space = ' ' * fill + ' ' * nindent
     if w.col_end is not None:
         if w.line == w.line_end:
             num_highlight = printable_length_where(w)
-            s += space + u'~' * num_highlight + '\n'
-            space += u' ' * (num_highlight / 2)
+            s += space + '~' * num_highlight + '\n'
+            space += ' ' * (num_highlight / 2)
         else:
             # cannot highlight if on different lines
             num_highlight = None
             pass
     else:
         num_highlight = None
-    # Do not add the arrow and the mark if we have a long underline string 
+    # Do not add the arrow and the mark if we have a long underline string
 
     disable_mark_arrow = (num_highlight is not None) and (no_mark_arrow_if_longer_than < num_highlight)
 
     if not disable_mark_arrow:
         if arrow:
             if use_unicode:
-                s += space + u'↑\n'
+                s += space + '↑\n'
             else:
-                s += space + u'^\n'
-                s += space + u'|\n'
+                s += space + '^\n'
+                s += space + '|\n'
 
         if mark is not None:
             s += space + mark
@@ -173,7 +173,7 @@ def line_and_col(loc, strg):
     from .utils import check_isinstance
     check_isinstance(loc, int)
     check_isinstance(strg, six.string_types)
-    # first find the line 
+    # first find the line
     lines = strg.split('\n')
 
     if loc == len(strg):
@@ -433,8 +433,8 @@ class Contract(with_metaclass(ABCMeta, object)):
             context. This is the function that subclasses must implement.
 
             If silent = False, do not bother with creating detailed error messages yet.
-            This is for performance optimization. 
-            
+            This is for performance optimization.
+
             :param context: The context in which expressions are evaluated.
             :type context:
         """
@@ -548,7 +548,6 @@ def clipped_repr(x, clip):
         s = "%s%s" % (s[:cut], clip_tag)
     return s
 
-
 # TODO: add checks for these functions
 
 
@@ -620,7 +619,7 @@ def describe_value_multiline(x):
             try:
                 # This fails for classes
                 final = "{}\n{}".format(desc, x.__repr__())
-            except: # XXX
+            except:  # XXX
                 final = "%s\n%s" % (desc, x)
 
             return final
