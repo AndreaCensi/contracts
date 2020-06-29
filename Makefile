@@ -1,15 +1,21 @@
 package=contracts
 include pypackage.mk
 
-bump-upload:
+bump: 
 	bumpversion patch
 	git push --tags
 	git push --all
+	
+upload:
 	rm -f dist/*
 	rm -rf src/*.egg-info
 	python setup.py sdist
 	twine upload dist/*
 
+
+bump-upload:
+	$(MAKE) bump
+	$(MAKE) upload
 name=contracts-python3
 
 test-python3:
