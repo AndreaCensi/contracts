@@ -1,6 +1,10 @@
 import os
-
+import sys
 from setuptools import setup, find_packages
+
+if sys.version_info.major == 2:
+    msg = 'PyContracts3 is a Python 3 package. You are using Python 2.'
+    raise Exception(msg)
 
 description = (
     'PyContracts is a Python package that allows to declare '
@@ -36,9 +40,8 @@ def get_version(filename):
 
 version = get_version(filename='src/contracts/__init__.py')
 
-setup(name='PyContracts',
+setup(name='PyContracts3',
       author="Andrea Censi",
-      author_email="censi@mit.edu",
       url='http://andreacensi.github.com/contracts/',
 
       description=description,
