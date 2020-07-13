@@ -40,6 +40,8 @@ def get_version(filename):
 
 version = get_version(filename='src/contracts/__init__.py')
 
+install_requires = ['pyparsing', 'decorator', 'six', 'future']
+
 setup(name='PyContracts3',
       author="Andrea Censi",
       url='http://andreacensi.github.com/contracts/',
@@ -68,7 +70,7 @@ setup(name='PyContracts3',
 
       package_dir={'': 'src'},
       packages=find_packages('src'),
-      install_requires=['pyparsing', 'decorator', 'six', 'future'],
+      install_requires=install_requires,
       tests_require=['nose'],
       entry_points={},
       )
