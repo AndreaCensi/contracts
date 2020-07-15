@@ -2,7 +2,7 @@ from ..interface import Contract, ContractNotRespected
 from ..syntax import (W, add_contract, contract_expression, S, Keyword,
     add_keyword)
 from numbers import Number
-
+from ..backported import long_type
 
 class CheckType(Contract):
 
@@ -53,6 +53,8 @@ add_keyword('Number')
 add_contract(Keyword('bool').setParseAction(CheckType.parse_action(bool)))
 add_keyword('bool')
 
+add_contract(Keyword('long').setParseAction(CheckType.parse_action(long_type)))
+add_keyword('long')
 
 
 class Type(Contract):
