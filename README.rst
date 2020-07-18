@@ -66,7 +66,7 @@ using Haskell_ instead of Python.
 **Extensions:** You can extend PyContracts with new contracts types: ::
 
     new_contract('valid_name', lambda s: isinstance(s, str) and len(s)>0)
-    @contract(names='dict(int: (valid_name, int))')
+    @contract(records='dict(int: (valid_name, int))')
     def process_accounting(records):
         ...
 
@@ -138,7 +138,7 @@ like ABCMeta, which propagates contracts to the subclasses: ::
 .. _`Dennis Kempin`: https://github.com/denniskempin
 .. _`Andy Hayden`: http://careers.stackoverflow.com/hayd
 
-.. _typecheck: http://oakwinter.com/code/typecheck/
+.. _typecheck: https://pypi.org/project/typecheck/
 .. _Haskell: http://www.haskell.org/
 
 
