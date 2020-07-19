@@ -159,10 +159,12 @@ def contract_decorator(*arg, **kwargs):
         return tmp_wrap
 
 
-def contracts_decorate(function_, modify_docstring=True, **kwargs):
-    """ An explicit way to decorate a given function.
-        The decorator :py:func:`decorate` calls this function internally.
-    """
+_FUNCTION_CACHE = {}
+def process_function(function_, **kwargs):
+
+    record = _FUNCTION_CACHE.get(function_, None)
+    if record:
+        return record
 
     if isinstance(function_, classmethod):
         msg = """
@@ -196,10 +198,10 @@ you can achieve the same goal by inverting the two decorators:
 
         returns = kwargs.pop('returns', None)
 
-        for kw in kwargs:
-            if not kw in all_args:
-                msg = 'Unknown parameter %r; I know %r.' % (kw, all_args)
-                raise ContractException(msg)
+        sdiff = set(kwargs) - set(all_args)
+        if sdiff:
+            msg = 'Unknown parameter %r; I know %r.' % (next(iter(sdiff)), all_args)
+            raise ContractException(msg)
 
         accepts_dict = dict(**kwargs)
 
@@ -237,6 +239,17 @@ you can achieve the same goal by inverting the two decorators:
                            for x in accepts_dict])
 
     is_bound_method = 'self' in all_args
+
+    _FUNCTION_CACHE[function_] = (all_args, accepts_parsed, returns_parsed, is_bound_method)
+
+    return _FUNCTION_CACHE[function_]
+
+
+def contracts_decorate(function_, modify_docstring=True, **kwargs):
+    """ An explicit way to decorate a given function.
+        The decorator :py:func:`decorate` calls this function internally.
+    """
+    all_args, accepts_parsed, returns_parsed, is_bound_method = process_function(function_, **kwargs)
 
     def contracts_checker(unused, *args, **kwargs):
         do_checks = not all_disabled()
