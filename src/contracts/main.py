@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
-from typing import Any, Callable, TypeVar, cast
+
+from typing import Any, Callable, TypeVar, cast, overload
+
 import sys
 import types
 
@@ -102,7 +104,7 @@ def contract_decorator(func: F,) -> F:
 
 
 @overload
-def contract_decorator(func: F, *arg, **kwargs) -> Callable[[F], F]: ...:
+def contract_decorator(func: F, *arg, **kwargs) -> Callable[[F], F]:
     ...
 
 

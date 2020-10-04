@@ -4,6 +4,7 @@ import logging
 
 # logging.basicConfig()
 logger = logging.getLogger(__name__)
+from typing import Any, Callable, TypeVar, overload
 
 from .interface import (
     Contract,
@@ -22,14 +23,18 @@ from .main import (
     parse_flexible_spec as parse,
 )
 
+F = TypeVar("F", bound=Callable[..., Any])
+
 
 @overload
 def contract(func: F,) -> F:
     ...
 
+
 @overload
-def contract(func: F, *arg, **kwargs) -> Callable[[F], F]: ...:
+def contract(func: F, *arg, **kwargs) -> Callable[[F], F]:
     ...
+
 
 # Just make them appear as belonging to the "contracts" Module
 # So that Eclipse and other IDEs will not get confused.
