@@ -1,23 +1,46 @@
-__version__ = '2.0.1'
+__version__ = "2.0.2"
 
 import logging
 
-#logging.basicConfig()
+# logging.basicConfig()
 logger = logging.getLogger(__name__)
+from typing import Any, Callable, TypeVar, overload
 
-from .interface import (Contract, ContractNotRespected,
-                        CannotDecorateClassmethods,
-                        ContractSyntaxError, ContractException)
+from .interface import (
+    Contract,
+    ContractNotRespected,
+    CannotDecorateClassmethods,
+    ContractSyntaxError,
+    ContractException,
+)
 
-from .main import (check, fail, check_multiple, contract_decorator,
-                   contracts_decorate as decorate,
-                   parse_flexible_spec as parse)
+from .main import (
+    check,
+    fail,
+    check_multiple,
+    contract_decorator,
+    contracts_decorate as decorate,
+    parse_flexible_spec as parse,
+)
+
+F = TypeVar("F", bound=Callable[..., Any])
+
+
+@overload
+def contract(func: F,) -> F:
+    ...
+
+
+@overload
+def contract(func: F, *arg, **kwargs) -> Callable[[F], F]:
+    ...
 
 
 # Just make them appear as belonging to the "contracts" Module
 # So that Eclipse and other IDEs will not get confused.
 def contract(*args, **kwargs):
     return contract_decorator(*args, **kwargs)
+
 
 contract.__doc__ = contract_decorator.__doc__
 
@@ -38,9 +61,10 @@ from .utils import *
 
 from .metaclass import ContractsMeta, with_metaclass
 
-ContractsMeta.__module__ = 'contracts'
+ContractsMeta.__module__ = "contracts"
 
 # And after everything else is loaded, load the  utils
 from .useful_contracts import *
+
 # After everything is loaded, load aliases
 # from .library import miscellaneous_aliases  # @UnusedImport
