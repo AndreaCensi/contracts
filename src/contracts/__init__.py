@@ -23,6 +23,14 @@ from .main import (
 )
 
 
+@overload
+def contract(func: F,) -> F:
+    ...
+
+@overload
+def contract(func: F, *arg, **kwargs) -> Callable[[F], F]: ...:
+    ...
+
 # Just make them appear as belonging to the "contracts" Module
 # So that Eclipse and other IDEs will not get confused.
 def contract(*args, **kwargs):
