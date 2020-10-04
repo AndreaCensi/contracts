@@ -6,7 +6,7 @@ import math
 from pyparsing import (delimitedList, Forward, Literal,
                        stringEnd, nums, Word, CaselessLiteral, Combine,
                        Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc,
-                       operatorPrecedence, oneOf, ParseException,
+                       infixNotation as operatorPrecedence, oneOf, ParseException,
                        ParserElement,
                        alphas, alphanums, ParseFatalException,
                        ParseSyntaxException, FollowedBy, NotAny, Or,
@@ -18,7 +18,7 @@ from pyparsing import (delimitedList, Forward, Literal,
 
 # Enable memoization (much faster!)
 if True:
-    ParserElement.enablePackrat()
+    ParserElement.enablePackrat(cache_size_limit=None)
 else:
     # Pyparsing 2.0
     from pyparsing import infixNotation
