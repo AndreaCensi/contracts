@@ -146,10 +146,10 @@ def contract_decorator(*arg, **kwargs):
                 try:
                     return contracts_decorate(f, **kwargs)
                 except ContractSyntaxError as e:
-                    msg = u"Cannot decorate function %s:" % f.__name__
+                    msg = "Cannot decorate function %s:".format(f.__name__)
                     from .utils import indent
                     import traceback
-                    msg += u'\n\n' + indent(traceback.format_exc(), u'  ')
+                    msg += '\n\n' + indent(traceback.format_exc(), '  ')
                     raise ContractSyntaxError(msg, e.where)
                     # erase the stack
                 except ContractDefinitionError as e:
@@ -596,7 +596,7 @@ def new_contract_impl(identifier, condition):
         loc = e.loc
         if loc >= len(identifier):
             loc -= 1
-        where = Where(identifier, character=loc)  #line=e.lineno, column=e.col)
+        where = Where(identifier, character=loc)  # line=e.lineno, column=e.col)
         # msg = 'Error in parsing string: %s' % e
         msg = ('The given identifier %r does not correspond to my idea '
                'of what an identifier should look like;\n%s\n%s'
@@ -659,7 +659,7 @@ def new_contract_impl(identifier, condition):
             assert c == expected, \
                 'Expected %r, got %r.' % (c, expected)  # pragma: no cover
         except ContractSyntaxError:  # pragma: no cover
-            #assert False, 'Cannot parse %r: %s' % (identifier, e)
+            # assert False, 'Cannot parse %r: %s' % (identifier, e)
             raise
 
     return contract
