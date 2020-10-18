@@ -1,15 +1,15 @@
 package=contracts
 include pypackage.mk
 
-bump: 
+bump:
 	bumpversion patch
 	git push --tags
 	git push --all
-	
+
 upload:
 	rm -f dist/*
 	rm -rf src/*.egg-info
-	python setup.py sdist
+	python3 setup.py sdist
 	twine upload dist/*
 
 
