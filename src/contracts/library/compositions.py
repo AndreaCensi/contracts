@@ -4,9 +4,10 @@ from ..syntax import ParsingTmp, W, opAssoc, simple_contract
 from .extensions import Extension
 from .suggester import create_suggester
 
-NOT_GLYPH = '!'
-AND_GLYPH = ','
-OR_GLYPH = '|'
+NOT_GLYPH = "!"
+AND_GLYPH = ","
+OR_GLYPH = "|"
+
 
 class Logical(object):
     def __init__(self, glyph, precedence):
@@ -19,8 +20,9 @@ class Logical(object):
 
     def _convert(self, x):
         if isinstance(x, Logical) and x.precedence < self.precedence:
-            return '(%s)' % x
-        return '%s' % x
+            return "(%s)" % x
+        return "%s" % x
+
 
 class OR(Logical, Contract):
     def __init__(self, clauses, where=None):
@@ -43,9 +45,8 @@ class OR(Logical, Contract):
                 return True
             except ContractNotRespected as e:
                 pass
-        
-        return False
 
+        return False
 
     def check_contract(self, context, value, silent):
         orig = context.copy()
@@ -54,9 +55,10 @@ class OR(Logical, Contract):
             return
         else:
             if silent:
-                msg = '(Error description suppressed.)'
-                raise ContractNotRespected(contract=self, error=msg,
-                        value=value, context=context)
+                msg = "(Error description suppressed.)"
+                raise ContractNotRespected(
+                    contract=self, error=msg, value=value, context=context
+                )
 
             # otherwise need to do it again with detailed error messages
             self.get_error(orig, value)
@@ -76,25 +78,26 @@ class OR(Logical, Contract):
                 exceptions.append((c, e))
         else:
             msg = self._format_exceptions(exceptions)
-            raise ContractNotRespected(contract=self, error=msg,
-                        value=value, context=context)
-
-
+            raise ContractNotRespected(
+                contract=self, error=msg, value=value, context=context
+            )
 
     def _format_exceptions(self, exceptions):
-        msg = ('Could not satisfy any of the %d clauses in %s.'
-               % (len(self.clauses), self))
+        msg = "Could not satisfy any of the %d clauses in %s." % (
+            len(self.clauses),
+            self,
+        )
 
         for i, ex in enumerate(exceptions):
             c, e = ex
-            msg += '\n ---- Clause #%d:   %s\n' % (i + 1, c)
-            msg += add_prefix('%s' % e, ' | ')
+            msg += "\n ---- Clause #%d:   %s\n" % (i + 1, c)
+            msg += add_prefix("%s" % e, " | ")
 
-        msg += '\n ------- (end clauses) -------'
+        msg += "\n ------- (end clauses) -------"
         return msg
 
     def __repr__(self):
-        s = 'OR(%r)' % self.clauses
+        s = "OR(%r)" % self.clauses
         return s
 
     @staticmethod
@@ -123,7 +126,7 @@ class And(Logical, Contract):
             c._check_contract(context, value, silent)
 
     def __repr__(self):
-        s = 'And(%r)' % self.clauses
+        s = "And(%r)" % self.clauses
         return s
 
     @staticmethod
@@ -155,8 +158,9 @@ class Not(Logical, Contract):
             pass
         else:
             msg = "Shouldn't have satisfied the clause %s." % clause
-            raise ContractNotRespected(contract=self, error=msg,
-                                       value=value, context=context)
+            raise ContractNotRespected(
+                contract=self, error=msg, value=value, context=context
+            )
 
     @staticmethod
     def parse_action(string, location, tokens):
@@ -166,29 +170,31 @@ class Not(Logical, Contract):
         return Not(l, where=where)
 
     def __repr__(self):
-        s = 'Not(%r)' % self.clauses
+        s = "Not(%r)" % self.clauses
         return s
 
     def __str__(self):
         return self.glyph + self._convert(self.clauses[0])
 
 
-suggester = create_suggester(get_options=lambda: ParsingTmp.keywords +
-                             list(Extension.registrar.keys()))
+suggester = create_suggester(
+    get_options=lambda: ParsingTmp.keywords + list(Extension.registrar.keys())
+)
 baseExpr = simple_contract | suggester
-baseExpr.setName('Simple contract (recovering)')
+baseExpr.setName("Simple contract (recovering)")
 
 
 op = myOperatorPrecedence
 # op = operatorPrecedence
-composite_contract = op(baseExpr, [
-                         (NOT_GLYPH, 1, opAssoc.RIGHT, Not.parse_action),
-                         (AND_GLYPH, 2, opAssoc.LEFT, And.parse_action),
-                         (OR_GLYPH, 2, opAssoc.LEFT, OR.parse_action),
-                    ])
-composite_contract.setName('NOT/OR/AND contract')
+composite_contract = op(
+    baseExpr,
+    [
+        (NOT_GLYPH, 1, opAssoc.RIGHT, Not.parse_action),
+        (AND_GLYPH, 2, opAssoc.LEFT, And.parse_action),
+        (OR_GLYPH, 2, opAssoc.LEFT, OR.parse_action),
+    ],
+)
+composite_contract.setName("NOT/OR/AND contract")
 
-or_contract = op(baseExpr, [
-                         (OR_GLYPH, 2, opAssoc.LEFT, OR.parse_action),
-                    ])
-or_contract.setName('OR contract')
+or_contract = op(baseExpr, [(OR_GLYPH, 2, opAssoc.LEFT, OR.parse_action),])
+or_contract.setName("OR contract")

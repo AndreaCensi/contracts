@@ -1,7 +1,7 @@
 
 |pycontracts| is a Python package that allows to declare constraints on function parameters and
 return values. It supports a basic type system, variables binding, arithmetic constraints, and
-has several specialized contracts (notably for Numpy arrays). 
+has several specialized contracts (notably for Numpy arrays).
 
 
 **Status:** |pycontracts| is very well tested and documented. The last release
@@ -21,33 +21,33 @@ using Haskell_ instead of Python.
 **Specifying contracts**: Contracts can be specified in three ways:
 
 1. Using **arguments to the decorators**; the least intrusive way: ::
-   
+
       @contract(a='int,>0', b='list[N],N>0', returns='list[N]')
       def my_function(a, b):
           ...
 
-2. Using **annotations (for Python 3)** ---this is perhaps the most 
-  intuitive way: :: 
-  
+2. Using **annotations (for Python 3)** ---this is perhaps the most
+  intuitive way: ::
+
       @contract
-      def my_function(a : 'int,>0', b : 'list[N],N>0') -> 'list[N]': 
-           # Requires b to be a nonempty list, and the return 
+      def my_function(a : 'int,>0', b : 'list[N],N>0') -> 'list[N]':
+           # Requires b to be a nonempty list, and the return
            # value to have the same length.
            ...
-      
+
 3. Using **docstrings**, with the ``:type:`` and ``:rtype:`` tags. In this way, they will be included
   in your Sphinx documentation: ::
-   
+
       @contract
-      def my_function(a, b): 
+      def my_function(a, b):
           """ Function description.
               :type a: int,>0
               :type b: list[N],N>0
               :rtype: list[N]
           """
           ...
-          
-          
+
+
 **Specifying new contracts**:  There are hooks to extend |pycontracts| with new contracts types: ::
 
     new_contract('valid_name', lambda s: isinstance(s, str) and len(s)>0)
@@ -64,7 +64,7 @@ using Haskell_ instead of Python.
 **Installation**:  Install |pycontracts| using: ::
 
     $ pip install PyContracts
-    
+
 or from GitHub: ::
 
     $ git clone git://github.com:AndreaCensi/contracts.git
@@ -80,4 +80,3 @@ The beautiful library pyparsing_ is required.
 .. _Haskell: http://www.haskell.org/
 .. _tracker: http://github.com/AndreaCensi/contracts/issues
 .. _me: http://purl.org/censi/web
-

@@ -5,17 +5,21 @@ import six
 
 if sys.version_info[0] >= 3:  # pragma: no cover
     from inspect import getfullargspec
+
     unicode = str
 
 else:  # pragma: no cover
     from collections import namedtuple
-    FullArgSpec = namedtuple('FullArgSpec', 'args varargs varkw defaults'
-                             ' kwonlyargs kwonlydefaults annotations')
+
+    FullArgSpec = namedtuple(
+        "FullArgSpec",
+        "args varargs varkw defaults" " kwonlyargs kwonlydefaults annotations",
+    )
     from inspect import getargspec as _getargspec
 
     def getargspec(function):
         # print 'hasattr im_func', hasattr(function, 'im_func')
-        if hasattr(function, 'im_func'):
+        if hasattr(function, "im_func"):
             # print('this is a special function : %s' % function)
             # For methods or classmethods drop the first
             # argument from the returned list because
@@ -26,8 +30,12 @@ else:  # pragma: no cover
             #     instancemethod objects also.
             x = _getargspec(function.im_func)
             new_args = x.args[1:]
-            spec = ArgSpec(args=new_args, varargs=x.varargs,
-                           keywords=x.keywords, defaults=x.defaults)
+            spec = ArgSpec(
+                args=new_args,
+                varargs=x.varargs,
+                keywords=x.keywords,
+                defaults=x.defaults,
+            )
             return spec
 
         # print 'calling normal %s' % function
@@ -35,11 +43,15 @@ else:  # pragma: no cover
 
     def getfullargspec(function):
         spec = getargspec(function)
-        fullspec = FullArgSpec(args=spec.args, varargs=spec.varargs,
-                               varkw=spec.keywords,
-                               defaults=spec.defaults, kwonlyargs=[],
-                               kwonlydefaults=None,
-                               annotations={})
+        fullspec = FullArgSpec(
+            args=spec.args,
+            varargs=spec.varargs,
+            varkw=spec.keywords,
+            defaults=spec.defaults,
+            kwonlyargs=[],
+            kwonlydefaults=None,
+            annotations={},
+        )
         return fullspec
 
 
@@ -59,12 +71,21 @@ else:  # pragma: no cover
         names of the * and ** arguments, if any), and values the respective bound
         values from 'positional' and 'named'.
         """
-        args, varargs, varkw, defaults, \
-            kwonlyargs, kwonlydefaults, annotations = getfullargspec(func)
+        (
+            args,
+            varargs,
+            varkw,
+            defaults,
+            kwonlyargs,
+            kwonlydefaults,
+            annotations,
+        ) = getfullargspec(func)
 
         if kwonlyargs:
-            raise ValueError("I'm sorry, I don't have the logic to use kwonlyargs. "
-                             "Perhapse you can help PyContracts and implement this? Thanks.")
+            raise ValueError(
+                "I'm sorry, I don't have the logic to use kwonlyargs. "
+                "Perhapse you can help PyContracts and implement this? Thanks."
+            )
 
         f_name = func.__name__
         arg2value = {}
@@ -83,15 +104,17 @@ else:  # pragma: no cover
                     try:
                         subvalue = next(value)
                     except StopIteration:
-                        raise ValueError('need more than %d %s to unpack' %
-                                         (i, 'values' if i > 1 else 'value'))
+                        raise ValueError(
+                            "need more than %d %s to unpack"
+                            % (i, "values" if i > 1 else "value")
+                        )
                     assign(subarg, subvalue)
                 try:
                     next(value)
                 except StopIteration:
                     pass
                 else:
-                    raise ValueError('too many values to unpack')
+                    raise ValueError("too many values to unpack")
 
         def is_assigned(arg):
             if isinstance(arg, six.string_types):
@@ -99,9 +122,9 @@ else:  # pragma: no cover
             return arg in assigned_tuple_params
 
         if not inPy3k:
-            im_self = getattr(func, 'im_self', None)
+            im_self = getattr(func, "im_self", None)
         else:
-            im_self = getattr(func, '__self__', None)
+            im_self = getattr(func, "__self__", None)
 
         if ismethod(func) and im_self is not None:
             # implicit 'self' (or 'cls' for classmethods) argument
@@ -114,21 +137,29 @@ else:  # pragma: no cover
             assign(arg, value)
         if varargs:
             if num_pos > num_args:
-                assign(varargs, positional[-(num_pos - num_args):])
+                assign(varargs, positional[-(num_pos - num_args) :])
             else:
                 assign(varargs, ())
         elif 0 < num_args < num_pos:
-            raise TypeError('%s() takes %s %d %s (%d given)' % (
-                f_name, 'at most' if defaults else 'exactly', num_args,
-                'arguments' if num_args > 1 else 'argument', num_total))
+            raise TypeError(
+                "%s() takes %s %d %s (%d given)"
+                % (
+                    f_name,
+                    "at most" if defaults else "exactly",
+                    num_args,
+                    "arguments" if num_args > 1 else "argument",
+                    num_total,
+                )
+            )
         elif num_args == 0 and num_total:
-            raise TypeError('%s() takes no arguments (%d given)' %
-                            (f_name, num_total))
+            raise TypeError("%s() takes no arguments (%d given)" % (f_name, num_total))
         for arg in args:
             if isinstance(arg, six.string_types) and arg in named:
                 if is_assigned(arg):
-                    raise TypeError("%s() got multiple values for keyword "
-                                    "argument '%s'" % (f_name, arg))
+                    raise TypeError(
+                        "%s() got multiple values for keyword "
+                        "argument '%s'" % (f_name, arg)
+                    )
                 else:
                     assign(arg, named.pop(arg))
         if defaults:  # fill in any missing values with the defaults
@@ -140,16 +171,21 @@ else:  # pragma: no cover
         elif named:
             unexpected = next(iter(named))
             if isinstance(unexpected, unicode):
-                unexpected = unexpected.encode(sys.getdefaultencoding(), 'replace')
-            raise TypeError("%s() got an unexpected keyword argument '%s'" %
-                            (f_name, unexpected))
+                unexpected = unexpected.encode(sys.getdefaultencoding(), "replace")
+            raise TypeError(
+                "%s() got an unexpected keyword argument '%s'" % (f_name, unexpected)
+            )
         unassigned = num_args - len([arg for arg in args if is_assigned(arg)])
         if unassigned:
             num_required = num_args - num_defaults
-            raise TypeError('%s() takes %s %d %s (%d given)' % (
-                f_name, 'at least' if defaults else 'exactly', num_required,
-                'arguments' if num_required > 1 else 'argument', num_total))
+            raise TypeError(
+                "%s() takes %s %d %s (%d given)"
+                % (
+                    f_name,
+                    "at least" if defaults else "exactly",
+                    num_required,
+                    "arguments" if num_required > 1 else "argument",
+                    num_total,
+                )
+            )
         return arg2value
-
-
-

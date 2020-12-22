@@ -7,7 +7,7 @@
 Using the ``ContractsMeta`` meta-class
 -------------------------------------------------
 
-The  :py:class:`ContractsMeta` meta-class can be used as a drop-in 
+The  :py:class:`ContractsMeta` meta-class can be used as a drop-in
 replacement for ``ABCMeta``. It allows you to declare contracts
 for a superclass and then have those contracts automatically
 enforced for any class that derives from it.
@@ -30,7 +30,7 @@ Now we can subclass  ``TimerInterface`` and all contracts
 will be automatically inherited: ::
 
     class Timer(TimerInterface):
-  
+
         def start(self, interval):
             time.sleep()
 

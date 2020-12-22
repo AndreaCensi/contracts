@@ -9,10 +9,10 @@ class Any(Contract):
         Contract.__init__(self, where)
 
     def __repr__(self):
-        return 'Any()'
+        return "Any()"
 
     def __str__(self):
-        return '*'
+        return "*"
 
     def check_contract(self, context, value, silent):
         pass
@@ -29,19 +29,18 @@ class Never(Contract):
         Contract.__init__(self, where)
 
     def __repr__(self):
-        return 'Never()'
+        return "Never()"
 
     def __str__(self):
-        return '#'
+        return "#"
 
     def check_contract(self, context, value, silent):
-        raise ContractNotRespected(self, 'No value can match this',
-                                   value, context)
+        raise ContractNotRespected(self, "No value can match this", value, context)
 
     @staticmethod
     def parse_action(s, loc, tokens):  # @UnusedVariable
         return Never(W(s, loc))
 
 
-add_contract(Literal('*').setParseAction(Any.parse_action))
-add_contract(Literal('#').setParseAction(Never.parse_action))
+add_contract(Literal("*").setParseAction(Any.parse_action))
+add_contract(Literal("#").setParseAction(Never.parse_action))

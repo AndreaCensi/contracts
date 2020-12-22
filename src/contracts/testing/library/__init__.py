@@ -29,4 +29,3 @@ except ImportError:  # pragma: no cover
 else:
     from . import array_tc
     from . import array_elements_tc
-

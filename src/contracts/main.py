@@ -7,11 +7,22 @@ import six
 from .backported import getcallargs, getfullargspec
 from .docstring_parsing import Arg, DocStringInfo
 from .enabling import all_disabled
-from .inspection import (can_accept_at_least_one_argument, can_accept_self,
-    can_be_used_as_a_type)
-from .interface import (CannotDecorateClassmethods, Contract,
-    ContractDefinitionError, ContractException, ContractNotRespected,
-    ContractSyntaxError, MissingContract, Where, describe_value)
+from .inspection import (
+    can_accept_at_least_one_argument,
+    can_accept_self,
+    can_be_used_as_a_type,
+)
+from .interface import (
+    CannotDecorateClassmethods,
+    Contract,
+    ContractDefinitionError,
+    ContractException,
+    ContractNotRespected,
+    ContractSyntaxError,
+    MissingContract,
+    Where,
+    describe_value,
+)
 
 
 # from .library import (CheckCallable, Extension, SeparateContext,
@@ -46,8 +57,10 @@ def check_contracts(contracts, values, context_variables=None):
 
     for var in context_variables:
         if not (isinstance(var, six.string_types) and len(var) == 1):  # XXX: isalpha
-            msg = ('Invalid name %r for a variable. '
-                   'I expect a string of length 1.' % var)
+            msg = (
+                "Invalid name %r for a variable. "
+                "I expect a string of length 1." % var
+            )
             raise ValueError(msg)
 
     C = []
@@ -71,7 +84,7 @@ def _cacheable(string, c):
     """ Returns whether the contract c defined by string string is cacheable. """
     # XXX need a more general way of indicating
     #     whether a contract is safely cacheable
-    return '$' not in string
+    return "$" not in string
 
 
 def is_param_string(x):
@@ -80,8 +93,9 @@ def is_param_string(x):
 
 def check_param_is_string(x):
     if not is_param_string(x):
-        msg = 'Expected a string, obtained %s' % type(x)
+        msg = "Expected a string, obtained %s" % type(x)
         raise ValueError(msg)
+
 
 # TODO: add decorator-specific exception
 
@@ -127,8 +141,10 @@ def contract_decorator(*arg, **kwargs):
                 # Erase the stack
                 raise ContractSyntaxError(es.error, es.where)
         else:
-            msg = ('I expect that contracts() is called with '
-                   'only keyword arguments (passed: %r)' % arg)
+            msg = (
+                "I expect that contracts() is called with "
+                "only keyword arguments (passed: %r)" % arg
+            )
             raise ContractException(msg)
     else:
         # !!! Do not change "tmp_wrap" name; we need it for the definition
@@ -146,10 +162,11 @@ def contract_decorator(*arg, **kwargs):
                 try:
                     return contracts_decorate(f, **kwargs)
                 except ContractSyntaxError as e:
-                    msg = u"Cannot decorate function %s:" % f.__name__
+                    msg = "Cannot decorate function %s:" % f.__name__
                     from .utils import indent
                     import traceback
-                    msg += u'\n\n' + indent(traceback.format_exc(), u'  ')
+
+                    msg += "\n\n" + indent(traceback.format_exc(), "  ")
                     raise ContractSyntaxError(msg, e.where)
                     # erase the stack
                 except ContractDefinitionError as e:
@@ -194,11 +211,11 @@ you can achieve the same goal by inverting the two decorators:
 
     if kwargs:
 
-        returns = kwargs.pop('returns', None)
+        returns = kwargs.pop("returns", None)
 
         for kw in kwargs:
             if not kw in all_args:
-                msg = 'Unknown parameter %r; I know %r.' % (kw, all_args)
+                msg = "Unknown parameter %r; I know %r." % (kw, all_args)
                 raise ContractException(msg)
 
         accepts_dict = dict(**kwargs)
@@ -208,9 +225,9 @@ you can achieve the same goal by inverting the two decorators:
         annotations = get_annotations(function_)
 
         if annotations:
-            if 'return' in annotations:
-                returns = annotations['return']
-                del annotations['return']
+            if "return" in annotations:
+                returns = annotations["return"]
+                del annotations["return"]
             else:
                 returns = None
 
@@ -220,23 +237,25 @@ you can achieve the same goal by inverting the two decorators:
             if function_.__doc__ is None:
                 # XXX: change name
                 raise ContractException(
-                    'You did not specify a contract, nor I can '
-                    'find a docstring for %r.' % function_)
+                    "You did not specify a contract, nor I can "
+                    "find a docstring for %r." % function_
+                )
 
             accepts_dict, returns = parse_contracts_from_docstring(function_)
 
             if not accepts_dict and not returns:
-                raise ContractException('No contract specified in docstring.')
+                raise ContractException("No contract specified in docstring.")
 
     if returns is None:
         returns_parsed = None
     else:
         returns_parsed = parse_flexible_spec(returns)
 
-    accepts_parsed = dict([(x, parse_flexible_spec(accepts_dict[x]))
-                           for x in accepts_dict])
+    accepts_parsed = dict(
+        [(x, parse_flexible_spec(accepts_dict[x])) for x in accepts_dict]
+    )
 
-    is_bound_method = 'self' in all_args
+    is_bound_method = "self" in all_args
 
     def contracts_checker(unused, *args, **kwargs):
         do_checks = not all_disabled()
@@ -244,10 +263,10 @@ you can achieve the same goal by inverting the two decorators:
             return function_(*args, **kwargs)
 
         def get_nice_function_display():
-            nice_function_display = '%s()' % function_.__name__
+            nice_function_display = "%s()" % function_.__name__
             if is_bound_method:
                 klass = type(args[0]).__name__
-                nice_function_display = klass + ':' + nice_function_display
+                nice_function_display = klass + ":" + nice_function_display
             return nice_function_display
 
         bound = getcallargs(function_, *args, **kwargs)
@@ -255,15 +274,19 @@ you can achieve the same goal by inverting the two decorators:
         context = {}
         # add self if we are a bound method
         if is_bound_method:
-            context['self'] = args[0]
+            context["self"] = args[0]
 
         for arg in all_args:
             if arg in accepts_parsed:
                 try:
-                    accepts_parsed[arg]._check_contract(context, bound[arg], silent=False)
+                    accepts_parsed[arg]._check_contract(
+                        context, bound[arg], silent=False
+                    )
                 except ContractNotRespected as e:
-                    msg = ('Breach for argument %r to %s.\n'
-                           % (arg, get_nice_function_display()))
+                    msg = "Breach for argument %r to %s.\n" % (
+                        arg,
+                        get_nice_function_display(),
+                    )
                     e.error = msg + e.error
                     raise e
 
@@ -273,8 +296,7 @@ you can achieve the same goal by inverting the two decorators:
             try:
                 returns_parsed._check_contract(context, result, silent=False)
             except ContractNotRespected as e:
-                msg = ('Breach for return value of %s.\n'
-                       % (get_nice_function_display()))
+                msg = "Breach for return value of %s.\n" % (get_nice_function_display())
                 e.error = msg + e.error
                 raise e
 
@@ -285,7 +307,7 @@ you can achieve the same goal by inverting the two decorators:
     if modify_docstring:
 
         def write_contract_as_rst(c):
-            return '``%s``' % c
+            return "``%s``" % c
 
         if function_.__doc__ is not None:
             docs = DocStringInfo.parse(function_.__doc__)
@@ -294,11 +316,10 @@ you can achieve the same goal by inverting the two decorators:
         for param in accepts_parsed:
             if not param in docs.params:
                 # default = '*not documented*'
-                default = ''
+                default = ""
                 docs.params[param] = Arg(default, None)
 
-            docs.params[param].type = \
-                write_contract_as_rst(accepts_parsed[param])
+            docs.params[param].type = write_contract_as_rst(accepts_parsed[param])
 
         if returns_parsed is not None:
             if not docs.returns:
@@ -310,9 +331,9 @@ you can achieve the same goal by inverting the two decorators:
         new_docs = function_.__doc__
 
     # XXX: why doesn't this work?
-    name = ('checker-for-%s' % function_.__name__)
+    name = "checker-for-%s" % function_.__name__
     if six.PY2:
-        name = name.encode('utf-8')
+        name = name.encode("utf-8")
     contracts_checker.__name__ = name
     contracts_checker.__module__ = function_.__module__
 
@@ -338,9 +359,10 @@ def parse_flexible_spec(spec):
         return parse_contract_string(spec)
     elif can_be_used_as_a_type(spec):
         from .library import CheckType
+
         return CheckType(spec)
     else:
-        msg = 'I want either a string or a type, not %s.' % describe_value(spec)
+        msg = "I want either a string or a type, not %s." % describe_value(spec)
         raise ContractException(msg)
 
 
@@ -348,16 +370,16 @@ def parse_contracts_from_docstring(function):
     annotations = DocStringInfo.parse(function.__doc__)
 
     if len(annotations.returns) > 1:
-        raise ContractException('More than one return type specified.')
+        raise ContractException("More than one return type specified.")
 
     def remove_quotes(x):
         """ Removes the double back-tick quotes if present. """
         if x is None:
             return None
-        if x.startswith('``') and x.endswith('``') and len(x) > 3:
+        if x.startswith("``") and x.endswith("``") and len(x) > 3:
             return x[2:-2]
-        elif x.startswith('``') or x.endswith('``'):
-            msg = 'Malformed quoting in string %r.' % x
+        elif x.startswith("``") or x.endswith("``"):
+            msg = "Malformed quoting in string %r." % x
             raise ContractException(msg)
         else:
             return x
@@ -369,14 +391,14 @@ def parse_contracts_from_docstring(function):
 
     # These are the annotations
     params = annotations.params
-    name2type = dict([(name, remove_quotes(params[name].type))
-                      for name in params])
+    name2type = dict([(name, remove_quotes(params[name].type)) for name in params])
 
     # Check the ones that do not have contracts specified
     nullparams = [name for name in params if params[name].type is None]
     if nullparams:
-        msg = ('The parameter(s) %r in this docstring have no type statement.'
-               % (",".join(nullparams)))
+        msg = "The parameter(s) %r in this docstring have no type statement." % (
+            ",".join(nullparams)
+        )
         msg += """
 
 Note: you can use the asterisk if you do not care about assigning
@@ -393,9 +415,10 @@ a contract to a certain parameter:
     # Check we don't have extra:
     for name in name2type:
         if not name in all_args:
-            msg = ('A contract was specified for argument %r which I cannot'
-                   ' find in my list of arguments (%r)' %
-                   (name, all_args))
+            msg = (
+                "A contract was specified for argument %r which I cannot"
+                " find in my list of arguments (%r)" % (name, all_args)
+            )
             raise ContractException(msg)
 
     if len(name2type) != len(all_args):  # pragma: no cover
@@ -439,13 +462,15 @@ def check(contract, object, desc=None, **context):  # @ReservedAssignment
 
     if not is_param_string(contract):
         # XXX: make it more liberal?
-        raise ValueError('I expect a string (contract spec) as the first '
-                         'argument, not a %s.' % describe_value(contract))
+        raise ValueError(
+            "I expect a string (contract spec) as the first "
+            "argument, not a %s." % describe_value(contract)
+        )
     try:
         return check_contracts([contract], [object], context)
     except ContractNotRespected as e:
         if desc is not None:
-            e.error = '%s\n%s' % (desc, e.error)
+            e.error = "%s\n%s" % (desc, e.error)
         raise e
 
 
@@ -461,10 +486,10 @@ def fail(contract, value, **initial_context):
     except ContractNotRespected:
         pass
     else:
-        msg = 'I did not expect that this value would satisfy this contract.\n'
-        msg += '-    value: %s\n' % describe_value(value)
-        msg += '- contract: %s\n' % parsed_contract
-        msg += '-  context: %r' % context
+        msg = "I did not expect that this value would satisfy this contract.\n"
+        msg += "-    value: %s\n" % describe_value(value)
+        msg += "- contract: %s\n" % parsed_contract
+        msg += "-  context: %r" % context
         raise ValueError(msg)
 
 
@@ -483,15 +508,18 @@ def check_multiple(couples, desc=None):
         :type desc: ``None|str``
     """
 
-    check('list[>0](tuple(str, *))', couples,
-          'I expect a non-empty list of (object, string) tuples.')
+    check(
+        "list[>0](tuple(str, *))",
+        couples,
+        "I expect a non-empty list of (object, string) tuples.",
+    )
     contracts = [x[0] for x in couples]
     values = [x[1] for x in couples]
     try:
         return check_contracts(contracts, values)
     except ContractNotRespected as e:
         if desc is not None:
-            e.error = '%s\n%s' % (desc, e.error)
+            e.error = "%s\n%s" % (desc, e.error)
         raise e
 
 
@@ -562,12 +590,18 @@ def new_contract_impl(identifier, condition):
 
     from .syntax import ParseException
     from .library.extensions import CheckCallableWithSelf
-    from .library import (CheckCallable, Extension, SeparateContext,
-        identifier_expression)
+    from .library import (
+        CheckCallable,
+        Extension,
+        SeparateContext,
+        identifier_expression,
+    )
 
     # Be friendly
     if not isinstance(identifier, six.string_types):
-        msg = 'I expect the identifier to be a string; received %s.' % describe_value(identifier)
+        msg = "I expect the identifier to be a string; received %s." % describe_value(
+            identifier
+        )
         raise ValueError(msg)
 
     # Make sure it is not already an expression that we know.
@@ -582,9 +616,10 @@ def new_contract_impl(identifier, condition):
         # check it does not redefine list, tuple, etc.
         try:
             c = parse_contract_string(identifier)
-            msg = ('Invalid identifier %r; it overwrites an already known '
-                   'expression. In fact, I can parse it as %s (%r).' %
-                   (identifier, c, c))
+            msg = (
+                "Invalid identifier %r; it overwrites an already known "
+                "expression. In fact, I can parse it as %s (%r)." % (identifier, c, c)
+            )
             raise ValueError(msg)
         except ContractSyntaxError:
             pass
@@ -596,11 +631,12 @@ def new_contract_impl(identifier, condition):
         loc = e.loc
         if loc >= len(identifier):
             loc -= 1
-        where = Where(identifier, character=loc)  #line=e.lineno, column=e.col)
+        where = Where(identifier, character=loc)  # line=e.lineno, column=e.col)
         # msg = 'Error in parsing string: %s' % e
-        msg = ('The given identifier %r does not correspond to my idea '
-               'of what an identifier should look like;\n%s\n%s'
-               % (identifier, e, where))
+        msg = (
+            "The given identifier %r does not correspond to my idea "
+            "of what an identifier should look like;\n%s\n%s" % (identifier, e, where)
+        )
         raise ValueError(msg)
 
     # Now let's check the condition
@@ -610,26 +646,29 @@ def new_contract_impl(identifier, condition):
             # could call parse_flexible_spec as well here
             bare_contract = parse_contract_string(condition)
         except ContractSyntaxError as e:
-            msg = ('The given condition %r does not parse cleanly: %s' %
-                   (condition, e))
+            msg = "The given condition %r does not parse cleanly: %s" % (condition, e)
             raise ValueError(msg)
     # Important: types are callable, so check this first.
     elif can_be_used_as_a_type(condition):
         # parse_flexible_spec can take care of types
         bare_contract = parse_flexible_spec(condition)
     # Lastly, it should be a callable
-    elif hasattr(condition, '__call__'):
+    elif hasattr(condition, "__call__"):
         # Check that the signature is right
         if can_accept_self(condition):
             bare_contract = CheckCallableWithSelf(condition)
         elif can_accept_at_least_one_argument(condition):
             bare_contract = CheckCallable(condition)
         else:
-            raise ValueError("The given callable %r should be able to accept "
-                             "at least one argument" % condition)
+            raise ValueError(
+                "The given callable %r should be able to accept "
+                "at least one argument" % condition
+            )
     else:
-        raise ValueError('I need either a string or a callable for the '
-                         'condition; found %s.' % describe_value(condition))
+        raise ValueError(
+            "I need either a string or a callable for the "
+            "condition; found %s." % describe_value(condition)
+        )
 
     # Separate the context if needed
     if isinstance(bare_contract, (CheckCallable, CheckCallableWithSelf)):
@@ -641,10 +680,12 @@ def new_contract_impl(identifier, condition):
     if identifier in Extension.registrar:
         old = Extension.registrar[identifier]
         if not (contract == old):
-            msg = ('Tried to redefine %r with a definition that looks '
-                   'different to me.\n' % identifier)
-            msg += ' - old: %r\n' % old
-            msg += ' - new: %r\n' % contract
+            msg = (
+                "Tried to redefine %r with a definition that looks "
+                "different to me.\n" % identifier
+            )
+            msg += " - old: %r\n" % old
+            msg += " - new: %r\n" % contract
             raise ValueError(msg)
     else:
         Extension.registrar[identifier] = contract
@@ -656,10 +697,12 @@ def new_contract_impl(identifier, condition):
         try:
             c = parse_contract_string(identifier)
             expected = Extension(identifier)
-            assert c == expected, \
-                'Expected %r, got %r.' % (c, expected)  # pragma: no cover
+            assert c == expected, "Expected %r, got %r." % (
+                c,
+                expected,
+            )  # pragma: no cover
         except ContractSyntaxError:  # pragma: no cover
-            #assert False, 'Cannot parse %r: %s' % (identifier, e)
+            # assert False, 'Cannot parse %r: %s' % (identifier, e)
             raise
 
     return contract
@@ -667,5 +710,5 @@ def new_contract_impl(identifier, condition):
 
 def parse_contract_string(string):
     from .main_actual import parse_contract_string_actual
-    return parse_contract_string_actual(string)
 
+    return parse_contract_string_actual(string)

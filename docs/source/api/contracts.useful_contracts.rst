@@ -24,4 +24,3 @@ useful_contracts Package
     :members:
     :undoc-members:
     :show-inheritance:
-

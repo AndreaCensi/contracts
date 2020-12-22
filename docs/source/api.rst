@@ -7,7 +7,7 @@
 API for specifying contracts
 ============================
 
-This is a discussion of the |pycontracts| API. 
+This is a discussion of the |pycontracts| API.
 
 - See :py:mod:`contracts` for a detailed list of this module's public interface.
 
@@ -19,13 +19,13 @@ This is a discussion of the |pycontracts| API.
 Using the ``@contract`` decorator.
 ----------------------------------------------------
 
-The decorator :py:func:`contracts` is the main way to 
-define constraints. It is quite flexible, and it is smart enough 
+The decorator :py:func:`contracts` is the main way to
+define constraints. It is quite flexible, and it is smart enough
 to support functions with variable number of arguments and keyword arguments.
 
 There are three ways to specify the contracts. In order of precedence:
 
-- As arguments to this decorator. 
+- As arguments to this decorator.
 - As Python 3 function annotations.
 - Using ``:type:`` and ``:rtype:`` tags in the function's docstring.
 
@@ -48,7 +48,7 @@ An example use would be: ::
     @contract(a='int,>0', b='list[N],N>0', returns='list[N]')
     def my_function(a, b):
         ...
-      
+
 
 The values can be either:
 
@@ -70,9 +70,9 @@ The same rules apply. In this case the syntax would look like this: ::
     from contracts import contract
 
     @contract
-    def my_function(a:'int,>0', b:'list[N],N>0') -> 'list[N]': 
+    def my_function(a:'int,>0', b:'list[N],N>0') -> 'list[N]':
         ...
-      
+
 
 
 Using functions docstrings
@@ -83,28 +83,28 @@ The Python standard library seems to have standardized on the ``:param:``, ``:ty
 can interpret those tags to produce pretty documentation.
 
 |pycontracts| can read contracts declared using the ``:type:`` and ``:rtype:`` tags.
-In this way, your function becomes automatically more robust and better documented. 
+In this way, your function becomes automatically more robust and better documented.
 
 Here is an example use: ::
 
     from contracts import contract
-    
+
     @contract
-    def my_function(a, b): 
+    def my_function(a, b):
       """ Function description.
-  
+
           :param a: first number
           :type a: int,>0
           :param b: description of b
           :type b: list[N],N>0
-      
+
           :return: a list
           :rtype: list[N]               """
       ...
-          
-          
+
+
 .. note:: By convention, those annotations must be parsable as
-    reStructuredText. 
+    reStructuredText.
     If the contract string has special RST characters in it, like ``*``,
     you can include it in double ticks. |pycontracts| will remove
     the double ticks before interpreting the string.
@@ -112,15 +112,14 @@ Here is an example use: ::
     For example, the two annotations in this docstring are equivalent
     for |pycontracts|, but the latter is better for Sphinx: ::
 
-      """ My function 
-  
+      """ My function
+
           :param a: First parameter
           :type a: list(tuple(str,*))
-      
+
           :param b: First parameter
           :type b: ``list(tuple(str,*))``
       """
 
 
 .. include:: menu.txt
-

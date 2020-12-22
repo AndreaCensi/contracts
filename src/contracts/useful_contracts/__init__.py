@@ -5,9 +5,9 @@ try:
 except ImportError:  # pragma: no cover
     pass
 else:
-    from .numpy_specific import *    
+    from .numpy_specific import *
 
 from .numbers import *
 
 
-new_contract('bytes', bytes)
+new_contract("bytes", bytes)

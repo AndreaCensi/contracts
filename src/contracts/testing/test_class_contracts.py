@@ -3,9 +3,7 @@ import unittest
 
 
 class ClassContractsTests(unittest.TestCase):
-
     def test_class_contract1(self):
-
         class Game(object):
             def __init__(self, legal):
                 self.legal = legal
@@ -14,7 +12,7 @@ class ClassContractsTests(unittest.TestCase):
             def legal_move1(self, move):
                 return move in self.legal
 
-            @contract(move='legal_move1')
+            @contract(move="legal_move1")
             def take_turn(self, move):
                 pass
 
@@ -24,7 +22,6 @@ class ClassContractsTests(unittest.TestCase):
         self.assertRaises(ContractNotRespected, g1.take_turn, 3)
 
     def test_class_contract2(self):
-
         class Game(object):
             def __init__(self, legal):
                 self.legal = legal
@@ -33,7 +30,7 @@ class ClassContractsTests(unittest.TestCase):
             def legal_move2(self, move):
                 return move in self.legal
 
-            @contract(move='legal_move2')
+            @contract(move="legal_move2")
             def take_turn(self, move):
                 pass
 
@@ -43,7 +40,6 @@ class ClassContractsTests(unittest.TestCase):
         self.assertRaises(ContractNotRespected, g1.take_turn, 3)
 
     def test_class_contract3(self):
-
         class Game(object):
             def __init__(self, legal):
                 self.legal = legal
@@ -51,9 +47,9 @@ class ClassContractsTests(unittest.TestCase):
             def legal_move(self, move):
                 return move in self.legal
 
-            new_contract('alegalmove', legal_move)
+            new_contract("alegalmove", legal_move)
 
-            @contract(move='alegalmove')
+            @contract(move="alegalmove")
             def take_turn(self, move):
                 pass
 
@@ -74,13 +70,10 @@ class ClassContractsTests(unittest.TestCase):
                 return move in self.legal
 
         def go():
-            @contract(move='legal_move4')
+            @contract(move="legal_move4")
             def take_turn(move):
                 pass
 
             take_turn(0)
 
         self.assertRaises(ContractNotRespected, go)
-
-
-

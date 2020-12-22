@@ -1,4 +1,3 @@
-
 # class Extra:
 #     loading = False
 #
@@ -10,11 +9,10 @@
 #         # And after everything else is loaded, load the  utils
 #     else:
 #         print('already loading...')
-    
+
 
 def parse_contract_string_actual(string):
-    from .interface import (Contract, ContractDefinitionError, ContractSyntaxError,
-        Where)
+    from .interface import Contract, ContractDefinitionError, ContractSyntaxError, Where
     from .main import Storage, _cacheable, check_param_is_string
     from .syntax import ParseException, ParseFatalException, contract_expression
 
@@ -23,9 +21,8 @@ def parse_contract_string_actual(string):
     if string in Storage.string2contract:
         return Storage.string2contract[string]
     try:
-        c = contract_expression.parseString(string,
-                                            parseAll=True)[0]
-        assert isinstance(c, Contract), 'Want Contract, not %r' % c
+        c = contract_expression.parseString(string, parseAll=True)[0]
+        assert isinstance(c, Contract), "Want Contract, not %r" % c
         if _cacheable(string, c):
             Storage.string2contract[string] = c
         return c
@@ -33,11 +30,9 @@ def parse_contract_string_actual(string):
         raise
     except ParseException as e:
         where = Where(string, character=e.loc)
-        msg = '%s' % e
+        msg = "%s" % e
         raise ContractSyntaxError(msg, where=where)
     except ParseFatalException as e:
         where = Where(string, character=e.loc)
-        msg = '%s' % e
+        msg = "%s" % e
         raise ContractSyntaxError(msg, where=where)
-
-

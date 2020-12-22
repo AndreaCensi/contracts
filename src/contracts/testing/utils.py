@@ -1,7 +1,6 @@
 import six
 
-from ..interface import (ContractSyntaxError, describe_value,
-                         ContractNotRespected)
+from ..interface import ContractSyntaxError, describe_value, ContractNotRespected
 from ..main import parse_contract_string, check_contracts
 
 
@@ -25,17 +24,16 @@ def check_contracts_fail(contract, value, error=ContractNotRespected):
     try:
         context = check_contracts(contract, value)
 
-        msg = ('I was expecting that the values would not not'
-               ' satisfy the contract.\n')
+        msg = "I was expecting that the values would not not" " satisfy the contract.\n"
 
         for v in value:
-            msg += '      value: %s\n' % describe_value(v)
+            msg += "      value: %s\n" % describe_value(v)
 
         for c in contract:
             cp = parse_contract_string(c)
-            msg += '   contract: %r, parsed as %r (%s)\n' % (c, cp, cp)
+            msg += "   contract: %r, parsed as %r (%s)\n" % (c, cp, cp)
 
-        msg += '    context:  %r\n' % context
+        msg += "    context:  %r\n" % context
 
         raise Exception(msg)
 
@@ -51,8 +49,8 @@ def check_syntax_fail(string):
 
     try:
         parsed_contract = parse_contract_string(string)
-        msg = 'I would not expect to parse %r.' % string
-        msg += ' contract:         %s\n' % parsed_contract
+        msg = "I would not expect to parse %r." % string
+        msg += " contract:         %s\n" % parsed_contract
         raise Exception(msg)
 
     except ContractSyntaxError as e:
@@ -60,4 +58,3 @@ def check_syntax_fail(string):
         s = "%r" % e  # @UnusedVariable
         s = "%s" % e  # @UnusedVariable
         pass
-

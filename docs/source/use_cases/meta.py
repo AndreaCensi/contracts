@@ -1,23 +1,23 @@
 from contracts import ContractsMeta, contract
 from abc import abstractmethod
 
-class TimerInterface():
+
+class TimerInterface:
     __metaclass__ = ContractsMeta
 
     @abstractmethod
-    @contract(interval='(float|int),>=0')
+    @contract(interval="(float|int),>=0")
     def start(self, interval):
         pass
 
 
 class Timer(TimerInterface):
-    
     def start(self, interval):
         time.sleep()
 
 
 t = Timer()
-t.start(-1) # raises ContractNotRespected
+t.start(-1)  # raises ContractNotRespected
 
 # contracts.interface.ContractNotRespected: Breach for argument 'interval' to Timer:start().
 # Condition -1 >= 0 not respected

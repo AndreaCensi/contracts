@@ -17,7 +17,7 @@ This section describes |pycontracts|' language for specifying contracts.
 Simple types
 ------------
 
-The simplest kind of contract consists in declaring the type 
+The simplest kind of contract consists in declaring the type
 of a value. These are the supported primitive types:  ::
 
     dict, list, tuple, float, int, number, array, bool, None
@@ -26,10 +26,10 @@ Moreover, there are two kinds of wild-cards:
 
 ``*``
   Matches any object.
-  
+
 ``#``
   Never matches anything --- useful for debugging.
-  
+
 
 Variables
 ---------
@@ -38,7 +38,7 @@ Variables
 and reuse later (it is simpler than it sounds).
 
 There are two kinds of variables. The first kind is denoted
-by an uppercase letter, and it is constrained to bind to integer values. :: 
+by an uppercase letter, and it is constrained to bind to integer values. ::
 
     A B C D E F G H I J K L M N O P Q R S T U W V X Y Z
 
@@ -47,7 +47,7 @@ Lower-case letters denote general-purpose variables that can bind to any type::
     a b c d e f g h i j k l m n o p q r s t u w v x y z
 
 .. note:: The reason for having specialized variables for integers is
-   to encourage a writing style in which uppercase letters denote 
+   to encourage a writing style in which uppercase letters denote
    lengths, shapes, etc. Moreover, an error will be thrown if they do not
    bind to integers, which helps in catching mistakes.
 
@@ -60,7 +60,7 @@ Contracts can refer to external variables using ``$PythonVariable``. For example
 
 
     from module import MyClass
- 
+
     @contract(x='list($MyClass)')
     def f(x):
       pass
@@ -77,38 +77,38 @@ AND
   Expressed with a comma (``,``).
 
   For example, the expression ::
-   
+
       check("contract1,contract2", value)
-      
+
   is roughly equivalent to ::
-  
+
       check("contract1", value) and check("contract2", value)
-      
+
   except that variables in the contracts are evaluated in the same context.
-  
+
 OR
   Expressed with a pipe symbol (``|``).
-  
+
   The semantic is that the first matching expression is chosen.
-  
+
   The expression: ::
-  
-      check("contract1|contract2", value) 
-    
+
+      check("contract1|contract2", value)
+
   is roughly equivalent to: ::
-  
+
       if value respects "contract1":
          return True
       elif value respects "contract2":
          return True
-      else: 
+      else:
          return False
-         
+
 
 The AND has precedence over OR. For example, the expression ::
 
     a,b|c
-    
+
 is evaluated the same as ::
 
     (a, b) | c
@@ -177,19 +177,19 @@ The general syntax is: ::
 
    * - ``list(number)``
      - A list of numbers.
-     
+
    * - ``list[3](number)``
-     - A list of exactly three numbers. 
+     - A list of exactly three numbers.
 
    * - ``list[>=3](number)``
      - A list of at least three numbers.
-     
+
    * - ``list[>=3](number, >0)``
      - A list of at least three numbers, greater than 0.
 
    * - ``tuple(list[N], list[N])``
      - A tuple of two lists of the same length.
-     
+
 Sequences
 ------------------
 
@@ -204,22 +204,22 @@ The contract ``seq`` has the same syntax as ``list`` but matches any sequence. :
 Tuples
 ------------------
 
-You can either specify a length (with square brackets), 
+You can either specify a length (with square brackets),
 or specify a contract for each element: ::
-    
+
     tuple
-    
+
     tuple[length]
-    
+
     tuple(element1, ..., elementN)
 
 In the latter case, you are also specifying implicitly the number of elements.
 
 
-.. note:: The syntax for tuples is somewhat a special case. 
-   While ``list(int,>0)`` signifies a list 
+.. note:: The syntax for tuples is somewhat a special case.
+   While ``list(int,>0)`` signifies a list
    of positive integers (or empty list), ``tuple(int, >0)``
-   means a tuple with exactly 2 elements, the first of which 
+   means a tuple with exactly 2 elements, the first of which
    should be an integer, and the second must be positive (but not necessarily integer.)
 
 .. list-table:: Examples of ``tuple`` contracts
@@ -231,7 +231,7 @@ In the latter case, you are also specifying implicitly the number of elements.
 
    * - ``tuple``
      - A tuple.
-     
+
    * - ``tuple[2]``
      - A tuple with two elements.
 
@@ -251,15 +251,15 @@ In the latter case, you are also specifying implicitly the number of elements.
 Dictionaries
 ------------------
 
-For dictionary, you can specify a length contract, as well as a contract 
+For dictionary, you can specify a length contract, as well as a contract
 for its keys and values: ::
-    
+
     dict
-    
+
     dict[length_contract]
-    
+
     dict(key_contract: value_contract)
-    
+
     dict[length_contract](key_contract: value_contract)
 
 
@@ -295,13 +295,13 @@ Mappings
 The contract ``map`` has the same syntax as ``dict`` but matches any mapping. ::
 
     map
-    
+
     map[length_contract]
-    
+
     map(key_contract: value_contract)
-    
+
     map[length_contract](key_contract: value_contract)
-    
+
 
 Numpy arrays
 ------------------
@@ -310,39 +310,39 @@ The support for Numpy arrays was one of the motivations for me to develop |pycon
 Numpy_ is one of the best and most useful Python packages around. It supports
 the ndarray_ datatype which allows for operations with tensors_ of arbitrary dimensions.
 
-All of that is very powerful, but it might be a bit confusing, especially 
+All of that is very powerful, but it might be a bit confusing, especially
 because Numpy tends to be very liberal when it gets to operations between arrays.
 For example, the operation ``A * B``, if ``A`` is a 2D matrix, is well defined
 when ``B`` is a scalar, a vector, or a matrix. Sometimes you want to be certain
-of your assumptions, otherwise you risk of ignoring powerful bugs. 
+of your assumptions, otherwise you risk of ignoring powerful bugs.
 
 .. note:: Researchers tend to be a bit paranoid, because often
    you don't know what to expect out of your algorithms. A stupid
    bug can lead to an exciting (false) discovery!
-   
+
 So |pycontracts| offers several shortcuts for Numpy arrays, and
 the error messages tend to be more descriptive.
 
 The general syntax looks like this: ::
 
     array
-    
+
     array[shape_contract]
 
     array(numpy_contract)
-    
+
     array[shape_contract](numpy_contract)
-   
-   
+
+
 Shape contracts
 ^^^^^^^^^^^^^^^^
 
 A *shape contract* is specified using a special syntax of the kind:
 
     dimension1 x dimension2 x dimension3
-    
+
     dimension1 x dimension2 x dimension3 x ...
-    
+
 The ellipsis is part of the syntax and specifies that more dimensions are allowed.
 
 Each dimension can be specified as a number, with variables, or as a contract.
@@ -382,19 +382,19 @@ Each dimension can be specified as a number, with variables, or as a contract.
 Numpy-specific contracts
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A *numpy contract* is special and implemented separately 
+A *numpy contract* is special and implemented separately
 from the other |pycontracts| contract.
 Right now, we support:
 
 Datatype contracts
   These specify the datatype of the array. Available: ::
-      
+
       uint8 uint16 uint32 uint64 int8 int16 int32  int64 float32 float64
-      
+
 Arithmetic comparisons
   These have the semantics that **all** elements must satisfy the contract.
   They appear similar to the normal |pycontracts| comparison: ::
-  
+
       >0   <0   <=1   =0
 
 
@@ -419,32 +419,32 @@ Arithmetic comparisons
 
    * - ``array[NxN](int,(0|1))``
      - A square matrix with each element equal either to 0 or 1 (this could model a directed graph).
-     
+
 
 Other examples
 ^^^^^^^^^^^^^^
 
-Here is an example that first uses :py:func:`new_contract` to specify 
+Here is an example that first uses :py:func:`new_contract` to specify
 a domain-specific array type (``rgb``, ``rgba``), then uses |pycontracts|
 to be sure that the two given images and the result values have coherent dimensions.
 Notice how the contracts serve very well as documentation. ::
 
     from contracts import contract, new_contract
-    
+
     new_contract('rgb',  'array[HxWx3](uint8),H>0,W>0')
     new_contract('rgba', 'array[HxWx4](uint8),H>0,W>0')
-    
+
     @contract
     def blend_images(image1, image2):
-        ''' 
-             Blends two images together. 
-    
+        '''
+             Blends two images together.
+
              :param image1: The first image to blend.
              :type image1: rgb,array[HxWx*]
-             
+
              :param image2: The second image to blend. Can have an alpha layer.
              :type image2: (rgb|rgba),array[HxWx*]
-             
+
              :return: The blended image.
              :rtype: rgb,array[HxWx3]
         '''
@@ -454,9 +454,9 @@ If you want to have a function that accepts a list of images, you would write: :
 
     @contract
     def blend_images(images):
-        '''  
+        '''
              Blends a series of images together.
-    
+
              :type images: list[N](rgb,array[HxWx*]), N>=2
 
              :rtype: rgb,array[HxWx3]

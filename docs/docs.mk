@@ -2,7 +2,7 @@
 # with Github pages support.
 #
 # 2012-03-04: website is not phony; misc increments
-# 
+#
 
 webdir=website
 source=source
@@ -10,35 +10,35 @@ autogen=source/api
 
 
 .PHONY: all upload compile only-upload generate epydoc generate generate-custom clean clean-custom
-	
+
 
 # also change this in epydoc.cfg
-webgit=git --git-dir $(webdir)/.git --work-tree=$(webdir)/ 
+webgit=git --git-dir $(webdir)/.git --work-tree=$(webdir)/
 
 all: upload
 
 
-# 
+#
 # compile-website: $(webdir) epydoc generate
 # 	PYTHONPATH=`pwd`:$(PYTHONPATH) sphinx-build -E -n -a -b html $(source) $(webdir)
 
 clean-custom:
 	# This can be overridden by user
-	
+
 generate-custom:
 	# This can be overridden by user
 
 generate: generate-custom
 	sphinx-autogen -o $(autogen) $(source)/*.rst
 	sphinx-apidoc  -o $(autogen) ../src
-	 
-compile: $(webdir) generate 
+
+compile: $(webdir) generate
 	PYTHONPATH=`pwd`:$(PYTHONPATH) sphinx-build -E -n -a -b html $(source) $(webdir)
-	
-recompile: $(webdir) 
+
+recompile: $(webdir)
 		PYTHONPATH=`pwd`:$(PYTHONPATH) sphinx-build -E -n -a -b html $(source) $(webdir)
-	
-	
+
+
 $(webdir):
 	@echo Checking out the website repository.
 	git clone $(github_repo) $@
@@ -49,15 +49,15 @@ $(webdir):
 
 upload: compile
 	$(MAKE) only-upload
-	
-only-upload: 
+
+only-upload:
 	./gitadd.zsh $(webdir)
 	$(webgit) push
 
 clean: clean-custom
 	rm -rf $(autogen)/
 	rm -rf $(webdir)/
-	
+
 epydoc:
 	epydoc --config epydoc.cfg --introspect-only -v --exclude-introspect=$(package).unittests --debug
 

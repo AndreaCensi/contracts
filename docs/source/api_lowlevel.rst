@@ -22,27 +22,27 @@ that can be used to decorate functions after they are defined.
 For example: ::
 
     from contracts import decorate
-    
+
     def f(a):
         a.pop()
         return a
-            
+
     f2 = decorate(f, a='list[N],N>1', returns='list[N-1]')
 
     f2([]) # raises exception before pop() is executed
-    
+
 
 Checking contracts manually
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In addition to the :py:func:`@contract` decorator, |pycontracts| offers
-an interface for checking expressions explicitly. 
+an interface for checking expressions explicitly.
 
-The :py:func:`check()` function  allows you to check 
+The :py:func:`check()` function  allows you to check
 that some value respect a given contract. ::
 
     from contracts import check
-  
+
     check('tuple(int,int)', (2, 2) )
 
 :py:func:`check()` might raise:
@@ -52,7 +52,7 @@ that some value respect a given contract. ::
 
 :py:class:`ContractNotRespected`
   If the value does not respect the contract constraints.
-  
+
 Both exceptions are instances of :py:class:`ContractException`.
 Usually you want to use :py:func:`check()` as a better ``assert()``, so you
 don't want to catch those exceptions. The error message should
@@ -72,7 +72,7 @@ is ::
 The message shows the recursive matches of expressions, and should be enough
 to diagnose the problem. Nevertheless, you can add a third argument to specify a message that will be included
 in the error, if one is thrown. For example: ::
- 
+
     score = (2, None)
     check('tuple(int,int)', score, 'Player score must be a tuple of 2 int.' )
 
@@ -94,33 +94,33 @@ then checks that ``list[N]`` describes the second list. Now, however,
 ``N`` has already been bound, and the matching fails. The error you would see is: ::
 
     contracts.ContractNotRespected: Expected that 'N' = 2, got 3.
-    checking: N                        (N=2)   for value: Instance of int: 3                       
-    checking: list[N]                  (N=2)   for value: Instance of list: [1, 2, 3]              
-    checking: tuple(list[N],list[N])           for value: Instance of tuple: ([0, 1], [1, 2, 3]) 
+    checking: N                        (N=2)   for value: Instance of int: 3
+    checking: list[N]                  (N=2)   for value: Instance of list: [1, 2, 3]
+    checking: tuple(list[N],list[N])           for value: Instance of tuple: ([0, 1], [1, 2, 3])
 
-|pycontracts| tries hard to give you a readable message even with complicated contracts. 
+|pycontracts| tries hard to give you a readable message even with complicated contracts.
 For example, consider the complicated expression: ::
 
     check('int|str|tuple(str,int)', ('a', 'b'))
-    
-Because there is an OR (``|``), |pycontracts| will have to explain to you why 
+
+Because there is an OR (``|``), |pycontracts| will have to explain to you why
 none of the three OR clauses was satisfied. ::
 
     contracts.interface.ContractNotRespected: Could not satisfy any of the 3 clauses in int|str|tuple(str,int).
      ---- Clause #1:   int
      | Expected type 'int', got 'tuple'.
-     | checking: int      for value: Instance of tuple: ('a', 'b')   
+     | checking: int      for value: Instance of tuple: ('a', 'b')
      ---- Clause #2:   str
      | Expected a string, got 'tuple'.
-     | checking: str      for value: Instance of tuple: ('a', 'b')   
+     | checking: str      for value: Instance of tuple: ('a', 'b')
      ---- Clause #3:   tuple(str,int)
      | Expected type 'int', got 'str'.
-     | checking: int                 for value: Instance of str: 'b'            
-     | checking: tuple(str,int)      for value: Instance of tuple: ('a', 'b')   
+     | checking: int                 for value: Instance of str: 'b'
+     | checking: tuple(str,int)      for value: Instance of tuple: ('a', 'b')
      ------- (end clauses) -------
-    checking: int|str|tuple(str,int)      for value: Instance of tuple: ('a', 'b') 
+    checking: int|str|tuple(str,int)      for value: Instance of tuple: ('a', 'b')
 
-   
+
 Explicit parsing and checking
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -132,20 +132,20 @@ The function :py:func:`parse()` will return a :py:class:`Contract` object,
 which in turn has a :py:func:`Contract.check()` function you can call. ::
 
   from contracts import parse
-  
+
   contract = parse('>0')  # May raise ContractSyntaxError
   contract.check(2)       # May raise ContractNotRespected
-  
+
 
 Checking multiple values
 ^^^^^^^^^^^^^^^^^^^^^^^^
- 
+
 The most interesting uses of |pycontracts| are when it is used
 to check that multiple objects respect mutual constraints.
 
 You can use :py:func:`check_multiple()` to check that a series of values
 respect a series of contracts, that might reference each other's variables.
-The argument to  :py:func:`check_multiple()` must be a list of tuples with two elements 
+The argument to  :py:func:`check_multiple()` must be a list of tuples with two elements
 (contract, value).
 
 In the next example, we are defining a table. We want ``data``
@@ -160,50 +160,50 @@ to do all this checks with a remarkably clear, concise, and readable notation. :
             [4,5,6]]
     row_labels = ['first season', 'second season']
     col_labels = ['Team1', 'Team2', 'Team3']
-    
+
     check_multiple([('list[C](str),C>0', col_labels),
                     ('list[R](str),R>0', row_labels),
                     ('list[R](list[C](numbers))', data) ],
                    'I expect col_labels, row_labels, and data to '
                    'have coherent dimensions.')
-                    
+
 
 
 Examining the Contract objects
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you want to examine the contract object, use :py:func:`Contract.__repr__()` 
+If you want to examine the contract object, use :py:func:`Contract.__repr__()`
 for eval()uable expression,
 or :py:func:`Contract.__str__()`  to get back a representation using |pycontracts|' language. ::
 
     from contracts import parse
 
-    contract = parse(' list[N](int), N > 0')     
+    contract = parse(' list[N](int), N > 0')
 
     print("%s" % contract)   # => 'list[N](int),N>0'
-    print("%r" % contract)   
+    print("%r" % contract)
     # => And([List(BindVariable('N',int),CheckType(int)),
     #         CheckOrder(VariableRef('N'),'>',SimpleRValue(0))])
 
-The latter is useful if you are hacking |pycontracts| and you 
+The latter is useful if you are hacking |pycontracts| and you
 want to check in detail what is going on.
 
 
 Examining bound variables
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you are using binding expression, you can examine 
+If you are using binding expression, you can examine
 what variables were bound using the return values.
 The functions :py:func:`check()` and :py:func:`Contract.check()` will return
 a :py:class:`Context` object.  ::
 
       context = check('list[N](str), N>0', ['a','b','c'])
-      
+
       print('N' in context)  # => True
       print(context['N'])    # => 3
 
 
- 
+
 
 Using PyContracts in your own PyParsing-based language
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -214,7 +214,7 @@ to your PyParsing-based grammar: ::
       from contracts import contract_expression
 
       from pyparsing import Literal, Optional
-      
+
       my_grammar = ... + Optional(Literal('respects') + contract_expression)
 
 

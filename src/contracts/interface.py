@@ -12,22 +12,25 @@ class Where(object):
 
         All parsed elements contain a reference to a :py:class:`Where` object
         so that we can output pretty error messages.
-        
-        
+
+
         Character should be >= len(string) (possibly outside the string).
-        Character_end should be >= character (so that you can splice with 
+        Character_end should be >= character (so that you can splice with
         string[character:character_end])
     """
 
     def __init__(self, string, character, character_end=None):
         from contracts.utils import raise_desc
+
         if not isinstance(string, six.string_types):
-            msg = 'I expect the string to be a str, not %r' % string
+            msg = "I expect the string to be a str, not %r" % string
             raise ValueError(msg)
 
         if not (0 <= character <= len(string)):
-            msg = ('Invalid character loc %s for string of len %s.' %
-                   (character, len(string)))
+            msg = "Invalid character loc %s for string of len %s." % (
+                character,
+                len(string),
+            )
             raise_desc(ValueError, msg, string=string.__repr__())
             # Advance pointer if whitespace
             # if False:
@@ -38,18 +41,20 @@ class Where(object):
             #                                             or (character <= character_end - 1)):
             #             character += 1
             #         else:
-            #             break  
+            #             break
         self.line, self.col = line_and_col(character, string)
 
         if character_end is not None:
             if not (0 <= character_end <= len(string)):
-                msg = ('Invalid character_end loc %s for string of len %s.' %
-                       (character_end, len(string)))
+                msg = "Invalid character_end loc %s for string of len %s." % (
+                    character_end,
+                    len(string),
+                )
 
                 raise_desc(ValueError, msg, string=string.__repr__())
 
             if not (character_end >= character):
-                msg = 'Invalid interval [%d:%d]' % (character, character_end)
+                msg = "Invalid interval [%d:%d]" % (character, character_end)
                 raise ValueError(msg)
 
             self.line_end, self.col_end = line_and_col(character_end, string)
@@ -66,21 +71,29 @@ class Where(object):
         from contracts.utils import raise_desc
 
         if self.character_end is None:
-            msg = 'Character end is None'
+            msg = "Character end is None"
             raise_desc(ValueError, msg, where=self)
-        return self.string[self.character:self.character_end]
+        return self.string[self.character : self.character_end]
 
     def __repr__(self):
         if self.character_end is not None:
-            part = self.string[self.character:self.character_end]
-            return 'Where(%r)' % part
+            part = self.string[self.character : self.character_end]
+            return "Where(%r)" % part
         else:
-            return 'Where(s=...,char=%s-%s,line=%s,col=%s)' % (self.character, self.character_end, self.line, self.col)
+            return "Where(s=...,char=%s-%s,line=%s,col=%s)" % (
+                self.character,
+                self.character_end,
+                self.line,
+                self.col,
+            )
 
     def with_filename(self, filename):
         # if self.character is not None:
-        w2 = Where(string=self.string,
-                       character=self.character, character_end=self.character_end)
+        w2 = Where(
+            string=self.string,
+            character=self.character,
+            character_end=self.character_end,
+        )
         # else:
         #     w2 = Where(string=self.string, line=self.line, column=self.col)
         w2.filename = filename
@@ -91,14 +104,20 @@ class Where(object):
 
 
 # mark = 'here or nearby'
-def format_where(w, context_before=3, mark=None, arrow=True,
-                 use_unicode=True, no_mark_arrow_if_longer_than=3):
-    s = u''
+def format_where(
+    w,
+    context_before=3,
+    mark=None,
+    arrow=True,
+    use_unicode=True,
+    no_mark_arrow_if_longer_than=3,
+):
+    s = ""
     if w.filename:
-        s += 'In file %r:\n' % w.filename
-    lines = w.string.split('\n')
+        s += "In file %r:\n" % w.filename
+    lines = w.string.split("\n")
     start = max(0, w.line - context_before)
-    pattern = 'line %2d |'
+    pattern = "line %2d |"
     i = 0
     maxi = i + 1
     assert 0 <= w.line < len(lines), (w.character, w.line, w.string.__repr__())
@@ -108,7 +127,7 @@ def format_where(w, context_before=3, mark=None, arrow=True,
     for i in range(start, w.line + 1):
         # suppress empty lines
         if one_written or lines[i].strip():
-            s += (u"%s%s\n" % (pattern % (i + 1), lines[i]))
+            s += "%s%s\n" % (pattern % (i + 1), lines[i])
             one_written = True
 
     fill = len(pattern % maxi)
@@ -119,29 +138,31 @@ def format_where(w, context_before=3, mark=None, arrow=True,
     space_before = Where(w.string, char0, char0_end)
 
     nindent = printable_length_where(space_before)
-    space = u' ' * fill + u' ' * nindent
+    space = " " * fill + " " * nindent
     if w.col_end is not None:
         if w.line == w.line_end:
             num_highlight = printable_length_where(w)
-            s += space + u'~' * num_highlight + '\n'
-            space += u' ' * (num_highlight / 2)
+            s += space + "~" * num_highlight + "\n"
+            space += " " * (num_highlight / 2)
         else:
             # cannot highlight if on different lines
             num_highlight = None
             pass
     else:
         num_highlight = None
-    # Do not add the arrow and the mark if we have a long underline string 
+    # Do not add the arrow and the mark if we have a long underline string
 
-    disable_mark_arrow = (num_highlight is not None) and (no_mark_arrow_if_longer_than < num_highlight)
+    disable_mark_arrow = (num_highlight is not None) and (
+        no_mark_arrow_if_longer_than < num_highlight
+    )
 
     if not disable_mark_arrow:
         if arrow:
             if use_unicode:
-                s += space + u'↑\n'
+                s += space + "↑\n"
             else:
-                s += space + u'^\n'
-                s += space + u'|\n'
+                s += space + "^\n"
+                s += space + "|\n"
 
         if mark is not None:
             s += space + mark
@@ -159,7 +180,7 @@ def printable_length_where(w):
         stype = str
     else:
         stype = unicode
-    sub = w.string[w.character:w.character_end]
+    sub = w.string[w.character : w.character_end]
     # return len(stype(sub, 'utf-8'))
     # I am not really sure this is what we want
     return len(stype(sub))
@@ -171,10 +192,11 @@ import six
 def line_and_col(loc, strg):
     """Returns (line, col), both 0 based."""
     from .utils import check_isinstance
+
     check_isinstance(loc, int)
     check_isinstance(strg, six.string_types)
-    # first find the line 
-    lines = strg.split('\n')
+    # first find the line
+    lines = strg.split("\n")
 
     if loc == len(strg):
         # Special case: we mark the end of the string
@@ -183,8 +205,7 @@ def line_and_col(loc, strg):
         return last_line, last_char
 
     if loc > len(strg):
-        msg = ('Invalid loc = %d for s of len %d (%r)' %
-               (loc, len(strg), strg))
+        msg = "Invalid loc = %d for s of len %d (%r)" % (loc, len(strg), strg)
         raise ValueError(msg)
 
     res_line = 0
@@ -195,42 +216,52 @@ def line_and_col(loc, strg):
             break
 
         first = lines[0]
-        if l >= len(first) + len('\n'):
+        if l >= len(first) + len("\n"):
             lines = lines[1:]
-            l -= (len(first) + len('\n'))
+            l -= len(first) + len("\n")
             res_line += 1
         else:
             break
     res_col = l
     inverse = location(res_line, res_col, strg)
     if inverse != loc:
-        msg = 'Could not find line and col'
+        msg = "Could not find line and col"
         from .utils import raise_desc
-        raise_desc(AssertionError, msg, s=strg, loc=loc, res_line=res_line,
-                   res_col=res_col, loc_recon=inverse)
+
+        raise_desc(
+            AssertionError,
+            msg,
+            s=strg,
+            loc=loc,
+            res_line=res_line,
+            res_col=res_col,
+            loc_recon=inverse,
+        )
 
     return (res_line, res_col)
 
 
 def location(line, col, s):
     from .utils import check_isinstance
+
     check_isinstance(line, int)
     check_isinstance(col, int)
     check_isinstance(s, six.string_types)
 
-    lines = s.split('\n')
-    previous_lines = sum(len(l) + len('\n') for l in lines[:line])
+    lines = s.split("\n")
+    previous_lines = sum(len(l) + len("\n") for l in lines[:line])
     offset = col
     return previous_lines + offset
 
 
 def add_prefix(s, prefix):
     from contracts import check_isinstance
+
     check_isinstance(s, six.string_types)
     check_isinstance(prefix, six.string_types)
     result = ""
-    for l in s.split('\n'):
-        result += prefix + l + '\n'
+    for l in s.split("\n"):
+        result += prefix + l + "\n"
     # chop last newline
     result = result[:-1]
     return result
@@ -254,13 +285,12 @@ class ContractDefinitionError(ContractException):
 
 
 class ExternalScopedVariableNotFound(ContractDefinitionError):
-
     def __init__(self, token):
         ContractDefinitionError.__init__(self, token)
 
     def __str__(self):
         token = self.get_token()
-        return 'Token not found: %r.' % (token)
+        return "Token not found: %r." % (token)
 
     def get_token(self):
         return self.args[0]
@@ -283,7 +313,7 @@ class ContractSyntaxError(ContractDefinitionError):
         error, where = self.args
         s = error
         if where is not None:
-            s += "\n\n" + add_prefix(where.__str__(), ' ')
+            s += "\n\n" + add_prefix(where.__str__(), " ")
         return s
 
 
@@ -311,22 +341,26 @@ class ContractNotRespected(ContractException):
             keys = sorted(context)
 
             # don't display these two if are not used
-            for x in ['args', 'kwargs']:
-                if x in keys and not context[x]: keys.remove(x)
+            for x in ["args", "kwargs"]:
+                if x in keys and not context[x]:
+                    keys.remove(x)
 
             try:
-                varss = ['- %s: %s' % (k, describe_value(context[k], clip=70))
-                         for k in keys]
+                varss = [
+                    "- %s: %s" % (k, describe_value(context[k], clip=70)) for k in keys
+                ]
                 contexts = "\n".join(varss)
             except:
-                contexts = '! cannot write context'
+                contexts = "! cannot write context"
             return contexts
 
         align = []
         for (contract, context, value) in self.stack:  # @UnusedVariable
             # cons = ("%s %s" % (contract, contexts)).ljust(30)
-            row = ['checking: %s' % contract,
-                   'for value: %s' % describe_value(value, clip=70)]
+            row = [
+                "checking: %s" % contract,
+                "for value: %s" % describe_value(value, clip=70),
+            ]
             align.append(row)
 
         msg += format_table(align, colspacing=3)
@@ -334,8 +368,9 @@ class ContractNotRespected(ContractException):
         context0 = self.stack[0][1]
 
         if context0:
-            msg += ('\nVariables bound in inner context:\n%s'
-                    % context_to_string(context0))
+            msg += "\nVariables bound in inner context:\n%s" % context_to_string(
+                context0
+            )
 
         return msg
 
@@ -344,24 +379,22 @@ def format_table(rows, colspacing=1):
     sizes = []
     for i in range(len(rows[0])):
         sizes.append(max(len(row[i]) for row in rows))
-    s = ''
+    s = ""
     for row in rows:
-        s += '\n'
+        s += "\n"
         for size, cell in zip(sizes, row):
             s += cell.ljust(size)
-            s += ' ' * colspacing
+            s += " " * colspacing
     return s
 
 
 class RValue(with_metaclass(ABCMeta, object)):
-
     @abstractmethod
     def eval(self, context):  # @UnusedVariable @ReservedAssignment
         """ Can raise ValueError; will be wrapped in ContractNotRespected. """
 
     def __eq__(self, other):
-        return (self.__class__ == other.__class__ and
-                self.__repr__() == other.__repr__())
+        return self.__class__ == other.__class__ and self.__repr__() == other.__repr__()
 
     @abstractmethod
     def __repr__(self):
@@ -378,15 +411,13 @@ def eval_in_context(context, value, contract):
     try:
         return value.eval(context)
     except ValueError as e:
-        msg = 'Error while evaluating RValue %r: %s' % (value, e)
+        msg = "Error while evaluating RValue %r: %s" % (value, e)
         raise ContractNotRespected(contract, msg, value, context)
 
 
 class Contract(with_metaclass(ABCMeta, object)):
-
     def __init__(self, where):
-        assert ((where is None) or
-                (isinstance(where, Where), 'Wrong type %s' % where))
+        assert (where is None) or (isinstance(where, Where), "Wrong type %s" % where)
         self.where = where
         self.enable()
 
@@ -419,11 +450,10 @@ class Contract(with_metaclass(ABCMeta, object)):
         except ContractNotRespected:
             pass
         else:
-            msg = ('I did not expect that this value would '
-                   'satisfy this contract.\n')
-            msg += '-    value: %s\n' % describe_value(value)
-            msg += '- contract: %s\n' % self
-            msg += '-  context: %r' % context
+            msg = "I did not expect that this value would " "satisfy this contract.\n"
+            msg += "-    value: %s\n" % describe_value(value)
+            msg += "- contract: %s\n" % self
+            msg += "-  context: %r" % context
             raise ValueError(msg)
 
     @abstractmethod
@@ -433,8 +463,8 @@ class Contract(with_metaclass(ABCMeta, object)):
             context. This is the function that subclasses must implement.
 
             If silent = False, do not bother with creating detailed error messages yet.
-            This is for performance optimization. 
-            
+            This is for performance optimization.
+
             :param context: The context in which expressions are evaluated.
             :type context:
         """
@@ -531,8 +561,7 @@ class Contract(with_metaclass(ABCMeta, object)):
         """
 
     def __eq__(self, other):
-        return (self.__class__ == other.__class__ and
-                self.__repr__() == other.__repr__())
+        return self.__class__ == other.__class__ and self.__repr__() == other.__repr__()
 
 
 inPy2 = sys.version_info[0] == 2
@@ -543,7 +572,7 @@ if inPy2:
 def clipped_repr(x, clip):
     s = "{0!r}".format(x)
     if len(s) > clip:
-        clip_tag = '... [clip]'
+        clip_tag = "... [clip]"
         cut = clip - len(clip_tag)
         s = "%s%s" % (s[:cut], clip_tag)
     return s
@@ -553,18 +582,18 @@ def clipped_repr(x, clip):
 
 
 def remove_newlines(s):
-    return s.replace('\n', ' ')
+    return s.replace("\n", " ")
 
 
 def describe_type(x):
     """ Returns a friendly description of the type of x. """
     if inPy2 and isinstance(x, ClassType):
-        class_name = '(old-style class) %s' % x
+        class_name = "(old-style class) %s" % x
     else:
-        if hasattr(x, '__class__'):
+        if hasattr(x, "__class__"):
             c = x.__class__
-            if hasattr(x, '__name__'):
-                class_name = '%s' % c.__name__
+            if hasattr(x, "__name__"):
+                class_name = "%s" % c.__name__
             else:
                 class_name = str(c)
         else:
@@ -578,32 +607,33 @@ def describe_value(x, clip=80):
     """ Describes an object, for use in the error messages.
         Short description, no multiline.
     """
-    if hasattr(x, 'shape') and hasattr(x, 'dtype'):
-        shape_desc = 'x'.join(str(i) for i in x.shape)
-        desc = 'array[%r](%s) ' % (shape_desc, x.dtype)
+    if hasattr(x, "shape") and hasattr(x, "dtype"):
+        shape_desc = "x".join(str(i) for i in x.shape)
+        desc = "array[%r](%s) " % (shape_desc, x.dtype)
         final = desc + clipped_repr(x, clip - len(desc))
         return remove_newlines(final)
     else:
         class_name = describe_type(x)
-        desc = 'Instance of %s: ' % class_name
+        desc = "Instance of %s: " % class_name
         final = desc + clipped_repr(x, clip - len(desc))
         return remove_newlines(final)
 
 
 def describe_value_multiline(x):
     """ Describes an object, for use in the error messages. """
-    if hasattr(x, 'shape') and hasattr(x, 'dtype'):
+    if hasattr(x, "shape") and hasattr(x, "dtype"):
         # XXX this fails for bs4, Tag
         if x.shape is not None:
-            shape_desc = 'x'.join(str(i) for i in x.shape)
-            desc = 'array[%r](%s) ' % (shape_desc, x.dtype)
-            final = desc + '\n' + x.__repr__()
+            shape_desc = "x".join(str(i) for i in x.shape)
+            desc = "array[%r](%s) " % (shape_desc, x.dtype)
+            final = desc + "\n" + x.__repr__()
             return final
         else:
             return x.__repr__()
     else:
         if isinstance(x, six.string_types):
-            if x == '': return "''"
+            if x == "":
+                return "''"
             return x
         # XXX: this does not represent strings
 
@@ -616,11 +646,11 @@ def describe_value_multiline(x):
         else:
             class_name = describe_type(x)
             # TODO: add all types
-            desc = 'Instance of %s.' % class_name
+            desc = "Instance of %s." % class_name
             try:
                 # This fails for classes
                 final = "{}\n{}".format(desc, x.__repr__())
-            except: # XXX
+            except:  # XXX
                 final = "%s\n%s" % (desc, x)
 
             return final

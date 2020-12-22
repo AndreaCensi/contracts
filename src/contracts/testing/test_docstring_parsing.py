@@ -4,7 +4,8 @@ from ..docstring_parsing import DocStringInfo, Arg, number_of_spaces
 from contracts.interface import add_prefix
 
 
-examples = {"""
+examples = {
+    """
         Provides a RGB representation of the values by interpolating the range
         [min(value),max(value)] into the colorspace [min_color, max_color].
 
@@ -24,21 +25,21 @@ examples = {"""
 
         :return: gray
 
-    """: DocStringInfo(docstring='\n        Provides a RGB representation of the values by interpolating the range\n'
-                         '        [min(value),max(value)] into the colorspace [min_color, max_color].\n',
-  params={
-        'value': Arg('The field to represent.', 'HxW array'),
-        'max_value': Arg('If specified, everything *above* is clipped.', 'float'),
-        'min_value': Arg('If specified, everything *below* is clipped.', 'float'),
-        'min_color': Arg('Color to give to the minimum values.', None),
-  },
-  returns=[Arg('A RGB image.', "HxWx3 uint8"), Arg('gray', None)]
-)
+    """: DocStringInfo(
+        docstring="\n        Provides a RGB representation of the values by interpolating the range\n"
+        "        [min(value),max(value)] into the colorspace [min_color, max_color].\n",
+        params={
+            "value": Arg("The field to represent.", "HxW array"),
+            "max_value": Arg("If specified, everything *above* is clipped.", "float"),
+            "min_value": Arg("If specified, everything *below* is clipped.", "float"),
+            "min_color": Arg("Color to give to the minimum values.", None),
+        },
+        returns=[Arg("A RGB image.", "HxWx3 uint8"), Arg("gray", None)],
+    )
 }
 
 
 class DocStringTest(unittest.TestCase):
-
     def test_parsing(self):
         for string in examples:
             parsed = DocStringInfo.parse(string)
@@ -48,30 +49,33 @@ class DocStringTest(unittest.TestCase):
             self.assertEqual(result, parsed)
 
     def test_number_of_spaces(self):
-        self.assertEqual(number_of_spaces(''), 0)
-        self.assertEqual(number_of_spaces(' '), 1)
-        self.assertEqual(number_of_spaces('  '), 2)
-        self.assertEqual(number_of_spaces('11'), 0)
-        self.assertEqual(number_of_spaces(' 223'), 1)
-        self.assertEqual(number_of_spaces('  4343'), 2)
+        self.assertEqual(number_of_spaces(""), 0)
+        self.assertEqual(number_of_spaces(" "), 1)
+        self.assertEqual(number_of_spaces("  "), 2)
+        self.assertEqual(number_of_spaces("11"), 0)
+        self.assertEqual(number_of_spaces(" 223"), 1)
+        self.assertEqual(number_of_spaces("  4343"), 2)
 
     def test_reparsing(self):
-        for string, result in examples.items(): #@UnusedVariable
+        for string, result in examples.items():  # @UnusedVariable
             parsed = DocStringInfo.parse(string)
             converted = "%s" % parsed
             reparsed = DocStringInfo.parse(converted)
 
-            msg = ('First string:\n%s\nParsed as:\n%s\n' %
-                (add_prefix(string, '|'), add_prefix('%r' % parsed, '|')))
+            msg = "First string:\n%s\nParsed as:\n%s\n" % (
+                add_prefix(string, "|"),
+                add_prefix("%r" % parsed, "|"),
+            )
 
-            msg += ('Converted:\n%s\nReparsed as:\n%s\n' %
-                (add_prefix(converted, '|'), add_prefix('%r' % reparsed, '|')))
+            msg += "Converted:\n%s\nReparsed as:\n%s\n" % (
+                add_prefix(converted, "|"),
+                add_prefix("%r" % reparsed, "|"),
+            )
 
             self.assertEqual(parsed, reparsed, msg=msg)
 
     def test_inline_params(self):
-        def test_inline_parsing(docstring, expected_type="type",
-                                expected_desc="desc"):
+        def test_inline_parsing(docstring, expected_type="type", expected_desc="desc"):
             info = DocStringInfo.parse(docstring)
             self.assertTrue("name" in info.params)
             self.assertEqual(info.params["name"].type, expected_type)
@@ -89,8 +93,7 @@ class DocStringTest(unittest.TestCase):
         test_inline_parsing(" : param type , > 0  name : ", "type , > 0", None)
 
     def test_inline_returns(self):
-        def test_inline_parsing(docstring, expected_type="type",
-                                expected_desc="desc"):
+        def test_inline_parsing(docstring, expected_type="type", expected_desc="desc"):
             info = DocStringInfo.parse(docstring)
             self.assertTrue(len(info.returns) > 0)
             self.assertEqual(info.returns[0].type, expected_type)

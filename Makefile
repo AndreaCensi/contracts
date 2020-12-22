@@ -28,4 +28,3 @@ test-python3-install:
 	pip install -r requirements.txt
 	pip install nose
 	python setup.py develop --no-deps
-

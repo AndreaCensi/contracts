@@ -10,7 +10,7 @@ PyContracts
 
 .. include:: menu.txt
 
-.. _introduction: 
+.. _introduction:
 
 Introduction to PyContracts
 ---------------------------
@@ -21,4 +21,3 @@ Introduction to PyContracts
 
 .. raw:: html
    :file: tracking.html
-

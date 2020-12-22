@@ -58,7 +58,7 @@ Manually checking values
 
    .. automethod:: __repr__()
 
-   .. automethod:: __str__()    
+   .. automethod:: __str__()
 
 Miscellaneous
 ------------------------

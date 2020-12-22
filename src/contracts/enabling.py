@@ -4,14 +4,14 @@ import os
 
 class Switches:
     # default to ENV variable
-    disable_all = os.environ.get('DISABLE_CONTRACTS', False)
+    disable_all = os.environ.get("DISABLE_CONTRACTS", False)
 
 
 def disable_all():
     """ Disables all contracts checks. """
-#     print('disable_all()')
+    #     print('disable_all()')
     Switches.disable_all = True
-    logger.info('All contracts checking disabled.')
+    logger.info("All contracts checking disabled.")
 
 
 def enable_all():
@@ -19,14 +19,13 @@ def enable_all():
     Enables all contracts checks.
     Can be overridden by an environment variable.
     """
-#     print('enable_all()')
-    if not os.environ.get('DISABLE_CONTRACTS', False):
+    #     print('enable_all()')
+    if not os.environ.get("DISABLE_CONTRACTS", False):
         Switches.disable_all = False
-        logger.info('All contracts checking enabled.')
+        logger.info("All contracts checking enabled.")
 
 
 def all_disabled():
-#     print('all_Disabled? %s' % Switches.disable_all)
+    #     print('all_Disabled? %s' % Switches.disable_all)
     """ Returns true if all contracts checks are disabled. """
     return Switches.disable_all
-

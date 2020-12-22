@@ -20,5 +20,3 @@ def syntax_fail(s):
 
 def fail(a, b, exact=True):
     contract_fail_examples.append((a, b, exact))
-
-

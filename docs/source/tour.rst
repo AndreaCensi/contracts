@@ -15,14 +15,14 @@ the result value is of compatible dimensions as well. ::
 
     import numpy
     from contracts import contract
-    
+
     @contract
     def matrix_multiply(a,  b):
         ''' Multiplies two matrices together.
-        
+
             :param a: The first matrix. Must be a 2D array.
              :type a: array[MxN],M>0,N>0
-            
+
             :param b: The second matrix. Must be of compatible dimensions.
              :type b: array[NxP],P>0
 
@@ -32,8 +32,8 @@ the result value is of compatible dimensions as well. ::
 
 |pycontracts| can come in handy when you have operations
 that could be one-liners if you are sure of the types of
-the parameters, but doing all the checking adds to the 
-complexity of the code.  
+the parameters, but doing all the checking adds to the
+complexity of the code.
 
 
 ..
@@ -44,20 +44,20 @@ complexity of the code.
         '''
         # one-liner if we don't have to check
         ...
-        
-In the next example we check that: 
 
-- The two lists have elements of the same type (indicated by the variable ``x``); 
+In the next example we check that:
+
+- The two lists have elements of the same type (indicated by the variable ``x``);
 
 - The returned list has the correct size (the sum of the two lengths). ::
-    
-    @contract(      a='list[ M ](type(x))', 
-                     b='list[ N ](type(x))', 
+
+    @contract(      a='list[ M ](type(x))',
+                     b='list[ N ](type(x))',
                returns='list[M+N](type(x))')
     def my_cat_equal(a, b):
         ''' Concatenate two lists together. '''
         return a + b
-    
+
 The philosophy is to make the simple cases easy, and the difficult
 possible, while still retaining readability.
 
@@ -79,13 +79,13 @@ or specify more about it using the additional clauses.
    * - ``list(number)``
      - A list of numbers.
    * - ``list[3](number)``
-     - A list of exactly three numbers. 
+     - A list of exactly three numbers.
    * - ``list[>=3](number)``
      - A list of at least three numbers.
    * - ``list[>=3](number, >0)``
      - A list of at least three numbers, greater than 0.
 
-|pycontracts| supports the use of variables. 
+|pycontracts| supports the use of variables.
 There are two kinds of variables: lower-case letters (``a``, ``b``, ...)
 are general-purpose variables, while upper-case letters (``A``, ``B``, ...)
 are constrained to bind to integer types; they are meant to represent
@@ -105,7 +105,7 @@ sizes and shapes. Moreover, |pycontracts| can do arithmetic and comparisons.
      - A tuple with two lists, the first one being shorter.
 
    * - ``list[>0](type(x))``
-     - A non-empty list containing elements of all the same type. 
+     - A non-empty list containing elements of all the same type.
 
    * - ``tuple(list(type(x)), list(type(x)))``
      - A tuple with two lists containing objects of the same type.

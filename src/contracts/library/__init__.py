@@ -18,9 +18,14 @@ from .files import File
 from .comparison import CheckOrder
 from .arithmetic import Binary, Unary
 from .compositions import OR, And, Not, composite_contract, or_contract
-from .variables import (BindVariable, VariableRef, misc_variables_contract,
-                        int_variables_contract, misc_variables_ref,
-                        int_variables_ref)
+from .variables import (
+    BindVariable,
+    VariableRef,
+    misc_variables_contract,
+    int_variables_contract,
+    misc_variables_ref,
+    int_variables_ref,
+)
 from .simple_values import EqualTo, SimpleRValue
 
 try:
@@ -28,11 +33,23 @@ try:
 except ImportError:  # pragma: no cover
     pass
 else:
-    from .array import (ShapeContract, Shape, Array, ArrayConstraint, DType,
-                        dtype, ArrayOR, ArrayAnd)
+    from .array import (
+        ShapeContract,
+        Shape,
+        Array,
+        ArrayConstraint,
+        DType,
+        dtype,
+        ArrayOR,
+        ArrayAnd,
+    )
 
-from .extensions import (identifier_expression, identifier_contract,
-                         Extension, CheckCallable)
+from .extensions import (
+    identifier_expression,
+    identifier_contract,
+    Extension,
+    CheckCallable,
+)
 
 from .isinstance_imp import *
 from .scoped_variables import scoped_variables_ref

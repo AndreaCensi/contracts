@@ -3,74 +3,73 @@ import sys
 from setuptools import setup, find_packages
 
 if sys.version_info.major == 2:
-    msg = 'PyContracts3 is a Python 3 package. You are using Python 2.'
+    msg = "PyContracts3 is a Python 3 package. You are using Python 2."
     raise Exception(msg)
 
 description = (
-    'PyContracts is a Python package that allows to declare '
-    'constraints on function parameters and return values. '
-    'Contracts can be specified using Python3 annotations, '
-    'in a decorator, or inside a docstring :type: and :rtype: tags. '
-    'PyContracts supports a basic type system, variables binding, '
-    'arithmetic constraints, and has several specialized '
-    'contracts (notably for Numpy arrays), as well as an extension API.')
+    "PyContracts is a Python package that allows to declare "
+    "constraints on function parameters and return values. "
+    "Contracts can be specified using Python3 annotations, "
+    "in a decorator, or inside a docstring :type: and :rtype: tags. "
+    "PyContracts supports a basic type system, variables binding, "
+    "arithmetic constraints, and has several specialized "
+    "contracts (notably for Numpy arrays), as well as an extension API."
+)
 
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
-long_description = read('README.rst')
+long_description = read("README.rst")
 
 
 def get_version(filename):
     import ast
+
     version = None
     with open(filename) as f:
         for line in f:
-            if line.startswith('__version__'):
+            if line.startswith("__version__"):
                 version = ast.parse(line).body[0].value.s
                 break
         else:
-            raise ValueError('No version found in %r.' % filename)
+            raise ValueError("No version found in %r." % filename)
     if version is None:
         raise ValueError(filename)
     return version
 
 
-version = get_version(filename='src/contracts/__init__.py')
+version = get_version(filename="src/contracts/__init__.py")
 
-install_requires = ['pyparsing', 'decorator', 'six', 'future']
+install_requires = ["pyparsing", "decorator", "six", "future"]
 
-setup(name='PyContracts3',
-      author="Andrea Censi",
-      url='http://andreacensi.github.com/contracts/',
-
-      description=description,
-      long_description=long_description,
-      keywords="type checking, value checking, contracts",
-      license="LGPL",
-
-      classifiers=[
-          'Development Status :: 5 - Production/Stable',
-          'Intended Audience :: Developers',
-          'License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)',
-          'Topic :: Software Development :: Quality Assurance',
-          'Topic :: Software Development :: Documentation',
-          'Topic :: Software Development :: Testing',
-          'Programming Language :: Python :: 2.7',
-          'Programming Language :: Python :: 3',
-          'Programming Language :: Python :: 3.4',
-          'Programming Language :: Python :: 3.5',
-          'Programming Language :: Python :: 3.6',
-      ],
-
-      version=version,
-      download_url='http://github.com/AndreaCensi/contracts/tarball/%s' % version,
-
-      package_dir={'': 'src'},
-      packages=find_packages('src'),
-      install_requires=install_requires,
-      tests_require=['nose'],
-      entry_points={},
-      )
+setup(
+    name="PyContracts3",
+    author="Andrea Censi",
+    url="http://andreacensi.github.com/contracts/",
+    description=description,
+    long_description=long_description,
+    keywords="type checking, value checking, contracts",
+    license="LGPL",
+    classifiers=[
+        "Development Status :: 5 - Production/Stable",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)",
+        "Topic :: Software Development :: Quality Assurance",
+        "Topic :: Software Development :: Documentation",
+        "Topic :: Software Development :: Testing",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+    ],
+    version=version,
+    download_url="http://github.com/AndreaCensi/contracts/tarball/%s" % version,
+    package_dir={"": "src"},
+    packages=find_packages("src"),
+    install_requires=install_requires,
+    tests_require=["nose"],
+    entry_points={},
+)

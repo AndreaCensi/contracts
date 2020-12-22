@@ -1,5 +1,5 @@
 PyContracts is Copyright 2010, Andrea Censi, California Institute of Technology.
-It is released under the terms of the GNU Lesser General Public License, 
+It is released under the terms of the GNU Lesser General Public License,
 version 3, as reproduced below.
 
 -----------------------------------------------------------------------
@@ -169,7 +169,3 @@ whether future versions of the GNU Lesser General Public License shall
 apply, that proxy's public statement of acceptance of any version is
 permanent authorization for you to choose that version for the
 Library.
-
-
-
-
