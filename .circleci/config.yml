@@ -18,7 +18,7 @@ jobs:
       - run:
           name: Install deps
           command: |
-            pip install --user --upgrade -r requirements.txt
+            pip install -q --user --upgrade -r requirements.txt
 
             python setup.py develop --prefix ~/.local --no-deps
 
