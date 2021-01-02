@@ -4,13 +4,13 @@ version_file: "1"
 modules:
   - contracts
 
-install_requires: []
+install_requires: [ "pyparsing", "decorator", "six", "future", "nose", "numpy" ]
 
 install_conflicts: [ 'PyContracts*' ]
 tests_require: [ ]
 
-console_scripts: []
-#  zt-demo: zuper_utils_asyncio:zt_demo
+console_scripts: [ ]
+
 nose:
   modules:
     - contracts

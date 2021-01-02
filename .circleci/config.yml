@@ -25,7 +25,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            pip install --user nose
+            pip install -q --user nose
             PATH=~/.local/bin:$PATH nosetests contracts
 
   test-3.7:
