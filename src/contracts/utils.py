@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import traceback
 import warnings
@@ -52,9 +51,7 @@ def deprecated(func):
 
     def new_func(*args, **kwargs):
         warnings.warn(
-            "Call to deprecated function %s." % func.__name__,
-            category=DeprecationWarning,
-            stacklevel=2,
+            "Call to deprecated function %s." % func.__name__, category=DeprecationWarning, stacklevel=2,
         )
         return func(*args, **kwargs)
 

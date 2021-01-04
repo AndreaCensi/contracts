@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 import sys
@@ -28,10 +27,7 @@ class Where(object):
             raise ValueError(msg)
 
         if not (0 <= character <= len(string)):
-            msg = "Invalid character loc %s for string of len %s." % (
-                character,
-                len(string),
-            )
+            msg = "Invalid character loc %s for string of len %s." % (character, len(string),)
             raise_desc(ValueError, msg, string=string.__repr__())
             # Advance pointer if whitespace
             # if False:
@@ -47,10 +43,7 @@ class Where(object):
 
         if character_end is not None:
             if not (0 <= character_end <= len(string)):
-                msg = "Invalid character_end loc %s for string of len %s." % (
-                    character_end,
-                    len(string),
-                )
+                msg = "Invalid character_end loc %s for string of len %s." % (character_end, len(string),)
 
                 raise_desc(ValueError, msg, string=string.__repr__())
 
@@ -90,11 +83,7 @@ class Where(object):
 
     def with_filename(self, filename):
         # if self.character is not None:
-        w2 = Where(
-            string=self.string,
-            character=self.character,
-            character_end=self.character_end,
-        )
+        w2 = Where(string=self.string, character=self.character, character_end=self.character_end,)
         # else:
         #     w2 = Where(string=self.string, line=self.line, column=self.col)
         w2.filename = filename
@@ -106,12 +95,7 @@ class Where(object):
 
 # mark = 'here or nearby'
 def format_where(
-    w,
-    context_before=3,
-    mark=None,
-    arrow=True,
-    use_unicode=True,
-    no_mark_arrow_if_longer_than=3,
+    w, context_before=3, mark=None, arrow=True, use_unicode=True, no_mark_arrow_if_longer_than=3,
 ):
     s = ""
     if w.filename:
@@ -153,9 +137,7 @@ def format_where(
         num_highlight = None
     # Do not add the arrow and the mark if we have a long underline string
 
-    disable_mark_arrow = (num_highlight is not None) and (
-        no_mark_arrow_if_longer_than < num_highlight
-    )
+    disable_mark_arrow = (num_highlight is not None) and (no_mark_arrow_if_longer_than < num_highlight)
 
     if not disable_mark_arrow:
         if arrow:
@@ -230,13 +212,7 @@ def line_and_col(loc, strg):
         from .utils import raise_desc
 
         raise_desc(
-            AssertionError,
-            msg,
-            s=strg,
-            loc=loc,
-            res_line=res_line,
-            res_col=res_col,
-            loc_recon=inverse,
+            AssertionError, msg, s=strg, loc=loc, res_line=res_line, res_col=res_col, loc_recon=inverse,
         )
 
     return (res_line, res_col)
@@ -347,9 +323,7 @@ class ContractNotRespected(ContractException):
                     keys.remove(x)
 
             try:
-                varss = [
-                    "- %s: %s" % (k, describe_value(context[k], clip=70)) for k in keys
-                ]
+                varss = ["- %s: %s" % (k, describe_value(context[k], clip=70)) for k in keys]
                 contexts = "\n".join(varss)
             except:
                 contexts = "! cannot write context"
@@ -369,9 +343,7 @@ class ContractNotRespected(ContractException):
         context0 = self.stack[0][1]
 
         if context0:
-            msg += "\nVariables bound in inner context:\n%s" % context_to_string(
-                context0
-            )
+            msg += "\nVariables bound in inner context:\n%s" % context_to_string(context0)
 
         return msg
 

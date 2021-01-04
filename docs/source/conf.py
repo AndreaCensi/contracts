@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 #
 # procgraph documentation build configuration file, created by
 # sphinx-quickstart on Tue Jul 27 15:21:25 2010.
