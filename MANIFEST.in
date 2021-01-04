@@ -3,3 +3,5 @@ include *.md
 include *.txt
 include *.cfg
 include *.mk
+include setup.json
+exclude project.pp1.yaml
