@@ -9,7 +9,7 @@ install_requires: [ "pyparsing", "decorator", "six", "future", "nose", "numpy" ]
 install_conflicts: [ 'PyContracts*' ]
 tests_require: [ ]
 
-console_scripts: [ ]
+console_scripts: {}
 
 nose:
   modules:
