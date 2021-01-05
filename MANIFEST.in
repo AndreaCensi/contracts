@@ -5,3 +5,8 @@ include *.cfg
 include *.mk
 include setup.json
 exclude project.pp1.yaml
+exclude Makefile
+prune .circleci
+exclude .gitignore
+exclude .bumpversion.cfg
+exclude .pre-commit-config.yaml
