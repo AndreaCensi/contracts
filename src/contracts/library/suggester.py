@@ -89,7 +89,8 @@ def create_suggester(get_options, get_message=default_message, pattern=None):
         msg = "Bug in syntax: I was not supposed to match %r." % identifier
         msg += "(options: %s)" % options
 
-        msg += """ Suggestions on the cause:
+        msg += """
+         Suggestions on the cause:
             1) Use add_keyword(), always.
 
             2) Use:

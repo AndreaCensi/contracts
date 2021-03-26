@@ -1,0 +1,29 @@
+{
+  "install_requires": [
+    "decorator",
+    "future",
+    "nose",
+    "numpy",
+    "pyparsing",
+    "six"
+  ],
+  "tests_require": [],
+  "srcdir": "src",
+  "package_name": "PyContracts3",
+  "entry_points": {
+    "console_scripts": []
+  },
+  "zip_safe": false,
+  "include_package_data": false,
+  "modules": [
+    "contracts",
+    "contracts.library",
+    "contracts.testing",
+    "contracts.testing.library",
+    "contracts.useful_contracts"
+  ],
+  "version": "7.1.2101052341",
+  "author": "",
+  "author_email": "info@zupermind.com",
+  "url": "http://github.com/zupermind/PACKAGENAME"
+}
