@@ -2,7 +2,7 @@
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.0.0
+    rev: v3.4.0
     hooks:
       #    -   id: trailing-whitespace
       #    -   id: end-of-file-fixer
@@ -19,12 +19,12 @@ repos:
     # -   id: flake8
     #     args: [--max-line-length=100]
   - repo: https://github.com/psf/black
-    rev: stable
+    rev: 20.8b1
     hooks:
       - id: black
-        language_version: python3.7
+        language_version: python3.8
         args: [ "-l", '110' ]
 #exclude: .bumpversion.cfg
 files: ^src/.*py
 
-# sigil 2a285a7882034cf48ac20defe109ba14
+# sigil ebdd7ad020d342fe90ba058f03aff064
