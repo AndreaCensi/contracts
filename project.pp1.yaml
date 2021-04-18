@@ -23,11 +23,11 @@ pypi:
 
 circleci:
   active: true
-  test_python_versions: [ '3.7', '3.8' ]
+  test_python_versions: [ '3.8' ]
 
-python_syntax_version: '3.7'
+python_syntax_version: '3.8'
 
-url: http://github.com/zupermind/PACKAGENAME
+url: https://github.com/zupermind/PACKAGENAME
 author: ''
 author_email: 'info@zupermind.com'
 short_description: ''
