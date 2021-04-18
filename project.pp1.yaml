@@ -4,7 +4,7 @@ version_file: "1"
 modules:
   - contracts
 
-install_requires: [ "pyparsing", "decorator", "six", "future", "nose", "numpy" ]
+install_requires: [ "pyparsing<3", "decorator", "six", "future", "nose", "numpy" ]
 
 install_conflicts: [ 'PyContracts*' ]
 tests_require: [ ]
