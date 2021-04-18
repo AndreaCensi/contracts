@@ -9,11 +9,11 @@ repos:
       #    -   id: check-yaml
       - id: check-added-large-files
       - id: check-case-conflict
-      - id: check-docstring-first
+      # - id: check-docstring-first
       - id: check-executables-have-shebangs
       - id: check-merge-conflict
       - id: check-symlinks
-#      - id: check-json
+      # - id: check-json
 
 
     # -   id: flake8
@@ -24,7 +24,9 @@ repos:
       - id: black
         language_version: python3.8
         args: [ "-l", '110' ]
+
 #exclude: .bumpversion.cfg
+
 files: ^src/.*py
 
-# sigil ebdd7ad020d342fe90ba058f03aff064
+# sigil 9ac8f1e020c51b34fa0c9b3426ca7565
