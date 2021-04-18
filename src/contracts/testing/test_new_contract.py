@@ -220,18 +220,18 @@ class TestNewContract(unittest.TestCase):
         # Now use ``color`` in other contracts.
         @contract
         def fill_area(inside, border):
-            """ Fill the area inside the current figure.
+            """Fill the area inside the current figure.
 
-                :type border: color
-                :type inside: color
+            :type border: color
+            :type inside: color
             """
             pass
 
         @contract
         def fill_gradient(colors):
-            """ Use a gradient to fill the area.
+            """Use a gradient to fill the area.
 
-                :type colors: list(color)
+            :type colors: list(color)
             """
             pass
 

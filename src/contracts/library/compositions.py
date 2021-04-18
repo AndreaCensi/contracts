@@ -56,9 +56,7 @@ class OR(Logical, Contract):
         else:
             if silent:
                 msg = "(Error description suppressed.)"
-                raise ContractNotRespected(
-                    contract=self, error=msg, value=value, context=context
-                )
+                raise ContractNotRespected(contract=self, error=msg, value=value, context=context)
 
             # otherwise need to do it again with detailed error messages
             self.get_error(orig, value)
@@ -78,9 +76,7 @@ class OR(Logical, Contract):
                 exceptions.append((c, e))
         else:
             msg = self._format_exceptions(exceptions)
-            raise ContractNotRespected(
-                contract=self, error=msg, value=value, context=context
-            )
+            raise ContractNotRespected(contract=self, error=msg, value=value, context=context)
 
     def _format_exceptions(self, exceptions):
         msg = "Could not satisfy any of the %d clauses in %s." % (
@@ -158,9 +154,7 @@ class Not(Logical, Contract):
             pass
         else:
             msg = "Shouldn't have satisfied the clause %s." % clause
-            raise ContractNotRespected(
-                contract=self, error=msg, value=value, context=context
-            )
+            raise ContractNotRespected(contract=self, error=msg, value=value, context=context)
 
     @staticmethod
     def parse_action(string, location, tokens):
@@ -177,9 +171,7 @@ class Not(Logical, Contract):
         return self.glyph + self._convert(self.clauses[0])
 
 
-suggester = create_suggester(
-    get_options=lambda: ParsingTmp.keywords + list(Extension.registrar.keys())
-)
+suggester = create_suggester(get_options=lambda: ParsingTmp.keywords + list(Extension.registrar.keys()))
 baseExpr = simple_contract | suggester
 baseExpr.setName("Simple contract (recovering)")
 
@@ -196,5 +188,10 @@ composite_contract = op(
 )
 composite_contract.setName("NOT/OR/AND contract")
 
-or_contract = op(baseExpr, [(OR_GLYPH, 2, opAssoc.LEFT, OR.parse_action),])
+or_contract = op(
+    baseExpr,
+    [
+        (OR_GLYPH, 2, opAssoc.LEFT, OR.parse_action),
+    ],
+)
 or_contract.setName("OR contract")

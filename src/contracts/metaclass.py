@@ -15,8 +15,8 @@ def is_function_or_static(f):
 
 class ContractsMeta(ABCMeta):
     """
-        This metaclass lets the subclasses inherit the specifications.
-        Very useful for abstract commands.
+    This metaclass lets the subclasses inherit the specifications.
+    Very useful for abstract commands.
 
     """
 
@@ -70,9 +70,7 @@ class ContractsMeta(ABCMeta):
                                     msg += "  function:  %s()\n" % k
                                     msg += "Exception:\n"
                                     msg += indent(traceback.format_exc(), "| ") + "\n"
-                                    msg += (
-                                        "(most likely parameters names are different?)"
-                                    )
+                                    msg += "(most likely parameters names are different?)"
                                     raise ContractException(msg)
                                 setattr(cls, k, f1)
                                 break

@@ -12,9 +12,7 @@ class Dict(Contract):
     def check_contract(self, context, value, silent):
         if not isinstance(value, dict):
             error = "Expected a dict, got %r." % value.__class__.__name__
-            raise ContractNotRespected(
-                contract=self, error=error, value=value, context=context
-            )
+            raise ContractNotRespected(contract=self, error=error, value=value, context=context)
 
         if self.length is not None:
             self.length._check_contract(context, len(value), silent)
@@ -54,9 +52,7 @@ class Dict(Contract):
 
 
 length_spec = S("[") - contract_expression("length") - S("]")
-kv_spec = (
-    "(" - O(contract_expression("key")) + ":" + O(contract_expression("value")) - ")"
-)
+kv_spec = "(" - O(contract_expression("key")) + ":" + O(contract_expression("value")) - ")"
 dict_contract = Keyword("dict") + O(length_spec) + O(kv_spec)
 
 dict_contract.setParseAction(Dict.parse_action)

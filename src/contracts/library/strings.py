@@ -27,9 +27,7 @@ class StringBase(Contract):
                 self.DESCRIPTION,
                 value.__class__.__name__,
             )
-            raise ContractNotRespected(
-                contract=self, error=error, value=value, context=context
-            )
+            raise ContractNotRespected(contract=self, error=error, value=value, context=context)
 
         if self.length is not None:
             self.length._check_contract(context, len(value), silent)
@@ -90,8 +88,6 @@ __all__ += [
 
 for cls in StringBase.__subclasses__():
     for keyword in cls.KEYWORDS:
-        mycontract = Keyword(keyword) + O(
-            Literal("[") - contract_expression("length") - "]"
-        )
+        mycontract = Keyword(keyword) + O(Literal("[") - contract_expression("length") - "]")
         add_keyword(keyword)
         add_contract(mycontract.setParseAction(cls.parse_action))

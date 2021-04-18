@@ -9,9 +9,9 @@ class DecoratorTests(unittest.TestCase):
     def test_malformed(self):
         def f():
             """
-                Wrong syntax
+            Wrong syntax
 
-                :rtype okok
+            :rtype okok
             """
             pass
 
@@ -20,9 +20,9 @@ class DecoratorTests(unittest.TestCase):
     def test_malformed2(self):
         def f():
             """
-                Wrong syntax
+            Wrong syntax
 
-                :rtype: okok
+            :rtype: okok
             """
             pass
 
@@ -46,9 +46,9 @@ class DecoratorTests(unittest.TestCase):
     def test_too_many(self):
         def f():
             """
-                Too many rtype clauses.
-                :rtype: int
-                :rtype: int
+            Too many rtype clauses.
+            :rtype: int
+            :rtype: int
             """
             pass
 
@@ -56,9 +56,9 @@ class DecoratorTests(unittest.TestCase):
 
     def test_invalid1(self):
         def f(a):
-            """ Unknown b.
-                :type a: int
-                :type b: int
+            """Unknown b.
+            :type a: int
+            :type b: int
             """
             pass
 
@@ -66,9 +66,9 @@ class DecoratorTests(unittest.TestCase):
 
     def test_parse_error1(self):
         def f(a, b):
-            """ Same with optional
-                :type a: in
-                :type b: int
+            """Same with optional
+            :type a: in
+            :type b: int
             """
             pass
 
@@ -76,10 +76,10 @@ class DecoratorTests(unittest.TestCase):
 
     def test_parse_error2(self):
         def f(a, b):
-            """ Same with optional
-                :type a: int
-                :type b: int
-                :rtype: in
+            """Same with optional
+            :type a: int
+            :type b: int
+            :rtype: in
             """
             pass
 
@@ -90,9 +90,9 @@ class DecoratorTests(unittest.TestCase):
 
         def f(a, *b):  # @UnusedVariable
             """
-                :type a: int
-                :type b: tuple(int)
-                :rtype: int
+            :type a: int
+            :type b: tuple(int)
+            :rtype: int
             """
             pass
 
@@ -103,9 +103,9 @@ class DecoratorTests(unittest.TestCase):
 
         def f(a, **b):
             """
-                :type a: int
-                :type b: dict(int:int)
-                :rtype: int
+            :type a: int
+            :type b: dict(int:int)
+            :rtype: int
             """
             pass
 
@@ -114,10 +114,10 @@ class DecoratorTests(unittest.TestCase):
     def test_ok1(self):
         @contract
         def f(a, b):
-            """ This is good
-                :type a: int
-                :type b: int
-                :rtype: int
+            """This is good
+            :type a: int
+            :type b: int
+            :rtype: int
             """
             pass
 
@@ -126,19 +126,19 @@ class DecoratorTests(unittest.TestCase):
 
         @contract
         def f(a, b):
-            """ This is good
-                :type a: ``int``
-                :type b: ``int``
-                :rtype: ``int``
+            """This is good
+            :type a: ``int``
+            :type b: ``int``
+            :rtype: ``int``
             """
             pass
 
     def test_bad_quoting(self):
         def f(a, b):
             """
-                :type a: ``int``
-                :type b: ``int``
-                :rtype: ``int`
+            :type a: ``int``
+            :type b: ``int``
+            :rtype: ``int`
             """
             pass
 
@@ -147,9 +147,9 @@ class DecoratorTests(unittest.TestCase):
     def test_bad_quoting2(self):
         def f(a, b):
             """
-                :type a: ``int``
-                :type b: `int``
-                :rtype: ``int``
+            :type a: ``int``
+            :type b: `int``
+            :rtype: ``int``
             """
             pass
 
@@ -228,10 +228,10 @@ class DecoratorTests(unittest.TestCase):
     def test_check_it_works3(self):
         @contract
         def f(a, b):
-            """ This is good
-                :type a: int
-                :type b: int
-                :rtype: int
+            """This is good
+            :type a: int
+            :type b: int
+            :rtype: int
             """
             return a + b
 
@@ -242,10 +242,10 @@ class DecoratorTests(unittest.TestCase):
     def test_inline_docstring_format_works(self):
         @contract
         def f(a, b):
-            """ This is good
-                :param int,>0 a: Description
-                :param int,>0 b: Description
-                :returns int,>0: Description
+            """This is good
+            :param int,>0 a: Description
+            :param int,>0 b: Description
+            :returns int,>0: Description
             """
             return a + b
 
@@ -255,10 +255,10 @@ class DecoratorTests(unittest.TestCase):
 
     def test_check_docstring_maintained(self):
         def f1(a, b):
-            """ This is good
-                :type a: int
-                :type b: int
-                :rtype: int
+            """This is good
+            :type a: int
+            :type b: int
+            :rtype: int
             """
             return a + b
 
@@ -283,10 +283,10 @@ class DecoratorTests(unittest.TestCase):
 
         @contract
         def f1b(a, b):
-            """ This is good
-                :type a: int
-                :type b: int
-                :rtype: int
+            """This is good
+            :type a: int
+            :type b: int
+            :rtype: int
             """
             return a + b
 
@@ -296,10 +296,10 @@ class DecoratorTests(unittest.TestCase):
 
         @contract(modify_docstring=False)
         def f1b_p(a, b):
-            """ This is good
-                :type a: int
-                :type b: int
-                :rtype: int
+            """This is good
+            :type a: int
+            :type b: int
+            :rtype: int
             """
             return a + b
 
@@ -314,10 +314,10 @@ class DecoratorTests(unittest.TestCase):
 
     def test_kwargs(self):
         def f(a, b, c=7):  # @UnusedVariable
-            """ Same with optional
-                :type a: int
-                :type b: int
-                :type c: int
+            """Same with optional
+            :type a: int
+            :type b: int
+            :type c: int
             """
             if c != b:
                 raise Exception()
@@ -330,10 +330,10 @@ class DecoratorTests(unittest.TestCase):
 
     def test_varargs(self):
         def f(a, b, *c):
-            """ Same with optional
-                :type a: int
-                :type b: int
-                :type c: tuple
+            """Same with optional
+            :type a: int
+            :type b: int
+            :type c: tuple
             """
             assert c == (a, b)
 
@@ -342,10 +342,10 @@ class DecoratorTests(unittest.TestCase):
 
     def test_keywords(self):
         def f(A, B, **c):
-            """ Same with optional
-                :type A: int
-                :type B: int
-                :type c: dict
+            """Same with optional
+            :type A: int
+            :type B: int
+            :type c: dict
             """
             assert c["a"] == A
             assert c["b"] == B

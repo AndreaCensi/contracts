@@ -47,8 +47,8 @@ class Py3kAnnotationsTest(unittest.TestCase):
 
         def f(a, **b):
             """
-                :type a: int
-                :rtype: int
+            :type a: int
+            :rtype: int
             """
             pass
 
@@ -57,10 +57,10 @@ class Py3kAnnotationsTest(unittest.TestCase):
     def test_ok1(self):
         @contract
         def f(a, b):
-            """ This is good
-                :type a: int
-                :type b: int
-                :rtype: int
+            """This is good
+            :type a: int
+            :type b: int
+            :rtype: int
             """
             pass
 

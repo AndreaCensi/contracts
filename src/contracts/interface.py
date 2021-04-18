@@ -8,15 +8,15 @@ from .metaclass import with_metaclass
 
 class Where(object):
     """
-        An object of this class represents a place in a file, or an interval.
+    An object of this class represents a place in a file, or an interval.
 
-        All parsed elements contain a reference to a :py:class:`Where` object
-        so that we can output pretty error messages.
+    All parsed elements contain a reference to a :py:class:`Where` object
+    so that we can output pretty error messages.
 
 
-        Character should be >= len(string) (possibly outside the string).
-        Character_end should be >= character (so that you can splice with
-        string[character:character_end])
+    Character should be >= len(string) (possibly outside the string).
+    Character_end should be >= character (so that you can splice with
+    string[character:character_end])
     """
 
     def __init__(self, string, character, character_end=None):
@@ -27,7 +27,10 @@ class Where(object):
             raise ValueError(msg)
 
         if not (0 <= character <= len(string)):
-            msg = "Invalid character loc %s for string of len %s." % (character, len(string),)
+            msg = "Invalid character loc %s for string of len %s." % (
+                character,
+                len(string),
+            )
             raise_desc(ValueError, msg, string=string.__repr__())
             # Advance pointer if whitespace
             # if False:
@@ -43,7 +46,10 @@ class Where(object):
 
         if character_end is not None:
             if not (0 <= character_end <= len(string)):
-                msg = "Invalid character_end loc %s for string of len %s." % (character_end, len(string),)
+                msg = "Invalid character_end loc %s for string of len %s." % (
+                    character_end,
+                    len(string),
+                )
 
                 raise_desc(ValueError, msg, string=string.__repr__())
 
@@ -83,7 +89,11 @@ class Where(object):
 
     def with_filename(self, filename):
         # if self.character is not None:
-        w2 = Where(string=self.string, character=self.character, character_end=self.character_end,)
+        w2 = Where(
+            string=self.string,
+            character=self.character,
+            character_end=self.character_end,
+        )
         # else:
         #     w2 = Where(string=self.string, line=self.line, column=self.col)
         w2.filename = filename
@@ -95,7 +105,12 @@ class Where(object):
 
 # mark = 'here or nearby'
 def format_where(
-    w, context_before=3, mark=None, arrow=True, use_unicode=True, no_mark_arrow_if_longer_than=3,
+    w,
+    context_before=3,
+    mark=None,
+    arrow=True,
+    use_unicode=True,
+    no_mark_arrow_if_longer_than=3,
 ):
     s = ""
     if w.filename:
@@ -212,7 +227,13 @@ def line_and_col(loc, strg):
         from .utils import raise_desc
 
         raise_desc(
-            AssertionError, msg, s=strg, loc=loc, res_line=res_line, res_col=res_col, loc_recon=inverse,
+            AssertionError,
+            msg,
+            s=strg,
+            loc=loc,
+            res_line=res_line,
+            res_col=res_col,
+            loc_recon=inverse,
         )
 
     return (res_line, res_col)
@@ -405,18 +426,18 @@ class Contract(with_metaclass(ABCMeta, object)):
 
     def check(self, value):
         """
-            Checks that the value satisfies this contract.
+        Checks that the value satisfies this contract.
 
-            :raise: ContractNotRespected
+        :raise: ContractNotRespected
         """
         return self.check_contract({}, value, silent=False)
 
     def fail(self, value):
         """
-            Checks that the value **does not** respect this contract.
-            Raises an exception if it does.
+        Checks that the value **does not** respect this contract.
+        Raises an exception if it does.
 
-            :raise: ValueError
+        :raise: ValueError
         """
         try:
             context = self.check(value)
@@ -432,20 +453,20 @@ class Contract(with_metaclass(ABCMeta, object)):
     @abstractmethod
     def check_contract(self, context, value, silent):  # @UnusedVariable
         """
-            Checks that value is ok with this contract in the specific
-            context. This is the function that subclasses must implement.
+        Checks that value is ok with this contract in the specific
+        context. This is the function that subclasses must implement.
 
-            If silent = False, do not bother with creating detailed error messages yet.
-            This is for performance optimization.
+        If silent = False, do not bother with creating detailed error messages yet.
+        This is for performance optimization.
 
-            :param context: The context in which expressions are evaluated.
-            :type context:
+        :param context: The context in which expressions are evaluated.
+        :type context:
         """
 
     def _check_contract(self, context, value, silent):
-        """ Recursively checks the contracts; it calls check_contract,
-            but the error is wrapped recursively. This is the function
-            that subclasses must call when checking their sub-contracts.
+        """Recursively checks the contracts; it calls check_contract,
+        but the error is wrapped recursively. This is the function
+        that subclasses must call when checking their sub-contracts.
         """
         if not self._enabled:
             return
@@ -460,75 +481,75 @@ class Contract(with_metaclass(ABCMeta, object)):
     @abstractmethod
     def __repr__(self):
         """
-            Returns a string representation of a contract that can be
-            evaluated by Python's :py:func:`eval()`.
+        Returns a string representation of a contract that can be
+        evaluated by Python's :py:func:`eval()`.
 
-            It must hold that: ``eval(contract.__repr__()) == contract``.
-            This is checked in the unit-tests.
+        It must hold that: ``eval(contract.__repr__()) == contract``.
+        This is checked in the unit-tests.
 
-            Example:
+        Example:
 
-            >>> from contracts import parse
-            >>> contract = parse('list[N]')
-            >>> contract.__repr__()
-            "List(BindVariable('N',int),None)"
+        >>> from contracts import parse
+        >>> contract = parse('list[N]')
+        >>> contract.__repr__()
+        "List(BindVariable('N',int),None)"
 
-            All the symbols you need to eval() the expression are in
-            :py:mod:`contracts.library`.
+        All the symbols you need to eval() the expression are in
+        :py:mod:`contracts.library`.
 
-            >>> from contracts.library import *
-            >>> contract == eval("%r"%contract)
-            True
+        >>> from contracts.library import *
+        >>> contract == eval("%r"%contract)
+        True
 
         """
 
     @abstractmethod
     def __str__(self):
-        """ Returns a string representation of a contract that can be
-            reparsed by :py:func:`contracts.parse()`.
+        """Returns a string representation of a contract that can be
+        reparsed by :py:func:`contracts.parse()`.
 
-            It must hold that: ``parse(str(contract)) == contract``.
-            This is checked in the unit-tests.
+        It must hold that: ``parse(str(contract)) == contract``.
+        This is checked in the unit-tests.
 
-            Example:
+        Example:
 
-            >>> from contracts import parse
-            >>> spec = 'list[N]'
-            >>> contract = parse(spec)
-            >>> contract
-            List(BindVariable('N',int),None)
-            >>> str(contract) == spec
-            True
+        >>> from contracts import parse
+        >>> spec = 'list[N]'
+        >>> contract = parse(spec)
+        >>> contract
+        List(BindVariable('N',int),None)
+        >>> str(contract) == spec
+        True
 
-            The expressions generated by :py:func:`Contract.__str__` will be
-            exactly the same as what was parsed (this is checked in the
-            unittests as well) if and only if the expression is "minimal".
-            If it isn't (there is whitespace or redundant symbols),
-            the returned expression will be an equivalent minimal one.
+        The expressions generated by :py:func:`Contract.__str__` will be
+        exactly the same as what was parsed (this is checked in the
+        unittests as well) if and only if the expression is "minimal".
+        If it isn't (there is whitespace or redundant symbols),
+        the returned expression will be an equivalent minimal one.
 
-            Example with extra parenthesis and whitespace:
+        Example with extra parenthesis and whitespace:
 
-            >>> from contracts import parse
-            >>> verbose_spec = 'list[((N))]( int, > 0)'
-            >>> contract = parse(verbose_spec)
-            >>> str(contract)
-            'list[N](int,>0)'
+        >>> from contracts import parse
+        >>> verbose_spec = 'list[((N))]( int, > 0)'
+        >>> contract = parse(verbose_spec)
+        >>> str(contract)
+        'list[N](int,>0)'
 
-            Example that removes extra parentheses around arithmetic operators:
+        Example that removes extra parentheses around arithmetic operators:
 
-            >>> verbose_spec = '=1+(1*2)+(2+4)'
-            >>> str(parse(verbose_spec))
-            '=1+1*2+2+4'
+        >>> verbose_spec = '=1+(1*2)+(2+4)'
+        >>> str(parse(verbose_spec))
+        '=1+1*2+2+4'
 
-            This is an example with logical operators precedence. The AND
-            operator ``,`` (comma) has more precedence than the OR (``|``).
+        This is an example with logical operators precedence. The AND
+        operator ``,`` (comma) has more precedence than the OR (``|``).
 
-            >>> verbose_spec = '(a|(b,c)),e'
-            >>> str(parse(verbose_spec))
-            '(a|b,c),e'
+        >>> verbose_spec = '(a|(b,c)),e'
+        >>> str(parse(verbose_spec))
+        '(a|b,c),e'
 
-            Not that only the outer parenthesis is kept as it is the only one
-            needed.
+        Not that only the outer parenthesis is kept as it is the only one
+        needed.
 
 
         """
@@ -577,8 +598,8 @@ def describe_type(x):
 
 
 def describe_value(x, clip=80):
-    """ Describes an object, for use in the error messages.
-        Short description, no multiline.
+    """Describes an object, for use in the error messages.
+    Short description, no multiline.
     """
     if hasattr(x, "shape") and hasattr(x, "dtype"):
         shape_desc = "x".join(str(i) for i in x.shape)

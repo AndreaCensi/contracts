@@ -9,9 +9,9 @@ if inPy2:
 
 
 def can_be_used_as_a_type(x):
-    """ Checks that x can be used as a type; specifically,
-        we can write isintance(y,x).
-        Here we support old-style classes.
+    """Checks that x can be used as a type; specifically,
+    we can write isintance(y,x).
+    Here we support old-style classes.
     """
     if isinstance(x, type):
         return True
@@ -24,8 +24,8 @@ def can_be_used_as_a_type(x):
 
 
 def can_accept_exactly_one_argument(callable_thing):
-    """ Checks that a callable can accept exactly one argument
-        using introspection.
+    """Checks that a callable can accept exactly one argument
+    using introspection.
     """
     if inspect.ismethod(callable_thing):  # bound method
         f = callable_thing.__func__
@@ -70,8 +70,8 @@ def get_callable_fullargspec(callable_thing):
 
 def can_accept_at_least_one_argument(callable_thing):
     """
-        Checks that a callable can accept at least one argument
-        using introspection.
+    Checks that a callable can accept at least one argument
+    using introspection.
     """
     spec = get_callable_fullargspec(callable_thing)
     return len(spec.args) > 0 or spec.varargs
@@ -79,7 +79,7 @@ def can_accept_at_least_one_argument(callable_thing):
 
 def can_accept_self(callable_thing):
     """
-        Checks that a callable's first argument is self
+    Checks that a callable's first argument is self
     """
     spec = get_callable_fullargspec(callable_thing)
 
@@ -91,8 +91,8 @@ def can_accept_self(callable_thing):
 
 def can_accept_self_plus_one_argument(callable_thing):
     """
-        Checks that a callable can accept exactly self plus one argument
-        using introspection.
+    Checks that a callable can accept exactly self plus one argument
+    using introspection.
     """
 
     spec = get_callable_fullargspec(callable_thing)
@@ -114,9 +114,9 @@ class InvalidArgs(Exception):
 
 
 def check_callable_accepts_these_arguments(callable_thing, args, kwargs):
-    """ Checks that a callable can accept the args and kwargs.
+    """Checks that a callable can accept the args and kwargs.
 
-        Returns either None or raises InvalidArgs.
+    Returns either None or raises InvalidArgs.
     """
     f = get_f_from_callable(callable_thing)
 

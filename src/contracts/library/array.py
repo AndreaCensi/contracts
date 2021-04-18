@@ -35,9 +35,7 @@ class Array(Contract):
     def check_contract(self, context, value, silent):
         if not isinstance(value, ndarray):
             error = "Expected an array, got a %s." % describe_type(value)
-            raise ContractNotRespected(
-                contract=self, error=error, value=value, context=context
-            )
+            raise ContractNotRespected(contract=self, error=error, value=value, context=context)
 
         if self.shape_contract is not None:
             self.shape_contract._check_contract(context, value.shape, silent)
@@ -84,15 +82,11 @@ class ShapeContract(Contract):
 
         if ndim < expected:  # TODO: write clearer message
             error = "Expected %d dimensions, got %d." % (expected, ndim)
-            raise ContractNotRespected(
-                contract=self, error=error, value=value, context=context
-            )
+            raise ContractNotRespected(contract=self, error=error, value=value, context=context)
 
         if ndim > expected and not self.ellipsis:
             error = "Expected %d dimensions, got %d." % (expected, ndim)
-            raise ContractNotRespected(
-                contract=self, error=error, value=value, context=context
-            )
+            raise ContractNotRespected(contract=self, error=error, value=value, context=context)
 
         for i in range(expected):
             self.dimensions[i]._check_contract(context, value[i], silent)
@@ -143,9 +137,7 @@ class Shape(Contract):
     def check_contract(self, context, value, silent):
         if not isinstance(value, ndarray):
             error = "Expected an array, got %r." % value.__class__.__name__
-            raise ContractNotRespected(
-                contract=self, error=error, value=value, context=context
-            )
+            raise ContractNotRespected(contract=self, error=error, value=value, context=context)
 
         if isinstance(value, ndarray):
             value = value.shape
@@ -257,9 +249,7 @@ shape_suggester = create_suggester(get_options=lambda: ["..."], pattern=Word("."
 
 inside_inside1 = simple_contract | shape_suggester
 inside_inside2 = contract_expression | shape_suggester
-inside = (
-    S("(") - inside_inside2 - S(")")
-) | inside_inside1  # XXX: ^ and use or_contract?
+inside = (S("(") - inside_inside2 - S(")")) | inside_inside1  # XXX: ^ and use or_contract?
 shape_contract = my_delim_list2(inside, S("x")) + O(S("x") + ellipsis)
 shape_contract.setParseAction(ShapeContract.parse_action)
 shape_contract.setName("array shape contract")

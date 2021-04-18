@@ -47,9 +47,7 @@ class Collection(Contract):
         return s
 
     def __repr__(self):
-        return "Collection({0!r},{0!r})".format(
-            self.length_contract, self.elements_contract
-        )
+        return "Collection({0!r},{0!r})".format(self.length_contract, self.elements_contract)
 
     @staticmethod
     def parse_action(s, loc, tokens):

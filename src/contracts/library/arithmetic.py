@@ -36,9 +36,7 @@ class Binary(RValue):
         for expr in self.exprs:
             val = expr.eval(context)
             if not isnumber(val):
-                raise ValueError(
-                    "I can only do math with numbers, not %r." % val.__class__.__name__
-                )
+                raise ValueError("I can only do math with numbers, not %r." % val.__class__.__name__)
             vals.append(val)
         operation = Binary.operations[self.glyph]
         return reduce(operation, vals)
@@ -90,9 +88,7 @@ class Unary(RValue):
     def eval(self, context):  # @ReservedAssignment
         val = self.expr.eval(context)
         if not isnumber(val):
-            raise ValueError(
-                "I can only do math with numbers, not with %r." % val.__class__.__name__
-            )
+            raise ValueError("I can only do math with numbers, not with %r." % val.__class__.__name__)
 
         operation = Unary.operations[self.glyph]
         return operation(val)

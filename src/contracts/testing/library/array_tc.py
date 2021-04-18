@@ -37,7 +37,12 @@ fail("array(float32)", a_u8)
 # shapes
 a0d = np.zeros((), dtype="float32")
 a1d = np.zeros((2,))
-a2d = np.zeros((2, 4,))
+a2d = np.zeros(
+    (
+        2,
+        4,
+    )
+)
 a3d = np.zeros((2, 4, 8))
 
 good("shape[0]", a0d)

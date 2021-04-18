@@ -86,9 +86,7 @@ class Extension(Contract):
             )
 
             try:
-                check_callable_accepts_these_arguments(
-                    callable_thing, test_args, kwargs
-                )
+                check_callable_accepts_these_arguments(callable_thing, test_args, kwargs)
 
             except InvalidArgs as e:
                 msg = "The callable %s cannot accept these arguments " % callable_thing
@@ -137,25 +135,24 @@ class CheckCallable(Contract):
         else:
             msg = (
                 "I expect that %r returns either True, False, None; or "
-                "raises a ValueError exception. Instead, I got %s."
-                % (self.callable, describe_value(value))
+                "raises a ValueError exception. Instead, I got %s." % (self.callable, describe_value(value))
             )
             raise ValueError(msg)
 
     def __repr__(self):
-        """ Note: this contract is not representable, but anyway it is
-            only used by Extension, which serializes using the identifier. """
+        """Note: this contract is not representable, but anyway it is
+        only used by Extension, which serializes using the identifier."""
         return "CheckCallable(%r)" % self.callable
 
     def __str__(self):
-        """ Note: this contract is not representable, but anyway it is only
-            used by Extension, which serializes using the identifier. """
+        """Note: this contract is not representable, but anyway it is only
+        used by Extension, which serializes using the identifier."""
         return get_callable_name(callable)
 
 
 def get_callable_name(c):
-    """ Get a displayable name for the callable even if __name__
-        is not available. """
+    """Get a displayable name for the callable even if __name__
+    is not available."""
     try:
         return c.__name__ + "()"
     except:
@@ -183,10 +180,7 @@ class CheckCallableWithSelf(Contract):
         kwargs = context.get("kwargs", {})
 
         if not "self" in context:
-            msg = (
-                "You can only call this contract in the context of "
-                " a function call to a regular method."
-            )
+            msg = "You can only call this contract in the context of " " a function call to a regular method."
             raise ContractNotRespected(self, msg, value, context)
 
         args = (context["self"], value) + args
@@ -200,26 +194,23 @@ class CheckCallableWithSelf(Contract):
             # passed
             pass
         elif result == False:
-            msg = "Value does not pass criteria of %s." % describe_callable(
-                self.callable
-            )
+            msg = "Value does not pass criteria of %s." % describe_callable(self.callable)
             raise ContractNotRespected(self, msg, value, context)
         else:
             msg = (
                 "I expect that %r returns either True, False, None; or "
-                "raises a ValueError exception. Instead, I got %s."
-                % (self.callable, describe_value(value))
+                "raises a ValueError exception. Instead, I got %s." % (self.callable, describe_value(value))
             )
             raise ValueError(msg)
 
     def __repr__(self):
-        """ Note: this contract is not representable, but anyway it is only
-            used by Extension, which serializes using the identifier. """
+        """Note: this contract is not representable, but anyway it is only
+        used by Extension, which serializes using the identifier."""
         return "CheckCallableWithSelf(%r)" % self.callable
 
     def __str__(self):
-        """ Note: this contract is not representable, but anyway it is only
-            used by Extension, which serializes using the identifier. """
+        """Note: this contract is not representable, but anyway it is only
+        used by Extension, which serializes using the identifier."""
         return "function %s()" % get_callable_name(self.callable)
 
 
@@ -245,6 +236,4 @@ identifier_expression = Combine(oneOf(list(alphas)) + Word("_" + alphanums)) + O
 )
 
 
-identifier_contract = identifier_expression.copy().setParseAction(
-    Extension.parse_action
-)
+identifier_contract = identifier_expression.copy().setParseAction(Extension.parse_action)

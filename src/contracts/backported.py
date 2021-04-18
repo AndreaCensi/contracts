@@ -105,8 +105,7 @@ else:  # pragma: no cover
                         subvalue = next(value)
                     except StopIteration:
                         raise ValueError(
-                            "need more than %d %s to unpack"
-                            % (i, "values" if i > 1 else "value")
+                            "need more than %d %s to unpack" % (i, "values" if i > 1 else "value")
                         )
                     assign(subarg, subvalue)
                 try:
@@ -156,10 +155,7 @@ else:  # pragma: no cover
         for arg in args:
             if isinstance(arg, six.string_types) and arg in named:
                 if is_assigned(arg):
-                    raise TypeError(
-                        "%s() got multiple values for keyword "
-                        "argument '%s'" % (f_name, arg)
-                    )
+                    raise TypeError("%s() got multiple values for keyword " "argument '%s'" % (f_name, arg))
                 else:
                     assign(arg, named.pop(arg))
         if defaults:  # fill in any missing values with the defaults
@@ -172,9 +168,7 @@ else:  # pragma: no cover
             unexpected = next(iter(named))
             if isinstance(unexpected, unicode):
                 unexpected = unexpected.encode(sys.getdefaultencoding(), "replace")
-            raise TypeError(
-                "%s() got an unexpected keyword argument '%s'" % (f_name, unexpected)
-            )
+            raise TypeError("%s() got an unexpected keyword argument '%s'" % (f_name, unexpected))
         unassigned = num_args - len([arg for arg in args if is_assigned(arg)])
         if unassigned:
             num_required = num_args - num_defaults

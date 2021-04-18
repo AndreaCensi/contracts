@@ -13,9 +13,7 @@ class Map(Contract):
     def check_contract(self, context, value, silent):
         if not isinstance(value, collections.Mapping):
             error = "Expected a Mapping, got %r." % value.__class__.__name__
-            raise ContractNotRespected(
-                contract=self, error=error, value=value, context=context
-            )
+            raise ContractNotRespected(contract=self, error=error, value=value, context=context)
 
         if self.length is not None:
             self.length._check_contract(context, len(value), silent)
@@ -55,9 +53,7 @@ class Map(Contract):
 
 
 length_spec = S("[") - contract_expression("length") - S("]")
-kv_spec = (
-    "(" - O(contract_expression("key")) + ":" + O(contract_expression("value")) - ")"
-)
+kv_spec = "(" - O(contract_expression("key")) + ":" + O(contract_expression("value")) - ")"
 dict_contract = Keyword("map") + O(length_spec) + O(kv_spec)
 
 dict_contract.setParseAction(Map.parse_action)

@@ -13,17 +13,17 @@ else:
 
     def blend_function(image1, image2, bug=False):
         """
-            Blends two RGB or RGBA images together.
+        Blends two RGB or RGBA images together.
 
-             :param image1: The first image to blend.
-             :type image1: (rgb|rgba),array[HxWx*]
-             :param image2: The second image to blend.
-             :type image2: (rgb|rgba),array[HxWx*]
-             :param bug: Introduce a bug to check the contracts.
-             :type bug: bool
+         :param image1: The first image to blend.
+         :type image1: (rgb|rgba),array[HxWx*]
+         :param image2: The second image to blend.
+         :type image2: (rgb|rgba),array[HxWx*]
+         :param bug: Introduce a bug to check the contracts.
+         :type bug: bool
 
-             :return: The blended image.
-             :rtype: rgb,array[HxWx3]
+         :return: The blended image.
+         :rtype: rgb,array[HxWx3]
         """
         H, W = image1.shape[0], image1.shape[1]
 
@@ -73,6 +73,4 @@ else:
 
         def test_incorrect6(self):
             # check that rtype checking works, introduce a bug
-            self.assertRaises(
-                ContractNotRespected, self.blend, rgb_small, rgb_small, bug=True
-            )
+            self.assertRaises(ContractNotRespected, self.blend, rgb_small, rgb_small, bug=True)

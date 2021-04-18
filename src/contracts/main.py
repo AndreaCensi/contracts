@@ -29,24 +29,24 @@ from .interface import (
 #     identifier_expression)
 def check_contracts(contracts, values, context_variables=None):
     """
-        Checks that the values respect the contract.
-        Not a public function -- no friendly messages.
+    Checks that the values respect the contract.
+    Not a public function -- no friendly messages.
 
-        :param contracts: List of contracts.
-        :type contracts:  ``list[N](str),N>0``
+    :param contracts: List of contracts.
+    :type contracts:  ``list[N](str),N>0``
 
-        :param values: Values that should match the contracts.
-        :type values: ``list[N]``
+    :param values: Values that should match the contracts.
+    :type values: ``list[N]``
 
-        :param context_variables: Initial context
-        :type context_variables: ``dict(str[1]: *)``
+    :param context_variables: Initial context
+    :type context_variables: ``dict(str[1]: *)``
 
-        :return: a Context variable
-        :rtype: type(Context)
+    :return: a Context variable
+    :rtype: type(Context)
 
-        :raise: ContractSyntaxError
-        :raise: ContractNotRespected
-        :raise: ValueError
+    :raise: ContractSyntaxError
+    :raise: ContractNotRespected
+    :raise: ValueError
     """
     assert isinstance(contracts, list)
     assert isinstance(contracts, list)
@@ -57,10 +57,7 @@ def check_contracts(contracts, values, context_variables=None):
 
     for var in context_variables:
         if not (isinstance(var, six.string_types) and len(var) == 1):  # XXX: isalpha
-            msg = (
-                "Invalid name %r for a variable. "
-                "I expect a string of length 1." % var
-            )
+            msg = "Invalid name %r for a variable. " "I expect a string of length 1." % var
             raise ValueError(msg)
 
     C = []
@@ -102,32 +99,32 @@ def check_param_is_string(x):
 
 def contract_decorator(*arg, **kwargs):
     """
-        Decorator for adding contracts to functions.
+    Decorator for adding contracts to functions.
 
-        It is smart enough to support functions with variable number of
-        arguments and keyword arguments.
+    It is smart enough to support functions with variable number of
+    arguments and keyword arguments.
 
-        There are three ways to specify the contracts. In order of precedence:
+    There are three ways to specify the contracts. In order of precedence:
 
-        - As arguments to this decorator. For example: ::
+    - As arguments to this decorator. For example: ::
 
-              @contract(a='int,>0',b='list[N],N>0',returns='list[N]')
-              def my_function(a, b):
-                  # ...
-                  pass
+          @contract(a='int,>0',b='list[N],N>0',returns='list[N]')
+          def my_function(a, b):
+              # ...
+              pass
 
-        - As annotations (supported only in Python 3): ::
+    - As annotations (supported only in Python 3): ::
 
-              @contract
-              def my_function(a:'int,>0', b:'list[N],N>0') -> 'list[N]':
-                  # ...
-                  pass
+          @contract
+          def my_function(a:'int,>0', b:'list[N],N>0') -> 'list[N]':
+              # ...
+              pass
 
-        - Using ``:type:`` and ``:rtype:`` tags in the function's docstring: ::
+    - Using ``:type:`` and ``:rtype:`` tags in the function's docstring: ::
 
-              @contract
-              def my_function(a, b):
-                  """
+          @contract
+          def my_function(a, b):
+    """
     # OK, this is black magic. You are not expected to understand this.
     if arg:
         if isinstance(arg[0], types.FunctionType):
@@ -141,10 +138,7 @@ def contract_decorator(*arg, **kwargs):
                 # Erase the stack
                 raise ContractSyntaxError(es.error, es.where)
         else:
-            msg = (
-                "I expect that contracts() is called with "
-                "only keyword arguments (passed: %r)" % arg
-            )
+            msg = "I expect that contracts() is called with " "only keyword arguments (passed: %r)" % arg
             raise ContractException(msg)
     else:
         # !!! Do not change "tmp_wrap" name; we need it for the definition
@@ -177,8 +171,8 @@ def contract_decorator(*arg, **kwargs):
 
 
 def contracts_decorate(function_, modify_docstring=True, **kwargs):
-    """ An explicit way to decorate a given function.
-        The decorator :py:func:`decorate` calls this function internally.
+    """An explicit way to decorate a given function.
+    The decorator :py:func:`decorate` calls this function internally.
     """
 
     if isinstance(function_, classmethod):
@@ -237,8 +231,7 @@ you can achieve the same goal by inverting the two decorators:
             if function_.__doc__ is None:
                 # XXX: change name
                 raise ContractException(
-                    "You did not specify a contract, nor I can "
-                    "find a docstring for %r." % function_
+                    "You did not specify a contract, nor I can " "find a docstring for %r." % function_
                 )
 
             accepts_dict, returns = parse_contracts_from_docstring(function_)
@@ -251,9 +244,7 @@ you can achieve the same goal by inverting the two decorators:
     else:
         returns_parsed = parse_flexible_spec(returns)
 
-    accepts_parsed = dict(
-        [(x, parse_flexible_spec(accepts_dict[x])) for x in accepts_dict]
-    )
+    accepts_parsed = dict([(x, parse_flexible_spec(accepts_dict[x])) for x in accepts_dict])
 
     is_bound_method = "self" in all_args
 
@@ -279,9 +270,7 @@ you can achieve the same goal by inverting the two decorators:
         for arg in all_args:
             if arg in accepts_parsed:
                 try:
-                    accepts_parsed[arg]._check_contract(
-                        context, bound[arg], silent=False
-                    )
+                    accepts_parsed[arg]._check_contract(context, bound[arg], silent=False)
                 except ContractNotRespected as e:
                     msg = "Breach for argument %r to %s.\n" % (
                         arg,
@@ -351,8 +340,8 @@ you can achieve the same goal by inverting the two decorators:
 
 
 def parse_flexible_spec(spec):
-    """ spec can be either a Contract, a type, or a contract string.
-        In the latter case, the usual parsing takes place"""
+    """spec can be either a Contract, a type, or a contract string.
+    In the latter case, the usual parsing takes place"""
     if isinstance(spec, Contract):
         return spec
     elif is_param_string(spec):
@@ -396,9 +385,7 @@ def parse_contracts_from_docstring(function):
     # Check the ones that do not have contracts specified
     nullparams = [name for name in params if params[name].type is None]
     if nullparams:
-        msg = "The parameter(s) %r in this docstring have no type statement." % (
-            ",".join(nullparams)
-        )
+        msg = "The parameter(s) %r in this docstring have no type statement." % (",".join(nullparams))
         msg += """
 
 Note: you can use the asterisk if you do not care about assigning
@@ -444,18 +431,18 @@ def get_all_arg_names(function):
 
 def check(contract, object, desc=None, **context):  # @ReservedAssignment
     """
-        Checks that ``object`` satisfies the contract
-        described by ``contract``.
+    Checks that ``object`` satisfies the contract
+    described by ``contract``.
 
-        :param contract: The contract string.
-        :type contract:  str
+    :param contract: The contract string.
+    :type contract:  str
 
-        :param object: Any object.
-        :type object: ``*``
+    :param object: Any object.
+    :type object: ``*``
 
-        :param desc: An optional description of the error. If given,
-                     it is included in the error message.
-        :type desc: ``None|str``
+    :param desc: An optional description of the error. If given,
+                 it is included in the error message.
+    :type desc: ``None|str``
     """
     if all_disabled():
         return {}
@@ -463,8 +450,7 @@ def check(contract, object, desc=None, **context):  # @ReservedAssignment
     if not is_param_string(contract):
         # XXX: make it more liberal?
         raise ValueError(
-            "I expect a string (contract spec) as the first "
-            "argument, not a %s." % describe_value(contract)
+            "I expect a string (contract spec) as the first " "argument, not a %s." % describe_value(contract)
         )
     try:
         return check_contracts([contract], [object], context)
@@ -475,10 +461,10 @@ def check(contract, object, desc=None, **context):  # @ReservedAssignment
 
 
 def fail(contract, value, **initial_context):
-    """ Checks that the value **does not** respect this contract.
-        Raises an exception if it does.
+    """Checks that the value **does not** respect this contract.
+     Raises an exception if it does.
 
-       :raise: ValueError
+    :raise: ValueError
     """
     try:
         parsed_contract = parse_contract_string(contract)
@@ -495,17 +481,17 @@ def fail(contract, value, **initial_context):
 
 def check_multiple(couples, desc=None):
     """
-        Checks multiple couples of (contract, value) in the same context.
+    Checks multiple couples of (contract, value) in the same context.
 
-        This means that the variables in each contract are shared with
-        the others.
+    This means that the variables in each contract are shared with
+    the others.
 
-        :param couples: A list of tuple (contract, value) to check.
-        :type couples: ``list[>0](tuple(str, *))``
+    :param couples: A list of tuple (contract, value) to check.
+    :type couples: ``list[>0](tuple(str, *))``
 
-        :param desc: An optional description of the error. If given,
-                     it is included in the error message.
-        :type desc: ``None|str``
+    :param desc: An optional description of the error. If given,
+                 it is included in the error message.
+    :type desc: ``None|str``
     """
 
     check(
@@ -524,52 +510,52 @@ def check_multiple(couples, desc=None):
 
 
 def new_contract(*args):
-    """ Defines a new contract type. Used both as a decorator and as
-        a function.
+    """Defines a new contract type. Used both as a decorator and as
+    a function.
 
-        **1) Use as a function.** The first parameter must be a string.
-        The second parameter can be either
-        a string or a callable function.  ::
+    **1) Use as a function.** The first parameter must be a string.
+    The second parameter can be either
+    a string or a callable function.  ::
 
-            new_contract('new_contract_name', 'list[N]')
-            new_contract('new_contract_name', lambda x: isinstance(x, list) )
+        new_contract('new_contract_name', 'list[N]')
+        new_contract('new_contract_name', lambda x: isinstance(x, list) )
 
-        - If it is a string, it is interpreted as contract expression;
-          the given identifier will become an alias
-          for that expression.
+    - If it is a string, it is interpreted as contract expression;
+      the given identifier will become an alias
+      for that expression.
 
-        - If it is a callable, it must accept one parameter, and either:
+    - If it is a callable, it must accept one parameter, and either:
 
-          * return True or None, to signify it accepts.
+      * return True or None, to signify it accepts.
 
-          * return False or raise ValueError or AssertionError,
-            to signify it doesn't.
+      * return False or raise ValueError or AssertionError,
+        to signify it doesn't.
 
-          If ValueError is raised, its message is used in the error.
+      If ValueError is raised, its message is used in the error.
 
-        **2) Use as a decorator.**
+    **2) Use as a decorator.**
 
-        Or, it can be used as a decorator (without arguments).
-        The function name is used as the identifier. ::
+    Or, it can be used as a decorator (without arguments).
+    The function name is used as the identifier. ::
 
-            @new_contract
-            def new_contract_name(x):
-                return isinstance(x, list)
+        @new_contract
+        def new_contract_name(x):
+            return isinstance(x, list)
 
 
-        This function returns a :py:class:`Contract` object. It might be
-        useful to check right away if the declaration is what you meant,
-        using :py:func:`Contract.check` and :py:func:`Contract.fail`.
+    This function returns a :py:class:`Contract` object. It might be
+    useful to check right away if the declaration is what you meant,
+    using :py:func:`Contract.check` and :py:func:`Contract.fail`.
 
-        :param identifier: The identifier must be a string not already in use
-                          (you cannot redefine ``list``, ``tuple``, etc.).
-        :type identifier: str
+    :param identifier: The identifier must be a string not already in use
+                      (you cannot redefine ``list``, ``tuple``, etc.).
+    :type identifier: str
 
-        :param condition: Definition of the new contract.
-        :type condition: ``type|callable|str``
+    :param condition: Definition of the new contract.
+    :type condition: ``type|callable|str``
 
-        :return: The equivalent contract -- might be useful for debugging.
-        :rtype: Contract
+    :return: The equivalent contract -- might be useful for debugging.
+    :rtype: Contract
     """
     if args and len(args) == 1 and isinstance(args[0], types.FunctionType):
         # TODO: add here for class decorator
@@ -599,9 +585,7 @@ def new_contract_impl(identifier, condition):
 
     # Be friendly
     if not isinstance(identifier, six.string_types):
-        msg = "I expect the identifier to be a string; received %s." % describe_value(
-            identifier
-        )
+        msg = "I expect the identifier to be a string; received %s." % describe_value(identifier)
         raise ValueError(msg)
 
     # Make sure it is not already an expression that we know.
@@ -661,13 +645,11 @@ def new_contract_impl(identifier, condition):
             bare_contract = CheckCallable(condition)
         else:
             raise ValueError(
-                "The given callable %r should be able to accept "
-                "at least one argument" % condition
+                "The given callable %r should be able to accept " "at least one argument" % condition
             )
     else:
         raise ValueError(
-            "I need either a string or a callable for the "
-            "condition; found %s." % describe_value(condition)
+            "I need either a string or a callable for the " "condition; found %s." % describe_value(condition)
         )
 
     # Separate the context if needed
@@ -680,10 +662,7 @@ def new_contract_impl(identifier, condition):
     if identifier in Extension.registrar:
         old = Extension.registrar[identifier]
         if not (contract == old):
-            msg = (
-                "Tried to redefine %r with a definition that looks "
-                "different to me.\n" % identifier
-            )
+            msg = "Tried to redefine %r with a definition that looks " "different to me.\n" % identifier
             msg += " - old: %r\n" % old
             msg += " - new: %r\n" % contract
             raise ValueError(msg)

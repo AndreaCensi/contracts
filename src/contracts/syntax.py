@@ -63,11 +63,11 @@ def add_contract(x):
 
 
 def add_keyword(x):
-    """ Declares that x is a keyword --- this is useful to have more
-        clear messages. "keywords" are not parsed by Extension.
-        (see extensions.py) and allows to have "deep" error indications.
-        See http://pyparsing.wikispaces.com/message/view/home/620225
-        and the discussion of the "-" operator in the docs.
+    """Declares that x is a keyword --- this is useful to have more
+    clear messages. "keywords" are not parsed by Extension.
+    (see extensions.py) and allows to have "deep" error indications.
+    See http://pyparsing.wikispaces.com/message/view/home/620225
+    and the discussion of the "-" operator in the docs.
     """
     ParsingTmp.keywords.append(x)
 
@@ -84,13 +84,9 @@ e = CaselessLiteral("E")
 plusorminus = Literal("+") | Literal("-")
 integer = Combine(O(plusorminus) + basenumber)
 integer.setParseAction(lambda tokens: SimpleRValue(int(tokens[0])))
-floatnumber = Combine(
-    O(plusorminus) + integer + (point + O(basenumber)) ^ (e + integer)
-)
+floatnumber = Combine(O(plusorminus) + integer + (point + O(basenumber)) ^ (e + integer))
 floatnumber.setParseAction(lambda tokens: SimpleRValue(float(tokens[0])))
-pi = Keyword("pi").setParseAction(
-    lambda tokens: SimpleRValue(math.pi, "pi")
-)  # @UnusedVariable
+pi = Keyword("pi").setParseAction(lambda tokens: SimpleRValue(math.pi, "pi"))  # @UnusedVariable
 
 
 try:

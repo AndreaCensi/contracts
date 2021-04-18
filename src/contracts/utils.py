@@ -51,7 +51,9 @@ def deprecated(func):
 
     def new_func(*args, **kwargs):
         warnings.warn(
-            "Call to deprecated function %s." % func.__name__, category=DeprecationWarning, stacklevel=2,
+            "Call to deprecated function %s." % func.__name__,
+            category=DeprecationWarning,
+            stacklevel=2,
         )
         return func(*args, **kwargs)
 
@@ -78,9 +80,9 @@ def raise_type_mismatch(ob, expected, **kwargs):
 
 def format_dict_long(d, informal=False):
     """
-        k: value
-           kooked
-        k: value
+    k: value
+       kooked
+    k: value
     """
     if not d:
         return "{}"
@@ -118,9 +120,9 @@ def _get_str(x, informal):
 
 def format_list_long(l, informal=False):
     """
-        - My
-          first
-        - Second
+    - My
+      first
+    - Second
     """
     res = ""
     for i, value in enumerate(l):
@@ -161,13 +163,13 @@ def format_obs(d, informal=False):
 
 
 def raise_wrapped(etype, e, msg, compact=False, **kwargs):
-    """ Raises an exception of type etype by wrapping
-        another exception "e" with its backtrace and adding
-        the objects in kwargs as formatted by format_obs.
+    """Raises an exception of type etype by wrapping
+    another exception "e" with its backtrace and adding
+    the objects in kwargs as formatted by format_obs.
 
-        if compact = False, write the whole traceback, otherwise just str(e).
+    if compact = False, write the whole traceback, otherwise just str(e).
 
-        exc = output of sys.exc_info()
+    exc = output of sys.exc_info()
     """
 
     if six.PY3:
@@ -216,8 +218,8 @@ def _format_exc(msg, **kwargs):
 def raise_desc(etype, msg, args_first=False, **kwargs):
     """
 
-        Example:
-            raise_desc(ValueError, "I don't know", a=a, b=b)
+    Example:
+        raise_desc(ValueError, "I don't know", a=a, b=b)
     """
     assert isinstance(msg, six.string_types), type(msg)
     s1 = msg

@@ -26,9 +26,7 @@ class Tuple(Contract):
     def check_contract(self, context, value, silent):
         if not isinstance(value, tuple):
             error = "Expected a tuple, got %r." % value.__class__.__name__
-            raise ContractNotRespected(
-                contract=self, error=error, value=value, context=context
-            )
+            raise ContractNotRespected(contract=self, error=error, value=value, context=context)
 
         if self.length is not None:
             self.length._check_contract(context, len(value), silent)
@@ -40,9 +38,7 @@ class Tuple(Contract):
                     value,
                     len(value),
                 )
-                raise ContractNotRespected(
-                    contract=self, error=error, value=value, context=context
-                )
+                raise ContractNotRespected(contract=self, error=error, value=value, context=context)
 
             for i in range(len(value)):
                 self.elements[i]._check_contract(context, value[i], silent)

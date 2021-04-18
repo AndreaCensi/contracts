@@ -8,18 +8,14 @@ from ..interface import eval_in_context
 class EqualTo(Contract):
     def __init__(self, rvalue, where=None):
         Contract.__init__(self, where)
-        assert isinstance(rvalue, RValue), (
-            "Expected RValue for EqualTo, got %r" % rvalue
-        )
+        assert isinstance(rvalue, RValue), "Expected RValue for EqualTo, got %r" % rvalue
         self.rvalue = rvalue
 
     def check_contract(self, context, value, silent):
         val = eval_in_context(context, self.rvalue, self)
         if not (val == value):
             error = "EqualTo: Condition %s == %s not respected." % (val, value)
-            raise ContractNotRespected(
-                contract=self, error=error, value=value, context=context
-            )
+            raise ContractNotRespected(contract=self, error=error, value=value, context=context)
 
     def __str__(self):
         return "%s" % self.rvalue

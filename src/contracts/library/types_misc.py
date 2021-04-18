@@ -23,9 +23,7 @@ class CheckType(Contract):
                 self.types.__name__,
                 describe_type(value),
             )
-            raise ContractNotRespected(
-                contract=self, error=error, value=value, context=context
-            )
+            raise ContractNotRespected(contract=self, error=error, value=value, context=context)
 
     def __str__(self):
         return self.type_string
@@ -80,9 +78,7 @@ class Type(Contract):
         return Type(type_constraint, where)
 
 
-type_contract = (
-    Keyword("type") - S("(") - contract_expression("type_constraint") - S(")")
-)
+type_contract = Keyword("type") - S("(") - contract_expression("type_constraint") - S(")")
 
 add_contract(type_contract.setParseAction(Type.parse_action))
 add_keyword("type")

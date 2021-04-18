@@ -42,20 +42,18 @@ class CheckOrder(Contract):
         # in that case, we don't care for the type
 
         # FIXME: add support for != here
-        pure_equality = (self.smaller, self.equal, self.larger) == (
-            False,
-            True,
-            False,
-        ) or (self.smaller, self.equal, self.larger) == (True, False, True)
+        pure_equality = (self.smaller, self.equal, self.larger) == (False, True, False,) or (
+            self.smaller,
+            self.equal,
+            self.larger,
+        ) == (True, False, True)
 
         if pure_equality:
             # but we want them to be either numbers or same type
-            if (not (isnumber(val1) and isnumber(val2))) and (
-                not isinstance(val1, val2.__class__)
-            ):
-                msg = (
-                    "I won't let you compare two different types if they "
-                    "are not numbers (%s,%s)" % (type(val1), type(val2))
+            if (not (isnumber(val1) and isnumber(val2))) and (not isinstance(val1, val2.__class__)):
+                msg = "I won't let you compare two different types if they " "are not numbers (%s,%s)" % (
+                    type(val1),
+                    type(val2),
                 )
                 raise ContractNotRespected(self, msg, (val1, val2), context)
 
@@ -65,10 +63,7 @@ class CheckOrder(Contract):
 
             for val in [val1, val2]:
                 if not isnumber(val):
-                    msg = (
-                        "I can only compare the order of numbers, not %r."
-                        % val.__class__.__name__
-                    )
+                    msg = "I can only compare the order of numbers, not %r." % val.__class__.__name__
                     raise ContractNotRespected(self, msg, (val1, val2), context)
 
             if math.isnan(val1) or math.isnan(val2):
@@ -90,9 +85,7 @@ class CheckOrder(Contract):
         if not ok:
             error = "Condition %s %s %s not respected" % (val1, self.glyph, val2)
 
-            raise ContractNotRespected(
-                contract=self, error=error, value=value, context=context
-            )
+            raise ContractNotRespected(contract=self, error=error, value=value, context=context)
 
     def __str__(self):
         if self.expr1 is not None:

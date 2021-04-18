@@ -17,14 +17,12 @@ class BindVariable(Contract):
             expected = context[self.variable]
             if not (expected == value):
                 # TODO: add where it was bound
-                error = (
-                    "Expected value for %r was: %s\n"
-                    "        instead I received: %s"
-                    % (self.variable, describe_value(expected), describe_value(value))
+                error = "Expected value for %r was: %s\n" "        instead I received: %s" % (
+                    self.variable,
+                    describe_value(expected),
+                    describe_value(value),
                 )
-                raise ContractNotRespected(
-                    contract=self, error=error, value=value, context=context
-                )
+                raise ContractNotRespected(contract=self, error=error, value=value, context=context)
 
         else:
             # bound variable
@@ -94,9 +92,7 @@ nofollow += " A B C D E F G H I J K L M N O P Q R S T U W V X Y Z "
 nofollow += " 0 1 2 3 4 5 6 7 8 9 _"
 # but recall 'axis_angle'
 int_variables = oneOf(alphabetu.split()) + FollowedBy(NotAny(oneOf(nofollow.split())))
-misc_variables = oneOf(alphabetl.split()) + FollowedBy(
-    NotAny(oneOf(nofollow.split() + ["x"]))
-)
+misc_variables = oneOf(alphabetl.split()) + FollowedBy(NotAny(oneOf(nofollow.split() + ["x"])))
 int_variables_ref = int_variables.copy().setParseAction(VariableRef.parse_action)
 misc_variables_ref = misc_variables.copy().setParseAction(VariableRef.parse_action)
 
@@ -110,10 +106,6 @@ nofollow += " * - + / "
 nofollow += " A B C D E F G H I J K L M N O P Q R S T U W V X Y Z "
 nofollow += " 0 1 2 3 4 5 6 7 8 9 _"
 int_variables2 = oneOf(alphabetu.split()) + FollowedBy(NotAny(oneOf(nofollow.split())))
-misc_variables2 = oneOf(alphabetl.split()) + FollowedBy(
-    NotAny(oneOf(nofollow.split() + ["x"]))
-)
+misc_variables2 = oneOf(alphabetl.split()) + FollowedBy(NotAny(oneOf(nofollow.split() + ["x"])))
 int_variables_contract = int_variables2.setParseAction(BindVariable.parse_action(int))
-misc_variables_contract = misc_variables2.setParseAction(
-    BindVariable.parse_action(object)
-)
+misc_variables_contract = misc_variables2.setParseAction(BindVariable.parse_action(object))

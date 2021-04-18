@@ -17,9 +17,7 @@ class Attr(Contract):
                 self.attrs[k]._check_contract(context, getattr(value, k), silent)
             else:
                 error = "Expected an attribute %r." % k
-                raise ContractNotRespected(
-                    contract=self, error=error, value=value, context=context
-                )
+                raise ContractNotRespected(contract=self, error=error, value=value, context=context)
 
     def __str__(self):
         sattrs = ";".join(["%s:%s" % (k, self.attrs[k]) for k in sorted(self.attrs)])

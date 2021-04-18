@@ -25,9 +25,11 @@ class ArrayElementsTest(Contract):
         num = value.size
         num_fail = len(some)
         perc = 100.0 * num_fail / num
-        error = (
-            "In this array, %d/%d (%f%%) of elements do not respect "
-            "the condition %s." % (num_fail, num, perc, self)
+        error = "In this array, %d/%d (%f%%) of elements do not respect " "the condition %s." % (
+            num_fail,
+            num,
+            perc,
+            self,
         )
         some_failures = valuef[some]
         MAX_N = 4
@@ -138,8 +140,8 @@ class ArrayAnd(ArrayLogical):
 
 
 class ArrayConstraint(ArrayElementsTest):
-    """ Comparisons for numpy array elements. They check that
-        the condition is respected for all the entries in the array. """
+    """Comparisons for numpy array elements. They check that
+    the condition is respected for all the entries in the array."""
 
     constraints = {
         "=": lambda x, rvalue: x == rvalue,
