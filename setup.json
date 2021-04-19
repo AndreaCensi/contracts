@@ -4,7 +4,7 @@
     "future",
     "nose",
     "numpy",
-    "pyparsing",
+    "pyparsing<3",
     "six"
   ],
   "tests_require": [],
@@ -22,8 +22,8 @@
     "contracts.testing.library",
     "contracts.useful_contracts"
   ],
-  "version": "7.1.2103262007",
+  "version": "7.1.2104191743",
   "author": "",
   "author_email": "info@zupermind.com",
-  "url": "http://github.com/zupermind/PACKAGENAME"
+  "url": "https://github.com/zupermind/PACKAGENAME"
 }
