@@ -96,14 +96,14 @@ jobs:
         name: Run tests
         command: |
           mkdir -p out/test-results
-          xunit_output=out/test-results/nose-${CIRCLE_NODE_INDEX}-xunit.xml
+          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-xunit.xml
 
           #              --processes=8 --process-timeout=1000 --process-restartworker \
           # --cover-packages=${COVER_PACKAGES} \
           nosetests \
             --rednose --immediate \
             --cover-tests --with-coverage \
-            --with-xunitmp --xunitmp-file=${xunit_output} \
+            --with-xunit --xunit-file=${xunit_output} \
             --cover-package=${COVER_PACKAGES} \
             ${TEST_PACKAGES}
 
@@ -218,14 +218,14 @@ jobs:
         name: Run tests
         command: |
           mkdir -p out/test-results
-          xunit_output=out/test-results/nose-${CIRCLE_NODE_INDEX}-xunit.xml
+          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-xunit.xml
 
           #              --processes=8 --process-timeout=1000 --process-restartworker \
           # --cover-packages=${COVER_PACKAGES} \
           nosetests \
             --rednose --immediate \
             --cover-tests --with-coverage \
-            --with-xunitmp --xunitmp-file=${xunit_output} \
+            --with-xunit --xunit-file=${xunit_output} \
             --cover-package=${COVER_PACKAGES} \
             ${TEST_PACKAGES}
 
@@ -259,4 +259,4 @@ jobs:
         command: |
           bash <(curl -s https://codecov.io/bash)
 
-# sigil 753dc47765444975537bf9932ce96d4c
+# sigil 75a0080226f5b41d0a08c155dc51b3c6
