@@ -1,32 +1,44 @@
+---
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.4.0
-    hooks:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v3.4.0
+  hooks:
       #    -   id: trailing-whitespace
       #    -   id: end-of-file-fixer
       #    -   id: check-yaml
-      - id: check-added-large-files
-      - id: check-case-conflict
+  - id: check-added-large-files
+  - id: check-case-conflict
       # - id: check-docstring-first
-      - id: check-executables-have-shebangs
-      - id: check-merge-conflict
-      - id: check-symlinks
+  - id: check-executables-have-shebangs
+  - id: check-merge-conflict
+  - id: check-symlinks
       # - id: check-json
 
 
     # -   id: flake8
     #     args: [--max-line-length=100]
-  - repo: https://github.com/psf/black
-    rev: 20.8b1
-    hooks:
-      - id: black
-        language_version: python3.8
-        args: [ "-l", '110' ]
+- repo: https://github.com/psf/black
+  rev: 20.8b1
+  hooks:
+  - id: black
+    language_version: python3.8
+    args: [-l, '110']
+#- repo: https://github.com/adrienverge/yamllint.git
+#  rev: v1.26.1    # or higher tag
+#  hooks:
+#  - id: yamllint
+#    args: [--format, parsable]
+- repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
+  rev: 0.1.0    # or specific tag
+  hooks:
+  - id: yamlfmt
+    args: [--mapping, '2', --sequence, '2', --offset, '0', --colons, --width, '150']
+
 
 #exclude: .bumpversion.cfg
 
-files: ^src/.*py
+files: (^src/.*py)|(.*yaml)
 
-# sigil 9ac8f1e020c51b34fa0c9b3426ca7565
+# sigil 33e608d109102a9d1b7c5be1fe7b428d

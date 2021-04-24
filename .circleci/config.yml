@@ -3,6 +3,16 @@ workflows:
   version: 2
   test:
     jobs:
+    - test-3.7-staging:
+        context: pip-staging
+        filters:
+          branches:
+            only: /z7-stage.*/
+    - test-3.7-production:
+        context: z7-production
+        filters:
+          branches:
+            ignore: /z7-stage.*/
     - test-3.8-staging:
         context: pip-staging
         filters:
@@ -14,6 +24,250 @@ workflows:
           branches:
             ignore: /z7-stage.*/
 jobs:
+  test-3.7-staging:
+    environment:
+      COLUMNS: '160'
+      # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      COVER_PACKAGES: contracts
+      TEST_PACKAGES: contracts
+    docker:
+    - image: ${DOCKER_REGISTRY}/zupermind/zuper-ci-3.7:z7
+      auth:
+        username: $DOCKER_USERNAME
+        password: $DOCKER_PASSWORD
+    working_directory: ~/repo
+    steps:
+    - checkout
+    - run:
+        name: Build stats (1)
+        command: |
+          mkdir -p  build-stats
+          env | tee  build-stats/env.txt
+    - store_artifacts:
+        path: build-stats
+        destination: build-stats
+    - run:
+        name: Install deps
+        command: |
+          # pip3 install -U pip
+          # pip3 install pipdeptree coverage shyaml
+
+          shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
+          pip3 install  -r .requirements.txt
+          rm .requirements.txt
+
+
+    - run:
+        name: Install testing deps
+        command: |
+          shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
+          pip3 install -r .requirements_tests.txt
+          rm .requirements_tests.txt
+
+          #pip install 		pipdeptree==0.13.2		bump2version		nose==1.3.7		nose2==0.10		nose2-html-report==0.6.0		nose-parallel==0.4.0		nose_xunitmp==0.4.1		pre-commit==2.11.1		rednose==1.3.0		coverage	sphinx		sphinx-rtd-theme
+
+
+    - run:
+        name: Build stats (2)
+        command: |
+          echo TERM = $TERM
+
+          pipdeptree | tee  build-stats/pipdeptree.txt
+          pip list   | tee  build-stats/pip-list.txt
+          pip freeze | tee  build-stats/pip-freeze.txt
+    - store_artifacts:
+        path: build-stats
+        destination: build-stats
+    - run:
+        name: setup.py develop
+        command: |
+          python setup.py develop --prefix ~/.local --no-deps
+
+    - run:
+        name: Make docs
+        command: |
+          FILE=src/conf.py
+          mkdir -p out/docs
+          if test -f "$FILE"; then
+              sphinx-build src out/docs
+          fi
+
+    - store_artifacts:
+        when: always
+        path: out/docs
+        destination: docs
+      # - run:
+      #     name: Notebooks
+      #     command: |
+      #       make -C notebooks cleanup all
+
+    - run:
+        name: Run tests
+        command: |
+          mkdir -p out/test-results
+          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-xunit.xml
+
+          #              --processes=8 --process-timeout=1000 --process-restartworker \
+          # --cover-packages=${COVER_PACKAGES} \
+          nosetests \
+            --rednose --immediate \
+            --cover-tests --with-coverage \
+            --with-xunit --xunit-file=${xunit_output} \
+            --cover-package=${COVER_PACKAGES} \
+            ${TEST_PACKAGES}
+
+
+    - store_test_results:
+        when: always
+        path: out/test-results
+
+    - run:
+        name: Coverage report
+        when: always
+        command: |
+          coverage combine || true
+          coverage html -d out/coverage
+          coverage xml
+
+
+    - store_artifacts:
+        when: always
+        path: out/coverage
+        destination: coverage
+
+    - store_artifacts:
+        when: always
+        path: out/tests
+        destination: tests
+
+    - run:
+        name: CodeCov
+        when: always
+        command: |
+          bash <(curl -s https://codecov.io/bash)
+  test-3.7-production:
+    environment:
+      COLUMNS: '160'
+      # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      COVER_PACKAGES: contracts
+      TEST_PACKAGES: contracts
+    docker:
+    - image: ${DOCKER_REGISTRY}/zupermind/zuper-ci-3.7:z7
+      auth:
+        username: $DOCKER_USERNAME
+        password: $DOCKER_PASSWORD
+    working_directory: ~/repo
+    steps:
+    - checkout
+    - run:
+        name: Build stats (1)
+        command: |
+          mkdir -p  build-stats
+          env | tee  build-stats/env.txt
+    - store_artifacts:
+        path: build-stats
+        destination: build-stats
+    - run:
+        name: Install deps
+        command: |
+          # pip3 install -U pip
+          # pip3 install pipdeptree coverage shyaml
+
+          shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
+          pip3 install  -r .requirements.txt
+          rm .requirements.txt
+
+
+    - run:
+        name: Install testing deps
+        command: |
+          shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
+          pip3 install -r .requirements_tests.txt
+          rm .requirements_tests.txt
+
+          #pip install 		pipdeptree==0.13.2		bump2version		nose==1.3.7		nose2==0.10		nose2-html-report==0.6.0		nose-parallel==0.4.0		nose_xunitmp==0.4.1		pre-commit==2.11.1		rednose==1.3.0		coverage	sphinx		sphinx-rtd-theme
+
+
+    - run:
+        name: Build stats (2)
+        command: |
+          echo TERM = $TERM
+
+          pipdeptree | tee  build-stats/pipdeptree.txt
+          pip list   | tee  build-stats/pip-list.txt
+          pip freeze | tee  build-stats/pip-freeze.txt
+    - store_artifacts:
+        path: build-stats
+        destination: build-stats
+    - run:
+        name: setup.py develop
+        command: |
+          python setup.py develop --prefix ~/.local --no-deps
+
+    - run:
+        name: Make docs
+        command: |
+          FILE=src/conf.py
+          mkdir -p out/docs
+          if test -f "$FILE"; then
+              sphinx-build src out/docs
+          fi
+
+    - store_artifacts:
+        when: always
+        path: out/docs
+        destination: docs
+      # - run:
+      #     name: Notebooks
+      #     command: |
+      #       make -C notebooks cleanup all
+
+    - run:
+        name: Run tests
+        command: |
+          mkdir -p out/test-results
+          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-xunit.xml
+
+          #              --processes=8 --process-timeout=1000 --process-restartworker \
+          # --cover-packages=${COVER_PACKAGES} \
+          nosetests \
+            --rednose --immediate \
+            --cover-tests --with-coverage \
+            --with-xunit --xunit-file=${xunit_output} \
+            --cover-package=${COVER_PACKAGES} \
+            ${TEST_PACKAGES}
+
+
+    - store_test_results:
+        when: always
+        path: out/test-results
+
+    - run:
+        name: Coverage report
+        when: always
+        command: |
+          coverage combine || true
+          coverage html -d out/coverage
+          coverage xml
+
+
+    - store_artifacts:
+        when: always
+        path: out/coverage
+        destination: coverage
+
+    - store_artifacts:
+        when: always
+        path: out/tests
+        destination: tests
+
+    - run:
+        name: CodeCov
+        when: always
+        command: |
+          bash <(curl -s https://codecov.io/bash)
   test-3.8-staging:
     environment:
       COLUMNS: '160'
@@ -259,4 +513,4 @@ jobs:
         command: |
           bash <(curl -s https://codecov.io/bash)
 
-# sigil 75a0080226f5b41d0a08c155dc51b3c6
+# sigil cba2ccc309984a4ec4a50d75b60b3f54
