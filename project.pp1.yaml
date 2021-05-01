@@ -1,34 +1,44 @@
-package_name: PyContracts3
-srcdir: src
-version_file: '1'
-modules:
+---
+package_name         : PyContracts3
+srcdir               : src
+version_file         : '1'
+modules              :
 - contracts
 
-install_requires: [pyparsing<3, decorator<5, six, future, nose, numpy]
+install_requires     :
+- pyparsing<3
+- decorator<5
+- six
+- future
+- nose
+- numpy
 
-install_conflicts: [PyContracts*]
-tests_require: []
+install_conflicts    :
+- PyContracts*
+tests_require        : []
 
-console_scripts: {}
+console_scripts      : {}
 
-nose:
+nose                 :
   modules:
   - contracts
   python_versions:
   - '3.7'
   - '3.8'
 
-pypi:
+pypi                 :
   upload: []
 
-circleci:
+circleci             :
   active: true
-  test_python_versions: ['3.7', '3.8']
+  test_python_versions:
+  - '3.7'
+  - '3.8'
 
 python_syntax_version: '3.8'
 
-url: https://github.com/zupermind/PACKAGENAME
-author: ''
-author_email: info@zupermind.com
-short_description: ''
-full_description: ''
+url                  : https://github.com/zupermind/PACKAGENAME
+author               : ''
+author_email         : info@zupermind.com
+short_description    : ''
+full_description     : ''
