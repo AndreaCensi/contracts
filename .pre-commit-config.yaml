@@ -34,11 +34,12 @@ repos:
   rev: 0.1.0    # or specific tag
   hooks:
   - id: yamlfmt
-    args: [--mapping, '2', --sequence, '2', --offset, '0', --colons, --width, '150']
+#    args: [--mapping, '2', --sequence, '2', --offset, '0', --colons, --width, '150']
+    args: [--width, '150']
 
 
 #exclude: .bumpversion.cfg
 
 files: (^src/.*py)|(.*yaml)
 
-# sigil 33e608d109102a9d1b7c5be1fe7b428d
+# sigil ed72523bfd2eaafabb2cfb97013d6b86
