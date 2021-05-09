@@ -13,8 +13,6 @@ install_requires:
 - nose
 - numpy
 
-install_conflicts:
-- PyContracts*
 tests_require: []
 
 console_scripts: {}
