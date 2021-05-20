@@ -22,7 +22,7 @@
     "contracts.testing.library",
     "contracts.useful_contracts"
   ],
-  "version": "7.1.2105101420",
+  "version": "7.1.2105201758",
   "author": "Andrea Censi",
   "author_email": "andrea@zupermind.com",
   "url": "https://github.com/AndreaCensi/contracts"
