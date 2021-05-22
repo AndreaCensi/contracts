@@ -90,16 +90,7 @@ jobs:
         when: always
         path: out/docs
         destination: docs
-    - run:
-        background: true
-        name: services
-        command: |
-          TARGET=services
-          if make -n $TARGET ; then
-              make $TARGET
-          else
-              echo "Target $TARGET not defined"
-          fi
+
     - run:
         name: pre-circle-tests
         command: |
@@ -109,7 +100,6 @@ jobs:
           else
               echo "Target $TARGET not defined"
           fi
-
 
       # - run:
       #     name: Notebooks
@@ -235,16 +225,7 @@ jobs:
         when: always
         path: out/docs
         destination: docs
-    - run:
-        background: true
-        name: services
-        command: |
-          TARGET=services
-          if make -n $TARGET ; then
-              make $TARGET
-          else
-              echo "Target $TARGET not defined"
-          fi
+
     - run:
         name: pre-circle-tests
         command: |
@@ -254,7 +235,6 @@ jobs:
           else
               echo "Target $TARGET not defined"
           fi
-
 
       # - run:
       #     name: Notebooks
@@ -380,16 +360,7 @@ jobs:
         when: always
         path: out/docs
         destination: docs
-    - run:
-        background: true
-        name: services
-        command: |
-          TARGET=services
-          if make -n $TARGET ; then
-              make $TARGET
-          else
-              echo "Target $TARGET not defined"
-          fi
+
     - run:
         name: pre-circle-tests
         command: |
@@ -399,7 +370,6 @@ jobs:
           else
               echo "Target $TARGET not defined"
           fi
-
 
       # - run:
       #     name: Notebooks
@@ -525,16 +495,7 @@ jobs:
         when: always
         path: out/docs
         destination: docs
-    - run:
-        background: true
-        name: services
-        command: |
-          TARGET=services
-          if make -n $TARGET ; then
-              make $TARGET
-          else
-              echo "Target $TARGET not defined"
-          fi
+
     - run:
         name: pre-circle-tests
         command: |
@@ -544,7 +505,6 @@ jobs:
           else
               echo "Target $TARGET not defined"
           fi
-
 
       # - run:
       #     name: Notebooks
@@ -605,4 +565,4 @@ jobs:
           bash <(curl -s https://codecov.io/bash)
     resource_class: medium+
 
-# sigil a0a4e393a0a89f26a3c3644d8a3db62e
+# sigil e3ff088be2fe67daa29b313f5af296d2
