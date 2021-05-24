@@ -168,7 +168,7 @@ jobs:
         when: always
         command: |
           bash <(curl -s https://codecov.io/bash)
-    resource_class: medium+
+    resource_class: medium
   test-3.7-production:
     environment:
       COLUMNS: '160'
@@ -313,7 +313,7 @@ jobs:
         when: always
         command: |
           bash <(curl -s https://codecov.io/bash)
-    resource_class: medium+
+    resource_class: medium
   test-3.8-staging:
     environment:
       COLUMNS: '160'
@@ -458,7 +458,7 @@ jobs:
         when: always
         command: |
           bash <(curl -s https://codecov.io/bash)
-    resource_class: medium+
+    resource_class: medium
   test-3.8-production:
     environment:
       COLUMNS: '160'
@@ -603,6 +603,6 @@ jobs:
         when: always
         command: |
           bash <(curl -s https://codecov.io/bash)
-    resource_class: medium+
+    resource_class: medium
 
-# sigil a0a4e393a0a89f26a3c3644d8a3db62e
+# sigil 094d147571b2d2d3f620e606bf97b430
