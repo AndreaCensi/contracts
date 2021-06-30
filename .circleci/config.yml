@@ -1,3 +1,5 @@
+%YAML 1.1
+---
 version: '2'
 workflows:
   version: 2
@@ -87,7 +89,6 @@ jobs:
           fi
 
     - store_artifacts:
-        when: always
         path: out/docs
         destination: docs
     - run:
@@ -141,7 +142,6 @@ jobs:
           fi
 
     - store_test_results:
-        when: always
         path: out/test-results
 
     - run:
@@ -154,12 +154,10 @@ jobs:
 
 
     - store_artifacts:
-        when: always
         path: out/coverage
         destination: coverage
 
     - store_artifacts:
-        when: always
         path: out/tests
         destination: tests
 
@@ -232,7 +230,6 @@ jobs:
           fi
 
     - store_artifacts:
-        when: always
         path: out/docs
         destination: docs
     - run:
@@ -286,7 +283,6 @@ jobs:
           fi
 
     - store_test_results:
-        when: always
         path: out/test-results
 
     - run:
@@ -299,12 +295,10 @@ jobs:
 
 
     - store_artifacts:
-        when: always
         path: out/coverage
         destination: coverage
 
     - store_artifacts:
-        when: always
         path: out/tests
         destination: tests
 
@@ -377,7 +371,6 @@ jobs:
           fi
 
     - store_artifacts:
-        when: always
         path: out/docs
         destination: docs
     - run:
@@ -431,7 +424,6 @@ jobs:
           fi
 
     - store_test_results:
-        when: always
         path: out/test-results
 
     - run:
@@ -444,12 +436,10 @@ jobs:
 
 
     - store_artifacts:
-        when: always
         path: out/coverage
         destination: coverage
 
     - store_artifacts:
-        when: always
         path: out/tests
         destination: tests
 
@@ -522,7 +512,6 @@ jobs:
           fi
 
     - store_artifacts:
-        when: always
         path: out/docs
         destination: docs
     - run:
@@ -576,7 +565,6 @@ jobs:
           fi
 
     - store_test_results:
-        when: always
         path: out/test-results
 
     - run:
@@ -589,12 +577,10 @@ jobs:
 
 
     - store_artifacts:
-        when: always
         path: out/coverage
         destination: coverage
 
     - store_artifacts:
-        when: always
         path: out/tests
         destination: tests
 
@@ -605,4 +591,4 @@ jobs:
           bash <(curl -s https://codecov.io/bash)
     resource_class: medium
 
-# sigil 094d147571b2d2d3f620e606bf97b430
+# sigil 15154035aa2aa45d34cf398caaed8b7a
