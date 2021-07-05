@@ -1,5 +1,5 @@
 from ..interface import Contract, ContractNotRespected
-from contracts.syntax import W, S, Keyword, add_contract, add_keyword
+from ..contracts.syntax import W, S, Keyword, add_contract, add_keyword
 from pyparsing import alphanums, Word
 
 __all__ = ['IsInstance', 'isinstance_contract']

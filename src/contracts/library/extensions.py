@@ -60,7 +60,7 @@ class Extension(Contract):
         if not identifier in Extension.registrar:
             raise ParseException('Unknown extension contract %r' % identifier)
         
-        # from contracts.library.separate_context import SeparateContext
+        # from ..contracts.library.separate_context import SeparateContext
         
         contract_ext = Extension.registrar[identifier]
         
@@ -68,7 +68,7 @@ class Extension(Contract):
             callable_thing = contract_ext.callable 
          
             test_args = ('value',) + args
-            from contracts.inspection import check_callable_accepts_these_arguments, InvalidArgs
+            from ..contracts.inspection import check_callable_accepts_these_arguments, InvalidArgs
          
             try:
                 check_callable_accepts_these_arguments(callable_thing, test_args, kwargs)

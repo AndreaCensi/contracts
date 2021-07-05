@@ -107,7 +107,7 @@ def format_dict_long(d, informal=False):
 
 
 def _get_str(x, informal):
-    from contracts.interface import describe_value_multiline
+    from ..contracts.interface import describe_value_multiline
     if informal:
         s = x.__str__()
     else:

@@ -1,6 +1,6 @@
 import unittest
 
-from contracts import (check, ContractNotRespected, Contract, parse,
+from ...contracts import (check, ContractNotRespected, Contract, parse,
                        check_multiple, ContractSyntaxError, fail)
 
 
@@ -81,7 +81,7 @@ class TestIdioms(unittest.TestCase):
                           'my message')
 
 #     def test_symbols(self):
-#         from contracts import contract_expression  # @UnusedImport
+#         from ...contracts import contract_expression  # @UnusedImport
         # TODO: type
 
     def test_equality_contract(self):

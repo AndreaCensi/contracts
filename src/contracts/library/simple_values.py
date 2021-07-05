@@ -29,7 +29,7 @@ class EqualTo(Contract):
     def parse_action(s, loc, tokens):
         where = W(s, loc)
         rvalue = tokens[0]
-        from contracts.library.types_misc import CheckType
+        from ..contracts.library.types_misc import CheckType
         if isinstance(rvalue, CheckType):
             return rvalue
         else:

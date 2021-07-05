@@ -2,7 +2,7 @@
 # FIXME: how can I not parse this with python2?
 
 import unittest
-from contracts import decorate, ContractException, contract, ContractNotRespected
+from ..contracts import decorate, ContractException, contract, ContractNotRespected
 
 
 #@PydevCodeAnalysisIgnore

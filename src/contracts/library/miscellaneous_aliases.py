@@ -11,8 +11,8 @@ def ist(C):
 
 
 def m_new_contract(name, f):
-    from contracts.library.extensions import CheckCallable
-    from contracts.library.extensions import Extension
+    from ..contracts.library.extensions import CheckCallable
+    from ..contracts.library.extensions import Extension
     Extension.registrar[name] = CheckCallable(f)
     
 

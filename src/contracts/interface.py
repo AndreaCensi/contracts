@@ -20,7 +20,7 @@ class Where(object):
     """
 
     def __init__(self, string, character, character_end=None):
-        from contracts.utils import raise_desc
+        from ..contracts.utils import raise_desc
         if not isinstance(string, six.string_types):
             msg = 'I expect the string to be a str, not %r' % string
             raise ValueError(msg)
@@ -63,7 +63,7 @@ class Where(object):
 
     def get_substring(self):
         """ Returns the substring to which we refer. Raises error if character_end is None """
-        from contracts.utils import raise_desc
+        from ..contracts.utils import raise_desc
 
         if self.character_end is None:
             msg = 'Character end is None'
@@ -225,7 +225,7 @@ def location(line, col, s):
 
 
 def add_prefix(s, prefix):
-    from contracts import check_isinstance
+    from ..contracts import check_isinstance
     check_isinstance(s, six.string_types)
     check_isinstance(prefix, six.string_types)
     result = ""
@@ -465,7 +465,7 @@ class Contract(with_metaclass(ABCMeta, object)):
 
             Example:
 
-            >>> from contracts import parse
+            >>> from ..contracts import parse
             >>> contract = parse('list[N]')
             >>> contract.__repr__()
             "List(BindVariable('N',int),None)"
@@ -473,7 +473,7 @@ class Contract(with_metaclass(ABCMeta, object)):
             All the symbols you need to eval() the expression are in
             :py:mod:`contracts.library`.
 
-            >>> from contracts.library import *
+            >>> from ..contracts.library import *
             >>> contract == eval("%r"%contract)
             True
 
@@ -489,7 +489,7 @@ class Contract(with_metaclass(ABCMeta, object)):
 
             Example:
 
-            >>> from contracts import parse
+            >>> from ..contracts import parse
             >>> spec = 'list[N]'
             >>> contract = parse(spec)
             >>> contract
@@ -505,7 +505,7 @@ class Contract(with_metaclass(ABCMeta, object)):
 
             Example with extra parenthesis and whitespace:
 
-            >>> from contracts import parse
+            >>> from ..contracts import parse
             >>> verbose_spec = 'list[((N))]( int, > 0)'
             >>> contract = parse(verbose_spec)
             >>> str(contract)

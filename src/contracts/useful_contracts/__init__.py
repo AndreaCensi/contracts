@@ -1,4 +1,4 @@
-from contracts import new_contract
+from ..contracts import new_contract
 
 try:
     import numpy

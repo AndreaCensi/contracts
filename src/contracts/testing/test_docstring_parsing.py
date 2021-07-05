@@ -1,7 +1,7 @@
 import unittest
 
 from ..docstring_parsing import DocStringInfo, Arg, number_of_spaces
-from contracts.interface import add_prefix
+from ...contracts.interface import add_prefix
 
 
 examples = {"""

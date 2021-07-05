@@ -1,6 +1,6 @@
 from .utils import check_contracts_fail
-from contracts import ContractNotRespected, parse, Contract
-from contracts.test_registrar import (semantic_fail_examples,
+from ...contracts import ContractNotRespected, parse, Contract
+from ...contracts.test_registrar import (semantic_fail_examples,
     contract_fail_examples, good_examples)
 import pickle
 

@@ -1,4 +1,4 @@
-from contracts.main import new_contract
+from ..contracts.main import new_contract
 
 __all__ = []
 
