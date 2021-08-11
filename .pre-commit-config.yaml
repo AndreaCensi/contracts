@@ -32,7 +32,7 @@ repos:
   rev: 0.1.0 # or specific tag
   hooks:
   - id: yamlfmt
-    args: [--mapping, '2', --sequence, '2', --offset, '0', --width, '150']
+    args: [--mapping, '2', --sequence, '2', --offset, '0', --width, '150', --preserve-quotes]
     #            args: [--mapping, '2', --sequence, '0', --offset, '0', --width, '150']
 
 
@@ -40,4 +40,4 @@ repos:
 
 files: (^src/.*py)|(.*yaml)
 
-# sigil 923bb2ac5acba4a5234a25f0582ca727
+# sigil 9368a5a96b8304aad4482dfbc5ccf19c
