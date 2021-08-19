@@ -1,4 +1,4 @@
-__version__ = "devel"
+__version__ = "7.2"
 
 import logging
 
