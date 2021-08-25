@@ -112,10 +112,10 @@ jobs:
           fi
 
 
-      # - run:
-      #     name: Notebooks
-      #     command: |
-      #       make -C notebooks cleanup all
+    # - run:
+    #     name: Notebooks
+    #     command: |
+    #       make -C notebooks cleanup all
 
 
     - run:
@@ -253,10 +253,10 @@ jobs:
           fi
 
 
-      # - run:
-      #     name: Notebooks
-      #     command: |
-      #       make -C notebooks cleanup all
+    # - run:
+    #     name: Notebooks
+    #     command: |
+    #       make -C notebooks cleanup all
 
 
     - run:
@@ -394,10 +394,10 @@ jobs:
           fi
 
 
-      # - run:
-      #     name: Notebooks
-      #     command: |
-      #       make -C notebooks cleanup all
+    # - run:
+    #     name: Notebooks
+    #     command: |
+    #       make -C notebooks cleanup all
 
 
     - run:
@@ -535,10 +535,10 @@ jobs:
           fi
 
 
-      # - run:
-      #     name: Notebooks
-      #     command: |
-      #       make -C notebooks cleanup all
+    # - run:
+    #     name: Notebooks
+    #     command: |
+    #       make -C notebooks cleanup all
 
 
     - run:
@@ -591,4 +591,4 @@ jobs:
           bash <(curl -s https://codecov.io/bash)
     resource_class: medium
 
-# sigil 15154035aa2aa45d34cf398caaed8b7a
+# sigil e3bef1c0498a2205b26de987f5a65875

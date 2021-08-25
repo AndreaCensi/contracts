@@ -12,12 +12,13 @@ exclude LICENSE*
 prune .*
 exclude .*
 exclude src/conf.py
-exclude src/**/*.rst
-exclude src/**/*.less
-include src/**/*.css
-include src/**/*.sql
+recursive-exclude src *.rst
+recursive-exclude src *.less
+recursive-include src *.css
+recursive-include src *.sql
 prune src/**/__pycache__
 prune src/*_tests*
+prune out
 
 #@ add local below
 
