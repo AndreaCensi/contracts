@@ -1,9 +1,9 @@
 import unittest
 
-from contracts import (decorate, contract,
+from ...contracts import (decorate, contract,
                 ContractException, ContractNotRespected)
 
-from contracts.interface import MissingContract
+from ...contracts.interface import MissingContract
 
 
 class DecoratorTests(unittest.TestCase):

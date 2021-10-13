@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 import traceback
 import warnings
 
-import six
+from ._compat import IS_PY3, unicode, basestring
 
 from .interface import describe_type, describe_value  # @UnusedImport # old interface
 
@@ -17,11 +16,11 @@ __all__ = [
 ]
 
 
-def indent(s, prefix, first=None):
-    if not isinstance(s, six.string_types):
+def indent(s, prefix, first=None): # pragma: no cover
+    if not isinstance(s, basestring):
         s = u'{}'.format(s)
 
-    assert isinstance(prefix, six.string_types)
+    assert isinstance(prefix, basestring)
     try:
         lines = s.split('\n')
     except UnicodeDecodeError:
@@ -45,7 +44,7 @@ def indent(s, prefix, first=None):
     return '\n'.join(res)
 
 
-def deprecated(func):
+def deprecated(func): # pragma: no cover
     """This is a decorator which can be used to mark functions
     as deprecated. It will result in a warning being emitted
     when the function is used."""
@@ -67,7 +66,7 @@ def check_isinstance(ob, expected, **kwargs):
         raise_type_mismatch(ob, expected, **kwargs)
 
 
-def raise_type_mismatch(ob, expected, **kwargs):
+def raise_type_mismatch(ob, expected, **kwargs): # pragma: no cover
     """ Raises an exception concerning ob having the wrong type. """
     e = 'Object not of expected type:'
     e += '\n  expected: {}'.format(expected)
@@ -76,7 +75,7 @@ def raise_type_mismatch(ob, expected, **kwargs):
     raise ValueError(e)
 
 
-def format_dict_long(d, informal=False):
+def format_dict_long(d, informal=False): # pragma: no cover
     """
         k: value
            kooked
@@ -106,8 +105,8 @@ def format_dict_long(d, informal=False):
     return res
 
 
-def _get_str(x, informal):
-    from contracts.interface import describe_value_multiline
+def _get_str(x, informal):  # pragma: no cover
+    from ..contracts.interface import describe_value_multiline
     if informal:
         s = x.__str__()
     else:
@@ -115,7 +114,7 @@ def _get_str(x, informal):
     return s
 
 
-def format_list_long(l, informal=False):
+def format_list_long(l, informal=False): # pragma: no cover
     """
         - My 
           first
@@ -131,7 +130,7 @@ def format_list_long(l, informal=False):
     return res
 
 
-def format_obs(d, informal=False):
+def format_obs(d, informal=False): # pragma: no cover
     """ Shows objects values and typed for the given dictionary """
     if not d:
         return d.__str__()
@@ -159,7 +158,7 @@ def format_obs(d, informal=False):
     return res
 
 
-def raise_wrapped(etype, e, msg, compact=False, **kwargs):
+def raise_wrapped(etype, e, msg, compact=False, **kwargs): # pragma: no cover
     """ Raises an exception of type etype by wrapping
         another exception "e" with its backtrace and adding
         the objects in kwargs as formatted by format_obs.
@@ -169,22 +168,24 @@ def raise_wrapped(etype, e, msg, compact=False, **kwargs):
         exc = output of sys.exc_info()
     """
 
-    if six.PY3:
-        from six import raise_from
-        msg += '\n' + indent(e, '| ')
+    if IS_PY3:
+        msg += '\n' + indent(e, '│ ')
         e2 = etype(_format_exc(msg, **kwargs))
         # e2 = raise_wrapped_make(etype, e, msg, compact=compact, **kwargs)
-        raise_from(e2, e)
+        try:
+            raise e2 from e
+        finally:
+            e2 = None
         # raise e2
     else:
         e2 = raise_wrapped_make(etype, e, msg, compact=compact, **kwargs)
         raise e2
 
 
-def raise_wrapped_make(etype, e, msg, compact=False, **kwargs):
+def raise_wrapped_make(etype, e, msg, compact=False, **kwargs): # pragma: no cover
     """ Constructs the exception to be thrown by raise_wrapped() """
     assert isinstance(e, BaseException), type(e)
-    check_isinstance(msg, six.text_type)
+    check_isinstance(msg, unicode)
     s = msg
     if kwargs:
         s += '\n' + format_obs(kwargs)
@@ -195,28 +196,29 @@ def raise_wrapped_make(etype, e, msg, compact=False, **kwargs):
     # else:
     if compact:
         es = e.__str__()
-    else:
+    else:  # pragma: no cover
         es = traceback.format_exc()  # only PY2
 
     s += '\n' + indent(es.strip(), '| ')
 
     return etype(s)
 
-def _format_exc(msg, **kwargs):
-    check_isinstance(msg, six.text_type)
+
+def _format_exc(msg, **kwargs): # pragma: no cover
+    check_isinstance(msg, unicode)
     s = msg
     if kwargs:
         s += '\n' + format_obs(kwargs)
     return s
 
 
-def raise_desc(etype, msg, args_first=False, **kwargs):
+def raise_desc(etype, msg, args_first=False, **kwargs):  # pragma: no cover
     """
     
         Example:
             raise_desc(ValueError, "I don't know", a=a, b=b)
     """
-    assert isinstance(msg, six.string_types), type(msg)
+    assert isinstance(msg, basestring), type(msg)
     s1 = msg
     if kwargs:
         s2 = format_obs(kwargs)
@@ -272,7 +274,7 @@ def raise_desc(etype, msg, args_first=False, **kwargs):
 
 # from decorator import decorator  # @UnresolvedImport
 
-def ignore_typeerror(f):
+def ignore_typeerror(f):  # pragma: no cover
     """ Recasts TypeError as Exception; otherwise pyparsing gets confused. """
 
     def f2(*args, **kwargs):

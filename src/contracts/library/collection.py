@@ -1,3 +1,5 @@
+#cython: language_level=3, annotation_typing=True, c_string_encoding=utf-8, boundscheck=False, wraparound=False, initializedcheck=False
+
 import collections
 
 from ..interface import Contract, ContractNotRespected
@@ -16,7 +18,7 @@ class Collection(Contract):
         try:
             # latest python 3.6+
             self.__collection_types = collections.abc.Collection
-        except:
+        except:  # pragma: no cover
             try:
                 # older python 3
                 self.__collection_types = collections.Collection

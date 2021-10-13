@@ -1,8 +1,7 @@
+#cython: language_level=3, annotation_typing=True, c_string_encoding=utf-8, boundscheck=False, wraparound=True, initializedcheck=False
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 import sys
 from abc import ABCMeta, abstractmethod
-
 from .metaclass import with_metaclass
 
 
@@ -20,8 +19,8 @@ class Where(object):
     """
 
     def __init__(self, string, character, character_end=None):
-        from contracts.utils import raise_desc
-        if not isinstance(string, six.string_types):
+        from Aspidites._vendor.contracts.utils import raise_desc
+        if not isinstance(string, basestring):
             msg = 'I expect the string to be a str, not %r' % string
             raise ValueError(msg)
 
@@ -63,7 +62,7 @@ class Where(object):
 
     def get_substring(self):
         """ Returns the substring to which we refer. Raises error if character_end is None """
-        from contracts.utils import raise_desc
+        from Aspidites._vendor.contracts.utils import raise_desc
 
         if self.character_end is None:
             msg = 'Character end is None'
@@ -155,24 +154,20 @@ def format_where(w, context_before=3, mark=None, arrow=True,
 
 def printable_length_where(w):
     """ Returns the printable length of the substring """
-    if sys.version_info[0] >= 3:  # pragma: no cover
-        stype = str
-    else:
-        stype = unicode
     sub = w.string[w.character:w.character_end]
     # return len(stype(sub, 'utf-8'))
     # I am not really sure this is what we want
-    return len(stype(sub))
+    return len(str(sub))
 
 
-import six
+from Aspidites._vendor._compat import basestring
 
 
 def line_and_col(loc, strg):
     """Returns (line, col), both 0 based."""
     from .utils import check_isinstance
     check_isinstance(loc, int)
-    check_isinstance(strg, six.string_types)
+    check_isinstance(strg, basestring)
     # first find the line 
     lines = strg.split('\n')
 
@@ -216,7 +211,7 @@ def location(line, col, s):
     from .utils import check_isinstance
     check_isinstance(line, int)
     check_isinstance(col, int)
-    check_isinstance(s, six.string_types)
+    check_isinstance(s, basestring)
 
     lines = s.split('\n')
     previous_lines = sum(len(l) + len('\n') for l in lines[:line])
@@ -225,9 +220,9 @@ def location(line, col, s):
 
 
 def add_prefix(s, prefix):
-    from contracts import check_isinstance
-    check_isinstance(s, six.string_types)
-    check_isinstance(prefix, six.string_types)
+    from Aspidites._vendor.contracts import check_isinstance
+    check_isinstance(s, basestring)
+    check_isinstance(prefix, basestring)
     result = ""
     for l in s.split('\n'):
         result += prefix + l + '\n'
@@ -296,7 +291,7 @@ class ContractNotRespected(ContractException):
         Exception.__init__(self, contract, error, value, context)
         assert isinstance(contract, Contract), contract
         assert isinstance(context, dict), context
-        assert isinstance(error, six.string_types), error
+        assert isinstance(error, basestring), error
 
         self.contract = contract
         self.error = error
@@ -312,7 +307,8 @@ class ContractNotRespected(ContractException):
 
             # don't display these two if are not used
             for x in ['args', 'kwargs']:
-                if x in keys and not context[x]: keys.remove(x)
+                if x in keys and not context[x]:
+                    keys.remove(x)
 
             try:
                 varss = ['- %s: %s' % (k, describe_value(context[k], clip=70))
@@ -333,7 +329,7 @@ class ContractNotRespected(ContractException):
 
         context0 = self.stack[0][1]
 
-        if context0:
+        if tuple(context0.keys()) == ("",):  # test for an empty or empty-like dict
             msg += ('\nVariables bound in inner context:\n%s'
                     % context_to_string(context0))
 
@@ -363,6 +359,9 @@ class RValue(with_metaclass(ABCMeta, object)):
         return (self.__class__ == other.__class__ and
                 self.__repr__() == other.__repr__())
 
+    def __hash__(self):
+        return hash(self.__repr__())
+
     @abstractmethod
     def __repr__(self):
         """ Same constraints as :py:func:`Contract.__repr__()`. """
@@ -384,10 +383,13 @@ def eval_in_context(context, value, contract):
 
 class Contract(with_metaclass(ABCMeta, object)):
 
+    __slots__ = ('__contract__', 'where')
+
     def __init__(self, where):
         assert ((where is None) or
                 (isinstance(where, Where), 'Wrong type %s' % where))
         self.where = where
+        self.__contract__ = True
         self.enable()
 
     def enable(self):
@@ -536,7 +538,7 @@ class Contract(with_metaclass(ABCMeta, object)):
 
 
 inPy2 = sys.version_info[0] == 2
-if inPy2:
+if inPy2:  # pragma: no cover
     from types import ClassType
 
 
@@ -549,16 +551,13 @@ def clipped_repr(x, clip):
     return s
 
 
-# TODO: add checks for these functions
-
-
 def remove_newlines(s):
     return s.replace('\n', ' ')
 
 
 def describe_type(x):
     """ Returns a friendly description of the type of x. """
-    if inPy2 and isinstance(x, ClassType):
+    if inPy2 and isinstance(x, ClassType):  # pragma: no cover
         class_name = '(old-style class) %s' % x
     else:
         if hasattr(x, '__class__'):
@@ -590,7 +589,7 @@ def describe_value(x, clip=80):
         return remove_newlines(final)
 
 
-def describe_value_multiline(x):
+def describe_value_multiline(x):  # pragma: no cover
     """ Describes an object, for use in the error messages. """
     if hasattr(x, 'shape') and hasattr(x, 'dtype'):
         # XXX this fails for bs4, Tag
@@ -602,7 +601,7 @@ def describe_value_multiline(x):
         else:
             return x.__repr__()
     else:
-        if isinstance(x, six.string_types):
+        if isinstance(x, basestring):
             if x == '': return "''"
             return x
         # XXX: this does not represent strings
@@ -615,7 +614,7 @@ def describe_value_multiline(x):
         #                 return x.__repr__()
         else:
             class_name = describe_type(x)
-            # TODO: add all types
+            # TODO: add all types to describe_value_multiline
             desc = 'Instance of %s.' % class_name
             try:
                 # This fails for classes

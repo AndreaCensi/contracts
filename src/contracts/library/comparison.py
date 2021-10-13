@@ -1,6 +1,8 @@
+#cython: language_level=3, annotation_typing=True, c_string_encoding=utf-8, boundscheck=False, wraparound=False, initializedcheck=False
+
 import math
 
-from pyparsing import Or
+from Aspidites._vendor.pyparsing import Or
 
 from ..interface import Contract, ContractNotRespected, RValue, eval_in_context
 from ..syntax import W, add_contract, O, Literal, isnumber, rvalue

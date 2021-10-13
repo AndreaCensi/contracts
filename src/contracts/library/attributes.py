@@ -1,6 +1,7 @@
+#cython: language_level=3, annotation_typing=True, c_string_encoding=utf-8, boundscheck=False, wraparound=False, initializedcheck=False
 from ..interface import Contract, ContractNotRespected
 from ..syntax import W, contract_expression, add_contract, add_keyword, Keyword
-from pyparsing import (Dict, delimitedList, Group, alphanums, Suppress, Literal,
+from Aspidites._vendor.pyparsing import (Dict, delimitedList, Group, alphanums, Suppress, Literal,
     Word)
 
 

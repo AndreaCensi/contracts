@@ -1,5 +1,5 @@
-import collections
-
+#cython: language_level=3, annotation_typing=True, c_string_encoding=utf-8, boundscheck=False, wraparound=False, initializedcheck=False
+import collections.abc as collections
 
 
 def ist(C):
@@ -11,17 +11,16 @@ def ist(C):
 
 
 def m_new_contract(name, f):
-    from contracts.library.extensions import CheckCallable
-    from contracts.library.extensions import Extension
+    from Aspidites._vendor.contracts.library.extensions import CheckCallable
+    from Aspidites._vendor.contracts.library.extensions import Extension
     Extension.registrar[name] = CheckCallable(f)
     
 
 m_new_contract('Container', ist(collections.Container))
-# todo: Iterable(x)
 m_new_contract('Iterable', ist(collections.Iterable))
 
 m_new_contract('Hashable', ist(collections.Hashable))
-
+m_new_contract('Generator', ist(collections.Generator))
 
 
 m_new_contract('Iterator', ist(collections.Iterator))
@@ -42,5 +41,8 @@ m_new_contract('MutableMapping', ist(collections.MutableMapping))
 def is_None(x): 
     return x is None
 
+
+m_new_contract('procedure', is_None)
+m_new_contract('coroutine', ist(collections.Generator))
 m_new_contract('None', is_None)
 m_new_contract('NoneType', is_None)

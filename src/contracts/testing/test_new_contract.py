@@ -1,11 +1,11 @@
 import unittest
 
-from contracts import new_contract, check, Contract, contract
-from contracts.library.extensions import identifier_expression
+from ...contracts import new_contract, check, Contract, contract
+from ...contracts.library.extensions import identifier_expression
 
 from .utils import check_contracts_fail, check_contracts_ok
-from contracts.main import can_be_used_as_a_type, Storage
-from contracts.syntax import ParsingTmp
+from ...contracts.main import can_be_used_as_a_type, Storage
+from ...contracts.syntax import ParsingTmp
 
 # The different patterns
 
@@ -233,7 +233,7 @@ class TestNewContract(unittest.TestCase):
         @new_contract
         def even(x):
             return x % 2 == 0
-        from contracts import parse
+        from ...contracts import parse
         p = parse('even')
         p.check(2)
         p.check(4)
@@ -246,7 +246,7 @@ class TestNewContract(unittest.TestCase):
         def even2(x):
             return x % 2 == 0
 
-        from contracts import parse
+        from ...contracts import parse
         p = parse('even2')
         p.check(2)
         p.fail(3)
@@ -278,7 +278,7 @@ class TestNewContract(unittest.TestCase):
         assert can_be_used_as_a_type(NewStyleClass)
 
     def test_as_decorator_with_args(self):
-        from contracts import parse
+        from ...contracts import parse
 
         @new_contract
         def greater_than(value, thresh):
@@ -289,7 +289,7 @@ class TestNewContract(unittest.TestCase):
         p.fail(5)
 
     def test_as_decorator_with_kwargs(self):
-        from contracts import parse
+        from ...contracts import parse
 
         @new_contract
         def less_than(value, thresh=1):
@@ -300,7 +300,7 @@ class TestNewContract(unittest.TestCase):
         p.fail(2)
 
     def test_as_decorator_with_args_and_kwargs(self):
-        from contracts import parse
+        from ...contracts import parse
 
         @new_contract
         def less_than_all(value, a, b, c=1, d=5):

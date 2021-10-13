@@ -1,3 +1,4 @@
+#cython: language_level=3, annotation_typing=True, c_string_encoding=utf-8, boundscheck=False, wraparound=False, initializedcheck=False
 from abc import ABCMeta
 from types import FunctionType
 import traceback
@@ -7,10 +8,11 @@ __all__ = ['ContractsMeta']
 
 
 def is_function_or_static(f):
-    is_normal_function = isinstance(f, FunctionType)
-    is_staticmethod = isinstance(f, staticmethod)
-    is_classmethod = isinstance(f, classmethod)
+    is_normal_function: bool = isinstance(f, FunctionType)
+    is_staticmethod: bool = isinstance(f, staticmethod)
+    is_classmethod: bool = isinstance(f, classmethod)
     return is_normal_function or is_staticmethod or is_classmethod
+
 
 class ContractsMeta(ABCMeta):
     """
@@ -53,8 +55,8 @@ class ContractsMeta(ABCMeta):
                                 spec = f0.__contracts__
                                 # msg = 'inherit contracts for %s:%s() from %s' % (clsname, k, b.__name__)
                                 # print(msg)
-                                # TODO: check that the contracts are a subtype
-                                from contracts import ContractException
+                                # TODO: check that the contracts are a subtype of ContractsMeta
+                                from Aspidites._vendor.contracts import ContractException
                                 try:
                                     from .main import contracts_decorate
                                     f1 = contracts_decorate(f, **spec)
@@ -80,6 +82,7 @@ class ContractsMeta(ABCMeta):
             else:
                 pass
                 # print(' -> No inheritance for %s' % this_function)
+
 
 # This function is taken from six.
 # https://bitbucket.org/gutworth/six

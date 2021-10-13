@@ -1,4 +1,4 @@
-from contracts.test_registrar import syntax_fail, good, fail, semantic_fail
+from ....contracts.test_registrar import syntax_fail, good, fail, semantic_fail
 
 from . import dummy_tc
 from . import separate_context_tc

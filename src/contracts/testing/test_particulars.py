@@ -1,7 +1,7 @@
-from contracts import parse
-from contracts.interface import Where, ContractSyntaxError
-from contracts.library import *  # @UnusedWildImport
-from contracts.syntax import ParseFatalException, ParseException
+from ...contracts import parse
+from ...contracts.interface import Where, ContractSyntaxError
+from ...contracts.library import *  # @UnusedWildImport
+from ...contracts.syntax import ParseFatalException, ParseException
 import unittest
 
 

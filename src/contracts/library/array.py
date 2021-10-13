@@ -1,3 +1,4 @@
+#cython: language_level=3, annotation_typing=True, c_string_encoding=utf-8, boundscheck=False, wraparound=False, initializedcheck=False
 from ..interface import Contract, ContractNotRespected, describe_type
 from ..pyparsing_utils import myOperatorPrecedence
 from ..syntax import (add_contract, W, contract_expression, O, S, rvalue,
@@ -9,7 +10,7 @@ from .compositions import And, OR
 from .suggester import create_suggester
 from numpy import ndarray, dtype
 import numpy
-from pyparsing import infixNotation as operatorPrecedence, Or
+from Aspidites._vendor.pyparsing import infixNotation as operatorPrecedence, Or
 
 
 class Array(Contract):
@@ -71,7 +72,7 @@ class ShapeContract(Contract):
         expected = len(self.dimensions)
         ndim = len(value)
 
-        if ndim < expected:  # TODO: write clearer message
+        if ndim < expected:
             error = 'Expected %d dimensions, got %d.' % (expected, ndim)
             raise ContractNotRespected(contract=self, error=error,
                                        value=value, context=context)

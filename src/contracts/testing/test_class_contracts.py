@@ -1,4 +1,4 @@
-from contracts import contract, new_contract, ContractNotRespected
+from ...contracts import contract, new_contract, ContractNotRespected
 import unittest
 
 

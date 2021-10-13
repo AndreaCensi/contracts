@@ -1,7 +1,9 @@
 import os
+from glob import glob
+from pathlib import Path
 
 from setuptools import setup, find_packages
-
+from Cython.Build import cythonize
 description = (
     'PyContracts is a Python package that allows to declare '
     'constraints on function parameters and return values. '
@@ -36,10 +38,10 @@ def get_version(filename):
 
 version = get_version(filename='src/contracts/__init__.py')
 
-setup(name='PyContracts',
-      author="Andrea Censi",
+setup(name='contrax',
+      author="Ross J. Duff",
       author_email="censi@mit.edu",
-      url='http://andreacensi.github.com/contracts/',
+      url='http://rjbcm.github.com/contrax/',
 
       description=description,
       long_description=long_description,
@@ -53,7 +55,6 @@ setup(name='PyContracts',
           'Topic :: Software Development :: Quality Assurance',
           'Topic :: Software Development :: Documentation',
           'Topic :: Software Development :: Testing',
-          'Programming Language :: Python :: 2.7',
           'Programming Language :: Python :: 3',
           'Programming Language :: Python :: 3.4',
           'Programming Language :: Python :: 3.5',
@@ -62,7 +63,7 @@ setup(name='PyContracts',
 
       version=version,
       download_url='http://github.com/AndreaCensi/contracts/tarball/%s' % version,
-
+      ext_modules=cythonize([fn for fn in glob('src/contracts/*.py') if not Path(fn).name.startswith('_')]),
       package_dir={'': 'src'},
       packages=find_packages('src'),
       install_requires=['pyparsing', 'decorator', 'six', 'future'],

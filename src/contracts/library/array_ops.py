@@ -1,3 +1,4 @@
+#cython: language_level=3, annotation_typing=True, c_string_encoding=utf-8, boundscheck=False, wraparound=False, initializedcheck=False
 from abc import abstractmethod
 
 import numpy as np
@@ -222,7 +223,7 @@ class DType(ArrayElementsTest):
 
 
 np_types = {
-    'np_int': np.int,  # Platform integer (normally either int32 or int64)
+    'np_int': np.int_,  # Platform integer (normally either int32 or int64)
     'np_int8': np.int8,  # Byte (-128 to 127)
     'np_int16': np.int16,  # Integer (-32768 to 32767)
     'np_int32': np.int32,  # Integer (-2147483648 to 2147483647)
@@ -231,11 +232,11 @@ np_types = {
     'np_uint16': np.uint16,  # Unsigned integer (0 to 65535)
     'np_uint32': np.uint32,  # Unsigned integer (0 to 4294967295)
     'np_uint64': np.uint64,  # Unsigned integer (0 to 18446744073709551615)
-    'np_float': np.float,  # Shorthand for float64.
+    'np_float': np.float_,  # Shorthand for float64.
     'np_float16': np.float16,  # Half precision float: sign bit, 5 bits exponent, 10 bits mantissa
     'np_float32': np.float32,  # Single precision float: sign bit, 8 bits exponent, 23 bits mantissa
     'np_float64': np.float64,  # Double precision float: sign bit, 11 bits exponent, 52 bits mantissa
-    'np_complex': np.complex,  # Shorthand for complex128.
+    'np_complex': np.complex_,  # Shorthand for complex128.
     'np_complex64': np.complex64,  # Complex number, represented by two 32-bit floats (real and imaginary components)
     'np_complex128': np.complex128}
 

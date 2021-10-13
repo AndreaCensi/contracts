@@ -3,9 +3,9 @@ import functools
 import nose
 import unittest
 
-from contracts import ContractNotRespected, contract, ContractsMeta
-from contracts import CannotDecorateClassmethods
-from contracts import with_metaclass
+from ...contracts import ContractNotRespected, contract, ContractsMeta
+from ...contracts import CannotDecorateClassmethods
+from ...contracts import with_metaclass
 
 def expected_failure(test):
     @functools.wraps(test)

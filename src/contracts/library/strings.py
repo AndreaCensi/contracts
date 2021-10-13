@@ -1,7 +1,7 @@
+#cython: language_level=3, annotation_typing=True, c_string_encoding=utf-8, boundscheck=False, wraparound=False, initializedcheck=False
 import sys
 
-import six
-
+from ..._compat import unicode
 from ..interface import Contract, ContractNotRespected
 from ..syntax import (add_contract, W, contract_expression, O, add_keyword,
     Keyword, Literal)
@@ -68,7 +68,7 @@ else:  # Python 2.x
 
 class UnicodeString(StringBase):
     KEYWORDS = ['unicode']
-    TYPE = six.text_type
+    TYPE = unicode
     DESCRIPTION = "a Unicode string"
 
 

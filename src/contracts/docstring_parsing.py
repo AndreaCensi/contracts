@@ -1,4 +1,7 @@
+#cython: language_level=3, annotation_typing=True, c_string_encoding=utf-8, boundscheck=False, wraparound=False, initializedcheck=False
 import re
+
+import cython
 
 
 class Arg(object):
@@ -76,7 +79,6 @@ class DocStringInfo(object):
         type_keys = ['type']
         return_keys = ['returns', 'return']
         rtype_keys = ['rtype']
-        # TODO: document state?
         # var_keys = ['var', 'ivar', 'cvar']
         # raises, raise, except, exception
 
@@ -120,28 +122,26 @@ def parse_annotations(docstring, keys, empty=False, inline_type=False):
 
     found = {}
 
+    def replace(match):
+        d = match.groupdict()
+
+        if empty:
+            name = len(found)
+        else:
+            name = d['name'] or None
+
+        if inline_type:
+            found[name] = (d['type'] or None, d['desc'] or None)
+        else:
+            found[name] = d['desc'] or None
+        return ""
+
     for key in keys:
         if empty:
-            regexp = ('^\s*:\s*%s(?P<type>[^:]*?)\s*:\s*(?P<desc>.*?)\s*$'
-                      % key)
+            regexp = fr'^\s*:\s*{key}(?P<type>[^:]*?)\s*:\s*(?P<desc>.*?)\s*$'
         else:
-            regexp = ('^\s*:\s*%s\s+(?P<type>[^:]*?)(?P<name>[^\s:]+)\s*:'
-                      '\s*(?P<desc>.*?)\s*$' % key)
+            regexp = rf'^\s*:\s*{key}\s+(?P<type>[^:]*?)(?P<name>[^\s:]+)\s*:\s*(?P<desc>.*?)\s*$'
         regexp = re.compile(regexp, re.MULTILINE)
-
-        def replace(match):
-            d = match.groupdict()
-
-            if empty:
-                name = len(found)
-            else:
-                name = d['name'] or None
-
-            if inline_type:
-                found[name] = (d['type'] or None, d['desc'] or None)
-            else:
-                found[name] = d['desc'] or None
-            return ""
 
         docstring = regexp.sub(repl=replace, string=docstring)
 
@@ -149,6 +149,8 @@ def parse_annotations(docstring, keys, empty=False, inline_type=False):
 
 
 def number_of_spaces(x):
+    x: cython.int
+    i: cython.int
     for i in range(1, len(x)):
         if x[:i] != ' ' * i:
             return i - 1

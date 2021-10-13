@@ -2,7 +2,7 @@ from numpy import zeros, ones
 import numpy as np
 
 from . import syntax_fail, good, fail
-from contracts.library.array import np_int_dtypes, np_uint_dtypes, \
+from ....contracts.library.array import np_int_dtypes, np_uint_dtypes, \
     np_float_dtypes
 
 a_u8 = np.zeros((3, 4), dtype='uint8')

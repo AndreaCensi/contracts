@@ -1,9 +1,10 @@
+#cython: language_level=3, annotation_typing=True, c_string_encoding=utf-8, boundscheck=False, wraparound=False, initializedcheck=False
 from ..interface import ExternalScopedVariableNotFound
 from ..syntax import S, W
 from ..utils import ignore_typeerror
-from pyparsing import Word, alphanums
+from Aspidites._vendor.pyparsing import Word, alphanums
 import inspect
-from contracts.library.types_misc import CheckType
+from Aspidites._vendor.contracts.library.types_misc import CheckType
 
 
 def _lookup_from_calling_scope(token):
@@ -16,14 +17,15 @@ def _lookup_from_calling_scope(token):
     #
     # XXX Check if there are other places where a spec might be defined
     from .. import decorate, parse, check, fail
+    from ..inspection import getouterframes, currentframe
 
     def _code(f):
-        try:  # py2
+        try:  # pragma: no cover
             return f.func_code
         except AttributeError:  # py3
             return f.__code__
 
-    frames = inspect.getouterframes(inspect.currentframe())
+    frames = getouterframes(currentframe())
     frames = [f[0] for f in frames[::-1]]
     fcodes = [f.f_code for f in frames]
 
@@ -94,11 +96,9 @@ def scoped_parse_action(s, loc, tokens):
     where = W(s, loc)
     val = _lookup_from_calling_scope(tokens[0])
 
-    from contracts.library.simple_values import SimpleRValue
+    from Aspidites._vendor.contracts.library.simple_values import SimpleRValue
 
-    from contracts.inspection import can_be_used_as_a_type
-
-    if can_be_used_as_a_type(val):
+    if isinstance(val, type):
         return CheckType(val)
     else:
         return SimpleRValue(value=val, where=where, representation=s)

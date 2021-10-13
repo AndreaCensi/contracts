@@ -1,3 +1,4 @@
+#cython: language_level=3, annotation_typing=True, c_string_encoding=utf-8, boundscheck=False, wraparound=False, initializedcheck=False
 import operator
 
 
@@ -14,6 +15,7 @@ def longest_match(a, b):
         if a[:i] == b[:i]:
             return i
     assert False  # pragma: no cover
+
 
 assert ('float64', 6) == find_longest_match('float6', ['float32', 'float64'])
 assert 2 == find_longest_match('fl6', ['float32', 'float64'])[1]
@@ -91,8 +93,6 @@ def create_suggester(get_options, get_message=default_message,
                 Keyword('attr') + attrs_spec
         '''
         assert not (identifier in options), msg
-
-        
         msg = get_message(identifier)
 
         if options:

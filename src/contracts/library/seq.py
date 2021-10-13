@@ -1,13 +1,14 @@
+#cython: language_level=3, annotation_typing=True, c_string_encoding=utf-8, boundscheck=False, wraparound=False, initializedcheck=False
 from ..interface import Contract, ContractNotRespected
 from ..syntax import (add_contract, W, contract_expression, O, S, add_keyword,
     Keyword)
-import collections
+import collections.abc as collections
 from past.builtins import xrange
 
 try:
     import numpy
     has_numpy = True
-except:
+except ImportError:
     has_numpy = False
 
 
@@ -21,7 +22,6 @@ class Seq(Contract):
 
     def check_contract(self, context, value, silent):
         if has_numpy and isinstance(value, numpy.ndarray):
-            # TODO: check basic datatypes
             # use value.size and value.flat for iteration
             if self.length_contract is not None:
                 self.length_contract._check_contract(context, value.size, silent)

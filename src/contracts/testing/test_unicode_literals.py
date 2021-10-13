@@ -1,8 +1,8 @@
 # encoding: utf-8
 from __future__ import unicode_literals
 
-from contracts import contract
-from contracts.main import parse_contract_string
+from ...contracts import contract
+from ...contracts.main import parse_contract_string
 name = 'helló wörld from one'
 
 import unittest
