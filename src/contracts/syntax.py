@@ -1,36 +1,37 @@
+# cython: language_level=3, annotation_typing=True, c_string_encoding=utf-8, boundscheck=False, wraparound=False, initializedcheck=False
 from numbers import Number
 import math
 
-
 # All the imports from pyparsing go here
-from pyparsing import (delimitedList, Forward, Literal,
-                       stringEnd, nums, Word, CaselessLiteral, Combine,
-                       Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc,
-                       infixNotation as operatorPrecedence, oneOf, ParseException,
-                       ParserElement,
-                       alphas, alphanums, ParseFatalException,
-                       ParseSyntaxException, FollowedBy, NotAny, Or,
-                       MatchFirst, Keyword, Group, White, lineno, col)
+from typing import Any, List
 
+from types import ModuleType
+
+from pyparsing import (delimitedList, Forward, Literal,
+                                         stringEnd, nums, Word, CaselessLiteral, Combine,
+                                         Optional, Suppress, OneOrMore, ZeroOrMore, opAssoc,
+                                         infixNotation as operatorPrecedence, oneOf, ParseException,
+                                         ParserElement,
+                                         alphas, alphanums, ParseFatalException,
+                                         ParseSyntaxException, FollowedBy, NotAny, Or,
+                                         MatchFirst, Keyword, Group, White, lineno, col)
 
 # from .pyparsing_utils import myOperatorPrecedence
 
 
 # Enable memoization (much faster!)
-if True:
-    ParserElement.enablePackrat(cache_size_limit=None)
-else:
-    # Pyparsing 2.0
-    from pyparsing import infixNotation
-    myOperatorPrecendence = infixNotation
+ParserElement.enablePackrat(cache_size_limit=None)
+# else:
+#     # Pyparsing 2.0
+#     from pyparsing import infixNotation
+#     myOperatorPrecendence = infixNotation
 
 from .interface import Where
 
 
-class ParsingTmp():
-    # TODO: FIXME: decide on an order, if we do the opposite it doesn't work.
-    contract_types = []
-    keywords = []
+class ParsingTmp:
+    contract_types: List[Any] = []
+    keywords: List[Any] = []
 
 
 def add_contract(x):
@@ -46,8 +47,8 @@ def add_keyword(x):
     """
     ParsingTmp.keywords.append(x)
 
-W = Where
 
+W = Where
 
 O = Optional
 S = Suppress
@@ -64,21 +65,26 @@ floatnumber.setParseAction(lambda tokens: SimpleRValue(float(tokens[0])))
 pi = Keyword('pi').setParseAction(
     lambda tokens: SimpleRValue(math.pi, 'pi'))  # @UnusedVariable
 
+np_ = False
 
 try:
     import numpy
 except ImportError:
-    numpy = None
+    pass
+else:
+    np_ = True
+
 
 def isnumber(x):
     # These are scalar quantities that we can compare (=,>,>=, etc.)
     if isinstance(x, Number):
         return True
 
-    if numpy is not None and isinstance(x, numpy.number):
+    if np_ and isinstance(x, numpy.number):
         return True
 
     return False
+
 
 rvalue = Forward()
 rvalue.setName('rvalue')
@@ -94,11 +100,9 @@ from .library import (EqualTo, Unary, Binary, composite_contract,
                       int_variables_contract, int_variables_ref,
                       misc_variables_ref, SimpleRValue)
 
-
 number = pi | floatnumber | integer
 operand = number | int_variables_ref | misc_variables_ref | scoped_variables_ref
 operand.setName('r-value')
-
 
 op = operatorPrecedence
 # op  = myOperatorPrecedence
@@ -109,7 +113,6 @@ rvalue << op(operand, [
     ('+', 2, opAssoc.LEFT, Binary.parse_action),
     ('^', 2, opAssoc.LEFT, Binary.parse_action),
 ])
-
 
 # I want
 # - BindVariable to have precedence to EqualTo(VariableRef)

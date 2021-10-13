@@ -1,4 +1,4 @@
-from ..contracts import new_contract
+from Aspidites._vendor.contracts import new_contract
 
 try:
     import numpy

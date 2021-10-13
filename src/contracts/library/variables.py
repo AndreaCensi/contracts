@@ -1,12 +1,14 @@
-import six
+#cython: language_level=3, annotation_typing=True, c_string_encoding=utf-8, boundscheck=False, wraparound=False, initializedcheck=False
+from ...._vendor._compat import basestring
 
 from ..interface import Contract, ContractNotRespected, RValue, describe_value
 from ..syntax import (W, oneOf, FollowedBy, NotAny)
 
+
 class BindVariable(Contract):
 
     def __init__(self, variable, allowed_types, where=None):
-        assert isinstance(variable, six.string_types) and len(variable) == 1
+        assert isinstance(variable, basestring) and len(variable) == 1
         assert allowed_types, '%r' % allowed_types
         Contract.__init__(self, where)
         self.variable = variable
@@ -16,12 +18,7 @@ class BindVariable(Contract):
         if self.variable in context:
             expected = context[self.variable]
             if not (expected == value):
-                # TODO: add where it was bound
-                error = (
-                'Expected value for %r was: %s\n'
-                '        instead I received: %s' %
-                         (self.variable, describe_value(expected),
-                         describe_value(value)))
+                error = ('Expected value for %r was: %s\n        instead I received: %s' % (self.variable, describe_value(expected), describe_value(value)))
                 raise ContractNotRespected(contract=self, error=error,
                                            value=value, context=context)
 
@@ -58,7 +55,7 @@ class BindVariable(Contract):
 
 class VariableRef(RValue):
     def __init__(self, variable, where=None):
-        assert isinstance(variable, six.string_types)
+        assert isinstance(variable, basestring)
         self.where = where
         self.variable = variable
 

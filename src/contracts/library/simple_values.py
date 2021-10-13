@@ -1,4 +1,5 @@
-import six
+#cython: language_level=3, annotation_typing=True, c_string_encoding=utf-8, boundscheck=False, wraparound=False, initializedcheck=False
+from Aspidites._vendor._compat import basestring
 
 from ..interface import Contract, ContractNotRespected, RValue
 from ..syntax import W
@@ -29,7 +30,7 @@ class EqualTo(Contract):
     def parse_action(s, loc, tokens):
         where = W(s, loc)
         rvalue = tokens[0]
-        from ..contracts.library.types_misc import CheckType
+        from Aspidites._vendor.contracts.library.types_misc import CheckType
         if isinstance(rvalue, CheckType):
             return rvalue
         else:
@@ -39,7 +40,7 @@ class EqualTo(Contract):
 
 class SimpleRValue(RValue):
     def __init__(self, value, representation=None, where=None):
-        assert representation is None or isinstance(representation, six.string_types)
+        assert representation is None or isinstance(representation, basestring)
         self.value = value
         self.where = where
         self.representation = representation

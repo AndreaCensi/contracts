@@ -1,3 +1,5 @@
+#cython: language_level=3, annotation_typing=True, c_string_encoding=utf-8, boundscheck=False, wraparound=False, initializedcheck=False
+
 from ..interface import Contract, ContractNotRespected, add_prefix
 from ..pyparsing_utils import myOperatorPrecedence
 from ..syntax import ParsingTmp, W, opAssoc, simple_contract
@@ -79,18 +81,19 @@ class OR(Logical, Contract):
             raise ContractNotRespected(contract=self, error=msg,
                         value=value, context=context)
 
-
-
     def _format_exceptions(self, exceptions):
         msg = ('Could not satisfy any of the %d clauses in %s.'
                % (len(self.clauses), self))
 
         for i, ex in enumerate(exceptions):
             c, e = ex
-            msg += '\n ---- Clause #%d:   %s\n' % (i + 1, c)
+            if i + 1 > 1:
+                msg += '\n ├┄┄┄ Clause #%d:   %s\n' % (i + 1, c)
+            else:
+                msg += '\n ┬┄┄┄┄ Clause #%d:   %s\n' % (i + 1, c)
             msg += add_prefix('%s' % e, ' | ')
 
-        msg += '\n ------- (end clauses) -------'
+        msg += '\n ╰┄┄┄┄┄┄ (end clauses) ┄┄┄┄┄┄'
         return msg
 
     def __repr__(self):

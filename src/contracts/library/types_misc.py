@@ -1,4 +1,5 @@
-from ..interface import Contract, ContractNotRespected
+#cython: language_level=3, annotation_typing=True, c_string_encoding=utf-8, boundscheck=False, wraparound=False, initializedcheck=False
+from ..interface import Contract, ContractNotRespected, describe_type
 from ..syntax import (W, add_contract, contract_expression, S, Keyword,
     add_keyword)
 from numbers import Number
@@ -7,8 +8,7 @@ from numbers import Number
 class CheckType(Contract):
 
     def __init__(self, types, type_string=None, where=None):
-        from ..main import can_be_used_as_a_type  # XXX: make it better
-        assert can_be_used_as_a_type(types)
+        assert isinstance(types, type)
         Contract.__init__(self, where)
         self.types = types
         if type_string is None:
@@ -18,7 +18,6 @@ class CheckType(Contract):
 
     def check_contract(self, context, value, silent):
         if not isinstance(value, self.types):
-            from ..contracts.interface import describe_type
             error = 'Expected type %r, got %s.' % (self.types.__name__,
                                                    describe_type(value))
             raise ContractNotRespected(contract=self, error=error,
@@ -52,7 +51,6 @@ add_keyword('Number')
 
 add_contract(Keyword('bool').setParseAction(CheckType.parse_action(bool)))
 add_keyword('bool')
-
 
 
 class Type(Contract):

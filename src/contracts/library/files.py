@@ -1,4 +1,4 @@
-# TODO: handle file mode?
+#cython: language_level=3, annotation_typing=True, c_string_encoding=utf-8, boundscheck=False, wraparound=False, initializedcheck=False
 
 import io
 import sys
@@ -6,11 +6,12 @@ import sys
 from ..interface import Contract, ContractNotRespected
 from ..syntax import (add_contract, add_keyword, Keyword, W)
 
-inPy2 = sys.version_info[0] == 2
-if inPy2:
-    file_type = (file, io.IOBase)
-else:
-    file_type = io.IOBase
+# inPy2 = sys.version_info[0] == 2
+# if inPy2:  # pragma: no cover
+#     file_type = (file, io.IOBase)
+# else:
+file_type = io.IOBase
+
 
 class File(Contract):
 
