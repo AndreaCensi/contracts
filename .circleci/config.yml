@@ -25,6 +25,16 @@ workflows:
         filters:
           branches:
             ignore: /z7-stage.*/
+    - test-3.9-staging:
+        context: pip-staging
+        filters:
+          branches:
+            only: /z7-stage.*/
+    - test-3.9-production:
+        context: z7-production
+        filters:
+          branches:
+            ignore: /z7-stage.*/
 jobs:
   test-3.7-staging:
     environment:
@@ -590,5 +600,287 @@ jobs:
         command: |
           bash <(curl -s https://codecov.io/bash)
     resource_class: medium
+  test-3.9-staging:
+    environment:
+      COLUMNS: '160'
+      # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      COVER_PACKAGES: contracts
+      TEST_PACKAGES: contracts
+    docker:
+    - image: ${DOCKER_REGISTRY}/zupermind/zuper-ci-3.9:z7
+      auth:
+        username: $DOCKER_USERNAME
+        password: $DOCKER_PASSWORD
+    working_directory: ~/repo
+    steps:
+    - checkout
+    - run:
+        name: Build statistics
+        command: |
+          mkdir -p build-stats
+          env | sort | tee  build-stats/env.txt
+    - store_artifacts:
+        path: build-stats
+        destination: build-stats
+    - run:
+        name: Install deps
+        command: |
+          shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
+          pip3 install  -r .requirements.txt
+          rm .requirements.txt
 
-# sigil e3bef1c0498a2205b26de987f5a65875
+    - run:
+        name: Install testing deps
+        command: |
+          shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
+          pip3 install -r .requirements_tests.txt
+          rm .requirements_tests.txt
+
+    - run:
+        name: Python stats
+        command: |
+          pipdeptree | tee  build-stats/pipdeptree.txt
+          pip list   | sort | tee  build-stats/pip-list.txt
+          pip freeze | sort | tee  build-stats/pip-freeze.txt
+
+    - store_artifacts:
+        path: build-stats
+        destination: build-stats
+
+    - run:
+        name: setup.py develop
+        command: |
+          python setup.py develop --prefix ~/.local --no-deps
+
+    - run:
+        name: Make docs
+        command: |
+          FILE=src/conf.py
+          mkdir -p out/docs
+          if test -f "$FILE"; then
+              sphinx-build src out/docs
+          fi
+
+    - store_artifacts:
+        path: out/docs
+        destination: docs
+    - run:
+        background: true
+        name: services
+        command: |
+          TARGET=services
+          if make -n $TARGET ; then
+              make $TARGET
+          else
+              echo "Target $TARGET not defined"
+          fi
+    - run:
+        name: pre-circle-tests
+        command: |
+          TARGET=pre-circle-tests
+          if make -n $TARGET ; then
+              make $TARGET
+          else
+              echo "Target $TARGET not defined"
+          fi
+
+
+    # - run:
+    #     name: Notebooks
+    #     command: |
+    #       make -C notebooks cleanup all
+
+
+    - run:
+        name: contracts
+        command: |-
+          set -euxo pipefail
+          mkdir -p out/test-results
+          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts-xunit.xml
+          nosetests \
+              --rednose --immediate \
+              --cover-tests --with-coverage \
+              --with-xunit --xunit-file=${xunit_output} \
+              --cover-package=${COVER_PACKAGES} \
+              contracts
+        when: always
+    - run:
+        name: post-circle-tests
+        command: |
+          TARGET=post-circle-tests
+          if make -n $TARGET ; then
+              make $TARGET
+          else
+              echo "Target $TARGET not defined"
+          fi
+
+    - store_test_results:
+        path: out/test-results
+
+    - run:
+        name: Coverage report
+        when: always
+        command: |
+          coverage combine || true
+          coverage html -d out/coverage/${CIRCLE_NODE_INDEX}
+          coverage xml
+
+
+    - store_artifacts:
+        path: out/coverage
+        destination: coverage
+
+    - store_artifacts:
+        path: out/tests
+        destination: tests
+
+    - run:
+        name: CodeCov
+        when: always
+        command: |
+          bash <(curl -s https://codecov.io/bash)
+    resource_class: medium
+  test-3.9-production:
+    environment:
+      COLUMNS: '160'
+      # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      COVER_PACKAGES: contracts
+      TEST_PACKAGES: contracts
+    docker:
+    - image: ${DOCKER_REGISTRY}/zupermind/zuper-ci-3.9:z7
+      auth:
+        username: $DOCKER_USERNAME
+        password: $DOCKER_PASSWORD
+    working_directory: ~/repo
+    steps:
+    - checkout
+    - run:
+        name: Build statistics
+        command: |
+          mkdir -p build-stats
+          env | sort | tee  build-stats/env.txt
+    - store_artifacts:
+        path: build-stats
+        destination: build-stats
+    - run:
+        name: Install deps
+        command: |
+          shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
+          pip3 install  -r .requirements.txt
+          rm .requirements.txt
+
+    - run:
+        name: Install testing deps
+        command: |
+          shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
+          pip3 install -r .requirements_tests.txt
+          rm .requirements_tests.txt
+
+    - run:
+        name: Python stats
+        command: |
+          pipdeptree | tee  build-stats/pipdeptree.txt
+          pip list   | sort | tee  build-stats/pip-list.txt
+          pip freeze | sort | tee  build-stats/pip-freeze.txt
+
+    - store_artifacts:
+        path: build-stats
+        destination: build-stats
+
+    - run:
+        name: setup.py develop
+        command: |
+          python setup.py develop --prefix ~/.local --no-deps
+
+    - run:
+        name: Make docs
+        command: |
+          FILE=src/conf.py
+          mkdir -p out/docs
+          if test -f "$FILE"; then
+              sphinx-build src out/docs
+          fi
+
+    - store_artifacts:
+        path: out/docs
+        destination: docs
+    - run:
+        background: true
+        name: services
+        command: |
+          TARGET=services
+          if make -n $TARGET ; then
+              make $TARGET
+          else
+              echo "Target $TARGET not defined"
+          fi
+    - run:
+        name: pre-circle-tests
+        command: |
+          TARGET=pre-circle-tests
+          if make -n $TARGET ; then
+              make $TARGET
+          else
+              echo "Target $TARGET not defined"
+          fi
+
+
+    # - run:
+    #     name: Notebooks
+    #     command: |
+    #       make -C notebooks cleanup all
+
+
+    - run:
+        name: contracts
+        command: |-
+          set -euxo pipefail
+          mkdir -p out/test-results
+          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts-xunit.xml
+          nosetests \
+              --rednose --immediate \
+              --cover-tests --with-coverage \
+              --with-xunit --xunit-file=${xunit_output} \
+              --cover-package=${COVER_PACKAGES} \
+              contracts
+        when: always
+    - run:
+        name: post-circle-tests
+        command: |
+          TARGET=post-circle-tests
+          if make -n $TARGET ; then
+              make $TARGET
+          else
+              echo "Target $TARGET not defined"
+          fi
+
+    - store_test_results:
+        path: out/test-results
+
+    - run:
+        name: Coverage report
+        when: always
+        command: |
+          coverage combine || true
+          coverage html -d out/coverage/${CIRCLE_NODE_INDEX}
+          coverage xml
+
+
+    - store_artifacts:
+        path: out/coverage
+        destination: coverage
+
+    - store_artifacts:
+        path: out/tests
+        destination: tests
+
+    - run:
+        name: CodeCov
+        when: always
+        command: |
+          bash <(curl -s https://codecov.io/bash)
+    resource_class: medium
+
+# sigil be7a403febe15d1d239348923bdce63b
