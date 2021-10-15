@@ -5,38 +5,38 @@ workflows:
   version: 2
   test:
     jobs:
-    - test-3.7-staging:
-        context: pip-staging
+    - test-3.7-stage:
+        context: z7-stage
         filters:
           branches:
             only: /z7-stage.*/
-    - test-3.7-production:
-        context: z7-production
+    - test-3.7-prod:
+        context: z7-prod
         filters:
           branches:
             ignore: /z7-stage.*/
-    - test-3.8-staging:
-        context: pip-staging
+    - test-3.8-stage:
+        context: z7-stage
         filters:
           branches:
             only: /z7-stage.*/
-    - test-3.8-production:
-        context: z7-production
+    - test-3.8-prod:
+        context: z7-prod
         filters:
           branches:
             ignore: /z7-stage.*/
-    - test-3.9-staging:
-        context: pip-staging
+    - test-3.9-stage:
+        context: z7-stage
         filters:
           branches:
             only: /z7-stage.*/
-    - test-3.9-production:
-        context: z7-production
+    - test-3.9-prod:
+        context: z7-prod
         filters:
           branches:
             ignore: /z7-stage.*/
 jobs:
-  test-3.7-staging:
+  test-3.7-stage:
     environment:
       COLUMNS: '160'
       # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -177,7 +177,7 @@ jobs:
         command: |
           bash <(curl -s https://codecov.io/bash)
     resource_class: medium
-  test-3.7-production:
+  test-3.7-prod:
     environment:
       COLUMNS: '160'
       # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -318,7 +318,7 @@ jobs:
         command: |
           bash <(curl -s https://codecov.io/bash)
     resource_class: medium
-  test-3.8-staging:
+  test-3.8-stage:
     environment:
       COLUMNS: '160'
       # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -459,7 +459,7 @@ jobs:
         command: |
           bash <(curl -s https://codecov.io/bash)
     resource_class: medium
-  test-3.8-production:
+  test-3.8-prod:
     environment:
       COLUMNS: '160'
       # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -600,7 +600,7 @@ jobs:
         command: |
           bash <(curl -s https://codecov.io/bash)
     resource_class: medium
-  test-3.9-staging:
+  test-3.9-stage:
     environment:
       COLUMNS: '160'
       # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -741,7 +741,7 @@ jobs:
         command: |
           bash <(curl -s https://codecov.io/bash)
     resource_class: medium
-  test-3.9-production:
+  test-3.9-prod:
     environment:
       COLUMNS: '160'
       # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -883,4 +883,4 @@ jobs:
           bash <(curl -s https://codecov.io/bash)
     resource_class: medium
 
-# sigil be7a403febe15d1d239348923bdce63b
+# sigil 174e7c7c8547cc90aac007ac1e7c8d95
