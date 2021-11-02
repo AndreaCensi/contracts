@@ -3,7 +3,7 @@ from ..syntax import add_contract, W, Literal
 
 
 class Any(Contract):
-    """ Always true. """
+    """Always true."""
 
     def __init__(self, where=None):
         Contract.__init__(self, where)
@@ -23,7 +23,7 @@ class Any(Contract):
 
 
 class Never(Contract):
-    """ A contract that does not match anything. Useful for debugging. """
+    """A contract that does not match anything. Useful for debugging."""
 
     def __init__(self, where=None):
         Contract.__init__(self, where)

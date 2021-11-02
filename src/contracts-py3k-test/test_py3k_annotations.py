@@ -25,7 +25,7 @@ class Py3kAnnotationsTest(unittest.TestCase):
         self.assertRaises(ContractException, decorate, f)
 
     def test_not_specified1(self):
-        """ No docstring specified, but annotation is. """
+        """No docstring specified, but annotation is."""
 
         def f() -> "int":
             pass
@@ -43,7 +43,7 @@ class Py3kAnnotationsTest(unittest.TestCase):
         self.assertRaises(ContractException, decorate, f)
 
     def not_supported2(self):
-        """ Cannot do with **args """
+        """Cannot do with **args"""
 
         def f(a, **b):
             """
@@ -74,7 +74,7 @@ class Py3kAnnotationsTest(unittest.TestCase):
         self.assertRaises(ContractNotRespected, f, 1, 2.0)
 
     def test_types2(self):
-        """ Testing return value contract """
+        """Testing return value contract"""
 
         @contract
         def f(a: int, b: int) -> int:

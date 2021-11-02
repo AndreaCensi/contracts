@@ -59,7 +59,7 @@ class ClassContractsTests(unittest.TestCase):
         self.assertRaises(ContractNotRespected, g1.take_turn, 3)
 
     def test_class_contract1_bad(self):
-        """ example of bad usage, using the contract from outside """
+        """example of bad usage, using the contract from outside"""
 
         class Game(object):
             def __init__(self, legal):

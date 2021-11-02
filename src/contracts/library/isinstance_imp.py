@@ -7,7 +7,7 @@ __all__ = ["IsInstance", "isinstance_contract"]
 
 class IsInstance(Contract):
 
-    """ Checks that one of the superclasses have the specified name. """
+    """Checks that one of the superclasses have the specified name."""
 
     def __init__(self, name, where=None):
         Contract.__init__(self, where)
@@ -47,7 +47,7 @@ class IsInstance(Contract):
 
 
 def get_all_super_names(value):
-    """ Returns name of class, list of names of supers """
+    """Returns name of class, list of names of supers"""
     if hasattr(value, "__class__"):
         # old style class
         klass = value.__class__

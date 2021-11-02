@@ -70,7 +70,7 @@ def check_isinstance(ob, expected, **kwargs):
 
 
 def raise_type_mismatch(ob, expected, **kwargs):
-    """ Raises an exception concerning ob having the wrong type. """
+    """Raises an exception concerning ob having the wrong type."""
     e = "Object not of expected type:"
     e += "\n  expected: {}".format(expected)
     e += "\n  obtained: {}".format(type(ob))
@@ -135,7 +135,7 @@ def format_list_long(l, informal=False):
 
 
 def format_obs(d, informal=False):
-    """ Shows objects values and typed for the given dictionary """
+    """Shows objects values and typed for the given dictionary"""
     if not d:
         return d.__str__()
 
@@ -186,7 +186,7 @@ def raise_wrapped(etype, e, msg, compact=False, **kwargs):
 
 
 def raise_wrapped_make(etype, e, msg, compact=False, **kwargs):
-    """ Constructs the exception to be thrown by raise_wrapped() """
+    """Constructs the exception to be thrown by raise_wrapped()"""
     assert isinstance(e, BaseException), type(e)
     check_isinstance(msg, six.text_type)
     s = msg
@@ -279,7 +279,7 @@ def raise_desc(etype, msg, args_first=False, **kwargs):
 
 
 def ignore_typeerror(f):
-    """ Recasts TypeError as Exception; otherwise pyparsing gets confused. """
+    """Recasts TypeError as Exception; otherwise pyparsing gets confused."""
 
     def f2(*args, **kwargs):
         try:

@@ -16,7 +16,7 @@ def check_contracts_ok(contract, value):
 
 
 def check_contracts_fail(contract, value, error=ContractNotRespected):
-    """ Returns the exception """
+    """Returns the exception"""
     if isinstance(contract, six.string_types):
         contract = [contract]
         value = [value]

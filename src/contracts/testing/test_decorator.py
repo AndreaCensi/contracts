@@ -29,7 +29,7 @@ class DecoratorTests(unittest.TestCase):
         self.assertRaises(ContractException, decorate, f)
 
     def test_not_specified1(self):
-        """ No docstring specified """
+        """No docstring specified"""
 
         def f():
             pass
@@ -38,7 +38,7 @@ class DecoratorTests(unittest.TestCase):
 
     def test_not_specified2(self):
         def f():
-            """ No types specified in the docstring """
+            """No types specified in the docstring"""
             pass
 
         self.assertRaises(ContractException, decorate, f)
@@ -86,7 +86,7 @@ class DecoratorTests(unittest.TestCase):
         self.assertRaises(ContractException, decorate, f)
 
     def not_supported1(self):
-        """ Support of *args """
+        """Support of *args"""
 
         def f(a, *b):  # @UnusedVariable
             """
@@ -99,7 +99,7 @@ class DecoratorTests(unittest.TestCase):
             decorate(f)
 
     def not_supported2(self):
-        """ Support of **args """
+        """Support of **args"""
 
         def f(a, **b):
             """
@@ -122,7 +122,7 @@ class DecoratorTests(unittest.TestCase):
             pass
 
     def test_ok3(self):
-        """ Trying the quoting thing. """
+        """Trying the quoting thing."""
 
         @contract
         def f(a, b):
@@ -169,7 +169,7 @@ class DecoratorTests(unittest.TestCase):
         self.assertRaises(ContractException, f)
 
     def test_invalid_args2(self):
-        """ unknown parameter """
+        """unknown parameter"""
 
         def f():
             @contract(c=2)
@@ -195,7 +195,7 @@ class DecoratorTests(unittest.TestCase):
         self.assertRaises(ContractNotRespected, f, 1, 2.0)
 
     def test_check_it_works2b(self):
-        """ Nothing for b """
+        """Nothing for b"""
 
         @contract(a="int", returns="int")
         def f(a, b):  # @UnusedVariable
@@ -205,7 +205,7 @@ class DecoratorTests(unittest.TestCase):
         f(1, 2.0)
 
     def test_check_it_works2c(self):
-        """ Nothing for b """
+        """Nothing for b"""
 
         def f1(a, b):  # @UnusedVariable
             return int(a + b)

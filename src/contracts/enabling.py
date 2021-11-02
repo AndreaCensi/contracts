@@ -8,7 +8,7 @@ class Switches:
 
 
 def disable_all():
-    """ Disables all contracts checks. """
+    """Disables all contracts checks."""
     #     print('disable_all()')
     Switches.disable_all = True
     logger.info("All contracts checking disabled.")
@@ -27,5 +27,5 @@ def enable_all():
 
 def all_disabled():
     #     print('all_Disabled? %s' % Switches.disable_all)
-    """ Returns true if all contracts checks are disabled. """
+    """Returns true if all contracts checks are disabled."""
     return Switches.disable_all

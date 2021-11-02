@@ -78,7 +78,7 @@ class Storage:
 
 
 def _cacheable(string, c):
-    """ Returns whether the contract c defined by string string is cacheable. """
+    """Returns whether the contract c defined by string string is cacheable."""
     # XXX need a more general way of indicating
     #     whether a contract is safely cacheable
     return "$" not in string
@@ -362,7 +362,7 @@ def parse_contracts_from_docstring(function):
         raise ContractException("More than one return type specified.")
 
     def remove_quotes(x):
-        """ Removes the double back-tick quotes if present. """
+        """Removes the double back-tick quotes if present."""
         if x is None:
             return None
         if x.startswith("``") and x.endswith("``") and len(x) > 3:

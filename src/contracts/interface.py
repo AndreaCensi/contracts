@@ -67,7 +67,7 @@ class Where(object):
         self.filename = None
 
     def get_substring(self):
-        """ Returns the substring to which we refer. Raises error if character_end is None """
+        """Returns the substring to which we refer. Raises error if character_end is None"""
         from contracts.utils import raise_desc
 
         if self.character_end is None:
@@ -173,7 +173,7 @@ def format_where(
 
 
 def printable_length_where(w):
-    """ Returns the printable length of the substring """
+    """Returns the printable length of the substring"""
     if sys.version_info[0] >= 3:  # pragma: no cover
         stype = str
     else:
@@ -266,7 +266,7 @@ def add_prefix(s, prefix):
 
 
 class ContractException(Exception):
-    """ The base class for the exceptions thrown by this module. """
+    """The base class for the exceptions thrown by this module."""
 
 
 class MissingContract(ContractException):
@@ -274,10 +274,10 @@ class MissingContract(ContractException):
 
 
 class ContractDefinitionError(ContractException):
-    """ Thrown when defining the contracts """
+    """Thrown when defining the contracts"""
 
     def copy(self):
-        """ Returns a copy of the exception so we can re-raise it by erasing the stack. """
+        """Returns a copy of the exception so we can re-raise it by erasing the stack."""
         # print('type is %r, args = %s' % (type(self), self.args))
         return type(self)(*self.args)
 
@@ -299,7 +299,7 @@ class CannotDecorateClassmethods(ContractDefinitionError):
 
 
 class ContractSyntaxError(ContractDefinitionError):
-    """ Exception thrown when there is a syntax error in the contracts. """
+    """Exception thrown when there is a syntax error in the contracts."""
 
     def __init__(self, error, where=None):
         self.error = error
@@ -316,7 +316,7 @@ class ContractSyntaxError(ContractDefinitionError):
 
 
 class ContractNotRespected(ContractException):
-    """ Exception thrown when a value does not respect a contract. """
+    """Exception thrown when a value does not respect a contract."""
 
     def __init__(self, contract, error, value, context):
         # XXX: solves pickling problem in multiprocess problem, but not the
@@ -385,18 +385,18 @@ def format_table(rows, colspacing=1):
 class RValue(with_metaclass(ABCMeta, object)):
     @abstractmethod
     def eval(self, context):  # @UnusedVariable @ReservedAssignment
-        """ Can raise ValueError; will be wrapped in ContractNotRespected. """
+        """Can raise ValueError; will be wrapped in ContractNotRespected."""
 
     def __eq__(self, other):
         return self.__class__ == other.__class__ and self.__repr__() == other.__repr__()
 
     @abstractmethod
     def __repr__(self):
-        """ Same constraints as :py:func:`Contract.__repr__()`. """
+        """Same constraints as :py:func:`Contract.__repr__()`."""
 
     @abstractmethod
     def __str__(self):
-        """ Same constraints as :py:func:`Contract.__str__()`. """
+        """Same constraints as :py:func:`Contract.__str__()`."""
 
 
 def eval_in_context(context, value, contract):
@@ -580,7 +580,7 @@ def remove_newlines(s):
 
 
 def describe_type(x):
-    """ Returns a friendly description of the type of x. """
+    """Returns a friendly description of the type of x."""
     if inPy2 and isinstance(x, ClassType):
         class_name = "(old-style class) %s" % x
     else:
@@ -614,7 +614,7 @@ def describe_value(x, clip=80):
 
 
 def describe_value_multiline(x):
-    """ Describes an object, for use in the error messages. """
+    """Describes an object, for use in the error messages."""
     if hasattr(x, "shape") and hasattr(x, "dtype"):
         # XXX this fails for bs4, Tag
         if x.shape is not None:

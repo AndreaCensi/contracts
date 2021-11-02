@@ -33,7 +33,7 @@ class OR(Logical, Contract):
         self.clauses = clauses
 
     def _check_quick(self, context, value):
-        """ Returns True if this checks out. """
+        """Returns True if this checks out."""
 
         # first make a quick pass
         for c in self.clauses:
@@ -62,7 +62,7 @@ class OR(Logical, Contract):
             self.get_error(orig, value)
 
     def get_error(self, context, value):
-        """ This assumes that we are going to fail """
+        """This assumes that we are going to fail"""
         exceptions = []
         for c in self.clauses:
             try:
