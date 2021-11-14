@@ -1,8 +1,7 @@
 import six
 
-from ..interface import Contract, ContractNotRespected, RValue
+from ..interface import Contract, ContractNotRespected, eval_in_context, RValue
 from ..syntax import W
-from ..interface import eval_in_context
 
 
 class EqualTo(Contract):
@@ -27,7 +26,7 @@ class EqualTo(Contract):
     def parse_action(s, loc, tokens):
         where = W(s, loc)
         rvalue = tokens[0]
-        from contracts.library.types_misc import CheckType
+        from .types_misc import CheckType
 
         if isinstance(rvalue, CheckType):
             return rvalue

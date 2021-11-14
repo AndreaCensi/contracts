@@ -11,8 +11,8 @@ def ist(C):
 
 
 def m_new_contract(name, f):
-    from contracts.library.extensions import CheckCallable
-    from contracts.library.extensions import Extension
+    from .extensions import CheckCallable
+    from .extensions import Extension
 
     Extension.registrar[name] = CheckCallable(f)
 
@@ -23,7 +23,6 @@ m_new_contract("Iterable", ist(collections.Iterable))
 
 m_new_contract("Hashable", ist(collections.Hashable))
 
-
 m_new_contract("Iterator", ist(collections.Iterator))
 m_new_contract("Sized", ist(collections.Sized))
 m_new_contract("Callable", ist(collections.Callable))
@@ -33,6 +32,8 @@ m_new_contract("MutableSequence", ist(collections.MutableSequence))
 m_new_contract("MutableSet", ist(collections.MutableSet))
 m_new_contract("Mapping", ist(collections.Mapping))
 m_new_contract("MutableMapping", ist(collections.MutableMapping))
+
+
 # new_contract('MappingView', ist(collections.MappingView))
 # new_contract('ItemsView', ist(collections.ItemsView))
 # new_contract('ValuesView', ist(collections.ValuesView))

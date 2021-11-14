@@ -1,7 +1,6 @@
+import traceback
 from abc import ABCMeta
 from types import FunctionType
-import traceback
-
 
 __all__ = ["ContractsMeta"]
 
@@ -55,7 +54,7 @@ class ContractsMeta(ABCMeta):
                                 # msg = 'inherit contracts for %s:%s() from %s' % (clsname, k, b.__name__)
                                 # print(msg)
                                 # TODO: check that the contracts are a subtype
-                                from contracts import ContractException
+                                from .interface import ContractException
 
                                 try:
                                     from .main import contracts_decorate
