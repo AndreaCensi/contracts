@@ -4,7 +4,6 @@ import unittest
 from contracts import decorate, ContractException, contract, ContractNotRespected
 
 
-# @PydevCodeAnalysisIgnore
 class Py3kAnnotationsTest(unittest.TestCase):
     def test_malformed(self):
         def f() -> "":

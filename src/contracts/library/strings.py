@@ -1,17 +1,7 @@
 import sys
 
-import six
-
 from ..interface import Contract, ContractNotRespected
-from ..syntax import (
-    add_contract,
-    W,
-    contract_expression,
-    O,
-    add_keyword,
-    Keyword,
-    Literal,
-)
+from ..syntax import add_contract, add_keyword, contract_expression, Keyword, Literal, O, W
 
 
 # Base class for string contracts
@@ -67,7 +57,7 @@ else:  # Python 2.x
 
     class String(StringBase):
         KEYWORDS = ["string"]
-        TYPE = basestring
+        TYPE = str
         DESCRIPTION = "an ANSI or Unicode string"
 
     class AnsiString(StringBase):
@@ -78,7 +68,7 @@ else:  # Python 2.x
 
 class UnicodeString(StringBase):
     KEYWORDS = ["unicode"]
-    TYPE = six.text_type
+    TYPE = str
     DESCRIPTION = "a Unicode string"
 
 

@@ -184,9 +184,6 @@ def printable_length_where(w):
     return len(stype(sub))
 
 
-import six
-
-
 def line_and_col(loc, strg):
     """Returns (line, col), both 0 based."""
     from .utils import check_isinstance

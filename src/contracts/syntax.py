@@ -1,6 +1,5 @@
-from numbers import Number
 import math
-
+from numbers import Number
 
 # All the imports from pyparsing go here
 from pyparsing import (
@@ -36,6 +35,25 @@ from pyparsing import (
     col,
 )
 
+_ = (
+    Or,
+    Group,
+    White,
+    lineno,
+    alphas,
+    alphanums,
+    col,
+    oneOf,
+    ParseException,
+    OneOrMore,
+    ZeroOrMore,
+    delimitedList,
+    stringEnd,
+    ParseFatalException,
+    ParseSyntaxException,
+    FollowedBy,
+    NotAny,
+)
 
 # from .pyparsing_utils import myOperatorPrecedence
 

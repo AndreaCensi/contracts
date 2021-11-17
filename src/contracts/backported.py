@@ -1,8 +1,6 @@
 import sys
 from inspect import ArgSpec
 
-import six
-
 if sys.version_info[0] >= 3:  # pragma: no cover
     from inspect import getfullargspec
 

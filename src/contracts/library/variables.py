@@ -1,7 +1,5 @@
-import six
-
-from ..interface import Contract, ContractNotRespected, RValue, describe_value
-from ..syntax import W, oneOf, FollowedBy, NotAny
+from ..interface import Contract, ContractNotRespected, describe_value, RValue
+from ..syntax import FollowedBy, NotAny, oneOf, W
 
 
 class BindVariable(Contract):

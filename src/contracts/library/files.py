@@ -6,11 +6,11 @@ import sys
 from ..interface import Contract, ContractNotRespected
 from ..syntax import add_contract, add_keyword, Keyword, W
 
-inPy2 = sys.version_info[0] == 2
-if inPy2:
-    file_type = (file, io.IOBase)
-else:
-    file_type = io.IOBase
+# inPy2 = sys.version_info[0] == 2
+# if inPy2:
+#     file_type = (file, io.IOBase)
+# else:
+file_type = io.IOBase
 
 
 class File(Contract):

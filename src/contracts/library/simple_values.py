@@ -1,5 +1,3 @@
-import six
-
 from ..interface import Contract, ContractNotRespected, eval_in_context, RValue
 from ..syntax import W
 

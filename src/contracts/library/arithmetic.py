@@ -1,7 +1,5 @@
 from functools import reduce
 
-import six
-
 from ..interface import RValue
 from ..syntax import isnumber, W
 

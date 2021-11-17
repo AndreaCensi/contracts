@@ -1,10 +1,9 @@
 from __future__ import unicode_literals
+
 import traceback
 import warnings
 
 import six
-
-from .interface import describe_type, describe_value  # @UnusedImport # old interface
 
 __all__ = [
     "indent",
@@ -172,23 +171,19 @@ def raise_wrapped(etype, e, msg, compact=False, **kwargs):
     exc = output of sys.exc_info()
     """
 
-    if six.PY3:
-        from six import raise_from
+    from six import raise_from
 
-        msg += "\n" + indent(e, "| ")
-        e2 = etype(_format_exc(msg, **kwargs))
-        # e2 = raise_wrapped_make(etype, e, msg, compact=compact, **kwargs)
-        raise_from(e2, e)
-        # raise e2
-    else:
-        e2 = raise_wrapped_make(etype, e, msg, compact=compact, **kwargs)
-        raise e2
+    msg += "\n" + indent(e, "| ")
+    e2 = etype(_format_exc(msg, **kwargs))
+    # e2 = raise_wrapped_make(etype, e, msg, compact=compact, **kwargs)
+    raise_from(e2, e)
+    # raise e2
 
 
 def raise_wrapped_make(etype, e, msg, compact=False, **kwargs):
     """Constructs the exception to be thrown by raise_wrapped()"""
     assert isinstance(e, BaseException), type(e)
-    check_isinstance(msg, six.text_type)
+    check_isinstance(msg, str)
     s = msg
     if kwargs:
         s += "\n" + format_obs(kwargs)
