@@ -1,8 +1,8 @@
 import unittest
+from typing import Optional
 
-from ..docstring_parsing import DocStringInfo, Arg, number_of_spaces
+from contracts.docstring_parsing import Arg, DocStringInfo, number_of_spaces
 from contracts.interface import add_prefix
-
 
 examples = {
     """
@@ -43,8 +43,8 @@ class DocStringTest(unittest.TestCase):
     def test_parsing(self):
         for string in examples:
             parsed = DocStringInfo.parse(string)
-            "%s" % parsed
-            "%r" % parsed
+            _ = "%s" % parsed
+            _ = "%r" % parsed
             result = examples[string]
             self.assertEqual(result, parsed)
 
@@ -75,7 +75,9 @@ class DocStringTest(unittest.TestCase):
             self.assertEqual(parsed, reparsed, msg=msg)
 
     def test_inline_params(self):
-        def test_inline_parsing(docstring, expected_type="type", expected_desc="desc"):
+        def test_inline_parsing(
+            docstring, expected_type: Optional[str] = "type", expected_desc: Optional[str] = "desc"
+        ):
             info = DocStringInfo.parse(docstring)
             self.assertTrue("name" in info.params)
             self.assertEqual(info.params["name"].type, expected_type)
@@ -93,7 +95,9 @@ class DocStringTest(unittest.TestCase):
         test_inline_parsing(" : param type , > 0  name : ", "type , > 0", None)
 
     def test_inline_returns(self):
-        def test_inline_parsing(docstring, expected_type="type", expected_desc="desc"):
+        def test_inline_parsing(
+            docstring, expected_type: Optional[str] = "type", expected_desc: Optional[str] = "desc"
+        ):
             info = DocStringInfo.parse(docstring)
             self.assertTrue(len(info.returns) > 0)
             self.assertEqual(info.returns[0].type, expected_type)

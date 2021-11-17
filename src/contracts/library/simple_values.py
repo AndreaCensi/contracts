@@ -37,7 +37,7 @@ class EqualTo(Contract):
 
 class SimpleRValue(RValue):
     def __init__(self, value, representation=None, where=None):
-        assert representation is None or isinstance(representation, six.string_types)
+        assert representation is None or isinstance(representation, str)
         self.value = value
         self.where = where
         self.representation = representation

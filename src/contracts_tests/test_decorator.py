@@ -55,6 +55,7 @@ class DecoratorTests(unittest.TestCase):
         self.assertRaises(ContractException, decorate, f)
 
     def test_invalid1(self):
+        # noinspection PyUnresolvedReferences
         def f(a):
             """Unknown b.
             :type a: int
@@ -351,6 +352,7 @@ class DecoratorTests(unittest.TestCase):
             assert c["b"] == B
 
         f2 = decorate(f)
+        # noinspection PyTypeChecker
         f(0, 7, a=0, b=7)
         f2(0, 7, a=0, b=7)
 

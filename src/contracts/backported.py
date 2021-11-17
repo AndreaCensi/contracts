@@ -95,7 +95,7 @@ else:  # pragma: no cover
         assigned_tuple_params = []
 
         def assign(arg, value):
-            if isinstance(arg, six.string_types):
+            if isinstance(arg, str):
                 arg2value[arg] = value
             else:
                 assigned_tuple_params.append(arg)
@@ -116,7 +116,7 @@ else:  # pragma: no cover
                     raise ValueError("too many values to unpack")
 
         def is_assigned(arg):
-            if isinstance(arg, six.string_types):
+            if isinstance(arg, str):
                 return arg in arg2value
             return arg in assigned_tuple_params
 
@@ -153,7 +153,7 @@ else:  # pragma: no cover
         elif num_args == 0 and num_total:
             raise TypeError("%s() takes no arguments (%d given)" % (f_name, num_total))
         for arg in args:
-            if isinstance(arg, six.string_types) and arg in named:
+            if isinstance(arg, str) and arg in named:
                 if is_assigned(arg):
                     raise TypeError("%s() got multiple values for keyword " "argument '%s'" % (f_name, arg))
                 else:

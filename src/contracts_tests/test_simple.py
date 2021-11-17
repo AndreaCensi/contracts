@@ -1,19 +1,18 @@
 import traceback
 
-from ..main import parse_contract_string
-from ..test_registrar import (
+# Import all the symbols needed to eval() the __repr__() output.
+from contracts.library import *  # @UnusedWildImport @UnresolvedImport
+from contracts.main import parse_contract_string
+from contracts.test_registrar import (
+    contract_fail_examples,
     good_examples,
     semantic_fail_examples,
     syntax_fail_examples,
-    contract_fail_examples,
 )
-from .utils import check_contracts_ok, check_syntax_fail, check_contracts_fail
+from .utils import check_contracts_fail, check_contracts_ok, check_syntax_fail
+
 
 # Import the other tests
-from . import test_multiple  # @UnusedImport
-
-# Import all the symbols needed to eval() the __repr__() output.
-from ..library import *  # @UnusedWildImport @UnresolvedImport
 
 
 ## If you want to try only some tests, set select to True, and add them below.

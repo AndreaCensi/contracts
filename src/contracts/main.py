@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
+
 import sys
 import types
+from typing import List
 
 import six
 
@@ -19,15 +21,15 @@ from .interface import (
     ContractException,
     ContractNotRespected,
     ContractSyntaxError,
+    describe_value,
     MissingContract,
     Where,
-    describe_value,
 )
 
 
 # from .library import (CheckCallable, Extension, SeparateContext,
 #     identifier_expression)
-def check_contracts(contracts, values, context_variables=None):
+def check_contracts(contracts: List[str], values: List[object], context_variables=None):
     """
     Checks that the values respect the contract.
     Not a public function -- no friendly messages.
@@ -56,13 +58,13 @@ def check_contracts(contracts, values, context_variables=None):
         context_variables = {}
 
     for var in context_variables:
-        if not (isinstance(var, six.string_types) and len(var) == 1):  # XXX: isalpha
+        if not (isinstance(var, str) and len(var) == 1):  # XXX: isalpha
             msg = "Invalid name %r for a variable. " "I expect a string of length 1." % var
             raise ValueError(msg)
 
     C = []
     for x in contracts:
-        assert isinstance(x, six.string_types)
+        assert isinstance(x, str)
         C.append(parse_contract_string(x))
 
     context = context_variables.copy()
@@ -77,15 +79,15 @@ class Storage:
     string2contract = {}
 
 
-def _cacheable(string, c):
+def _cacheable(string: str, c):
     """Returns whether the contract c defined by string string is cacheable."""
     # XXX need a more general way of indicating
     #     whether a contract is safely cacheable
     return "$" not in string
 
 
-def is_param_string(x):
-    return isinstance(x, six.string_types)
+def is_param_string(x: object) -> bool:
+    return isinstance(x, str)
 
 
 def check_param_is_string(x):
@@ -429,7 +431,7 @@ def get_all_arg_names(function):
     return all_args
 
 
-def check(contract, object, desc=None, **context):  # @ReservedAssignment
+def check(contract: str, ob: object, desc=None, **context):  # @ReservedAssignment
     """
     Checks that ``object`` satisfies the contract
     described by ``contract``.
@@ -453,14 +455,14 @@ def check(contract, object, desc=None, **context):  # @ReservedAssignment
             "I expect a string (contract spec) as the first " "argument, not a %s." % describe_value(contract)
         )
     try:
-        return check_contracts([contract], [object], context)
+        return check_contracts([contract], [ob], context)
     except ContractNotRespected as e:
         if desc is not None:
             e.error = "%s\n%s" % (desc, e.error)
         raise e
 
 
-def fail(contract, value, **initial_context):
+def fail(contract: str, value, **initial_context):
     """Checks that the value **does not** respect this contract.
      Raises an exception if it does.
 
@@ -573,7 +575,6 @@ def new_contract(*args):
 
 
 def new_contract_impl(identifier, condition):
-
     from .syntax import ParseException
     from .library.extensions import CheckCallableWithSelf
     from .library import (
@@ -584,7 +585,7 @@ def new_contract_impl(identifier, condition):
     )
 
     # Be friendly
-    if not isinstance(identifier, six.string_types):
+    if not isinstance(identifier, str):
         msg = "I expect the identifier to be a string; received %s." % describe_value(identifier)
         raise ValueError(msg)
 
@@ -624,7 +625,7 @@ def new_contract_impl(identifier, condition):
         raise ValueError(msg)
 
     # Now let's check the condition
-    if isinstance(condition, six.string_types):
+    if isinstance(condition, str):
         # We assume it is a condition that should parse cleanly
         try:
             # could call parse_flexible_spec as well here

@@ -1,12 +1,11 @@
 """ Other testing examples """
 
-from ..test_registrar import good, fail
-
 # dummy
+from contracts.test_registrar import fail, good
+
 good(["*"], [0])
 good(["*", "*"], [0, 1])
 good(["=0", "=1"], [0, 1])
-fail(["=0", "=1"], [0, 2])
 
 # Lists of equal length
 good(["list[N]", "list[N]"], [[4], [3]])
@@ -49,3 +48,5 @@ fail(["list(type(x))", "list(type(y)),x=y"], [[1, 2], [3.0, 4]])
 # a list with at most two types
 good("list(type(x|y))", [1, 2, 3, 4.0])
 fail("list(type(x|y))", [1, 2, "ciao", 4.0])
+
+fail(["=0", "=1"], [0, 2])

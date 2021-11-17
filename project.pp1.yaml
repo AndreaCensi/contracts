@@ -10,10 +10,12 @@ install_requires:
 - decorator<5
 - six
 - future
-- nose
 - numpy
 
-tests_require: []
+tests_require:
+- nose
+
+
 
 console_scripts: {}
 

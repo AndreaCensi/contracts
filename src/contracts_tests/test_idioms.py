@@ -49,8 +49,8 @@ class TestIdioms(unittest.TestCase):
     def test_repr_1(self):
         contract = parse(" list[N](int), N > 0")
 
-        ("%s" % contract)  # => 'list[N](int),N>0'
-        ("%r" % contract)  # => And([List(BindVariable('N',int),...
+        _ = "%s" % contract  # => 'list[N](int),N>0'
+        _ = "%r" % contract  # => And([List(BindVariable('N',int),...
 
     def test_binding(self):
         context = check("list[N](str), N>0", ["a", "b", "c"])

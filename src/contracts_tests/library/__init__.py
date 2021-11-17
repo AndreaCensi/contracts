@@ -1,26 +1,24 @@
-from contracts.test_registrar import syntax_fail, good, fail, semantic_fail
-
-from . import dummy_tc
-from . import separate_context_tc
-from . import types_tc
-from . import strings_tc
-from . import lists_tc
-from . import tuple_tc
-from . import dicts_tc
-from . import comparison_tc
-from . import arithmetic_tc
-from . import compositions_tc
-from . import variables_tc
-from . import simple_values_tc
-from . import map_tc
-from . import seq_tc
-from . import collection_tc
-from . import attr_tc
-from . import files_tc
-
-from . import isinstance_tc
-
-from . import extensions_tc
+from . import (
+    arithmetic_tc,
+    attr_tc,
+    collection_tc,
+    comparison_tc,
+    compositions_tc,
+    dicts_tc,
+    dummy_tc,
+    extensions_tc,
+    files_tc,
+    isinstance_tc,
+    lists_tc,
+    map_tc,
+    separate_context_tc,
+    seq_tc,
+    simple_values_tc,
+    strings_tc,
+    tuple_tc,
+    types_tc,
+    variables_tc,
+)
 
 try:
     import numpy

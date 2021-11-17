@@ -1,6 +1,6 @@
 import io
 
-from . import syntax_fail, good, fail
+from contracts.test_registrar import fail, good, syntax_fail
 
 good("file", io.IOBase())
 fail("file", 1)

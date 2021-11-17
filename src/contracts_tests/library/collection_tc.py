@@ -1,5 +1,6 @@
-from . import good, fail
 import collections
+
+from contracts.test_registrar import fail, good
 
 # sequences
 for obj in (

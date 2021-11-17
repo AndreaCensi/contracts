@@ -1,4 +1,4 @@
-from . import good, fail
+from contracts.test_registrar import fail, good
 
 
 class BaseClass:

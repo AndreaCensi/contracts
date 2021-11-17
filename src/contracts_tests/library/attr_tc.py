@@ -1,4 +1,4 @@
-from . import good, fail, syntax_fail
+from contracts.test_registrar import fail, good, syntax_fail
 
 
 class A(object):

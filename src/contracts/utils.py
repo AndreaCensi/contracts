@@ -17,10 +17,10 @@ __all__ = [
 
 
 def indent(s, prefix, first=None):
-    if not isinstance(s, six.string_types):
+    if not isinstance(s, str):
         s = "{}".format(s)
 
-    assert isinstance(prefix, six.string_types)
+    assert isinstance(prefix, str)
     try:
         lines = s.split("\n")
     except UnicodeDecodeError:
@@ -221,7 +221,7 @@ def raise_desc(etype, msg, args_first=False, **kwargs):
     Example:
         raise_desc(ValueError, "I don't know", a=a, b=b)
     """
-    assert isinstance(msg, six.string_types), type(msg)
+    assert isinstance(msg, str), type(msg)
     s1 = msg
     if kwargs:
         s2 = format_obs(kwargs)

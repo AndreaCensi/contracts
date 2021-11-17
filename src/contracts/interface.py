@@ -22,7 +22,7 @@ class Where(object):
     def __init__(self, string, character, character_end=None):
         from .utils import raise_desc
 
-        if not isinstance(string, six.string_types):
+        if not isinstance(string, str):
             msg = "I expect the string to be a str, not %r" % string
             raise ValueError(msg)
 
@@ -192,7 +192,7 @@ def line_and_col(loc, strg):
     from .utils import check_isinstance
 
     check_isinstance(loc, int)
-    check_isinstance(strg, six.string_types)
+    check_isinstance(strg, str)
     # first find the line
     lines = strg.split("\n")
 
@@ -244,7 +244,7 @@ def location(line, col, s):
 
     check_isinstance(line, int)
     check_isinstance(col, int)
-    check_isinstance(s, six.string_types)
+    check_isinstance(s, str)
 
     lines = s.split("\n")
     previous_lines = sum(len(l) + len("\n") for l in lines[:line])
@@ -255,8 +255,8 @@ def location(line, col, s):
 def add_prefix(s, prefix):
     from .utils import check_isinstance
 
-    check_isinstance(s, six.string_types)
-    check_isinstance(prefix, six.string_types)
+    check_isinstance(s, str)
+    check_isinstance(prefix, str)
     result = ""
     for l in s.split("\n"):
         result += prefix + l + "\n"
@@ -324,7 +324,7 @@ class ContractNotRespected(ContractException):
         Exception.__init__(self, contract, error, value, context)
         assert isinstance(contract, Contract), contract
         assert isinstance(context, dict), context
-        assert isinstance(error, six.string_types), error
+        assert isinstance(error, str), error
 
         self.contract = contract
         self.error = error
@@ -625,7 +625,7 @@ def describe_value_multiline(x):
         else:
             return x.__repr__()
     else:
-        if isinstance(x, six.string_types):
+        if isinstance(x, str):
             if x == "":
                 return "''"
             return x
