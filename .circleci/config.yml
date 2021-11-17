@@ -41,8 +41,8 @@ jobs:
       COLUMNS: '160'
       # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      COVER_PACKAGES: contracts
-      TEST_PACKAGES: contracts
+      COVER_PACKAGES: contracts,contracts_tests
+      TEST_PACKAGES: contracts_tests
     docker:
     - image: ${DOCKER_REGISTRY}/zupermind/zuper-ci-3.7:z7
       auth:
@@ -129,17 +129,17 @@ jobs:
 
 
     - run:
-        name: contracts
+        name: contracts_tests
         command: |-
           set -euxo pipefail
           mkdir -p out/test-results
-          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts-xunit.xml
+          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
           nosetests \
               --rednose --immediate \
               --cover-tests --with-coverage \
               --with-xunit --xunit-file=${xunit_output} \
               --cover-package=${COVER_PACKAGES} \
-              contracts
+              contracts_tests
         when: always
     - run:
         name: post-circle-tests
@@ -181,8 +181,8 @@ jobs:
       COLUMNS: '160'
       # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      COVER_PACKAGES: contracts
-      TEST_PACKAGES: contracts
+      COVER_PACKAGES: contracts,contracts_tests
+      TEST_PACKAGES: contracts_tests
     docker:
     - image: ${DOCKER_REGISTRY}/zupermind/zuper-ci-3.7:z7
       auth:
@@ -269,17 +269,17 @@ jobs:
 
 
     - run:
-        name: contracts
+        name: contracts_tests
         command: |-
           set -euxo pipefail
           mkdir -p out/test-results
-          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts-xunit.xml
+          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
           nosetests \
               --rednose --immediate \
               --cover-tests --with-coverage \
               --with-xunit --xunit-file=${xunit_output} \
               --cover-package=${COVER_PACKAGES} \
-              contracts
+              contracts_tests
         when: always
     - run:
         name: post-circle-tests
@@ -321,8 +321,8 @@ jobs:
       COLUMNS: '160'
       # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      COVER_PACKAGES: contracts
-      TEST_PACKAGES: contracts
+      COVER_PACKAGES: contracts,contracts_tests
+      TEST_PACKAGES: contracts_tests
     docker:
     - image: ${DOCKER_REGISTRY}/zupermind/zuper-ci-3.8:z7
       auth:
@@ -409,17 +409,17 @@ jobs:
 
 
     - run:
-        name: contracts
+        name: contracts_tests
         command: |-
           set -euxo pipefail
           mkdir -p out/test-results
-          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts-xunit.xml
+          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
           nosetests \
               --rednose --immediate \
               --cover-tests --with-coverage \
               --with-xunit --xunit-file=${xunit_output} \
               --cover-package=${COVER_PACKAGES} \
-              contracts
+              contracts_tests
         when: always
     - run:
         name: post-circle-tests
@@ -461,8 +461,8 @@ jobs:
       COLUMNS: '160'
       # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      COVER_PACKAGES: contracts
-      TEST_PACKAGES: contracts
+      COVER_PACKAGES: contracts,contracts_tests
+      TEST_PACKAGES: contracts_tests
     docker:
     - image: ${DOCKER_REGISTRY}/zupermind/zuper-ci-3.8:z7
       auth:
@@ -549,17 +549,17 @@ jobs:
 
 
     - run:
-        name: contracts
+        name: contracts_tests
         command: |-
           set -euxo pipefail
           mkdir -p out/test-results
-          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts-xunit.xml
+          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
           nosetests \
               --rednose --immediate \
               --cover-tests --with-coverage \
               --with-xunit --xunit-file=${xunit_output} \
               --cover-package=${COVER_PACKAGES} \
-              contracts
+              contracts_tests
         when: always
     - run:
         name: post-circle-tests
@@ -601,8 +601,8 @@ jobs:
       COLUMNS: '160'
       # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      COVER_PACKAGES: contracts
-      TEST_PACKAGES: contracts
+      COVER_PACKAGES: contracts,contracts_tests
+      TEST_PACKAGES: contracts_tests
     docker:
     - image: ${DOCKER_REGISTRY}/zupermind/zuper-ci-3.9:z7
       auth:
@@ -689,17 +689,17 @@ jobs:
 
 
     - run:
-        name: contracts
+        name: contracts_tests
         command: |-
           set -euxo pipefail
           mkdir -p out/test-results
-          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts-xunit.xml
+          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
           nosetests \
               --rednose --immediate \
               --cover-tests --with-coverage \
               --with-xunit --xunit-file=${xunit_output} \
               --cover-package=${COVER_PACKAGES} \
-              contracts
+              contracts_tests
         when: always
     - run:
         name: post-circle-tests
@@ -741,8 +741,8 @@ jobs:
       COLUMNS: '160'
       # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      COVER_PACKAGES: contracts
-      TEST_PACKAGES: contracts
+      COVER_PACKAGES: contracts,contracts_tests
+      TEST_PACKAGES: contracts_tests
     docker:
     - image: ${DOCKER_REGISTRY}/zupermind/zuper-ci-3.9:z7
       auth:
@@ -829,17 +829,17 @@ jobs:
 
 
     - run:
-        name: contracts
+        name: contracts_tests
         command: |-
           set -euxo pipefail
           mkdir -p out/test-results
-          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts-xunit.xml
+          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
           nosetests \
               --rednose --immediate \
               --cover-tests --with-coverage \
               --with-xunit --xunit-file=${xunit_output} \
               --cover-package=${COVER_PACKAGES} \
-              contracts
+              contracts_tests
         when: always
     - run:
         name: post-circle-tests
@@ -877,4 +877,4 @@ jobs:
           bash <(curl -s https://codecov.io/bash)
     resource_class: medium
 
-# sigil 9f38c8c04891339d807d01e7b97689aa
+# sigil f5176322ab8f4059646b74924ca76ce4

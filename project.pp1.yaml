@@ -21,7 +21,7 @@ console_scripts: {}
 
 nose:
   modules:
-  - contracts
+  - contracts_tests
 
 
 pypi:
