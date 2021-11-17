@@ -2,12 +2,13 @@
   "install_requires": [
     "decorator<5",
     "future",
-    "nose",
     "numpy",
     "pyparsing<3",
     "six"
   ],
-  "tests_require": [],
+  "tests_require": [
+    "nose"
+  ],
   "srcdir": "src",
   "package_name": "PyContracts3",
   "entry_points": {
@@ -18,8 +19,6 @@
   "modules": [
     "contracts",
     "contracts.library",
-    "contracts.testing",
-    "contracts.testing.library",
     "contracts.useful_contracts"
   ],
   "version": "7.2",
