@@ -1,5 +1,5 @@
 import traceback
-from abc import ABC
+from abc import ABCMeta
 from types import FunctionType
 
 __all__ = ["ContractsMeta"]
@@ -94,6 +94,7 @@ def with_metaclass(meta, *bases):
     syntaxes for this functionality. Python 3's metaclass syntax is a
     SyntaxError in python 2.
     """
+
     # This requires a bit of explanation: the basic idea is to make a dummy
     # metaclass for one level of class instantiation that replaces itself with
     # the actual metaclass.
