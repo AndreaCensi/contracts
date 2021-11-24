@@ -1,12 +1,10 @@
-from __future__ import unicode_literals
-
 import sys
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 
 from .metaclass import with_metaclass
 
 
-class Where(object):
+class Where:
     """
     An object of this class represents a place in a file, or an interval.
 
@@ -143,7 +141,7 @@ def format_where(
         if w.line == w.line_end:
             num_highlight = printable_length_where(w)
             s += space + "~" * num_highlight + "\n"
-            space += " " * (num_highlight / 2)
+            space += " " * int(num_highlight / 2)
         else:
             # cannot highlight if on different lines
             num_highlight = None
@@ -174,14 +172,10 @@ def format_where(
 
 def printable_length_where(w):
     """Returns the printable length of the substring"""
-    if sys.version_info[0] >= 3:  # pragma: no cover
-        stype = str
-    else:
-        stype = unicode
     sub = w.string[w.character : w.character_end]
     # return len(stype(sub, 'utf-8'))
     # I am not really sure this is what we want
-    return len(stype(sub))
+    return len(sub)
 
 
 def line_and_col(loc, strg):
