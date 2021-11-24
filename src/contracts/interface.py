@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 import sys
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 
 from .metaclass import with_metaclass
 

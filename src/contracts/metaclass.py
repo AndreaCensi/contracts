@@ -1,5 +1,5 @@
 import traceback
-from abc import ABCMeta
+from abc import ABC
 from types import FunctionType
 
 __all__ = ["ContractsMeta"]
