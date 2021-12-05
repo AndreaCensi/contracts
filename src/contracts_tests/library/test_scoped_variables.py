@@ -6,13 +6,13 @@ from contracts.utils import check_isinstance
 from nose.tools import raises
 
 
-def test_raw_parse():
+def test_raw_parse() -> None:
     p = 2
     c = parse("$p")
     assert c.rvalue.value == 2
 
 
-def test_value_frozen_at_parsetime():
+def test_value_frozen_at_parsetime() -> None:
     p = 2
     c = parse("$p")
     p = 3
@@ -25,7 +25,7 @@ def test_value_frozen_at_parsetime():
     assert c.rvalue.value == 3
 
 
-def test_holds_reference():
+def test_holds_reference() -> None:
     class Foo(object):
         pass
 
@@ -35,7 +35,7 @@ def test_holds_reference():
     assert c.types == Foo
 
 
-def test_algebra():
+def test_algebra() -> None:
 
     p = 2
     c = parse("list[$p]")
@@ -44,11 +44,11 @@ def test_algebra():
 
 
 @raises(ContractException)
-def test_invalid():
+def test_invalid() -> None:
     parse("$not_found")
 
 
-def test_check():
+def test_check() -> None:
     p = 2
     q = 4
     c = parse("list[$p](>$q)")
@@ -57,7 +57,7 @@ def test_check():
     c.fail([5, 3])
 
 
-def test_contract_decorator():
+def test_contract_decorator() -> None:
     z = 1
 
     @contract(x="$z")
@@ -67,7 +67,7 @@ def test_contract_decorator():
     foo(1)
 
 
-def test_contract_decorate():
+def test_contract_decorate() -> None:
     z = 1
 
     def foo(x):
@@ -77,20 +77,20 @@ def test_contract_decorate():
     c(1)
 
 
-def test_check_fail():
+def test_check_fail() -> None:
     z = 2
     check("$z", 2)
     fail("$z", 3)
 
 
-def test_contract_not_cached():
+def test_contract_not_cached() -> None:
     z = 2
     check("$z", 2)
     z = 3
     check("$z", 3)
 
 
-def test_self_referential():
+def test_self_referential() -> None:
     try:
 
         class MyClass:
@@ -107,7 +107,7 @@ def test_self_referential():
         raise ValueError()
 
 
-def test_class_ref():
+def test_class_ref() -> None:
     class MyClass:
         def __init__(self, a):
             self.a = a

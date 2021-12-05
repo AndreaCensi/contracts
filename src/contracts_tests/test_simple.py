@@ -26,29 +26,29 @@ from .utils import check_contracts_fail, check_contracts_ok, check_syntax_fail
 # from ..test_registrar import  fail, good, syntax_fail, semantic_fail
 
 
-def test_good():
+def test_good() -> None:
     for contract, value, exact in good_examples:  # @UnusedVariable
         yield check_contracts_ok, contract, value
 
 
-def test_syntax_fail():
+def test_syntax_fail() -> None:
     for s in syntax_fail_examples:
         yield check_syntax_fail, s
 
 
-def test_semantic_fail():
+def test_semantic_fail() -> None:
     for contract, value, exact in semantic_fail_examples:  # @UnusedVariable
         yield check_contracts_fail, contract, value, ContractNotRespected
 
 
-def test_contract_fail():
+def test_contract_fail() -> None:
     for contract, value, exact in contract_fail_examples:  # @UnusedVariable
         yield check_contracts_fail, contract, value, ContractNotRespected
 
 
 # Checks that we can eval() the __repr__() value and
 # we get an equivalent object.
-def test_repr():
+def test_repr() -> None:
     allc = good_examples + semantic_fail_examples + contract_fail_examples
     for contract, value, exact in allc:  # @UnusedVariable
         if isinstance(contract, list):
@@ -59,7 +59,7 @@ def test_repr():
 
 
 #  Checks that we can reconvert the __str__() value and we get the same.
-def test_reconversion():
+def test_reconversion() -> None:
     allc = good_examples + semantic_fail_examples + contract_fail_examples
     for contract, _, exact in allc:
         if isinstance(contract, list):

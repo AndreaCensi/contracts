@@ -366,7 +366,7 @@ def check_valid_identifier(e):
     check(e, 42)
 
 
-def test_valid_identifiers():
+def test_valid_identifiers() -> None:
 
     for e in examples_valid:
         yield check_valid_identifier, e

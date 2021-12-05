@@ -130,7 +130,7 @@ class TestMeta(unittest.TestCase):
         self.assertRaises(ContractNotRespected, B.f, 0)  # this doesn't work
 
     def test_classmethod2a(self):
-        def test_classmethod2():
+        def test_classmethod2() -> None:
             class A(with_metaclass(ContractsMeta, object)):
                 @contract(a=">0")
                 @classmethod
