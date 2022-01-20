@@ -29,7 +29,7 @@ pypi:
 
 circleci:
   active: true
-  test_python_versions: ['3.7', '3.8', '3.9']
+  test_python_versions: ['3.7', '3.8', '3.10']
 
 python_syntax_version: '3.8'
 
