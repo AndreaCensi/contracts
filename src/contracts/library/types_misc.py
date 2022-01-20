@@ -81,4 +81,4 @@ class Type(Contract):
 type_contract = Keyword("type") - S("(") - contract_expression("type_constraint") - S(")")
 
 add_contract(type_contract.setParseAction(Type.parse_action))
-add_keyword("type")
+# add_keyword("type")

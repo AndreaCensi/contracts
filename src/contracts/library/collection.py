@@ -2,6 +2,7 @@ import collections
 
 from ..interface import Contract, ContractNotRespected
 from ..syntax import add_contract, W, contract_expression, O, S, add_keyword, Keyword
+from ..utils import PYTHON_310_OR_LATER
 
 
 class Collection(Contract):
@@ -10,21 +11,25 @@ class Collection(Contract):
         self.length_contract = length_contract
         self.elements_contract = elements_contract
 
-        try:
-            # latest python 3.6+
-            self.__collection_types = collections.abc.Collection
-        except:
+        if PYTHON_310_OR_LATER:
+            self.__collection_types = ()
+        else:
             try:
-                # older python 3
-                self.__collection_types = collections.Collection
+                # latest python 3.6+
+
+                self.__collection_types = collections.abc.Collection
             except:
-                # python 2
-                self.__collection_types = (
-                    collections.Sequence,
-                    collections.Set,
-                    collections.Mapping,
-                    collections.deque,
-                )
+                try:
+                    # older python 3
+                    self.__collection_types = collections.Collection
+                except:
+                    # python 2
+                    self.__collection_types = (
+                        collections.Sequence,
+                        collections.Set,
+                        collections.Mapping,
+                        collections.deque,
+                    )
 
     def check_contract(self, context, value, silent):
         if not isinstance(value, self.__collection_types):

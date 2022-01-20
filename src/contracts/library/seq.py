@@ -3,6 +3,8 @@ from ..syntax import add_contract, W, contract_expression, O, S, add_keyword, Ke
 import collections
 from past.builtins import xrange
 
+from ..utils import PYTHON_310_OR_LATER
+
 try:
     import numpy
 
@@ -35,9 +37,10 @@ class Seq(Contract):
 
             return
 
-        if not isinstance(value, collections.Sequence):
-            error = "Expected a Sequence, got %r." % value.__class__.__name__
-            raise ContractNotRespected(self, error, value, context)
+        if not PYTHON_310_OR_LATER:
+            if not isinstance(value, collections.Sequence):
+                error = "Expected a Sequence, got %r." % value.__class__.__name__
+                raise ContractNotRespected(self, error, value, context)
 
         if self.length_contract is not None:
             self.length_contract._check_contract(context, len(value), silent)

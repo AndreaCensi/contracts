@@ -87,16 +87,17 @@ def create_suggester(get_options, get_message=default_message, pattern=None):
         options = get_options()
 
         msg = "Bug in syntax: I was not supposed to match %r." % identifier
-        msg += "(options: %s)" % options
+        msg += "\n(options: %s)" % options
+        msg += f"\n(s: {s!r})"
 
-        msg += """
+        msg += f"""
          Suggestions on the cause:
-            1) Use add_keyword(), always.
+            1) Use add_keyword("{identifier}"), always. 
 
             2) Use:
-                Keyword('attr') - attrs_spec
+                Keyword('{identifier}') - attrs_spec
                instead of
-                Keyword('attr') + attrs_spec
+                Keyword('{identifier}') + attrs_spec
         """
         assert not (identifier in options), msg
 

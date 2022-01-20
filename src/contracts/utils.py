@@ -1,5 +1,4 @@
-from __future__ import unicode_literals
-
+import sys
 import traceback
 import warnings
 
@@ -13,6 +12,8 @@ __all__ = [
     "raise_desc",
     "check_isinstance",
 ]
+
+PYTHON_310_OR_LATER = sys.version_info[0] == 3 and sys.version_info[1] >= 10
 
 
 def indent(s, prefix, first=None):

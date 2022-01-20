@@ -50,4 +50,4 @@ attr_contract = Keyword("attr") - attrs_spec
 attr_contract.setParseAction(Attr.parse_action)
 
 add_contract(attr_contract)
-add_keyword("attr")
+# add_keyword("attr")
