@@ -2,6 +2,8 @@ from ..interface import Contract, ContractNotRespected
 from ..syntax import W, contract_expression, O, S, add_contract, add_keyword, Keyword
 import collections
 
+from ..utils import PYTHON_310_OR_LATER
+
 
 class Map(Contract):
     def __init__(self, length=None, key_c=None, value_c=None, where=None):
@@ -11,9 +13,10 @@ class Map(Contract):
         self.value_c = value_c
 
     def check_contract(self, context, value, silent):
-        if not isinstance(value, collections.Mapping):
-            error = "Expected a Mapping, got %r." % value.__class__.__name__
-            raise ContractNotRespected(contract=self, error=error, value=value, context=context)
+        if not PYTHON_310_OR_LATER:
+            if not isinstance(value, collections.Mapping):
+                error = "Expected a Mapping, got %r." % value.__class__.__name__
+                raise ContractNotRespected(contract=self, error=error, value=value, context=context)
 
         if self.length is not None:
             self.length._check_contract(context, len(value), silent)
