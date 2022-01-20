@@ -1,0 +1,12 @@
+contracts_tests.array_extended_test
+contracts_tests.test_class_contracts
+contracts_tests.test_decorator
+contracts_tests.test_docstring_parsing
+contracts_tests.test_idioms
+contracts_tests.test_meta
+contracts_tests.test_multiple
+contracts_tests.test_new_contract
+contracts_tests.test_particulars
+contracts_tests.test_pickling
+contracts_tests.test_simple
+contracts_tests.test_unicode_literals

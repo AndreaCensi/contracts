@@ -1,42 +1,22 @@
-%YAML 1.1
----
-version: '2'
+version: 2.1
+parameters:
+  context_name:
+    type: string
+    default: << pipeline.git.branch >>
 workflows:
   version: 2
   test:
     jobs:
-    - test-3.7-stage:
-        context: z7-stage
-        filters:
-          branches:
-            only: /.*z7-stage.*/
-    - test-3.7-prod:
-        context: z7-prod
-        filters:
-          branches:
-            only: /.*z7-prod.*/
-    - test-3.8-stage:
-        context: z7-stage
-        filters:
-          branches:
-            only: /.*z7-stage.*/
-    - test-3.8-prod:
-        context: z7-prod
-        filters:
-          branches:
-            only: /.*z7-prod.*/
-    - test-3.10-stage:
-        context: z7-stage
-        filters:
-          branches:
-            only: /.*z7-stage.*/
-    - test-3.10-prod:
-        context: z7-prod
-        filters:
-          branches:
-            only: /.*z7-prod.*/
+    - test-37:
+        context: << pipeline.parameters.context_name >>
+    - test-38:
+        context: << pipeline.parameters.context_name >>
+    - test-39:
+        context: << pipeline.parameters.context_name >>
+    - test-310:
+        context: << pipeline.parameters.context_name >>
 jobs:
-  test-3.7-stage:
+  test-37:
     #    machine: true
     #    resource_class: zuper-ci-ns/my-resource-class
     environment:
@@ -179,150 +159,7 @@ jobs:
           chmod +x codecov
           ./codecov -t ${CODECOV_TOKEN}
     resource_class: small
-  test-3.7-prod:
-    #    machine: true
-    #    resource_class: zuper-ci-ns/my-resource-class
-    environment:
-      COLUMNS: '160'
-      # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      COVER_PACKAGES: contracts,contracts_tests
-      TEST_PACKAGES: contracts_tests
-    docker:
-    - image: ${DOCKER_REGISTRY}/zupermind/zuper-ci-3.7:z7
-      auth:
-        username: $DOCKER_USERNAME
-        password: $DOCKER_PASSWORD
-    working_directory: ~/repo
-    steps:
-    - checkout
-    - run:
-        name: Build statistics
-        command: |
-          mkdir -p build-stats
-          env | sort | tee  build-stats/env.txt
-    - store_artifacts:
-        path: build-stats
-        destination: build-stats
-    - run:
-        name: Install deps
-        command: |
-          shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
-          python3 -m pip install -U pip
-          python3 -m pip install -r .requirements.txt
-          rm .requirements.txt
-
-    - run:
-        name: Install testing deps
-        command: |
-          shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
-          python3 -m pip  install -r .requirements_tests.txt
-          rm .requirements_tests.txt
-
-    - run:
-        name: Python stats
-        command: |
-          pipdeptree | tee  build-stats/pipdeptree.txt
-          python3 -m pip  list   | sort | tee  build-stats/pip-list.txt
-          python3 -m pip  freeze | sort | tee  build-stats/pip-freeze.txt
-
-    - store_artifacts:
-        path: build-stats
-        destination: build-stats
-
-    - run:
-        name: setup.py develop
-        command: |
-          pip install -e . --prefix ~/.local --no-deps
-
-    - run:
-        name: Make docs
-        command: |
-          FILE=src/conf.py
-          mkdir -p out/docs
-          if test -f "$FILE"; then
-              sphinx-build src out/docs
-          fi
-
-    - store_artifacts:
-        path: out/docs
-        destination: docs
-    - run:
-        background: true
-        name: services
-        command: |
-          TARGET=services
-          if make -n $TARGET ; then
-              make $TARGET
-          else
-              echo "Target $TARGET not defined"
-          fi
-    - run:
-        name: pre-circle-tests
-        command: |
-          TARGET=pre-circle-tests
-          if make -n $TARGET ; then
-              make $TARGET
-          else
-              echo "Target $TARGET not defined"
-          fi
-    # - run:
-    #     name: Notebooks
-    #     command: |
-    #       make -C notebooks cleanup all
-
-
-    - run:
-        name: contracts_tests
-        command: |-
-          set -euxo pipefail
-              mkdir -p out/test-results
-              xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
-              nosetests \
-                  --rednose --immediate \
-                  --cover-tests --with-coverage \
-                  --with-xunit --xunit-file=${xunit_output} \
-                  --cover-package=${COVER_PACKAGES} \
-                  contracts_tests
-    - run:
-        name: post-circle-tests
-        command: |
-          TARGET=post-circle-tests
-          if make -n $TARGET ; then
-              make $TARGET
-          else
-              echo "Target $TARGET not defined"
-          fi
-
-    - store_test_results:
-        path: out/test-results
-
-    - run:
-        name: Coverage report
-        when: always
-        command: |
-          coverage combine || true
-          coverage html -d out/coverage/${CIRCLE_NODE_INDEX}
-          coverage xml
-
-    - store_artifacts:
-        path: out/coverage
-        destination: coverage
-
-    - store_artifacts:
-        path: out/tests
-        destination: tests
-
-    - run:
-        name: CodeCov
-        when: always
-        command: |
-          # bash <(curl -s https://codecov.io/bash)
-          curl -Os https://uploader.codecov.io/latest/linux/codecov
-          chmod +x codecov
-          ./codecov -t ${CODECOV_TOKEN}
-    resource_class: small
-  test-3.8-stage:
+  test-38:
     #    machine: true
     #    resource_class: zuper-ci-ns/my-resource-class
     environment:
@@ -465,7 +302,7 @@ jobs:
           chmod +x codecov
           ./codecov -t ${CODECOV_TOKEN}
     resource_class: small
-  test-3.8-prod:
+  test-39:
     #    machine: true
     #    resource_class: zuper-ci-ns/my-resource-class
     environment:
@@ -475,7 +312,7 @@ jobs:
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
-    - image: ${DOCKER_REGISTRY}/zupermind/zuper-ci-3.8:z7
+    - image: ${DOCKER_REGISTRY}/zupermind/zuper-ci-3.9:z7
       auth:
         username: $DOCKER_USERNAME
         password: $DOCKER_PASSWORD
@@ -608,7 +445,7 @@ jobs:
           chmod +x codecov
           ./codecov -t ${CODECOV_TOKEN}
     resource_class: small
-  test-3.10-stage:
+  test-310:
     #    machine: true
     #    resource_class: zuper-ci-ns/my-resource-class
     environment:
@@ -705,148 +542,11 @@ jobs:
         name: contracts_tests
         command: |-
           set -euxo pipefail
+                          TEST_MODULES=$(circleci tests split < .circleci/contracts_tests.tests)
+                          echo $TEST_MODULES
                           mkdir -p out/test-results
                           xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
-                          nose2 --with-coverage --plugin nose2.plugins.junitxml  --junit-xml --junit-xml-path                     ${xunit_output} contracts_tests
-                          # TODO: cover packages
-    - run:
-        name: post-circle-tests
-        command: |
-          TARGET=post-circle-tests
-          if make -n $TARGET ; then
-              make $TARGET
-          else
-              echo "Target $TARGET not defined"
-          fi
-
-    - store_test_results:
-        path: out/test-results
-
-    - run:
-        name: Coverage report
-        when: always
-        command: |
-          coverage combine || true
-          coverage html -d out/coverage/${CIRCLE_NODE_INDEX}
-          coverage xml
-
-    - store_artifacts:
-        path: out/coverage
-        destination: coverage
-
-    - store_artifacts:
-        path: out/tests
-        destination: tests
-
-    - run:
-        name: CodeCov
-        when: always
-        command: |
-          # bash <(curl -s https://codecov.io/bash)
-          curl -Os https://uploader.codecov.io/latest/linux/codecov
-          chmod +x codecov
-          ./codecov -t ${CODECOV_TOKEN}
-    resource_class: small
-  test-3.10-prod:
-    #    machine: true
-    #    resource_class: zuper-ci-ns/my-resource-class
-    environment:
-      COLUMNS: '160'
-      # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      COVER_PACKAGES: contracts,contracts_tests
-      TEST_PACKAGES: contracts_tests
-    docker:
-    - image: ${DOCKER_REGISTRY}/zupermind/zuper-ci-3.10:z7
-      auth:
-        username: $DOCKER_USERNAME
-        password: $DOCKER_PASSWORD
-    working_directory: ~/repo
-    steps:
-    - checkout
-    - run:
-        name: Build statistics
-        command: |
-          mkdir -p build-stats
-          env | sort | tee  build-stats/env.txt
-    - store_artifacts:
-        path: build-stats
-        destination: build-stats
-    - run:
-        name: Install deps
-        command: |
-          shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
-          python3 -m pip install -U pip
-          python3 -m pip install -r .requirements.txt
-          rm .requirements.txt
-
-    - run:
-        name: Install testing deps
-        command: |
-          shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
-          python3 -m pip  install -r .requirements_tests.txt
-          rm .requirements_tests.txt
-
-    - run:
-        name: Python stats
-        command: |
-          pipdeptree | tee  build-stats/pipdeptree.txt
-          python3 -m pip  list   | sort | tee  build-stats/pip-list.txt
-          python3 -m pip  freeze | sort | tee  build-stats/pip-freeze.txt
-
-    - store_artifacts:
-        path: build-stats
-        destination: build-stats
-
-    - run:
-        name: setup.py develop
-        command: |
-          pip install -e . --prefix ~/.local --no-deps
-
-    - run:
-        name: Make docs
-        command: |
-          FILE=src/conf.py
-          mkdir -p out/docs
-          if test -f "$FILE"; then
-              sphinx-build src out/docs
-          fi
-
-    - store_artifacts:
-        path: out/docs
-        destination: docs
-    - run:
-        background: true
-        name: services
-        command: |
-          TARGET=services
-          if make -n $TARGET ; then
-              make $TARGET
-          else
-              echo "Target $TARGET not defined"
-          fi
-    - run:
-        name: pre-circle-tests
-        command: |
-          TARGET=pre-circle-tests
-          if make -n $TARGET ; then
-              make $TARGET
-          else
-              echo "Target $TARGET not defined"
-          fi
-    # - run:
-    #     name: Notebooks
-    #     command: |
-    #       make -C notebooks cleanup all
-
-
-    - run:
-        name: contracts_tests
-        command: |-
-          set -euxo pipefail
-                          mkdir -p out/test-results
-                          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
-                          nose2 --with-coverage --plugin nose2.plugins.junitxml  --junit-xml --junit-xml-path                     ${xunit_output} contracts_tests
+                          nose2 --with-coverage --plugin nose2.plugins.junitxml  --junit-xml --junit-xml-path                     ${xunit_output} $TEST_MODULES
                           # TODO: cover packages
     - run:
         name: post-circle-tests
@@ -887,4 +587,4 @@ jobs:
           ./codecov -t ${CODECOV_TOKEN}
     resource_class: small
 
-# sigil 3a6530b56e284c2ef6029b6ff2c30773
+# sigil f903c3320377099229a1d354dfa23367
