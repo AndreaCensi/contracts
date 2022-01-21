@@ -47,7 +47,6 @@ if sys.version_info[0] == 3:  # Python 3
         TYPE = str
         DESCRIPTION = "a string"
 
-
 else:  # Python 2.x
 
     __all__ = [
