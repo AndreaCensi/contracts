@@ -19,7 +19,7 @@ As a quick intro, please see `this presentation about PyContracts`_.
 
 .. container:: brief_summary
   
-    A brief summary follows. See the full documentation at: <http://andreacensi.github.com/contracts/>
+    A brief summary follows. See the full documentation at: <https://andreacensi.github.io/contracts/>
 
 
 **Why**: The purpose of PyContracts is **not** to turn Python into a statically-typed language
@@ -30,6 +30,8 @@ useful the ability to impose value and size constraints. For example, "I need a 
 PyContracts is overkill for you, you might want to try a simpler alternative, such as
 typecheck_. If you find that PyContracts is not *enough* for you, you probably want to be
 using Haskell_ instead of Python.
+
+**Install**: `pip install git+https://github.com/AndreaCensi/contracts.git`
 
 **Specifying contracts**: Contracts can be specified in three ways:
 
@@ -66,6 +68,7 @@ using Haskell_ instead of Python.
 **Extensions:** You can extend PyContracts with new contracts types: ::
 
     new_contract('valid_name', lambda s: isinstance(s, str) and len(s)>0)
+
     @contract(names='dict(int: (valid_name, int))')
     def process_accounting(records):
         ...
@@ -121,6 +124,7 @@ like ABCMeta, which propagates contracts to the subclasses: ::
 - `Dennis Kempin`_ (Google mothership): Sphinx-style constraints specs
 - `Andy Hayden`_: Python 3 support, more efficient Numpy checks
 - `Jonathan Sharpe`_: contracts for file-like objects, not operator
+- `Waket Zheng`_: documentation fixes
 
 (Please let me know if I forgot anybody.)
 
@@ -137,8 +141,9 @@ like ABCMeta, which propagates contracts to the subclasses: ::
 .. _`Brett Graham`: https://github.com/braingram
 .. _`Dennis Kempin`: https://github.com/denniskempin
 .. _`Andy Hayden`: http://careers.stackoverflow.com/hayd
+.. _`Waket Zheng`: https://github.com/waketzheng
 
-.. _typecheck: http://oakwinter.com/code/typecheck/
+.. _typecheck: https://github.com/prechelt/typecheck-decorator
 .. _Haskell: http://www.haskell.org/
 
 
