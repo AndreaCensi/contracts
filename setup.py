@@ -39,7 +39,7 @@ version = get_version(filename='src/contracts/__init__.py')
 setup(name='PyContracts',
       author="Andrea Censi",
       author_email="censi@mit.edu",
-      url='http://andreacensi.github.com/contracts/',
+      url='https://andreacensi.github.io/contracts/',
 
       description=description,
       long_description=long_description,
