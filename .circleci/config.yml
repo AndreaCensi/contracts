@@ -27,7 +27,7 @@ jobs:
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
-    - image: ${DOCKER_REGISTRY}/zupermind/z7-stage-zuper-ci-3.7:z7
+    - image: ${DOCKER_REGISTRY}/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.7:${Z_DISTRO}
       auth:
         username: $DOCKER_USERNAME
         password: $DOCKER_PASSWORD
@@ -172,7 +172,7 @@ jobs:
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
-    - image: ${DOCKER_REGISTRY}/zupermind/z7-stage-zuper-ci-3.8:z7
+    - image: ${DOCKER_REGISTRY}/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.8:${Z_DISTRO}
       auth:
         username: $DOCKER_USERNAME
         password: $DOCKER_PASSWORD
@@ -317,7 +317,7 @@ jobs:
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
-    - image: ${DOCKER_REGISTRY}/zupermind/z7-stage-zuper-ci-3.9:z7
+    - image: ${DOCKER_REGISTRY}/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.9:${Z_DISTRO}
       auth:
         username: $DOCKER_USERNAME
         password: $DOCKER_PASSWORD
@@ -462,7 +462,7 @@ jobs:
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
-    - image: ${DOCKER_REGISTRY}/zupermind/z7-stage-zuper-ci-3.10:z7
+    - image: ${DOCKER_REGISTRY}/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.10:${Z_DISTRO}
       auth:
         username: $DOCKER_USERNAME
         password: $DOCKER_PASSWORD
@@ -605,4 +605,4 @@ jobs:
           ./codecov -t ${CODECOV_TOKEN}
     resource_class: small
 
-# sigil 451acda20eaba543fef317bc100d2b33
+# sigil 38aaeffbfb12f6e4b3a0ce63f5d16800
