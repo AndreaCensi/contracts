@@ -113,7 +113,7 @@ jobs:
 
     - run:
         name: contracts_tests
-        command: |-
+        command: |
           set -euxo pipefail
           mkdir -p out/test-results
           xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
@@ -258,7 +258,7 @@ jobs:
 
     - run:
         name: contracts_tests
-        command: |-
+        command: |
           set -euxo pipefail
           mkdir -p out/test-results
           xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
@@ -403,7 +403,7 @@ jobs:
 
     - run:
         name: contracts_tests
-        command: |-
+        command: |
           set -euxo pipefail
           mkdir -p out/test-results
           xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
@@ -548,7 +548,7 @@ jobs:
 
     - run:
         name: contracts_tests
-        command: |-
+        command: |
           set -euxo pipefail
           TEST_MODULES=$(circleci tests split <.circleci/contracts_tests.tests)
           echo "TEST_MODULES=[$TEST_MODULES]"
@@ -605,4 +605,4 @@ jobs:
           ./codecov -t ${CODECOV_TOKEN}
     resource_class: small
 
-# sigil 38aaeffbfb12f6e4b3a0ce63f5d16800
+# sigil bd3e3cadf29266b76c22af2aa9f6ce18
