@@ -5,12 +5,12 @@ import warnings
 import six
 
 __all__ = [
-    "indent",
+    "check_isinstance",
     "deprecated",
+    "indent",
+    "raise_desc",
     "raise_type_mismatch",
     "raise_wrapped",
-    "raise_desc",
-    "check_isinstance",
 ]
 
 PYTHON_310_OR_LATER = sys.version_info[0] == 3 and sys.version_info[1] >= 10
