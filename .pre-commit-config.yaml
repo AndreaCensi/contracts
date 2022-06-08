@@ -8,7 +8,7 @@ repos:
   - {id: check-merge-conflict}
   - {id: check-symlinks}
   repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.2.0
+  rev: v4.3.0
 - hooks:
   - args: [-l, '110', -t, py38]
     id: black
@@ -18,10 +18,10 @@ repos:
   - args: [--mapping, '2', --sequence, '2', --offset, '0', --width, '150', --preserve-quotes]
     id: yamlfmt
   repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
-  rev: 0.1.1
+  rev: 0.2.1
 - hooks:
   - {id: sort-all}
   repo: https://github.com/aio-libs/sort-all
   rev: v1.2.0
 
-# sigil bceb99c235f8c4676d33b91c246a6fb7
+# sigil b89de2e206d719ed53b611648542b408
