@@ -38,7 +38,8 @@ jobs:
         name: Build statistics
         command: |
           mkdir -p build-stats
-          env | sort | tee  build-stats/env.txt
+          # env | sort | tee  build-stats/env.txt
+          env | sort
     - store_artifacts:
         path: build-stats
         destination: build-stats
@@ -182,7 +183,8 @@ jobs:
         name: Build statistics
         command: |
           mkdir -p build-stats
-          env | sort | tee  build-stats/env.txt
+          # env | sort | tee  build-stats/env.txt
+          env | sort
     - store_artifacts:
         path: build-stats
         destination: build-stats
@@ -326,7 +328,8 @@ jobs:
         name: Build statistics
         command: |
           mkdir -p build-stats
-          env | sort | tee  build-stats/env.txt
+          # env | sort | tee  build-stats/env.txt
+          env | sort
     - store_artifacts:
         path: build-stats
         destination: build-stats
@@ -470,7 +473,8 @@ jobs:
         name: Build statistics
         command: |
           mkdir -p build-stats
-          env | sort | tee  build-stats/env.txt
+          # env | sort | tee  build-stats/env.txt
+          env | sort
     - store_artifacts:
         path: build-stats
         destination: build-stats
@@ -601,4 +605,4 @@ jobs:
           ./codecov  
     resource_class: small
 
-# sigil 6d6164e7573f015fd5739c705918bd25
+# sigil e1c9f678392b26c610a5345762da80e6
