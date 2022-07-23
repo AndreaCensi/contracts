@@ -2,7 +2,9 @@ import traceback
 from abc import ABCMeta
 from types import FunctionType
 
-__all__ = ["ContractsMeta"]
+__all__ = [
+    "ContractsMeta",
+]
 
 
 def is_function_or_static(f):

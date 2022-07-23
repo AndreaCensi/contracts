@@ -2,7 +2,9 @@ from contracts import new_contract
 import numpy as np
 from contracts.interface import describe_value, describe_type
 
-__all__ = ["finite"]
+__all__ = [
+    "finite",
+]
 
 
 @new_contract

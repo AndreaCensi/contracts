@@ -2,11 +2,13 @@ from ..interface import Contract, ContractNotRespected
 from contracts.syntax import W, S, Keyword, add_contract, add_keyword
 from pyparsing import alphanums, Word
 
-__all__ = ["IsInstance", "isinstance_contract"]
+__all__ = [
+    "IsInstance",
+    "isinstance_contract",
+]
 
 
 class IsInstance(Contract):
-
     """Checks that one of the superclasses have the specified name."""
 
     def __init__(self, name, where=None):

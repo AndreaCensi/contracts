@@ -40,7 +40,9 @@ class StringBase(Contract):
 
 if sys.version_info[0] == 3:  # Python 3
 
-    __all__ = ["String"]
+    __all__ = [
+        "String",
+    ]
 
     class String(StringBase):
         KEYWORDS = ["str", "string", "unicode"]
