@@ -175,7 +175,7 @@ def raise_wrapped(etype, e, msg, compact=False, **kwargs):
     msg += "\n" + indent(e, "| ")
     e2 = etype(_format_exc(msg, **kwargs))
     # e2 = raise_wrapped_make(etype, e, msg, compact=compact, **kwargs)
-    raise_from(e2, e)
+    raise e2 from e
     # raise e2
 
 
