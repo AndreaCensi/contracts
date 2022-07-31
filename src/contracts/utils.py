@@ -172,8 +172,6 @@ def raise_wrapped(etype, e, msg, compact=False, **kwargs):
     exc = output of sys.exc_info()
     """
 
-    from six import raise_from
-
     msg += "\n" + indent(e, "| ")
     e2 = etype(_format_exc(msg, **kwargs))
     # e2 = raise_wrapped_make(etype, e, msg, compact=compact, **kwargs)
