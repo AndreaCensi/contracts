@@ -1,8 +1,6 @@
 from contracts.main import new_contract
 
-from typing import List
-
-__all__: List[str] = []
+__all__ = []
 
 try:
     import numpy  # @UnusedImport
