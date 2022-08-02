@@ -31,7 +31,7 @@ circleci:
   active: true
   test_python_versions: ['3.7', '3.8', '3.9', '3.10']
 
-python_syntax_version: '3.8'
+python_syntax_version: '3.7'
 
 url: https://github.com/AndreaCensi/contracts
 author: Andrea Censi
