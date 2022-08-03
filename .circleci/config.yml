@@ -24,6 +24,7 @@ jobs:
       # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       CONTEXT_NAME: << pipeline.parameters.context_name >>
+      DEPS_INSTALL_TIMEOUT: 10m
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
@@ -48,14 +49,14 @@ jobs:
         command: |
           shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
           python3 -m pip install -U pip
-          python3 -m pip install  -r .requirements.txt
+          timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements.txt
           rm .requirements.txt
 
     - run:
         name: Install testing deps
         command: |
           shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
-          python3 -m pip install  -r .requirements_tests.txt
+          timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements_tests.txt
           rm .requirements_tests.txt
 
     - run:
@@ -169,6 +170,7 @@ jobs:
       # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       CONTEXT_NAME: << pipeline.parameters.context_name >>
+      DEPS_INSTALL_TIMEOUT: 10m
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
@@ -193,14 +195,14 @@ jobs:
         command: |
           shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
           python3 -m pip install -U pip
-          python3 -m pip install  -r .requirements.txt
+          timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements.txt
           rm .requirements.txt
 
     - run:
         name: Install testing deps
         command: |
           shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
-          python3 -m pip install  -r .requirements_tests.txt
+          timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements_tests.txt
           rm .requirements_tests.txt
 
     - run:
@@ -314,6 +316,7 @@ jobs:
       # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       CONTEXT_NAME: << pipeline.parameters.context_name >>
+      DEPS_INSTALL_TIMEOUT: 10m
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
@@ -338,14 +341,14 @@ jobs:
         command: |
           shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
           python3 -m pip install -U pip
-          python3 -m pip install  -r .requirements.txt
+          timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements.txt
           rm .requirements.txt
 
     - run:
         name: Install testing deps
         command: |
           shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
-          python3 -m pip install  -r .requirements_tests.txt
+          timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements_tests.txt
           rm .requirements_tests.txt
 
     - run:
@@ -459,6 +462,7 @@ jobs:
       # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       CONTEXT_NAME: << pipeline.parameters.context_name >>
+      DEPS_INSTALL_TIMEOUT: 10m
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
@@ -483,14 +487,14 @@ jobs:
         command: |
           shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
           python3 -m pip install -U pip
-          python3 -m pip install  -r .requirements.txt
+          timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements.txt
           rm .requirements.txt
 
     - run:
         name: Install testing deps
         command: |
           shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
-          python3 -m pip install  -r .requirements_tests.txt
+          timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements_tests.txt
           rm .requirements_tests.txt
 
     - run:
@@ -605,4 +609,4 @@ jobs:
           ./codecov  
     resource_class: small
 
-# sigil e1c9f678392b26c610a5345762da80e6
+# sigil 40cffaa4106aa0362ce632bae68474cd
