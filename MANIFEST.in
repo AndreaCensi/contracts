@@ -16,6 +16,7 @@ recursive-exclude src *.rst
 recursive-exclude src *.less
 recursive-include src *.css
 recursive-include src *.sql
+recursive-include src py.typed
 prune src/**/__pycache__
 prune src/*_tests*
 prune out
