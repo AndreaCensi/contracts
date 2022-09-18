@@ -20,6 +20,7 @@ recursive-include src py.typed
 prune src/**/__pycache__
 prune src/*_tests*
 prune out
+prune assets
 
 #@ add local below
 
