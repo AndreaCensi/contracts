@@ -1,5 +1,5 @@
 import sys
-from inspect import ArgSpec
+
 
 if sys.version_info[0] >= 3:  # pragma: no cover
     from inspect import getfullargspec
@@ -14,6 +14,7 @@ else:  # pragma: no cover
         "args varargs varkw defaults" " kwonlyargs kwonlydefaults annotations",
     )
     from inspect import getargspec as _getargspec
+    from inspect import ArgSpec
 
     def getargspec(function):
         # print 'hasattr im_func', hasattr(function, 'im_func')
