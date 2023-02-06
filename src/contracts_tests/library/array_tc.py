@@ -143,7 +143,6 @@ fail("array[(2,3)xN]", np.ones((4, 10)))
 good("array[(2,*)x...]", np.ones((2, 10)))
 fail("array[(2,3)x...]", np.ones((4, 10)))
 
-
 good("seq", np.ones(3))
 good("seq[3]", np.ones(3))
 fail("seq[3]", np.ones(2))
@@ -154,7 +153,7 @@ fail("seq[6]", np.ones((2, 4)))
 good("finite", 1)
 good("finite", 0)
 good("finite", -1)
-good("finite", np.float(1))
+good("finite", float(1))
 fail("finite", np.inf)
 fail("finite", np.nan)
 
@@ -169,7 +168,6 @@ good("array[N](>=0)", np.array([0], "float32"))
 # np_floats = ['float32', 'float64']
 
 good("array(float)", np.array(1.32, "float32"))
-
 
 for dt in np_int_dtypes:
     x = np.array(1).astype(dt)

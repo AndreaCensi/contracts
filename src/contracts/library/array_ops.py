@@ -237,7 +237,7 @@ np_types = {
     "np_float16": np.float16,  # Half precision float: sign bit, 5 bits exponent, 10 bits mantissa
     "np_float32": np.float32,  # Single precision float: sign bit, 8 bits exponent, 23 bits mantissa
     "np_float64": np.float64,  # Double precision float: sign bit, 11 bits exponent, 52 bits mantissa
-    "np_complex": np.complex,  # Shorthand for complex128.
+    "np_complex": complex,  # Shorthand for complex128.
     "np_complex64": np.complex64,
     # Complex number, represented by two 32-bit floats (real and imaginary components)
     "np_complex128": np.complex128,
