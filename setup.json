@@ -16,7 +16,12 @@
   },
   "zip_safe": true,
   "include_package_data": true,
-  "modules": [
+  "packages": [
+    "contracts",
+    "contracts.library",
+    "contracts.useful_contracts"
+  ],
+  "py_modules": [
     "contracts",
     "contracts.backported",
     "contracts.docstring_parsing",
