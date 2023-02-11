@@ -17,6 +17,10 @@ workflows:
         context: << pipeline.parameters.context_name >>
     - test-310-bin:
         context: << pipeline.parameters.context_name >>
+    - test-311-src:
+        context: << pipeline.parameters.context_name >>
+    - test-311-bin:
+        context: << pipeline.parameters.context_name >>
 jobs:
   test-37-src:
     #    machine: true
@@ -814,5 +818,333 @@ jobs:
           chmod +x codecov
           ./codecov  
     resource_class: small
+  test-311-src:
+    #    machine: true
+    #    resource_class: zuper-ci-ns/my-resource-class
+    environment:
+      COLUMNS: '160'
+      # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      CONTEXT_NAME: << pipeline.parameters.context_name >>
+      DEPS_INSTALL_TIMEOUT: 10m
+      COVER_PACKAGES: contracts,contracts_tests
+      TEST_PACKAGES: contracts_tests
+    docker:
+    - image: ${DOCKER_REGISTRY}/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.11:${Z_DISTRO}
+      auth:
+        username: $DOCKER_USERNAME
+        password: $DOCKER_PASSWORD
+    working_directory: ~/repo
+    steps:
+    - checkout
+    - run:
+        name: Build statistics
+        command: |
+          mkdir -p build-stats
+          # env | sort | tee  build-stats/env.txt
+          env | sort
+    - store_artifacts:
+        path: build-stats
+        destination: build-stats
+    - run:
+        name: Install deps
+        command: |
+          export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
+          echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
+          python3 -m pip install -U pip
+          timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements.txt
+          rm .requirements.txt
 
-# sigil 380bea152d0384b5f1e2f5058929ca0b
+    - run:
+        name: Install testing deps
+        command: |
+          export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
+          echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
+          timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements_tests.txt
+          rm .requirements_tests.txt
+
+    - run:
+        name: Python stats
+        command: |
+          export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
+          echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          pipdeptree | tee  build-stats/pipdeptree.txt
+          python3 -m pip  list   | sort | tee  build-stats/pip-list.txt
+          python3 -m pip  freeze | sort | tee  build-stats/pip-freeze.txt
+          python3 -m pip cache list | tee  build-stats/pip-cache.txt
+
+    - store_artifacts:
+        path: build-stats
+        destination: build-stats
+
+    - run:
+        name: setup.py develop
+        command: |
+          export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
+          echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          python3 -m pip install -e . --prefix ~/.local --no-deps
+
+    - run:
+        name: Make docs
+        command: |
+          FILE=src/conf.py
+          mkdir -p out/docs
+          if test -f "$FILE"; then
+              sphinx-build src out/docs
+          fi
+
+    - store_artifacts:
+        path: out/docs
+        destination: docs
+    - run:
+        background: true
+        name: services
+        command: |
+          TARGET=services
+          if make -n $TARGET ; then
+              make $TARGET
+          else
+              echo "Target $TARGET not defined"
+          fi
+    - run:
+        name: pre-circle-tests
+        command: |
+          TARGET=pre-circle-tests
+          if make -n $TARGET ; then
+              make $TARGET
+          else
+              echo "Target $TARGET not defined"
+          fi
+    # - run:
+    #     name: Notebooks
+    #     command: |
+    #       make -C notebooks cleanup all
+
+
+    - run:
+        name: contracts_tests
+        command: |
+          export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
+          echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          set -euxo pipefail
+          TEST_MODULES=$(circleci tests split <.circleci/contracts_tests.tests)
+          echo "TEST_MODULES=[$TEST_MODULES]"
+          if [ -z "$TEST_MODULES" ]; then
+            echo "\$TEST_MODULES is empty"
+            exit 0
+          else
+            echo "\$TEST_MODULES is NOT empty"
+          fi
+          mkdir -p out/test-results
+          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
+          timeout 30m nose2 --with-coverage \
+              --plugin nose2.plugins.junitxml \
+              --junit-xml \
+              --junit-xml-path ${xunit_output} \
+              $TEST_MODULES
+          # TODO: cover packages
+    - run:
+        name: post-circle-tests
+        command: |
+          TARGET=post-circle-tests
+          if make -n $TARGET ; then
+              make $TARGET
+          else
+              echo "Target $TARGET not defined"
+          fi
+
+    - store_test_results:
+        path: out/test-results
+
+    - run:
+        name: Coverage report
+        when: always
+        command: |
+          coverage combine || true
+          coverage html -d out/coverage/${CIRCLE_NODE_INDEX} || true
+          coverage xml || true
+
+    - store_artifacts:
+        path: out/coverage
+        destination: coverage
+
+    - store_artifacts:
+        path: out/tests
+        destination: tests
+
+    - run:
+        name: CodeCov
+        when: always
+        command: |
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          chmod +x codecov
+          ./codecov  
+    resource_class: small
+  test-311-bin:
+    #    machine: true
+    #    resource_class: zuper-ci-ns/my-resource-class
+    environment:
+      COLUMNS: '160'
+      # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      CONTEXT_NAME: << pipeline.parameters.context_name >>
+      DEPS_INSTALL_TIMEOUT: 10m
+      COVER_PACKAGES: contracts,contracts_tests
+      TEST_PACKAGES: contracts_tests
+    docker:
+    - image: ${DOCKER_REGISTRY}/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.11:${Z_DISTRO}
+      auth:
+        username: $DOCKER_USERNAME
+        password: $DOCKER_PASSWORD
+    working_directory: ~/repo
+    steps:
+    - checkout
+    - run:
+        name: Build statistics
+        command: |
+          mkdir -p build-stats
+          # env | sort | tee  build-stats/env.txt
+          env | sort
+    - store_artifacts:
+        path: build-stats
+        destination: build-stats
+    - run:
+        name: Install deps
+        command: |
+          export PIP_INDEX_URL="${PIP_INDEX_URL_BIN}"
+          echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
+          python3 -m pip install -U pip
+          timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements.txt
+          rm .requirements.txt
+
+    - run:
+        name: Install testing deps
+        command: |
+          export PIP_INDEX_URL="${PIP_INDEX_URL_BIN}"
+          echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
+          timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements_tests.txt
+          rm .requirements_tests.txt
+
+    - run:
+        name: Python stats
+        command: |
+          export PIP_INDEX_URL="${PIP_INDEX_URL_BIN}"
+          echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          pipdeptree | tee  build-stats/pipdeptree.txt
+          python3 -m pip  list   | sort | tee  build-stats/pip-list.txt
+          python3 -m pip  freeze | sort | tee  build-stats/pip-freeze.txt
+          python3 -m pip cache list | tee  build-stats/pip-cache.txt
+
+    - store_artifacts:
+        path: build-stats
+        destination: build-stats
+
+    - run:
+        name: setup.py develop
+        command: |
+          export PIP_INDEX_URL="${PIP_INDEX_URL_BIN}"
+          echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          python3 -m pip install -e . --prefix ~/.local --no-deps
+
+    - run:
+        name: Make docs
+        command: |
+          FILE=src/conf.py
+          mkdir -p out/docs
+          if test -f "$FILE"; then
+              sphinx-build src out/docs
+          fi
+
+    - store_artifacts:
+        path: out/docs
+        destination: docs
+    - run:
+        background: true
+        name: services
+        command: |
+          TARGET=services
+          if make -n $TARGET ; then
+              make $TARGET
+          else
+              echo "Target $TARGET not defined"
+          fi
+    - run:
+        name: pre-circle-tests
+        command: |
+          TARGET=pre-circle-tests
+          if make -n $TARGET ; then
+              make $TARGET
+          else
+              echo "Target $TARGET not defined"
+          fi
+    # - run:
+    #     name: Notebooks
+    #     command: |
+    #       make -C notebooks cleanup all
+
+
+    - run:
+        name: contracts_tests
+        command: |
+          export PIP_INDEX_URL="${PIP_INDEX_URL_BIN}"
+          echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          set -euxo pipefail
+          TEST_MODULES=$(circleci tests split <.circleci/contracts_tests.tests)
+          echo "TEST_MODULES=[$TEST_MODULES]"
+          if [ -z "$TEST_MODULES" ]; then
+            echo "\$TEST_MODULES is empty"
+            exit 0
+          else
+            echo "\$TEST_MODULES is NOT empty"
+          fi
+          mkdir -p out/test-results
+          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
+          timeout 30m nose2 --with-coverage \
+              --plugin nose2.plugins.junitxml \
+              --junit-xml \
+              --junit-xml-path ${xunit_output} \
+              $TEST_MODULES
+          # TODO: cover packages
+    - run:
+        name: post-circle-tests
+        command: |
+          TARGET=post-circle-tests
+          if make -n $TARGET ; then
+              make $TARGET
+          else
+              echo "Target $TARGET not defined"
+          fi
+
+    - store_test_results:
+        path: out/test-results
+
+    - run:
+        name: Coverage report
+        when: always
+        command: |
+          coverage combine || true
+          coverage html -d out/coverage/${CIRCLE_NODE_INDEX} || true
+          coverage xml || true
+
+    - store_artifacts:
+        path: out/coverage
+        destination: coverage
+
+    - store_artifacts:
+        path: out/tests
+        destination: tests
+
+    - run:
+        name: CodeCov
+        when: always
+        command: |
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          chmod +x codecov
+          ./codecov  
+    resource_class: small
+
+# sigil 0fc17314210b33bc27b4288f81f6201e
