@@ -359,7 +359,7 @@ class DecoratorTests(unittest.TestCase):
         self.assertRaises(Exception, f2, 0, 5, 0, 6)
 
     def test_same_signature(self):
-        from inspect import getargspec
+        from inspect import getfullargspec
 
         def f(a):
             return a
@@ -368,7 +368,7 @@ class DecoratorTests(unittest.TestCase):
         def f2(a):
             return a
 
-        self.assertEqual(getargspec(f2), getargspec(f))
+        self.assertEqual(getfullargspec(f2), getfullargspec(f))
 
     def test_empty_types(self):
         def x():

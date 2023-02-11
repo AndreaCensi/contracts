@@ -1,6 +1,5 @@
 import sys
 
-
 if sys.version_info[0] >= 3:  # pragma: no cover
     from inspect import getfullargspec
 
@@ -11,7 +10,7 @@ else:  # pragma: no cover
 
     FullArgSpec = namedtuple(
         "FullArgSpec",
-        "args varargs varkw defaults" " kwonlyargs kwonlydefaults annotations",
+        "args varargs varkw defaults kwonlyargs kwonlydefaults annotations",
     )
     from inspect import getargspec as _getargspec
     from inspect import ArgSpec
