@@ -2,9 +2,13 @@
 name = "PyContracts3"
 version = "7.2"
 authors = [{name = "Andrea Censi", email = "andrea@zupermind.com"}]
-dependencies = ["pyparsing<3", "decorator<5", "six", "future", "numpy"]
-
-[project.scripts]
+dependencies = [
+    "decorator<5",
+    "future",
+    "numpy",
+    "pyparsing<3",
+    "six",
+    ]
 
 [tool]
 [tool.poetry]
@@ -12,8 +16,16 @@ name = "PyContracts3"
 version = "7.2"
 description = ""
 authors = ["Andrea Censi <andrea@zupermind.com>"]
-packages = [{include = "contracts", from = "src"}, {include = "contracts/library", from = "src"}, {include = "contracts/useful_contracts", from = "src"}]
+packages = [
+    {from = "src", include = "contracts"},
+    {from = "src", include = "contracts/library"},
+    {from = "src", include = "contracts/useful_contracts"},
+    ]
 
 [tool.setuptools]
-packages = ["contracts", "contracts.library", "contracts.useful_contracts"]
+packages = [
+    "contracts",
+    "contracts.library",
+    "contracts.useful_contracts",
+    ]
 package-dir = {"" = "src"}
