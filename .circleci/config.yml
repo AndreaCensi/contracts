@@ -27,6 +27,7 @@ jobs:
       DEPS_INSTALL_TIMEOUT: 10m
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
+      PIP_INDEX_URL: ${PIP_INDEX_URL_SRC}
     docker:
     - image: ${DOCKER_REGISTRY}/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.7:${Z_DISTRO}
       auth:
@@ -173,6 +174,7 @@ jobs:
       DEPS_INSTALL_TIMEOUT: 10m
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
+      PIP_INDEX_URL: ${PIP_INDEX_URL_SRC}
     docker:
     - image: ${DOCKER_REGISTRY}/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.8:${Z_DISTRO}
       auth:
@@ -319,6 +321,7 @@ jobs:
       DEPS_INSTALL_TIMEOUT: 10m
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
+      PIP_INDEX_URL: ${PIP_INDEX_URL_SRC}
     docker:
     - image: ${DOCKER_REGISTRY}/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.9:${Z_DISTRO}
       auth:
@@ -465,6 +468,7 @@ jobs:
       DEPS_INSTALL_TIMEOUT: 10m
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
+      PIP_INDEX_URL: ${PIP_INDEX_URL_SRC}
     docker:
     - image: ${DOCKER_REGISTRY}/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.10:${Z_DISTRO}
       auth:
@@ -609,4 +613,4 @@ jobs:
           ./codecov  
     resource_class: small
 
-# sigil 9a4b5e9d3b60f20b0ce96ee90d9fc235
+# sigil 91d6335202725e050a40aa71076ec0e7

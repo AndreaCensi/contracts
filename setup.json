@@ -16,7 +16,7 @@
   },
   "zip_safe": true,
   "include_package_data": true,
-  "packages": [
+  "modules": [
     "contracts",
     "contracts.library",
     "contracts.useful_contracts"
