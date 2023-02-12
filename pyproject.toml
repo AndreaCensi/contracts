@@ -10,6 +10,11 @@ dependencies = [
     "six",
     ]
 
+[project.optional-dependencies]
+test = [
+    "nose",
+    ]
+
 [tool]
 [tool.poetry]
 name = "PyContracts3"
