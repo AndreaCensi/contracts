@@ -71,7 +71,7 @@ class OR(Logical, Contract):
                 # if ok, do with main context
                 c._check_contract(context, value, silent=False)
 
-                assert False, "We should not be here."
+                raise AssertionError("We should not be here.")
             except ContractNotRespected as e:
                 exceptions.append((c, e))
         else:
@@ -174,7 +174,6 @@ class Not(Logical, Contract):
 suggester = create_suggester(get_options=lambda: ParsingTmp.keywords + list(Extension.registrar.keys()))
 baseExpr = simple_contract | suggester
 baseExpr.setName("Simple contract (recovering)")
-
 
 op = myOperatorPrecedence
 # op = operatorPrecedence

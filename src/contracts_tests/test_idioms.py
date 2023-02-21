@@ -44,7 +44,7 @@ class TestIdioms(unittest.TestCase):
             s = str(e)
             assert msg in s
         else:
-            assert False
+            raise AssertionError
 
     def test_repr_1(self):
         contract = parse(" list[N](int), N > 0")
@@ -59,7 +59,6 @@ class TestIdioms(unittest.TestCase):
         self.assertTrue(context["N"] == 3)
 
     def test_check_multiple_1(self):
-
         data = [[1, 2, 3], [4, 5, 6]]
         row_labels = ["first season", "second season"]
         col_labels = ["Team1", "Team2", "Team3"]

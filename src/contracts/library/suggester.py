@@ -13,7 +13,7 @@ def longest_match(a, b):
     for i in lengths:
         if a[:i] == b[:i]:
             return i
-    assert False  # pragma: no cover
+    raise AssertionError  # pragma: no cover
 
 
 assert ("float64", 6) == find_longest_match("float6", ["float32", "float64"])
@@ -53,7 +53,6 @@ def default_message(identifier):
 
 
 def create_suggester(get_options, get_message=default_message, pattern=None):
-
     from ..syntax import (
         Combine,
         Word,
