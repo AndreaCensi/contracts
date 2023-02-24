@@ -34,10 +34,10 @@ jobs:
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
-    - image: ${DOCKER_REGISTRY}/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.7:${Z_DISTRO}
-      auth:
-        username: $DOCKER_USERNAME
-        password: $DOCKER_PASSWORD
+    - image: docker.io/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.7:${Z_DISTRO}
+      # auth:
+      #   username: $DOCKER_USERNAME
+      #   password: $DOCKER_PASSWORD
     working_directory: ~/repo
     steps:
     - checkout
@@ -190,10 +190,10 @@ jobs:
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
-    - image: ${DOCKER_REGISTRY}/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.8:${Z_DISTRO}
-      auth:
-        username: $DOCKER_USERNAME
-        password: $DOCKER_PASSWORD
+    - image: docker.io/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.8:${Z_DISTRO}
+      # auth:
+      #   username: $DOCKER_USERNAME
+      #   password: $DOCKER_PASSWORD
     working_directory: ~/repo
     steps:
     - checkout
@@ -346,10 +346,10 @@ jobs:
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
-    - image: ${DOCKER_REGISTRY}/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.9:${Z_DISTRO}
-      auth:
-        username: $DOCKER_USERNAME
-        password: $DOCKER_PASSWORD
+    - image: docker.io/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.9:${Z_DISTRO}
+      # auth:
+      #   username: $DOCKER_USERNAME
+      #   password: $DOCKER_PASSWORD
     working_directory: ~/repo
     steps:
     - checkout
@@ -502,10 +502,10 @@ jobs:
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
-    - image: ${DOCKER_REGISTRY}/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.10:${Z_DISTRO}
-      auth:
-        username: $DOCKER_USERNAME
-        password: $DOCKER_PASSWORD
+    - image: docker.io/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.10:${Z_DISTRO}
+      # auth:
+      #   username: $DOCKER_USERNAME
+      #   password: $DOCKER_PASSWORD
     working_directory: ~/repo
     steps:
     - checkout
@@ -666,10 +666,10 @@ jobs:
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
-    - image: ${DOCKER_REGISTRY}/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.10:${Z_DISTRO}
-      auth:
-        username: $DOCKER_USERNAME
-        password: $DOCKER_PASSWORD
+    - image: docker.io/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.10:${Z_DISTRO}
+      # auth:
+      #   username: $DOCKER_USERNAME
+      #   password: $DOCKER_PASSWORD
     working_directory: ~/repo
     steps:
     - checkout
@@ -830,10 +830,10 @@ jobs:
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
-    - image: ${DOCKER_REGISTRY}/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.11:${Z_DISTRO}
-      auth:
-        username: $DOCKER_USERNAME
-        password: $DOCKER_PASSWORD
+    - image: docker.io/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.11:${Z_DISTRO}
+      # auth:
+      #   username: $DOCKER_USERNAME
+      #   password: $DOCKER_PASSWORD
     working_directory: ~/repo
     steps:
     - checkout
@@ -994,10 +994,10 @@ jobs:
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
-    - image: ${DOCKER_REGISTRY}/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.11:${Z_DISTRO}
-      auth:
-        username: $DOCKER_USERNAME
-        password: $DOCKER_PASSWORD
+    - image: docker.io/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.11:${Z_DISTRO}
+      # auth:
+      #   username: $DOCKER_USERNAME
+      #   password: $DOCKER_PASSWORD
     working_directory: ~/repo
     steps:
     - checkout
@@ -1147,4 +1147,4 @@ jobs:
           ./codecov  
     resource_class: small
 
-# sigil 0fc17314210b33bc27b4288f81f6201e
+# sigil e35152f1a8ddf80b53f8afa396f83374
