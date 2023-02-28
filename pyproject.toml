@@ -1,7 +1,7 @@
 [project]
 name = "PyContracts3"
 version = "7.2"
-authors = [{name = "Andrea Censi", email = "andrea@zupermind.com"}]
+authors = [{name = "Andrea Censi", email = "AndreaCensi@users.noreply.github.com"}]
 dependencies = [
     "decorator<5",
     "future",
@@ -20,7 +20,7 @@ test = [
 name = "PyContracts3"
 version = "7.2"
 description = ""
-authors = ["Andrea Censi <andrea@zupermind.com>"]
+authors = ["Andrea Censi <AndreaCensi@users.noreply.github.com>"]
 packages = [
     {from = "src", include = "contracts"},
     {from = "src", include = "contracts/library"},
