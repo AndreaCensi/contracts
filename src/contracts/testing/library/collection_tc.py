@@ -1,5 +1,8 @@
 from . import good, fail
-import collections
+try:
+    import collections.abc as collections
+except ImportError:
+    import collections
 
 # sequences
 for obj in ([], tuple(), set(), frozenset(), collections.deque(), {}, 'ciao',):

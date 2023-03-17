@@ -1,4 +1,7 @@
-import collections
+try:
+    import collections.abc as collections
+except ImportError:
+    import collections
 
 
 
@@ -14,7 +17,6 @@ def m_new_contract(name, f):
     from contracts.library.extensions import CheckCallable
     from contracts.library.extensions import Extension
     Extension.registrar[name] = CheckCallable(f)
-    
 
 m_new_contract('Container', ist(collections.Container))
 # todo: Iterable(x)
@@ -39,7 +41,7 @@ m_new_contract('MutableMapping', ist(collections.MutableMapping))
 
 
 # Not a lambda to have better messages
-def is_None(x): 
+def is_None(x):
     return x is None
 
 m_new_contract('None', is_None)

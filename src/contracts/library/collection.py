@@ -1,4 +1,7 @@
-import collections
+try:
+    import collections.abc as collections
+except ImportError:
+    import collections
 
 from ..interface import Contract, ContractNotRespected
 from ..syntax import (add_contract, W, contract_expression, O, S, add_keyword,

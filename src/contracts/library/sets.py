@@ -1,7 +1,10 @@
 from ..interface import Contract, ContractNotRespected, describe_type
 from ..syntax import (Keyword, O, S, W, add_contract, add_keyword,
     contract_expression)
-import collections
+try:
+    import collections.abc as collections
+except ImportError:
+    import collections
 
 
 class ASet(Contract):

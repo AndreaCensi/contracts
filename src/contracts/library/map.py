@@ -1,7 +1,10 @@
 from ..interface import Contract, ContractNotRespected
 from ..syntax import (W, contract_expression, O, S, add_contract, add_keyword,
     Keyword)
-import collections
+try:
+    import collections.abc as collections
+except ImportError:
+    import collections
 
 
 class Map(Contract):
