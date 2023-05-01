@@ -1,4 +1,4 @@
-exclude: .pre-commit-config.yaml
+exclude: .pre-commit-config.yaml|(.*autogen.*py)
 files: (^src/.*py)|(.*yaml)
 repos:
 - hooks:
@@ -24,4 +24,4 @@ repos:
   repo: https://github.com/aio-libs/sort-all
   rev: v1.2.0
 
-# sigil ebff2b179352950ed26bfc547b579589
+# sigil 66738df61ed27eae8ef915f52da75eab
