@@ -11,7 +11,6 @@ class DatetimeWithTz(Contract):
         self.elements_contract = elements_contract
 
     def check_contract(self, context, value, silent):
-
         if not isinstance(value, datetime.datetime):
             error = "Expected a datetime, got %r." % describe_type(value)
             raise ContractNotRespected(self, error, value, context)

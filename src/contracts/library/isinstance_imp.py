@@ -20,7 +20,6 @@ class IsInstance(Contract):
 
         options = bases_names + [class_name]
         if not self.name in options:
-
             msg = "Failed check isinstance(%s) for type %r and superclasses %r." % (
                 self.name,
                 class_name,

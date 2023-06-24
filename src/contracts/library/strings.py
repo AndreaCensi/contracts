@@ -39,7 +39,6 @@ class StringBase(Contract):
 
 
 if sys.version_info[0] == 3:  # Python 3
-
     __all__ = [
         "String",
     ]
@@ -50,7 +49,6 @@ if sys.version_info[0] == 3:  # Python 3
         DESCRIPTION = "a string"
 
 else:  # Python 2.x
-
     __all__ = [
         "String",
         "AnsiString",

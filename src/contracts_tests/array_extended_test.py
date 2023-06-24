@@ -3,7 +3,6 @@ try:
 except ImportError:
     pass
 else:
-
     import unittest
 
     from contracts import decorate, new_contract, ContractNotRespected

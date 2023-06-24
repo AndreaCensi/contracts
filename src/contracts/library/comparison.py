@@ -7,7 +7,6 @@ from ..syntax import W, add_contract, O, Literal, isnumber, rvalue
 
 
 class CheckOrder(Contract):
-
     conditions = {
         "=": (False, True, False),  # smaller, equal, larger flags
         "==": (False, True, False),
@@ -42,7 +41,11 @@ class CheckOrder(Contract):
         # in that case, we don't care for the type
 
         # FIXME: add support for != here
-        pure_equality = (self.smaller, self.equal, self.larger) == (False, True, False,) or (
+        pure_equality = (self.smaller, self.equal, self.larger) == (
+            False,
+            True,
+            False,
+        ) or (
             self.smaller,
             self.equal,
             self.larger,
