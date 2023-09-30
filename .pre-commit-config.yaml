@@ -10,18 +10,18 @@ repos:
   repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v4.4.0
 - hooks:
-  - args: [-l, '110', -t, py37]
+  - args: [-l, '130', -t, py37]
     id: black
   repo: https://github.com/psf/black
-  rev: 23.1.0
+  rev: 23.3.0
 - hooks:
   - args: [--mapping, '2', --sequence, '2', --offset, '0', --width, '150', --preserve-quotes]
     id: yamlfmt
   repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
-  rev: 0.2.2
+  rev: 0.2.3
 - hooks:
   - {id: sort-all}
   repo: https://github.com/aio-libs/sort-all
   rev: v1.2.0
 
-# sigil 66738df61ed27eae8ef915f52da75eab
+# sigil 03e755c84924d53becb23b9aa71dec1d

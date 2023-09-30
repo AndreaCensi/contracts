@@ -45,7 +45,6 @@ for i in range(len(s)):
 
 
 def run_joker(examples):
-
     for s in examples:
         # make sure we can parse it
         parse(s)

@@ -3,7 +3,7 @@ from contracts.interface import ContractNotRespected, ExternalScopedVariableNotF
 from contracts.library.simple_values import EqualTo
 from contracts.library.types_misc import CheckType
 from contracts.utils import check_isinstance
-from nose.tools import raises
+from nose.tools import raises  # ok
 
 
 def test_raw_parse() -> None:
@@ -36,7 +36,6 @@ def test_holds_reference() -> None:
 
 
 def test_algebra() -> None:
-
     p = 2
     c = parse("list[$p]")
 

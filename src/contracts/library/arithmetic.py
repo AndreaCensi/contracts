@@ -70,7 +70,6 @@ class Binary(RValue):
 
 
 class Unary(RValue):
-
     operations = {
         "-": lambda x: (-x),
     }

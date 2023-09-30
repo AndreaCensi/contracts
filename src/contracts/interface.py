@@ -342,7 +342,7 @@ class ContractNotRespected(ContractException):
             return contexts
 
         align = []
-        for (contract, context, value) in self.stack:  # @UnusedVariable
+        for contract, context, value in self.stack:  # @UnusedVariable
             # cons = ("%s %s" % (contract, contexts)).ljust(30)
             row = [
                 "checking: %s" % contract,

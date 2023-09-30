@@ -37,7 +37,6 @@ class TestMeta(unittest.TestCase):
 
     def test_meta_still_works2(self):
         class A(with_metaclass(ContractsMeta, object)):
-
             # inverse order
             @contract(a=">0")
             @abstractmethod

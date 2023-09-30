@@ -18,7 +18,6 @@ class File(Contract):
         Contract.__init__(self, where)
 
     def check_contract(self, context, value, silent):
-
         if not isinstance(value, file_type):
             error = "Expected a file, got %r." % value.__class__.__name__
             raise ContractNotRespected(contract=self, error=error, value=value, context=context)

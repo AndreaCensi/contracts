@@ -206,7 +206,6 @@ you can achieve the same goal by inverting the two decorators:
     all_args = get_all_arg_names(function_)
 
     if kwargs:
-
         returns = kwargs.pop("returns", None)
 
         for kw in kwargs:
