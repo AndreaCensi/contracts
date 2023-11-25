@@ -2,20 +2,7 @@
 name = "PyContracts3"
 version = "7.2"
 authors = [{name = "Andrea Censi", email = "AndreaCensi@users.noreply.github.com"}]
-dependencies = [
-    "decorator<5",
-    "future",
-    "numpy",
-    "pyparsing<3",
-    "six",
-    ]
 
-[project.optional-dependencies]
-test = [
-    "nose",
-    ]
-
-[tool]
 [tool.poetry]
 name = "PyContracts3"
 version = "7.2"
@@ -27,13 +14,15 @@ packages = [
     {from = "src", include = "contracts/useful_contracts"},
     ]
 
-[tool.setuptools]
-packages = [
-    "contracts",
-    "contracts.library",
-    "contracts.useful_contracts",
-    ]
-package-dir = {"" = "src"}
+[tool.poetry.dependencies]
+decorator = "<5"
+future = "*"
+numpy = "*"
+pyparsing = "<3"
+six = "*"
+
+[tool.poetry.group.test.dependencies]
+nose = "*"
 
 [build-system]
 requires = [
