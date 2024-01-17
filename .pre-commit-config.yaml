@@ -8,12 +8,12 @@ repos:
   - {id: check-merge-conflict}
   - {id: check-symlinks}
   repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.4.0
+  rev: v4.5.0
 - hooks:
   - args: [-l, '130', -t, py37]
     id: black
   repo: https://github.com/psf/black
-  rev: 23.3.0
+  rev: 23.12.1
 - hooks:
   - args: [--mapping, '2', --sequence, '2', --offset, '0', --width, '150', --preserve-quotes]
     id: yamlfmt
@@ -24,4 +24,4 @@ repos:
   repo: https://github.com/aio-libs/sort-all
   rev: v1.2.0
 
-# sigil 03e755c84924d53becb23b9aa71dec1d
+# sigil 73dfbd110b8cfa00c1defb6df74c7e12

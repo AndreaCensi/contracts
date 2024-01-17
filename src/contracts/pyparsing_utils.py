@@ -66,9 +66,7 @@ def myOperatorPrecedence(baseExpr, opList):
                 matchExpr = FollowedBy(opExpr.expr - thisExpr) - Group(opExpr - thisExpr)
             elif arity == 2:
                 if opExpr is not None:
-                    matchExpr = FollowedBy(lastExpr + opExpr - thisExpr) + Group(
-                        lastExpr + OneOrMore(opExpr - thisExpr)
-                    )
+                    matchExpr = FollowedBy(lastExpr + opExpr - thisExpr) + Group(lastExpr + OneOrMore(opExpr - thisExpr))
                 else:
                     matchExpr = FollowedBy(lastExpr + thisExpr) + Group(lastExpr + OneOrMore(thisExpr))
             elif arity == 3:

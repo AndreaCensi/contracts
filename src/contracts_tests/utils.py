@@ -15,9 +15,7 @@ def check_contracts_ok(contract: Union[str, List[str]], value: object):
     _ = "%r" % context
 
 
-def check_contracts_fail(
-    contract: Union[str, List[str]], value: object, error: Type[Exception] = ContractNotRespected
-):
+def check_contracts_fail(contract: Union[str, List[str]], value: object, error: Type[Exception] = ContractNotRespected):
     """Returns the exception"""
     if isinstance(contract, str):
         contract = [contract]

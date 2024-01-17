@@ -133,9 +133,9 @@ class CheckCallable(Contract):
             )
             raise ContractNotRespected(self, msg, value, context)
         else:
-            msg = (
-                "I expect that %r returns either True, False, None; or "
-                "raises a ValueError exception. Instead, I got %s." % (self.callable, describe_value(value))
+            msg = "I expect that %r returns either True, False, None; or " "raises a ValueError exception. Instead, I got %s." % (
+                self.callable,
+                describe_value(value),
             )
             raise ValueError(msg)
 
@@ -197,9 +197,9 @@ class CheckCallableWithSelf(Contract):
             msg = "Value does not pass criteria of %s." % describe_callable(self.callable)
             raise ContractNotRespected(self, msg, value, context)
         else:
-            msg = (
-                "I expect that %r returns either True, False, None; or "
-                "raises a ValueError exception. Instead, I got %s." % (self.callable, describe_value(value))
+            msg = "I expect that %r returns either True, False, None; or " "raises a ValueError exception. Instead, I got %s." % (
+                self.callable,
+                describe_value(value),
             )
             raise ValueError(msg)
 
@@ -231,9 +231,7 @@ def build_args_kwargs(s, loc, tokens):
 arglist = delimitedList(kwarg | arg)
 arglist.setParseAction(build_args_kwargs)
 
-identifier_expression = Combine(oneOf(list(alphas)) + Word("_" + alphanums)) + Optional(
-    S("(") + arglist + S(")")
-)
+identifier_expression = Combine(oneOf(list(alphas)) + Word("_" + alphanums)) + Optional(S("(") + arglist + S(")"))
 
 
 identifier_contract = identifier_expression.copy().setParseAction(Extension.parse_action)
