@@ -231,9 +231,7 @@ you can achieve the same goal by inverting the two decorators:
             # Last resort: get types from documentation string.
             if function_.__doc__ is None:
                 # XXX: change name
-                raise ContractException(
-                    "You did not specify a contract, nor I can " "find a docstring for %r." % function_
-                )
+                raise ContractException("You did not specify a contract, nor I can " "find a docstring for %r." % function_)
 
             accepts_dict, returns = parse_contracts_from_docstring(function_)
 
@@ -403,9 +401,9 @@ a contract to a certain parameter:
     # Check we don't have extra:
     for name in name2type:
         if not name in all_args:
-            msg = (
-                "A contract was specified for argument %r which I cannot"
-                " find in my list of arguments (%r)" % (name, all_args)
+            msg = "A contract was specified for argument %r which I cannot" " find in my list of arguments (%r)" % (
+                name,
+                all_args,
             )
             raise ContractException(msg)
 
@@ -450,9 +448,7 @@ def check(contract: str, ob: object, desc=None, **context):  # @ReservedAssignme
 
     if not is_param_string(contract):
         # XXX: make it more liberal?
-        raise ValueError(
-            "I expect a string (contract spec) as the first " "argument, not a %s." % describe_value(contract)
-        )
+        raise ValueError("I expect a string (contract spec) as the first " "argument, not a %s." % describe_value(contract))
     try:
         return check_contracts([contract], [ob], context)
     except ContractNotRespected as e:
@@ -600,9 +596,10 @@ def new_contract_impl(identifier, condition):
         # check it does not redefine list, tuple, etc.
         try:
             c = parse_contract_string(identifier)
-            msg = (
-                "Invalid identifier %r; it overwrites an already known "
-                "expression. In fact, I can parse it as %s (%r)." % (identifier, c, c)
+            msg = "Invalid identifier %r; it overwrites an already known " "expression. In fact, I can parse it as %s (%r)." % (
+                identifier,
+                c,
+                c,
             )
             raise ValueError(msg)
         except ContractSyntaxError:
@@ -617,9 +614,10 @@ def new_contract_impl(identifier, condition):
             loc -= 1
         where = Where(identifier, character=loc)  # line=e.lineno, column=e.col)
         # msg = 'Error in parsing string: %s' % e
-        msg = (
-            "The given identifier %r does not correspond to my idea "
-            "of what an identifier should look like;\n%s\n%s" % (identifier, e, where)
+        msg = "The given identifier %r does not correspond to my idea " "of what an identifier should look like;\n%s\n%s" % (
+            identifier,
+            e,
+            where,
         )
         raise ValueError(msg)
 
@@ -644,13 +642,9 @@ def new_contract_impl(identifier, condition):
         elif can_accept_at_least_one_argument(condition):
             bare_contract = CheckCallable(condition)
         else:
-            raise ValueError(
-                "The given callable %r should be able to accept " "at least one argument" % condition
-            )
+            raise ValueError("The given callable %r should be able to accept " "at least one argument" % condition)
     else:
-        raise ValueError(
-            "I need either a string or a callable for the " "condition; found %s." % describe_value(condition)
-        )
+        raise ValueError("I need either a string or a callable for the " "condition; found %s." % describe_value(condition))
 
     # Separate the context if needed
     if isinstance(bare_contract, (CheckCallable, CheckCallableWithSelf)):

@@ -75,9 +75,7 @@ class DocStringTest(unittest.TestCase):
             self.assertEqual(parsed, reparsed, msg=msg)
 
     def test_inline_params(self):
-        def test_inline_parsing(
-            docstring, expected_type: Optional[str] = "type", expected_desc: Optional[str] = "desc"
-        ):
+        def test_inline_parsing(docstring, expected_type: Optional[str] = "type", expected_desc: Optional[str] = "desc"):
             info = DocStringInfo.parse(docstring)
             self.assertTrue("name" in info.params)
             self.assertEqual(info.params["name"].type, expected_type)
@@ -95,9 +93,7 @@ class DocStringTest(unittest.TestCase):
         test_inline_parsing(" : param type , > 0  name : ", "type , > 0", None)
 
     def test_inline_returns(self):
-        def test_inline_parsing(
-            docstring, expected_type: Optional[str] = "type", expected_desc: Optional[str] = "desc"
-        ):
+        def test_inline_parsing(docstring, expected_type: Optional[str] = "type", expected_desc: Optional[str] = "desc"):
             info = DocStringInfo.parse(docstring)
             self.assertTrue(len(info.returns) > 0)
             self.assertEqual(info.returns[0].type, expected_type)

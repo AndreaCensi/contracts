@@ -102,9 +102,7 @@ else:  # pragma: no cover
                     try:
                         subvalue = next(value)
                     except StopIteration:
-                        raise ValueError(
-                            "need more than %d %s to unpack" % (i, "values" if i > 1 else "value")
-                        )
+                        raise ValueError("need more than %d %s to unpack" % (i, "values" if i > 1 else "value"))
                     assign(subarg, subvalue)
                 try:
                     next(value)

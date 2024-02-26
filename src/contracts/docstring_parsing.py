@@ -28,11 +28,7 @@ class DocStringInfo(object):
         self.returns = returns
 
     def __eq__(self, other):
-        return (
-            self.docstring == other.docstring
-            and self.params == other.params
-            and self.returns == other.returns
-        )
+        return self.docstring == other.docstring and self.params == other.params and self.returns == other.returns
 
     def __repr__(self):
         return "DocString(\n\t%r,\n\t%r,\n\t%r)" % (
