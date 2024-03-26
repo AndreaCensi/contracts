@@ -3,7 +3,9 @@ from contracts.interface import ContractNotRespected, ExternalScopedVariableNotF
 from contracts.library.simple_values import EqualTo
 from contracts.library.types_misc import CheckType
 from contracts.utils import check_isinstance
-from nose.tools import raises  # ok
+
+
+# from nose.tools import raises  # ok
 
 
 def test_raw_parse() -> None:
@@ -42,9 +44,13 @@ def test_algebra() -> None:
     assert c.length_contract.rvalue.value == 2
 
 
-@raises(ContractException)
 def test_invalid() -> None:
-    parse("$not_found")
+    try:
+        parse("$not_found")
+    except ContractException:
+        pass
+    else:
+        raise AssertionError()
 
 
 def test_check() -> None:

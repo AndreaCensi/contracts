@@ -43,6 +43,11 @@ workflows:
         filters:
           tags:
             ignore: /.*/
+    - test-312-src:
+        context: <<pipeline.parameters.context_name>>
+        filters:
+          tags:
+            ignore: /.*/
 jobs:
   test-37-src:
     environment:
@@ -205,7 +210,7 @@ jobs:
 
     - run:
         name: Coverage report
-        when: always
+        # when: always
         command: |
           coverage combine || true
           coverage html -d out/coverage/${CIRCLE_NODE_INDEX} || true
@@ -221,7 +226,7 @@ jobs:
 
     - run:
         name: CodeCov
-        when: always
+        # when: always
         command: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
@@ -388,7 +393,7 @@ jobs:
 
     - run:
         name: Coverage report
-        when: always
+        # when: always
         command: |
           coverage combine || true
           coverage html -d out/coverage/${CIRCLE_NODE_INDEX} || true
@@ -404,7 +409,7 @@ jobs:
 
     - run:
         name: CodeCov
-        when: always
+        # when: always
         command: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
@@ -571,7 +576,7 @@ jobs:
 
     - run:
         name: Coverage report
-        when: always
+        # when: always
         command: |
           coverage combine || true
           coverage html -d out/coverage/${CIRCLE_NODE_INDEX} || true
@@ -587,7 +592,7 @@ jobs:
 
     - run:
         name: CodeCov
-        when: always
+        # when: always
         command: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
@@ -762,7 +767,7 @@ jobs:
 
     - run:
         name: Coverage report
-        when: always
+        # when: always
         command: |
           coverage combine || true
           coverage html -d out/coverage/${CIRCLE_NODE_INDEX} || true
@@ -778,7 +783,7 @@ jobs:
 
     - run:
         name: CodeCov
-        when: always
+        # when: always
         command: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
@@ -953,7 +958,7 @@ jobs:
 
     - run:
         name: Coverage report
-        when: always
+        # when: always
         command: |
           coverage combine || true
           coverage html -d out/coverage/${CIRCLE_NODE_INDEX} || true
@@ -969,7 +974,7 @@ jobs:
 
     - run:
         name: CodeCov
-        when: always
+        # when: always
         command: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
@@ -1144,7 +1149,7 @@ jobs:
 
     - run:
         name: Coverage report
-        when: always
+        # when: always
         command: |
           coverage combine || true
           coverage html -d out/coverage/${CIRCLE_NODE_INDEX} || true
@@ -1160,7 +1165,7 @@ jobs:
 
     - run:
         name: CodeCov
-        when: always
+        # when: always
         command: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
@@ -1335,7 +1340,7 @@ jobs:
 
     - run:
         name: Coverage report
-        when: always
+        # when: always
         command: |
           coverage combine || true
           coverage html -d out/coverage/${CIRCLE_NODE_INDEX} || true
@@ -1351,11 +1356,202 @@ jobs:
 
     - run:
         name: CodeCov
-        when: always
+        # when: always
+        command: |
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          chmod +x codecov
+          ./codecov  
+    resource_class: small
+  test-312-src:
+    environment:
+      COLUMNS: '160'
+      # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      PATH: 
+        /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      CONTEXT_NAME: << pipeline.parameters.context_name >>
+      DEPS_INSTALL_TIMEOUT: 10m
+      COVER_PACKAGES: contracts,contracts_tests
+      TEST_PACKAGES: contracts_tests
+    docker:
+    - image: docker.io/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.12:${Z_DISTRO}
+      # auth:
+      #   username: $DOCKER_USERNAME
+      #   password: $DOCKER_PASSWORD
+    working_directory: ~/repo
+    steps:
+    - checkout
+    - run:
+        name: Avoid hosts unknown for Github
+        # language=bash
+        command: |
+          mkdir -p ~/.ssh
+          echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+    - run:
+        name: Build statistics
+        # language=bash
+        command: |
+          set -x 
+          mkdir -p build-stats
+          # image_name=`cat /.circleci-runner-config.json | jq -r .Job.docker[0].Image | envsubst`
+          # registry_to_login=`echo ${image_name} | cut -d'/' -f1`
+          # regctl registry login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}" "${registry_to_login}"
+
+          # regctl manifest get --format raw-body "${image_name}" > build-stats/jobs/${CIRCLE_JOB}/image-manifest.json
+          # regctl image digest "${image_name}" > build-stats/jobs/${CIRCLE_JOB}/image-digest.txt
+          # echo ${image_name} > build-stats/jobs/${CIRCLE_JOB}/image-name.txt
+
+          mkdir -p build-stats/envs
+          mkdir -p build-stats/jobs/${CIRCLE_JOB}
+          mkdir -p build-stats/jobs/${CIRCLE_JOB}/envs
+          echo -n "${Z_REQS_SHA:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
+          echo -n "${IMAGE_VCS_SHA:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
+          echo -n "${IMAGE_NAME:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
+          echo -n "${CONTEXT_NAME:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
+
+    - store_artifacts:
+        path: build-stats
+        destination: build-stats
+    - run:
+        name: Install deps
+        # language=bash
+        command: |
+          export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
+          echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
+          python3 -m pip install -U pip
+          timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements.txt
+          rm .requirements.txt
+
+    - run:
+        name: Install testing deps
+        # language=bash
+        command: |
+          export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
+          echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
+          timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements_tests.txt
+          rm .requirements_tests.txt
+
+    - run:
+        name: Python stats
+        # language=bash
+        command: |
+          export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
+          echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          pipdeptree >  build-stats/pipdeptree.txt
+          python3 -m pip  list   | sort | tee  build-stats/pip-list.txt
+          python3 -m pip  freeze | sort | tee  build-stats/pip-freeze.txt
+          python3 -m pip cache list | tee  build-stats/pip-cache.txt
+
+
+    - store_artifacts:
+        path: build-stats
+        destination: build-stats
+
+    - run:
+        name: setup.py develop
+        # language=bash
+        command: |
+          export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
+          echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          python3 -m pip install -e . --prefix ~/.local --no-deps
+
+    - run:
+        name: Make docs
+        # language=bash
+        command: |
+          FILE=src/conf.py
+          mkdir -p out/docs
+          if test -f "$FILE"; then
+              sphinx-build src out/docs
+          fi
+
+    - store_artifacts:
+        path: out/docs
+        destination: docs
+    - run:
+        background: true
+        name: services
+        command: |
+          TARGET=services
+          if make -n $TARGET ; then
+              make $TARGET
+          else
+              echo "Target $TARGET not defined"
+          fi
+    - run:
+        name: pre-circle-tests
+        command: |
+          TARGET=pre-circle-tests
+          if make -n $TARGET ; then
+              make $TARGET
+          else
+              echo "Target $TARGET not defined"
+          fi
+    # - run:
+    #     name: Notebooks
+    #     command: |
+    #       make -C notebooks cleanup all
+
+
+    - run:
+        name: contracts_tests
+        command: |
+          export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
+          echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          set -euxo pipefail
+          TEST_MODULES=$(split-tests <.circleci/contracts_tests.tests)
+          echo "TEST_MODULES=[$TEST_MODULES]"
+          if [ -z "$TEST_MODULES" ]; then
+            echo "\$TEST_MODULES is empty"
+            exit 0
+          else
+            echo "\$TEST_MODULES is NOT empty"
+          fi
+          mkdir -p out/test-results
+          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
+          timeout 30m nose2 --with-coverage \
+              --plugin nose2.plugins.junitxml \
+              --junit-xml \
+              --junit-xml-path ${xunit_output} \
+              $TEST_MODULES
+          # TODO: cover packages
+    - run:
+        name: post-circle-tests
+        command: |
+          TARGET=post-circle-tests
+          if make -n $TARGET ; then
+              make $TARGET
+          else
+              echo "Target $TARGET not defined"
+          fi
+
+    - store_test_results:
+        path: out/test-results
+
+    - run:
+        name: Coverage report
+        # when: always
+        command: |
+          coverage combine || true
+          coverage html -d out/coverage/${CIRCLE_NODE_INDEX} || true
+          coverage xml || true
+
+    - store_artifacts:
+        path: out/coverage
+        destination: coverage
+
+    - store_artifacts:
+        path: out/tests
+        destination: tests
+
+    - run:
+        name: CodeCov
+        # when: always
         command: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
           ./codecov  
     resource_class: small
 
-# sigil f39742e0671f7ae2661c9b4215611a39
+# sigil 10a5913e835a12edd0fdd76054634d5f

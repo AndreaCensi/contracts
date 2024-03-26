@@ -1,6 +1,5 @@
 from abc import abstractmethod
 import functools
-import nose
 import unittest
 
 from contracts import ContractNotRespected, contract, ContractsMeta
@@ -14,7 +13,7 @@ def expected_failure(test):
         try:
             test(*args, **kwargs)
         except Exception:
-            raise nose.SkipTest
+            raise unittest.SkipTest
         else:
             raise AssertionError("Failure expected")
 
