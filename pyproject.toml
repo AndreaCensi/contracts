@@ -22,7 +22,6 @@ pyparsing = "<3"
 six = "*"
 
 [tool.poetry.group.test.dependencies]
-nose = "*"
 
 [build-system]
 requires = [

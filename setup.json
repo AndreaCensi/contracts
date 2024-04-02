@@ -6,9 +6,7 @@
     "pyparsing<3",
     "six"
   ],
-  "tests_require": [
-    "nose"
-  ],
+  "tests_require": [],
   "srcdir": "src",
   "package_name": "PyContracts3",
   "entry_points": {

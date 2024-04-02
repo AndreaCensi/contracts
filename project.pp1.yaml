@@ -12,8 +12,7 @@ install_requires:
 - future
 - numpy
 
-tests_require:
-- nose
+tests_require: []
 
 
 
