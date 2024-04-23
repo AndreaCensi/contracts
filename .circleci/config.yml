@@ -230,7 +230,7 @@ jobs:
         command: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
-          ./codecov  
+          timeout 1m ./codecov || true
     resource_class: small
   test-38-src:
     environment:
@@ -413,7 +413,7 @@ jobs:
         command: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
-          ./codecov  
+          timeout 1m ./codecov || true
     resource_class: small
   test-39-src:
     environment:
@@ -596,7 +596,7 @@ jobs:
         command: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
-          ./codecov  
+          timeout 1m ./codecov || true
     resource_class: small
   test-310-src:
     environment:
@@ -787,7 +787,7 @@ jobs:
         command: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
-          ./codecov  
+          timeout 1m ./codecov || true
     resource_class: small
   test-310-bin:
     environment:
@@ -978,7 +978,7 @@ jobs:
         command: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
-          ./codecov  
+          timeout 1m ./codecov || true
     resource_class: small
   test-311-src:
     environment:
@@ -1169,7 +1169,7 @@ jobs:
         command: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
-          ./codecov  
+          timeout 1m ./codecov || true
     resource_class: small
   test-311-bin:
     environment:
@@ -1360,7 +1360,7 @@ jobs:
         command: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
-          ./codecov  
+          timeout 1m ./codecov || true
     resource_class: small
   test-312-src:
     environment:
@@ -1551,7 +1551,7 @@ jobs:
         command: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
-          ./codecov  
+          timeout 1m ./codecov || true
     resource_class: small
 
-# sigil 10a5913e835a12edd0fdd76054634d5f
+# sigil 0c6e588bc7b95f88f3dbc67123131783
