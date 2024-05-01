@@ -90,10 +90,11 @@ jobs:
           mkdir -p build-stats/envs
           mkdir -p build-stats/jobs/${CIRCLE_JOB}
           mkdir -p build-stats/jobs/${CIRCLE_JOB}/envs
-          echo -n "${Z_REQS_SHA:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
-          echo -n "${IMAGE_VCS_SHA:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
-          echo -n "${IMAGE_NAME:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
-          echo -n "${CONTEXT_NAME:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
+          echo -n "${Z_REQS_SHA:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
+          echo -n "${IMAGE_VCS_SHA:-not-present}"  > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
+          echo -n "${IMAGE_NAME:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
+          echo -n "${CONTEXT_NAME:-not-present}"   > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
+          echo -n "${PYTHONOPTIMIZE:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/PYTHONOPTIMIZE
 
     - store_artifacts:
         path: build-stats
@@ -273,10 +274,11 @@ jobs:
           mkdir -p build-stats/envs
           mkdir -p build-stats/jobs/${CIRCLE_JOB}
           mkdir -p build-stats/jobs/${CIRCLE_JOB}/envs
-          echo -n "${Z_REQS_SHA:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
-          echo -n "${IMAGE_VCS_SHA:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
-          echo -n "${IMAGE_NAME:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
-          echo -n "${CONTEXT_NAME:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
+          echo -n "${Z_REQS_SHA:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
+          echo -n "${IMAGE_VCS_SHA:-not-present}"  > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
+          echo -n "${IMAGE_NAME:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
+          echo -n "${CONTEXT_NAME:-not-present}"   > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
+          echo -n "${PYTHONOPTIMIZE:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/PYTHONOPTIMIZE
 
     - store_artifacts:
         path: build-stats
@@ -456,10 +458,11 @@ jobs:
           mkdir -p build-stats/envs
           mkdir -p build-stats/jobs/${CIRCLE_JOB}
           mkdir -p build-stats/jobs/${CIRCLE_JOB}/envs
-          echo -n "${Z_REQS_SHA:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
-          echo -n "${IMAGE_VCS_SHA:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
-          echo -n "${IMAGE_NAME:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
-          echo -n "${CONTEXT_NAME:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
+          echo -n "${Z_REQS_SHA:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
+          echo -n "${IMAGE_VCS_SHA:-not-present}"  > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
+          echo -n "${IMAGE_NAME:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
+          echo -n "${CONTEXT_NAME:-not-present}"   > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
+          echo -n "${PYTHONOPTIMIZE:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/PYTHONOPTIMIZE
 
     - store_artifacts:
         path: build-stats
@@ -639,10 +642,11 @@ jobs:
           mkdir -p build-stats/envs
           mkdir -p build-stats/jobs/${CIRCLE_JOB}
           mkdir -p build-stats/jobs/${CIRCLE_JOB}/envs
-          echo -n "${Z_REQS_SHA:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
-          echo -n "${IMAGE_VCS_SHA:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
-          echo -n "${IMAGE_NAME:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
-          echo -n "${CONTEXT_NAME:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
+          echo -n "${Z_REQS_SHA:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
+          echo -n "${IMAGE_VCS_SHA:-not-present}"  > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
+          echo -n "${IMAGE_NAME:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
+          echo -n "${CONTEXT_NAME:-not-present}"   > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
+          echo -n "${PYTHONOPTIMIZE:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/PYTHONOPTIMIZE
 
     - store_artifacts:
         path: build-stats
@@ -830,10 +834,11 @@ jobs:
           mkdir -p build-stats/envs
           mkdir -p build-stats/jobs/${CIRCLE_JOB}
           mkdir -p build-stats/jobs/${CIRCLE_JOB}/envs
-          echo -n "${Z_REQS_SHA:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
-          echo -n "${IMAGE_VCS_SHA:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
-          echo -n "${IMAGE_NAME:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
-          echo -n "${CONTEXT_NAME:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
+          echo -n "${Z_REQS_SHA:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
+          echo -n "${IMAGE_VCS_SHA:-not-present}"  > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
+          echo -n "${IMAGE_NAME:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
+          echo -n "${CONTEXT_NAME:-not-present}"   > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
+          echo -n "${PYTHONOPTIMIZE:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/PYTHONOPTIMIZE
 
     - store_artifacts:
         path: build-stats
@@ -1021,10 +1026,11 @@ jobs:
           mkdir -p build-stats/envs
           mkdir -p build-stats/jobs/${CIRCLE_JOB}
           mkdir -p build-stats/jobs/${CIRCLE_JOB}/envs
-          echo -n "${Z_REQS_SHA:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
-          echo -n "${IMAGE_VCS_SHA:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
-          echo -n "${IMAGE_NAME:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
-          echo -n "${CONTEXT_NAME:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
+          echo -n "${Z_REQS_SHA:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
+          echo -n "${IMAGE_VCS_SHA:-not-present}"  > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
+          echo -n "${IMAGE_NAME:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
+          echo -n "${CONTEXT_NAME:-not-present}"   > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
+          echo -n "${PYTHONOPTIMIZE:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/PYTHONOPTIMIZE
 
     - store_artifacts:
         path: build-stats
@@ -1212,10 +1218,11 @@ jobs:
           mkdir -p build-stats/envs
           mkdir -p build-stats/jobs/${CIRCLE_JOB}
           mkdir -p build-stats/jobs/${CIRCLE_JOB}/envs
-          echo -n "${Z_REQS_SHA:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
-          echo -n "${IMAGE_VCS_SHA:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
-          echo -n "${IMAGE_NAME:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
-          echo -n "${CONTEXT_NAME:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
+          echo -n "${Z_REQS_SHA:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
+          echo -n "${IMAGE_VCS_SHA:-not-present}"  > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
+          echo -n "${IMAGE_NAME:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
+          echo -n "${CONTEXT_NAME:-not-present}"   > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
+          echo -n "${PYTHONOPTIMIZE:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/PYTHONOPTIMIZE
 
     - store_artifacts:
         path: build-stats
@@ -1403,10 +1410,11 @@ jobs:
           mkdir -p build-stats/envs
           mkdir -p build-stats/jobs/${CIRCLE_JOB}
           mkdir -p build-stats/jobs/${CIRCLE_JOB}/envs
-          echo -n "${Z_REQS_SHA:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
-          echo -n "${IMAGE_VCS_SHA:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
-          echo -n "${IMAGE_NAME:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
-          echo -n "${CONTEXT_NAME:-not-present}"    > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
+          echo -n "${Z_REQS_SHA:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
+          echo -n "${IMAGE_VCS_SHA:-not-present}"  > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
+          echo -n "${IMAGE_NAME:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
+          echo -n "${CONTEXT_NAME:-not-present}"   > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
+          echo -n "${PYTHONOPTIMIZE:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/PYTHONOPTIMIZE
 
     - store_artifacts:
         path: build-stats
@@ -1554,4 +1562,4 @@ jobs:
           timeout 1m ./codecov || true
     resource_class: small
 
-# sigil 5e8d53ded06f126d8c26719501a893f1
+# sigil a5bb8279c9074133e072fedf5679806a
