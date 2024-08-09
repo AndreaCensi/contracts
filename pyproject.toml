@@ -2,6 +2,12 @@
 name = "PyContracts3"
 version = "7.2"
 authors = [{name = "Andrea Censi", email = "AndreaCensi@users.noreply.github.com"}]
+dependencies = [
+    "decorator<5",
+    "future",
+    "numpy",
+    "pyparsing<3",
+    "six",]
 
 [tool.poetry]
 name = "PyContracts3"
@@ -22,6 +28,7 @@ pyparsing = "<3"
 six = "*"
 
 [tool.poetry.group.test.dependencies]
+python = "^3.7"
 
 [build-system]
 requires = [
