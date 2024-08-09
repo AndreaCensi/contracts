@@ -2,11 +2,13 @@
 name = "PyContracts3"
 version = "7.2"
 authors = [{name = "Andrea Censi", email = "AndreaCensi@users.noreply.github.com"}]
+description = ""
 
 [tool.poetry]
 name = "PyContracts3"
 version = "7.2"
 description = ""
+long_description = ""
 authors = ["Andrea Censi <AndreaCensi@users.noreply.github.com>"]
 packages = [
     {from = "src", include = "contracts"},

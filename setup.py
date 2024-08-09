@@ -48,10 +48,10 @@ setup(
     name="PyContracts3",
     author="Andrea Censi",
     url="http://andreacensi.github.com/contracts/",
-    description=description,
-    long_description=long_description,
+    # description=description,
+    # long_description=long_description,
     keywords="type checking, value checking, contracts",
-    license="LGPL",
+    # license="LGPL",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
