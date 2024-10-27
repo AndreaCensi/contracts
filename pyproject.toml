@@ -32,7 +32,7 @@ pyparsing = "<3"
 six = "*"
 
 [tool.poetry.group.test.dependencies]
-python = ">=3.7"
+python = ">=3.10"
 
 [build-system]
 requires = [
