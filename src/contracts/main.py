@@ -29,7 +29,7 @@ from .interface import (
 
 # from .library import (CheckCallable, Extension, SeparateContext,
 #     identifier_expression)
-def check_contracts(contracts: List[str], values: List[object], context_variables=None):
+def check_contracts(contracts: list[str], values: list[object], context_variables=None):
     """
     Checks that the values respect the contract.
     Not a public function -- no friendly messages.
