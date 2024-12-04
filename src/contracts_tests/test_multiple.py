@@ -1,4 +1,4 @@
-""" Other testing examples """
+"""Other testing examples"""
 
 # dummy
 from contracts.test_registrar import fail, good
