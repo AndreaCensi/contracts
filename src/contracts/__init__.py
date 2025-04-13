@@ -1,6 +1,7 @@
 __version__ = '2.0.1'
 
 import logging
+from .py_compatibility import PY3, string_types, text_type, binary_type
 
 #logging.basicConfig()
 logger = logging.getLogger(__name__)

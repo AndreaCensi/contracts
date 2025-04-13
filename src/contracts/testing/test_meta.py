@@ -1,25 +1,13 @@
 from abc import abstractmethod
 import functools
-import nose
-import unittest
+import pytest
 
 from contracts import ContractNotRespected, contract, ContractsMeta
 from contracts import CannotDecorateClassmethods
 from contracts import with_metaclass
 
-def expected_failure(test):
-    @functools.wraps(test)
-    def inner(*args, **kwargs):
-        try:
-            test(*args, **kwargs)
-        except Exception:
-            raise nose.SkipTest
-        else:
-            raise AssertionError('Failure expected')
-    return inner
 
-
-class TestMeta(unittest.TestCase):
+class TestMeta:
 
     def test_meta_still_works1(self):
 
@@ -34,7 +22,8 @@ class TestMeta(unittest.TestCase):
             # does not implement f
             pass
 
-        self.assertRaises(TypeError, B)
+        with pytest.raises(TypeError):
+            B()
 
     def test_meta_still_works2(self):
 
@@ -50,8 +39,8 @@ class TestMeta(unittest.TestCase):
             # does not implement f
             pass
 
-
-        self.assertRaises(TypeError, B)
+        with pytest.raises(TypeError):
+            B()
 
     def test_meta1(self):
 
@@ -78,10 +67,12 @@ class TestMeta(unittest.TestCase):
 
         b = B()
 
-        self.assertRaises(ContractNotRespected, b.f, 0)
-        self.assertRaises(ContractNotRespected, b.g, 0)
+        with pytest.raises(ContractNotRespected):
+            b.f(0)
+        with pytest.raises(ContractNotRespected):
+            b.g(0)
 
-    @expected_failure
+    @pytest.mark.xfail(reason="Known issue with static methods")
     def test_static1(self):
 
         class A(with_metaclass(ContractsMeta, object)):
@@ -91,7 +82,8 @@ class TestMeta(unittest.TestCase):
             def f(a):
                 pass
 
-        self.assertRaises(ContractNotRespected, A.f, 0)
+        with pytest.raises(ContractNotRespected):
+            A.f(0)
 
         class B(A):
 
@@ -99,9 +91,10 @@ class TestMeta(unittest.TestCase):
             def f(a):
                 pass
 
-        self.assertRaises(ContractNotRespected, B.f, 0) # this doesn't work
+        with pytest.raises(ContractNotRespected):
+            B.f(0)  # this doesn't work
 
-    @expected_failure
+    @pytest.mark.xfail(reason="Known issue with class methods")
     def test_classmethod1(self):
 
         class A(with_metaclass(ContractsMeta, object)):
@@ -112,7 +105,8 @@ class TestMeta(unittest.TestCase):
                 print('called A.f(%s)' % a)
                 pass
 
-        self.assertRaises(ContractNotRespected, A.f, 0)
+        with pytest.raises(ContractNotRespected):
+            A.f(0)
 
         class B(A):
 
@@ -121,9 +115,10 @@ class TestMeta(unittest.TestCase):
                 print('called B.f(%s)' % a)
                 pass
 
-        self.assertRaises(ContractNotRespected, B.f, 0) # this doesn't work
+        with pytest.raises(ContractNotRespected):
+            B.f(0)  # this doesn't work
 
-    @expected_failure
+    @pytest.mark.xfail(reason="Known issue with class methods")
     def test_classmethod1ns(self):
 
         class A(with_metaclass(ContractsMeta, object)):
@@ -134,7 +129,8 @@ class TestMeta(unittest.TestCase):
                 print('called A.f(%s)' % a)
                 pass
 
-        self.assertRaises(ContractNotRespected, A.f, 0)
+        with pytest.raises(ContractNotRespected):
+            A.f(0)
 
         class B(A):
 
@@ -143,7 +139,8 @@ class TestMeta(unittest.TestCase):
                 print('called B.f(%s)' % a)
                 pass
 
-        self.assertRaises(ContractNotRespected, B.f, 0) # this doesn't work
+        with pytest.raises(ContractNotRespected):
+            B.f(0)  # this doesn't work
 
 
     def test_classmethod2a(self):
@@ -163,7 +160,8 @@ class TestMeta(unittest.TestCase):
                 def f(cls, a):
                     pass
 
-        self.assertRaises(CannotDecorateClassmethods, test_classmethod2)
+        with pytest.raises(CannotDecorateClassmethods):
+            test_classmethod2()
 
 
 

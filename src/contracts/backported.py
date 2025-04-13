@@ -1,10 +1,15 @@
 import sys
-from inspect import ArgSpec
+import inspect
+import collections
 
 import six
 
+# Define ArgSpec since it's no longer in inspect for Python 3.8+
+ArgSpec = collections.namedtuple('ArgSpec', ['args', 'varargs', 'keywords', 'defaults'])
+
 if sys.version_info[0] >= 3:  # pragma: no cover
-    from inspect import getfullargspec
+    # Use built-in getfullargspec for Python 3
+    getfullargspec = inspect.getfullargspec
     unicode = str
 
 else:  # pragma: no cover
@@ -43,13 +48,14 @@ else:  # pragma: no cover
         return fullspec
 
 
-# Backport inspect.getcallargs from Python 2.7 to 2.6
-if sys.version_info[:2] == (2, 7):
-    # noinspection PyUnresolvedReferences
-    from inspect import getcallargs
+# Get getcallargs based on Python version
+if hasattr(inspect, 'getcallargs'):
+    # Use the built-in if available (Python 3.x or 2.7)
+    getcallargs = inspect.getcallargs
 else:  # pragma: no cover
+    # Fallback for older Python versions
     inPy3k = sys.version_info[0] == 3
-
+    
     from inspect import ismethod
 
     def getcallargs(func, *positional, **named):

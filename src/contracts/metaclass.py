@@ -2,6 +2,7 @@ from abc import ABCMeta
 from types import FunctionType
 import traceback
 
+from .py_compatibility import PY3
 
 __all__ = ['ContractsMeta']
 

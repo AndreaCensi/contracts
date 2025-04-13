@@ -341,9 +341,10 @@ def check_valid_identifier(e):
     check(e, 42)
 
 
-def test_valid_identifiers():
+import pytest
 
-    for e in examples_valid:
-        yield check_valid_identifier, e
+@pytest.mark.parametrize('identifier', examples_valid)
+def test_valid_identifiers(identifier):
+    check_valid_identifier(identifier)
 
 

@@ -2,6 +2,7 @@ from ..interface import Contract, ContractNotRespected
 from ..syntax import (W, contract_expression, O, S, add_contract, add_keyword,
     Keyword)
 import collections
+from ..py_compatibility import Sequence, MutableMapping, Mapping, Set, MutableSet
 
 
 class Map(Contract):
@@ -13,7 +14,7 @@ class Map(Contract):
         self.value_c = value_c
 
     def check_contract(self, context, value, silent):
-        if not isinstance(value, collections.Mapping):
+        if not isinstance(value, Mapping):
             error = 'Expected a Mapping, got %r.' % value.__class__.__name__
             raise ContractNotRespected(contract=self, error=error,
                                        value=value, context=context)

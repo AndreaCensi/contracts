@@ -2,7 +2,13 @@ from ..interface import Contract, ContractNotRespected
 from ..syntax import (add_contract, W, contract_expression, O, S, add_keyword,
     Keyword)
 import collections
-from past.builtins import xrange
+from ..py_compatibility import Sequence, MutableMapping, Mapping, Set, MutableSet
+
+# Use range across Python 2/3
+try:
+    from past.builtins import xrange
+except ImportError:
+    xrange = range
 
 try:
     import numpy
@@ -38,7 +44,7 @@ class Seq(Contract):
 
             return
 
-        if not isinstance(value, collections.Sequence):
+        if not isinstance(value, Sequence):
             error = 'Expected a Sequence, got %r.' % value.__class__.__name__
             raise ContractNotRespected(self, error, value, context)
 

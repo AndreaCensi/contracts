@@ -20,12 +20,11 @@ def check_exception_pickable(contract, value):
         # raise Exception(msg)
 
 
-def test_exceptions_are_pickable():
-    for contract, value, exact in semantic_fail_examples:  # @UnusedVariable
-        yield check_contracts_fail, contract, value, ContractNotRespected
-        #ContractSemanticError
-    for contract, value, exact in contract_fail_examples:  # @UnusedVariable
-        yield check_contracts_fail, contract, value, ContractNotRespected
+import pytest
+
+@pytest.mark.parametrize('contract,value,exact', semantic_fail_examples + contract_fail_examples)
+def test_exceptions_are_pickable(contract, value, exact):  # @UnusedVariable
+    check_contracts_fail(contract, value, ContractNotRespected)
 
 
 def check_contract_pickable(contract):
@@ -44,11 +43,17 @@ def check_contract_pickable(contract):
     assert c == c2
 
 
-def test_contracts_are_pickable():
+def get_all_contracts():
+    """Helper function to extract all contracts for parameterization"""
+    all_contracts = []
     allc = (good_examples + semantic_fail_examples + contract_fail_examples)
     for contract, _, _ in allc:
         if isinstance(contract, list):
-            for c in contract:
-                yield check_contract_pickable, c
+            all_contracts.extend(contract)
         else:
-            yield check_contract_pickable, contract
+            all_contracts.append(contract)
+    return all_contracts
+
+@pytest.mark.parametrize('contract', get_all_contracts())
+def test_contracts_are_pickable(contract):
+    check_contract_pickable(contract)

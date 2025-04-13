@@ -1,0 +1,7 @@
+pytest>=7.0.0
+pytest-cov>=6.0.0
+tox>=3.24.0
+coverage>=6.2
+numpy>=1.20.0
+sphinx>=4.0.0
+twine>=3.4.0

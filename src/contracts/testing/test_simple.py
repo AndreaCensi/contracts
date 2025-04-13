@@ -23,47 +23,64 @@ from ..library import *  # @UnusedWildImport @UnresolvedImport
 #from ..test_registrar import  fail, good, syntax_fail, semantic_fail 
 
 
-def test_good():
-    for contract, value, exact in good_examples:  # @UnusedVariable
-        yield check_contracts_ok, contract, value
+import pytest
+
+@pytest.mark.parametrize('contract,value,exact', good_examples)
+def test_good(contract, value, exact):  # @UnusedVariable
+    check_contracts_ok(contract, value)
 
 
-def test_syntax_fail():
-    for s in syntax_fail_examples:
-        yield check_syntax_fail, s
+@pytest.mark.parametrize('syntax', syntax_fail_examples)
+def test_syntax_fail(syntax):
+    check_syntax_fail(syntax)
 
 
-def test_semantic_fail():
-    for contract, value, exact in semantic_fail_examples:  # @UnusedVariable
-        yield check_contracts_fail, contract, value, ContractNotRespected
+@pytest.mark.parametrize('contract,value,exact', semantic_fail_examples)
+def test_semantic_fail(contract, value, exact):  # @UnusedVariable
+    check_contracts_fail(contract, value, ContractNotRespected)
 
 
-def test_contract_fail():
-    for contract, value, exact in contract_fail_examples:  # @UnusedVariable
-        yield check_contracts_fail, contract, value, ContractNotRespected
+@pytest.mark.parametrize('contract,value,exact', contract_fail_examples)
+def test_contract_fail(contract, value, exact):  # @UnusedVariable
+    check_contracts_fail(contract, value, ContractNotRespected)
 
 
-# Checks that we can eval() the __repr__() value and 
-# we get an equivalent object. 
-def test_repr():
+# Helper function to get all individual contracts for parameterization
+def get_all_repr_contracts():
+    """Helper to get all contracts for repr testing"""
+    contracts = []
     allc = (good_examples + semantic_fail_examples + contract_fail_examples)
     for contract, value, exact in allc:  # @UnusedVariable
         if isinstance(contract, list):
-            for c in contract:
-                yield check_good_repr, c
+            contracts.extend(contract)
         else:
-            yield check_good_repr, contract
+            contracts.append(contract)
+    return contracts
+
+# Checks that we can eval() the __repr__() value and 
+# we get an equivalent object. 
+@pytest.mark.parametrize('contract', get_all_repr_contracts())
+def test_repr(contract):
+    check_good_repr(contract)
 
 
 #  Checks that we can reconvert the __str__() value and we get the same. 
-def test_reconversion():
+def get_all_reconversion_data():
+    """Helper to get all contracts with exactness flag for reconversion testing"""
+    contract_data = []
     allc = (good_examples + semantic_fail_examples + contract_fail_examples)
     for contract, _, exact in allc:
         if isinstance(contract, list):
             for c in contract:
-                yield check_recoversion, c, exact
+                contract_data.append((c, exact))
         else:
-            yield check_recoversion, contract, exact
+            contract_data.append((contract, exact))
+    return contract_data
+
+@pytest.mark.parametrize('contract_data', get_all_reconversion_data())
+def test_reconversion(contract_data):
+    contract, exact = contract_data
+    check_recoversion(contract, exact)
 
 
 def check_good_repr(c):

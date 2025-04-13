@@ -4,6 +4,10 @@ import sys
 from abc import ABCMeta, abstractmethod
 
 from .metaclass import with_metaclass
+from .py_compatibility import (
+    PY3, string_types, text_type, binary_type,
+    reraise, catch_and_wrap
+)
 
 
 class Where(object):
@@ -21,7 +25,7 @@ class Where(object):
 
     def __init__(self, string, character, character_end=None):
         from contracts.utils import raise_desc
-        if not isinstance(string, six.string_types):
+        if not isinstance(string, string_types):
             msg = 'I expect the string to be a str, not %r' % string
             raise ValueError(msg)
 
@@ -155,24 +159,21 @@ def format_where(w, context_before=3, mark=None, arrow=True,
 
 def printable_length_where(w):
     """ Returns the printable length of the substring """
-    if sys.version_info[0] >= 3:  # pragma: no cover
-        stype = str
-    else:
-        stype = unicode
     sub = w.string[w.character:w.character_end]
-    # return len(stype(sub, 'utf-8'))
-    # I am not really sure this is what we want
-    return len(stype(sub))
+    # Use the appropriate string type based on Python version
+    if PY3:
+        return len(text_type(sub))
+    else:
+        return len(text_type(sub))
 
 
-import six
-
+# Import string_types from our compatibility module instead of six
 
 def line_and_col(loc, strg):
     """Returns (line, col), both 0 based."""
     from .utils import check_isinstance
     check_isinstance(loc, int)
-    check_isinstance(strg, six.string_types)
+    check_isinstance(strg, string_types)
     # first find the line 
     lines = strg.split('\n')
 
@@ -216,7 +217,7 @@ def location(line, col, s):
     from .utils import check_isinstance
     check_isinstance(line, int)
     check_isinstance(col, int)
-    check_isinstance(s, six.string_types)
+    check_isinstance(s, string_types)
 
     lines = s.split('\n')
     previous_lines = sum(len(l) + len('\n') for l in lines[:line])
@@ -226,8 +227,8 @@ def location(line, col, s):
 
 def add_prefix(s, prefix):
     from contracts import check_isinstance
-    check_isinstance(s, six.string_types)
-    check_isinstance(prefix, six.string_types)
+    check_isinstance(s, string_types)
+    check_isinstance(prefix, string_types)
     result = ""
     for l in s.split('\n'):
         result += prefix + l + '\n'
@@ -296,7 +297,7 @@ class ContractNotRespected(ContractException):
         Exception.__init__(self, contract, error, value, context)
         assert isinstance(contract, Contract), contract
         assert isinstance(context, dict), context
-        assert isinstance(error, six.string_types), error
+        assert isinstance(error, string_types), error
 
         self.contract = contract
         self.error = error
@@ -375,11 +376,17 @@ class RValue(with_metaclass(ABCMeta, object)):
 def eval_in_context(context, value, contract):
     assert isinstance(contract, Contract)
     assert isinstance(value, RValue), describe_value(value)
-    try:
+    
+    def evaluate():
         return value.eval(context)
-    except ValueError as e:
-        msg = 'Error while evaluating RValue %r: %s' % (value, e)
-        raise ContractNotRespected(contract, msg, value, context)
+    
+    def create_message(e):
+        return 'Error while evaluating RValue %r: %s' % (value, e)
+    
+    def create_exception(msg):
+        return ContractNotRespected(contract, msg, value, context)
+    
+    return catch_and_wrap(evaluate, ValueError, create_exception, create_message)
 
 
 class Contract(with_metaclass(ABCMeta, object)):
@@ -405,7 +412,13 @@ class Contract(with_metaclass(ABCMeta, object)):
 
             :raise: ContractNotRespected
         """
-        return self.check_contract({}, value, silent=False)
+        def check_func():
+            return self.check_contract({}, value, silent=False)
+        
+        def create_exception(msg):
+            return ContractNotRespected(self, msg, value, {})
+            
+        return catch_and_wrap(check_func, Exception, create_exception)
 
     def fail(self, value):
         """
@@ -535,8 +548,8 @@ class Contract(with_metaclass(ABCMeta, object)):
                 self.__repr__() == other.__repr__())
 
 
-inPy2 = sys.version_info[0] == 2
-if inPy2:
+# Python 2 specific import
+if not PY3:
     from types import ClassType
 
 
@@ -558,7 +571,7 @@ def remove_newlines(s):
 
 def describe_type(x):
     """ Returns a friendly description of the type of x. """
-    if inPy2 and isinstance(x, ClassType):
+    if not PY3 and isinstance(x, ClassType):
         class_name = '(old-style class) %s' % x
     else:
         if hasattr(x, '__class__'):
@@ -602,7 +615,7 @@ def describe_value_multiline(x):
         else:
             return x.__repr__()
     else:
-        if isinstance(x, six.string_types):
+        if isinstance(x, string_types):
             if x == '': return "''"
             return x
         # XXX: this does not represent strings

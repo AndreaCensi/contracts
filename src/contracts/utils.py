@@ -3,7 +3,10 @@ from __future__ import unicode_literals
 import traceback
 import warnings
 
-import six
+from .py_compatibility import (
+    PY3, string_types, text_type, binary_type,
+    reraise
+)
 
 from .interface import describe_type, describe_value  # @UnusedImport # old interface
 
@@ -18,10 +21,10 @@ __all__ = [
 
 
 def indent(s, prefix, first=None):
-    if not isinstance(s, six.string_types):
+    if not isinstance(s, string_types):
         s = u'{}'.format(s)
 
-    assert isinstance(prefix, six.string_types)
+    assert isinstance(prefix, string_types)
     try:
         lines = s.split('\n')
     except UnicodeDecodeError:
@@ -169,22 +172,20 @@ def raise_wrapped(etype, e, msg, compact=False, **kwargs):
         exc = output of sys.exc_info()
     """
 
-    if six.PY3:
-        from six import raise_from
-        msg += '\n' + indent(e, '| ')
+    if PY3:
+        msg += '\n' + indent(str(e), '| ')
         e2 = etype(_format_exc(msg, **kwargs))
-        # e2 = raise_wrapped_make(etype, e, msg, compact=compact, **kwargs)
-        raise_from(e2, e)
-        # raise e2
+        # Use our reraise compatibility function
+        reraise(e2, e.__traceback__)
     else:
         e2 = raise_wrapped_make(etype, e, msg, compact=compact, **kwargs)
-        raise e2
+        reraise(e2)
 
 
 def raise_wrapped_make(etype, e, msg, compact=False, **kwargs):
     """ Constructs the exception to be thrown by raise_wrapped() """
     assert isinstance(e, BaseException), type(e)
-    check_isinstance(msg, six.text_type)
+    check_isinstance(msg, text_type)
     s = msg
     if kwargs:
         s += '\n' + format_obs(kwargs)
@@ -203,7 +204,7 @@ def raise_wrapped_make(etype, e, msg, compact=False, **kwargs):
     return etype(s)
 
 def _format_exc(msg, **kwargs):
-    check_isinstance(msg, six.text_type)
+    check_isinstance(msg, text_type)
     s = msg
     if kwargs:
         s += '\n' + format_obs(kwargs)
@@ -216,7 +217,7 @@ def raise_desc(etype, msg, args_first=False, **kwargs):
         Example:
             raise_desc(ValueError, "I don't know", a=a, b=b)
     """
-    assert isinstance(msg, six.string_types), type(msg)
+    assert isinstance(msg, string_types), type(msg)
     s1 = msg
     if kwargs:
         s2 = format_obs(kwargs)

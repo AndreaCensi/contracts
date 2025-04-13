@@ -1,10 +1,10 @@
+import pytest
 from contracts import ContractException, check, contract, decorate, fail, parse
 from contracts.interface import (ContractNotRespected,
     ExternalScopedVariableNotFound)
 from contracts.library.simple_values import EqualTo
 from contracts.library.types_misc import CheckType
 from contracts.utils import check_isinstance
-from nose.tools import raises
 
 
 def test_raw_parse():
@@ -42,9 +42,9 @@ def test_algebra():
     assert c.length_contract.rvalue.value == 2
 
 
-@raises(ContractException)
 def test_invalid():
-    parse('$not_found')
+    with pytest.raises(ContractException):
+        parse('$not_found')
 
 
 def test_check():
