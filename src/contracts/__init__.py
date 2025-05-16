@@ -50,6 +50,7 @@ from .utils import *
 ContractsMeta.__module__ = "contracts"
 
 # And after everything else is loaded, load the  utils
+from .syntax import *
 from .useful_contracts import *
 
 # After everything is loaded, load aliases
