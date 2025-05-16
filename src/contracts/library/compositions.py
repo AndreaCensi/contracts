@@ -1,6 +1,11 @@
-from ..interface import Contract, ContractNotRespected, add_prefix
+from ..interface import Contract
+from ..interface import ContractNotRespected
+from ..interface import add_prefix
 from ..pyparsing_utils import myOperatorPrecedence
-from ..syntax import ParsingTmp, W, opAssoc, simple_contract
+from ..syntax import ParsingTmp
+from ..syntax import W
+from ..syntax import opAssoc
+from ..syntax import simple_contract
 from .extensions import Extension
 from .suggester import create_suggester
 

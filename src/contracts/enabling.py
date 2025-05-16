@@ -1,5 +1,6 @@
-from . import logger
 import os
+
+from . import logger
 
 
 class Switches:

@@ -1,14 +1,12 @@
 import unittest
 
-from contracts import (
-    check,
-    ContractNotRespected,
-    Contract,
-    parse,
-    check_multiple,
-    ContractSyntaxError,
-    fail,
-)
+from contracts import Contract
+from contracts import ContractNotRespected
+from contracts import ContractSyntaxError
+from contracts import check
+from contracts import check_multiple
+from contracts import fail
+from contracts import parse
 
 
 class TestIdioms(unittest.TestCase):
@@ -73,7 +71,7 @@ class TestIdioms(unittest.TestCase):
         # now with description
         check_multiple(
             spec,
-            "I expect col_labels, row_labels, data to " "have coherent dimensions.",
+            "I expect col_labels, row_labels, data to have coherent dimensions.",
         )
 
         data = [[1, 2, 3], [1, 2]]

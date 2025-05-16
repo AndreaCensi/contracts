@@ -1,9 +1,8 @@
-from contracts.test_registrar import (
-    good_examples,
-    semantic_fail_examples,
-    contract_fail_examples,
-)
-from contracts import parse, ContractSyntaxError
+from contracts import ContractSyntaxError
+from contracts import parse
+from contracts.test_registrar import contract_fail_examples
+from contracts.test_registrar import good_examples
+from contracts.test_registrar import semantic_fail_examples
 
 
 def get_all_strings():

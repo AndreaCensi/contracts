@@ -1,7 +1,8 @@
 from functools import reduce
 
 from ..interface import RValue
-from ..syntax import isnumber, W
+from ..syntax import W
+from ..syntax import isnumber
 
 
 class Binary(RValue):

@@ -1,11 +1,13 @@
-from .utils import check_contracts_fail
-from contracts import ContractNotRespected, parse, Contract
-from contracts.test_registrar import (
-    semantic_fail_examples,
-    contract_fail_examples,
-    good_examples,
-)
 import pickle
+
+from contracts import Contract
+from contracts import ContractNotRespected
+from contracts import parse
+from contracts.test_registrar import contract_fail_examples
+from contracts.test_registrar import good_examples
+from contracts.test_registrar import semantic_fail_examples
+
+from .utils import check_contracts_fail
 
 
 def check_exception_pickable(contract, value):

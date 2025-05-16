@@ -1,5 +1,6 @@
 import sys
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta
+from abc import abstractmethod
 
 from .metaclass import with_metaclass
 
@@ -435,7 +436,7 @@ class Contract(with_metaclass(ABCMeta, object)):
         except ContractNotRespected:
             pass
         else:
-            msg = "I did not expect that this value would " "satisfy this contract.\n"
+            msg = "I did not expect that this value would satisfy this contract.\n"
             msg += "-    value: %s\n" % describe_value(value)
             msg += "- contract: %s\n" % self
             msg += "-  context: %r" % context

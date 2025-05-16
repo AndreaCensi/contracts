@@ -3,8 +3,12 @@
 import io
 import sys
 
-from ..interface import Contract, ContractNotRespected
-from ..syntax import add_contract, add_keyword, Keyword, W
+from ..interface import Contract
+from ..interface import ContractNotRespected
+from ..syntax import Keyword
+from ..syntax import W
+from ..syntax import add_contract
+from ..syntax import add_keyword
 
 # inPy2 = sys.version_info[0] == 2
 # if inPy2:

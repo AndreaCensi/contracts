@@ -1,6 +1,7 @@
 import numpy
 
-from contracts.test_registrar import fail, good
+from contracts.test_registrar import fail
+from contracts.test_registrar import good
 
 arr01 = numpy.array([0, 1, 0, 1])
 arr012 = numpy.array([0, 1, 0, 2])

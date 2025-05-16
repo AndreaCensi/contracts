@@ -1,4 +1,10 @@
-from .syntax import Forward, Suppress, FollowedBy, Group, OneOrMore, Optional, opAssoc
+from .syntax import FollowedBy
+from .syntax import Forward
+from .syntax import Group
+from .syntax import OneOrMore
+from .syntax import Optional
+from .syntax import Suppress
+from .syntax import opAssoc
 
 
 def myOperatorPrecedence(baseExpr, opList):
@@ -38,7 +44,7 @@ def myOperatorPrecedence(baseExpr, opList):
         opExpr, arity, rightLeftAssoc, pa = (operDef + (None,))[:4]
         if arity == 3:
             if opExpr is None or len(opExpr) != 2:
-                raise ValueError("if numterms=3, opExpr must be a tuple or list of two " "expressions")
+                raise ValueError("if numterms=3, opExpr must be a tuple or list of two expressions")
             opExpr1, opExpr2 = opExpr
         thisExpr = Forward().setName("operation_with(%s)" % opExpr)
         if rightLeftAssoc == opAssoc.LEFT:

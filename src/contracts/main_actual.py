@@ -12,9 +12,16 @@
 
 
 def parse_contract_string_actual(string):
-    from .interface import Contract, ContractDefinitionError, ContractSyntaxError, Where
-    from .main import Storage, _cacheable, check_param_is_string
-    from .syntax import ParseException, ParseFatalException, contract_expression
+    from .interface import Contract
+    from .interface import ContractDefinitionError
+    from .interface import ContractSyntaxError
+    from .interface import Where
+    from .main import Storage
+    from .main import _cacheable
+    from .main import check_param_is_string
+    from .syntax import ParseException
+    from .syntax import ParseFatalException
+    from .syntax import contract_expression
 
     check_param_is_string(string)
 

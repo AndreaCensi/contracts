@@ -1,4 +1,7 @@
-from contracts.test_registrar import fail, good, syntax_fail, semantic_fail
+from contracts.test_registrar import fail
+from contracts.test_registrar import good
+from contracts.test_registrar import semantic_fail
+from contracts.test_registrar import syntax_fail
 
 # only single letters
 syntax_fail("NN")

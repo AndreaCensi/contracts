@@ -1,7 +1,12 @@
 import datetime
 
-from ..interface import Contract, ContractNotRespected, describe_type
-from ..syntax import Keyword, W, add_contract, add_keyword
+from ..interface import Contract
+from ..interface import ContractNotRespected
+from ..interface import describe_type
+from ..syntax import Keyword
+from ..syntax import W
+from ..syntax import add_contract
+from ..syntax import add_keyword
 
 
 class DatetimeWithTz(Contract):

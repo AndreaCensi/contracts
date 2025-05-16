@@ -1,7 +1,11 @@
 # FIXME: how can I not parse this with python2?
 
 import unittest
-from contracts import decorate, ContractException, contract, ContractNotRespected
+
+from contracts import ContractException
+from contracts import ContractNotRespected
+from contracts import contract
+from contracts import decorate
 
 
 class Py3kAnnotationsTest(unittest.TestCase):

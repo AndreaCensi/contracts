@@ -1,29 +1,37 @@
-from ..interface import Contract, ContractNotRespected, describe_type
-from ..pyparsing_utils import myOperatorPrecedence
-from ..syntax import (
-    add_contract,
-    W,
-    contract_expression,
-    O,
-    S,
-    rvalue,
-    simple_contract,
-    ZeroOrMore,
-    Literal,
-    MatchFirst,
-    opAssoc,
-    FollowedBy,
-    NotAny,
-    Keyword,
-    add_keyword,
-    Word,
-)
-from .array_ops import ArrayOR, ArrayAnd, DType, ArrayConstraint, ArrayORCustomString
-from .compositions import And, OR
-from .suggester import create_suggester
-from numpy import ndarray, dtype
 import numpy
-from pyparsing import infixNotation as operatorPrecedence, Or
+from numpy import dtype
+from numpy import ndarray
+from pyparsing import Or
+from pyparsing import infixNotation as operatorPrecedence
+
+from ..interface import Contract
+from ..interface import ContractNotRespected
+from ..interface import describe_type
+from ..pyparsing_utils import myOperatorPrecedence
+from ..syntax import FollowedBy
+from ..syntax import Keyword
+from ..syntax import Literal
+from ..syntax import MatchFirst
+from ..syntax import NotAny
+from ..syntax import O
+from ..syntax import S
+from ..syntax import W
+from ..syntax import Word
+from ..syntax import ZeroOrMore
+from ..syntax import add_contract
+from ..syntax import add_keyword
+from ..syntax import contract_expression
+from ..syntax import opAssoc
+from ..syntax import rvalue
+from ..syntax import simple_contract
+from .array_ops import ArrayAnd
+from .array_ops import ArrayConstraint
+from .array_ops import ArrayOR
+from .array_ops import ArrayORCustomString
+from .array_ops import DType
+from .compositions import OR
+from .compositions import And
+from .suggester import create_suggester
 
 
 class Array(Contract):

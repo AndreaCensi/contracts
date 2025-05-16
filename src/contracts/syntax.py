@@ -1,39 +1,38 @@
 import math
 from numbers import Number
 
+from pyparsing import CaselessLiteral
+from pyparsing import Combine
+from pyparsing import FollowedBy
+from pyparsing import Forward
+from pyparsing import Group
+from pyparsing import Keyword
+from pyparsing import Literal
+from pyparsing import MatchFirst
+from pyparsing import NotAny
+from pyparsing import OneOrMore
+from pyparsing import Optional
+from pyparsing import Or
+from pyparsing import ParseException
+from pyparsing import ParseFatalException
+from pyparsing import ParserElement
+from pyparsing import ParseSyntaxException
+from pyparsing import Suppress
+from pyparsing import White
+from pyparsing import Word
+from pyparsing import ZeroOrMore
+from pyparsing import alphanums
+from pyparsing import alphas
+from pyparsing import col
+
 # All the imports from pyparsing go here
-from pyparsing import (
-    delimitedList,
-    Forward,
-    Literal,
-    stringEnd,
-    nums,
-    Word,
-    CaselessLiteral,
-    Combine,
-    Optional,
-    Suppress,
-    OneOrMore,
-    ZeroOrMore,
-    opAssoc,
-    infixNotation as operatorPrecedence,
-    oneOf,
-    ParseException,
-    ParserElement,
-    alphas,
-    alphanums,
-    ParseFatalException,
-    ParseSyntaxException,
-    FollowedBy,
-    NotAny,
-    Or,
-    MatchFirst,
-    Keyword,
-    Group,
-    White,
-    lineno,
-    col,
-)
+from pyparsing import delimitedList
+from pyparsing import infixNotation as operatorPrecedence
+from pyparsing import lineno
+from pyparsing import nums
+from pyparsing import oneOf
+from pyparsing import opAssoc
+from pyparsing import stringEnd
 
 _ = (
     Or,
@@ -132,20 +131,17 @@ simple_contract = Forward()
 simple_contract.setName("simple_contract")
 
 # Import all expressions -- they will call add_contract()
-from .library import (
-    EqualTo,
-    Unary,
-    Binary,
-    composite_contract,
-    identifier_contract,
-    misc_variables_contract,
-    scoped_variables_ref,
-    int_variables_contract,
-    int_variables_ref,
-    misc_variables_ref,
-    SimpleRValue,
-)
-
+from .library import Binary
+from .library import EqualTo
+from .library import SimpleRValue
+from .library import Unary
+from .library import composite_contract
+from .library import identifier_contract
+from .library import int_variables_contract
+from .library import int_variables_ref
+from .library import misc_variables_contract
+from .library import misc_variables_ref
+from .library import scoped_variables_ref
 
 number = pi | floatnumber | integer
 operand = number | int_variables_ref | misc_variables_ref | scoped_variables_ref

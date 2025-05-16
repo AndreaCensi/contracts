@@ -1,0 +1,39 @@
+target-version = "py312"
+line-length = 130
+
+[lint]
+select = [
+     # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+]
+ignore = [
+    "E741",
+    "E501", # line too long
+    "E402", # Module level import not at top of file
+    "E731", # Do not assign a `lambda` expression, use a `def`"
+    "F841", # [*] Local variable `e` is assigned to but never used"
+    "E722", # Do not use bare `except`"
+    "F403", # `from .misc_string import *` used; unable to detect undefined names"
+    "F405", # `DtoX` may be undefined, or defined from star imports"
+]
+extend-select = ["I"]
+
+
+[lint.isort]
+force-single-line = true
+split-on-trailing-comma = true
+combine-as-imports = false
+force-wrap-aliases = false
+case-sensitive = false
+
+# sigil e9b1e0180635c6f48e7da2ff048a6368

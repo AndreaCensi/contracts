@@ -1,4 +1,5 @@
-from contracts.test_registrar import fail, good
+from contracts.test_registrar import fail
+from contracts.test_registrar import good
 
 # dummy
 good("*", 0)

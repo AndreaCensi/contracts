@@ -10,18 +10,18 @@ repos:
   repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v5.0.0
 - hooks:
-  - args: [--line-length, '130']
-    id: ruff-format
-  repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.8.1
-- hooks:
   - args: [--mapping, '2', --sequence, '2', --offset, '0', --width, '150', --preserve-quotes]
     id: yamlfmt
   repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
   rev: 0.2.3
 - hooks:
-  - {id: sort-all}
-  repo: https://github.com/aio-libs/sort-all
-  rev: v1.3.0
+  - args: [--line-length=130]
+    id: ruff-format
+    name: ruff-format
+  - args: [--fix, --select=I, --line-length=130]
+    id: ruff
+    name: ruff-lint
+  repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.11.10
 
-# sigil 3833f97bfba01f83020c4210305ac5d0
+# sigil ca7dfafecd657824c32a9d0b298d2c3b

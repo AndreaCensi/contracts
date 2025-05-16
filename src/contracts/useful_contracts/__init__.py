@@ -9,5 +9,4 @@ else:
 
 from .numbers import *
 
-
 new_contract("bytes", bytes)

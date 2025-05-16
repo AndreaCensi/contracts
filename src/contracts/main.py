@@ -6,25 +6,23 @@ from typing import List
 
 import six
 
-from .backported import getcallargs, getfullargspec
-from .docstring_parsing import Arg, DocStringInfo
+from .backported import getcallargs
+from .backported import getfullargspec
+from .docstring_parsing import Arg
+from .docstring_parsing import DocStringInfo
 from .enabling import all_disabled
-from .inspection import (
-    can_accept_at_least_one_argument,
-    can_accept_self,
-    can_be_used_as_a_type,
-)
-from .interface import (
-    CannotDecorateClassmethods,
-    Contract,
-    ContractDefinitionError,
-    ContractException,
-    ContractNotRespected,
-    ContractSyntaxError,
-    describe_value,
-    MissingContract,
-    Where,
-)
+from .inspection import can_accept_at_least_one_argument
+from .inspection import can_accept_self
+from .inspection import can_be_used_as_a_type
+from .interface import CannotDecorateClassmethods
+from .interface import Contract
+from .interface import ContractDefinitionError
+from .interface import ContractException
+from .interface import ContractNotRespected
+from .interface import ContractSyntaxError
+from .interface import MissingContract
+from .interface import Where
+from .interface import describe_value
 
 
 # from .library import (CheckCallable, Extension, SeparateContext,
@@ -59,7 +57,7 @@ def check_contracts(contracts: list[str], values: list[object], context_variable
 
     for var in context_variables:
         if not (isinstance(var, str) and len(var) == 1):  # XXX: isalpha
-            msg = "Invalid name %r for a variable. " "I expect a string of length 1." % var
+            msg = "Invalid name %r for a variable. I expect a string of length 1." % var
             raise ValueError(msg)
 
     C = []
@@ -140,7 +138,7 @@ def contract_decorator(*arg, **kwargs):
                 # Erase the stack
                 raise ContractSyntaxError(es.error, es.where)
         else:
-            msg = "I expect that contracts() is called with " "only keyword arguments (passed: %r)" % arg
+            msg = "I expect that contracts() is called with only keyword arguments (passed: %r)" % arg
             raise ContractException(msg)
     else:
         # !!! Do not change "tmp_wrap" name; we need it for the definition
@@ -159,8 +157,9 @@ def contract_decorator(*arg, **kwargs):
                     return contracts_decorate(f, **kwargs)
                 except ContractSyntaxError as e:
                     msg = "Cannot decorate function %s:" % f.__name__
-                    from .utils import indent
                     import traceback
+
+                    from .utils import indent
 
                     msg += "\n\n" + indent(traceback.format_exc(), "  ")
                     raise ContractSyntaxError(msg, e.where)
@@ -231,7 +230,7 @@ you can achieve the same goal by inverting the two decorators:
             # Last resort: get types from documentation string.
             if function_.__doc__ is None:
                 # XXX: change name
-                raise ContractException("You did not specify a contract, nor I can " "find a docstring for %r." % function_)
+                raise ContractException("You did not specify a contract, nor I can find a docstring for %r." % function_)
 
             accepts_dict, returns = parse_contracts_from_docstring(function_)
 
@@ -401,7 +400,7 @@ a contract to a certain parameter:
     # Check we don't have extra:
     for name in name2type:
         if not name in all_args:
-            msg = "A contract was specified for argument %r which I cannot" " find in my list of arguments (%r)" % (
+            msg = "A contract was specified for argument %r which I cannot find in my list of arguments (%r)" % (
                 name,
                 all_args,
             )
@@ -448,7 +447,7 @@ def check(contract: str, ob: object, desc=None, **context):  # @ReservedAssignme
 
     if not is_param_string(contract):
         # XXX: make it more liberal?
-        raise ValueError("I expect a string (contract spec) as the first " "argument, not a %s." % describe_value(contract))
+        raise ValueError("I expect a string (contract spec) as the first argument, not a %s." % describe_value(contract))
     try:
         return check_contracts([contract], [ob], context)
     except ContractNotRespected as e:
@@ -570,14 +569,12 @@ def new_contract(*args):
 
 
 def new_contract_impl(identifier, condition):
-    from .syntax import ParseException
+    from .library import CheckCallable
+    from .library import Extension
+    from .library import SeparateContext
+    from .library import identifier_expression
     from .library.extensions import CheckCallableWithSelf
-    from .library import (
-        CheckCallable,
-        Extension,
-        SeparateContext,
-        identifier_expression,
-    )
+    from .syntax import ParseException
 
     # Be friendly
     if not isinstance(identifier, str):
@@ -596,7 +593,7 @@ def new_contract_impl(identifier, condition):
         # check it does not redefine list, tuple, etc.
         try:
             c = parse_contract_string(identifier)
-            msg = "Invalid identifier %r; it overwrites an already known " "expression. In fact, I can parse it as %s (%r)." % (
+            msg = "Invalid identifier %r; it overwrites an already known expression. In fact, I can parse it as %s (%r)." % (
                 identifier,
                 c,
                 c,
@@ -614,7 +611,7 @@ def new_contract_impl(identifier, condition):
             loc -= 1
         where = Where(identifier, character=loc)  # line=e.lineno, column=e.col)
         # msg = 'Error in parsing string: %s' % e
-        msg = "The given identifier %r does not correspond to my idea " "of what an identifier should look like;\n%s\n%s" % (
+        msg = "The given identifier %r does not correspond to my idea of what an identifier should look like;\n%s\n%s" % (
             identifier,
             e,
             where,
@@ -642,9 +639,9 @@ def new_contract_impl(identifier, condition):
         elif can_accept_at_least_one_argument(condition):
             bare_contract = CheckCallable(condition)
         else:
-            raise ValueError("The given callable %r should be able to accept " "at least one argument" % condition)
+            raise ValueError("The given callable %r should be able to accept at least one argument" % condition)
     else:
-        raise ValueError("I need either a string or a callable for the " "condition; found %s." % describe_value(condition))
+        raise ValueError("I need either a string or a callable for the condition; found %s." % describe_value(condition))
 
     # Separate the context if needed
     if isinstance(bare_contract, (CheckCallable, CheckCallableWithSelf)):
@@ -656,7 +653,7 @@ def new_contract_impl(identifier, condition):
     if identifier in Extension.registrar:
         old = Extension.registrar[identifier]
         if not (contract == old):
-            msg = "Tried to redefine %r with a definition that looks " "different to me.\n" % identifier
+            msg = "Tried to redefine %r with a definition that looks different to me.\n" % identifier
             msg += " - old: %r\n" % old
             msg += " - new: %r\n" % contract
             raise ValueError(msg)

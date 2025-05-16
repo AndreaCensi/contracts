@@ -12,8 +12,8 @@ else:  # pragma: no cover
         "FullArgSpec",
         "args varargs varkw defaults kwonlyargs kwonlydefaults annotations",
     )
-    from inspect import getargspec as _getargspec
     from inspect import ArgSpec
+    from inspect import getargspec as _getargspec
 
     def getargspec(function):
         # print 'hasattr im_func', hasattr(function, 'im_func')
@@ -151,7 +151,7 @@ else:  # pragma: no cover
         for arg in args:
             if isinstance(arg, str) and arg in named:
                 if is_assigned(arg):
-                    raise TypeError("%s() got multiple values for keyword " "argument '%s'" % (f_name, arg))
+                    raise TypeError("%s() got multiple values for keyword argument '%s'" % (f_name, arg))
                 else:
                     assign(arg, named.pop(arg))
         if defaults:  # fill in any missing values with the defaults

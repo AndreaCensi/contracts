@@ -1,7 +1,8 @@
-import sys
 import inspect
-from .backported import getcallargs, getfullargspec
+import sys
 
+from .backported import getcallargs
+from .backported import getfullargspec
 
 inPy2 = sys.version_info[0] == 2
 if inPy2:

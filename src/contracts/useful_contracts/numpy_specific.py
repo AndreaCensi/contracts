@@ -1,6 +1,8 @@
-from contracts import new_contract
 import numpy as np
-from contracts.interface import describe_value, describe_type
+
+from contracts import new_contract
+from contracts.interface import describe_type
+from contracts.interface import describe_value
 
 __all__ = [
     "finite",

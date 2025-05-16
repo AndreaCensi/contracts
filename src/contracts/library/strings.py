@@ -1,7 +1,14 @@
 import sys
 
-from ..interface import Contract, ContractNotRespected
-from ..syntax import add_contract, add_keyword, contract_expression, Keyword, Literal, O, W
+from ..interface import Contract
+from ..interface import ContractNotRespected
+from ..syntax import Keyword
+from ..syntax import Literal
+from ..syntax import O
+from ..syntax import W
+from ..syntax import add_contract
+from ..syntax import add_keyword
+from ..syntax import contract_expression
 
 
 # Base class for string contracts

@@ -1,5 +1,8 @@
-from contracts import contract, new_contract, ContractNotRespected
 import unittest
+
+from contracts import ContractNotRespected
+from contracts import contract
+from contracts import new_contract
 
 
 class ClassContractsTests(unittest.TestCase):

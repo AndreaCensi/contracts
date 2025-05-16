@@ -2,9 +2,15 @@ from abc import abstractmethod
 
 import numpy as np
 
+from ..interface import Contract
+from ..interface import ContractNotRespected
+from ..interface import RValue
+from ..interface import eval_in_context
+from ..syntax import Keyword
+from ..syntax import W
+from ..syntax import add_contract
+from ..syntax import add_keyword
 from .types_misc import CheckType
-from ..interface import Contract, ContractNotRespected, RValue, eval_in_context
-from ..syntax import W, Keyword, add_contract, add_keyword
 
 
 class ArrayElementsTest(Contract):
@@ -25,7 +31,7 @@ class ArrayElementsTest(Contract):
         num = value.size
         num_fail = len(some)
         perc = 100.0 * num_fail / num
-        error = "In this array, %d/%d (%f%%) of elements do not respect " "the condition %s." % (
+        error = "In this array, %d/%d (%f%%) of elements do not respect the condition %s." % (
             num_fail,
             num,
             perc,

@@ -1,19 +1,20 @@
-from ..interface import Contract, ContractNotRespected, describe_value
-from ..syntax import (
-    Combine,
-    Word,
-    W,
-    alphas,
-    alphanums,
-    oneOf,
-    ParseException,
-    ZeroOrMore,
-    S,
-    rvalue,
-    delimitedList,
-    Optional,
-)
 from pyparsing import ParseFatalException
+
+from ..interface import Contract
+from ..interface import ContractNotRespected
+from ..interface import describe_value
+from ..syntax import Combine
+from ..syntax import Optional
+from ..syntax import ParseException
+from ..syntax import S
+from ..syntax import W
+from ..syntax import Word
+from ..syntax import ZeroOrMore
+from ..syntax import alphanums
+from ..syntax import alphas
+from ..syntax import delimitedList
+from ..syntax import oneOf
+from ..syntax import rvalue
 
 
 class Extension(Contract):
@@ -80,10 +81,8 @@ class Extension(Contract):
             callable_thing = contract_ext.callable
 
             test_args = ("value",) + args
-            from contracts.inspection import (
-                check_callable_accepts_these_arguments,
-                InvalidArgs,
-            )
+            from contracts.inspection import InvalidArgs
+            from contracts.inspection import check_callable_accepts_these_arguments
 
             try:
                 check_callable_accepts_these_arguments(callable_thing, test_args, kwargs)
@@ -133,7 +132,7 @@ class CheckCallable(Contract):
             )
             raise ContractNotRespected(self, msg, value, context)
         else:
-            msg = "I expect that %r returns either True, False, None; or " "raises a ValueError exception. Instead, I got %s." % (
+            msg = "I expect that %r returns either True, False, None; or raises a ValueError exception. Instead, I got %s." % (
                 self.callable,
                 describe_value(value),
             )
@@ -180,7 +179,7 @@ class CheckCallableWithSelf(Contract):
         kwargs = context.get("kwargs", {})
 
         if not "self" in context:
-            msg = "You can only call this contract in the context of " " a function call to a regular method."
+            msg = "You can only call this contract in the context of  a function call to a regular method."
             raise ContractNotRespected(self, msg, value, context)
 
         args = (context["self"], value) + args
@@ -197,7 +196,7 @@ class CheckCallableWithSelf(Contract):
             msg = "Value does not pass criteria of %s." % describe_callable(self.callable)
             raise ContractNotRespected(self, msg, value, context)
         else:
-            msg = "I expect that %r returns either True, False, None; or " "raises a ValueError exception. Instead, I got %s." % (
+            msg = "I expect that %r returns either True, False, None; or raises a ValueError exception. Instead, I got %s." % (
                 self.callable,
                 describe_value(value),
             )

@@ -1,9 +1,14 @@
-from contracts import ContractException, check, contract, decorate, fail, parse
-from contracts.interface import ContractNotRespected, ExternalScopedVariableNotFound
+from contracts import ContractException
+from contracts import check
+from contracts import contract
+from contracts import decorate
+from contracts import fail
+from contracts import parse
+from contracts.interface import ContractNotRespected
+from contracts.interface import ExternalScopedVariableNotFound
 from contracts.library.simple_values import EqualTo
 from contracts.library.types_misc import CheckType
 from contracts.utils import check_isinstance
-
 
 # from nose.tools import raises  # ok
 

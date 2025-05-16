@@ -1,5 +1,9 @@
 from ..interface import Contract
-from ..syntax import add_contract, W, contract_expression, Literal, Group
+from ..syntax import Group
+from ..syntax import Literal
+from ..syntax import W
+from ..syntax import add_contract
+from ..syntax import contract_expression
 
 
 class SeparateContext(Contract):

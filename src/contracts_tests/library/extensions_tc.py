@@ -1,5 +1,7 @@
 from contracts import new_contract
-from contracts.test_registrar import fail, good, syntax_fail
+from contracts.test_registrar import fail
+from contracts.test_registrar import good
+from contracts.test_registrar import syntax_fail
 
 
 @new_contract

@@ -1,11 +1,16 @@
 import unittest
 
-from contracts import new_contract, check, Contract, contract
+from contracts import Contract
+from contracts import check
+from contracts import contract
+from contracts import new_contract
 from contracts.library.extensions import identifier_expression
-
-from .utils import check_contracts_fail, check_contracts_ok
-from contracts.main import can_be_used_as_a_type, Storage
+from contracts.main import Storage
+from contracts.main import can_be_used_as_a_type
 from contracts.syntax import ParsingTmp
+
+from .utils import check_contracts_fail
+from .utils import check_contracts_ok
 
 # The different patterns
 

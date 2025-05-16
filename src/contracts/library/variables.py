@@ -1,5 +1,11 @@
-from ..interface import Contract, ContractNotRespected, describe_value, RValue
-from ..syntax import FollowedBy, NotAny, oneOf, W
+from ..interface import Contract
+from ..interface import ContractNotRespected
+from ..interface import RValue
+from ..interface import describe_value
+from ..syntax import FollowedBy
+from ..syntax import NotAny
+from ..syntax import W
+from ..syntax import oneOf
 
 
 class BindVariable(Contract):
@@ -15,7 +21,7 @@ class BindVariable(Contract):
             expected = context[self.variable]
             if not (expected == value):
                 # TODO: add where it was bound
-                error = "Expected value for %r was: %s\n" "        instead I received: %s" % (
+                error = "Expected value for %r was: %s\n        instead I received: %s" % (
                     self.variable,
                     describe_value(expected),
                     describe_value(value),

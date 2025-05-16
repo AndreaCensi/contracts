@@ -1,9 +1,11 @@
-from abc import abstractmethod
 import functools
 import unittest
+from abc import abstractmethod
 
-from contracts import ContractNotRespected, contract, ContractsMeta
 from contracts import CannotDecorateClassmethods
+from contracts import ContractNotRespected
+from contracts import ContractsMeta
+from contracts import contract
 from contracts import with_metaclass
 
 

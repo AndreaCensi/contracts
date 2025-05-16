@@ -1,4 +1,6 @@
-from contracts.test_registrar import fail, good, syntax_fail
+from contracts.test_registrar import fail
+from contracts.test_registrar import good
+from contracts.test_registrar import syntax_fail
 from contracts.utils import PYTHON_310_OR_LATER
 
 if not PYTHON_310_OR_LATER:

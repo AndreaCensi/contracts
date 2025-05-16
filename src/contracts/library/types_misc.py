@@ -1,6 +1,13 @@
-from ..interface import Contract, ContractNotRespected
-from ..syntax import W, add_contract, contract_expression, S, Keyword, add_keyword
 from numbers import Number
+
+from ..interface import Contract
+from ..interface import ContractNotRespected
+from ..syntax import Keyword
+from ..syntax import S
+from ..syntax import W
+from ..syntax import add_contract
+from ..syntax import add_keyword
+from ..syntax import contract_expression
 
 
 class CheckType(Contract):

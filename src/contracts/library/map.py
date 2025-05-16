@@ -1,7 +1,14 @@
-from ..interface import Contract, ContractNotRespected
-from ..syntax import W, contract_expression, O, S, add_contract, add_keyword, Keyword
 import collections
 
+from ..interface import Contract
+from ..interface import ContractNotRespected
+from ..syntax import Keyword
+from ..syntax import O
+from ..syntax import S
+from ..syntax import W
+from ..syntax import add_contract
+from ..syntax import add_keyword
+from ..syntax import contract_expression
 from ..utils import PYTHON_310_OR_LATER
 
 

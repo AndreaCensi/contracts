@@ -2,8 +2,16 @@ import math
 
 from pyparsing import Or
 
-from ..interface import Contract, ContractNotRespected, RValue, eval_in_context
-from ..syntax import W, add_contract, O, Literal, isnumber, rvalue
+from ..interface import Contract
+from ..interface import ContractNotRespected
+from ..interface import RValue
+from ..interface import eval_in_context
+from ..syntax import Literal
+from ..syntax import O
+from ..syntax import W
+from ..syntax import add_contract
+from ..syntax import isnumber
+from ..syntax import rvalue
 
 
 class CheckOrder(Contract):
@@ -54,7 +62,7 @@ class CheckOrder(Contract):
         if pure_equality:
             # but we want them to be either numbers or same type
             if (not (isnumber(val1) and isnumber(val2))) and (not isinstance(val1, val2.__class__)):
-                msg = "I won't let you compare two different types if they " "are not numbers (%s,%s)" % (
+                msg = "I won't let you compare two different types if they are not numbers (%s,%s)" % (
                     type(val1),
                     type(val2),
                 )

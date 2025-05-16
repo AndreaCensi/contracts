@@ -1,15 +1,14 @@
-from ..interface import Contract, ContractNotRespected
-from ..syntax import (
-    add_contract,
-    W,
-    contract_expression,
-    O,
-    S,
-    ZeroOrMore,
-    Group,
-    add_keyword,
-    Keyword,
-)
+from ..interface import Contract
+from ..interface import ContractNotRespected
+from ..syntax import Group
+from ..syntax import Keyword
+from ..syntax import O
+from ..syntax import S
+from ..syntax import W
+from ..syntax import ZeroOrMore
+from ..syntax import add_contract
+from ..syntax import add_keyword
+from ..syntax import contract_expression
 from .compositions import or_contract
 
 
@@ -33,7 +32,7 @@ class Tuple(Contract):
 
         if self.elements is not None:
             if len(value) != len(self.elements):
-                error = "Expected a tuple of length " "%s, got %r of length %s." % (
+                error = "Expected a tuple of length %s, got %r of length %s." % (
                     len(self.elements),
                     value,
                     len(value),

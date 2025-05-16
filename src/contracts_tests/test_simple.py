@@ -3,14 +3,14 @@ import traceback
 # Import all the symbols needed to eval() the __repr__() output.
 from contracts.library import *  # @UnusedWildImport @UnresolvedImport
 from contracts.main import parse_contract_string
-from contracts.test_registrar import (
-    contract_fail_examples,
-    good_examples,
-    semantic_fail_examples,
-    syntax_fail_examples,
-)
-from .utils import check_contracts_fail, check_contracts_ok, check_syntax_fail
+from contracts.test_registrar import contract_fail_examples
+from contracts.test_registrar import good_examples
+from contracts.test_registrar import semantic_fail_examples
+from contracts.test_registrar import syntax_fail_examples
 
+from .utils import check_contracts_fail
+from .utils import check_contracts_ok
+from .utils import check_syntax_fail
 
 # Import the other tests
 

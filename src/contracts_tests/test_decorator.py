@@ -1,7 +1,9 @@
 import unittest
 
-from contracts import decorate, contract, ContractException, ContractNotRespected
-
+from contracts import ContractException
+from contracts import ContractNotRespected
+from contracts import contract
+from contracts import decorate
 from contracts.interface import MissingContract
 
 

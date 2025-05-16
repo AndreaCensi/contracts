@@ -1,6 +1,7 @@
 import collections
 
-from contracts.test_registrar import fail, good
+from contracts.test_registrar import fail
+from contracts.test_registrar import good
 from contracts.utils import PYTHON_310_OR_LATER
 
 if not PYTHON_310_OR_LATER:

@@ -53,15 +53,13 @@ def default_message(identifier):
 
 
 def create_suggester(get_options, get_message=default_message, pattern=None):
-    from ..syntax import (
-        Combine,
-        Word,
-        alphas,
-        alphanums,
-        oneOf,
-        ParseSyntaxException,
-        ParseException,
-    )
+    from ..syntax import Combine
+    from ..syntax import ParseException
+    from ..syntax import ParseSyntaxException
+    from ..syntax import Word
+    from ..syntax import alphanums
+    from ..syntax import alphas
+    from ..syntax import oneOf
 
     if pattern is None:
         pattern = Combine(oneOf(list(alphas)) + Word("_" + alphanums))

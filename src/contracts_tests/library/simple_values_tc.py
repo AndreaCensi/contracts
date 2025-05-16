@@ -1,6 +1,7 @@
 import math
 
-from contracts.test_registrar import fail, good
+from contracts.test_registrar import fail
+from contracts.test_registrar import good
 
 good("0", 0)
 good("1", 1)

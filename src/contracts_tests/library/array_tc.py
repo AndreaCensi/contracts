@@ -1,8 +1,13 @@
-from numpy import zeros, ones
 import numpy as np
+from numpy import ones
+from numpy import zeros
 
-from contracts.test_registrar import fail, good, syntax_fail
-from contracts.library.array import np_int_dtypes, np_uint_dtypes, np_float_dtypes
+from contracts.library.array import np_float_dtypes
+from contracts.library.array import np_int_dtypes
+from contracts.library.array import np_uint_dtypes
+from contracts.test_registrar import fail
+from contracts.test_registrar import good
+from contracts.test_registrar import syntax_fail
 
 a_u8 = np.zeros((3, 4), dtype="uint8")
 a_i8 = np.zeros((3, 4), dtype="int8")

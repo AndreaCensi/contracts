@@ -115,7 +115,7 @@ def parse_annotations(docstring, keys, empty=False, inline_type=False):
         if empty:
             regexp = "^\s*:\s*%s(?P<type>[^:]*?)\s*:\s*(?P<desc>.*?)\s*$" % key
         else:
-            regexp = "^\s*:\s*%s\s+(?P<type>[^:]*?)(?P<name>[^\s:]+)\s*:" "\s*(?P<desc>.*?)\s*$" % key
+            regexp = "^\s*:\s*%s\s+(?P<type>[^:]*?)(?P<name>[^\s:]+)\s*:\s*(?P<desc>.*?)\s*$" % key
         regexp = re.compile(regexp, re.MULTILINE)
 
         def replace(match):

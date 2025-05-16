@@ -5,22 +5,17 @@ import logging
 # logging.basicConfig()
 logger = logging.getLogger(__name__)
 
-from .interface import (
-    Contract,
-    ContractNotRespected,
-    CannotDecorateClassmethods,
-    ContractSyntaxError,
-    ContractException,
-)
-
-from .main import (
-    check,
-    fail,
-    check_multiple,
-    contract_decorator,
-    contracts_decorate as decorate,
-    parse_flexible_spec as parse,
-)
+from .interface import CannotDecorateClassmethods
+from .interface import Contract
+from .interface import ContractException
+from .interface import ContractNotRespected
+from .interface import ContractSyntaxError
+from .main import check
+from .main import check_multiple
+from .main import contract_decorator
+from .main import contracts_decorate as decorate
+from .main import fail
+from .main import parse_flexible_spec as parse
 
 
 # Just make them appear as belonging to the "contracts" Module
@@ -40,13 +35,17 @@ def new_contract(*args):
 
 new_contract.__doc__ = new_contract_main.__doc__
 
-from .enabling import disable_all, enable_all, all_disabled
+from .enabling import all_disabled
+from .enabling import disable_all
+from .enabling import enable_all
+from .interface import describe_type
 
 # A couple of useful functions
-from .interface import describe_value, describe_type, describe_value_multiline
+from .interface import describe_value
+from .interface import describe_value_multiline
+from .metaclass import ContractsMeta
+from .metaclass import with_metaclass
 from .utils import *
-
-from .metaclass import ContractsMeta, with_metaclass
 
 ContractsMeta.__module__ = "contracts"
 

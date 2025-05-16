@@ -1,6 +1,18 @@
-from ..interface import Contract, ContractNotRespected
-from ..syntax import W, contract_expression, add_contract, add_keyword, Keyword
-from pyparsing import Dict, delimitedList, Group, alphanums, Suppress, Literal, Word
+from pyparsing import Dict
+from pyparsing import Group
+from pyparsing import Literal
+from pyparsing import Suppress
+from pyparsing import Word
+from pyparsing import alphanums
+from pyparsing import delimitedList
+
+from ..interface import Contract
+from ..interface import ContractNotRespected
+from ..syntax import Keyword
+from ..syntax import W
+from ..syntax import add_contract
+from ..syntax import add_keyword
+from ..syntax import contract_expression
 
 
 class Attr(Contract):

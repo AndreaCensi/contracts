@@ -1,7 +1,12 @@
-from typing import List, Type, Union
+from typing import List
+from typing import Type
+from typing import Union
 
-from contracts.interface import ContractNotRespected, ContractSyntaxError, describe_value
-from contracts.main import check_contracts, parse_contract_string
+from contracts.interface import ContractNotRespected
+from contracts.interface import ContractSyntaxError
+from contracts.interface import describe_value
+from contracts.main import check_contracts
+from contracts.main import parse_contract_string
 
 
 def check_contracts_ok(contract: Union[str, List[str]], value: object):
@@ -24,7 +29,7 @@ def check_contracts_fail(contract: Union[str, List[str]], value: object, error: 
     try:
         context = check_contracts(contract, value)
 
-        msg = "I was expecting that the values would not not" " satisfy the contract.\n"
+        msg = "I was expecting that the values would not not satisfy the contract.\n"
 
         for v in value:
             msg += "      value: %s\n" % describe_value(v)

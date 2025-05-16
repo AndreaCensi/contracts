@@ -1,7 +1,8 @@
 """Other testing examples"""
 
 # dummy
-from contracts.test_registrar import fail, good
+from contracts.test_registrar import fail
+from contracts.test_registrar import good
 
 good(["*"], [0])
 good(["*", "*"], [0, 1])

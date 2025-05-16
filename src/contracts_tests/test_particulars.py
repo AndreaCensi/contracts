@@ -1,8 +1,11 @@
-from contracts import parse
-from contracts.interface import Where, ContractSyntaxError
-from contracts.library import *  # @UnusedWildImport
-from contracts.syntax import ParseFatalException, ParseException
 import unittest
+
+from contracts import parse
+from contracts.interface import ContractSyntaxError
+from contracts.interface import Where
+from contracts.library import *  # @UnusedWildImport
+from contracts.syntax import ParseException
+from contracts.syntax import ParseFatalException
 
 
 def expression_fails(expression, string, all=True):  # @ReservedAssignment

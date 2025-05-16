@@ -1,4 +1,7 @@
-from ..interface import Contract, ContractNotRespected, eval_in_context, RValue
+from ..interface import Contract
+from ..interface import ContractNotRespected
+from ..interface import RValue
+from ..interface import eval_in_context
 from ..syntax import W
 
 
