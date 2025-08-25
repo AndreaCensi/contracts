@@ -35,7 +35,8 @@ jobs:
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
-    - image: docker.io/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.10:${Z_DISTRO}
+    - image: 
+        docker.io/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.10:${Z_DISTRO}
       # auth:
       #   username: $DOCKER_USERNAME
       #   password: $DOCKER_PASSWORD
@@ -226,7 +227,8 @@ jobs:
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
-    - image: docker.io/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.11:${Z_DISTRO}
+    - image: 
+        docker.io/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.11:${Z_DISTRO}
       # auth:
       #   username: $DOCKER_USERNAME
       #   password: $DOCKER_PASSWORD
@@ -417,7 +419,8 @@ jobs:
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
-    - image: docker.io/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.12:${Z_DISTRO}
+    - image: 
+        docker.io/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.12:${Z_DISTRO}
       # auth:
       #   username: $DOCKER_USERNAME
       #   password: $DOCKER_PASSWORD
@@ -598,4 +601,4 @@ jobs:
           timeout 1m ./codecov || true
     resource_class: small
 
-# sigil b0210de810a7d02dca3775c23e0c47e9
+# sigil efe2270b9f3b4e7734063929d4ec5642
