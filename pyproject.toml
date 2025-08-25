@@ -1,7 +1,7 @@
 [project]
 name = "PyContracts3"
 version = "7.2"
-readme = "README.md"
+readme = ""
 description = ""
 authors = [{name = "Andrea Censi", email = "AndreaCensi@users.noreply.github.com"}]
 dependencies = [
