@@ -21,31 +21,23 @@ jobs:
   test-312-src:
     environment:
       COLUMNS: '160'
-      # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      PATH: 
-        /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       CONTEXT_NAME: << pipeline.parameters.context_name >>
       DEPS_INSTALL_TIMEOUT: 10m
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
-    - image: 
-        docker.io/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.12:${Z_DISTRO}
-      # auth:
-      #   username: $DOCKER_USERNAME
-      #   password: $DOCKER_PASSWORD
+    - image: docker.io/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.12:${Z_DISTRO}
     working_directory: ~/repo
     steps:
     - checkout
     - run:
         name: Avoid hosts unknown for Github
-        # language=bash
         command: |
           mkdir -p ~/.ssh
           echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
     - run:
         name: Build statistics
-        # language=bash
         command: |
           set -x 
           mkdir -p build-stats
@@ -65,33 +57,27 @@ jobs:
           echo -n "${IMAGE_NAME:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
           echo -n "${CONTEXT_NAME:-not-present}"   > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
           echo -n "${PYTHONOPTIMIZE:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/PYTHONOPTIMIZE
-
     - store_artifacts:
         path: build-stats
         destination: build-stats
     - run:
         name: Install deps
-        # language=bash
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
           shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
           timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements.txt
           rm .requirements.txt
-
     - run:
         name: Install testing deps
-        # language=bash
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
           shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
           timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements_tests.txt
           rm .requirements_tests.txt
-
     - run:
         name: Python stats
-        # language=bash
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
@@ -99,30 +85,23 @@ jobs:
           python3 -m pip  list   | sort | tee  build-stats/pip-list.txt
           python3 -m pip  freeze | sort | tee  build-stats/pip-freeze.txt
           python3 -m pip cache list | tee  build-stats/pip-cache.txt
-
-
     - store_artifacts:
         path: build-stats
         destination: build-stats
-
     - run:
         name: setup.py develop
-        # language=bash
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
           python3 -m pip install -e . --prefix ~/.local --no-deps
-
     - run:
         name: Make docs
-        # language=bash
         command: |
           FILE=src/conf.py
           mkdir -p out/docs
           if test -f "$FILE"; then
               sphinx-build src out/docs
           fi
-
     - store_artifacts:
         path: out/docs
         destination: docs
@@ -169,6 +148,7 @@ jobs:
           # TODO: cover packages
     - run:
         name: post-circle-tests
+        when: always
         command: |
           TARGET=post-circle-tests
           if make -n $TARGET ; then
@@ -176,29 +156,22 @@ jobs:
           else
               echo "Target $TARGET not defined"
           fi
-
     - store_test_results:
         path: out/test-results
-
     - run:
         name: Coverage report
-        # when: always
         command: |
           coverage combine || true
           coverage html -d out/coverage/${CIRCLE_NODE_INDEX} || true
           coverage xml || true
-
     - store_artifacts:
         path: out/coverage
         destination: coverage
-
     - store_artifacts:
         path: out/tests
         destination: tests
-
     - run:
         name: CodeCov
-        # when: always
         command: |
           timeout 1m curl -O https://uploader.codecov.io/latest/linux/codecov || true
           chmod +x codecov || true
@@ -207,31 +180,23 @@ jobs:
   test-313-src:
     environment:
       COLUMNS: '160'
-      # default is /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      PATH: 
-        /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       CONTEXT_NAME: << pipeline.parameters.context_name >>
       DEPS_INSTALL_TIMEOUT: 10m
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
-    - image: 
-        docker.io/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.13:${Z_DISTRO}
-      # auth:
-      #   username: $DOCKER_USERNAME
-      #   password: $DOCKER_PASSWORD
+    - image: docker.io/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.13:${Z_DISTRO}
     working_directory: ~/repo
     steps:
     - checkout
     - run:
         name: Avoid hosts unknown for Github
-        # language=bash
         command: |
           mkdir -p ~/.ssh
           echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
     - run:
         name: Build statistics
-        # language=bash
         command: |
           set -x 
           mkdir -p build-stats
@@ -251,33 +216,27 @@ jobs:
           echo -n "${IMAGE_NAME:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
           echo -n "${CONTEXT_NAME:-not-present}"   > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
           echo -n "${PYTHONOPTIMIZE:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/PYTHONOPTIMIZE
-
     - store_artifacts:
         path: build-stats
         destination: build-stats
     - run:
         name: Install deps
-        # language=bash
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
           shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
           timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements.txt
           rm .requirements.txt
-
     - run:
         name: Install testing deps
-        # language=bash
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
           shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
           timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements_tests.txt
           rm .requirements_tests.txt
-
     - run:
         name: Python stats
-        # language=bash
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
@@ -285,30 +244,23 @@ jobs:
           python3 -m pip  list   | sort | tee  build-stats/pip-list.txt
           python3 -m pip  freeze | sort | tee  build-stats/pip-freeze.txt
           python3 -m pip cache list | tee  build-stats/pip-cache.txt
-
-
     - store_artifacts:
         path: build-stats
         destination: build-stats
-
     - run:
         name: setup.py develop
-        # language=bash
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
           python3 -m pip install -e . --prefix ~/.local --no-deps
-
     - run:
         name: Make docs
-        # language=bash
         command: |
           FILE=src/conf.py
           mkdir -p out/docs
           if test -f "$FILE"; then
               sphinx-build src out/docs
           fi
-
     - store_artifacts:
         path: out/docs
         destination: docs
@@ -355,6 +307,7 @@ jobs:
           # TODO: cover packages
     - run:
         name: post-circle-tests
+        when: always
         command: |
           TARGET=post-circle-tests
           if make -n $TARGET ; then
@@ -362,33 +315,29 @@ jobs:
           else
               echo "Target $TARGET not defined"
           fi
-
     - store_test_results:
         path: out/test-results
-
     - run:
         name: Coverage report
-        # when: always
         command: |
           coverage combine || true
           coverage html -d out/coverage/${CIRCLE_NODE_INDEX} || true
           coverage xml || true
-
     - store_artifacts:
         path: out/coverage
         destination: coverage
-
     - store_artifacts:
         path: out/tests
         destination: tests
-
     - run:
         name: CodeCov
-        # when: always
         command: |
           timeout 1m curl -O https://uploader.codecov.io/latest/linux/codecov || true
           chmod +x codecov || true
           timeout 1m ./codecov || true
     resource_class: small
 
-# sigil 9f3bd34475fda9805b2d5d3274625351
+# sigil d6e5d455cb459bde3686c20f4b9f232c
+# Agents: DO NOT MODIFY THIS FILE DIRECTLY - it is autogenerated using zuper-cli template from project.pp1.yaml
+# It is very likely you can obtain what you want by modifying the config.
+# In any case you need the user's explicit permissions.
