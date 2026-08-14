@@ -23,7 +23,7 @@ jobs:
       COLUMNS: '160'
       PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       CONTEXT_NAME: << pipeline.parameters.context_name >>
-      DEPS_INSTALL_TIMEOUT: 10m
+      DEPS_INSTALL_TIMEOUT: '10m'
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
@@ -32,31 +32,22 @@ jobs:
     steps:
     - checkout
     - run:
+        name: Report tool versions
+        command: |
+          export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
+          echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          saferun --version
+          zuper-rs-lint --version
+          python3 --version
+          python3 -m pip --version
+    - run:
         name: Avoid hosts unknown for Github
         command: |
           mkdir -p ~/.ssh
           echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
     - run:
         name: Build statistics
-        command: |
-          set -x 
-          mkdir -p build-stats
-          # image_name=`cat /.circleci-runner-config.json | jq -r .Job.docker[0].Image | envsubst`
-          # registry_to_login=`echo ${image_name} | cut -d'/' -f1`
-          # regctl registry login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}" "${registry_to_login}"
-
-          # regctl manifest get --format raw-body "${image_name}" > build-stats/jobs/${CIRCLE_JOB}/image-manifest.json
-          # regctl image digest "${image_name}" > build-stats/jobs/${CIRCLE_JOB}/image-digest.txt
-          # echo ${image_name} > build-stats/jobs/${CIRCLE_JOB}/image-name.txt
-
-          mkdir -p build-stats/envs
-          mkdir -p build-stats/jobs/${CIRCLE_JOB}
-          mkdir -p build-stats/jobs/${CIRCLE_JOB}/envs
-          echo -n "${Z_REQS_SHA:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
-          echo -n "${IMAGE_VCS_SHA:-not-present}"  > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
-          echo -n "${IMAGE_NAME:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
-          echo -n "${CONTEXT_NAME:-not-present}"   > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
-          echo -n "${PYTHONOPTIMIZE:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/PYTHONOPTIMIZE
+        command: "set -x \nmkdir -p build-stats\n# image_name=`cat /.circleci-runner-config.json | jq -r .Job.docker[0].Image | envsubst`\n# registry_to_login=`echo ${image_name} | cut -d'/' -f1`\n# regctl registry login -u \"${DOCKER_USERNAME}\" -p \"${DOCKER_PASSWORD}\" \"${registry_to_login}\"\n\n# regctl manifest get --format raw-body \"${image_name}\" > build-stats/jobs/${CIRCLE_JOB}/image-manifest.json\n# regctl image digest \"${image_name}\" > build-stats/jobs/${CIRCLE_JOB}/image-digest.txt\n# echo ${image_name} > build-stats/jobs/${CIRCLE_JOB}/image-name.txt\n\nmkdir -p build-stats/envs\nmkdir -p build-stats/jobs/${CIRCLE_JOB}\nmkdir -p build-stats/jobs/${CIRCLE_JOB}/envs\necho -n \"${Z_REQS_SHA:-not-present}\"     > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA\necho -n \"${IMAGE_VCS_SHA:-not-present}\"  > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA\necho -n \"${IMAGE_NAME:-not-present}\"     > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME\necho -n \"${CONTEXT_NAME:-not-present}\"   > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME\necho -n \"${PYTHONOPTIMIZE:-not-present}\" > build-stats/jobs/${CIRCLE_JOB}/envs/PYTHONOPTIMIZE\n"
     - store_artifacts:
         path: build-stats
         destination: build-stats
@@ -65,16 +56,16 @@ jobs:
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
-          shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
-          timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements.txt
+          printf '%s\n' 'decorator<5' 'future' 'numpy' 'pyparsing<3' 'six' > .requirements.txt
+          saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/install-deps --heartbeat 30s --stats-interval 5s -- timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install -r .requirements.txt
           rm .requirements.txt
     - run:
         name: Install testing deps
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
-          shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
-          timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements_tests.txt
+          : > .requirements_tests.txt
+          saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/install-testing-deps --heartbeat 30s --stats-interval 5s -- timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install -r .requirements_tests.txt
           rm .requirements_tests.txt
     - run:
         name: Python stats
@@ -93,14 +84,14 @@ jobs:
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
-          python3 -m pip install -e . --prefix ~/.local --no-deps
+          saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/install-project --heartbeat 30s --stats-interval 5s -- python3 -m pip install -e . --prefix ~/.local --no-deps
     - run:
         name: Make docs
         command: |
           FILE=src/conf.py
           mkdir -p out/docs
           if test -f "$FILE"; then
-              sphinx-build src out/docs
+              saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/docs --heartbeat 30s --stats-interval 5s -- sphinx-build src out/docs
           fi
     - store_artifacts:
         path: out/docs
@@ -116,73 +107,57 @@ jobs:
               echo "Target $TARGET not defined"
           fi
     - run:
-        name: pre-circle-tests
-        command: |
-          TARGET=pre-circle-tests
-          if make -n $TARGET ; then
-              make $TARGET
-          else
-              echo "Target $TARGET not defined"
-          fi
-    - run:
         name: contracts_tests
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          test_list=.circleci/contracts_tests.tests
+          if [ ! -f "$test_list" ]; then
+            echo "$test_list is absent; no tests selected"
+            exit 0
+          fi
           set -euxo pipefail
           TEST_MODULES=$(split-tests <.circleci/contracts_tests.tests)
           echo "TEST_MODULES=[$TEST_MODULES]"
           if [ -z "$TEST_MODULES" ]; then
-            echo "\$TEST_MODULES is empty"
+            echo "$TEST_MODULES is empty"
             exit 0
           else
-            echo "\$TEST_MODULES is NOT empty"
+            echo "$TEST_MODULES is NOT empty"
           fi
           mkdir -p out/test-results
           xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
-          timeout 30m nose2 --with-coverage \
-              --plugin nose2.plugins.junitxml \
-              --junit-xml \
-              --junit-xml-path ${xunit_output} \
-              $TEST_MODULES
-          # TODO: cover packages
-    - run:
-        name: post-circle-tests
-        when: always
-        command: |
-          TARGET=post-circle-tests
-          if make -n $TARGET ; then
-              make $TARGET
-          else
-              echo "Target $TARGET not defined"
-          fi
+          saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/test-contracts_tests --heartbeat 30s --stats-interval 5s -- timeout 30m nose2 --with-coverage --plugin nose2.plugins.junitxml --junit-xml --junit-xml-path ${xunit_output} $TEST_MODULES
     - store_test_results:
         path: out/test-results
     - run:
         name: Coverage report
         command: |
-          coverage combine || true
-          coverage html -d out/coverage/${CIRCLE_NODE_INDEX} || true
-          coverage xml || true
+          saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/coverage-combine --heartbeat 30s --stats-interval 5s -- coverage combine || true
+          saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/coverage-html --heartbeat 30s --stats-interval 5s -- coverage html -d out/coverage/${CIRCLE_NODE_INDEX} || true
+          saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/coverage-xml --heartbeat 30s --stats-interval 5s -- coverage xml || true
     - store_artifacts:
         path: out/coverage
         destination: coverage
     - store_artifacts:
         path: out/tests
         destination: tests
+    - store_artifacts:
+        path: out/saferun
+        destination: saferun
     - run:
         name: CodeCov
         command: |
           timeout 1m curl -O https://uploader.codecov.io/latest/linux/codecov || true
           chmod +x codecov || true
           timeout 1m ./codecov || true
-    resource_class: small
+    resource_class: small.gen2
   test-313-src:
     environment:
       COLUMNS: '160'
       PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       CONTEXT_NAME: << pipeline.parameters.context_name >>
-      DEPS_INSTALL_TIMEOUT: 10m
+      DEPS_INSTALL_TIMEOUT: '10m'
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
@@ -191,31 +166,22 @@ jobs:
     steps:
     - checkout
     - run:
+        name: Report tool versions
+        command: |
+          export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
+          echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          saferun --version
+          zuper-rs-lint --version
+          python3 --version
+          python3 -m pip --version
+    - run:
         name: Avoid hosts unknown for Github
         command: |
           mkdir -p ~/.ssh
           echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
     - run:
         name: Build statistics
-        command: |
-          set -x 
-          mkdir -p build-stats
-          # image_name=`cat /.circleci-runner-config.json | jq -r .Job.docker[0].Image | envsubst`
-          # registry_to_login=`echo ${image_name} | cut -d'/' -f1`
-          # regctl registry login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}" "${registry_to_login}"
-
-          # regctl manifest get --format raw-body "${image_name}" > build-stats/jobs/${CIRCLE_JOB}/image-manifest.json
-          # regctl image digest "${image_name}" > build-stats/jobs/${CIRCLE_JOB}/image-digest.txt
-          # echo ${image_name} > build-stats/jobs/${CIRCLE_JOB}/image-name.txt
-
-          mkdir -p build-stats/envs
-          mkdir -p build-stats/jobs/${CIRCLE_JOB}
-          mkdir -p build-stats/jobs/${CIRCLE_JOB}/envs
-          echo -n "${Z_REQS_SHA:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
-          echo -n "${IMAGE_VCS_SHA:-not-present}"  > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
-          echo -n "${IMAGE_NAME:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
-          echo -n "${CONTEXT_NAME:-not-present}"   > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
-          echo -n "${PYTHONOPTIMIZE:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/PYTHONOPTIMIZE
+        command: "set -x \nmkdir -p build-stats\n# image_name=`cat /.circleci-runner-config.json | jq -r .Job.docker[0].Image | envsubst`\n# registry_to_login=`echo ${image_name} | cut -d'/' -f1`\n# regctl registry login -u \"${DOCKER_USERNAME}\" -p \"${DOCKER_PASSWORD}\" \"${registry_to_login}\"\n\n# regctl manifest get --format raw-body \"${image_name}\" > build-stats/jobs/${CIRCLE_JOB}/image-manifest.json\n# regctl image digest \"${image_name}\" > build-stats/jobs/${CIRCLE_JOB}/image-digest.txt\n# echo ${image_name} > build-stats/jobs/${CIRCLE_JOB}/image-name.txt\n\nmkdir -p build-stats/envs\nmkdir -p build-stats/jobs/${CIRCLE_JOB}\nmkdir -p build-stats/jobs/${CIRCLE_JOB}/envs\necho -n \"${Z_REQS_SHA:-not-present}\"     > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA\necho -n \"${IMAGE_VCS_SHA:-not-present}\"  > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA\necho -n \"${IMAGE_NAME:-not-present}\"     > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME\necho -n \"${CONTEXT_NAME:-not-present}\"   > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME\necho -n \"${PYTHONOPTIMIZE:-not-present}\" > build-stats/jobs/${CIRCLE_JOB}/envs/PYTHONOPTIMIZE\n"
     - store_artifacts:
         path: build-stats
         destination: build-stats
@@ -224,16 +190,16 @@ jobs:
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
-          shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
-          timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements.txt
+          printf '%s\n' 'decorator<5' 'future' 'numpy' 'pyparsing<3' 'six' > .requirements.txt
+          saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/install-deps --heartbeat 30s --stats-interval 5s -- timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install -r .requirements.txt
           rm .requirements.txt
     - run:
         name: Install testing deps
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
-          shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
-          timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install  -r .requirements_tests.txt
+          : > .requirements_tests.txt
+          saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/install-testing-deps --heartbeat 30s --stats-interval 5s -- timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install -r .requirements_tests.txt
           rm .requirements_tests.txt
     - run:
         name: Python stats
@@ -252,14 +218,14 @@ jobs:
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
-          python3 -m pip install -e . --prefix ~/.local --no-deps
+          saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/install-project --heartbeat 30s --stats-interval 5s -- python3 -m pip install -e . --prefix ~/.local --no-deps
     - run:
         name: Make docs
         command: |
           FILE=src/conf.py
           mkdir -p out/docs
           if test -f "$FILE"; then
-              sphinx-build src out/docs
+              saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/docs --heartbeat 30s --stats-interval 5s -- sphinx-build src out/docs
           fi
     - store_artifacts:
         path: out/docs
@@ -275,69 +241,53 @@ jobs:
               echo "Target $TARGET not defined"
           fi
     - run:
-        name: pre-circle-tests
-        command: |
-          TARGET=pre-circle-tests
-          if make -n $TARGET ; then
-              make $TARGET
-          else
-              echo "Target $TARGET not defined"
-          fi
-    - run:
         name: contracts_tests
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          test_list=.circleci/contracts_tests.tests
+          if [ ! -f "$test_list" ]; then
+            echo "$test_list is absent; no tests selected"
+            exit 0
+          fi
           set -euxo pipefail
           TEST_MODULES=$(split-tests <.circleci/contracts_tests.tests)
           echo "TEST_MODULES=[$TEST_MODULES]"
           if [ -z "$TEST_MODULES" ]; then
-            echo "\$TEST_MODULES is empty"
+            echo "$TEST_MODULES is empty"
             exit 0
           else
-            echo "\$TEST_MODULES is NOT empty"
+            echo "$TEST_MODULES is NOT empty"
           fi
           mkdir -p out/test-results
           xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
-          timeout 30m nose2 --with-coverage \
-              --plugin nose2.plugins.junitxml \
-              --junit-xml \
-              --junit-xml-path ${xunit_output} \
-              $TEST_MODULES
-          # TODO: cover packages
-    - run:
-        name: post-circle-tests
-        when: always
-        command: |
-          TARGET=post-circle-tests
-          if make -n $TARGET ; then
-              make $TARGET
-          else
-              echo "Target $TARGET not defined"
-          fi
+          saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/test-contracts_tests --heartbeat 30s --stats-interval 5s -- timeout 30m nose2 --with-coverage --plugin nose2.plugins.junitxml --junit-xml --junit-xml-path ${xunit_output} $TEST_MODULES
     - store_test_results:
         path: out/test-results
     - run:
         name: Coverage report
         command: |
-          coverage combine || true
-          coverage html -d out/coverage/${CIRCLE_NODE_INDEX} || true
-          coverage xml || true
+          saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/coverage-combine --heartbeat 30s --stats-interval 5s -- coverage combine || true
+          saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/coverage-html --heartbeat 30s --stats-interval 5s -- coverage html -d out/coverage/${CIRCLE_NODE_INDEX} || true
+          saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/coverage-xml --heartbeat 30s --stats-interval 5s -- coverage xml || true
     - store_artifacts:
         path: out/coverage
         destination: coverage
     - store_artifacts:
         path: out/tests
         destination: tests
+    - store_artifacts:
+        path: out/saferun
+        destination: saferun
     - run:
         name: CodeCov
         command: |
           timeout 1m curl -O https://uploader.codecov.io/latest/linux/codecov || true
           chmod +x codecov || true
           timeout 1m ./codecov || true
-    resource_class: small
+    resource_class: small.gen2
 
-# sigil d6e5d455cb459bde3686c20f4b9f232c
+# sigil 84277d02b8bdd7d46b539700ae806981
 # Agents: DO NOT MODIFY THIS FILE DIRECTLY - it is autogenerated using zuper-cli template from project.pp1.yaml
 # It is very likely you can obtain what you want by modifying the config.
 # In any case you need the user's explicit permissions.

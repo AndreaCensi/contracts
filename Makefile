@@ -1,24 +1,56 @@
-package=contracts
-include pypackage.mk
+all:
+	@echo
+
+out=out
+
+
+template:
+	zuper-cli template
 
 bump:
-	bumpversion patch
-	git push --tags
-	git push --all
+	zuper-cli bump
 
-upload-pip:
-	rm -f dist/*
-	rm -rf src/*.egg-info
-	python3 setup.py sdist
-	twine upload dist/*
+upload:
+	zuper-cli upload
 
- upload:
-	rm -f dist/*
-	rm -rf src/*.egg-info
-	python3 setup.py sdist
-	devpi use $(TWINE_REPOSITORY_URL)
-	devpi login $(TWINE_USERNAME) --password $(TWINE_PASSWORD)
-	devpi upload --verbose dist/*
+black:
+	black -l 110 --target-version py312 src
+
+install-deps:
+	pip3 install --user shyaml
+	shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
+	pip3 install --user --upgrade -r .requirements.txt
+	rm .requirements.txt
+
+install-testing-deps:
+	pip3 install --user shyaml
+	shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
+	pip3 install --user --upgrade -r .requirements_tests.txt
+	rm .requirements_tests.txt
+
+	pip install \
+		pipdeptree\
+		bumpversion\
+		nose2\
+		nose2-html-report\
+		pre-commit\
+		coverage\
+		codecov\
+		sphinx\
+		sphinx-rtd-theme
+
+test:
+	DISABLE_CONTRACTS=1 python -m nose2 -v contracts_tests
+
+coverage-combine:
+	coverage combine
+
+docs:
+	sphinx-build src $(out)/docs
+
+-include extra.mk
+
+# sigil ec506d19b8d5cc3252de046b7e0a1690
 
 name=contracts-python3
 
