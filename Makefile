@@ -1,24 +1,70 @@
-package=contracts
-include pypackage.mk
+all:
+	@echo
+
+out=out
+tested_packages := contracts_tests
+deployed_packages := contracts
+test_environment := DISABLE_CONTRACTS=1
+
+ifneq ($(filter contracts,$(deployed_packages)),)
+test_environment :=
+endif
+
+.PHONY: all template bump upload black install-deps install-testing-deps test coverage-combine docs
+
+
+template:
+	zuper-cli template
 
 bump:
-	bumpversion patch
-	git push --tags
-	git push --all
+	zuper-cli bump
 
-upload-pip:
-	rm -f dist/*
-	rm -rf src/*.egg-info
-	python3 setup.py sdist
-	twine upload dist/*
+upload:
+	zuper-cli upload
 
- upload:
-	rm -f dist/*
-	rm -rf src/*.egg-info
-	python3 setup.py sdist
-	devpi use $(TWINE_REPOSITORY_URL)
-	devpi login $(TWINE_USERNAME) --password $(TWINE_PASSWORD)
-	devpi upload --verbose dist/*
+black:
+	black -l 110 --target-version py312 src
+
+install-deps:
+	pip3 install --user shyaml
+	shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
+	pip3 install --user --upgrade -r .requirements.txt
+	rm .requirements.txt
+
+install-testing-deps:
+	pip3 install --user shyaml
+	shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
+	pip3 install --user --upgrade -r .requirements_tests.txt
+	rm .requirements_tests.txt
+
+	pip install \
+		pipdeptree\
+		bumpversion\
+		nose2\
+		nose2-html-report\
+		pre-commit\
+		coverage\
+		codecov\
+		sphinx\
+		sphinx-rtd-theme
+
+test:
+	$(test_environment) python -m nose2 -v $(tested_packages)
+
+coverage-combine:
+	coverage combine
+
+ifneq (1,)
+docs:
+	$(MAKE) -C docs
+else
+docs:
+	sphinx-build src $(out)/docs
+endif
+
+-include extra.mk
+
+# sigil d464dda2886c581a71bd8c4d852e28c3
 
 name=contracts-python3
 
