@@ -22,7 +22,6 @@ prune src/*_tests*
 prune out
 prune assets
 
-
 #@ add local below
 
 include *.rst

@@ -29,6 +29,7 @@ pypi:
 circleci:
   active: true
   test_python_versions: ['3.12', '3.13']
+  resource_class: small
 
 python_syntax_version: '3.12'
 

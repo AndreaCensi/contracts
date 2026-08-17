@@ -3,11 +3,17 @@ name = "PyContracts3"
 version = "7.2"
 readme = ""
 description = ""
-authors = [{ name = "Andrea Censi", email = "AndreaCensi@users.noreply.github.com" }]
-dependencies = ["decorator<5", "future", "numpy", "pyparsing<3", "six"]
+authors = [{name = "Andrea Censi", email = "AndreaCensi@users.noreply.github.com"}]
+dependencies = [
+    "decorator<5",
+    "future",
+    "numpy",
+    "pyparsing<3",
+    "six",]
 
 [project.optional-dependencies]
-test = []
+test = [
+    ]
 
 [tool.poetry]
 name = "PyContracts3"
@@ -15,10 +21,10 @@ version = "7.2"
 description = ""
 authors = ["Andrea Censi <AndreaCensi@users.noreply.github.com>"]
 packages = [
-    { from = "src", include = "contracts" },
-    { from = "src", include = "contracts/library" },
-    { from = "src", include = "contracts/useful_contracts" },
-]
+    {from = "src", include = "contracts"},
+    {from = "src", include = "contracts/library"},
+    {from = "src", include = "contracts/useful_contracts"},
+    ]
 
 [tool.poetry.dependencies]
 decorator = "<5"
@@ -31,5 +37,6 @@ six = "*"
 python = ">=3.12"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = [
+    "poetry-core>=1.0.0",]
 build-backend = "poetry.core.masonry.api"
