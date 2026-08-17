@@ -1,0 +1,14 @@
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+        threshold: '5%'
+        informational: true
+    patch:
+      default:
+        target: auto
+        threshold: '0%'
+        informational: true
+
+# sigil 661c09e156ddfa61b24bf866aba1c1fe
