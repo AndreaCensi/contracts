@@ -23,11 +23,14 @@ jobs:
       COLUMNS: '160'
       PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       CONTEXT_NAME: << pipeline.parameters.context_name >>
-      DEPS_INSTALL_TIMEOUT: 10m
+      DEPS_INSTALL_TIMEOUT: '10m'
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
     - image: docker.io/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.12:${Z_DISTRO}
+      auth:
+        username: $DOCKER_IO_READONLY_USERNAME
+        password: $DOCKER_IO_READONLY_TOKEN
     working_directory: ~/repo
     steps:
     - checkout
@@ -47,25 +50,7 @@ jobs:
           echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
     - run:
         name: Build statistics
-        command: |
-          set -x
-          mkdir -p build-stats
-          # image_name=`cat /.circleci-runner-config.json | jq -r .Job.docker[0].Image | envsubst`
-          # registry_to_login=`echo ${image_name} | cut -d'/' -f1`
-          # regctl registry login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}" "${registry_to_login}"
-
-          # regctl manifest get --format raw-body "${image_name}" > build-stats/jobs/${CIRCLE_JOB}/image-manifest.json
-          # regctl image digest "${image_name}" > build-stats/jobs/${CIRCLE_JOB}/image-digest.txt
-          # echo ${image_name} > build-stats/jobs/${CIRCLE_JOB}/image-name.txt
-
-          mkdir -p build-stats/envs
-          mkdir -p build-stats/jobs/${CIRCLE_JOB}
-          mkdir -p build-stats/jobs/${CIRCLE_JOB}/envs
-          echo -n "${Z_REQS_SHA:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
-          echo -n "${IMAGE_VCS_SHA:-not-present}"  > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
-          echo -n "${IMAGE_NAME:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
-          echo -n "${CONTEXT_NAME:-not-present}"   > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
-          echo -n "${PYTHONOPTIMIZE:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/PYTHONOPTIMIZE
+        command: "set -x \nmkdir -p build-stats\n# image_name=`cat /.circleci-runner-config.json | jq -r .Job.docker[0].Image | envsubst`\n# registry_to_login=`echo ${image_name} | cut -d'/' -f1`\n# regctl registry login -u \"${DOCKER_USERNAME}\" -p \"${DOCKER_PASSWORD}\" \"${registry_to_login}\"\n\nlogical_job=${ZUPER_CIRCLE_LOGICAL_JOB:-${CIRCLE_JOB}}\n# regctl manifest get --format raw-body \"${image_name}\" > build-stats/jobs/${logical_job}/image-manifest.json\n# regctl image digest \"${image_name}\" > build-stats/jobs/${logical_job}/image-digest.txt\n# echo ${image_name} > build-stats/jobs/${logical_job}/image-name.txt\n\nmkdir -p build-stats/envs\nmkdir -p build-stats/jobs/${logical_job}\nmkdir -p build-stats/jobs/${logical_job}/envs\necho -n \"${Z_REQS_SHA:-not-present}\"     > build-stats/jobs/${logical_job}/envs/Z_REQS_SHA\necho -n \"${IMAGE_VCS_SHA:-not-present}\"  > build-stats/jobs/${logical_job}/envs/IMAGE_VCS_SHA\necho -n \"${IMAGE_NAME:-not-present}\"     > build-stats/jobs/${logical_job}/envs/IMAGE_NAME\necho -n \"${CONTEXT_NAME:-not-present}\"   > build-stats/jobs/${logical_job}/envs/CONTEXT_NAME\necho -n \"${PYTHONOPTIMIZE:-not-present}\" > build-stats/jobs/${logical_job}/envs/PYTHONOPTIMIZE\n"
     - store_artifacts:
         path: build-stats
         destination: build-stats
@@ -74,7 +59,7 @@ jobs:
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
-          shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
+          printf '%s\n' 'decorator<5' 'future' 'numpy' 'pyparsing<3' 'six' > .requirements.txt
           saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/install-deps --heartbeat 30s --stats-interval 5s -- timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install -r .requirements.txt
           rm .requirements.txt
     - run:
@@ -82,7 +67,7 @@ jobs:
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
-          shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
+          : > .requirements_tests.txt
           saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/install-testing-deps --heartbeat 30s --stats-interval 5s -- timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install -r .requirements_tests.txt
           rm .requirements_tests.txt
     - run:
@@ -138,23 +123,23 @@ jobs:
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          test_list=.circleci/contracts_tests.tests
+          if [ ! -f "$test_list" ]; then
+            echo "$test_list is absent; no tests selected"
+            exit 0
+          fi
           set -euxo pipefail
           TEST_MODULES=$(split-tests <.circleci/contracts_tests.tests)
           echo "TEST_MODULES=[$TEST_MODULES]"
           if [ -z "$TEST_MODULES" ]; then
-            echo "\$TEST_MODULES is empty"
+            echo "$TEST_MODULES is empty"
             exit 0
           else
-            echo "\$TEST_MODULES is NOT empty"
+            echo "$TEST_MODULES is NOT empty"
           fi
           mkdir -p out/test-results
-          xunit_output=$PWD/out/test-results/nose2-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
-          timeout 30m nose2 --with-coverage \
-              --plugin nose2.plugins.junitxml \
-              --junit-xml \
-              --junit-xml-path ${xunit_output} \
-              $TEST_MODULES
-          # TODO: cover packages
+          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
+          saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/test-contracts_tests --heartbeat 30s --stats-interval 5s -- timeout 30m nose2 --with-coverage --plugin nose2.plugins.junitxml --junit-xml --junit-xml-path ${xunit_output} $TEST_MODULES
     - run:
         name: post-circle-tests
         when: always
@@ -194,11 +179,14 @@ jobs:
       COLUMNS: '160'
       PATH: /root/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       CONTEXT_NAME: << pipeline.parameters.context_name >>
-      DEPS_INSTALL_TIMEOUT: 10m
+      DEPS_INSTALL_TIMEOUT: '10m'
       COVER_PACKAGES: contracts,contracts_tests
       TEST_PACKAGES: contracts_tests
     docker:
     - image: docker.io/${DOCKER_TARGET_ORG}/${DOCKER_REPO_PREFIX}zuper-ci-3.13:${Z_DISTRO}
+      auth:
+        username: $DOCKER_IO_READONLY_USERNAME
+        password: $DOCKER_IO_READONLY_TOKEN
     working_directory: ~/repo
     steps:
     - checkout
@@ -218,25 +206,7 @@ jobs:
           echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
     - run:
         name: Build statistics
-        command: |
-          set -x
-          mkdir -p build-stats
-          # image_name=`cat /.circleci-runner-config.json | jq -r .Job.docker[0].Image | envsubst`
-          # registry_to_login=`echo ${image_name} | cut -d'/' -f1`
-          # regctl registry login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}" "${registry_to_login}"
-
-          # regctl manifest get --format raw-body "${image_name}" > build-stats/jobs/${CIRCLE_JOB}/image-manifest.json
-          # regctl image digest "${image_name}" > build-stats/jobs/${CIRCLE_JOB}/image-digest.txt
-          # echo ${image_name} > build-stats/jobs/${CIRCLE_JOB}/image-name.txt
-
-          mkdir -p build-stats/envs
-          mkdir -p build-stats/jobs/${CIRCLE_JOB}
-          mkdir -p build-stats/jobs/${CIRCLE_JOB}/envs
-          echo -n "${Z_REQS_SHA:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/Z_REQS_SHA
-          echo -n "${IMAGE_VCS_SHA:-not-present}"  > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_VCS_SHA
-          echo -n "${IMAGE_NAME:-not-present}"     > build-stats/jobs/${CIRCLE_JOB}/envs/IMAGE_NAME
-          echo -n "${CONTEXT_NAME:-not-present}"   > build-stats/jobs/${CIRCLE_JOB}/envs/CONTEXT_NAME
-          echo -n "${PYTHONOPTIMIZE:-not-present}" > build-stats/jobs/${CIRCLE_JOB}/envs/PYTHONOPTIMIZE
+        command: "set -x \nmkdir -p build-stats\n# image_name=`cat /.circleci-runner-config.json | jq -r .Job.docker[0].Image | envsubst`\n# registry_to_login=`echo ${image_name} | cut -d'/' -f1`\n# regctl registry login -u \"${DOCKER_USERNAME}\" -p \"${DOCKER_PASSWORD}\" \"${registry_to_login}\"\n\nlogical_job=${ZUPER_CIRCLE_LOGICAL_JOB:-${CIRCLE_JOB}}\n# regctl manifest get --format raw-body \"${image_name}\" > build-stats/jobs/${logical_job}/image-manifest.json\n# regctl image digest \"${image_name}\" > build-stats/jobs/${logical_job}/image-digest.txt\n# echo ${image_name} > build-stats/jobs/${logical_job}/image-name.txt\n\nmkdir -p build-stats/envs\nmkdir -p build-stats/jobs/${logical_job}\nmkdir -p build-stats/jobs/${logical_job}/envs\necho -n \"${Z_REQS_SHA:-not-present}\"     > build-stats/jobs/${logical_job}/envs/Z_REQS_SHA\necho -n \"${IMAGE_VCS_SHA:-not-present}\"  > build-stats/jobs/${logical_job}/envs/IMAGE_VCS_SHA\necho -n \"${IMAGE_NAME:-not-present}\"     > build-stats/jobs/${logical_job}/envs/IMAGE_NAME\necho -n \"${CONTEXT_NAME:-not-present}\"   > build-stats/jobs/${logical_job}/envs/CONTEXT_NAME\necho -n \"${PYTHONOPTIMIZE:-not-present}\" > build-stats/jobs/${logical_job}/envs/PYTHONOPTIMIZE\n"
     - store_artifacts:
         path: build-stats
         destination: build-stats
@@ -245,7 +215,7 @@ jobs:
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
-          shyaml get-values install_requires < project.pp1.yaml > .requirements.txt
+          printf '%s\n' 'decorator<5' 'future' 'numpy' 'pyparsing<3' 'six' > .requirements.txt
           saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/install-deps --heartbeat 30s --stats-interval 5s -- timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install -r .requirements.txt
           rm .requirements.txt
     - run:
@@ -253,7 +223,7 @@ jobs:
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
-          shyaml get-values tests_require < project.pp1.yaml > .requirements_tests.txt
+          : > .requirements_tests.txt
           saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/install-testing-deps --heartbeat 30s --stats-interval 5s -- timeout ${DEPS_INSTALL_TIMEOUT} python3 -m pip install -r .requirements_tests.txt
           rm .requirements_tests.txt
     - run:
@@ -309,23 +279,23 @@ jobs:
         command: |
           export PIP_INDEX_URL="${PIP_INDEX_URL_SRC}"
           echo PIP_INDEX_URL="${PIP_INDEX_URL}"
+          test_list=.circleci/contracts_tests.tests
+          if [ ! -f "$test_list" ]; then
+            echo "$test_list is absent; no tests selected"
+            exit 0
+          fi
           set -euxo pipefail
           TEST_MODULES=$(split-tests <.circleci/contracts_tests.tests)
           echo "TEST_MODULES=[$TEST_MODULES]"
           if [ -z "$TEST_MODULES" ]; then
-            echo "\$TEST_MODULES is empty"
+            echo "$TEST_MODULES is empty"
             exit 0
           else
-            echo "\$TEST_MODULES is NOT empty"
+            echo "$TEST_MODULES is NOT empty"
           fi
           mkdir -p out/test-results
-          xunit_output=$PWD/out/test-results/nose2-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
-          timeout 30m nose2 --with-coverage \
-              --plugin nose2.plugins.junitxml \
-              --junit-xml \
-              --junit-xml-path ${xunit_output} \
-              $TEST_MODULES
-          # TODO: cover packages
+          xunit_output=$PWD/out/test-results/nose-${CIRCLE_NODE_INDEX}-contracts_tests-xunit.xml
+          saferun run --no-direnv --standalone --report-dir out/saferun/${CIRCLE_JOB}/node-${CIRCLE_NODE_INDEX}/test-contracts_tests --heartbeat 30s --stats-interval 5s -- timeout 30m nose2 --with-coverage --plugin nose2.plugins.junitxml --junit-xml --junit-xml-path ${xunit_output} $TEST_MODULES
     - run:
         name: post-circle-tests
         when: always
@@ -361,7 +331,7 @@ jobs:
           timeout 1m ./codecov || true
     resource_class: small
 
-# sigil 97f27f089c6921762ad806ece3601fcc
-# Agents: DO NOT MODIFY THIS FILE DIRECTLY - it is autogenerated using zuper-cli template from project.pp1.yaml
-# It is very likely you can obtain what you want by modifying the config.
-# In any case you need the user's explicit permissions.
+# sigil 10ae2400eccc67fd4d58061393949b32
+# template-meta agent-advice=Do not modify this file directly; it is autogenerated by zuper-templating from project.pp1.yaml. Modify project.pp1.yaml instead; direct changes require explicit user permission.
+# template-meta template-version=2.1
+# template-meta zuper-templating-version=8.36.2901010000

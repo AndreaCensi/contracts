@@ -1,31 +1,46 @@
-exclude: .pre-commit-config.yaml|(.*autogen.*py)
-files: (^src/.*py)|(.*yaml)
 repos:
-- hooks:
-  - {id: check-added-large-files}
-  - {id: check-case-conflict}
-  - {id: check-executables-have-shebangs}
-  - {id: check-merge-conflict}
-  - {id: check-symlinks}
-  repo: https://github.com/pre-commit/pre-commit-hooks
+- repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v5.0.0
-- hooks:
-  - args: [--mapping, '2', --sequence, '2', --offset, '0', --width, '150', --preserve-quotes]
-    id: yamlfmt
-  repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
-  rev: 0.2.3
-- hooks:
-  - {id: sort-all}
-  repo: https://github.com/aio-libs/sort-all
+  hooks:
+  - id: check-added-large-files
+  - id: check-case-conflict
+  - id: check-executables-have-shebangs
+  - id: check-merge-conflict
+  - id: check-symlinks
+- repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
+  rev: '0.2.3'
+  hooks:
+  - id: yamlfmt
+    args:
+    - '--mapping'
+    - '2'
+    - '--sequence'
+    - '2'
+    - '--offset'
+    - '0'
+    - '--width'
+    - '150'
+    - '--preserve-quotes'
+- repo: https://github.com/aio-libs/sort-all
   rev: v1.3.0
-- hooks:
-  - args: [--line-length=130]
-    id: ruff-format
-    name: ruff-format
-  - args: [--fix, --select=I, --line-length=130]
-    id: ruff
-    name: ruff-lint
-  repo: https://github.com/astral-sh/ruff-pre-commit
+  hooks:
+  - id: sort-all
+- repo: https://github.com/astral-sh/ruff-pre-commit
   rev: v0.11.10
+  hooks:
+  - id: ruff-format
+    name: ruff-format
+    args:
+    - '--line-length=130'
+  - id: ruff
+    name: ruff-lint
+    args:
+    - '--fix'
+    - '--select=I'
+    - '--line-length=130'
+files: (^src/.*py)|(.*yaml)
+exclude: '.pre-commit-config.yaml|(.*autogen.*py)'
 
-# sigil 02fbf2b91c16b02e86d63a5ea12cd92b
+# sigil f6872e085fe9bd19b2afebd99dff214f
+# template-meta template-version=2.1
+# template-meta zuper-templating-version=8.36.2901010000
